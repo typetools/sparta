@@ -1,4 +1,5 @@
 bin/jarlist.cache
+bin/
 
 syntax: regexp
 ^tests/build$
