@@ -1,0 +1,5 @@
+bin/jarlist.cache
+
+syntax: regexp
+^tests/build$
+\.class$
