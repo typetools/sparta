@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
 public @interface RequiredPermissions {
-    @Permission String[] value();
+    /*@Permission*/ String[] value();
 }
