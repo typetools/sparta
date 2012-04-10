@@ -6,5 +6,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
 public @interface RequiredPermissions {
-    /*@Permission*/ String[] value();
+    // TODO: the annotation is not recognized if it's in a comment!
+    @Permission String[] value();
 }
