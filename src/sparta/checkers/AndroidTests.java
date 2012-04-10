@@ -53,4 +53,14 @@ public class AndroidTests {
             return testFiles("reqperms");
         }
     }
+
+    public static class AndroidReportCheckerTests extends ParameterizedCheckerTest {
+        public AndroidReportCheckerTests(File testFile) {
+            super(testFile, AndroidTests.checkerName, "sparta.checkers", "-Anomsgtext", "-Astubs=reflection.astub");
+        }
+        @Parameters
+        public static Collection<Object[]> data() {
+            return testFiles("report");
+        }
+    }
 }
