@@ -1,0 +1,12 @@
+import checkers.util.report.quals.*;
+
+package java.lang;
+
+class Class {
+    @ReportCall
+    public static Class<?> forName(String className) {}
+
+    @ReportCall
+    public static Class<?> forName(String name, boolean initialize,
+                                   ClassLoader loader) {}
+}
