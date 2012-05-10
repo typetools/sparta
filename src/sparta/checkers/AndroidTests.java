@@ -6,7 +6,8 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 import org.junit.runners.Parameterized.Parameters;
-import tests.ParameterizedCheckerTest;
+
+import checkers.util.test.ParameterizedCheckerTest;
 
 /**
  * JUnit tests for the SPARTA Checkers.
