@@ -1,0 +1,37 @@
+import checkers.util.report.quals.*;
+
+package android.app;
+
+@ReportInherit
+@ReportCreation
+class Activity {
+}
+
+@ReportInherit
+@ReportCreation
+class Dialog {
+}
+
+@ReportInherit
+@ReportCreation
+class Service {
+}
+
+package android.content;
+
+@ReportInherit
+@ReportCreation
+class Intent {
+}
+
+@ReportInherit
+@ReportCreation
+class BroadcastReceiver {
+}
+
+@ReportInherit
+@ReportCreation
+class ContentProvider {
+}
+
+
