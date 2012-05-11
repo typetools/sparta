@@ -17,6 +17,7 @@ public class AndroidChecker extends AggregateChecker {
         checkers.add(AndroidFenumChecker.class);
         checkers.add(PermissionsChecker.class);
         checkers.add(AndroidReportChecker.class);
+        checkers.add(FlowChecker.class);
         return checkers;
     }
 }
