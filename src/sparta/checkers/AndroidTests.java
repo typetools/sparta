@@ -13,12 +13,6 @@ import checkers.util.test.ParameterizedCheckerTest;
  * JUnit tests for the SPARTA Checkers.
  */
 public class AndroidTests {
-    /* The class name of the Checker to use.
-     * Careful, class CheckerTest has also a field by this name.
-     * Set this field in a subclass to a different checker, e.g. see GUTITests.
-     */
-    protected static String checkerName = "sparta.checkers.AndroidChecker";
-
     public static void main(String[] args) {
         org.junit.runner.JUnitCore jc = new org.junit.runner.JUnitCore();
         Result run = jc.run(AndroidFenumCheckerTests.class);
@@ -37,7 +31,7 @@ public class AndroidTests {
 
     public static class AndroidFenumCheckerTests extends ParameterizedCheckerTest {
         public AndroidFenumCheckerTests(File testFile) {
-            super(testFile, AndroidTests.checkerName, "sparta.checkers", "-Anomsgtext");
+            super(testFile, AndroidFenumChecker.class.getName(), "sparta.checkers", "-Anomsgtext");
         }
         @Parameters
         public static Collection<Object[]> data() {
@@ -47,7 +41,7 @@ public class AndroidTests {
 
     public static class AndroidReqPermissionsCheckerTests extends ParameterizedCheckerTest {
         public AndroidReqPermissionsCheckerTests(File testFile) {
-            super(testFile, AndroidTests.checkerName, "sparta.checkers", "-Anomsgtext");
+            super(testFile, PermissionsChecker.class.getName(), "sparta.checkers", "-Anomsgtext");
         }
         @Parameters
         public static Collection<Object[]> data() {
@@ -57,11 +51,21 @@ public class AndroidTests {
 
     public static class AndroidReportCheckerTests extends ParameterizedCheckerTest {
         public AndroidReportCheckerTests(File testFile) {
-            super(testFile, AndroidTests.checkerName, "sparta.checkers", "-Anomsgtext", "-Astubs=reflection.astub");
+            super(testFile, AndroidReportChecker.class.getName(), "sparta.checkers", "-Anomsgtext", "-Astubs=reflection.astub");
         }
         @Parameters
         public static Collection<Object[]> data() {
             return testFiles("report");
+        }
+    }
+
+    public static class FlowCheckerTests extends ParameterizedCheckerTest {
+        public FlowCheckerTests(File testFile) {
+            super(testFile, FlowChecker.class.getName(), "sparta.checkers", "-Anomsgtext", "-Astubs=flow.astub");
+        }
+        @Parameters
+        public static Collection<Object[]> data() {
+            return testFiles("flow");
         }
     }
 }
