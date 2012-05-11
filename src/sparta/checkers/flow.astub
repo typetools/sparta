@@ -1,0 +1,8 @@
+import sparta.checkers.quals.*;
+
+package android;
+
+// Dummy, remove.
+class Demo {
+    @FlowSources(FlowSource.ANY) Object getDemo();
+}
