@@ -19,7 +19,7 @@ import checkers.util.TreeUtils;
 /**
  * Propagate required permissions up the call stack.
  * Require that they are declared in the manifest.
- * 
+ *
  * TODO: should we propagate required permissions from (anonymous) inner classes to the outside?
  */
 public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
@@ -35,7 +35,7 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
         ExecutableElement methodElt = TreeUtils.elementFromUse(node);
         AnnotationMirror reqP = atypeFactory.getDeclAnnotation(methodElt, RequiredPermissions.class);
         if (reqP!=null) {
-            List<String> reqPerms = AnnotationUtils.elementValueStringArray(reqP, "value");
+            List<String> reqPerms = AnnotationUtils.elementValueArray(reqP, "value");
 
             ExecutableElement callerElt = TreeUtils.elementFromDeclaration(TreeUtils.enclosingMethod(getCurrentPath()));
             AnnotationMirror callerReq = atypeFactory.getDeclAnnotation(callerElt, RequiredPermissions.class);
@@ -43,7 +43,7 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
             if (callerReq==null) {
                 checker.report(Result.failure("all.unsatisfied.permissions", reqPerms), node);
             } else {
-                List<String> callerPerms = AnnotationUtils.elementValueStringArray(callerReq, "value");
+                List<String> callerPerms = AnnotationUtils.elementValueArray(callerReq, "value");
                 for (String perm : reqPerms) {
                     if (!callerPerms.contains(perm)) {
                         checker.report(Result.failure("unsatisfied.permission", perm, callerPerms), node);
