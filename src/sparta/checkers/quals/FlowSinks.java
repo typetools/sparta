@@ -5,39 +5,39 @@ import java.lang.annotation.*;
 import checkers.quals.*;
 
 /**
- * List of data flow sources that are attached to a certain piece of data.
- * FlowSource.ANY is the top type.
- * The empty set is the bottom type.
+ * List of data flow sinks that are attached to a certain piece of data.
+ * FlowSink.ANY is the bottom type.
+ * The empty set is the top type.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
 @TypeQualifier
 @SubtypeOf({})
-public @interface FlowSources {
+public @interface FlowSinks {
 
     /**
-     * Data flow sources.
+     * Data flow sinks.
      * TODO: will we also use this in other annotations? Then we should refactor and
      * make this class top-level.
      */
-    public enum FlowSource {
+    public enum FlowSink {
         /**
-         * This special constant is shorthand for all sources, that is, the
-         * data can come from any possible source.
+         * This special constant is shorthand for all sinks, that is, the
+         * data can go to any possible sink.
          * Using this constant is preferred to listing all constants, because it's future safe.
          */
         ANY,
 
-        CAMERA,
-        MICROPHONE,
-        LOCATION
+        NETWORK,
+        TEXTMESSAGE,
+        EMAIL
     }
 
     /**
-     * By default we allow no sources.
-     * There is always a @FlowSources annotation and this default
+     * By default we allow no sinks.
+     * There is always a @FlowSinks annotation and this default
      * ensures that the annotation has no effect.
      */
-    FlowSource[] value() default {};
+    FlowSink[] value() default {};
 }
