@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2009 Jeff Sharkey, http://jsharkey.org/
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="temperature_f" translatable="false">"<xliff:g id="temperature" example="74">%s</xliff:g>\u00b0"</string>
+    <string name="temperature_c" translatable="false">"<xliff:g id="temperature" example="74">%s</xliff:g>C"</string>
+
+    <string name="detail_title">"<xliff:g id="location" example="Mountain View">%s</xliff:g> forecast"</string>
+    <string name="detail_empty">No forecast details found</string>
+
+    <string name="conf_location">"<xliff:g id="locality" example="Mountain View">%1$s</xliff:g>, <xliff:g id="admin" example="California">%2$s</xliff:g>"</string>
+
+    <string name="widget_loading">Loading data\u2026</string>
+    <string name="widget_error">Forecast error</string>
+
+    <string name="conf_descrip">Pick the location to use for the forecast widget you\'re inserting:</string>
+    <string name="conf_current">My current location</string>
+    <string name="conf_manual">Manual search</string>
+    <string name="conf_near">Enter a title for this widget:</string>
+    <string name="conf_determ">Searching\u2026</string>
+    <string name="conf_nofix">No current location fix</string>
+    <string name="conf_error">Error geocoding location</string>
+    <string name="conf_units">Select the temperature units to display:</string>
+    <string name="conf_units_f">Fahrenheit</string>
+    <string name="conf_units_c">Celsius</string>
+    <string name="conf_map">Verify on map</string>
+    <string name="conf_save">Save</string>
+
+    <string name="search_label">Forecast location</string>
+    <string name="search_hint">Location name or zip</string>
+
+    <string name="menu_config">Configure</string>
+    <string name="menu_rename">Rename</string>
+    <string name="menu_refresh">Refresh</string>
+
+    <string name="title_details">Forecast details</string>
+    <string name="title_configure">Configure forecast widget</string>
+    <string name="title_info">Forecast info</string>
+
+    <string name="label_med">Forecast</string>
+    <string name="label_tiny">Forecast tiny</string>
+
+    <string name="app_name">Forecast widgets</string>
+    <string name="app_descrip">Provides forecast desktop widgets that refresh four times daily</string>
+
+    <string name="info_inserting_title">Inserting widgets</string>
+    <string name="info_inserting">Instead of \"running\" widgets, you add them to your home screen.  To insert a widget, long-press in an empty area on the default home screen and select \"Widgets\", then \"Forecast\".\n\nTap on a widget to see detailed forecast for the next few days.  Any inserted widgets will update automatically about four times each day, and no battery is used between updates.\n\nYou can also insert multiple widgets to keep track of weather in multiple locations.</string>
+    <string name="info_credits_title">Data and icon credits</string>
+    <string name="info_credits">These widgets were written as Android developer examples by Jeff Sharkey and released under the Apache 2.0 license.  http://jsharkey.org\n\nForecast data is provided under a public domain license from the National Weather Service, a division NOAA.  http://weather.gov\n\nForecast icons provided under a public domain license through the Tango Desktop Project.  http://tango.freedesktop.org</string>
+    <string name="info_done">Done</string>
+
+</resources>

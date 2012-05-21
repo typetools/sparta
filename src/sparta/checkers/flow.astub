@@ -6,3 +6,11 @@ package android;
 class Demo {
     @FlowSources(FlowSource.ANY) Object getDemo();
 }
+
+
+package android.telephony;
+
+class TelephonyManager {
+	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
+	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
+}

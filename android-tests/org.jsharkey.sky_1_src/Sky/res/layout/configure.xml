@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2009 Jeff Sharkey, http://jsharkey.org/
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:text="@string/conf_descrip"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <RadioGroup
+            android:id="@+id/conf_location" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/conf_current" 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/conf_current"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioButton
+                android:id="@+id/conf_manual" 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:text="@string/conf_manual"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RadioGroup>
+
+        <!-- 
+        TODO: insert geolocation status message?
+         -->
+
+        <TextView
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:text="@string/conf_near"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <EditText
+            android:id="@+id/conf_title"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:freezesText="true" />
+
+        <TextView
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:text="@string/conf_units"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <RadioGroup
+            android:id="@+id/conf_units" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dip"
+            android:paddingRight="20dip"
+            android:paddingBottom="20dip"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/conf_units_f" 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/conf_units_f"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioButton
+                android:id="@+id/conf_units_c" 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:text="@string/conf_units_c"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </RadioGroup>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@android:style/ButtonBar">
+
+            <Button
+                android:id="@+id/conf_map"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/conf_map" />
+
+            <Button
+                android:id="@+id/conf_save"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/conf_save" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
