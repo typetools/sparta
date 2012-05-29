@@ -8,9 +8,41 @@ class Demo {
 }
 
 
+
 package android.telephony;
 
 class TelephonyManager {
 	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
 	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
+}
+
+package android.location;
+
+class LocationManager {
+	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location getLastKnownLocation(String provider);
+}
+
+class Location {
+	public double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+	public double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+}
+
+interface LocationListener {
+	void onLocationChanged(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location location);
+}
+
+package org.apache.http.entity.mime.content;
+
+class StringBody {
+	public StringBody(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String str);
+}
+
+package org.apache.http.client.methods;
+
+class HttpGet {
+    public HttpGet(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
+}
+
+class HttpPost {
+    public HttPost(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
 }
