@@ -1,20 +1,12 @@
 import sparta.checkers.quals.*;
 
-package android;
-
-// Dummy, remove.
-class Demo {
-    @FlowSources(FlowSource.ANY) Object getDemo();
-}
-
-
-
 package android.telephony;
 
 class TelephonyManager {
 	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
 	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
 }
+
 
 package android.location;
 
@@ -31,11 +23,13 @@ interface LocationListener {
 	void onLocationChanged(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location location);
 }
 
+
 package org.apache.http.entity.mime.content;
 
 class StringBody {
 	public StringBody(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String str);
 }
+
 
 package org.apache.http.client.methods;
 
