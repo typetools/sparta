@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="checkers" default="debug">
+    <presetdef name="jsr308.javac">
+    <javac fork="yes" executable="${checkers_dir}/${checkers_base}/binary/javac">
+      <!-- JSR308 related compiler arguments -->
+      <compilerarg value="-version"/>
+      <!-- optional, so .class files work with older JVMs: <compilerarg line="-target 5"/> -->
+      <compilerarg value="-implicit:class"/>
+      <!-- optional, to issue warnings instead of errors: <compilerarg line="-Awarns -Xmaxwarns 10000"/> -->
+      <!--<compilerarg value="-J-Xbootclasspath/p:${checkers}/binary/jsr308-all.jar"/>
+
+      <classpath>
+        <pathelement location="${checkers}/checkers.jar"/>
+      </classpath>-->
+    </javac>
+    </presetdef>
+                <!--depends="-set-release-mode, -release-obfuscation-check, -package, -post-package, -release-prompt-for-password, -release-nosign, -release-sign, -post-build"-->
+    <target name="flowtest"
+                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="check for flowtest.">
+            <condition property="extensible.libs.classpath"
+                    value="${tested.project.absolute.dir}/${jar.libs.dir}"
+                    else="${jar.libs.dir}">
+                <isset property="tested.project.absolute.dir" />
+            </condition>
+    <jsr308.javac
+                    destdir="${out.classes.absolute.dir}"
+                    classpathref="android.target.classpath"
+                    includeantruntime="false"
+    >
+                <src path="${source.absolute.dir}" />
+                <src path="${gen.absolute.dir}" />
+                <classpath>
+                    <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
+                </classpath>
+                <compilerarg line="${java.compilerargs}" />
+      <compilerarg line="-processor sparta.checkers.FlowChecker"/>
+      <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/"/>
+    </jsr308.javac>
+    </target>
+</project>
