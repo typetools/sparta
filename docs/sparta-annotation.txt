@@ -1,0 +1,87 @@
+[Working on the flow checker]
+- Seungyeop Han <syhan@cs.washington.edu> (06/06/12)
+
+This document describes how to work with the flow checker used in the SPARTA
+project. 
+
+* required programs: Java 7 SE, mercurial (hg), ant, android-sdk
+
+1. Install checker framework
+Werner mentioned that it would work best in Linux machines.
+
+Follow the instruction described in:
+http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#build-source
+
+2. Install and compile flow checker prototype.
+It's in the mercurial repo.--- /projects/swlab1/darpa-apac/sparta-code
+$ hg clone ssh://YOURID@SERVERNAME/projects/swlab1/darpa-apac/sparta-code
+To push your changes to the repository, you need to be in sparta group. Contact
+Werner or Mike to get the permission.
+
+Usually I compile it through eclipse. To compile this, you need to import
+projects from checker-framework. Import checkers, javaparser from
+checker-framework and jsr308-langtools.
+
+Note that flow checker (as well as checker-framework) is evolving, thus you may
+need pull and update with updated source code and rebuild them.
+$ hg pull
+$ hg update
+
+3. Test applications
+Test applications are stored in /projects/swlab1/darpa-apac/sparta-subjects
+Before running ant, it's required to set three environment variables 
+CHECKERS -> pointing checkers directory in checker-framework
+SPARTA_CODE -> pointing sparta-code directory
+ANDROID_HOME -> pointing android-sdk home directory
+
+Try to run ant in sparta-subjects/Sky 
+$ ant flowtest
+
+If it gives results like this, you're ready to work on annoation!
+[jsr308.javac] /home/syhan/jsr308/sparta-subjects/Sky/src/org/jsharkey/sky/WebserviceHelper.java:308: error: incompatible types.
+[jsr308.javac]             HttpGet request = new HttpGet(String.format(WEBSERVICE_URL, lat, lon, days));
+[jsr308.javac]                                                        ^
+[jsr308.javac]   found   : @FlowSinks @FlowSources String
+[jsr308.javac]   required: @sparta.checkers.quals.FlowSinks({sparta.checkers.quals.FlowSinks.FlowSink.NETWORK}) @FlowSources String
+
+If you want to add a new application, put it under the directory sparta-subjects.
+
+4. Annotations
+There are mainly two parts in adding annotations. 
+First, we need to annotate flow stub file (flow.astub) in sparta-code. 
+It's used for annotating android APIs. For instance, 
+
+package android.telephony;
+
+class TelephonyManager {
+    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
+    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
+}
+
+Annotating TelephonyManager class in android.telephony package.  It means that
+getLine1Number function returns String which is Phone Number.  For more
+details, please look into the flow.astub file.
+
+FlowSources specifies data sources such as phone number, location, and etc. And
+FlowSinks specifies sinks, such as files, network, and so on.
+
+You may need to get android source code to get sense of what api returns (or
+gets) what type of data. See http://source.android.com/source/index.html
+You can find the list of all apis from the android source code in 
+frameworks/base/api/15.txt - api list for api version 15 (Android 4.0.3)
+Accessing resource is closely related to android permissions (some of the
+resources are not protected with permissions though). Android permission list
+is at:
+http://developer.android.com/reference/android/Manifest.permission.html
+Hints to add annotations could be permissionmap (which permission is required
+to call which functions):
+http://www.android-permissions.org/permissionmap.html
+
+Types of flowsinks and flowsources are listed in the FlowSinks.java and
+FlowSources.java files in sparta.checkers.quals project of sparta-code. 
+
+Second part is annotating android applications to match with specified
+annotations in stub file. Run flow test and see if any incompatible types are
+shown and add more annotations to applications. Also there could be missing
+annotations in the stub file, then you need to add them.
+
