@@ -14,7 +14,7 @@ http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#bu
 
 2. Install and compile flow checker prototype.
 It's in the mercurial repo.--- /projects/swlab1/darpa-apac/sparta-code
-$ hg clone ssh://YOURID@SERVERNAME/projects/swlab1/darpa-apac/sparta-code
+$ hg clone ssh://YOURID@SERVERNAME//projects/swlab1/darpa-apac/sparta-code
 To push your changes to the repository, you need to be in sparta group. Contact
 Werner or Mike to get the permission.
 
