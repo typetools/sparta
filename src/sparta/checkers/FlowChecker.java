@@ -44,15 +44,6 @@ public class FlowChecker extends BaseTypeChecker {
     }
 
     @Override
-    public boolean isValidUse(AnnotatedDeclaredType declarationType,
-            AnnotatedDeclaredType useType) {
-        // The default annotation on a class is FlowSources({}), which is not a supertype of
-        // any interesting use.
-        // Let's just always allow annotations.
-        return true;
-    }
-
-    @Override
     protected MultiGraphQualifierHierarchy.MultiGraphFactory createQualifierHierarchyFactory() {
         return new MultiGraphQualifierHierarchy.MultiGraphFactory(this);
     }
