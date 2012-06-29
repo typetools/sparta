@@ -35,7 +35,7 @@ SPARTA_CODE -> pointing sparta-code directory
 ANDROID_HOME -> pointing android-sdk home directory
 
 At each directory, you might need to update the project with your android setting 
-$ android update project -p .
+$ ant -buildfile $SPARTA_CODE/build.local.xml
 
 Try to run ant in sparta-subjects/Sky 
 $ ant flowtest
