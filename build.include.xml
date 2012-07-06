@@ -29,9 +29,10 @@
                     else="">
                 <equals arg1="${debug}" arg2="true" />
             </condition>
+                    <!--classpathref="android.target.classpath"-->
             <jsr308.javac
                     destdir="${out.classes.absolute.dir}"
-                    classpathref="android.target.classpath"
+                    classpathref="project.target.class.path"
                     includeantruntime="false"
                      >
                 <src path="${source.absolute.dir}" />
