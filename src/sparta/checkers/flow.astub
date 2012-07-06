@@ -14,8 +14,8 @@ class LocationManager {
 }
 
 class Location {
-	public double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	public double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+	public double getLatitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
+	public double getLongitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
 }
 
 interface LocationListener {
