@@ -9,7 +9,6 @@ import checkers.basetype.BaseTypeChecker;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
 import checkers.types.QualifierHierarchy;
-import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.util.AnnotationUtils;
 import checkers.util.MultiGraphQualifierHierarchy;
 
@@ -17,19 +16,24 @@ import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.FlowSources;
 import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.PolyFlowSinks;
+import sparta.checkers.quals.PolyFlowSources;
 
-@TypeQualifiers({FlowSources.class, FlowSinks.class})
+@TypeQualifiers({FlowSources.class, FlowSinks.class,
+    PolyFlowSources.class, PolyFlowSinks.class})
 @StubFiles("flow.astub")
 public class FlowChecker extends BaseTypeChecker {
 
-    protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES;
-    protected AnnotationMirror NOFLOWSINKS, ANYFLOWSINKS;
+    protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES, POLYFLOWSOURCES;
+    protected AnnotationMirror NOFLOWSINKS, ANYFLOWSINKS, POLYFLOWSINKS;
 
     @Override
     public void initChecker(ProcessingEnvironment env) {
         AnnotationUtils annoFactory = AnnotationUtils.getInstance(env);
         NOFLOWSOURCES = annoFactory.fromClass(FlowSources.class);
         NOFLOWSINKS = annoFactory.fromClass(FlowSinks.class);
+        POLYFLOWSOURCES = annoFactory.fromClass(PolyFlowSources.class);
+        POLYFLOWSINKS = annoFactory.fromClass(PolyFlowSinks.class);
 
         AnnotationUtils.AnnotationBuilder builder =
                 new AnnotationUtils.AnnotationBuilder(env, FlowSources.class.getCanonicalName());
@@ -59,11 +63,29 @@ public class FlowChecker extends BaseTypeChecker {
             super(hierarchy);
         }
 
+        private boolean isSourceQualifier(AnnotationMirror anno) {
+            return NOFLOWSOURCES.getAnnotationType().equals(anno.getAnnotationType()) ||
+                    POLYFLOWSOURCES.getAnnotationType().equals(anno.getAnnotationType());
+        }
+
+        private boolean isPolySourceQualifier(AnnotationMirror anno) {
+            return POLYFLOWSOURCES.getAnnotationType().equals(anno.getAnnotationType());
+        }
+
+        private boolean isSinkQualifier(AnnotationMirror anno) {
+            return NOFLOWSINKS.getAnnotationType().equals(anno.getAnnotationType()) ||
+                    POLYFLOWSINKS.getAnnotationType().equals(anno.getAnnotationType());
+        }
+
+        private boolean isPolySinkQualifier(AnnotationMirror anno) {
+            return POLYFLOWSINKS.getAnnotationType().equals(anno.getAnnotationType());
+        }
+
         @Override
         public AnnotationMirror getRootAnnotation(AnnotationMirror start) {
-            if (NOFLOWSOURCES.getAnnotationType().equals(start.getAnnotationType())) {
+            if (isSourceQualifier(start)) {
                 return ANYFLOWSOURCES;
-            } else if (NOFLOWSINKS.getAnnotationType().equals(start.getAnnotationType())) {
+            } else if (isSinkQualifier(start)) {
                 return NOFLOWSINKS;
             } else {
                 throw new CheckerError("FlowChecker: unexpected AnnotationMirror: " + start);
@@ -72,20 +94,43 @@ public class FlowChecker extends BaseTypeChecker {
 
         @Override
         public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
-            if (lhs.getAnnotationType()!=rhs.getAnnotationType()) {
-                return false;
-            }
-            if (NOFLOWSOURCES.getAnnotationType().equals(rhs.getAnnotationType())) {
-                List<FlowSource> lhssrc = AnnotationUtils.elementValueEnumArrayWithDefaults(lhs, "value", FlowSource.class);
-                List<FlowSource> rhssrc = AnnotationUtils.elementValueEnumArrayWithDefaults(rhs, "value", FlowSource.class);
-                return  AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) ||
-                        lhssrc.containsAll(rhssrc);
-            } else if (NOFLOWSINKS.getAnnotationType().equals(rhs.getAnnotationType())) {
-                List<FlowSink> lhssnk = AnnotationUtils.elementValueEnumArrayWithDefaults(lhs, "value", FlowSink.class);
-                List<FlowSink> rhssnk = AnnotationUtils.elementValueEnumArrayWithDefaults(rhs, "value", FlowSink.class);
-                return lhssnk.isEmpty() ||
-                        rhssnk.containsAll(lhssnk) ||
+            if (isSourceQualifier(rhs)) {
+                if (isPolySourceQualifier(lhs)) {
+                    // If LHS is poly, rhs has to be bottom or poly qualifier.
+                    return AnnotationUtils.areSame(rhs, NOFLOWSOURCES) ||
+                            AnnotationUtils.areSame(rhs, POLYFLOWSOURCES);
+                } else if (isPolySourceQualifier(rhs)) {
+                    // If RHS is poly, lhs has to be top or poly qualifier.
+                    return AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) ||
+                            AnnotationUtils.areSame(lhs, POLYFLOWSOURCES);
+                } else {
+                    if (!isSourceQualifier(lhs)) {
+                        return false;
+                    }
+                    List<FlowSource> lhssrc = AnnotationUtils.elementValueEnumArrayWithDefaults(lhs, "value", FlowSource.class);
+                    List<FlowSource> rhssrc = AnnotationUtils.elementValueEnumArrayWithDefaults(rhs, "value", FlowSource.class);
+                    return  AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) ||
+                            lhssrc.containsAll(rhssrc);
+                }
+            } else if (isSinkQualifier(rhs)) {
+                if (isPolySinkQualifier(lhs)) {
+                    // If LHS is poly, rhs has to be bottom or poly qualifier.
+                    return AnnotationUtils.areSame(rhs, ANYFLOWSINKS) ||
+                            AnnotationUtils.areSame(rhs, POLYFLOWSINKS);
+                } else if (isPolySinkQualifier(rhs)) {
+                    // If RHS is poly, lhs has to be top or poly qualifier.
+                    return AnnotationUtils.areSame(lhs, NOFLOWSINKS) ||
+                            AnnotationUtils.areSame(lhs, POLYFLOWSINKS);
+                } else {
+                    if (!isSinkQualifier(lhs)) {
+                        return false;
+                    }
+                    List<FlowSink> lhssnk = AnnotationUtils.elementValueEnumArrayWithDefaults(lhs, "value", FlowSink.class);
+                    List<FlowSink> rhssnk = AnnotationUtils.elementValueEnumArrayWithDefaults(rhs, "value", FlowSink.class);
+                    return lhssnk.isEmpty() ||
+                            rhssnk.containsAll(lhssnk) ||
                         (rhssnk.contains(FlowSink.ANY) && rhssnk.size()==1);
+                }
             } else {
                 throw new CheckerError("FlowChecker: unexpected AnnotationMirrors: " + rhs + " and " + lhs);
             }
