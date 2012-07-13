@@ -47,3 +47,8 @@ class HttpPost {
     public HttpPost(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
 }
 
+package java.lang;
+
+class String {
+	public static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, Object... args);
+}
