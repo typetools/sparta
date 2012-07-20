@@ -7,9 +7,9 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 
 public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
-	public FlowVisitor(FlowChecker checker, CompilationUnitTree root) {
-		super(checker, root);
-	}
+    public FlowVisitor(FlowChecker checker, CompilationUnitTree root) {
+       super(checker, root);
+    }
 
     @Override
     public boolean isValidUse(AnnotatedDeclaredType declarationType,

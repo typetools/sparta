@@ -17,8 +17,8 @@ class Location {
 // TODO: implement new receiver syntax in StubParser.
 //	public double getLatitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
 //	public double getLongitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
-	public double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	public double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 }
 
 interface LocationListener {

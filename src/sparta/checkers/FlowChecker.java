@@ -8,6 +8,7 @@ import javax.lang.model.element.AnnotationMirror;
 import checkers.basetype.BaseTypeChecker;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
+import checkers.source.SourceChecker;
 import checkers.types.QualifierHierarchy;
 import checkers.util.AnnotationUtils;
 import checkers.util.MultiGraphQualifierHierarchy;
@@ -82,13 +83,14 @@ public class FlowChecker extends BaseTypeChecker {
         }
 
         @Override
-        public AnnotationMirror getRootAnnotation(AnnotationMirror start) {
+        public AnnotationMirror getTopAnnotation(AnnotationMirror start) {
             if (isSourceQualifier(start)) {
                 return ANYFLOWSOURCES;
             } else if (isSinkQualifier(start)) {
                 return NOFLOWSINKS;
             } else {
-                throw new CheckerError("FlowChecker: unexpected AnnotationMirror: " + start);
+                SourceChecker.errorAbort("FlowChecker: unexpected AnnotationMirror: " + start);
+                return null; // dead code
             }
         }
 
@@ -132,7 +134,8 @@ public class FlowChecker extends BaseTypeChecker {
                         (rhssnk.contains(FlowSink.ANY) && rhssnk.size()==1);
                 }
             } else {
-                throw new CheckerError("FlowChecker: unexpected AnnotationMirrors: " + rhs + " and " + lhs);
+                SourceChecker.errorAbort("FlowChecker: unexpected AnnotationMirrors: " + rhs + " and " + lhs);
+                return false; // dead code
             }
        }
     }
