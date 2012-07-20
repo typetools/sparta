@@ -44,8 +44,20 @@ CHECKERS -> pointing checkers directory in checker-framework
 SPARTA_CODE -> pointing sparta-code directory
 ANDROID_HOME -> pointing android-sdk home directory
 
-At each directory, you might need to update the project with your android setting 
+At each directory, update the project with your android setting 
 $ ant -buildfile $SPARTA_CODE/build.local.xml
+
+Alternatively, you can run:
+$ $ANDROID_HOME/tools/android update project --path . --target android-15
+
+Edit the build.xml file to add the sparta code requirements at the end:
+
+<property environment="env"/>
+<dirname property="checkers_dir" file="${env.CHECKERS}"/>
+<basename property="checkers_base" file="${env.CHECKERS}"/>
+<dirname property="sparta-code_dir" file="${env.SPARTA_CODE}"/>
+<basename property="sparta-code_base" file="${env.SPARTA_CODE}"/>
+<import file="${sparta-code_dir}/${sparta-code_base}/build.include.xml"/>
 
 Try to run ant in sparta-subjects/Sky 
 $ ant flowtest
@@ -60,8 +72,6 @@ If it gives results like this, you're ready to work on annoation!
 If you want to add a new application, put it under the directory sparta-subjects.
 
 In general, these tips seem to be useful when setting up a new application to test. This assumes you're using Eclipse to look at and build the code.
-- Generate the local.properties, project.properties, and build.xml files by running <android-sdk directory>/android update project --path <app folder> --target android-15
-- Edit the build.xml file to add the sparta code requirements (see example projects for an example)
 - Using Eclipse, import the project (this requires the app to have a .project and .classpath file)
   - Make sure ProjectProperties->Android->Android 4.0.3 is checked
     - Check that ProjectProperties->Java Build Path->Libraries->Android 4.0.3 appears
