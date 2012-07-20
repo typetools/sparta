@@ -22,6 +22,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         defaults.addAbsoluteDefault(checker.NOFLOWSINKS, Collections.singleton(DefaultLocation.ALL));
         // But let's send null down any sink.
         this.treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.ANYFLOWSINKS);
+
+        this.postInit();
     }
 
 }
