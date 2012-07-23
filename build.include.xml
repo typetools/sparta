@@ -49,7 +49,7 @@
 
     <target name="flowshow"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="report interesting API usage.">
+                description="show the flow annotations in the code.">
             <condition property="extensible.libs.classpath"
                     value="${tested.project.absolute.dir}/${jar.libs.dir}"
                     else="${jar.libs.dir}">
