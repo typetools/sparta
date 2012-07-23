@@ -1,0 +1,7 @@
+import checkers.util.report.quals.*;
+
+@ReportUse
+package com.android;
+
+@ReportUse
+package android;
