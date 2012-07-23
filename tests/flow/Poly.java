@@ -11,7 +11,7 @@ class Poly {
 
     @PolyFlowSinks @FlowSources(FlowSource.CAMERA) Object
     testComb(@PolyFlowSinks Object in) { return in; }
-    
+
     void callComb(@FlowSinks(FlowSinks.FlowSink.EMAIL) Object s) {
         @FlowSinks(FlowSinks.FlowSink.EMAIL) @FlowSources(FlowSource.CAMERA) Object l = testComb(s);
         //:: error: (assignment.type.incompatible)
