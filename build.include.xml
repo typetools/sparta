@@ -14,8 +14,8 @@
       </classpath>-->
     </javac>
     </presetdef>
-                <!--depends="-set-release-mode, -release-obfuscation-check, -package, -post-package, -release-prompt-for-password, -release-nosign, -release-sign, -post-build"-->
-    
+    <!--depends="-set-release-mode, -release-obfuscation-check, -package, -post-package, -release-prompt-for-password, -release-nosign, -release-sign, -post-build"-->
+
     <target name="flowtest"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for flowtest.">
@@ -46,4 +46,53 @@
       <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/"/>
     </jsr308.javac>
     </target>
+
+    <target name="flowshow"
+                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="report interesting API usage.">
+            <condition property="extensible.libs.classpath"
+                    value="${tested.project.absolute.dir}/${jar.libs.dir}"
+                    else="${jar.libs.dir}">
+                <isset property="tested.project.absolute.dir" />
+            </condition>
+            <jsr308.javac
+                    destdir="${out.classes.absolute.dir}"
+                    classpathref="project.target.class.path"
+                    includeantruntime="false"
+                     >
+                <src path="${source.absolute.dir}" />
+                <src path="${gen.absolute.dir}" />
+                <classpath>
+                    <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
+                </classpath>
+                <compilerarg line="${java.compilerargs}" />
+      <compilerarg line="-processor sparta.checkers.FlowShow"/>
+      <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/"/>
+    </jsr308.javac>
+    </target>
+
+    <target name="reportusage"
+                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="report interesting API usage.">
+            <condition property="extensible.libs.classpath"
+                    value="${tested.project.absolute.dir}/${jar.libs.dir}"
+                    else="${jar.libs.dir}">
+                <isset property="tested.project.absolute.dir" />
+            </condition>
+            <jsr308.javac
+                    destdir="${out.classes.absolute.dir}"
+                    classpathref="project.target.class.path"
+                    includeantruntime="false"
+                     >
+                <src path="${source.absolute.dir}" />
+                <src path="${gen.absolute.dir}" />
+                <classpath>
+                    <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
+                </classpath>
+                <compilerarg line="${java.compilerargs} -Awarns -Xmaxwarns 1000" />
+      <compilerarg line="-processor sparta.checkers.AndroidReportChecker"/>
+      <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/"/>
+    </jsr308.javac>
+    </target>
+
 </project>
