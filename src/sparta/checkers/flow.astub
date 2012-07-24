@@ -1,54 +1,156 @@
 import sparta.checkers.quals.*;
+import checkers.quals.PolyAll;
 
-package android.telephony;
+/* Notes on adding to the file: Packages are arranged by source (android, java, etc) and then alphabetically.
+   Classes within a package are also arranged alphabetically, as are the methods. */
 
-class TelephonyManager {
-	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
-	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
-}
+/* ANDROID PACKAGES BELOW */
 
-package android.location;
+package android.content;
 
-class LocationManager {
-	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location getLastKnownLocation(String provider);
-}
-
-class Location {
-// TODO: implement new receiver syntax in StubParser.
-//	public double getLatitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
-//	public double getLongitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
-	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-}
-
-interface LocationListener {
-	void onLocationChanged(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location location);
-}
+	class ContentValues {
+		/* Note: The poly qualifiers seem like the *correct* tags to put here, but I'm in the process of getting them to compile properly. */
+		
+		/* void put(String key, @PolyFlowSource @PolyFlowSink Double value) @PolyFlowSource @PolyFlowSink;
+		void put(String key, @PolyFlowSource @PolyFlowSink Integer value) @PolyFlowSource @PolyFlowSink;
+		void put(String key, @PolyFlowSource @PolyFlowSink Long value) @PolyFlowSource @PolyFlowSink;
+		void put(String key, @PolyFlowSource @PolyFlowSink String value) @PolyFlowSource @PolyFlowSink; */
+		
+		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Double value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Integer value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Long value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	}
 
 package android.hardware;
 
-interface Camera$PictureCallback {
-	void onPictureTaken(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) byte[] data, Camera camera);
-}
+	interface Camera$PictureCallback {
+		void onPictureTaken(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) byte[] data, Camera camera);
+	}
+	
+package android.location;
 
-package org.apache.http.entity.mime.content;
+	class Address {
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getAdminArea() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getCountryName() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getFeatureName() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getLocality() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getPostalCode() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+	}
+	
+	class Geocoder {
+		List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Address> 
+			getFromLocation(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double latitude, 
+			@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double longitude, int maxResults);
+			
+		List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Address> 
+		    getFromLocationName(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String locationName, int maxResults);
+	}
+	
+	class Location {
+	// TODO: implement new receiver syntax in StubParser.
+	//	double getLatitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
+	//	double getLongitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+	}
+	
+	interface LocationListener {
+		void onLocationChanged(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location location);
+	}
+	
+	class LocationManager {
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location getLastKnownLocation(String provider);
+	}
+	
+package android.net;
 
-class StringBody {
-	public StringBody(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String str);
-}
+	class Uri {
+		/* Used in Sky/ForecastProvider.java:213/221/282/383/etc */
+		List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String> getPathSegments() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+		@PolyFlowSources @PolyFlowSinks Uri parse(@PolyFlowSources @PolyFlowSinks String uriString);
+	}
+
+package android.os;
+
+	class Bundle {
+		void putDouble(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+	}
+	
+package android.telephony;
+
+	class TelephonyManager {
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
+	}
+
+package android.text;
+	
+	class TextUtils {
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean isEmpty(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) CharSequence str);
+	}
+
+package android.widget;
+
+	class TextView {
+		void setText(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) CharSequence text);
+	}
+
+
+
+
+
+
+
+
+
+/* OTHER PACKAGES HERE? */
 
 package org.apache.http.client.methods;
 
-class HttpGet {
-    public HttpGet(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
-}
+	class HttpGet {
+	    HttpGet(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
+	}
 
-class HttpPost {
-    public HttpPost(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
-}
+	class HttpPost {
+	    HttpPost(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
+	}
+
+package org.apache.http.entity.mime.content;
+
+	class StringBody {
+		StringBody(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String str);
+	}
+
+
+
+
+
+
+
+/* JAVA PACKAGES BELOW */
 
 package java.lang;
+	
+	class Double {
+		static @PolyAll boolean isNaN(@PolyAll double d);
+	}
+	
+	class Long {
+		static @PolyAll long parseLong(@PolyAll String string);
+	}
 
-class String {
-	public static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, Object... args);
-}
+	class String {
+		static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
+	}
+	
+package java.util;
+
+	class List<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) T get(int location) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY); 
+	}
+	/* Maybe add Map here later*/
