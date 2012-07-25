@@ -69,18 +69,26 @@ public class FlowChecker extends BaseTypeChecker {
 
     private class FlowQualifierHierarchy extends MultiGraphQualifierHierarchy {
 
-        public FlowQualifierHierarchy(MultiGraphQualifierHierarchy hierarchy) {
-            super(hierarchy);
-        }
-
         protected FlowQualifierHierarchy(MultiGraphFactory f) {
             super(f);
-            this.tops = AnnotationUtils.createAnnotationSet();
-            this.tops.add(ANYFLOWSOURCES);
-            this.tops.add(NOFLOWSINKS);
-            this.bottoms = AnnotationUtils.createAnnotationSet();
-            this.bottoms.add(NOFLOWSOURCES);
-            this.bottoms.add(ANYFLOWSINKS);
+        }
+
+        @Override
+        protected Set<AnnotationMirror>
+        findBottoms(Map<AnnotationMirror, Set<AnnotationMirror>> supertypes) {
+            Set<AnnotationMirror> newbottoms = AnnotationUtils.createAnnotationSet();
+            newbottoms.add(NOFLOWSOURCES);
+            newbottoms.add(ANYFLOWSINKS);
+            return newbottoms;
+        }
+
+        @Override
+        protected Set<AnnotationMirror>
+        findTops(Map<AnnotationMirror, Set<AnnotationMirror>> supertypes) {
+            Set<AnnotationMirror> newtops = AnnotationUtils.createAnnotationSet();
+            newtops.add(ANYFLOWSOURCES);
+            newtops.add(NOFLOWSINKS);
+            return newtops;
         }
 
         private boolean isSourceQualifier(AnnotationMirror anno) {
