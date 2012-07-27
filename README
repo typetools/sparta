@@ -1,0 +1,3 @@
+Google gson is a dependency.
+Get it from http://code.google.com/p/google-gson/ and
+unzip it in the lib directory.

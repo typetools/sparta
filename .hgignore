@@ -4,3 +4,8 @@ bin/
 syntax: regexp
 ^tests/build$
 \.class$
+
+syntax: regexp
+^lib/google-gson-2\.2\.2$
+syntax: regexp
+^lib/google-gson-2\.2\.2-release\.zip$
