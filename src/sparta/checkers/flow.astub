@@ -153,4 +153,11 @@ package java.util;
 	class List<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) T get(int location) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY); 
 	}
+
+    class ArrayList<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> extends List<T> {
+        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) T get(int location) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY); 
+    }
+
+
+
 	/* Maybe add Map here later*/
