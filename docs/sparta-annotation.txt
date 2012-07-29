@@ -73,8 +73,8 @@ If you want to add a new application, put it under the directory sparta-subjects
 
 In general, these tips seem to be useful when setting up a new application to test. This assumes you're using Eclipse to look at and build the code.
 - Using Eclipse, import the project (this requires the app to have a .project and .classpath file)
-  - Make sure ProjectProperties->Android->Android 4.0.3 is checked
-    - Check that ProjectProperties->Java Build Path->Libraries->Android 4.0.3 appears
+  - Make sure ProjectProperties->Android->Android <version #> is checked
+    - Check that ProjectProperties->Java Build Path->Libraries->Android <version #> appears
   - Add the sparta-code project to ProjectProperties->Java Build Path->Projects
 - Compile via command line (ant clean, ant flowtest)
 - If it compiles, or the errors are exclusively about annotations, it's working correctly.
