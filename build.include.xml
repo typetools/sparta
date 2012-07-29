@@ -17,7 +17,7 @@
     <!--depends="-set-release-mode, -release-obfuscation-check, -package, -post-package, -release-prompt-for-password, -release-nosign, -release-sign, -post-build"-->
 
     <target name="flowtest"
-                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for flowtest.">
             <condition property="extensible.libs.classpath"
                     value="${tested.project.absolute.dir}/${jar.libs.dir}"
