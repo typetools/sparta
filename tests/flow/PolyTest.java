@@ -55,7 +55,6 @@ class PolyTest {
 	void test_allPrimitive_FirstQualifiers() {
 		@FlowSources(FlowSource.LOCATION) double a = 1.0;
 		double b = 2.0;
-		//:: error: (argument.type.incompatible)
 		String c = PolyTest.merge("abc", a, b);
 	}
 	void test_onePrimitive_FirstQualifiers() {
@@ -74,13 +73,11 @@ class PolyTest {
 	void test_allPrimitive_SecondQualifiers() {
 		double a = 1.0;
 		@FlowSources(FlowSource.LOCATION) double b = 2.0;
-		//:: error: (argument.type.incompatible)
 		String c = PolyTest.merge("abc", a, b);
 	}
 	void test_onePrimitive_SecondQualifiers() {
 		Double a = 1.0;
 		@FlowSources(FlowSource.LOCATION) double b = 2.0;
-		//:: error: (argument.type.incompatible)
 		String c = PolyTest.merge("abc", a, b);
 	}
 	void test_noPrimitive_SecondQualifiers() {
@@ -94,7 +91,6 @@ class PolyTest {
 	void test_allPrimitive_AllQualifiers() {
 		@FlowSources(FlowSource.LOCATION) double a = 1.0;
 		@FlowSources(FlowSource.LOCATION) double b = 2.0;
-		//:: error: (argument.type.incompatible)
 		String c = PolyTest.merge("abc", a, b);
 	}
 	void test_onePrimitive_AllQualifiers() {
@@ -111,7 +107,7 @@ class PolyTest {
 	/*--------*/
 	
 	static @PolyFlowSources @PolyFlowSinks String merge(@PolyFlowSources @PolyFlowSinks String one,
-			@PolyFlowSources @PolyFlowSinks  Object... two) {
+			@PolyFlowSources @PolyFlowSinks  Object two, @PolyFlowSources @PolyFlowSinks Object three) {
 		return one;
 	}
 }
