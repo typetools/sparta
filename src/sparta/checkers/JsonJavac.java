@@ -27,35 +27,29 @@ import com.google.gson.Gson;
  * shown in JSON then.
  */
 abstract class Data {
+    final String datakind = this.getClass().getCanonicalName();
     String filename;
     long line; 
 }
 class ReadWriteData extends Data {
-    final String datakind = ReadWriteData.class.getCanonicalName();
     String part;
 }
 class WriteData extends Data {
-    final String datakind = WriteData.class.getCanonicalName();
     String part;
 }
 class CallData extends Data {
-    final String datakind = CallData.class.getCanonicalName();
     String part;
 }
 class NewData extends Data {
-    final String datakind = NewData.class.getCanonicalName();
     String part;
 }
 class InheritData extends Data {
-    final String datakind = InheritData.class.getCanonicalName();
     String part;
 }
 class OverrideData extends Data {
-    final String datakind = OverrideData.class.getCanonicalName();
     String part;
 }
 class UseData extends Data {
-    final String datakind = UseData.class.getCanonicalName();
     String useof;
     String useofkind;
     String useby;
@@ -71,6 +65,17 @@ class UseData extends Data {
  */
 public class JsonJavac {
     public static void main(String[] args) {
+        new JsonJavac().run(args);
+    }
+
+    public void run(String[] args) {
+        List<Diagnostic<? extends JavaFileObject>> diagnostics = compile(args);
+        // System.out.println("Here: " + diagnostics);
+        // Filter the output and print the JSON results.
+        filterAndPrint(diagnostics);
+    }
+
+    List<Diagnostic<? extends JavaFileObject>> compile(String[] args) {
         String cpath = System.getenv("CLASSPATH");
 
         // TODO: Make configurable by Checker, reuse as much as possible.
@@ -98,13 +103,12 @@ public class JsonJavac {
         // Run the compiler.
         task.call();
 
-        // Filter the output and print the JSON results.
-        filterAndPrint(diagnostics.getDiagnostics());
-
         // Just in case there are other messages. Put into error stream to allow separation.
         if (!javacoutput.toString().isEmpty()) {
             System.err.println("javac output: " + javacoutput);
         }
+
+        return diagnostics.getDiagnostics();
     }
 
     /**
@@ -113,7 +117,7 @@ public class JsonJavac {
      *
      * @param diagnostics
      */
-    private static void filterAndPrint(
+    protected void filterAndPrint(
             List<Diagnostic<? extends JavaFileObject>> diagnostics) {
         List<Data> datas = new LinkedList<Data>();
 
