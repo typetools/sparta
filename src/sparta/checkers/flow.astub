@@ -6,6 +6,12 @@ import checkers.quals.PolyAll;
 
 /* ANDROID PACKAGES BELOW */
 
+package android.app;
+
+	class AlertDialog$Builder {
+		@PolyFlowSources @PolyFlowSinks Builder setMessage(@PolyFlowSources @PolyFlowSinks CharSequence message);
+	}
+	
 package android.content;
 
 	class ContentResolver {
@@ -65,6 +71,8 @@ package android.location;
 	//	double getLongitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getProvider() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) long getTime() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 	}
 	
 	interface LocationListener {
@@ -93,6 +101,12 @@ package android.os;
 		void writeString(@PolyFlowSources @PolyFlowSinks String val) @PolyFlowSources @PolyFlowSinks;
 	}
 	
+package android.preference;
+
+	class EditTextPreference {
+		void setText(@PolyFlowSources @PolyFlowSinks String text) @PolyFlowSources @PolyFlowSinks;
+	}
+	
 package android.telephony;
 
 	class TelephonyManager {
@@ -106,6 +120,13 @@ package android.text;
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean isEmpty(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) CharSequence str);
 	}
 
+package android.util;
+
+	class FloatMath {
+		@PolyFlowSources @PolyFlowSinks float cos(@PolyFlowSources @PolyFlowSinks float angle);
+		@PolyFlowSources @PolyFlowSinks float sin(@PolyFlowSources @PolyFlowSinks float angle);
+	}
+	
 package android.widget;
 
 	class ImageView {
@@ -121,7 +142,7 @@ package android.widget;
 
 
 
-/* OTHER PACKAGES HERE? */
+/* OTHER ANDROID PACKAGES */
 
 package org.apache.http.client.methods;
 
@@ -151,6 +172,7 @@ package java.lang;
 	
 	class Double {
 		static @PolyAll boolean isNaN(@PolyAll double d);
+		static @PolyAll String toString(@PolyAll double d);
 	}
 	
 	class Long {
@@ -164,10 +186,23 @@ package java.lang;
 package java.util;
 
 	class List<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-		@PolyFlowSources @PolyFlowSinks T get(int location) @PolyFlowSources @PolyFlowSinks;
+		@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
 	}
 	
-	class ArrayList<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-		
+	class ArrayList<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> extends List<T> {
+		@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
 	}
 	/* Maybe add Map here later*/
+	
+	
+
+	
+/* FROM EXTERNAL JARS */
+	
+	
+package uk.me.jstott.coordconv;
+
+	class LatitudeLongitude {
+		void setLatitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double latitude) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		void setLongitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double longitude) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+	}
