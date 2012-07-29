@@ -8,20 +8,28 @@ import checkers.quals.PolyAll;
 
 package android.content;
 
+	class ContentResolver {
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Uri insert(Uri url, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) ContentValues values);
+	}
+	
 	class ContentValues {
-		/* Note: The poly qualifiers seem like the *correct* tags to put here, but I'm in the process of getting them to compile properly. */
-		
-		/* void put(String key, @PolyFlowSource @PolyFlowSink Double value) @PolyFlowSource @PolyFlowSink;
-		void put(String key, @PolyFlowSource @PolyFlowSink Integer value) @PolyFlowSource @PolyFlowSink;
-		void put(String key, @PolyFlowSource @PolyFlowSink Long value) @PolyFlowSource @PolyFlowSink;
-		void put(String key, @PolyFlowSource @PolyFlowSink String value) @PolyFlowSource @PolyFlowSink; */
-		
 		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Double value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Integer value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Long value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 	}
 
+package android.graphics;
+
+	class Bitmap {
+		boolean compress(CompressFormat format, int quality, OutputStream stream) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA);
+	}
+	
+	class BitmapFactory {
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) Bitmap decodeByteArray(
+			@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) byte[] data, int offset, int length);
+	}
+	
 package android.hardware;
 
 	interface Camera$PictureCallback {
@@ -81,6 +89,10 @@ package android.os;
 		void putDouble(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 	}
 	
+	class Parcel {
+		void writeString(@PolyFlowSources @PolyFlowSinks String val) @PolyFlowSources @PolyFlowSinks;
+	}
+	
 package android.telephony;
 
 	class TelephonyManager {
@@ -96,12 +108,13 @@ package android.text;
 
 package android.widget;
 
+	class ImageView {
+		void setImageBitmap(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) Bitmap bm) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA);
+	}
+	
 	class TextView {
 		void setText(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) CharSequence text);
 	}
-
-
-
 
 
 
@@ -151,13 +164,10 @@ package java.lang;
 package java.util;
 
 	class List<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) T get(int location) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY); 
+		@PolyFlowSources @PolyFlowSinks T get(int location) @PolyFlowSources @PolyFlowSinks;
 	}
-
-    class ArrayList<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> extends List<T> {
-        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) T get(int location) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY); 
-    }
-
-
-
+	
+	class ArrayList<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+		
+	}
 	/* Maybe add Map here later*/
