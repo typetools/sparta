@@ -24,6 +24,10 @@ package android.content;
 		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Long value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 	}
+	
+	class Intent {
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Intent setData(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Uri data) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+	}
 
 package android.graphics;
 
