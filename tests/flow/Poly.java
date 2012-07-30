@@ -18,12 +18,10 @@ class Poly {
         //:: error: (assignment.type.incompatible)
         @FlowSinks(FlowSinks.FlowSink.NETWORK) @FlowSources(FlowSource.CAMERA) Object l2 = testComb(s); 
     }
-    
-    
+
     @FlowSources(FlowSource.LOCATION) float y;
     void test_floatmath() {
-    	y = (float) 0.5;
-    	y = FloatMath.sin(y);
+        y = FloatMath.sin(y);
     }
 
 }
