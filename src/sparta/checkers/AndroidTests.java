@@ -51,7 +51,7 @@ public class AndroidTests {
 
     public static class AndroidReportCheckerTests extends ParameterizedCheckerTest {
         public AndroidReportCheckerTests(File testFile) {
-            super(testFile, AndroidReportChecker.class.getName(), "sparta.checkers", "-Anomsgtext", "-Astubs=reflection.astub");
+            super(testFile, AndroidReportChecker.class.getName(), "sparta.checkers", "-Anomsgtext");
         }
         @Parameters
         public static Collection<Object[]> data() {
