@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
+	<head>
+		<script src="Scripts/d3.v2.min.js"/>
+		<script src="Scripts/Main.js"/>
+		
+		<link rel="stylesheet" type="text/css" href="Styles/Main.css"/>
+		<link rel="stylesheet" type="text/css" href="Styles/Graph.css"/>
+		
+		<title>SPARTA Visualization Tool</title>
+	</head>
+	<body>
+		<header>
+			<h1 class="column">
+				SPARTA Visualization
+			</h1>
+			
+			<div class="column" id="viewBySelector">
+				<h2>
+					View by:
+				</h2>
+				<ul>
+					<li id="viewByApiButton" class="viewByButton">API</li>
+					<li id="viewByFileButton" class="viewByButton">File</li>
+				</ul>
+			</div>
+			
+			<p id="descriptiveText" class="column">
+				Descriptive text goes here.
+			</p>
+		</header>
+		
+		<svg id="viewport" xmlns="http://www.w3.org/2000/svg"></svg>
+	</body>
+</html>

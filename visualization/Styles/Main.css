@@ -1,0 +1,55 @@
+/*
+ * Styles for the non-graph parts of the page.
+ */
+
+/* Global Styles */
+/* See http://kuler.adobe.com/#themeID/1993586 for color scheme */
+body {
+	background-color: rgb(84, 64, 68);
+	color: rgb(80, 255, 242);
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin: 0;
+}
+
+/* Header Styles */
+header {
+	background-color: rgba(84, 64, 68, 0.75);
+	border-bottom: 0.25em solid rgb(80, 255, 242);
+	display: table;
+	width: 100%;
+}
+
+h1, h2 {
+	letter-spacing: -0.06em;
+	margin: 0;
+}
+
+.column {
+	display: table-cell;
+	padding: 0.5em;
+	vertical-align: middle;
+	width: 33.333%;
+}
+
+#viewBySelector {
+	font-weight: bold;
+	text-align: center;
+}
+#viewBySelector h2, #viewBySelector ul, #viewBySelector li {
+	display: inline;
+}
+#viewBySelector ul {
+	padding: 0;
+}
+#viewBySelector li {
+	cursor: pointer;
+	padding: 0.5em;
+}
+#viewBySelector li.selected {
+	background-color: rgb(80, 255, 242);
+	color: rgb(84, 64, 68);
+}
+
+#descriptiveText {
+	text-align: right;
+}

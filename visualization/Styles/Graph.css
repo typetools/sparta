@@ -1,0 +1,22 @@
+/*
+ * Styles for the graph parts of the page.
+ */
+
+.testElement {
+    position: absolute;
+    visibility: hidden;
+    height: auto;
+    width: auto;
+}
+
+/* SVG Styles */
+g {
+	fill: none;
+}
+
+text {
+	fill: white;
+	font-weight: bold;
+	font-size: 2em;
+	letter-spacing: -0.06em;
+}
