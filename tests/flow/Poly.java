@@ -1,3 +1,4 @@
+import android.util.FloatMath;
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.FlowSources.FlowSource;
@@ -16,6 +17,13 @@ class Poly {
         @FlowSinks(FlowSinks.FlowSink.EMAIL) @FlowSources(FlowSource.CAMERA) Object l = testComb(s);
         //:: error: (assignment.type.incompatible)
         @FlowSinks(FlowSinks.FlowSink.NETWORK) @FlowSources(FlowSource.CAMERA) Object l2 = testComb(s); 
+    }
+    
+    
+    @FlowSources(FlowSource.LOCATION) float y;
+    void test_floatmath() {
+    	y = (float) 0.5;
+    	y = FloatMath.sin(y);
     }
 
 }
