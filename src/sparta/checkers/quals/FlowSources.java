@@ -34,7 +34,8 @@ public @interface FlowSources {
         PHONE_NUMBER,
         CAMERA,
         MICROPHONE,
-        LOCATION
+        LOCATION,
+        FILESYSTEM
     }
 
     /**
