@@ -71,6 +71,45 @@
             </jsr308.javac>
     </target>
 
+    <!--  TODO: remove duplication in flowshow-json and reportusage-json. -->
+    <target name="flowshow-json"
+                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="show the flow annotations in the code with JSON.">
+            <condition property="extensible.libs.classpath"
+                    value="${tested.project.absolute.dir}/${jar.libs.dir}"
+                    else="${jar.libs.dir}">
+                <isset property="tested.project.absolute.dir" />
+            </condition>
+
+            <property name="classpath"
+                value="${checkers_dir}/${checkers_base}/jdk/jdk.jar:${checkers_dir}/${checkers_base}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
+
+            <fileset dir="${source.absolute.dir}" id="mySourceJava">
+                <include name="**/*.java" />
+            </fileset>
+            <pathconvert property="cmdSourceJava" refid="mySourceJava" pathsep="' '" />
+
+            <fileset dir="${gen.absolute.dir}" id="myGenJava">
+                <include name="**/*.java" />
+            </fileset>
+            <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
+
+            <java fork="true" classname="sparta.checkers.JsonJavac$FlowShow"
+                output="flowshow.json">
+                <arg line="'${cmdSourceJava}'"/>
+                <arg line="'${cmdGenJava}'"/>
+                <classpath>
+                    <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
+                </classpath>
+                <classpath refid="project.target.class.path" />
+
+                <jvmarg value="-Xbootclasspath/p:${classpath}"/>
+
+                <env key="CLASSPATH" value="${classpath}"/>
+            </java>
+            <echo>Result written to flowshow.json</echo>
+    </target>
+
     <target name="reportusage"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report interesting API usage.">
@@ -117,7 +156,7 @@
             </fileset>
             <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
 
-            <java fork="true" classname="sparta.checkers.JsonJavac"
+            <java fork="true" classname="sparta.checkers.JsonJavac$ReportUsage"
                 output="reportusage.json">
                 <arg line="'${cmdSourceJava}'"/>
                 <arg line="'${cmdGenJava}'"/>
