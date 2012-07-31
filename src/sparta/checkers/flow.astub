@@ -15,24 +15,29 @@ package android.app;
 package android.content;
 
 	class ContentResolver {
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Uri insert(Uri url, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) ContentValues values);
+		@PolyFlowSources @PolyFlowSinks Uri insert(Uri url, @PolyFlowSources @PolyFlowSinks ContentValues values) @PolyFlowSources @PolyFlowSinks;
 	}
 	
 	class ContentValues {
-		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Double value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Integer value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Long value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String value) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+		void put(String key, @PolyFlowSources @PolyFlowSinks Double value) @PolyFlowSources @PolyFlowSinks;
+		void put(String key, @PolyFlowSources @PolyFlowSinks Integer value) @PolyFlowSources @PolyFlowSinks;
+		void put(String key, @PolyFlowSources @PolyFlowSinks Long value) @PolyFlowSources @PolyFlowSinks;
+		void put(String key, @PolyFlowSources @PolyFlowSinks String value) @PolyFlowSources @PolyFlowSinks;
+	}
+	
+	class Context {
+		@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) String name, int mode);
 	}
 	
 	class Intent {
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Intent setData(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Uri data) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Intent setData(
+			@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Uri data) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 	}
 
 package android.graphics;
 
 	class Bitmap {
-		boolean compress(CompressFormat format, int quality, OutputStream stream) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA);
+		boolean compress(CompressFormat format, int quality, @PolyFlowSinks @PolyFlowSources OutputStream stream) @PolyFlowSinks @PolyFlowSources;
 	}
 	
 	class BitmapFactory {
@@ -41,6 +46,11 @@ package android.graphics;
 	}
 	
 package android.hardware;
+
+	class Camera {
+		void takePicture(ShutterCallback shutter, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback raw, 
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback jpeg);
+	}
 
 	interface Camera$PictureCallback {
 		void onPictureTaken(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) byte[] data, Camera camera);
@@ -131,6 +141,10 @@ package android.util;
 		@PolyFlowSources @PolyFlowSinks float sin(@PolyFlowSources @PolyFlowSinks float angle);
 	}
 	
+	class Log {
+		int d(String tag, @PolyFlowSources @PolyFlowSinks String msg);
+	}
+	
 package android.widget;
 
 	class ImageView {
@@ -151,7 +165,7 @@ package android.widget;
 package org.apache.http.client.methods;
 
 	class HttpGet {
-	    HttpGet(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
+	    @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) @PolyFlowSources HttpGet(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) @PolyFlowSources String uri);
 	}
 
 	class HttpPost {
@@ -172,6 +186,27 @@ package org.apache.http.entity.mime.content;
 
 /* JAVA PACKAGES BELOW */
 
+package java.io;
+
+	class ByteArrayOutputStream {
+		void close() @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+		@PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) byte[] toByteArray() @PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM);
+	}
+	
+	class File {
+		@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) boolean createNewFile() @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM);
+		File(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) String path) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM);
+		@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) String separator;
+	}
+	
+	class FileOutputStream {
+		void close() @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+		FileOutputStream(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @PolyFlowSources File file) 
+			@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @PolyFlowSources;
+		void write(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @PolyFlowSources byte[] buffer) 
+			@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @PolyFlowSources;
+	}
+	
 package java.lang;
 	
 	class Double {
@@ -179,14 +214,23 @@ package java.lang;
 		static @PolyAll String toString(@PolyAll double d);
 	}
 	
+	class Float {
+		static @PolyAll int floatToIntBits(@PolyAll float value);
+	}
+	
 	class Long {
 		static @PolyAll long parseLong(@PolyAll String string);
 	}
 
+	class Object {
+		public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean equals(Object object);
+		public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int hashCode();
+	}
+	
 	class String {
 		static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	}
-	
+
 package java.util;
 
 	class List<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
