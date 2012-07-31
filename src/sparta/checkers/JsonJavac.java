@@ -27,8 +27,11 @@ import com.google.gson.Gson;
  * shown in JSON then.
  */
 abstract class Data {
+    // Class information to distinguish sub-classes in JSON.
     final String datakind = this.getClass().getCanonicalName();
+    // The file from which the message originated.
     String filename;
+    // The line number within the file.
     long line; 
 }
 class ReadWriteData extends Data {
@@ -50,10 +53,27 @@ class OverrideData extends Data {
     String part;
 }
 class UseData extends Data {
+    // The name of the used Element.
     String useof;
+    // The kind of the used Element.
     String useofkind;
+    // The name of the Element that used "useof".
     String useby;
+    // The kind of the Element that used "useof".
     String usebykind;
+}
+class FlowData extends Data {
+    // The Tree at which the flow occurred.
+    String tree;
+    // The kind of Tree at which the flow occurred.
+    String kind;
+    // The flow sources. Either "NONE" or an array of
+    // FlowSources.FlowSource enum constants, e.g.
+    // [[sparta.checkers.quals.FlowSources.FlowSource.ANY]
+    String sources;
+    // The flow sinks. Either "NONE" or an array of
+    // FlowSinks.FlowSink enum constants.
+    String sinks;
 }
 
 /**
@@ -63,11 +83,8 @@ class UseData extends Data {
  *
  * @author wmdietl
  */
-public class JsonJavac {
-    public static void main(String[] args) {
-        new JsonJavac().run(args);
-    }
-
+public abstract class JsonJavac {
+	abstract String getProcessorName();
     public void run(String[] args) {
         List<Diagnostic<? extends JavaFileObject>> diagnostics = compile(args);
         // System.out.println("Here: " + diagnostics);
@@ -78,9 +95,8 @@ public class JsonJavac {
     List<Diagnostic<? extends JavaFileObject>> compile(String[] args) {
         String cpath = System.getenv("CLASSPATH");
 
-        // TODO: Make configurable by Checker, reuse as much as possible.
         String[] compArgs = new String[] {"-Xbootclasspath/p:" + cpath,
-                "-processor", "sparta.checkers.AndroidReportChecker",
+                "-processor", this.getProcessorName(),
                 "-proc:only", // don't compile classes to save time
                 "-encoding", "ISO8859-1", // TODO: needed for JabRef only, make optional
                 "-Xmaxwarns", "100000",
@@ -189,6 +205,18 @@ public class JsonJavac {
                 }
                 break;
             }
+            case "FLOW": {
+                Matcher match = FLOW_Pattern.matcher(msg);
+                if (match.matches()) {
+                    FlowData flowdata = new FlowData();
+                    flowdata.tree = match.group(1);
+                    flowdata.kind = match.group(2);
+                    flowdata.sources = match.group(3);
+                    flowdata.sinks = match.group(4);
+                    data = flowdata;
+                }
+                break;
+            }
             }
 
             if (data!=null) {
@@ -229,4 +257,29 @@ public class JsonJavac {
     private final static String USE_String = "USEOF (.*) OFKIND (.*) USEBY (.*) BYKIND (.*)";
     private final static Pattern USE_Pattern = Pattern.compile(USE_String);
 
+    private final static String FLOW_String = "FLOW TREE (.*) KIND (.*) SOURCES (.*) SINKS (.*)";
+    private final static Pattern FLOW_Pattern = Pattern.compile(FLOW_String);
+
+    // TODO: move more of the classes/methods into the subclasses.
+    public static class FlowShow extends JsonJavac {
+        public static void main(String[] args) {
+            new FlowShow().run(args);
+        }
+
+        @Override
+        String getProcessorName() {
+            return sparta.checkers.FlowShow.class.getCanonicalName();
+        }
+    }
+
+    public static class ReportUsage extends JsonJavac {
+        public static void main(String[] args) {
+            new ReportUsage().run(args);
+        }
+
+        @Override
+        String getProcessorName() {
+            return sparta.checkers.AndroidReportChecker.class.getCanonicalName();
+        }
+    }
 }
