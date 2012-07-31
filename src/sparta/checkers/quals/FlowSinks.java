@@ -33,7 +33,8 @@ public @interface FlowSinks {
 
         NETWORK,
         TEXTMESSAGE,
-        EMAIL
+        EMAIL,
+        FILESYSTEM
     }
 
     /**
