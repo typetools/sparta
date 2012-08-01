@@ -1,0 +1,37 @@
+#viewBySelector {
+	font-weight: bold;
+	text-align: center;
+}
+#viewBySelector h2, #viewBySelector ul, #viewBySelector li {
+	display: inline;
+}
+#viewBySelector ul {
+	padding: 0;
+}
+#viewBySelector li {
+	cursor: pointer;
+	padding: 0.5em;
+}
+#viewBySelector li.selected {
+	background-color: rgb(80, 255, 242);
+	color: rgb(84, 64, 68);
+}
+
+.testElement {
+    position: absolute;
+    visibility: hidden;
+    height: auto;
+    width: auto;
+}
+
+/* SVG Styles */
+g {
+	fill: none;
+}
+
+text {
+	fill: white;
+	font-weight: bold;
+	font-size: 2em;
+	letter-spacing: -0.06em;
+}
