@@ -2,8 +2,13 @@ package sparta.checkers;
 
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,7 +37,12 @@ abstract class Data {
     // The file from which the message originated.
     String filename;
     // The line number within the file.
-    long line; 
+    long line;
+
+    @Override
+    public String toString() {
+        return "file: " + filename + ":" + line;
+    }
 }
 class ReadWriteData extends Data {
     String part;
@@ -61,6 +71,12 @@ class UseData extends Data {
     String useby;
     // The kind of the Element that used "useof".
     String usebykind;
+
+    @Override
+    public String toString() {
+    	return super.toString() + "\n    useof: " + useof + " (" + useofkind +
+    			")\n    useby: " + useby + " (" + usebykind + ")";
+    }
 }
 class FlowData extends Data {
     // The Tree at which the flow occurred.
@@ -89,10 +105,10 @@ public abstract class JsonJavac {
         List<Diagnostic<? extends JavaFileObject>> diagnostics = compile(args);
         // System.out.println("Here: " + diagnostics);
         // Filter the output and print the JSON results.
-        filterAndPrint(diagnostics);
+        print(filter(diagnostics));
     }
 
-    List<Diagnostic<? extends JavaFileObject>> compile(String[] args) {
+    protected List<Diagnostic<? extends JavaFileObject>> compile(String[] args) {
         String cpath = System.getenv("CLASSPATH");
 
         String[] compArgs = new String[] {"-Xbootclasspath/p:" + cpath,
@@ -129,11 +145,11 @@ public abstract class JsonJavac {
 
     /**
      * Go through the provided diagnostics, parse the message, and create
-     * the JSON output.
+     * the a list of Data objects.
      *
      * @param diagnostics
      */
-    protected void filterAndPrint(
+    protected List<Data> filter(
             List<Diagnostic<? extends JavaFileObject>> diagnostics) {
         List<Data> datas = new LinkedList<Data>();
 
@@ -226,10 +242,10 @@ public abstract class JsonJavac {
             }
         }
 
-        Gson gson = new Gson();
-        String json = gson.toJson(datas);
-        System.out.println(json);
+        return datas;
     }
+
+    abstract protected void print(List<Data> datas);
 
     /*
      * The following fields are the regular expression strings and their respecitve
@@ -260,10 +276,18 @@ public abstract class JsonJavac {
     private final static String FLOW_String = "FLOW TREE (.*) KIND (.*) SOURCES (.*) SINKS (.*)";
     private final static Pattern FLOW_Pattern = Pattern.compile(FLOW_String);
 
+    public static abstract class JsonPrint extends JsonJavac {
+        protected void print(List<Data> datas) {
+            Gson gson = new Gson();
+            String json = gson.toJson(datas);
+            System.out.println(json);
+        }
+    }
+
     // TODO: move more of the classes/methods into the subclasses.
-    public static class FlowShow extends JsonJavac {
+    public static class FlowShowJson extends JsonPrint {
         public static void main(String[] args) {
-            new FlowShow().run(args);
+            new FlowShowJson().run(args);
         }
 
         @Override
@@ -272,9 +296,9 @@ public abstract class JsonJavac {
         }
     }
 
-    public static class ReportUsage extends JsonJavac {
+    public static class ReportUsageJson extends JsonPrint {
         public static void main(String[] args) {
-            new ReportUsage().run(args);
+            new ReportUsageJson().run(args);
         }
 
         @Override
@@ -282,4 +306,68 @@ public abstract class JsonJavac {
             return sparta.checkers.AndroidReportChecker.class.getCanonicalName();
         }
     }
+
+    public static class ReportUsageText extends JsonJavac {
+        public static void main(String[] args) {
+            new ReportUsageText().run(args);
+        }
+
+        @Override
+        String getProcessorName() {
+            return sparta.checkers.AndroidReportChecker.class.getCanonicalName();
+        }
+
+        // From API name to the set of Data
+        Map<String, Set<UseData>> uses = new HashMap<>();
+
+        protected void print(List<Data> datas) {
+            for (Data d: datas) {
+                if (d instanceof UseData) {
+                    addMapping(uses, ((UseData) d).useby, (UseData) d);
+                }
+            }
+
+            StringBuilder result = new StringBuilder();
+            Set<String> keys = uses.keySet();
+            List<String> keyl = new LinkedList<String>();
+            keyl.addAll(keys);
+            Collections.sort(keyl);
+
+            for (String key : keyl) {
+                result.append(key + ": " + uses.get(key).size() + "\n");
+            }
+            System.out.println(result);
+        }
+    }
+
+    <S, T> void addMapping(Map<T, Set<S>> map, T key, S data) {
+        if (map.containsKey(key)) {
+            Set<S> prev = map.get(key);
+            prev.add(data);
+        } else {
+            HashSet<S> newset = new HashSet<S>();
+            newset.add(data);
+            map.put(key, newset);
+        }
+    }
+
+    public static class FlowShowText extends JsonJavac {
+        public static void main(String[] args) {
+            new ReportUsageText().run(args);
+        }
+
+        @Override
+        String getProcessorName() {
+            return sparta.checkers.AndroidReportChecker.class.getCanonicalName();
+        }
+
+        Map<String, Set<FlowData>> sources = new HashMap<>();
+        Map<String, Set<FlowData>> sinks = new HashMap<>();
+
+        protected void print(List<Data> datas) {
+            StringBuilder result = new StringBuilder();
+            System.out.println(result);
+        }
+    }
+
 }
