@@ -50,7 +50,7 @@ $ ant -buildfile $SPARTA_CODE/build.local.xml
 Alternatively, you can run:
 $ $ANDROID_HOME/tools/android update project --path . --target android-15
 
-Edit the build.xml file to add the sparta code requirements at the end:
+If you're working on a new application, edit the build.xml file to add the sparta code requirements at the end:
 
 <property environment="env"/>
 <dirname property="checkers_dir" file="${env.CHECKERS}"/>
