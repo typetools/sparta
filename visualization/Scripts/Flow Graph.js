@@ -1,4 +1,4 @@
-//"use strict";
+"use strict";
 
 /* Constants */
 var DATA_FILE_PATH = "Flow Graph Data.json";

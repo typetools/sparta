@@ -1,9 +1,4 @@
-/*
- * SPARTA Visualization Tool
- * By Chris Rovillos
- */
-
-"use strict";
+//"use strict";
 
 /* Constants */
 var DATA_FILE_PATH = "API Graph Data.json";
@@ -52,9 +47,16 @@ function initialize() {
 }
 
 function addViewByButtonClickListeners() {
+		var width = window.innerWidth,
+	    height = window.innerHeight;
 	d3.select("#viewByApiButton").on("click", function() {
 		if (!apiViewActive) {
 			apiViewActive = true;
+			x_children = d3.scale.linear().range([0, width]);
+		y_children = d3.scale.linear().range([60, height]);
+		x_parent = d3.scale.linear().range([0, width]);
+		y_parent = d3.scale.linear().range([0, 60]);
+		
 			displayTreemap();
 		}
 	});
@@ -62,12 +64,18 @@ function addViewByButtonClickListeners() {
 	d3.select("#viewByFileButton").on("click", function() {
 		if (apiViewActive) {
 			apiViewActive = false;
+			x_children = d3.scale.linear().range([0, width]);
+		y_children = d3.scale.linear().range([60, height]);
+		x_parent = d3.scale.linear().range([0, width]);
+		y_parent = d3.scale.linear().range([0, 60]);
+		
 			displayTreemap();
 		}
 	})
 }
 
 function displayTreemap() {
+	d3.select("#descriptiveText").text("");
 	// update the "View by" selector
 	d3.select("#viewByApiButton").classed("selected", function() {
 		return apiViewActive; 
@@ -89,7 +97,7 @@ function displayTreemap() {
 	svg.text(" ");
 	var cell;
 	if (apiViewActive) {
-		color = d3.scale.linear().domain([0, apiTree[0].fileUsageCount]).range(["#73717F", "#73B2B1"]); //TODO: fix
+		color = d3.scale.category20(); //TODO: fix
 		treemap = d3.layout.treemap()
 			.size([width, height])
 			.children(function (d) {
@@ -114,13 +122,18 @@ function displayTreemap() {
 	  .style("fill", function(d) {return color(d.data.value.fileUsageCount || d.data.value.referencingFiles.length);})
 		  ;
 		  
-		  cell.append("text")
-	  .attr("dx", "0.5em")
-	.attr("dy", "1.5em")
+		  cell.append("foreignObject")
+.attr("width", function(d) { return d.dx; })
+	  .attr("height", function(d) { return d.dy; })
+	  .append("xhtml:div")
+	  .attr("class", "label")
+	  .style("font-size", function(d) {
+	  	return d3.scale.linear().domain([0, window.innerHeight * window.innerWidth]).range([1, 3])(d.dx * d.dy) + "em";
+	  })
 	.text(function(d) { return d.data.key + " (referenced by " +
 			(d.data.value.fileUsageCount || d.data.value.referencingFiles.length) + " files)"; });
 	} else { // show the File view
-		color = d3.scale.linear().domain([0, directoryTree[0].apiUsageCount]).range([0, 255]);
+		color = d3.scale.category20c();
 		treemap = d3.layout.treemap()
 			.size([width, height])
 			.children(function (d) {
@@ -146,17 +159,30 @@ function displayTreemap() {
 	  .attr("width", function(d) { return d.dx; })
 	  .attr("height", function(d) { return d.dy; })
 	  .style("fill", function(d) {return color(d.data.value.apiUsageCount || d.data.value.apisUsed.length);})
-		  ;
-		  
-		  cell.append("text")
-	  .attr("dx", "0.5em")
-	.attr("dy", "1.5em")
+;
+			
+					  cell.append("foreignObject")
+.attr("width", function(d) { return d.dx; })
+	  .attr("height", function(d) { return d.dy; })
+	  .append("xhtml:div")
+	  .attr("class", "label")
+	  .style("font-size", function(d) {
+	  	return d3.scale.linear().domain([0, window.innerHeight * window.innerWidth]).range([1, 3])(d.dx * d.dy) + "em";
+	  })
 	.text(function(d) { return d.data.key + " (uses " +
 			(d.data.value.apiUsageCount || d.data.value.apisUsed.length) + " APIs)"; });
 	}		  
 }
 
 function onClick(d,i) {
+	var path = [d.data.key];
+var parent = d.parent;
+	while (parent) {
+		path.unshift(parent.data.key);
+		parent = parent.parent;
+	}
+		d3.select("#descriptiveText")
+			.text(path.join(" > "));
 	if (d.children) {
 	var clickClass = d3.select(this).attr("class");
 	var datum = (clickClass == "parent" && d.depth != 0) ? d.parent : d;
@@ -181,6 +207,15 @@ function onClick(d,i) {
 			.attr("width", function(d) { return x_parent(d.dx+d.x) - x_parent(d.x); })
       		.attr("height", function(d) { return y_parent(d.dy+d.y) - y_parent(d.y); })
 			;
+			
+	svg.selectAll("g")
+		.filter(function(d) {
+			return d == datum && d.children;
+		})
+		.select("foreignObject")
+			.attr("width", function(d) { return x_parent(d.dx+d.x) - x_parent(d.x); })
+      		.attr("height", function(d) { return y_parent(d.dy+d.y) - y_parent(d.y); })
+			;
 
 	x_children.domain([datum.x, datum.x + datum.dx]);
     y_children.domain([datum.y, datum.y + datum.dy]);
@@ -197,10 +232,50 @@ function onClick(d,i) {
 		.attr("width", function(d) { return x_children(d.dx+d.x) - x_children(d.x); })
 		.attr("height", function(d) { return y_children(d.dy+d.y)-y_children(d.y); })
 		;
+		
+			svg.selectAll("g")
+		.filter(function(d) {
+			return d.parent ? d.parent == datum : d.depth == 1;
+		})
+		.select("foreignObject")
+		.attr("width", function(d) { return x_children(d.dx+d.x) - x_children(d.x); })
+		.attr("height", function(d) { return y_children(d.dy+d.y)-y_children(d.y); })
+			;
+			
+
 	} else { // at child
 		var treeNode = d.data.value;
-		alert("Type: " + treeNode.type + "\n" + 
-		      "Referencing Files: " + treeNode.referencingFiles);
+		d3.select("#dialog").html(" ");
+		
+		d3.select("#dialog").append("h1")
+			.text(d.data.key);
+			
+			d3.select("#dialog").append("h2")
+			.text("Type: " + treeNode.type);
+		if (apiViewActive) {
+			d3.select("#dialog").append("h2")
+			.text("Used by");
+			
+			var list = d3.select("#dialog").append("ul");
+			
+		treeNode.referencingFiles.forEach(function (file) {
+			list.append("li").text(file.file.name + " (line " + file.lineUsingApi + ")");
+		})
+	} else {
+		d3.select("#dialog").append("h2")
+			.text("APIs Used");
+			
+			var list = d3.select("#dialog").append("ul");
+			
+		treeNode.apisUsed.forEach(function (api) {
+			list.append("li").text(api.api.name + " (type: " + api.api.type) + ")";});
+	}
+		
+		d3.select("#dialog").style("display", "block");
+		
+		d3.select("#dialog").append("a").attr("class", "closeLink").text("Close").on("click", function() {
+			d3.select("#dialog").style("display", "none");
+		})
 	}
 }
 
