@@ -9,6 +9,10 @@ class MiscTests {
         @SuppressWarnings("flow")
         @FlowSinks(FlowSink.NETWORK) double lat = 1.0;
         clean = lat;
+
+        @SuppressWarnings("flow")
+        @FlowSinks(FlowSink.NETWORK) @FlowSources double lat2 = 1.0;
+        clean = lat2;
     }
 
 	@SuppressWarnings("flow")
