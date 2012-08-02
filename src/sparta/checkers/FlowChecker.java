@@ -7,17 +7,21 @@ import java.util.Set;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
+import javax.lang.model.element.ExecutableElement;
 
 import checkers.basetype.BaseTypeChecker;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
 import checkers.quals.PolyAll;
 import checkers.source.SourceChecker;
+import checkers.types.AnnotatedTypeMirror;
 import checkers.types.QualifierHierarchy;
 import checkers.util.AnnotationUtils;
 import checkers.util.MultiGraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import checkers.util.QualifierPolymorphism;
+import checkers.util.TreeUtils;
 
 import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSinks.FlowSink;
@@ -54,7 +58,34 @@ public class FlowChecker extends BaseTypeChecker {
         builder.setValue("value", new FlowSink[] { FlowSink.ANY });
         ANYFLOWSINKS = builder.build();
 
+        sourceValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSources", "value", 0, env);
+        sinkValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSinks", "value", 0, env);
+
         super.initChecker(env);
+    }
+
+    protected ExecutableElement sourceValue;
+    protected ExecutableElement sinkValue;
+
+    public List<FlowSource> getFlowSources(AnnotatedTypeMirror atm) {
+        AnnotationMirror anno = atm.getAnnotationInHierarchy(ANYFLOWSOURCES);
+        AnnotationValue sourcesValue = AnnotationUtils.getElementValuesWithDefaults(anno).get(sourceValue);
+        // TODO: Should we add NONE as an enum constant?
+        if (sourcesValue == null) { // || ((List<FlowSource>)sourcesValue.getValue()).isEmpty()) {
+            return Collections.EMPTY_LIST; // singletonList(FlowSink.NONE);
+        } else {
+            return (List<FlowSource>) sourcesValue.getValue();
+        }
+    }
+
+    public List<FlowSink> getFlowSinks(AnnotatedTypeMirror atm) {
+        AnnotationMirror anno = atm.getAnnotationInHierarchy(ANYFLOWSINKS);
+        AnnotationValue sinksValue = AnnotationUtils.getElementValuesWithDefaults(anno).get(sinkValue);
+        if (sinksValue == null) {
+            return Collections.EMPTY_LIST;
+        } else {
+            return (List<FlowSink>) sinksValue.getValue();
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package sparta.checkers;
 
+import java.util.List;
+
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.ExpressionTree;
@@ -14,7 +16,9 @@ import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationUtils;
 
 import sparta.checkers.quals.FlowSinks;
+import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.FlowSources;
+import sparta.checkers.quals.FlowSources.FlowSource;
 import sparta.checkers.quals.PolyFlowSinks;
 import sparta.checkers.quals.PolyFlowSources;
 
@@ -57,8 +61,14 @@ public class FlowShow extends FlowChecker {
                     show = true;
                 }
                 if (show) {
-                    String msg = "tree kind: " + tree.getKind() +
-                            "   type: " + type;
+                    List<FlowSource> src = getFlowSources(type);
+                    String stsrc = src.isEmpty() ? "NONE" : src.toString();
+                    List<FlowSink> snk = getFlowSinks(type);
+                    String stsnk = snk.isEmpty() ? "NONE" : snk.toString();
+                    String msg = "FLOW TREE " + tree +
+                            " KIND " + tree.getKind() +
+                            " SOURCES " + stsrc +
+                            " SINKS " + stsnk;
                     treemsg.printMessage(javax.tools.Diagnostic.Kind.OTHER, msg, tree, currentRoot);
                 }
             }
