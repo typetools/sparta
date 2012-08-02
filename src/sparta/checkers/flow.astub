@@ -189,6 +189,7 @@ package android.widget;
 	
 	class TextView {
 		void setText(@PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
+		/*void setText(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) CharSequence text);*/
 	}
 
 
@@ -270,6 +271,7 @@ package java.lang;
 	}
 	
 	class String {
+		static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 		static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	}
 
