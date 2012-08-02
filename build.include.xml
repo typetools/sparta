@@ -25,7 +25,7 @@
                 <isset property="tested.project.absolute.dir" />
             </condition>
             <condition property="showchecks"
-                    value="-Ashowchecks"
+                    value="-Ashowchecks -AprintErrorStack"
                     else="">
                 <equals arg1="${debug}" arg2="true" />
             </condition>
@@ -42,7 +42,7 @@
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks}" />
                 <compilerarg line="-processor sparta.checkers.FlowChecker"/>
-                <!--<compilerarg value="-Ashowchecks" />-->
+                <compilerarg line="-encoding ISO8859-1" />
                 <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/"/>
             </jsr308.javac>
     </target>
@@ -67,6 +67,7 @@
                 </classpath>
                 <compilerarg line="${java.compilerargs}" />
                 <compilerarg line="-processor sparta.checkers.FlowShow"/>
+                <compilerarg line="-encoding ISO8859-1" />
                 <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/"/>
             </jsr308.javac>
     </target>
@@ -130,6 +131,7 @@
                 </classpath>
                 <compilerarg line="${java.compilerargs} -Awarns -Xmaxwarns 1000" />
                 <compilerarg line="-processor sparta.checkers.AndroidReportChecker"/>
+                <compilerarg line="-encoding ISO8859-1" />
                 <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/"/>
             </jsr308.javac>
     </target>
