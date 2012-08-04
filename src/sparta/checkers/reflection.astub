@@ -10,3 +10,9 @@ class Class {
     public static Class<?> forName(String name, boolean initialize,
                                    ClassLoader loader) {}
 }
+
+package java.lang.reflect;
+class Method {
+	@ReportCall
+	public Object invoke(Object obj, Object [] objs) {}
+}
