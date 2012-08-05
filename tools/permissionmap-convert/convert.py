@@ -28,8 +28,15 @@ for line in lines:
 
         print("class "+ cls + " {")
     args = re.sub(r'\[L([^;]+);',r'\1 []',sp_m[1])
-    perm = sp[1].replace(" and ", ", ").replace(" or ", ", ")
-    print("\t@RequiredPremissions(\"%s\") public %s(%s;" % (perm, method, args))
+    perm = sp[1].replace(" and ", ", ").replace(" or ", ", ").replace("android.","android.Manifest.")
+    args_arr = args.split(")")[0].strip().split(",")
+    lst = []
+    cnt = 0
+    for arg in args_arr:
+        if(arg == ""): continue
+        lst.append(arg + " p"+str(cnt))
+        cnt += 1
+    print("\t@RequiredPremissions(%s) public %s(%s);" % (perm, method, ",".join(lst)))
     prev_cls = cls
     prev_package = package
     #print(package)
