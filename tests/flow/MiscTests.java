@@ -6,8 +6,12 @@ class MiscTests {
     double clean;
 
     void test() {
+        // TODO: current flow inference stops as soon as the first qualifier hierarchy
+        // has errors. Therefore, the sources are not propagated, resulting in
+        // an assignment error. Let us work on this once the new flow is integrated.
         @SuppressWarnings("flow")
         @FlowSinks(FlowSink.NETWORK) double lat = 1.0;
+        //:: error: (assignment.type.incompatible)
         clean = lat;
 
         @SuppressWarnings("flow")

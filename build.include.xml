@@ -16,66 +16,50 @@
     </presetdef>
     <!--depends="-set-release-mode, -release-obfuscation-check, -package, -post-package, -release-prompt-for-password, -release-nosign, -release-sign, -post-build"-->
 
-    <target name="flowtest"
-                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="check for flowtest.">
+    <!-- Apply a type processor to all files in the project. -->
+    <macrodef name="process-proj">
+        <!-- The processor to apply. -->
+        <attribute name="processor"/>
+        <!-- Optional additional tasks to perform at the end. -->
+        <element name="more-tasks" optional="yes"/>
+        <sequential>
             <condition property="extensible.libs.classpath"
-                    value="${tested.project.absolute.dir}/${jar.libs.dir}"
-                    else="${jar.libs.dir}">
+                   value="${tested.project.absolute.dir}/${jar.libs.dir}"
+                   else="${jar.libs.dir}">
                 <isset property="tested.project.absolute.dir" />
             </condition>
             <condition property="showchecks"
-                    value="-Ashowchecks -AprintErrorStack"
-                    else="">
+                   value="-Ashowchecks -AprintErrorStack"
+                   else="">
                 <equals arg1="${debug}" arg2="true" />
             </condition>
                     <!--classpathref="android.target.classpath"-->
             <jsr308.javac
-                    destdir="${out.classes.absolute.dir}"
-                    classpathref="project.target.class.path"
-                    includeantruntime="false"
-                     >
+                   destdir="${out.classes.absolute.dir}"
+                   classpathref="project.target.class.path"
+                   includeantruntime="false">
                 <src path="${source.absolute.dir}" />
                 <src path="${gen.absolute.dir}" />
                 <classpath>
                     <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks}" />
-                <compilerarg line="-processor sparta.checkers.FlowChecker"/>
+                <compilerarg line="-processor @{processor}"/>
                 <compilerarg line="-encoding ISO8859-1" />
                 <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/"/>
             </jsr308.javac>
-    </target>
+            <more-tasks/>
+        </sequential>
+    </macrodef>
 
-    <target name="flowshow"
-                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="show the flow annotations in the code.">
-            <condition property="extensible.libs.classpath"
-                    value="${tested.project.absolute.dir}/${jar.libs.dir}"
-                    else="${jar.libs.dir}">
-                <isset property="tested.project.absolute.dir" />
-            </condition>
-            <jsr308.javac
-                    destdir="${out.classes.absolute.dir}"
-                    classpathref="project.target.class.path"
-                    includeantruntime="false"
-                     >
-                <src path="${source.absolute.dir}" />
-                <src path="${gen.absolute.dir}" />
-                <classpath>
-                    <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
-                </classpath>
-                <compilerarg line="${java.compilerargs}" />
-                <compilerarg line="-processor sparta.checkers.FlowShow"/>
-                <compilerarg line="-encoding ISO8859-1" />
-                <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/"/>
-            </jsr308.javac>
-    </target>
-
-    <!--  TODO: remove duplication in flowshow-json and reportusage-json. -->
-    <target name="flowshow-json"
-                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="show the flow annotations in the code with JSON.">
+    <macrodef name="javamain-proj">
+        <!-- The class with main to apply. -->
+        <attribute name="classname"/>
+        <!-- The output from java goes here. -->
+        <attribute name="output"/>
+        <!-- Optional additional tasks to perform at the end. -->
+        <element name="more-tasks" optional="yes"/>
+        <sequential>
             <condition property="extensible.libs.classpath"
                     value="${tested.project.absolute.dir}/${jar.libs.dir}"
                     else="${jar.libs.dir}">
@@ -95,8 +79,8 @@
             </fileset>
             <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
 
-            <java fork="true" classname="sparta.checkers.JsonJavac$FlowShowJson"
-                output="flowshow.json">
+            <java fork="true" classname="@{classname}"
+                output="@{output}">
                 <arg line="'${cmdSourceJava}'"/>
                 <arg line="'${cmdGenJava}'"/>
                 <classpath>
@@ -108,108 +92,56 @@
 
                 <env key="CLASSPATH" value="${classpath}"/>
             </java>
-            <echo>Result written to flowshow.json</echo>
+            <echo>Result written to @{output}</echo>
+            <more-tasks/>
+        </sequential>
+    </macrodef>
+
+    <target name="flowtest"
+                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="check for flowtest.">
+        <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
+
+    <target name="reqperms"
+                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="check for required permissions.">
+        <process-proj processor="sparta.checkers.PermissionsChecker"/>
+    </target>
+
+
+    <target name="flowshow"
+                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="show the flow annotations in the code.">
+        <process-proj processor="sparta.checkers.FlowShow"/>
+    </target>
+
+    <target name="flowshow-json"
+                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="show the flow annotations in the code with JSON.">
+        <javamain-proj classname="sparta.checkers.JsonJavac$FlowShowJson"
+            output="flowshow.json"/>
+    </target>
+
 
     <target name="reportusage"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report interesting API usage.">
-            <condition property="extensible.libs.classpath"
-                    value="${tested.project.absolute.dir}/${jar.libs.dir}"
-                    else="${jar.libs.dir}">
-                <isset property="tested.project.absolute.dir" />
-            </condition>
-            <jsr308.javac
-                    destdir="${out.classes.absolute.dir}"
-                    classpathref="project.target.class.path"
-                    includeantruntime="false"
-                     >
-                <src path="${source.absolute.dir}" />
-                <src path="${gen.absolute.dir}" />
-                <classpath>
-                    <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
-                </classpath>
-                <compilerarg line="${java.compilerargs} -Awarns -Xmaxwarns 1000" />
-                <compilerarg line="-processor sparta.checkers.AndroidReportChecker"/>
-                <compilerarg line="-encoding ISO8859-1" />
-                <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/"/>
-            </jsr308.javac>
+        <process-proj processor="sparta.checkers.AndroidReportChecker"/>
     </target>
 
     <target name="reportusage-json"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report interesting API usage with JSON.">
-            <condition property="extensible.libs.classpath"
-                    value="${tested.project.absolute.dir}/${jar.libs.dir}"
-                    else="${jar.libs.dir}">
-                <isset property="tested.project.absolute.dir" />
-            </condition>
-
-            <property name="classpath"
-                value="${checkers_dir}/${checkers_base}/jdk/jdk.jar:${checkers_dir}/${checkers_base}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
-
-            <fileset dir="${source.absolute.dir}" id="mySourceJava">
-                <include name="**/*.java" />
-            </fileset>
-            <pathconvert property="cmdSourceJava" refid="mySourceJava" pathsep="' '" />
-
-            <fileset dir="${gen.absolute.dir}" id="myGenJava">
-                <include name="**/*.java" />
-            </fileset>
-            <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
-
-            <java fork="true" classname="sparta.checkers.JsonJavac$ReportUsageJson"
-                output="reportusage.json">
-                <arg line="'${cmdSourceJava}'"/>
-                <arg line="'${cmdGenJava}'"/>
-                <classpath>
-                    <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
-                </classpath>
-                <classpath refid="project.target.class.path" />
-
-                <jvmarg value="-Xbootclasspath/p:${classpath}"/>
-
-                <env key="CLASSPATH" value="${classpath}"/>
-            </java>
-            <echo>Result written to reportusage.json</echo>
+        <javamain-proj classname="sparta.checkers.JsonJavac$ReportUsageJson"
+            output="reportusage.json"/>
     </target>
 
     <target name="reportusage-text"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="report interesting API usage with JSON.">
-            <condition property="extensible.libs.classpath"
-                    value="${tested.project.absolute.dir}/${jar.libs.dir}"
-                    else="${jar.libs.dir}">
-                <isset property="tested.project.absolute.dir" />
-            </condition>
-
-            <property name="classpath"
-                value="${checkers_dir}/${checkers_base}/jdk/jdk.jar:${checkers_dir}/${checkers_base}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
-
-            <fileset dir="${source.absolute.dir}" id="mySourceJava">
-                <include name="**/*.java" />
-            </fileset>
-            <pathconvert property="cmdSourceJava" refid="mySourceJava" pathsep="' '" />
-
-            <fileset dir="${gen.absolute.dir}" id="myGenJava">
-                <include name="**/*.java" />
-            </fileset>
-            <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
-
-            <java fork="true" classname="sparta.checkers.JsonJavac$ReportUsageText"
-                output="reportusage.txt">
-                <arg line="'${cmdSourceJava}'"/>
-                <arg line="'${cmdGenJava}'"/>
-                <classpath>
-                    <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
-                </classpath>
-                <classpath refid="project.target.class.path" />
-
-                <jvmarg value="-Xbootclasspath/p:${classpath}"/>
-
-                <env key="CLASSPATH" value="${classpath}"/>
-            </java>
-            <echo>Result written to reportusage.txt</echo>
+                description="report interesting API usage as text.">
+        <javamain-proj classname="sparta.checkers.JsonJavac$ReportUsageText"
+            output="reportusage.txt"/>
     </target>
-    
+
 </project>
