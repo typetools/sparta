@@ -45,21 +45,19 @@
             unless="sdk.dir"
     />
 
-
-<!-- extension targets. Uncomment the ones where you want to do custom work
-     in between standard targets -->
-<!--
-    <target name="-pre-build">
-    </target>
-    <target name="-pre-compile">
-    </target>
-
-    /* This is typically used for code obfuscation.
-       Compiled code location: ${out.classes.absolute.dir}
-       If this is not done in place, override ${out.dex.input.absolute.dir} */
-    <target name="-post-compile">
-    </target>
--->
+    <!--
+        Import per project custom build rules if present at the root of the project.
+        This is the place to put custom intermediary targets such as:
+            -pre-build
+            -pre-compile
+            -post-compile (This is typically used for code obfuscation.
+                           Compiled code location: ${out.classes.absolute.dir}
+                           If this is not done in place, override ${out.dex.input.absolute.dir})
+            -post-package
+            -post-build
+            -pre-clean
+    -->
+    <import file="custom_rules.xml" optional="true" />
 
     <!-- Import the actual build file.
 
@@ -83,39 +81,11 @@
     <import file="${sdk.dir}/tools/ant/build.xml" />
     <property environment="env"/>
 
-    <dirname property="checkers" file="${env.CHECKERS}" />
-    <dirname property="sparta-code" file="${env.SPARTA_CODE}" />
+    <dirname property="checkers_dir" file="${env.CHECKERS}" />
+    <basename property="checkers_base" file="${env.CHECKERS}" />
+    <dirname property="sparta-code_dir" file="${env.SPARTA_CODE}" />
+    <basename property="sparta-code_base" file="${env.SPARTA_CODE}" />
+    <import file="${sparta-code_dir}/${sparta-code_base}/build.include.xml" />
 
-    <presetdef name="jsr308.javac">
-    <javac fork="yes" executable="${checkers}/checkers/binary/javac">
-      <!-- JSR308 related compiler arguments -->
-      <compilerarg value="-version"/>
-      <!-- optional, so .class files work with older JVMs: <compilerarg line="-target 5"/> -->
-      <compilerarg value="-implicit:class"/>
-      <!-- optional, to issue warnings instead of errors: <compilerarg line="-Awarns -Xmaxwarns 10000"/> -->
-      <!--<compilerarg value="-J-Xbootclasspath/p:${checkers}/binary/jsr308-all.jar"/>
-
-      <classpath>
-        <pathelement location="${checkers}/checkers.jar"/>
-      </classpath>-->
-    </javac>
-    </presetdef>
-    <target name="flowtest"
-                depends="-set-release-mode, -release-obfuscation-check, -package, -post-package, -release-prompt-for-password, -release-nosign, -release-sign, -post-build"
-                description="check for flowtest.">
-    <jsr308.javac
-                    classpathref="android.target.classpath"
-                    includeantruntime="false"
-    >
-                <src path="${source.absolute.dir}" />
-                <src path="${gen.absolute.dir}" />
-                <classpath>
-                    <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
-                </classpath>
-                <compilerarg line="${java.compilerargs}" />
-      <compilerarg line="-processor sparta.checkers.FlowChecker"/>
-      <compilerarg value="-Xbootclasspath/p:${checkers}/jdk/jdk.jar:${checkers}/binary/jsr308-all.jar:${sparta-code}/sparta-code/bin/"/>
-    </jsr308.javac>
-    </target>
 
 </project>
