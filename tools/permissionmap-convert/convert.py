@@ -1,5 +1,8 @@
 #usage: python convert.py
 import re
+
+print("import sparta.checkers.quals.*;")
+
 f = open("APICalls.txt", "r")
 lines = f.readlines()[1:]
 f.close()
@@ -36,7 +39,7 @@ for line in lines:
         if(arg == ""): continue
         lst.append(arg + " p"+str(cnt))
         cnt += 1
-    print("\t@RequiredPremissions(%s) public %s(%s);" % (perm, method, ",".join(lst)))
+    print("\t@RequiredPermissions(%s) public %s(%s);" % (perm, method, ",".join(lst)))
     prev_cls = cls
     prev_package = package
     #print(package)
