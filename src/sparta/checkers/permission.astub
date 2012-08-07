@@ -158,18 +158,18 @@ package android.app;
 class Activity {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
-	@RequiredPermissions() Object sendBroadcast(android.content.Intent p0);
-	@RequiredPermissions() Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
+	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
+	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object setContentView(int p0);
 	@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
-	@RequiredPermissions() Object startActivity(android.content.Intent p0);
-	@RequiredPermissions() Object startActivityForResult(android.content.Intent p0,int p1);
-	@RequiredPermissions() Object startActivityFromChild(android.app.Activity p0,android.content.Intent p1,int p2);
-	@RequiredPermissions() Object startActivityIfNeeded(android.content.Intent p0,int p1);
+	@RequiredPermissions({}) Object startActivity(android.content.Intent p0);
+	@RequiredPermissions({}) Object startActivityForResult(android.content.Intent p0,int p1);
+	@RequiredPermissions({}) Object startActivityFromChild(android.app.Activity p0,android.content.Intent p1,int p2);
+	@RequiredPermissions({}) Object startActivityIfNeeded(android.content.Intent p0,int p1);
 }
 
 class ActivityGroup {
@@ -445,14 +445,14 @@ class NotificationManager {
 class Service {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
-	@RequiredPermissions() Object sendBroadcast(android.content.Intent p0);
-	@RequiredPermissions() Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
+	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
+	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
-	@RequiredPermissions() Object startActivity(android.content.Intent p0);
-	@RequiredPermissions() Object startService(android.content.Intent p0);
+	@RequiredPermissions({}) Object startActivity(android.content.Intent p0);
+	@RequiredPermissions({}) Object startService(android.content.Intent p0);
 }
 
 class StatusBarManager {
@@ -691,27 +691,27 @@ class ContentService {
 class Context {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
-	@RequiredPermissions() Object sendBroadcast(android.content.Intent p0);
-	@RequiredPermissions() Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
+	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
+	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
-	@RequiredPermissions() Object startActivity(android.content.Intent p0);
-	@RequiredPermissions() Object startService(android.content.Intent p0);
+	@RequiredPermissions({}) Object startActivity(android.content.Intent p0);
+	@RequiredPermissions({}) Object startService(android.content.Intent p0);
 }
 
 class ContextWrapper {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
-	@RequiredPermissions() Object sendBroadcast(android.content.Intent p0);
-	@RequiredPermissions() Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
+	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
+	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
-	@RequiredPermissions() Object startActivity(android.content.Intent p0);
-	@RequiredPermissions() Object startService(android.content.Intent p0);
+	@RequiredPermissions({}) Object startActivity(android.content.Intent p0);
+	@RequiredPermissions({}) Object startService(android.content.Intent p0);
 }
 
 class IContentService$Stub$Proxy {
@@ -755,7 +755,7 @@ class IPackageManager$Stub$Proxy {
 	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setApplicationEnabledSetting(java.lang.String p0,int p1,int p2);
 	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setComponentEnabledSetting(android.content.ComponentName p0,int p1,int p2);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SECURE_SETTINGS) Object setInstallLocation(int p0);
-	@RequiredPermissions() Object updateExternalMediaStatus(boolean p0,boolean p1);
+	@RequiredPermissions({}) Object updateExternalMediaStatus(boolean p0,boolean p1);
 }
 
 class PackageManager {
