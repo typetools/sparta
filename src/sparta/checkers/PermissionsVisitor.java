@@ -36,17 +36,18 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
         AnnotationMirror reqP = atypeFactory.getDeclAnnotation(methodElt, RequiredPermissions.class);
         if (reqP!=null) {
             List<String> reqPerms = AnnotationUtils.elementValueArray(reqP, "value");
+            if (!reqPerms.isEmpty()) {
+                ExecutableElement callerElt = TreeUtils.elementFromDeclaration(TreeUtils.enclosingMethod(getCurrentPath()));
+                AnnotationMirror callerReq = atypeFactory.getDeclAnnotation(callerElt, RequiredPermissions.class);
 
-            ExecutableElement callerElt = TreeUtils.elementFromDeclaration(TreeUtils.enclosingMethod(getCurrentPath()));
-            AnnotationMirror callerReq = atypeFactory.getDeclAnnotation(callerElt, RequiredPermissions.class);
-
-            if (callerReq==null) {
-                checker.report(Result.failure("all.unsatisfied.permissions", reqPerms), node);
-            } else {
-                List<String> callerPerms = AnnotationUtils.elementValueArray(callerReq, "value");
-                for (String perm : reqPerms) {
-                    if (!callerPerms.contains(perm)) {
-                        checker.report(Result.failure("unsatisfied.permission", perm, callerPerms), node);
+                if (callerReq==null) {
+                    checker.report(Result.failure("all.unsatisfied.permissions", reqPerms), node);
+                } else {
+                    List<String> callerPerms = AnnotationUtils.elementValueArray(callerReq, "value");
+                    for (String perm : reqPerms) {
+                        if (!callerPerms.contains(perm)) {
+                            checker.report(Result.failure("unsatisfied.permission", perm, callerPerms), node);
+                        }
                     }
                 }
             }
