@@ -13,6 +13,7 @@ android.accounts.AbstractAccountAuthenticator.getAuthToken(android.accounts.IAcc
 android.accounts.AbstractAccountAuthenticator.getAuthTokenLabel(android.accounts.IAccountAuthenticatorResponse,java.lang.String)	android.permission.ACCOUNT_MANAGER			
 android.accounts.AbstractAccountAuthenticator.hasFeatures(android.accounts.IAccountAuthenticatorResponse,android.accounts.Account,[Ljava.lang.String;)	android.permission.ACCOUNT_MANAGER			
 android.accounts.AbstractAccountAuthenticator.updateCredentials(android.accounts.IAccountAuthenticatorResponse,android.accounts.Account,java.lang.String,android.os.Bundle)	android.permission.ACCOUNT_MANAGER			
+android.accounts.AbstractAccountAuthenticator.addAccount(android.accounts.IAccountAuthenticatorResponse,java.lang.String,java.lang.String,[Ljava.lang.String;,android.os.Bundle)	android.permission.ACCOUNT_MANAGER			
 android.accounts.AbstractAccountAuthenticator$Transport.addAccount(android.accounts.IAccountAuthenticatorResponse,java.lang.String,java.lang.String,[Ljava.lang.String;,android.os.Bundle)	android.permission.ACCOUNT_MANAGER			
 android.accounts.AbstractAccountAuthenticator$Transport.confirmCredentials(android.accounts.IAccountAuthenticatorResponse,android.accounts.Account,android.os.Bundle)	android.permission.ACCOUNT_MANAGER			
 android.accounts.AbstractAccountAuthenticator$Transport.editProperties(android.accounts.IAccountAuthenticatorResponse,java.lang.String)	android.permission.ACCOUNT_MANAGER			
@@ -21,7 +22,6 @@ android.accounts.AbstractAccountAuthenticator$Transport.getAuthToken(android.acc
 android.accounts.AbstractAccountAuthenticator$Transport.getAuthTokenLabel(android.accounts.IAccountAuthenticatorResponse,java.lang.String)	android.permission.ACCOUNT_MANAGER			
 android.accounts.AbstractAccountAuthenticator$Transport.hasFeatures(android.accounts.IAccountAuthenticatorResponse,android.accounts.Account,[Ljava.lang.String;)	android.permission.ACCOUNT_MANAGER			
 android.accounts.AbstractAccountAuthenticator$Transport.updateCredentials(android.accounts.IAccountAuthenticatorResponse,android.accounts.Account,java.lang.String,android.os.Bundle)	android.permission.ACCOUNT_MANAGER			
-android.accounts.AbstractAccountAuthenticator.addAccount(android.accounts.IAccountAuthenticatorResponse,java.lang.String,java.lang.String,[Ljava.lang.String;,android.os.Bundle)	android.permission.ACCOUNT_MANAGER			
 android.accounts.AccountAuthenticatorActivity.clearWallpaper()	android.permission.SET_WALLPAPER			
 android.accounts.AccountAuthenticatorActivity.removeStickyBroadcast(android.content.Intent)	android.permission.BROADCAST_STICKY			
 android.accounts.AccountAuthenticatorActivity.sendStickyBroadcast(android.content.Intent)	android.permission.BROADCAST_STICKY			
