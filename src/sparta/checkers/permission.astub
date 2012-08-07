@@ -493,7 +493,7 @@ package android.bluetooth;
 
 class BluetoothA2dp {
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object connectSink(android.bluetooth.BluetoothDevice p0);
-	@RequiredPermissions(android.Manifest.permission.BLUETOOTH_ADMIN) Object disconnectSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object disconnectSink(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions(android.Manifest.permission.BLUETOOTH) Object getConnectedSinks();
 	@RequiredPermissions(android.Manifest.permission.BLUETOOTH) Object getNonDisconnectedSinks();
 	@RequiredPermissions(android.Manifest.permission.BLUETOOTH) Object getSinkPriority(android.bluetooth.BluetoothDevice p0);
