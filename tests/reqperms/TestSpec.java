@@ -1,4 +1,5 @@
 import android.Manifest.permission;
+import android.location.LocationManager;
 
 import sparta.checkers.quals.*;
 
@@ -18,5 +19,19 @@ class TestSpec {
     void good(android.accessibilityservice.AccessibilityService as) throws java.io.IOException {
         as.clearWallpaper();
         local();
+    }
+
+    @RequiredPermissions(permission.INTERNET)
+    void foo() {
+        bar();
+    }
+
+    @RequiredPermissions({permission.ACCESS_FINE_LOCATION, permission.ACCESS_COARSE_LOCATION})
+    void bar() {}
+
+    @RequiredPermissions(permission.INTERNET)
+    void baz(LocationManager locationManager) {
+        //:: error: (all.unsatisfied.permissions)
+        String provider = locationManager.getBestProvider(null, true);
     }
 }
