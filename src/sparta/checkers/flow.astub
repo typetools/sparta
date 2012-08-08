@@ -269,6 +269,7 @@ package java.lang;
 
 	class Math {
 		static @PolyFlowSources @PolyFlowSinks double atan2(@PolyFlowSources @PolyFlowSinks double y, @PolyFlowSources @PolyFlowSinks double x);
+		static @PolyFlowSources @PolyFlowSinks double atan(@PolyFlowSources @PolyFlowSinks double x);
 	}
 	
 	class Object {
@@ -280,6 +281,10 @@ package java.lang;
 	class String {
 		static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 		static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
+	}
+	
+	class StringBuffer {
+		@PolyFlowSources @PolyFlowSinks StringBuffer append(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
 	}
 	
 package java.sql;
