@@ -34,7 +34,14 @@ for line in lines:
         print("class "+ cls + " {")
     args = re.sub(r'\[L([^;]+);',r'\1 []',sp_m[1])
     args = args.replace("[B", "boolean []").replace("[J", "long []").replace("[F", "float []").replace("[Ljava.lang.String", "String []")
-    perm = sp[1].replace(" and ", ", ").replace(" or ", ", ").replace("android.","android.Manifest.").replace(", NONE","").replace(" AND ", ", ").replace(" OR ", ", ")
+    perm = sp[1].replace(" and ", ",").replace(" or ", ",").replace("android.","android.Manifest.").replace(",NONE","").replace(" AND ", ",").replace(" OR ", ",")
+    perms = perm.split(",")
+    i = 0
+    for perm_i in perms:
+        if "BACKUP" in perm_i:
+            perms[i] = '"%s"' % perm_i
+        i += 1
+    perm = ",".join(perms) 
     args_arr = args.split(")")[0].strip().split(",")
     method = method.replace("<init>", cls)
     lst = []

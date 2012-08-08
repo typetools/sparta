@@ -1,5 +1,4 @@
 import sparta.checkers.quals.*;
-
 package android.accessibilityservice;
 
 class AccessibilityService {
@@ -63,7 +62,7 @@ class AccountManager {
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object getPassword(android.accounts.Account p0);
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object getUserData(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS}) Object hasFeatures(android.accounts.Account p0,java.lang.String [] p1,android.accounts.AccountManagerCallback p2,android.os.Handler p3);
-	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS}) Object invalidateAuthToken(java.lang.String p0,java.lang.String p1);
+	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS,android.Manifest.permission.USE_CREDENTIALS}) Object invalidateAuthToken(java.lang.String p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object peekAuthToken(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS}) Object removeAccount(android.accounts.Account p0,android.accounts.AccountManagerCallback p1,android.os.Handler p2);
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object setAuthToken(android.accounts.Account p0,java.lang.String p1,java.lang.String p2);
@@ -73,13 +72,13 @@ class AccountManager {
 }
 
 class AccountManager$AmsTask {
-	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS}) Object doWork();
-	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS}) Object start();
+	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS,android.Manifest.permission.MANAGE_ACCOUNTS}) Object doWork();
+	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS,android.Manifest.permission.MANAGE_ACCOUNTS}) Object start();
 }
 
 class AccountManager$GetAuthTokenByTypeAndFeaturesTask {
-	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS}) Object doWork();
-	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS}) Object start();
+	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS,android.Manifest.permission.MANAGE_ACCOUNTS}) Object doWork();
+	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS,android.Manifest.permission.MANAGE_ACCOUNTS}) Object start();
 }
 
 class AccountManagerService {
@@ -98,7 +97,7 @@ class AccountManagerService {
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object getPassword(android.accounts.Account p0);
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object getUserData(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS}) Object hasFeatures(android.accounts.IAccountManagerResponse p0,android.accounts.Account p1,java.lang.String [] p2);
-	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS}) Object invalidateAuthToken(java.lang.String p0,java.lang.String p1);
+	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS,android.Manifest.permission.USE_CREDENTIALS}) Object invalidateAuthToken(java.lang.String p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object peekAuthToken(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS}) Object removeAccount(android.accounts.IAccountManagerResponse p0,android.accounts.Account p1);
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object setAuthToken(android.accounts.Account p0,java.lang.String p1,java.lang.String p2);
@@ -144,7 +143,7 @@ class IAccountManager$Stub$Proxy {
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object getPassword(android.accounts.Account p0);
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object getUserData(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS}) Object hasFeatures(android.accounts.IAccountManagerResponse p0,android.accounts.Account p1,java.lang.String [] p2);
-	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS}) Object invalidateAuthToken(java.lang.String p0,java.lang.String p1);
+	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS,android.Manifest.permission.USE_CREDENTIALS}) Object invalidateAuthToken(java.lang.String p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object peekAuthToken(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS}) Object removeAccount(android.accounts.IAccountManagerResponse p0,android.accounts.Account p1);
 	@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS}) Object setAuthToken(android.accounts.Account p0,java.lang.String p1,java.lang.String p2);
@@ -187,8 +186,8 @@ class ActivityManager {
 	@RequiredPermissions({android.Manifest.permission.FORCE_STOP_PACKAGES}) Object forceStopPackage(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.GET_TASKS}) Object getRecentTasks(int p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.GET_TASKS}) Object getRunningTasks(int p0);
-	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) Object killBackgroundProcesses(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) Object restartPackage(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES,android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) Object killBackgroundProcesses(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES,android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) Object restartPackage(java.lang.String p0);
 }
 
 class ActivityManagerNative {
@@ -196,8 +195,8 @@ class ActivityManagerNative {
 	@RequiredPermissions({android.Manifest.permission.FORCE_STOP_PACKAGES}) Object forceStopPackage(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.GET_TASKS}) Object getRecentTasks(int p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.GET_TASKS}) Object getRunningTasks(int p0);
-	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) Object killBackgroundProcesses(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) Object restartPackage(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES,android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) Object killBackgroundProcesses(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES,android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) Object restartPackage(java.lang.String p0);
 }
 
 package android.app.admin;
@@ -266,22 +265,22 @@ class BackupAgentHelper {
 }
 
 class BackupManager {
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object beginRestoreSession();
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object dataChanged(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object requestRestore(android.app.backup.RestoreObserver p0);
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object beginRestoreSession();
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object dataChanged(java.lang.String p0);
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object requestRestore(android.app.backup.RestoreObserver p0);
 }
 
 class IBackupManager$Stub$Proxy {
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object backupNow();
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object beginRestoreSession(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object clearBackupData(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object dataChanged(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object getCurrentTransport();
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object isBackupEnabled();
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object listAllTransports();
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object selectBackupTransport(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.BACKUP, android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object setAutoRestore(boolean p0);
-	@RequiredPermissions({android.Manifest.permission.BACKUP, android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object setBackupEnabled(boolean p0);
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object backupNow();
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object beginRestoreSession(java.lang.String p0);
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object clearBackupData(java.lang.String p0);
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object dataChanged(java.lang.String p0);
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object getCurrentTransport();
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object isBackupEnabled();
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object listAllTransports();
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object selectBackupTransport(java.lang.String p0);
+	@RequiredPermissions({"android.Manifest.permission.BACKUP",android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object setAutoRestore(boolean p0);
+	@RequiredPermissions({"android.Manifest.permission.BACKUP",android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object setBackupEnabled(boolean p0);
 }
 
 package android.app;
@@ -351,12 +350,12 @@ class FullBackupAgent {
 }
 
 class IActivityManager$Stub$Proxy {
-	@RequiredPermissions({android.Manifest.permission.BACKUP}) Object bindBackupAgent(android.content.pm.ApplicationInfo p0,int p1);
+	@RequiredPermissions({"android.Manifest.permission.BACKUP"}) Object bindBackupAgent(android.content.pm.ApplicationInfo p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.CLEAR_APP_USER_DATA}) Object clearApplicationUserData(java.lang.String p0,android.content.pm.IPackageDataObserver p1);
 	@RequiredPermissions({android.Manifest.permission.FORCE_STOP_PACKAGES}) Object forceStopPackage(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.GET_TASKS}) Object getRecentTasks(int p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.GET_TASKS}) Object getTasks(int p0,int p1,android.app.IThumbnailReceiver p2);
-	@RequiredPermissions({android.Manifest.permission.KILL_BACKGROUND_PROCESSES, android.Manifest.permission.RESTART_PACKAGES}) Object killBackgroundProcesses(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.KILL_BACKGROUND_PROCESSES,android.Manifest.permission.RESTART_PACKAGES}) Object killBackgroundProcesses(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.REORDER_TASKS}) Object moveTaskBackwards(int p0);
 	@RequiredPermissions({android.Manifest.permission.REORDER_TASKS}) Object moveTaskToBack(int p0);
 	@RequiredPermissions({android.Manifest.permission.REORDER_TASKS}) Object moveTaskToFront(int p0);
@@ -490,15 +489,15 @@ class AppWidgetManager {
 package android.bluetooth;
 
 class BluetoothA2dp {
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object connectSink(android.bluetooth.BluetoothDevice p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object disconnectSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object connectSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object disconnectSink(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getConnectedSinks();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getNonDisconnectedSinks();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getSinkPriority(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getSinkState(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object isSinkConnected(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object resumeSink(android.bluetooth.BluetoothDevice p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object setSinkPriority(android.bluetooth.BluetoothDevice p0,int p1);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object setSinkPriority(android.bluetooth.BluetoothDevice p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object suspendSink(android.bluetooth.BluetoothDevice p0);
 }
 
@@ -515,10 +514,10 @@ class BluetoothAdapter {
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object isDiscovering();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object isEnabled();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object listenUsingRfcommWithServiceRecord(java.lang.String p0,java.util.UUID p1);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object setDiscoverableTimeout(int p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object setName(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.WRITE_SECURE_SETTINGS, android.Manifest.permission.BLUETOOTH}) Object setScanMode(int p0,int p1);
-	@RequiredPermissions({android.Manifest.permission.WRITE_SECURE_SETTINGS, android.Manifest.permission.BLUETOOTH}) Object setScanMode(int p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object setDiscoverableTimeout(int p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object setName(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SECURE_SETTINGS,android.Manifest.permission.BLUETOOTH}) Object setScanMode(int p0,int p1);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SECURE_SETTINGS,android.Manifest.permission.BLUETOOTH}) Object setScanMode(int p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object startDiscovery();
 }
 
@@ -594,26 +593,26 @@ class IBluetooth$Stub$Proxy {
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object listBonds();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object removeBond(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object removeServiceRecord(int p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object setDiscoverableTimeout(int p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object setName(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object setDiscoverableTimeout(int p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object setName(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object setPairingConfirmation(java.lang.String p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object setPasskey(java.lang.String p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object setPin(java.lang.String p0,boolean [] p1);
-	@RequiredPermissions({android.Manifest.permission.WRITE_SECURE_SETTINGS, android.Manifest.permission.BLUETOOTH}) Object setScanMode(int p0,int p1);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SECURE_SETTINGS,android.Manifest.permission.BLUETOOTH}) Object setScanMode(int p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object setTrust(java.lang.String p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object startDiscovery();
 }
 
 class IBluetoothA2dp$Stub$Proxy {
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object connectSink(android.bluetooth.BluetoothDevice p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object disconnectSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object connectSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object disconnectSink(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getConnectedSinks();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getNonDisconnectedSinks();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getSinkPriority(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getSinkState(android.bluetooth.BluetoothDevice p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH, android.Manifest.permission.MODIFY_AUDIO_SETTINGS}) Object resumeSink(android.bluetooth.BluetoothDevice p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.WRITE_SETTINGS}) Object setSinkPriority(android.bluetooth.BluetoothDevice p0,int p1);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH, android.Manifest.permission.MODIFY_AUDIO_SETTINGS}) Object suspendSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH,android.Manifest.permission.MODIFY_AUDIO_SETTINGS}) Object resumeSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.WRITE_SETTINGS}) Object setSinkPriority(android.bluetooth.BluetoothDevice p0,int p1);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH,android.Manifest.permission.MODIFY_AUDIO_SETTINGS}) Object suspendSink(android.bluetooth.BluetoothDevice p0);
 }
 
 class IBluetoothHeadset$Stub$Proxy {
@@ -817,42 +816,42 @@ class ILocationManager$Stub$Proxy {
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object clearTestProviderEnabled(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object clearTestProviderLocation(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object clearTestProviderStatus(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getLastKnownLocation(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviderInfo(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(boolean p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object isProviderEnabled(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getLastKnownLocation(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviderInfo(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(boolean p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object isProviderEnabled(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object removeTestProvider(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.INSTALL_LOCATION_PROVIDER}) Object reportLocation(android.location.Location p0,boolean p1);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.ILocationListener p3);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object requestLocationUpdatesPI(java.lang.String p0,long p1,float p2,android.app.PendingIntent p3);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS}) Object sendExtraCommand(java.lang.String p0,java.lang.String p1,android.os.Bundle p2);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.ILocationListener p3);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object requestLocationUpdatesPI(java.lang.String p0,long p1,float p2,android.app.PendingIntent p3);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS}) Object sendExtraCommand(java.lang.String p0,java.lang.String p1,android.os.Bundle p2);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object setTestProviderEnabled(java.lang.String p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object setTestProviderLocation(java.lang.String p0,android.location.Location p1);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object setTestProviderStatus(java.lang.String p0,int p1,android.os.Bundle p2,long p3);
 }
 
 class LocationManager {
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object _requestLocationUpdates(java.lang.String p0,long p1,float p2,android.app.PendingIntent p3);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object _requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3,android.os.Looper p4);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object _requestLocationUpdates(java.lang.String p0,long p1,float p2,android.app.PendingIntent p3);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object _requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3,android.os.Looper p4);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION}) Object addGpsStatusListener(android.location.GpsStatus$Listener p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION}) Object addNmeaListener(android.location.GpsStatus$NmeaListener p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION}) Object addProximityAlert(double p0,double p1,float p2,long p3,android.app.PendingIntent p4);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object addTestProvider(java.lang.String p0,boolean p1,boolean p2,boolean p3,boolean p4,boolean p5,boolean p6,boolean p7,int p8,int p9);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object best(java.util.List p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object best(java.util.List p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object clearTestProviderEnabled(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object clearTestProviderLocation(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object clearTestProviderStatus(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getBestProvider(android.location.Criteria p0,boolean p1);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getLastKnownLocation(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProvider(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(android.location.Criteria p0,boolean p1);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(boolean p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object isProviderEnabled(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getBestProvider(android.location.Criteria p0,boolean p1);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getLastKnownLocation(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProvider(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(android.location.Criteria p0,boolean p1);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(boolean p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object isProviderEnabled(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object removeTestProvider(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.app.PendingIntent p3);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3,android.os.Looper p4);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS}) Object sendExtraCommand(java.lang.String p0,java.lang.String p1,android.os.Bundle p2);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.app.PendingIntent p3);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3,android.os.Looper p4);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS}) Object sendExtraCommand(java.lang.String p0,java.lang.String p1,android.os.Bundle p2);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object setTestProviderEnabled(java.lang.String p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object setTestProviderLocation(java.lang.String p0,android.location.Location p1);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION}) Object setTestProviderStatus(java.lang.String p0,int p1,android.os.Bundle p2,long p3);
@@ -933,14 +932,14 @@ class ConnectivityManager {
 	@RequiredPermissions({android.Manifest.permission.ACCESS_NETWORK_STATE}) Object isTetheringSupported();
 	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE}) Object requestRouteToHost(int p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.CHANGE_BACKGROUND_DATA_SETTING}) Object setBackgroundDataSetting(boolean p0);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS, android.Manifest.permission.BACKUP}) Object setMobileDataEnabled(boolean p0);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS, android.Manifest.permission.BACKUP}) Object setNetworkPreference(int p0);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.CHANGE_WIFI_STATE}) Object setRadio(int p0,boolean p1);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.CHANGE_WIFI_STATE}) Object setRadios(boolean p0);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.ACCESS_NETWORK_STATE}) Object startUsingNetworkFeature(int p0,java.lang.String p1);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.ACCESS_NETWORK_STATE,android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS,"android.Manifest.permission.BACKUP"}) Object setMobileDataEnabled(boolean p0);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS,"android.Manifest.permission.BACKUP"}) Object setNetworkPreference(int p0);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.CHANGE_WIFI_STATE}) Object setRadio(int p0,boolean p1);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.CHANGE_WIFI_STATE}) Object setRadios(boolean p0);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.ACCESS_NETWORK_STATE}) Object startUsingNetworkFeature(int p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE}) Object stopUsingNetworkFeature(int p0,java.lang.String p1);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.ACCESS_NETWORK_STATE}) Object tether(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.ACCESS_NETWORK_STATE}) Object untether(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.ACCESS_NETWORK_STATE}) Object tether(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.ACCESS_NETWORK_STATE}) Object untether(java.lang.String p0);
 }
 
 class Downloads$ById {
@@ -988,14 +987,14 @@ class IConnectivityManager$Stub$Proxy {
 	@RequiredPermissions({android.Manifest.permission.ACCESS_NETWORK_STATE}) Object isTetheringSupported();
 	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE}) Object requestRouteToHost(int p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.CHANGE_BACKGROUND_DATA_SETTING}) Object setBackgroundDataSetting(boolean p0);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS, android.Manifest.permission.BACKUP}) Object setMobileDataEnabled(boolean p0);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS, android.Manifest.permission.BACKUP}) Object setNetworkPreference(int p0);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.CHANGE_WIFI_STATE}) Object setRadio(int p0,boolean p1);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.CHANGE_WIFI_STATE}) Object setRadios(boolean p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.CHANGE_NETWORK_STATE}) Object startUsingNetworkFeature(int p0,java.lang.String p1,android.os.IBinder p2);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.ACCESS_NETWORK_STATE,android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS,"android.Manifest.permission.BACKUP"}) Object setMobileDataEnabled(boolean p0);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS,"android.Manifest.permission.BACKUP"}) Object setNetworkPreference(int p0);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.CHANGE_WIFI_STATE}) Object setRadio(int p0,boolean p1);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.CHANGE_WIFI_STATE}) Object setRadios(boolean p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_NETWORK_STATE,android.Manifest.permission.CHANGE_NETWORK_STATE}) Object startUsingNetworkFeature(int p0,java.lang.String p1,android.os.IBinder p2);
 	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE}) Object stopUsingNetworkFeature(int p0,java.lang.String p1);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.ACCESS_NETWORK_STATE}) Object tether(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.ACCESS_NETWORK_STATE}) Object untether(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.ACCESS_NETWORK_STATE}) Object tether(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.ACCESS_NETWORK_STATE}) Object untether(java.lang.String p0);
 }
 
 class IThrottleManager$Stub$Proxy {
@@ -1081,7 +1080,7 @@ class WifiManager {
 	@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE}) Object reassociate();
 	@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE}) Object reconnect();
 	@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE}) Object removeNetwork(int p0);
-	@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE, android.Manifest.permission.BACKUP}) Object saveConfiguration();
+	@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE,"android.Manifest.permission.BACKUP"}) Object saveConfiguration();
 	@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE}) Object setNumAllowedChannels(int p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE}) Object setWifiApEnabled(android.net.wifi.WifiConfiguration p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE}) Object setWifiEnabled(boolean p0);
@@ -1108,7 +1107,7 @@ class DropBoxManager {
 }
 
 class IHardwareService$Stub$Proxy {
-	@RequiredPermissions({android.Manifest.permission.FLASHLIGHT, android.Manifest.permission.HARDWARE_TEST}) Object setFlashlightEnabled(boolean p0);
+	@RequiredPermissions({android.Manifest.permission.FLASHLIGHT,android.Manifest.permission.HARDWARE_TEST}) Object setFlashlightEnabled(boolean p0);
 }
 
 class INetworkManagementService$Stub$Proxy {
@@ -1131,9 +1130,9 @@ class INetworkManagementService$Stub$Proxy {
 	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE}) Object setInterfaceThrottle(java.lang.String p0,int p1,int p2);
 	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE}) Object setIpForwardingEnabled(boolean p0);
 	@RequiredPermissions({android.Manifest.permission.SHUTDOWN}) Object shutdown();
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.CHANGE_WIFI_STATE}) Object startAccessPoint(android.net.wifi.WifiConfiguration p0,java.lang.String p1,java.lang.String p2);
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.CHANGE_WIFI_STATE}) Object startAccessPoint(android.net.wifi.WifiConfiguration p0,java.lang.String p1,java.lang.String p2);
 	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE}) Object startUsbRNDIS();
-	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.CHANGE_WIFI_STATE}) Object stopAccessPoint();
+	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE,android.Manifest.permission.CHANGE_WIFI_STATE}) Object stopAccessPoint();
 	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE}) Object stopTethering();
 	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE}) Object stopUsbRNDIS();
 	@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE}) Object tetherInterface(java.lang.String p0);
@@ -1249,20 +1248,20 @@ class VCardEntryHandler {
 package android.provider;
 
 class Browser {
-	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS, com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object addSearchUrl(android.content.ContentResolver p0,java.lang.String p1);
+	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS,com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object addSearchUrl(android.content.ContentResolver p0,java.lang.String p1);
 	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS}) Object canClearHistory(android.content.ContentResolver p0);
-	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS, com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object clearHistory(android.content.ContentResolver p0);
+	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS,com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object clearHistory(android.content.ContentResolver p0);
 	@RequiredPermissions({com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object clearSearches(android.content.ContentResolver p0);
-	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS, com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object deleteFromHistory(android.content.ContentResolver p0,java.lang.String p1);
-	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS, com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object deleteHistoryTimeFrame(android.content.ContentResolver p0,long p1,long p2);
-	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS, com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object deleteHistoryWhere(android.content.ContentResolver p0,java.lang.String p1);
+	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS,com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object deleteFromHistory(android.content.ContentResolver p0,java.lang.String p1);
+	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS,com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object deleteHistoryTimeFrame(android.content.ContentResolver p0,long p1,long p2);
+	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS,com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object deleteHistoryWhere(android.content.ContentResolver p0,java.lang.String p1);
 	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS}) Object getAllBookmarks(android.content.ContentResolver p0);
 	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS}) Object getAllVisitedUrls(android.content.ContentResolver p0);
 	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS}) Object getVisitedHistory(android.content.ContentResolver p0);
 	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS}) Object getVisitedLike(android.content.ContentResolver p0,java.lang.String p1);
 	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS}) Object requestAllIcons(android.content.ContentResolver p0,java.lang.String p1,android.webkit.WebIconDatabase$IconListener p2);
-	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS, com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object truncateHistory(android.content.ContentResolver p0);
-	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS, com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object updateVisitedHistory(android.content.ContentResolver p0,java.lang.String p1,boolean p2);
+	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS,com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object truncateHistory(android.content.ContentResolver p0);
+	@RequiredPermissions({com.android.Manifest.browser.permission.READ_HISTORY_BOOKMARKS,com.android.Manifest.browser.permission.WRITE_HISTORY_BOOKMARKS}) Object updateVisitedHistory(android.content.ContentResolver p0,java.lang.String p1,boolean p2);
 }
 
 class Calendar$CalendarAlerts {
@@ -1293,21 +1292,21 @@ class Calendar$Instances {
 }
 
 class CallLog$Calls {
-	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_CONTACTS}) Object addCall(com.android.internal.telephony.CallerInfo p0,android.content.Context p1,java.lang.String p2,int p3,int p4,long p5,int p6);
+	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS,android.Manifest.permission.WRITE_CONTACTS}) Object addCall(com.android.internal.telephony.CallerInfo p0,android.content.Context p1,java.lang.String p2,int p3,int p4,long p5,int p6);
 	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS}) Object getLastOutgoingCall(android.content.Context p0);
 	@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS}) Object removeExpiredEntries(android.content.Context p0);
 }
 
 class Contacts$People {
-	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_CONTACTS}) Object addToGroup(android.content.ContentResolver p0,long p1,java.lang.String p2);
+	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS,android.Manifest.permission.WRITE_CONTACTS}) Object addToGroup(android.content.ContentResolver p0,long p1,java.lang.String p2);
 	@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS}) Object addToGroup(android.content.ContentResolver p0,long p1,long p2);
 	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS}) Object addToMyContactsGroup(android.content.ContentResolver p0,long p1);
-	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_CONTACTS}) Object createPersonInMyContactsGroup(android.content.ContentResolver p0,android.content.ContentValues p1);
+	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS,android.Manifest.permission.WRITE_CONTACTS}) Object createPersonInMyContactsGroup(android.content.ContentResolver p0,android.content.ContentValues p1);
 	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS}) Object loadContactPhoto(android.content.Context p0,android.net.Uri p1,int p2,android.graphics.BitmapFactory$Options p3);
-	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_CONTACTS}) Object markAsContacted(android.content.ContentResolver p0,long p1);
+	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS,android.Manifest.permission.WRITE_CONTACTS}) Object markAsContacted(android.content.ContentResolver p0,long p1);
 	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS}) Object openContactPhotoInputStream(android.content.ContentResolver p0,android.net.Uri p1);
 	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS}) Object queryGroups(android.content.ContentResolver p0,long p1);
-	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_CONTACTS}) Object setPhotoData(android.content.ContentResolver p0,android.net.Uri p1,boolean [] p2);
+	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS,android.Manifest.permission.WRITE_CONTACTS}) Object setPhotoData(android.content.ContentResolver p0,android.net.Uri p1,boolean [] p2);
 	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS}) Object tryGetMyContactsGroupId(android.content.ContentResolver p0);
 }
 
@@ -1336,16 +1335,16 @@ class DrmStore {
 }
 
 class Settings$Bookmarks {
-	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object add(android.content.ContentResolver p0,android.content.Intent p1,java.lang.String p2,java.lang.String p3,char p4,int p5);
-	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object getIntentForShortcut(android.content.ContentResolver p0,char p1);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object add(android.content.ContentResolver p0,android.content.Intent p1,java.lang.String p2,java.lang.String p3,char p4,int p5);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object getIntentForShortcut(android.content.ContentResolver p0,char p1);
 }
 
 class Settings$Secure {
-	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object putFloat(android.content.ContentResolver p0,java.lang.String p1,float p2);
-	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object putInt(android.content.ContentResolver p0,java.lang.String p1,int p2);
-	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object putLong(android.content.ContentResolver p0,java.lang.String p1,long p2);
-	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object putString(android.content.ContentResolver p0,java.lang.String p1,java.lang.String p2);
-	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object setLocationProviderEnabled(android.content.ContentResolver p0,java.lang.String p1,boolean p2);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object putFloat(android.content.ContentResolver p0,java.lang.String p1,float p2);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object putInt(android.content.ContentResolver p0,java.lang.String p1,int p2);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object putLong(android.content.ContentResolver p0,java.lang.String p1,long p2);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object putString(android.content.ContentResolver p0,java.lang.String p1,java.lang.String p2);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object setLocationProviderEnabled(android.content.ContentResolver p0,java.lang.String p1,boolean p2);
 }
 
 class Settings$System {
@@ -1363,20 +1362,20 @@ class Telephony$Mms {
 }
 
 class Telephony$Sms {
-	@RequiredPermissions({android.Manifest.permission.WRITE_SMS, android.Manifest.permission.READ_SMS}) Object addMessageToUri(android.content.ContentResolver p0,android.net.Uri p1,java.lang.String p2,java.lang.String p3,java.lang.String p4,java.lang.Long p5,boolean p6,boolean p7,long p8);
-	@RequiredPermissions({android.Manifest.permission.WRITE_SMS, android.Manifest.permission.READ_SMS}) Object addMessageToUri(android.content.ContentResolver p0,android.net.Uri p1,java.lang.String p2,java.lang.String p3,java.lang.String p4,java.lang.Long p5,boolean p6,boolean p7);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) Object addMessageToUri(android.content.ContentResolver p0,android.net.Uri p1,java.lang.String p2,java.lang.String p3,java.lang.String p4,java.lang.Long p5,boolean p6,boolean p7,long p8);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) Object addMessageToUri(android.content.ContentResolver p0,android.net.Uri p1,java.lang.String p2,java.lang.String p3,java.lang.String p4,java.lang.Long p5,boolean p6,boolean p7);
 	@RequiredPermissions({android.Manifest.permission.WRITE_SMS}) Object moveMessageToFolder(android.content.Context p0,android.net.Uri p1,int p2,int p3);
 	@RequiredPermissions({android.Manifest.permission.READ_SMS}) Object query(android.content.ContentResolver p0,java.lang.String [] p1,java.lang.String p2,java.lang.String p3);
 	@RequiredPermissions({android.Manifest.permission.READ_SMS}) Object query(android.content.ContentResolver p0,java.lang.String [] p1);
 }
 
 class Telephony$Sms$Draft {
-	@RequiredPermissions({android.Manifest.permission.READ_SMS, android.Manifest.permission.WRITE_SMS}) Object addMessage(android.content.ContentResolver p0,java.lang.String p1,java.lang.String p2,java.lang.String p3,java.lang.Long p4);
+	@RequiredPermissions({android.Manifest.permission.READ_SMS,android.Manifest.permission.WRITE_SMS}) Object addMessage(android.content.ContentResolver p0,java.lang.String p1,java.lang.String p2,java.lang.String p3,java.lang.Long p4);
 	@RequiredPermissions({android.Manifest.permission.WRITE_SMS}) Object saveMessage(android.content.ContentResolver p0,android.net.Uri p1,java.lang.String p2);
 }
 
 class Telephony$Sms$Inbox {
-	@RequiredPermissions({android.Manifest.permission.READ_SMS, android.Manifest.permission.WRITE_SMS}) Object addMessage(android.content.ContentResolver p0,java.lang.String p1,java.lang.String p2,java.lang.String p3,java.lang.Long p4,boolean p5);
+	@RequiredPermissions({android.Manifest.permission.READ_SMS,android.Manifest.permission.WRITE_SMS}) Object addMessage(android.content.ContentResolver p0,java.lang.String p1,java.lang.String p2,java.lang.String p3,java.lang.Long p4,boolean p5);
 }
 
 class Telephony$Sms$Outbox {
@@ -1384,7 +1383,7 @@ class Telephony$Sms$Outbox {
 }
 
 class Telephony$Sms$Sent {
-	@RequiredPermissions({android.Manifest.permission.READ_SMS, android.Manifest.permission.WRITE_SMS}) Object addMessage(android.content.ContentResolver p0,java.lang.String p1,java.lang.String p2,java.lang.String p3,java.lang.Long p4);
+	@RequiredPermissions({android.Manifest.permission.READ_SMS,android.Manifest.permission.WRITE_SMS}) Object addMessage(android.content.ContentResolver p0,java.lang.String p1,java.lang.String p2,java.lang.String p3,java.lang.Long p4);
 }
 
 class Telephony$Threads {
@@ -1402,23 +1401,23 @@ class BluetoothA2dpService {
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object BluetoothA2dpService(android.content.Context p0,android.server.BluetoothService p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object addAudioSink(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS}) Object checkSinkSuspendState(int p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object connectSink(android.bluetooth.BluetoothDevice p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object disconnectSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object connectSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object disconnectSink(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getConnectedSinks();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getNonDisconnectedSinks();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getSinkPriority(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object getSinkState(android.bluetooth.BluetoothDevice p0);
-	@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.BLUETOOTH, android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.WRITE_SETTINGS}) Object handleSinkStateChange(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS,android.Manifest.permission.BLUETOOTH,android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.WRITE_SETTINGS}) Object handleSinkStateChange(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object isSinkDevice(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object lookupSinksMatchingStates(int[] p0);
-	@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.BLUETOOTH}) Object onBluetoothDisable();
+	@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS,android.Manifest.permission.BLUETOOTH}) Object onBluetoothDisable();
 	@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS}) Object onBluetoothEnable();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object onConnectSinkResult(java.lang.String p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object onSinkPropertyChanged(java.lang.String p0,java.lang.String [] p1);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH, android.Manifest.permission.MODIFY_AUDIO_SETTINGS}) Object resumeSink(android.bluetooth.BluetoothDevice p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object setSinkPriority(android.bluetooth.BluetoothDevice p0,int p1);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.WRITE_SETTINGS}) Object setSinkPriority(android.bluetooth.BluetoothDevice p0,int p1);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH, android.Manifest.permission.MODIFY_AUDIO_SETTINGS}) Object suspendSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH,android.Manifest.permission.MODIFY_AUDIO_SETTINGS}) Object resumeSink(android.bluetooth.BluetoothDevice p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object setSinkPriority(android.bluetooth.BluetoothDevice p0,int p1);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.WRITE_SETTINGS}) Object setSinkPriority(android.bluetooth.BluetoothDevice p0,int p1);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH,android.Manifest.permission.MODIFY_AUDIO_SETTINGS}) Object suspendSink(android.bluetooth.BluetoothDevice p0);
 }
 
 class BluetoothService {
@@ -1452,20 +1451,20 @@ class BluetoothService {
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object isDiscovering();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object isEnabled();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object listBonds();
-	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object persistBluetoothOnSetting(boolean p0);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS,android.Manifest.permission.WRITE_SECURE_SETTINGS}) Object persistBluetoothOnSetting(boolean p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object removeBond(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object removeServiceRecord(int p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object sendUuidIntent(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object setDiscoverableTimeout(int p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object setDiscoverableTimeout(int p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object setLinkTimeout(java.lang.String p0,int p1);
-	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object setName(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN,android.Manifest.permission.BLUETOOTH}) Object setName(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object setPairingConfirmation(java.lang.String p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object setPasskey(java.lang.String p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object setPin(java.lang.String p0,boolean [] p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object setPropertyBoolean(java.lang.String p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object setPropertyInteger(java.lang.String p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object setPropertyString(java.lang.String p0,java.lang.String p1);
-	@RequiredPermissions({android.Manifest.permission.WRITE_SECURE_SETTINGS, android.Manifest.permission.BLUETOOTH}) Object setScanMode(int p0,int p1);
+	@RequiredPermissions({android.Manifest.permission.WRITE_SECURE_SETTINGS,android.Manifest.permission.BLUETOOTH}) Object setScanMode(int p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object setTrust(java.lang.String p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN}) Object startDiscovery();
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH}) Object updateDeviceServiceChannelCache(java.lang.String p0);
@@ -1524,47 +1523,47 @@ class SpeechRecognizer {
 package android.telephony.gsm;
 
 class SmsManager {
-	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.SEND_SMS}) Object copyMessageToSim(boolean [] p0,boolean [] p1,int p2);
-	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.SEND_SMS}) Object deleteMessageFromSim(int p0);
+	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS,android.Manifest.permission.SEND_SMS}) Object copyMessageToSim(boolean [] p0,boolean [] p1,int p2);
+	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS,android.Manifest.permission.SEND_SMS}) Object deleteMessageFromSim(int p0);
 	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS}) Object getAllMessagesFromSim();
 	@RequiredPermissions({android.Manifest.permission.SEND_SMS}) Object sendDataMessage(java.lang.String p0,java.lang.String p1,short p2,boolean [] p3,android.app.PendingIntent p4,android.app.PendingIntent p5);
 	@RequiredPermissions({android.Manifest.permission.SEND_SMS}) Object sendMultipartTextMessage(java.lang.String p0,java.lang.String p1,java.util.ArrayList p2,java.util.ArrayList p3,java.util.ArrayList p4);
 	@RequiredPermissions({android.Manifest.permission.SEND_SMS}) Object sendTextMessage(java.lang.String p0,java.lang.String p1,java.lang.String p2,android.app.PendingIntent p3,android.app.PendingIntent p4);
-	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.SEND_SMS}) Object updateMessageOnSim(int p0,int p1,boolean [] p2);
+	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS,android.Manifest.permission.SEND_SMS}) Object updateMessageOnSim(int p0,int p1,boolean [] p2);
 }
 
 package android.telephony;
 
 class PhoneNumberUtils {
-	@RequiredPermissions({android.Manifest.permission.CALL_PRIVILEGED, android.Manifest.permission.READ_CONTACTS}) Object getNumberFromIntent(android.content.Intent p0,android.content.Context p1);
+	@RequiredPermissions({android.Manifest.permission.CALL_PRIVILEGED,android.Manifest.permission.READ_CONTACTS}) Object getNumberFromIntent(android.content.Intent p0,android.content.Context p1);
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE}) Object isVoiceMailNumber(java.lang.String p0);
 }
 
 class SmsManager {
-	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.SEND_SMS}) Object copyMessageToIcc(boolean [] p0,boolean [] p1,int p2);
-	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.SEND_SMS}) Object deleteMessageFromIcc(int p0);
+	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS,android.Manifest.permission.SEND_SMS}) Object copyMessageToIcc(boolean [] p0,boolean [] p1,int p2);
+	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS,android.Manifest.permission.SEND_SMS}) Object deleteMessageFromIcc(int p0);
 	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS}) Object getAllMessagesFromIcc();
 	@RequiredPermissions({android.Manifest.permission.SEND_SMS}) Object sendDataMessage(java.lang.String p0,java.lang.String p1,short p2,boolean [] p3,android.app.PendingIntent p4,android.app.PendingIntent p5);
 	@RequiredPermissions({android.Manifest.permission.SEND_SMS}) Object sendMultipartTextMessage(java.lang.String p0,java.lang.String p1,java.util.ArrayList p2,java.util.ArrayList p3,java.util.ArrayList p4);
 	@RequiredPermissions({android.Manifest.permission.SEND_SMS}) Object sendTextMessage(java.lang.String p0,java.lang.String p1,java.lang.String p2,android.app.PendingIntent p3,android.app.PendingIntent p4);
-	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.SEND_SMS}) Object updateMessageOnIcc(int p0,int p1,boolean [] p2);
+	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS,android.Manifest.permission.SEND_SMS}) Object updateMessageOnIcc(int p0,int p1,boolean [] p2);
 }
 
 class TelephonyManager {
 	@RequiredPermissions({android.Manifest.permission.CONTROL_LOCATION_UPDATES}) Object disableLocationUpdates();
 	@RequiredPermissions({android.Manifest.permission.CONTROL_LOCATION_UPDATES}) Object enableLocationUpdates();
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getCellLocation();
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getCellLocation();
 	@RequiredPermissions({android.Manifest.permission.CALL_PRIVILEGED}) Object getCompleteVoiceMailNumber();
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE}) Object getDeviceId();
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE}) Object getDeviceSoftwareVersion();
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE}) Object getLine1AlphaTag();
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE}) Object getLine1Number();
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getNeighboringCellInfo();
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getNeighboringCellInfo();
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE}) Object getSimSerialNumber();
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE}) Object getSubscriberId();
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE}) Object getVoiceMailAlphaTag();
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE}) Object getVoiceMailNumber();
-	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object listen(android.telephony.PhoneStateListener p0,int p1);
+	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object listen(android.telephony.PhoneStateListener p0,int p1);
 }
 
 package android.view;
@@ -1616,7 +1615,7 @@ class IWindowManager$Stub$Proxy {
 	@RequiredPermissions({android.Manifest.permission.MANAGE_APP_TOKENS}) Object setAppWillBeHidden(android.os.IBinder p0);
 	@RequiredPermissions({android.Manifest.permission.MANAGE_APP_TOKENS}) Object setEventDispatching(boolean p0);
 	@RequiredPermissions({android.Manifest.permission.MANAGE_APP_TOKENS}) Object setFocusedApp(android.os.IBinder p0,boolean p1);
-	@RequiredPermissions({android.Manifest.permission.MANAGE_APP_TOKENS, android.Manifest.permission.DEVICE_POWER}) Object setNewConfiguration(android.content.res.Configuration p0);
+	@RequiredPermissions({android.Manifest.permission.MANAGE_APP_TOKENS,android.Manifest.permission.DEVICE_POWER}) Object setNewConfiguration(android.content.res.Configuration p0);
 	@RequiredPermissions({android.Manifest.permission.SET_ORIENTATION}) Object setRotation(int p0,boolean p1,int p2);
 	@RequiredPermissions({android.Manifest.permission.MANAGE_APP_TOKENS}) Object startAppFreezingScreen(android.os.IBinder p0,int p1);
 	@RequiredPermissions({android.Manifest.permission.DUMP}) Object startViewServer(int p0);
@@ -1626,7 +1625,7 @@ class IWindowManager$Stub$Proxy {
 }
 
 class IWindowSession$Stub$Proxy {
-	@RequiredPermissions({android.Manifest.permission.SYSTEM_ALERT_WINDOW, android.Manifest.permission.INTERNAL_SYSTEM_WINDOW}) Object add(android.view.IWindow p0,android.view.WindowManager$LayoutParams p1,int p2,android.graphics.Rect p3);
+	@RequiredPermissions({android.Manifest.permission.SYSTEM_ALERT_WINDOW,android.Manifest.permission.INTERNAL_SYSTEM_WINDOW}) Object add(android.view.IWindow p0,android.view.WindowManager$LayoutParams p1,int p2,android.graphics.Rect p3);
 }
 
 class Surface {
@@ -1645,12 +1644,12 @@ package android.webkit;
 
 class GeolocationService {
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION}) Object registerForLocationUpdates();
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object setEnableGps(boolean p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object setEnableGps(boolean p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION}) Object start();
 }
 
 class WebChromeClient {
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object onGeolocationPermissionsShowPrompt(java.lang.String p0,android.webkit.GeolocationPermissions.Callback p1);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object onGeolocationPermissionsShowPrompt(java.lang.String p0,android.webkit.GeolocationPermissions.Callback p1);
 }
 
 class WebIconDatabase {
@@ -1806,8 +1805,8 @@ class ITelephony$Stub$Proxy {
 	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE}) Object enableDataConnectivity();
 	@RequiredPermissions({android.Manifest.permission.CONTROL_LOCATION_UPDATES}) Object enableLocationUpdates();
 	@RequiredPermissions({android.Manifest.permission.CALL_PHONE}) Object endCall();
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getCellLocation();
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getNeighboringCellInfo();
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getCellLocation();
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getNeighboringCellInfo();
 	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE}) Object handlePinMmi(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE}) Object isSimPinEnabled();
 	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE}) Object setRadio(boolean p0);
@@ -1817,13 +1816,13 @@ class ITelephony$Stub$Proxy {
 }
 
 class ITelephonyRegistry$Stub$Proxy {
-	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object listen(java.lang.String p0,com.android.internal.telephony.IPhoneStateListener p1,int p2,boolean p3);
+	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE,android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object listen(java.lang.String p0,com.android.internal.telephony.IPhoneStateListener p1,int p2,boolean p3);
 	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE}) Object notifyCallForwardingChanged(boolean p0);
 	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE}) Object notifyCallState(int p0,java.lang.String p1);
 	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE}) Object notifyCellLocation(android.os.Bundle p0);
 	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE}) Object notifyDataActivity(int p0);
-	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE, android.Manifest.permission.BROADCAST_STICKY}) Object notifyDataConnection(int p0,boolean p1,java.lang.String p2,java.lang.String p3,java.lang.String[] p4,java.lang.String p5,int p6);
-	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE, android.Manifest.permission.BROADCAST_STICKY}) Object notifyDataConnectionFailed(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE,android.Manifest.permission.BROADCAST_STICKY}) Object notifyDataConnection(int p0,boolean p1,java.lang.String p2,java.lang.String p3,java.lang.String[] p4,java.lang.String p5,int p6);
+	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE,android.Manifest.permission.BROADCAST_STICKY}) Object notifyDataConnectionFailed(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE}) Object notifyMessageWaitingChanged(boolean p0);
 	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE}) Object notifyServiceState(android.telephony.ServiceState p0);
 	@RequiredPermissions({android.Manifest.permission.MODIFY_PHONE_STATE}) Object notifySignalStrength(android.telephony.SignalStrength p0);
@@ -1832,19 +1831,19 @@ class ITelephonyRegistry$Stub$Proxy {
 package com.android.server;
 
 class WallpaperManagerService {
-	@RequiredPermissions({android.Manifest.permission.BIND_WALLPAPER, android.Manifest.permission.MANAGE_APP_TOKENS}) Object bindWallpaperComponentLocked(android.content.ComponentName p0);
+	@RequiredPermissions({android.Manifest.permission.BIND_WALLPAPER,android.Manifest.permission.MANAGE_APP_TOKENS}) Object bindWallpaperComponentLocked(android.content.ComponentName p0);
 	@RequiredPermissions({android.Manifest.permission.DUMP}) Object dump(java.io.FileDescriptor p0,java.io.PrintWriter p1,String [] p2);
 }
 
 package java.lang;
 
 class Runtime {
-	@RequiredPermissions({android.Manifest.permission.READ_LOGS, android.Manifest.permission.DUMP, android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.READ_LOGS, android.Manifest.permission.DUMP, android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String[] p0);
-	@RequiredPermissions({android.Manifest.permission.READ_LOGS, android.Manifest.permission.DUMP, android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String[] p0,java.lang.String[] p1);
-	@RequiredPermissions({android.Manifest.permission.READ_LOGS, android.Manifest.permission.DUMP, android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String[] p0,java.lang.String[] p1,java.io.File p2);
-	@RequiredPermissions({android.Manifest.permission.READ_LOGS, android.Manifest.permission.DUMP, android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String p0,java.lang.String[] p1);
-	@RequiredPermissions({android.Manifest.permission.READ_LOGS, android.Manifest.permission.DUMP, android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String p0,java.lang.String[] p1,java.io.File p2);
+	@RequiredPermissions({android.Manifest.permission.READ_LOGS,android.Manifest.permission.DUMP,android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.READ_LOGS,android.Manifest.permission.DUMP,android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String[] p0);
+	@RequiredPermissions({android.Manifest.permission.READ_LOGS,android.Manifest.permission.DUMP,android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String[] p0,java.lang.String[] p1);
+	@RequiredPermissions({android.Manifest.permission.READ_LOGS,android.Manifest.permission.DUMP,android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String[] p0,java.lang.String[] p1,java.io.File p2);
+	@RequiredPermissions({android.Manifest.permission.READ_LOGS,android.Manifest.permission.DUMP,android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String p0,java.lang.String[] p1);
+	@RequiredPermissions({android.Manifest.permission.READ_LOGS,android.Manifest.permission.DUMP,android.Manifest.permission.INSTALL_PACKAGES}) Object exec(java.lang.String p0,java.lang.String[] p1,java.io.File p2);
 }
 
 package java.net;
