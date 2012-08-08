@@ -172,6 +172,13 @@ package android.text;
 		@PolyFlowSources @PolyFlowSinks boolean isEmpty(@PolyFlowSources @PolyFlowSinks CharSequence str);
 	}
 
+package android.text.format;
+
+	class Time {
+		//TODO: This is probably incomplete:
+		boolean parse3339(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String s);
+	}
+	
 package android.util;
 
 	class FloatMath {
@@ -203,16 +210,27 @@ package android.widget;
 
 /* OTHER ANDROID PACKAGES */
 
+package org.apache.http;
+
+	class HttpEntity {
+		@PolyFlowSources @PolyFlowSinks InputStream getContent() @PolyFlowSources @PolyFlowSinks;
+	}
+	
+	class HttpResponse {
+		@PolyFlowSources @PolyFlowSinks HttpEntity getEntity() @PolyFlowSources @PolyFlowSinks;
+		@PolyFlowSources @PolyFlowSinks StatusLine getStatusLine() @PolyFlowSources @PolyFlowSinks;
+	}
+	
 package org.apache.http.client;
 
 	class HttpClient {
-		HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
+		@PolyFlowSources HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) @PolyFlowSources HttpUriRequest request);
 	}
 	
 package org.apache.http.client.methods;
 
 	class HttpGet {
-	    @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) @PolyFlowSources HttpGet(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) @PolyFlowSources String uri);
+	    HttpGet(@PolyFlowSinks @PolyFlowSources String uri) @PolyFlowSinks @PolyFlowSources;
 	}
 
 	class HttpPost {
@@ -250,6 +268,10 @@ package java.io;
 		void close() @PolyFlowSources @PolyFlowSinks;
 		FileOutputStream(@PolyFlowSources @PolyFlowSinks File file) @PolyFlowSources @PolyFlowSinks;
 		void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	}
+	
+	class InputStreamReader {
+		InputStreamReader(@PolyFlowSources @PolyFlowSinks InputStream in) @PolyFlowSources @PolyFlowSinks;
 	}
 	
 package java.lang;
