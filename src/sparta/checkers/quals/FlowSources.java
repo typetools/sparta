@@ -35,7 +35,9 @@ public @interface FlowSources {
         CAMERA,
         MICROPHONE,
         LOCATION,
-        FILESYSTEM
+        FILESYSTEM,
+        NETWORK,
+        TIME
     }
 
     /**
