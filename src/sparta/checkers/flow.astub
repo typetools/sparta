@@ -13,12 +13,6 @@ package android.app;
 	}
 	
 package android.content;
-
-	class ContentResolver {
-		//Uri insert(Uri url, @PolyFlowSources @PolyFlowSinks ContentValues values) @PolyFlowSources @PolyFlowSinks;
-		//@PolyFlowSources @PolyFlowSinks Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-		// String sortOrder) @PolyFlowSources @PolyFlowSinks;
-	}
 	
 	class ContentValues {
 		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Double value);
@@ -26,7 +20,6 @@ package android.content;
 		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Long value);
 		void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks String value);
 		//TODO: Add the rest of the put methods
-		//TODO: Fix annotations to be polymorphic.
 	}
 	
 	class Context {
@@ -46,7 +39,7 @@ package android.database;
 	class Cursor {
 		 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks double getDouble(int columnIndex);
 		 //TODO: Add the rest of the get methods
-		 //Problem here: Must manually cast the results from the cursor if the cursor comes from Context.getContentResolver()
+		 //Note: Must manually cast the results from the cursor if the cursor comes from Context.getContentResolver()
 	}
 
 package android.graphics;
@@ -97,10 +90,6 @@ package android.location;
 	// TODO: implement new receiver syntax in StubParser.
 	//	double getLatitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
 	//	double getLongitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getProvider() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-		@PolyFlowSources @PolyFlowSinks long getTime() @PolyFlowSources @PolyFlowSinks;
 		
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) float bearingTo(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location dest) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) int describeContents() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
@@ -110,7 +99,11 @@ package android.location;
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getAltitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) float getBearing() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Bundle getExtras() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getProvider() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) float getSpeed() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long getTime() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasAccuracy() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasAltitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasBearing() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
@@ -138,8 +131,7 @@ package android.location;
 package android.net;
 
 	class Uri {
-		/* Used in Sky/ForecastProvider.java:213/221/282/383/etc */
-		List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String> getPathSegments() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+		List<@PolyFlowSources @PolyFlowSinks String> getPathSegments() @PolyFlowSources @PolyFlowSinks;
 		@PolyFlowSources @PolyFlowSinks Uri parse(@PolyFlowSources @PolyFlowSinks String uriString);
 	}
 
@@ -175,7 +167,7 @@ package android.text;
 package android.text.format;
 
 	class Time {
-		//TODO: This is probably incomplete:
+		//TODO: This should probably be double checked later:
 		boolean parse3339(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String s);
 	}
 	
@@ -260,38 +252,43 @@ package java.io;
 	
 	class File {
 		@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
-		File(@PolyFlowSources @PolyFlowSinks String path) @PolyFlowSources @PolyFlowSinks;
+		@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
 		@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) String separator;
 	}
 	
 	class FileOutputStream {
 		void close() @PolyFlowSources @PolyFlowSinks;
-		FileOutputStream(@PolyFlowSources @PolyFlowSinks File file) @PolyFlowSources @PolyFlowSinks;
+		@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks File file);
 		void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
 	}
 	
 	class InputStreamReader {
-		InputStreamReader(@PolyFlowSources @PolyFlowSinks InputStream in) @PolyFlowSources @PolyFlowSinks;
+		@PolyFlowSources @PolyFlowSinks InputStreamReader(@PolyFlowSources @PolyFlowSinks InputStream in);
 	}
 	
 package java.lang;
 	
 	class Double {
-		static @PolyAll boolean isNaN(@PolyAll double d);
-		static @PolyAll String toString(@PolyAll double d);
+		static @PolyFlowSources @PolyFlowSinks boolean isNaN(@PolyFlowSources @PolyFlowSinks double d);
+		static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks double d);
 	}
 	
 	class Float {
-		static @PolyAll int floatToIntBits(@PolyAll float value);
+		static @PolyFlowSources @PolyFlowSinks int floatToIntBits(@PolyFlowSources @PolyFlowSinks float value);
 	}
 	
 	class Long {
-		static @PolyAll long parseLong(@PolyAll String string);
+		static @PolyFlowSources @PolyFlowSinks long parseLong(@PolyFlowSources @PolyFlowSinks String string);
 	}
 
 	class Math {
+		static @PolyFlowSources @PolyFlowSinks float abs(@PolyFlowSources @PolyFlowSinks float f);
+		static @PolyFlowSources @PolyFlowSinks double acos(@PolyFlowSources @PolyFlowSinks double d);
+		static @PolyFlowSources @PolyFlowSinks double asin(@PolyFlowSources @PolyFlowSinks double d);
+		static @PolyFlowSources @PolyFlowSinks double atan(@PolyFlowSources @PolyFlowSinks double d);
 		static @PolyFlowSources @PolyFlowSinks double atan2(@PolyFlowSources @PolyFlowSinks double y, @PolyFlowSources @PolyFlowSinks double x);
-		static @PolyFlowSources @PolyFlowSinks double atan(@PolyFlowSources @PolyFlowSinks double x);
+		static @PolyFlowSources @PolyFlowSinks double log10(@PolyFlowSources @PolyFlowSinks double d);
+		static @PolyFlowSources @PolyFlowSinks double pow(@PolyFlowSources @PolyFlowSinks double x, @PolyFlowSources @PolyFlowSinks double y);
 	}
 	
 	class Object {
@@ -312,9 +309,7 @@ package java.lang;
 package java.sql;
 
 	class Time {
-		//TODO: Investigate this line.
-		//@PolyFlowSources @PolyFlowSinks Time(@PolyFlowSources @PolyFlowSinks long theTime) @PolyFlowSources @PolyFlowSinks;
-		Time(@PolyFlowSources @PolyFlowSinks long theTime) @PolyFlowSources @PolyFlowSinks; 
+		@PolyFlowSources @PolyFlowSinks Time(@PolyFlowSources @PolyFlowSinks long theTime); 
 	}
 	
 package java.util;
@@ -322,7 +317,7 @@ package java.util;
 	class Calendar {
 		@PolyFlowSources @PolyFlowSinks boolean after(@PolyFlowSources @PolyFlowSinks Object calendar) @PolyFlowSources @PolyFlowSinks;
 		@PolyFlowSources @PolyFlowSinks Calendar getInstance() @PolyFlowSources @PolyFlowSinks;
-		@PolyFlowSources @PolyFlowSinks Calendar getInstance(TimzeZone timezone) @PolyFlowSources @PolyFlowSinks;
+		@PolyFlowSources @PolyFlowSinks Calendar getInstance(TimeZone timezone) @PolyFlowSources @PolyFlowSinks;
 		@PolyFlowSources @PolyFlowSinks int get(int field) @PolyFlowSources @PolyFlowSinks;
 		@PolyFlowSources @PolyFlowSinks Date getTime() @PolyFlowSources @PolyFlowSinks;
 		@PolyFlowSources @PolyFlowSinks long getTimeInMillis() @PolyFlowSources @PolyFlowSinks;
@@ -332,22 +327,26 @@ package java.util;
 	}
 	
 	class Collections {
-		<T> void sort(List<@PolyFlowSources @PolyFlowSinks T> list, Comparator<@PolyFlowSources @PolyFlowSinks ? super T> comparator);
+		<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> void sort(List<T> list, Comparator<? super T> comparator);
 	}
 	
 	interface Comparator<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 		@PolyFlowSources @PolyFlowSinks int compare(@PolyFlowSources @PolyFlowSinks T lhs, @PolyFlowSources @PolyFlowSinks T rhs);
 	}
 	
-	class List<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+	class Date {
+		@PolyFlowSources @PolyFlowSinks long getTime() @PolyFlowSources @PolyFlowSinks;
+	}
+	
+	class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 		@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
 		boolean add(@PolyFlowSources @PolyFlowSinks T object) @PolyFlowSources @PolyFlowSinks;
 	}
 	
-	class ArrayList<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> extends List<T> {
+	class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> extends List<T> {
 		@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
 	}
-	/* Maybe add Map here later*/
+	// Maybe add Map here later?
 	
 package java.util.concurrent;
 
