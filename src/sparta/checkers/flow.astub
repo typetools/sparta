@@ -4,6 +4,18 @@ import checkers.quals.PolyAll;
 /* Notes on adding to the file: Packages are arranged by source (android, java, etc) and then alphabetically.
    Classes within a package are also arranged alphabetically, as are the methods. */
 
+// NOTE: The Checkers don't complain about typos in class and method names,
+// such mistakes are simply ignored.
+
+// NOTE: Annotation attributes have to be fully qualified. E.g. write
+//   @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY)
+// and not
+//   @FlowSources(FlowSource.ANY)
+
+// TODO: implement new receiver syntax in StubParser, e.g.
+//   double getLatitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
+//   double getLongitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
+
 /* ANDROID PACKAGES BELOW */
 
 package android.app;
@@ -87,10 +99,6 @@ package android.location;
 	}
 	
 	class Location {
-	// TODO: implement new receiver syntax in StubParser.
-	//	double getLatitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
-	//	double getLongitude(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location this);
-		
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) float bearingTo(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location dest) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) int describeContents() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) float distanceTo(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location dest) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
