@@ -1,5 +1,9 @@
+sparta.jar
+
 bin/jarlist.cache
 bin/
+build/
+tests/build/
 
 syntax: regexp
 ^tests/build$
