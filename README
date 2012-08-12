@@ -1,3 +1,10 @@
-Google gson is a dependency.
+This is SPARTA!
+Static Program Analysis for Reliable Trusted Apps.
+
+See the output of "ant -p" for the build and test targets.
+
+See file docs/sparta-annotation.txt for build and usage instructions.
+
+Google gson is a dependency for the "-json" targets for projects.
 Get it from http://code.google.com/p/google-gson/ and
 unzip it in the lib directory.
