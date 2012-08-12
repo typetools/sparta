@@ -1,5 +1,6 @@
 package sparta.checkers;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.lang.model.element.AnnotationMirror;
@@ -39,16 +40,21 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
             if (!reqPerms.isEmpty()) {
                 ExecutableElement callerElt = TreeUtils.elementFromDeclaration(TreeUtils.enclosingMethod(getCurrentPath()));
                 AnnotationMirror callerReq = atypeFactory.getDeclAnnotation(callerElt, RequiredPermissions.class);
-
+                List<String> callerPerms;
+                List<String> missing = new LinkedList<String>();
                 if (callerReq==null) {
-                    checker.report(Result.failure("all.unsatisfied.permissions", reqPerms), node);
+                    missing.addAll(reqPerms);
+                    callerPerms = new LinkedList<String>();
                 } else {
-                    List<String> callerPerms = AnnotationUtils.elementValueArray(callerReq, "value");
+                    callerPerms = AnnotationUtils.elementValueArray(callerReq, "value");
                     for (String perm : reqPerms) {
                         if (!callerPerms.contains(perm)) {
-                            checker.report(Result.failure("unsatisfied.permission", perm, callerPerms), node);
+                            missing.add(perm);
                         }
                     }
+                }
+                if (!missing.isEmpty()) {
+                    checker.report(Result.failure("unsatisfied.permissions", missing, callerPerms), node);
                 }
             }
         }
