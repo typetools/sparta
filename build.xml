@@ -1,0 +1,244 @@
+<!--
+  This is an Ant build file for compiling SPARTA!
+-->
+<project name="sparta-code" default="jar" basedir=".">
+
+    <description>
+      This is SPARTA!
+    </description>
+
+    <property file="build.${os.name}.properties"/>
+    <property file="build.properties"/>
+
+    <property environment="env"/>
+    <!-- Use the environment variable, if nothing was set yet. -->
+    <property name="android.home" value="${env.ANDROID_HOME}"/>
+
+    <property name="src" value="src"/>
+    <property name="tests" value="tests"/>
+
+    <property name="build" value="build"/>
+    <property name="build.tests" value="tests/build"/>
+    <property name="build.reports" value="${build}/reports"/>
+
+    <property name="compiler.version.goal" value="javac 1.7.0-jsr308-${jsr308.version}"/>
+
+    <property name="run.tests.should.fork" value="true"/>
+    <property name="halt.on.test.failure" value="true"/>
+
+    <target name="prep" description="Create required directories">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${build.tests}"/>
+        <mkdir dir="${build.tests}/testclasses"/>
+
+        <java fork="true"
+              outputproperty="compiler.version"
+              classname="com.sun.tools.javac.Main">
+          <jvmarg line="-Xbootclasspath/p:${jsr308-all.lib}"/>
+          <arg line="-version"/>
+        </java>
+
+        <property name="compiler.exists" value="false"/>
+        <condition property="compiler.exists">
+           <equals
+             arg1="${compiler.version}"
+             arg2="${compiler.version.goal}"/>
+        </condition>
+    </target>
+
+    <target name="clean" description="Remove generated files">
+        <delete dir="${build}"/>
+        <delete dir="${build.reports}"/>
+        <delete dir="${sparta.jar.file}"/>
+        <delete failonerror="false">
+            <fileset dir="${build.tests}" includes="**/*.class"/>
+        </delete>
+    </target>
+
+    <target name="build.check.uptodate"
+            description="Set properties: filesets and build.uptodate">
+        <fileset id="src.files" dir="${src}">
+            <include name="**/*.java"/>
+            <exclude name="checkers/util/dist/**"/>
+        </fileset>
+        <fileset id="src.astub.files" dir="${src}" includes="**/*.properties,**/*.astub"/>
+
+        <!-- I can't figure out how to combine filesets (or even selectors)
+             to get just one *.uptodate property, so do them individually
+             and then combine with <condition>. -->
+        <!-- Probably should depend on a file rather than a directory. -->
+        <uptodate property="src.files.uptodate" targetfile="${build}">
+          <srcfiles refid="src.files"/>
+          <mapper type="glob" from="*.java" to="${build}/*.class"/>
+        </uptodate>
+
+        <uptodate property="src.astub.files.uptodate" targetfile="${build}">
+          <srcfiles refid="src.astub.files"/>
+        </uptodate>
+
+        <condition property="build.uptodate">
+          <and>
+            <isset property="src.files.uptodate"/>
+            <isset property="src.astub.files.uptodate"/>
+          </and>
+        </condition>
+        <!--
+        <echo message="src.files.uptodate: ${src.files.uptodate}"/>
+        <echo message="src.astub.files.uptodate: ${src.astub.files.uptodate}"/>
+        <echo message="javaparser.lib.uptodate: ${javaparser.lib.uptodate}"/>
+        <echo message="build.uptodate: ${build.uptodate}"/>
+        -->
+    </target>
+
+    <target name="build" depends="prep,build.check.uptodate" unless="build.uptodate"
+            description="Compile files.  Does not update sparta.jar">
+        <fail unless="compiler.exists"
+            message="
+Needed version ${compiler.version.goal} of the JSR 308 compiler,
+but found version ${compiler.version} on your classpath.
+${line.separator}${line.separator}
+Check that the 'jsr308-all.lib' property in 'build.properties' points to version
+${build.version} of the 'javac.jar' library."/>
+
+        <copy todir="${build}" preservelastmodified="true">
+            <fileset refid="src.astub.files"/>
+        </copy>
+
+        <pathconvert pathsep=" " property="src.files.spaceseparated">
+            <path>
+                <fileset dir="${src}">
+                    <include name="**/*.java"/>
+                    <exclude name="checkers/util/dist/**"/>
+                </fileset>
+            </path>
+        </pathconvert>
+
+        <java fork="true"
+              failonerror="true"
+              classpath="${jsr308-all.lib}:${junit.jar}:${gson.jar}"
+              classname="com.sun.tools.javac.Main">
+            <jvmarg line="-Xbootclasspath/p:${jsr308-all.lib}"/>
+            <arg value="-g"/>
+            <arg line="-sourcepath ${src}"/>
+            <arg line="-d ${build}"/>
+            <arg line="${src.files.spaceseparated}"/>
+            <arg line="-version"/>
+        </java>
+        <!--
+        Touch doesn't work on a directory, so can't do:
+           <touch file="${build}"/>
+        Instead, create and remove a file, which modifies the directory.
+        -->
+        <touch file="${build}/.timestamp"/>
+        <delete file="${build}/.timestamp"/>
+    </target>
+
+    <!-- This creates sparta.jar -->
+    <target name="jar" depends="build"
+            description="Create jar file">
+        <delete dir="${build.reports}"/>
+        <jar destfile="${sparta.jar.file}" basedir="${build}"/>
+    </target>
+
+
+    <target name="build-tests" depends="prep" description="Compile tests">
+        <fail unless="compiler.exists"
+            message="
+Version ${build.version} of the JSR 308 compiler was not found on your
+classpath.
+${line.separator}${line.separator}
+Check that the 'jsr308-all.lib' property in 'build.properties' points to version
+${build.version} of the 'javac.jar' library."/>
+        <pathconvert pathsep=" " property="src.tests">
+            <path>
+                <fileset dir="${src}">
+                    <include name="**/AndroidTests.java"/>
+                </fileset>
+                <!--
+                <fileset dir="${tests}">
+                    <include name="src/tests/**/*.java"/>
+                </fileset>
+                -->
+            </path>
+        </pathconvert>
+        <java fork="true"
+              failonerror="true"
+              classpath="${jsr308-all.lib}:${junit.jar}:${gson.jar}:${build}"
+              classname="com.sun.tools.javac.Main">
+            <jvmarg line="-Xbootclasspath/p:${jsr308-all.lib}"/>
+            <arg value="-g"/>
+            <arg line="-sourcepath ${tests}"/>
+            <arg line="-d ${build.tests}"/>
+            <arg line="${src.tests}"/>
+        </java>
+    </target>
+
+    <!-- Per the <test> element, output goes to ${build.reports} -->
+    <target name="-run-tests" description="Generalized test runner">
+        <mkdir dir="${build.reports}"/>
+        <junit fork="${run.tests.should.fork}"
+            dir="${basedir}"
+            printsummary="true"
+            haltonfailure="${halt.on.test.failure}">
+            <!-- Don't put everything on the bootclasspath, as that would
+                 cause class loading issues. -->
+            <jvmarg line="-Xbootclasspath/p:${compiler.lib}"/>
+            <jvmarg line="-ea"/>
+
+            <classpath>
+                <pathelement path="${jsr308-all.lib}"/>
+                <pathelement path="${junit.jar}"/>
+                <pathelement path="${gson.jar}"/>
+                <pathelement path="${build.tests}"/>
+                <pathelement path="${build}"/>
+                <pathelement path="${android.jar}"/>
+            </classpath>
+
+            <formatter type="xml"/>
+            <formatter type="brief" usefile="false"/>
+
+            <test name="${testclass}" todir="${build.reports}"/>
+        </junit>
+    </target>
+
+    <!-- Make sure to add all individual tests as dependency. -->
+    <target name="all-tests" depends="jar,build-tests,reqperms-tests,report-tests,flow-tests,fenum-tests"
+      description="Run tests for all checkers"/>
+
+    <target name="reqperms-tests" depends="jar,build-tests"
+      description="Run tests for the Android Fenum Checker">
+        <antcall target="-run-tests">
+            <param name="testclass" value="sparta.checkers.AndroidTests$AndroidReqPermissionsCheckerTests"/>
+        </antcall>
+    </target>
+
+    <target name="report-tests" depends="jar,build-tests"
+      description="Run tests for the Android Fenum Checker">
+        <antcall target="-run-tests">
+            <param name="testclass" value="sparta.checkers.AndroidTests$AndroidReportCheckerTests"/>
+        </antcall>
+    </target>
+
+    <target name="flow-tests" depends="jar,build-tests"
+      description="Run tests for the Android Fenum Checker">
+        <antcall target="-run-tests">
+            <param name="testclass" value="sparta.checkers.AndroidTests$FlowCheckerTests"/>
+        </antcall>
+    </target>
+
+    <target name="fenum-tests" depends="jar,build-tests"
+      description="Run tests for the Android Fenum Checker">
+        <antcall target="-run-tests">
+            <param name="testclass" value="sparta.checkers.AndroidTests$AndroidFenumCheckerTests"/>
+        </antcall>
+    </target>
+
+    <target name="tags" depends="prep" description="Create Emacs TAGS table">
+        <exec executable="/bin/sh" failonerror="true">
+            <arg value="-c"/>
+            <arg value="etags `find . \( -name jdk \) -prune -o -name '*.java' -print | sort-directory-order`"/>
+        </exec>
+    </target>
+
+
+</project>
