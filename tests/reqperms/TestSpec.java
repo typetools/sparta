@@ -9,9 +9,9 @@ class TestSpec {
     Object local() { return null; }
 
     void bad(android.accessibilityservice.AccessibilityService as) throws java.io.IOException {
-        //:: error: (all.unsatisfied.permissions)
+        //:: error: (unsatisfied.permissions)
         as.clearWallpaper();
-        //:: error: (all.unsatisfied.permissions)
+        //:: error: (unsatisfied.permissions)
         local();
     }
 
@@ -23,6 +23,7 @@ class TestSpec {
 
     @RequiredPermissions(permission.INTERNET)
     void foo() {
+        //:: error: (unsatisfied.permissions)
         bar();
     }
 
@@ -31,7 +32,7 @@ class TestSpec {
 
     @RequiredPermissions(permission.INTERNET)
     void baz(LocationManager locationManager) {
-        //:: error: (all.unsatisfied.permissions)
+        //:: error: (unsatisfied.permissions)
         String provider = locationManager.getBestProvider(null, true);
     }
 }

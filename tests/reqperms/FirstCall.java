@@ -7,13 +7,13 @@ class FirstCall {
     void doNFC() {}
 
     void badUse1() {
-        //:: error: (all.unsatisfied.permissions)
+        //:: error: (unsatisfied.permissions)
         doNFC();
     }
 
     @RequiredPermissions(permission.SEND_SMS)
     void badUse2() {
-        //:: error: (unsatisfied.permission)
+        //:: error: (unsatisfied.permissions)
         doNFC();
     }
 
