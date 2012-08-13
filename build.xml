@@ -14,6 +14,8 @@
     <!-- Use the environment variable, if nothing was set yet. -->
     <property name="android.home" value="${env.ANDROID_HOME}"/>
 
+    <property name="android.jar" value="${android.home}/platforms/${android.version}/android.jar"/>
+
     <property name="src" value="src"/>
     <property name="tests" value="tests"/>
 
@@ -108,7 +110,6 @@ ${build.version} of the 'javac.jar' library."/>
             <path>
                 <fileset dir="${src}">
                     <include name="**/*.java"/>
-                    <exclude name="checkers/util/dist/**"/>
                 </fileset>
             </path>
         </pathconvert>
@@ -154,11 +155,6 @@ ${build.version} of the 'javac.jar' library."/>
                 <fileset dir="${src}">
                     <include name="**/AndroidTests.java"/>
                 </fileset>
-                <!--
-                <fileset dir="${tests}">
-                    <include name="src/tests/**/*.java"/>
-                </fileset>
-                -->
             </path>
         </pathconvert>
         <java fork="true"
