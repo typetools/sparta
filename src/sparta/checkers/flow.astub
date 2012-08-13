@@ -133,7 +133,7 @@ package android.location;
 	}
 	
 	class LocationManager {
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location getLastKnownLocation(String provider);
+		@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME}) Location getLastKnownLocation(String provider);
 	}
 	
 package android.net;
