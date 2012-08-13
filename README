@@ -2,9 +2,34 @@ This is SPARTA!
 Static Program Analysis for Reliable Trusted Apps.
 
 See the output of "ant -p" for the build and test targets.
+See build.properties for configuration variables.
+If the other projects are in the default locations, you should
+only need to set the android.home property or ANDROID_HOME
+environment variable, e.g. by:
 
-See file docs/sparta-annotation.txt for build and usage instructions.
+ant -Dandroid.home=... jar
 
-Google gson is a dependency for the "-json" targets for projects.
-Get it from http://code.google.com/p/google-gson/ and
-unzip it in the lib directory.
+See file docs/sparta-annotation.txt for further build and usage
+instructions.
+
+The Jenkins integration server for all projects is at:
+
+http://buffalo.cs.washington.edu:8080/view/SPARTA/
+
+The project is hosted at:
+
+http://types.cs.washington.edu/sparta/
+
+with the hidden releases at:
+
+http://types.cs.washington.edu/sparta/releases/
+
+To make a release, update build.properties with the new version number
+and the version number of the Checker Framework; build sparta.jar;
+edit the files in directory "website" and "website/release/" and
+put sparta.jar and a zip-file of the repository into the "release"
+directory.
+Put these files online at
+
+/cse/www2/types/sparta/
+
