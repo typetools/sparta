@@ -1,0 +1,140 @@
+Android App Analysis
+
+This is a brief guide on how to analyze a new Android application and
+find security vulnerabilities. This document gives a high-level view
+of the process, including how various tools relate to one another.
+
+For details about how to install and run the code analysis tools, see file
+sparta-code/docs/installation.txt
+
+
+1. Task: get a basic understanding of the application
+Look at the AndroidManifest.xml file and:
+- Determine which permissions the app uses.
+  Look for “uses-permission” entries to understand the used
+  permissions.
+- Determine the entry points into the source code. (This may also give
+  a hint about the architecture or overall modular structure of the
+  application.)
+  Look for “activity”, “intent-filter”, “service”, “receiver”, and
+  “provider” to see the entry points, intent messages it responds to,
+  etc.
+
+
+2. Task: see where permissions are used in the application
+Run “ant reqperms” on the project to see a list of the app’s methods
+that use calls that require certain Android permissions. You can use
+this to gain an understanding of where sensitive information may come
+from/go to in the application. You can remove the warning by writing
+@RequiredPermissions({android.Manifest.permissions.<specific
+permission>}) in front of the method header in the source code.
+
+
+3. Task: see what precise APIs are used where in the application
+Run “ant reportusage”, “ant reportusage-json”, or "ant
+reportusage-txt" to get a report of the used APIs.
+“ant reportusage” only reports about some Android APIs.
+The reported APIs are specified in two files:
+sparta-code/src/sparta/checkers/report.astub and reflection.astub 
+Additional .astub files can be passed as “-Astubs=...” argument in the
+build file.
+
+
+4. Task: ensure that the used APIs are annotated with flow information
+This step is necessary until we have good coverage of all APIs.
+For every API method used by this app (i.e., those output by “ant
+reportusage”):
+If the method appears in file
+sparta-code/src/sparta/checkers/flow.astub, you have nothing to do.
+Read the Javadoc, decide what flow properties the method has.
+If it has flow properties, add the method to the flow.astub file.
+Specify the flow properties by writing annotations in the flows.astub
+file such as @FlowSinks(FlowSink.NETWORK) or
+@FlowSources(FlowSource.ESP_FROM_ALIENS).
+
+We do not expect that any API method will contain both a @FlowSources
+and a @FlowSinks annotation.
+This task is onerous now, but as more APIs get annotated, it will
+become relatively quick because few APIs will be first used by each
+new app.
+
+Note: we have not yet added any annotations to the app itself.
+
+
+5. Task: visualize the existing flow in the application
+Run “ant flowshow” or “ant flowshow-json” to get a report of the
+existing flow.
+For every type use in the application, it indicates the flow sources
+and sinks for that variable. This is exactly the annotations written
+in the program, plus possibly some additional annotations that are
+inferred by the Checker Framework.
+The “-json” version creates file flowshow.json that can be visualized
+separately.
+
+This step does not perform type-checking; it only visualizes the flow
+information written in the program or libraries as annotations, or
+inferred from those annotations.
+
+The report is interesting exactly when a given type use contains both
+a @FlowSource and a @FlowSink annotation. This is an information flow,
+and the analyst must decide whether it is desirable or undesirable.
+
+For an unannotated program, the report will not be informative: it
+only contains API annotations that are propagated to local
+variables. The report will become more informative as you add more and
+more annotations to the application. So, you can periodically rerun
+this step. (You don’t have to run this step -- you can skip it if you
+prefer.)
+
+
+6. Task: check the flow in the application
+Run “ant flowcheck” on the application.
+Eliminate the warnings in one of two ways.
+
+Add annotations to method signatures and fields in the application, as
+required by the type-checker. This essentially propagates the flow
+information required by the APIs through the application.
+
+Use @SuppressWarnings to indicate safe uses that are safe for reasons
+that are beyond the capabilities of the type system. Always write a
+comment that justifies that it is safe.
+
+A prime example is a String literal that should be allowed to be sent
+over the network. By default, every literal has @FlowSinks()
+(i.e., nothing) and @FlowSources().
+
+    @SuppressWarnings(“flow”) // Validated String literal, with no query parameters that have my credit card number
+    @FlowSinks(FlowSink.NETWORK) String url = “http://bazinga.com/”;
+
+Without suppression this must raise an error, as some unqualified
+information may go to the network. By adding the suppression, you
+assert that it’s OK to send that information.
+
+Focus on the most interesting flow sources and try to connect the flow
+sources and sinks in the application. Instead of trying to completely
+annotate only the sources or only the sinks, skim over all the reports
+and use your intuition to decide which parts of the application to
+focus on. Try to focus on the parts with the (most) connections
+between sources and sinks.
+
+Most types will only use either a @FlowSources or @FlowSinks
+annotation.
+The goal is to find places where you need both annotations, e.g. to
+express that information that comes from the camera may go to the
+network:
+
+    @FlowSources(FlowSource.CAMERA)
+    @FlowSinks(@FlowSink.NETWORK) Picture data;
+
+Such a type connects sources and sinks and one needs to carefully
+decide whether this is a desired information flow or not.
+- If this is good information flow, then write both the @FlowSources
+  and the @FlowSinks annotations at the same place. You will not
+  receive any more error messages, but you can find all these places
+  with grep or (better) with “ant flowshow”.
+- If this is bad information flow, then either leave it unannotated,
+  or annotate it but record both in the source code and elsewhere that
+  you have found a security flaw.
+
+You can continue to use “ant flowshow” to visualize the annotation
+progress.

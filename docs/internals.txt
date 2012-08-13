@@ -1,0 +1,84 @@
+This document contains details that are only relevant for
+people inside the SPARTA team at UW.
+
+The source code for the SPARTA checkers is in a Mercurial repository at
+/projects/swlab1/darpa-apac/sparta-code
+
+To get a copy do:
+
+$ hg clone ssh://YOURID@SERVERNAME//projects/swlab1/darpa-apac/sparta-code
+
+To push your changes to the repository you need to be in sparta
+group. Contact Werner or Mike to get the permission.
+
+(Along with sparta-code, you may be interested in the sparta-meetings
+and apac-meetings repositories for general information on the SPARTA
+project.)
+
+Note that SPARTA as well as the Checker Framework are evolving
+rapidly.
+Thus you may need to pull and update with updated source code and
+rebuild the projects:
+
+$ hg fetch
+
+Test applications are stored in
+/projects/swlab1/darpa-apac/sparta-subjects
+
+
+Try to run ant in sparta-subjects/Sky 
+
+$ ant flowtest
+
+If it gives results like this, you're ready to work on annotating!
+[jsr308.javac] /home/syhan/jsr308/sparta-subjects/Sky/src/org/jsharkey/sky/WebserviceHelper.java:308: error: incompatible types.
+[jsr308.javac]             HttpGet request = new HttpGet(String.format(WEBSERVICE_URL, lat, lon, days));
+[jsr308.javac]                                                        ^
+[jsr308.javac]   found   : @FlowSinks @FlowSources String
+[jsr308.javac]   required: @sparta.checkers.quals.FlowSinks({sparta.checkers.quals.FlowSinks.FlowSink.NETWORK}) @FlowSources String
+
+If you want to add a new application, put it under the
+sparta-subjects directory.
+
+You may need to get Android source code to get sense of what api returns (or
+gets) what type of data. See http://source.android.com/source/index.html
+You can find the list of all apis from the android source code in 
+frameworks/base/api/15.txt - api list for api version 15 (Android 4.0.3)
+Accessing resource is closely related to android permissions (some of the
+resources are not protected with permissions though). Android permission list
+is at:
+http://developer.android.com/reference/android/Manifest.permission.html
+Hints to add annotations could be permissionmap (which permission is required
+to call which functions):
+http://www.android-permissions.org/permissionmap.html
+
+
+Adding Annotations
+There are two parts in adding annotations. 
+Firstly, we need to annotate the flow stub file (flow.astub) in
+sparta-code.
+It's used for annotating Android APIs. For instance, 
+
+package android.telephony;
+
+class TelephonyManager {
+    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
+    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
+}
+
+The above annotates two methods in class TelephonyManager.
+It means that the getLine1Number function returns a String which is
+phone number.  For more examples, look into the flow.astub file.
+
+FlowSources specifies data sources such as phone number, location, and
+etc. FlowSinks specifies sinks, such as files, network, and so on.
+The types of FlowSources and FlowSinks are listed in the
+FlowSources.java and FlowSinks.java files in sparta.checkers.quals.
+
+
+The second part is annotating the Android application to match
+the annotations specified in the stub file. Run flowtest and see if
+any incompatible types are shown and iteratively add more annotations
+to the application.
+The Android API specifications in flow.astub is currently
+incomplete. As you experience new APIs, extend the specifications.
