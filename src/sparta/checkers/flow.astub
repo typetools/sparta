@@ -2002,10 +2002,12 @@ class WallpaperManagerService {
 package java.io;
 
 class BufferedInputStream {
-	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) BufferedInputStream(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) InputStream in);
+	@PolyFlowSources @PolyFlowSinks BufferedInputStream(@PolyFlowSources @PolyFlowSinks InputStream in);
+	public int read(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class ByteArrayOutputStream {
+	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer, int offset, int len) @PolyFlowSources @PolyFlowSinks;
 	void close() @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 	@PolyFlowSources @PolyFlowSinks byte[] toByteArray() @PolyFlowSources @PolyFlowSinks;
 }
@@ -2020,6 +2022,10 @@ class FileOutputStream {
 	void close() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks File file);
 	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+}
+
+class InputStream {
+	public int read(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class InputStreamReader {
@@ -2125,15 +2131,14 @@ class URL {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object getContent(java.lang.Class[] p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object getContent();
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openConnection(java.net.Proxy p0);
-	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) URLConnection openConnection() @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK);
+	@PolyFlowSources @PolyFlowSinks URLConnection openConnection() @PolyFlowSources @PolyFlowSinks;
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openStream();
-	public @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) URL(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String spec);
-	public @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) URL(URL context, @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String spec, URLStreamHandler handler);
+	@PolyFlowSources @PolyFlowSinks URL(@PolyFlowSources @PolyFlowSinks String spec);
 }
 
 class URLConnection {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object connect();
-	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) InputStream getInputStream() @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK);
+	@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.NETWORK}) @PolyFlowSinks InputStream getInputStream() @PolyFlowSinks;
 }
 
 package java.sql;
@@ -2261,5 +2266,5 @@ class LatitudeLongitude {
 package com.commonsware.cwac.task; //A library of Wordpress
 
 class AsyncTaskEx {
-	Result doInBackground(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) Params... params);
+	Result doInBackground(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) Params... params);
 }
