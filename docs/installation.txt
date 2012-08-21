@@ -32,8 +32,12 @@ produce some error output. This is expected and can be ignored.
 3. Install and compile the SPARTA type checkers
 
 Google gson is a dependency for the "-json" targets for projects.
-Get it from http://code.google.com/p/google-gson/ and
-unzip it in the lib directory.
+Get it from http://code.google.com/p/google-gson/;
+create directory sparta-code/lib and unzip gson there.
+Alternatively, set build property gson.jar, which defaults to:
+
+gson.jar=${basedir}/lib/google-gson-2.2.2/gson-2.2.2.jar
+
 
 In the sparta-code directory, run
 
