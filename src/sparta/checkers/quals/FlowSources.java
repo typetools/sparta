@@ -30,14 +30,15 @@ public @interface FlowSources {
          * Using this constant is preferred to listing all constants, because it's future safe.
          */
         ANY,
-        IMEI,
-        PHONE_NUMBER,
         CAMERA,
-        MICROPHONE,
-        LOCATION,
         FILESYSTEM,
+        IMEI,
+        LOCATION,
+        MICROPHONE,
         NETWORK,
-        TIME
+        PHONE_NUMBER,
+        TIME,
+        USER_INPUT
     }
 
     /**
