@@ -1,0 +1,94 @@
+Philip Lai <plai68@cs.washington.edu>
+Last updated: 2012-08-24
+
+=====
+
+Usage notes for the SPARTA information flow type system. This document is meant to provide a reference for the specifics of the annotation process, specifically regarding syntax in various situations and how qualifiers are resolved.
+[Note: FlowSource{} means empty flow sources. @FlowSources... is just shorthand noting that the specifics aren't relevant.]
+
+=====
+
+Places Eclipse will accept annotations (in source code):
+-Fields
+
+-Local variables
+
+-Parameters
+
+-Return types
+
+-[TODO: More?]
+
+=====
+
+Places Eclipse won't accept in source code, and you'll need to put in comments:
+
+-Generics:
+	List</*@FlowSources...*/ String>
+
+-"new" keyword, for FlowSinks:
+	@FlowSinks... Object a = new /*@FlowSinks...*/ Object();
+
+	Note: if the constructor returns a @FlowSources... Object, the information will travel to the local variable and you don't
+	need to manually annotate the local variable. With FlowSinks, however, since @FlowSink annotations are allowed to disappear
+	(if you decide later that the information doesn't have the chance of going to a FlowSink), you must manually mark the LHS and
+	RHS with the annotation, as above.
+
+-Casts:
+	return (/*@FlowSources...*/ double) x;
+
+-Receivers for source-code methods:
+	public Class(/*>>> @FlowSinks(FlowSink.NETWORK) Class this, */ String paramTwo) {}
+
+-"Method type argument resolution"?  [TODO: Explain this further. Why was this an issue?]
+	void method(List</*@FlowSources({...})*/ Object> l, Comparator(</*@FlowSources({...})*/ Object> c) {
+	    Collections.</*@FlowSources({...})*/ Object>sort(l, c);
+	}
+
+=====
+
+Annotating stub files, rather than source code:
+-The receiver:
+	mark as "returntype methodname(params) @Annotations;"
+
+-The constructor:
+	mark as "@Annotations ClassName(params);" as if it was returning itself, rather than being a receiver.
+
+
+======
+
+Default annotations at various places (fields vs local variables):
+-Fields by default have no FlowSource or FlowSink. Local variables have FlowSource.ANY and FlowSink{}.
+
+
+=====
+
+Misc explanations:
+
+-It is safe to mark a @FlowSource{} variable as @FlowSource{something}, because we're just noting that it could have come from the source. It is NOT safe to do the same to a FlowSink{} variable, because that would go from saying it CANNOT go to a sink to it MAY go to a sink. If you want to do so, mark it with @SuppressWarnings("flow") before the annotation, and add a comment explaning why this annotation is safe. 
+
+-For methods like equals() and toString() that are inherited from Object, we require the Object class's annotations on those to be the most general possible, so that overriding methods can restrict the annotations further. Thus, they return FlowSource.ANY and FlowSink{}. Currently I have most toString() calls overwritten with a @SuppressWarnings("flow") and a comment explaining that.
+
+-String literals [TODO: and all primitive literals? 1.0, true, 3, 'c', etc] have a default FlowSource{} FlowSink{}. If assigning a @FlowSink{something} String realString = "asdf", this is not allowed. Add a @SuppressWarnings("flow"), or split it up into two lines, a @Suppressed '@FlowSink{something} String tempString = "asdf";' and then assign realString = tempString;
+
+-Adding on to that, if you try to compute a @FlowSource{something} int with a int literal (0 or 100, etc) it will resolve to another @FlowSource{something} int. If you try the same with a @FlowSink{something} int with an int literal, it will result in @FlowSink{} int because it's not safe to add a flowsink to the int literal. To bypass this, you must declare a local variable with "@SuppressWarnings("flow") \n @FlowSink{something} int tempZero = 0;" and then use the local variable in the calculation.
+
+-@SuppressWarnings("flow") cannot be used on assignments, only at variable intialization or method calls. This is relevant for local variables.
+	@SuppressWarnings("flow") //This is good.
+	@FlowSource... String a = method();
+
+	versus
+
+	@FlowSource... String a; 
+	@SuppressWarnings("flow") //This is bad.
+	a = method();
+
+	To get around this, make a new local variable with the proper annotations and suppress that line, then assign the variable you
+	want to that new local variable.
+	String a;
+	@SuppressWarnings("flow") //This is good.
+	@FlowSource... String b = method();
+	a = b;
+
+-[TODO: Explain "top types" and the type hierarchy more.]
+-[TODO: Explain polymorphic qualifiers.]

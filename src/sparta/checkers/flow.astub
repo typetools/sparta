@@ -2177,6 +2177,8 @@ class Socket {
 
 class URI {
 	static @PolyFlowSources @PolyFlowSinks URI create(@PolyFlowSources @PolyFlowSinks String uri);
+	@PolyFlowSources @PolyFlowSinks String getScheme() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int getPort() @PolyFlowSources @PolyFlowSinks;
 }
 
 class URL {
@@ -2277,7 +2279,13 @@ class HttpResponse {
 	@PolyFlowSources @PolyFlowSinks HttpEntity getEntity() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks StatusLine getStatusLine() @PolyFlowSources @PolyFlowSinks;
 }
-	
+
+package org.apache.http.auth;
+
+class UsernamePasswordCredentials {
+	@PolyFlowSources @PolyFlowSinks UsernamePasswordCredentials(@PolyFlowSources @PolyFlowSinks String username, @PolyFlowSources @PolyFlowSinks String password);
+}
+
 package org.apache.http.client;
 
 class HttpClient {
@@ -2349,6 +2357,12 @@ package org.apache.http.message;
 class AbstractHttpMessage {
 	void addHeader(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks HttpParams getParams() @PolyFlowSources @PolyFlowSinks;
+}
+
+package org.apache.http.params;
+
+class HttpProtocolParams {
+	void setUseExpectContinue(@PolyFlowSources @PolyFlowSinks HttpParams params, boolean b) @PolyFlowSources @PolyFlowSinks;
 }
 
 package org.xmlpull.v1;
