@@ -8,28 +8,48 @@ import java.net.*;
 // Test for annotations on constructor returns and polymorphism
 // with constructors.
 class NewTest {
-    private @FlowSinks(FlowSink.NETWORK) TestClass1 sink;
+    @FlowSinks(FlowSink.NETWORK) TestClass1 sink;
 
     @SuppressWarnings("flow") // Variable initialization.
-    private @FlowSinks(FlowSink.NETWORK) String param = "jkl";
+    @FlowSinks(FlowSink.NETWORK) String param = "jkl";
 
-    void method() {
+    void method1() {
         sink = new TestClass1(param);
         sink = new @FlowSinks(FlowSink.NETWORK) TestClass1(param);
         //:: error: (assignment.type.incompatible)
         sink = new @FlowSinks(FlowSink.FILESYSTEM) TestClass1(param); 
     }
 
-    private TestClass2 tempUrl;
+    @FlowSinks(FlowSink.NETWORK) TestClass3 sink3;
+
+    void method3() {
+        // Subset of sinks can be specified at instantiation.
+        sink3 = new @FlowSinks(FlowSink.NETWORK) TestClass3(param);
+    }
+
+    TestClass2 unqual_field;
+    @FlowSinks(FlowSink.FILESYSTEM) TestClass2 fs_field;
+
+    @FlowSinks(FlowSink.FILESYSTEM) String fs;
 
     void foo() {
-        @SuppressWarnings("flow")
-        @FlowSinks(FlowSink.FILESYSTEM) @FlowSources({}) String url = "";
+        TestClass2 local;
+
+        local = new @FlowSinks(FlowSink.FILESYSTEM) TestClass2(fs);
+        fs_field = local;
+        // Mismatch between explicitly given type and result of poly-resolution.
+        //:: error: (constructor.invocation.invalid)
+        local = new @FlowSources(FlowSource.CAMERA) TestClass2(fs);
 
         // Specific sink is a subtype of empty sinks.
-        tempUrl = new @FlowSinks(FlowSink.FILESYSTEM) TestClass2(url);
+        unqual_field = new @FlowSinks(FlowSink.FILESYSTEM) TestClass2(fs);
         //:: error: (assignment.type.incompatible)
-        tempUrl = new @FlowSources(FlowSource.CAMERA) TestClass2(url);
+        unqual_field = new @FlowSources(FlowSource.CAMERA) TestClass2(fs);
+
+        fs_field = new @FlowSinks(FlowSink.FILESYSTEM) TestClass2(fs);
+        //:: error: (assignment.type.incompatible)
+        fs_field = new @FlowSources(FlowSource.CAMERA) TestClass2(fs);
+
     }
 }
 
@@ -41,4 +61,9 @@ class TestClass1 {
 // Test polymorphic constructor return type.
 class TestClass2 {
     @PolyFlowSources @PolyFlowSinks TestClass2(@PolyFlowSources @PolyFlowSinks String spec) {}
+}
+
+// Test that concrete instantiation can restrict return type.
+class TestClass3 {
+    @FlowSinks({FlowSink.NETWORK, FlowSink.FILESYSTEM}) TestClass3(@FlowSinks(FlowSink.NETWORK) String param) {}
 }
