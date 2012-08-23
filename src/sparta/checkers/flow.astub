@@ -1214,6 +1214,7 @@ package android.os;
 class Bundle {
 	//Needs other put methods
 	void putDouble(String key, @PolyFlowSources @PolyFlowSinks double value) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String getString(String key) @PolyFlowSources @PolyFlowSinks;
 }
 	
 class DropBoxManager {
@@ -2006,15 +2007,25 @@ class BufferedInputStream {
 	public int read(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
+class BufferedReader {
+	@PolyFlowSources @PolyFlowSinks BufferedReader(@PolyFlowSources @PolyFlowSinks Reader in, @PolyFlowSources @PolyFlowSinks int size);
+}
+
+class ByteArrayInputStream {
+	@PolyFlowSources @PolyFlowSinks ByteArrayInputStream(@PolyFlowSources @PolyFlowSinks byte[] buf);
+}
+
 class ByteArrayOutputStream {
-	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer, int offset, int len) @PolyFlowSources @PolyFlowSinks;
-	void close() @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY); //@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 	@PolyFlowSources @PolyFlowSinks byte[] toByteArray() @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer, int offset, int len) @PolyFlowSources @PolyFlowSinks;
 }
 
 class File {
 	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
+	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
 	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) String separator;
 }
 
@@ -2024,13 +2035,42 @@ class FileOutputStream {
 	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
+class FileWriter {
+	@PolyFlowSources @PolyFlowSinks FileWriter(@PolyFlowSources @PolyFlowSinks File file);
+}
+
+class FilterInputStream {
+	int read(@PolyFlowSources @PolyFlowSinks byte[] b) @PolyFlowSources @PolyFlowSinks;
+}
+
 class InputStream {
-	public int read(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	void close() @PolyFlowSources @PolyFlowSinks; 
+	int read(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class InputStreamReader {
+	void close() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks InputStreamReader(@PolyFlowSources @PolyFlowSinks InputStream in);
+	@PolyFlowSources @PolyFlowSinks InputStreamReader(@PolyFlowSources @PolyFlowSinks InputStream in, String enc);
 }
+
+class OutputStream {
+	void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	void flush() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+}
+
+class Reader {
+	void close() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks char[] buf) @PolyFlowSources @PolyFlowSinks;
+}
+
+class Writer {
+	void close() @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks char[] buf, @PolyFlowSources @PolyFlowSinks int offset,
+		@PolyFlowSources @PolyFlowSinks int count) @PolyFlowSources @PolyFlowSinks;
+}
+
 
 package java.lang;
 	
@@ -2073,8 +2113,16 @@ class Runtime {
 }
 
 class String {
+	@PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object object) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks boolean equalsIgnoreCase(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
 	static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
+	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String replace(@PolyFlowSources @PolyFlowSinks CharSequence target,
+		@PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
+	
 }
 	
 class StringBuffer {
@@ -2127,12 +2175,18 @@ class Socket {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.net.InetAddress p0,int p1,boolean p2);
 }
 
+class URI {
+	static @PolyFlowSources @PolyFlowSinks URI create(@PolyFlowSources @PolyFlowSinks String uri);
+}
+
 class URL {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object getContent(java.lang.Class[] p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object getContent();
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openConnection(java.net.Proxy p0);
 	@PolyFlowSources @PolyFlowSinks URLConnection openConnection() @PolyFlowSources @PolyFlowSinks;
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openStream();
+	@PolyFlowSources @PolyFlowSinks String toExternalForm() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks URI toURI() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks URL(@PolyFlowSources @PolyFlowSinks String spec);
 }
 
@@ -2148,6 +2202,10 @@ class Time {
 }
 	
 package java.util;
+
+class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> extends List<T> {
+	@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
+}
 
 class Calendar {
 	@PolyFlowSources @PolyFlowSinks boolean after(@PolyFlowSources @PolyFlowSinks Object calendar) @PolyFlowSources @PolyFlowSinks;
@@ -2172,23 +2230,39 @@ interface Comparator<T extends @FlowSources(sparta.checkers.quals.FlowSources.Fl
 class Date {
 	@PolyFlowSources @PolyFlowSinks long getTime() @PolyFlowSources @PolyFlowSinks;
 }
-	
+
+class HashMap<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
+	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+	@PolyFlowSources @PolyFlowSinks String put(@PolyFlowSources @PolyFlowSinks K key, @PolyFlowSources @PolyFlowSinks V value) @PolyFlowSources @PolyFlowSinks;
+}
+
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 	@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
 	boolean add(@PolyFlowSources @PolyFlowSinks T object) @PolyFlowSources @PolyFlowSinks;
 }
-	
-class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> extends List<T> {
-	@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
+
+class Map<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
+	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+	V put(@PolyFlowSources @PolyFlowSinks K key, @PolyFlowSources @PolyFlowSinks V value) @PolyFlowSources @PolyFlowSinks;
 }
-// Maybe add Map here later?
-	
+
 package java.util.concurrent;
 
 class TimeUnit {
 	@PolyFlowSources @PolyFlowSinks long toHours(@PolyFlowSources @PolyFlowSinks long duration);
 	@PolyFlowSources @PolyFlowSinks long toMinutes(@PolyFlowSources @PolyFlowSinks long duration);
 	@PolyFlowSources @PolyFlowSinks long toSeconds(@PolyFlowSources @PolyFlowSinks long duration);
+}
+
+package java.util.regex;
+
+class Matcher {
+	@PolyFlowSources @PolyFlowSinks boolean find() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String group(int group) @PolyFlowSources @PolyFlowSinks;
+}
+
+class Pattern {
+	@PolyFlowSources @PolyFlowSinks Matcher matcher(@PolyFlowSources @PolyFlowSinks CharSequence input) @PolyFlowSources @PolyFlowSinks;
 }
 
 /* Android HTTP components */
@@ -2213,11 +2287,26 @@ class HttpClient {
 package org.apache.http.client.methods;
 
 class HttpGet {
-    HttpGet(@PolyFlowSinks @PolyFlowSources String uri) @PolyFlowSinks @PolyFlowSources;
+    @PolyFlowSinks @PolyFlowSources HttpGet(@PolyFlowSinks @PolyFlowSources String uri);
+    @PolyFlowSinks @PolyFlowSources HttpGet(@PolyFlowSinks @PolyFlowSources URI uri);
 }
 
 class HttpPost {
-    HttpPost(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
+	void addHeader(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value) @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks HttpPost(@PolyFlowSources @PolyFlowSinks String uri);
+    @PolyFlowSources @PolyFlowSinks HttpPost(@PolyFlowSources @PolyFlowSinks URI uri);
+    void setEntity(@PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpEntity entity) @PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK);
+}
+
+package org.apache.http.entity;
+
+class BufferedHttpEntity {
+	@PolyFlowSources @PolyFlowSinks BufferedHttpEntity(@PolyFlowSources @PolyFlowSinks HttpEntity entity);
+	@PolyFlowSources @PolyFlowSinks InputStream getContent() @PolyFlowSources @PolyFlowSinks;
+}
+
+class FileEntity {
+	@PolyFlowSources @PolyFlowSinks FileEntity(@PolyFlowSources @PolyFlowSinks File file, @PolyFlowSources @PolyFlowSinks String contentType);
 }
 
 package org.apache.http.entity.mime.content;
@@ -2232,7 +2321,8 @@ class DefaultHttpClient {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient();
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient(org.apache.http.params.HttpParams p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient(org.apache.http.conn.ClientConnectionManager p0,org.apache.http.params.HttpParams p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
+	//@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.HttpHost p0,org.apache.http.client.methods.HttpUriRequest p1,org.apache.http.client.ResponseHandler p2,org.apache.http.protocol.HttpContext p3);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.protocol.HttpContext p1);
@@ -2244,6 +2334,7 @@ class DefaultHttpClient {
 
 class HttpClient {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.HttpHost p0,org.apache.http.client.methods.HttpUriRequest p1,org.apache.http.client.ResponseHandler p2,org.apache.http.protocol.HttpContext p3);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.protocol.HttpContext p1);
@@ -2253,6 +2344,32 @@ class HttpClient {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.HttpHost p0,org.apache.http.client.methods.HttpUriRequest p1,org.apache.http.protocol.HttpContext p2);
 }
 
+package org.apache.http.message;
+
+class AbstractHttpMessage {
+	void addHeader(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks HttpParams getParams() @PolyFlowSources @PolyFlowSinks;
+}
+
+package org.xmlpull.v1;
+
+class XmlPullParser {
+	@PolyFlowSources @PolyFlowSinks int getAttributeCount() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String getAttributeName(int index) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String getAttributeValue(int index) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int getEventType() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String getName() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int next() @PolyFlowSources @PolyFlowSinks;
+	void setInput(@PolyFlowSources @PolyFlowSinks InputStream inputStream, String inputEncoding) @PolyFlowSources @PolyFlowSinks;
+}
+
+class XmlSerializer {
+	@PolyFlowSources @PolyFlowSinks XmlSerializer endTag(@PolyFlowSources @PolyFlowSinks String nameSpace, @PolyFlowSources @PolyFlowSinks String name) @PolyFlowSources @PolyFlowSinks;
+	void setOutput(@PolyFlowSources @PolyFlowSinks Writer writer) @PolyFlowSources @PolyFlowSinks;
+	void startDocument(String encoding, Boolean standalone) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks XmlSerializer startTag(@PolyFlowSources @PolyFlowSinks String namespace, @PolyFlowSources @PolyFlowSinks String name) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks XmlSerializer text(@PolyFlowSources @PolyFlowSinks tring text) @PolyFlowSources @PolyFlowSinks;
+}
 
 /* FROM EXTERNAL JARS */
 
