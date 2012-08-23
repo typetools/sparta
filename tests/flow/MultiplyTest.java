@@ -14,7 +14,7 @@ class MultiplyTest {
 
     void test_Multiply() {
         @FlowSources(FlowSource.LOCATION) float ra = (float) 1.0;
-        @FlowSources(FlowSource.LOCATION) float dec = (float) 2.0;
+        @FlowSources(FlowSource.LOCATION) float dec = 2.0f;
 
         float dtr = (float) 0.5;
 
@@ -31,7 +31,6 @@ class MultiplyTest {
     void test_Cast() {
         @FlowSources(FlowSource.LOCATION) float ra = (float) 1.0;
 
-        //:: warning: (cast.unsafe)
         raRadians = (float) ra;
     }
 

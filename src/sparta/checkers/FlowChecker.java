@@ -67,22 +67,24 @@ public class FlowChecker extends BaseTypeChecker {
     protected ExecutableElement sourceValue;
     protected ExecutableElement sinkValue;
 
+    @SuppressWarnings("unchecked")
     public List<FlowSource> getFlowSources(AnnotatedTypeMirror atm) {
         AnnotationMirror anno = atm.getAnnotationInHierarchy(ANYFLOWSOURCES);
         AnnotationValue sourcesValue = AnnotationUtils.getElementValuesWithDefaults(anno).get(sourceValue);
         // TODO: Should we add NONE as an enum constant?
         if (sourcesValue == null) { // || ((List<FlowSource>)sourcesValue.getValue()).isEmpty()) {
-            return Collections.EMPTY_LIST; // singletonList(FlowSink.NONE);
+            return Collections.emptyList(); // singletonList(FlowSink.NONE);
         } else {
             return (List<FlowSource>) sourcesValue.getValue();
         }
     }
 
+    @SuppressWarnings("unchecked")
     public List<FlowSink> getFlowSinks(AnnotatedTypeMirror atm) {
         AnnotationMirror anno = atm.getAnnotationInHierarchy(ANYFLOWSINKS);
         AnnotationValue sinksValue = AnnotationUtils.getElementValuesWithDefaults(anno).get(sinkValue);
         if (sinksValue == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         } else {
             return (List<FlowSink>) sinksValue.getValue();
         }
