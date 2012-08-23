@@ -4,51 +4,41 @@ import sparta.checkers.quals.FlowSinks.FlowSink;
 
 import java.io.*;
 import java.net.*;
+
+// Test for annotations on constructor returns and polymorphism
+// with constructors.
 class NewTest {
-	@SuppressWarnings("flow")
-	private @FlowSinks(FlowSink.NETWORK) TestClass sdf;
-	@SuppressWarnings("flow") //Variable initialization.
-	private @FlowSinks(FlowSink.NETWORK) String param = "jkl";
-	
-	void method() {
-		//:: error: (assignment.type.incompatible)
-		sdf = new TestClass(param);
-		sdf = new /*@FlowSinks(FlowSink.NETWORK)*/ TestClass(param); 
-	}
-	
-	
-	private URL tempUrl;
-	//private URLConnection connection;
-	//private InputStream stream;
-	//private BufferedInputStream in;
-	//private ByteArrayOutputStream out;
-	
-	void foo() {
-		@SuppressWarnings("flow")
-		@FlowSinks(FlowSink.FILESYSTEM) @FlowSources({}) String url = "";
-		@SuppressWarnings("flow") 
-		@FlowSinks(FlowSink.FILESYSTEM) @FlowSources({}) File cache;
-		
-		try {
-			//Note: annotation for URL() is: 
-			//@PolyFlowSources @PolyFlowSinks URL(@PolyFlowSources @PolyFlowSinks String spec);
-			
-			//:: error: (assignment.type.incompatible)
-			tempUrl = new @FlowSinks(FlowSink.FILESYSTEM) URL(url);
-			//connection = tempUrl.openConnection();
-			//stream = connection.getInputStream();
-			//in = new BufferedInputStream(stream);
-			//out = new ByteArrayOutputStream(10240);
-		} 
-		catch (Throwable t) {
-			
-		}
-	}
+    private @FlowSinks(FlowSink.NETWORK) TestClass1 sink;
+
+    @SuppressWarnings("flow") // Variable initialization.
+    private @FlowSinks(FlowSink.NETWORK) String param = "jkl";
+
+    void method() {
+        sink = new TestClass1(param);
+        sink = new @FlowSinks(FlowSink.NETWORK) TestClass1(param);
+        //:: error: (assignment.type.incompatible)
+        sink = new @FlowSinks(FlowSink.FILESYSTEM) TestClass1(param); 
+    }
+
+    private TestClass2 tempUrl;
+
+    void foo() {
+        @SuppressWarnings("flow")
+        @FlowSinks(FlowSink.FILESYSTEM) @FlowSources({}) String url = "";
+
+        // Specific sink is a subtype of empty sinks.
+        tempUrl = new @FlowSinks(FlowSink.FILESYSTEM) TestClass2(url);
+        //:: error: (assignment.type.incompatible)
+        tempUrl = new @FlowSources(FlowSource.CAMERA) TestClass2(url);
+    }
 }
 
-class TestClass {
-	
-	public TestClass(/*>>> @FlowSinks(FlowSink.NETWORK) TestClass this, */ @FlowSinks(FlowSink.NETWORK) String param) {
-		
-	}
+// Test specific constructor return type.
+class TestClass1 {
+    @FlowSinks(FlowSink.NETWORK) TestClass1(@FlowSinks(FlowSink.NETWORK) String param) {}
+}
+
+// Test polymorphic constructor return type.
+class TestClass2 {
+    @PolyFlowSources @PolyFlowSinks TestClass2(@PolyFlowSources @PolyFlowSinks String spec) {}
 }
