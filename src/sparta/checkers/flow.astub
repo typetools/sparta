@@ -2055,9 +2055,14 @@ class InputStreamReader {
 }
 
 class OutputStream {
-	void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	void flush() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	void close() @PolyFlowSources @PolyFlowSinks;
+	void flush() @PolyFlowSources @PolyFlowSinks;
 	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+}
+
+class OutputStreamWriter {
+	void close() @PolyFlowSources @PolyFlowSinks;
+	void flush() @PolyFlowSources @PolyFlowSinks;
 }
 
 class Reader {
@@ -2235,6 +2240,7 @@ class Date {
 
 class HashMap<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
 	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+	@PolyFlowSources @PolyFlowSinks V get(@PolyFlowSources @PolyFlowSinks Object key) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String put(@PolyFlowSources @PolyFlowSinks K key, @PolyFlowSources @PolyFlowSinks V value) @PolyFlowSources @PolyFlowSinks;
 }
 
