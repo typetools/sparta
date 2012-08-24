@@ -1,59 +1,106 @@
-Philip Lai <plai68@cs.washington.edu>
-Last updated: 2012-08-24
+Usage notes for the SPARTA information flow type system. This document
+is meant to provide a reference for the specifics of the annotation
+process, specifically regarding syntax in various situations and how
+qualifiers are resolved. 
+[Note: FlowSource{} means empty flow sources. @FlowSources... is
+just shorthand noting that the specifics aren't relevant.]
 
 =====
 
-Usage notes for the SPARTA information flow type system. This document is meant to provide a reference for the specifics of the annotation process, specifically regarding syntax in various situations and how qualifiers are resolved.
-[Note: FlowSource{} means empty flow sources. @FlowSources... is just shorthand noting that the specifics aren't relevant.]
+JSR 308 extends the Java language to allow annotations in more
+locations. Java 8 will include support for this extended syntax.
+The Checker Framework builds on a version of OpenJDK that already
+supports this syntax.
+However, existing compilers do not support this syntax and will raise
+an error. This is an issue in particular if you want to analyze
+applications in Eclipse.
 
-=====
+Eclipse accepts annotations only in the locations supported by Java
+1.5, that is, only declaration locations; examples are fields, local
+variables, parameters, and return types.
 
-Places Eclipse will accept annotations (in source code):
--Fields
+Eclipse won't accept annotations in locations that were added in
+JSR 308; added locations include type arguments, object creation,
+casts, type parameter bounds, and others.
+To avoid syntax errors from Eclipse or other Java compilers, you need
+to put such annotations in comments.
 
--Local variables
+Single qualifiers can use the "annotation-in-comment" syntax
+/*@X*/. Examples:
 
--Parameters
-
--Return types
-
--[TODO: More?]
-
-=====
-
-Places Eclipse won't accept in source code, and you'll need to put in comments:
-
--Generics:
+- Generics:
 	List</*@FlowSources...*/ String>
 
--"new" keyword, for FlowSinks:
-	@FlowSinks... Object a = new /*@FlowSinks...*/ Object();
+- Object creation:
+	new /*@FlowSinks...*/ Object();
 
-	Note: if the constructor returns a @FlowSources... Object, the information will travel to the local variable and you don't
-	need to manually annotate the local variable. With FlowSinks, however, since @FlowSink annotations are allowed to disappear
-	(if you decide later that the information doesn't have the chance of going to a FlowSink), you must manually mark the LHS and
-	RHS with the annotation, as above.
-
--Casts:
+- Casts:
 	return (/*@FlowSources...*/ double) x;
 
--Receivers for source-code methods:
+Note that only a single annotation can be in a comment; for
+sequences, use multiple comments, as in /*@X*/ /*@Y*/.
+
+Also, in Java 8, method receivers can be explicitly given as a "this"
+parameter.
+A separate comment syntax can be used to hide method receivers from
+Eclipse, while still keeping them available to the Checker Framework:
+
 	public Class(/*>>> @FlowSinks(FlowSink.NETWORK) Class this, */ String paramTwo) {}
 
--"Method type argument resolution"?  [TODO: Explain this further. Why was this an issue?]
-	void method(List</*@FlowSources({...})*/ Object> l, Comparator(</*@FlowSources({...})*/ Object> c) {
-	    Collections.</*@FlowSources({...})*/ Object>sort(l, c);
-	}
+
+When using annotations in comments, Eclipse might warn about unused
+imports for these annotations. To prevent such warnings, similarly put
+such imports into comments:
+
+/*>>>
+imports sparta.checkers.quals.*;
+*/
+
+
+Sometimes method type argument inference does not interact well with
+type qualifiers. In such situations, you might need to provide
+explicit method type arguments, for which the syntax is as follows:
+
+	Collections.</*@FlowSources({...})*/ Object>sort(l, c);
+
 
 =====
 
-Annotating stub files, rather than source code:
--The receiver:
-	mark as "returntype methodname(params) @Annotations;"
+To support adding annotations to libraries, we provide special .astub
+files that contain the annotations on the signatures of such classes.
+These files contain Java classes, but provide a few special features:
+
+- they can contain multiple packages and multiple public classes in
+ one file,
+- methods do not need to provide implementations,
+- the return type of a method does not need to match the real method,
+ e.g. using java.lang.Object is valid for every method.
+
+
+There are two temporary difference when annotating stub files, rather
+than source code:
+
+- the receiver is written after the method parameter list, instead of
+as an explicit first parameter.
+That is, instead of
+
+     returntype methodname(@Annotations C this, params);
+
+in a stub file one has to write
+
+     returntype methodname(params) @Annotations;
+
+- enum constants in annotations need to be fully qualified. TODO: example
 
 -The constructor:
 	mark as "@Annotations ClassName(params);" as if it was returning itself, rather than being a receiver.
+TODO: this is not special to the stub file; this should be moved
+	somewhere else.
 
+======
+
+TODO: provide type qualifier hierarchy, general overview, list of type
+systems, ...
 
 ======
 
@@ -65,30 +112,65 @@ Default annotations at various places (fields vs local variables):
 
 Misc explanations:
 
--It is safe to mark a @FlowSource{} variable as @FlowSource{something}, because we're just noting that it could have come from the source. It is NOT safe to do the same to a FlowSink{} variable, because that would go from saying it CANNOT go to a sink to it MAY go to a sink. If you want to do so, mark it with @SuppressWarnings("flow") before the annotation, and add a comment explaning why this annotation is safe. 
+-It is safe to mark a @FlowSource{} variable as
+ @FlowSource{something}, because we're just noting that it could have
+ come from the source. It is NOT safe to do the same to a FlowSink{}
+ variable, because that would go from saying it CANNOT go to a sink to
+ it MAY go to a sink. If you want to do so, mark it with
+ @SuppressWarnings("flow") before the annotation, and add a comment
+ explaining why this annotation is safe.
 
--For methods like equals() and toString() that are inherited from Object, we require the Object class's annotations on those to be the most general possible, so that overriding methods can restrict the annotations further. Thus, they return FlowSource.ANY and FlowSink{}. Currently I have most toString() calls overwritten with a @SuppressWarnings("flow") and a comment explaining that.
+-For methods like equals() and toString() that are inherited from
+ Object, we require the Object class's annotations on those to be the
+ most general possible, so that overriding methods can restrict the
+ annotations further. Thus, they return FlowSource.ANY and
+ FlowSink{}. Currently I have most toString() calls overwritten with a
+ @SuppressWarnings("flow") and a comment explaining that. 
 
--String literals [TODO: and all primitive literals? 1.0, true, 3, 'c', etc] have a default FlowSource{} FlowSink{}. If assigning a @FlowSink{something} String realString = "asdf", this is not allowed. Add a @SuppressWarnings("flow"), or split it up into two lines, a @Suppressed '@FlowSink{something} String tempString = "asdf";' and then assign realString = tempString;
+-String literals [TODO: and all primitive literals? 1.0, true, 3, 'c',
+ etc] have a default FlowSource{} FlowSink{}. A variable declaration:
 
--Adding on to that, if you try to compute a @FlowSource{something} int with a int literal (0 or 100, etc) it will resolve to another @FlowSource{something} int. If you try the same with a @FlowSink{something} int with an int literal, it will result in @FlowSink{} int because it's not safe to add a flowsink to the int literal. To bypass this, you must declare a local variable with "@SuppressWarnings("flow") \n @FlowSink{something} int tempZero = 0;" and then use the local variable in the calculation.
+ @FlowSink{something} String realString = "asdf";
 
--@SuppressWarnings("flow") cannot be used on assignments, only at variable intialization or method calls. This is relevant for local variables.
-	@SuppressWarnings("flow") //This is good.
+ will raise an error, because an unqualified type flows to a sink.
+ Add a @SuppressWarnings("flow"), or split it up into two
+ lines, a @Suppressed '@FlowSink{something} String tempString =
+ "asdf";' and then assign realString = tempString;
+
+-Adding on to that, if you try to compute a @FlowSource{something} int
+ with a int literal (0 or 100, etc) it will resolve to another
+ @FlowSource{something} int. If you try the same with a
+ @FlowSink{something} int with an int literal, it will result in
+ @FlowSink{} int because it's not safe to add a flowsink to the int
+ literal. To bypass this, you must declare a local variable with
+ "@SuppressWarnings("flow") \n @FlowSink{something} int tempZero = 0;"
+ and then use the local variable in the calculation.
+ Again document why the warning can be suppressed.
+
+-@SuppressWarnings("flow") cannot be used on assignments, only at
+ variable or method declarations. This is relevant for local
+ variables.
+ The following is legal:
+
+	@SuppressWarnings("flow") // Explain why suppression is sound.
 	@FlowSource... String a = method();
 
-	versus
+ The following is not legal, because the @SuppressWarnings is not on a
+ declaration:
 
 	@FlowSource... String a; 
-	@SuppressWarnings("flow") //This is bad.
+	@SuppressWarnings("flow") // Explain why suppression is sound.
 	a = method();
 
-	To get around this, make a new local variable with the proper annotations and suppress that line, then assign the variable you
-	want to that new local variable.
+ To get around this, add a new local variable with the proper
+ annotations and suppress on that declaration, then assign the new local
+ variable to the variable you originally wanted to assign to:
+
 	String a;
-	@SuppressWarnings("flow") //This is good.
+	@SuppressWarnings("flow") // Explain why suppression is sound.
 	@FlowSource... String b = method();
 	a = b;
 
 -[TODO: Explain "top types" and the type hierarchy more.]
+-[TODO: Explain flow inference.]
 -[TODO: Explain polymorphic qualifiers.]
