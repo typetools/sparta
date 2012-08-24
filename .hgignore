@@ -1,3 +1,14 @@
+syntax: glob
+
+# Emacs and other temporary files
+*~
+.#*
+*.swp
+TAGS
+tags
+*.orig
+.DS_Store
+
 sparta.jar
 
 bin/jarlist.cache
