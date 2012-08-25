@@ -1,0 +1,72 @@
+# This is a nearly unmodified version of the
+# Checker Framework manual Makefile.
+
+PLUME_LIB ?= ../../plume-lib/
+
+# To regenerate this list, run:   latex-process-inputs -makefilelist manual.tex
+TEX_FILES = \
+manual.tex \
+../../checker-framework/checkers/manual/manual-style.tex \
+introduction.tex \
+flow.tex
+
+all: figures-all manual.pdf manual.html # javadoc
+
+figures-all:
+	${MAKE} -C figures all
+
+# TODO: once Javadoc is enabled
+#javadoc:
+#	ln -sf ../javadoc doc
+
+manual.dvi: ${TEX_FILES} bib-update
+	$(MAKE) -C figures
+	latex manual.tex
+	bibtex manual
+	latex manual.tex
+	while grep "Rerun to get" manual.log; do latex manual.tex; done
+
+manual.pdf: manual.dvi bib-update
+	pdflatex manual.tex
+	bibtex manual
+	pdflatex manual.tex
+	while grep "Rerun to get" manual.log; do pdflatex manual.tex; done
+
+manual.ps: manual.dvi
+	dvips -P cmz -t letter -o manual.ps manual.dvi
+
+html: manual.html
+manual.html: manual.dvi
+	hevea -fix -exec xxdate.exe urlhref.hva manual.tex
+	hevea -exec xxdate.exe urlhref.hva manual.tex
+	\mv -f manual.html manual.html-with-htoc
+	${PLUME_LIB}/bin/hevea-retarget-crossrefs < manual.html-with-htoc > manual.html
+	\rm -f manual.html-with-htoc
+	perl -pi -e 's/\/&#XA0;/\/~/' manual.html
+#	perl -pi -e 's/(<!--TOC section Introduction-->)/$$1\n\n<p>Contents:<\/p>\n<!-- start toc.  do not edit; run html-update-toc instead -->\n<!-- end toc -->\n\n<br>\n/' manual.html
+#	html-update-toc manual.html
+
+export BIBINPUTS = $BIBINPUTS:.:bib
+
+bib:
+	hg clone https://code.google.com/p/plume-bib/ bib
+.PHONY: bib-update
+bib-update: bib
+# To skip running the hg command, invoke make like this:  make NOHG=t ...
+ifndef NOHG
+	cd bib && hg pull -u && make
+endif
+
+clean:
+	@\rm -f doc *.aux *.blg *.haux *.htoc *.log *.pdf *.ps *.dvi *.idx *.ind *.ilg *.toc
+
+very_clean: clean
+	@\rm manual.html
+
+.PHONY: checklink
+checklink:
+	${INV}/scripts/checklink -q -e `cat ${INV}/scripts/checklink-args.txt` manual.html
+
+tags: TAGS
+TAGS: ${TEX_FILES}
+	etags ${TEX_FILES}

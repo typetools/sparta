@@ -1,3 +1,14 @@
+syntax: glob
+
+# Emacs and other temporary files
+*~
+.#*
+*.swp
+TAGS
+tags
+*.orig
+.DS_Store
+
 sparta.jar
 
 bin/jarlist.cache
@@ -13,3 +24,21 @@ syntax: regexp
 ^lib/google-gson-2\.2\.2$
 syntax: regexp
 ^lib/google-gson-2\.2\.2-release\.zip$
+
+syntax: glob
+docs/manual.aux
+docs/manual.blg
+docs/manual.bbl
+docs/manual.haux
+docs/manual.html
+docs/manual.htoc
+docs/manual.log
+docs/manual.out
+docs/manual.dvi
+docs/manual.pdf
+docs/manual.ps
+docs/manual.toc
+docs/*.png
+docs/figures/*.eps
+docs/figures/*.pdf
+docs/figures/*.png

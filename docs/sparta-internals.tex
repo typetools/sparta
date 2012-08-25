@@ -1,12 +1,18 @@
+\htmlhr
+\chapter{SPARTA internals\label{sparta-internals}}
+
 This document contains details that are only relevant for
 people inside the SPARTA team at UW.
 
 The source code for the SPARTA checkers is in a Mercurial repository at
-/projects/swlab1/darpa-apac/sparta-code
+\</projects/swlab1/darpa-apac/sparta-code>.
 
 To get a copy do:
 
+\begin{alltt}
 $ hg clone ssh://YOURID@SERVERNAME//projects/swlab1/darpa-apac/sparta-code
+\end{alltt}
+% make Emacs $ happy
 
 To push your changes to the repository you need to be in sparta
 group. Contact Werner or Mike to get the permission.
@@ -20,60 +26,71 @@ rapidly.
 Thus you may need to pull and update with updated source code and
 rebuild the projects:
 
+\begin{alltt}
 $ hg fetch
+\end{alltt}
+% make Emacs $ happy
 
 Test applications are stored in
-/projects/swlab1/darpa-apac/sparta-subjects
+\</projects/swlab1/darpa-apac/sparta-subjects>
 
 
 Try to run ant in sparta-subjects/Sky 
 
+\begin{alltt}
 $ ant flowtest
+\end{alltt}
+% make Emacs $ happy
 
 If it gives results like this, you're ready to work on annotating!
+
+\begin{alltt}
 [jsr308.javac] /home/syhan/jsr308/sparta-subjects/Sky/src/org/jsharkey/sky/WebserviceHelper.java:308: error: incompatible types.
 [jsr308.javac]             HttpGet request = new HttpGet(String.format(WEBSERVICE_URL, lat, lon, days));
 [jsr308.javac]                                                        ^
 [jsr308.javac]   found   : @FlowSinks @FlowSources String
 [jsr308.javac]   required: @sparta.checkers.quals.FlowSinks({sparta.checkers.quals.FlowSinks.FlowSink.NETWORK}) @FlowSources String
+\end{alltt}
 
 If you want to add a new application, put it under the
-sparta-subjects directory.
+\<sparta-subjects> directory.
 
 You may need to get Android source code to get sense of what api returns (or
-gets) what type of data. See http://source.android.com/source/index.html
+gets) what type of data. See \url{http://source.android.com/source/index.html}
 You can find the list of all apis from the android source code in 
-frameworks/base/api/15.txt - api list for api version 15 (Android 4.0.3)
+\<frameworks/base/api/15.txt> - api list for api version 15 (Android 4.0.3)
 Accessing resource is closely related to android permissions (some of the
 resources are not protected with permissions though). Android permission list
 is at:
-http://developer.android.com/reference/android/Manifest.permission.html
+\url{http://developer.android.com/reference/android/Manifest.permission.html}
 Hints to add annotations could be permissionmap (which permission is required
 to call which functions):
-http://www.android-permissions.org/permissionmap.html
+\url{http://www.android-permissions.org/permissionmap.html}
 
 
 Adding Annotations
 There are two parts in adding annotations. 
-Firstly, we need to annotate the flow stub file (flow.astub) in
-sparta-code.
+Firstly, we need to annotate the flow stub file (\<flow.astub>) in
+\<sparta-code>.
 It's used for annotating Android APIs. For instance, 
 
+\begin{alltt}
 package android.telephony;
 
 class TelephonyManager {
     public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
     public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
 }
+\end{alltt}
 
-The above annotates two methods in class TelephonyManager.
-It means that the getLine1Number function returns a String which is
-phone number.  For more examples, look into the flow.astub file.
+The above annotates two methods in class \<TelephonyManager>.
+It means that the \<getLine1Number> function returns a String which is
+phone number.  For more examples, look into the \<flow.astub> file.
 
 FlowSources specifies data sources such as phone number, location, and
 etc. FlowSinks specifies sinks, such as files, network, and so on.
 The types of FlowSources and FlowSinks are listed in the
-FlowSources.java and FlowSinks.java files in sparta.checkers.quals.
+\<FlowSources.java> and \<FlowSinks.java> files in \<sparta.checkers.quals>.
 
 
 The second part is annotating the Android application to match

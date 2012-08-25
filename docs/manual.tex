@@ -1,0 +1,56 @@
+\documentclass[10pt]{report}
+
+\input{../../checker-framework/checkers/manual/manual-style.tex}
+
+% The bar doesn't appear in Java code and makes generics
+% easier to write.
+\def\|#1|{\code{#1}}
+
+
+\title{SPARTA!\\
+Static Program Analysis for
+Reliable Trusted Apps}
+
+\author{\url{http://types.cs.washington.edu/sparta/}\\[12mm]
+% TODO: list everyone on the project, or everybody who touched the
+% code, or everybody who edited the manual?
+Werner Dietl, Philip Lai\\
+\url{{wmdietl,plai68}@cs.washington.edu}\\[10mm]
+}
+
+\newcommand{\ReleaseInfo}{0.6 (27 Aug 2012)}
+\date{Version \ReleaseInfo{}\\[1cm]
+Do not distribute.
+}
+
+\begin{document}
+
+\maketitle
+
+
+%BEGIN LATEX
+\setcounter{page}{2}
+%END LATEX
+
+%HEVEA \setcounter{tocdepth}{1}
+
+\tableofcontents
+\newpage
+
+
+\input{introduction.tex}
+\input{installation.tex}
+\input{appanalysis.tex}
+\input{flow.tex}
+\input{notes.tex}
+\input{sparta-internals.tex}
+
+
+\htmlhr
+\bibliographystyle{alpha}
+% The .bib files are available from
+% http://code.google.com/p/plume-bib/
+% clone the project somewhere and set your BIBINPUTS accordingly.
+\bibliography{bibstring-unabbrev,types,ernst,invariants,generals,alias,concurrency}
+
+\end{document}
