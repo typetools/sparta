@@ -10,13 +10,14 @@ manual.tex \
 introduction.tex \
 flow.tex
 
-all: figures-all doc manual.pdf manual.html
+all: figures-all manual.pdf manual.html # javadoc
 
 figures-all:
 	${MAKE} -C figures all
 
-doc:
-	ln -sf ../doc doc
+# TODO: once Javadoc is enabled
+#javadoc:
+#	ln -sf ../javadoc doc
 
 manual.dvi: ${TEX_FILES} bib-update
 	$(MAKE) -C figures

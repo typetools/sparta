@@ -2,6 +2,11 @@
 
 \input{../../checker-framework/checkers/manual/manual-style.tex}
 
+% The bar doesn't appear in Java code and makes generics
+% easier to write.
+\def\|#1|{\code{#1}}
+
+
 \title{SPARTA!\\
 Static Program Analysis for
 Reliable Trusted Apps}
@@ -35,10 +40,10 @@ Do not distribute.
 
 \input{introduction.tex}
 \input{installation.tex}
-%\input{appanalysis.tex}
-%\input{flow.tex}
-%\input{notes.tex}
-%\input{sparta-internals.tex}
+\input{appanalysis.tex}
+\input{flow.tex}
+\input{notes.tex}
+\input{sparta-internals.tex}
 
 
 \htmlhr

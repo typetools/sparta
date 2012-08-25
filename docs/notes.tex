@@ -1,8 +1,12 @@
+\htmlhr
+\chapter{Notes\label{notes}}
+
 Usage notes for the SPARTA information flow type system. This document
 is meant to provide a reference for the specifics of the annotation
 process, specifically regarding syntax in various situations and how
-qualifiers are resolved. 
-[Note: FlowSource{} means empty flow sources. @FlowSources... is
+qualifiers are resolved.
+
+[Note: \<FlowSource{}> is short for empty flow sources. \<@FlowSources...> is
 just shorthand noting that the specifics aren't relevant.]
 
 =====
@@ -25,74 +29,85 @@ casts, type parameter bounds, and others.
 To avoid syntax errors from Eclipse or other Java compilers, you need
 to put such annotations in comments.
 
-Single qualifiers can use the "annotation-in-comment" syntax
-/*@X*/. Examples:
+Single qualifiers can use the ``annotation-in-comment'' syntax
+\</*@X*/>. Examples:
 
-- Generics:
-	List</*@FlowSources...*/ String>
+\begin{itemize}
+\item Generics:
+	\|List</*@FlowSources...*/ String>|
 
-- Object creation:
-	new /*@FlowSinks...*/ Object();
+\item Object creation:
+	\|new /*@FlowSinks...*/ Object();|
 
-- Casts:
-	return (/*@FlowSources...*/ double) x;
+\item Casts:
+	\|return (/*@FlowSources...*/ double) x;|
+\end{itemize}
 
 Note that only a single annotation can be in a comment; for
-sequences, use multiple comments, as in /*@X*/ /*@Y*/.
+sequences, use multiple comments, as in \|/*@X*/ /*@Y*/|.
 
-Also, in Java 8, method receivers can be explicitly given as a "this"
+Also, in Java 8, method receivers can be explicitly given as a \<this>
 parameter.
 A separate comment syntax can be used to hide method receivers from
 Eclipse, while still keeping them available to the Checker Framework:
 
+\begin{alltt}
 	public Class(/*>>> @FlowSinks(FlowSink.NETWORK) Class this, */ String paramTwo) {}
-
+\end{alltt}
 
 When using annotations in comments, Eclipse might warn about unused
 imports for these annotations. To prevent such warnings, similarly put
 such imports into comments:
 
+\begin{alltt}
 /*>>>
 imports sparta.checkers.quals.*;
 */
-
+\end{alltt}
 
 Sometimes method type argument inference does not interact well with
 type qualifiers. In such situations, you might need to provide
 explicit method type arguments, for which the syntax is as follows:
 
+\begin{alltt}
 	Collections.</*@FlowSources({...})*/ Object>sort(l, c);
-
+\end{alltt}
 
 =====
 
 To support adding annotations to libraries, we provide special .astub
 files that contain the annotations on the signatures of such classes.
 These files contain Java classes, but provide a few special features:
-
-- they can contain multiple packages and multiple public classes in
+\begin{itemize}
+\item they can contain multiple packages and multiple public classes in
  one file,
-- methods do not need to provide implementations,
-- the return type of a method does not need to match the real method,
+\item methods do not need to provide implementations,
+\item the return type of a method does not need to match the real method,
  e.g. using java.lang.Object is valid for every method.
-
+\end{itemize}
 
 There are two temporary difference when annotating stub files, rather
 than source code:
-
-- the receiver is written after the method parameter list, instead of
+\begin{itemize}
+\item the receiver is written after the method parameter list, instead of
 as an explicit first parameter.
 That is, instead of
 
+\begin{alltt}
      returntype methodname(@Annotations C this, params);
+\end{alltt}
 
 in a stub file one has to write
 
+\begin{alltt}
      returntype methodname(params) @Annotations;
+\end{alltt}
 
-- enum constants in annotations need to be fully qualified. TODO: example
+\item enum constants in annotations need to be fully qualified. TODO: example
+\end{itemize}
 
--The constructor:
+
+The constructor:
 	mark as "@Annotations ClassName(params);" as if it was returning itself, rather than being a receiver.
 TODO: this is not special to the stub file; this should be moved
 	somewhere else.
@@ -110,24 +125,25 @@ Default annotations at various places (fields vs local variables):
 
 =====
 
-Misc explanations:
+\section{Miscellaneous explanations}
 
--It is safe to mark a @FlowSource{} variable as
- @FlowSource{something}, because we're just noting that it could have
- come from the source. It is NOT safe to do the same to a FlowSink{}
+\begin{itemize}
+\item It is safe to mark a \<@FlowSource{}> variable as
+ \<@FlowSource{something}>, because we're just noting that it could have
+ come from the source. It is NOT safe to do the same to a \<FlowSink{}>
  variable, because that would go from saying it CANNOT go to a sink to
  it MAY go to a sink. If you want to do so, mark it with
- @SuppressWarnings("flow") before the annotation, and add a comment
+ \<@SuppressWarnings("flow")> before the annotation, and add a comment
  explaining why this annotation is safe.
 
--For methods like equals() and toString() that are inherited from
- Object, we require the Object class's annotations on those to be the
+\item For methods like \<equals()> and \<toString()> that are inherited from
+ \<Object>, we require the Object class's annotations on those to be the
  most general possible, so that overriding methods can restrict the
  annotations further. Thus, they return FlowSource.ANY and
  FlowSink{}. Currently I have most toString() calls overwritten with a
  @SuppressWarnings("flow") and a comment explaining that. 
 
--String literals [TODO: and all primitive literals? 1.0, true, 3, 'c',
+\item String literals [TODO: and all primitive literals? 1.0, true, 3, 'c',
  etc] have a default FlowSource{} FlowSink{}. A variable declaration:
 
  @FlowSink{something} String realString = "asdf";
@@ -137,39 +153,47 @@ Misc explanations:
  lines, a @Suppressed '@FlowSink{something} String tempString =
  "asdf";' and then assign realString = tempString;
 
--Adding on to that, if you try to compute a @FlowSource{something} int
+\item Adding on to that, if you try to compute a @FlowSource{something} int
  with a int literal (0 or 100, etc) it will resolve to another
  @FlowSource{something} int. If you try the same with a
  @FlowSink{something} int with an int literal, it will result in
  @FlowSink{} int because it's not safe to add a flowsink to the int
  literal. To bypass this, you must declare a local variable with
- "@SuppressWarnings("flow") \n @FlowSink{something} int tempZero = 0;"
+ "@SuppressWarnings("flow") @FlowSink{something} int tempZero = 0;"
  and then use the local variable in the calculation.
  Again document why the warning can be suppressed.
 
--@SuppressWarnings("flow") cannot be used on assignments, only at
+\item @SuppressWarnings("flow") cannot be used on assignments, only at
  variable or method declarations. This is relevant for local
  variables.
  The following is legal:
 
+\begin{alltt}
 	@SuppressWarnings("flow") // Explain why suppression is sound.
 	@FlowSource... String a = method();
+\end{alltt}
 
  The following is not legal, because the @SuppressWarnings is not on a
  declaration:
 
+\begin{alltt}
 	@FlowSource... String a; 
 	@SuppressWarnings("flow") // Explain why suppression is sound.
 	a = method();
+\end{alltt}
 
  To get around this, add a new local variable with the proper
  annotations and suppress on that declaration, then assign the new local
  variable to the variable you originally wanted to assign to:
 
+\begin{alltt}
 	String a;
 	@SuppressWarnings("flow") // Explain why suppression is sound.
 	@FlowSource... String b = method();
 	a = b;
+\end{alltt}
+
+\end{itemize}
 
 -[TODO: Explain "top types" and the type hierarchy more.]
 -[TODO: Explain flow inference.]
