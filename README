@@ -11,8 +11,8 @@ environment variable, e.g. by:
 
 ant -Dandroid.home=... jar
 
-See file docs/sparta-annotation.txt for further build and usage
-instructions.
+See file docs/installation.txt for installation instructions.
+See file docs/usage.txt for usage instructions.
 
 If you have trouble, please email either
   sparta@cs.washington.edu
