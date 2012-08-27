@@ -2300,6 +2300,10 @@ class HttpClient {
 	
 package org.apache.http.client.methods;
 
+class HttpEntityEnclosingRequestBase {
+	void setEntity(@PolyFlowSources @PolyFlowSinks HttpEntity entity) @PolyFlowSources @PolyFlowSinks;
+}
+
 class HttpGet {
     @PolyFlowSinks @PolyFlowSources HttpGet(@PolyFlowSinks @PolyFlowSources String uri);
     @PolyFlowSinks @PolyFlowSources HttpGet(@PolyFlowSinks @PolyFlowSources URI uri);
@@ -2321,6 +2325,7 @@ class BufferedHttpEntity {
 
 class FileEntity {
 	@PolyFlowSources @PolyFlowSinks FileEntity(@PolyFlowSources @PolyFlowSinks File file, @PolyFlowSources @PolyFlowSinks String contentType);
+	void setContentType(@PolyFlowSources @PolyFlowSinks String ctString) @PolyFlowSources @PolyFlowSinks;
 }
 
 package org.apache.http.entity.mime.content;
@@ -2330,6 +2335,11 @@ class StringBody {
 }
 
 package org.apache.http.impl.client;
+
+class AbstractHttpClient {
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
+	@PolyFlowSources @PolyFlowSinks HttpParams getParams() @PolyFlowSources @PolyFlowSinks;
+}
 
 class DefaultHttpClient {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient();
@@ -2366,6 +2376,10 @@ class AbstractHttpMessage {
 }
 
 package org.apache.http.params;
+
+class HttpParams {
+	@PolyFlowSources @PolyFlowSinks HttpParams setParameter(String name, @PolyFlowSources @PolyFlowSinks Object value) @PolyFlowSources @PolyFlowSinks; 
+}
 
 class HttpProtocolParams {
 	void setUseExpectContinue(@PolyFlowSources @PolyFlowSinks HttpParams params, boolean b) @PolyFlowSources @PolyFlowSinks;
