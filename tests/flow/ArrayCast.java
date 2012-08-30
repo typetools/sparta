@@ -9,7 +9,8 @@ class ArrayCast {
 
     void foo() {
         @SuppressWarnings("flow")
-        @FlowSinks(FlowSink.NETWORK) Object[] params = new /*@FlowSinks(FlowSink.NETWORK)*/ Object[1]; 
+        @FlowSinks(FlowSink.NETWORK) Object[] params = new /*@FlowSinks(FlowSink.NETWORK)*/ Object[1];
+        //:: warning: (cast.unsafe)
         Object[] result = (Object[]) call("method", params);
 
         // The annotations are on the array type, not on the array component type.
