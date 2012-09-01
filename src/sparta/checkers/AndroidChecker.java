@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import checkers.source.*;
-import checkers.util.AggregateChecker;
+import checkers.source.AggregateChecker;
 
 /**
  * An aggregate checker calling all Android type checkers.

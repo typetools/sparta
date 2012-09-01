@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.CompilationUnitTree;
-import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.Tree;
 import com.sun.source.util.Trees;
 
@@ -14,6 +13,7 @@ import checkers.source.SourceVisitor;
 import checkers.types.AnnotatedTypeFactory;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationUtils;
+import checkers.util.TreeUtils;
 
 import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSinks.FlowSink;
@@ -42,13 +42,13 @@ public class FlowShow extends FlowChecker {
 
         public FlowShowVisitor(FlowShow checker, CompilationUnitTree root) {
             super(checker, root);
-            treemsg = Trees.instance(env);
+            treemsg = Trees.instance(processingEnv);
         }
 
         @Override
         public Void scan(Tree tree, Void p) {
             super.scan(tree, p);
-            if (tree instanceof ExpressionTree &&
+            if (TreeUtils.isExpressionTree(tree) &&
                     !(tree instanceof AnnotationTree) &&
                     !(tree.getKind()==Tree.Kind.NULL_LITERAL)) {
                 AnnotatedTypeMirror type = this.atypeFactory.getAnnotatedType(tree);

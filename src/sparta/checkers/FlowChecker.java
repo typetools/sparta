@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
@@ -41,8 +40,8 @@ public class FlowChecker extends BaseTypeChecker {
     protected AnnotationMirror POLYALL;
 
     @Override
-    public void initChecker(ProcessingEnvironment env) {
-        AnnotationUtils annoFactory = AnnotationUtils.getInstance(env);
+    public void initChecker() {
+        AnnotationUtils annoFactory = AnnotationUtils.getInstance(processingEnv);
         NOFLOWSOURCES = annoFactory.fromClass(FlowSources.class);
         NOFLOWSINKS = annoFactory.fromClass(FlowSinks.class);
         POLYFLOWSOURCES = annoFactory.fromClass(PolyFlowSources.class);
@@ -50,18 +49,18 @@ public class FlowChecker extends BaseTypeChecker {
         POLYALL = annoFactory.fromClass(PolyAll.class);
 
         AnnotationUtils.AnnotationBuilder builder =
-                new AnnotationUtils.AnnotationBuilder(env, FlowSources.class.getCanonicalName());
+                new AnnotationUtils.AnnotationBuilder(processingEnv, FlowSources.class.getCanonicalName());
         builder.setValue("value", new FlowSource[] { FlowSource.ANY });
         ANYFLOWSOURCES = builder.build();
 
-        builder = new AnnotationUtils.AnnotationBuilder(env, FlowSinks.class.getCanonicalName());
+        builder = new AnnotationUtils.AnnotationBuilder(processingEnv, FlowSinks.class.getCanonicalName());
         builder.setValue("value", new FlowSink[] { FlowSink.ANY });
         ANYFLOWSINKS = builder.build();
 
-        sourceValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSources", "value", 0, env);
-        sinkValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSinks", "value", 0, env);
+        sourceValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSources", "value", 0, processingEnv);
+        sinkValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSinks", "value", 0, processingEnv);
 
-        super.initChecker(env);
+        super.initChecker();
     }
 
     protected ExecutableElement sourceValue;
