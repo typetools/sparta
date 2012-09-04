@@ -3,12 +3,18 @@ import sparta.checkers.quals.*;
 package android.accessibilityservice;
 
 class AccessibilityService {
-    //@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper(); //No information flow.
-    @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(android.content.Intent p0);
+    @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper(); //Removes current wallpaper, which returns to the default.
+    void clearWallpaper();
+    @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(android.content.Intent p0); //Removes data previously sent with sendStickyBroadCast(Intent).
+    void removeStickyBroadCast(Intent intent);
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(android.content.Intent p0);
+    void sendStickyBroadcast(Intent intent);
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
+    void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiever resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(android.graphics.Bitmap p0);
+    void setWallpaper(Bitmap bitmap);
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(java.io.InputStream p0);
+    void setWallpaper(InputStream data);
 }
 
 package android.accounts;
@@ -226,8 +232,8 @@ class AlarmManager {
 }
 
 class AlertDialog$Builder {
-		@PolyFlowSources @PolyFlowSinks Builder setMessage(@PolyFlowSources @PolyFlowSinks CharSequence message);
-	}
+	@PolyFlowSources @PolyFlowSinks Builder setMessage(@PolyFlowSources @PolyFlowSinks CharSequence message);
+}
 	
 class AliasActivity {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
@@ -946,6 +952,7 @@ class LocationManager {
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object clearTestProviderLocation(java.lang.String p0);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object clearTestProviderStatus(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getBestProvider(android.location.Criteria p0,boolean p1);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getLastKnownLocation(java.lang.String p0);
 	@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME}) Location getLastKnownLocation(String provider);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProvider(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(android.location.Criteria p0,boolean p1);
@@ -1679,9 +1686,11 @@ class TelephonyManager {
 	@RequiredPermissions(android.Manifest.permission.CONTROL_LOCATION_UPDATES) Object enableLocationUpdates();
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getCellLocation();
 	@RequiredPermissions(android.Manifest.permission.CALL_PRIVILEGED) Object getCompleteVoiceMailNumber();
+	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getDeviceId();
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getDeviceSoftwareVersion();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getLine1AlphaTag();
+	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getLine1Number();
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getNeighboringCellInfo();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getSimSerialNumber();
@@ -2190,6 +2199,7 @@ class URL {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object getContent(java.lang.Class[] p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object getContent();
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openConnection(java.net.Proxy p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openConnection();
 	@PolyFlowSources @PolyFlowSinks URLConnection openConnection() @PolyFlowSources @PolyFlowSinks;
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openStream();
 	@PolyFlowSources @PolyFlowSinks String toExternalForm() @PolyFlowSources @PolyFlowSinks;
@@ -2300,6 +2310,10 @@ class HttpClient {
 	
 package org.apache.http.client.methods;
 
+class HttpEntityEnclosingRequestBase {
+	void setEntity(@PolyFlowSources @PolyFlowSinks HttpEntity entity) @PolyFlowSources @PolyFlowSinks;
+}
+
 class HttpGet {
     @PolyFlowSinks @PolyFlowSources HttpGet(@PolyFlowSinks @PolyFlowSources String uri);
     @PolyFlowSinks @PolyFlowSources HttpGet(@PolyFlowSinks @PolyFlowSources URI uri);
@@ -2321,6 +2335,7 @@ class BufferedHttpEntity {
 
 class FileEntity {
 	@PolyFlowSources @PolyFlowSinks FileEntity(@PolyFlowSources @PolyFlowSinks File file, @PolyFlowSources @PolyFlowSinks String contentType);
+	void setContentType(@PolyFlowSources @PolyFlowSinks String ctString) @PolyFlowSources @PolyFlowSinks;
 }
 
 package org.apache.http.entity.mime.content;
@@ -2331,11 +2346,16 @@ class StringBody {
 
 package org.apache.http.impl.client;
 
+class AbstractHttpClient {
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
+	@PolyFlowSources @PolyFlowSinks HttpParams getParams() @PolyFlowSources @PolyFlowSinks;
+}
+
 class DefaultHttpClient {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient();
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient(org.apache.http.params.HttpParams p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient(org.apache.http.conn.ClientConnectionManager p0,org.apache.http.params.HttpParams p1);
-	//@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.HttpHost p0,org.apache.http.client.methods.HttpUriRequest p1,org.apache.http.client.ResponseHandler p2,org.apache.http.protocol.HttpContext p3);
@@ -2366,6 +2386,10 @@ class AbstractHttpMessage {
 }
 
 package org.apache.http.params;
+
+class HttpParams {
+	@PolyFlowSources @PolyFlowSinks HttpParams setParameter(String name, @PolyFlowSources @PolyFlowSinks Object value) @PolyFlowSources @PolyFlowSinks; 
+}
 
 class HttpProtocolParams {
 	void setUseExpectContinue(@PolyFlowSources @PolyFlowSinks HttpParams params, boolean b) @PolyFlowSources @PolyFlowSinks;
