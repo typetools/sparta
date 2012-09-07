@@ -25,11 +25,15 @@ To make a release:
  * update build.properties with the new version number
    and the version number of the Checker Framework
  * build sparta.jar
- * edit the files in directory "website" and "website/release/"
- * copy to /cse/www2/types/sparta/release:
-    website/resease/index.html
-    the manuals
+ * copy to /cse/www2/types/sparta/release (renaming to add version numbers):
+    docs/manual.html
+    docs/manual.pdf
     sparta.jar
-    a zip-file of the sparta-code repository
-    a zip-file of the sparta-subjects repository
+    a zip-file (or .tar.gz file) of the sparta-code repository
+    a zip-file (or .tar.gz file) of the sparta-subjects repository
+ * edit file "website/release/index.html" to link to the above files
+ * cp website/release/index.html /cse/www2/types/sparta/release/
+ * Check to make sure everything looks reasonable, the links, work, etc:
+   http://types.cs.washington.edu/sparta/release/
  * Send mail to sparta-users@cs.washington.edu announcing the release.
+
