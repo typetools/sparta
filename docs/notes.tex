@@ -1,6 +1,11 @@
 \htmlhr
 \chapter{Notes\label{notes}}
 
+This chapter is currently disorganized notes that will be incorporated into
+either this manual or the Checker Framework manual.
+
+=====
+
 Usage notes for the SPARTA information flow type system. This document
 is meant to provide a reference for the specifics of the annotation
 process, specifically regarding syntax in various situations and how
@@ -44,7 +49,7 @@ Single qualifiers can use the ``annotation-in-comment'' syntax
 \end{itemize}
 
 Note that only a single annotation can be in a comment; for
-sequences, use multiple comments, as in \|/*@X*/ /*@Y*/|.
+multiple annotations, use multiple comments, as in \|/*@X*/ /*@Y*/|.
 
 Also, in Java 8, method receivers can be explicitly given as a \<this>
 parameter.
@@ -61,7 +66,7 @@ such imports into comments:
 
 \begin{alltt}
 /*>>>
-imports sparta.checkers.quals.*;
+import sparta.checkers.quals.*;
 */
 \end{alltt}
 
