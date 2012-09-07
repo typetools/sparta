@@ -14,6 +14,7 @@ flow.tex
 
 all: figures-all manual.pdf manual.html # javadoc
 
+.PHONY: figures-all
 figures-all:
 	${MAKE} -C figures all
 
