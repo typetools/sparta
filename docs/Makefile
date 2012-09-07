@@ -5,6 +5,9 @@
 # Make will silently continue if that file does not exist.
 -include Makefile.user
 
+PLUME_LIB ?= ../../plume-lib
+CHECKERS ?= ../../checker-framework/checkers
+
 # To regenerate this list, run:   latex-process-inputs -makefilelist manual.tex
 TEX_FILES = \
 manual.tex \
@@ -58,6 +61,19 @@ bib-update: bib
 # To skip running the hg command, invoke make like this:  make NOHG=t ...
 ifndef NOHG
 	cd bib && hg pull -u && make
+endif
+
+# Update files that were copied from elsewhere to make the manual
+# self-contained and able to be built without first installing (which
+# requires one to read the manual...)
+copies-up-to-date:
+ifeq "$(wildcard ${CHECKERS}/manual/manual-style.tex)" "${CHECKERS}/manual/manual-style.tex"
+# file exists
+	cp -pf ${CHECKERS}/manual/manual-style.tex .
+endif
+ifeq "$(wildcard ${PLUME_LIB}/bin/hevea-retarget-crossrefs)" "${PLUME_LIB}/bin/hevea-retarget-crossrefs"
+# file exists
+	cp -pf ${PLUME_LIB}/bin/hevea-retarget-crossrefs .
 endif
 
 clean:
