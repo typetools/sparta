@@ -7,3 +7,6 @@ You need to have the following programs installed:
   hevea
   hg
   latex
+
+At least the first time, you need an Internet connection (to retrieve the
+bibliographies).
