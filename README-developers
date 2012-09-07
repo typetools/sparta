@@ -1,0 +1,35 @@
+Developer information
+=====================
+
+The public SPARTA project webpage is:
+
+http://www.cs.washington.edu/sparta/
+
+Releases are available at (non-publicized URL):
+
+http://types.cs.washington.edu/sparta/release/
+
+A URL that may be live in the future is:
+
+http://types.cs.washington.edu/sparta/
+
+The Jenkins integration server for all projects is at:
+
+http://buffalo.cs.washington.edu:8080/view/SPARTA/
+
+
+Making a release
+================
+
+To make a release:
+ * update build.properties with the new version number
+   and the version number of the Checker Framework
+ * build sparta.jar
+ * edit the files in directory "website" and "website/release/"
+ * copy to /cse/www2/types/sparta/release:
+    website/resease/index.html
+    the manuals
+    sparta.jar
+    a zip-file of the sparta-code repository
+    a zip-file of the sparta-subjects repository
+ * Send mail to sparta-users@cs.washington.edu announcing the release.

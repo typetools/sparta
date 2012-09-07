@@ -3,53 +3,10 @@ Static Program Analysis for Reliable Trusted Apps.
 University of Washington project for DARPA APAC program
 
 
-See the output of "ant -p" for the build and test targets.
-See build.properties for configuration variables.
-If the other projects are in the default locations, you should
-only need to set the android.home property or ANDROID_HOME
-environment variable, e.g. by:
-
-ant -Dandroid.home=... jar
-
-See file docs/installation.txt for installation instructions.
-See file docs/usage.txt for usage instructions.
-
-If you have trouble, please email either
-  sparta@cs.washington.edu
-  sparta-users@cs.washington.edu
-and we will try to help.
+Documentation is in the docs/ directory.
+See docs/README.txt for how to build the documentation.
+Then, the manual is available in docs/manual.pdf and docs/manual.html.
+The manual contains both installation instructions and usage instructions.
 
 
-Developer information
-=====================
-
-The public SPARTA project webpage is:
-
-http://www.cs.washington.edu/sparta/
-
-Releases are available at (non-publicized URL):
-
-http://types.cs.washington.edu/sparta/releases/
-
-A URL that may be live in the future is:
-
-http://types.cs.washington.edu/sparta/
-
-The Jenkins integration server for all projects is at:
-
-http://buffalo.cs.washington.edu:8080/view/SPARTA/
-
-
-Making a release
-================
-
-To make a release, update build.properties with the new version number
-and the version number of the Checker Framework; build sparta.jar;
-edit the files in directory "website" and "website/release/" and
-put sparta.jar and a zip-file of the repository into the "release"
-directory.
-Put these files online at
-
-/cse/www2/types/sparta/
-
-Send mail to sparta-users@cs.washington.edu announcing the release.
+Developer information is in file README-developers.

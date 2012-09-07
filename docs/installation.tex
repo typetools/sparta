@@ -33,7 +33,7 @@ and install the Android ADT Plugin (\url{https://dl-ssl.google.com/android/eclip
 Linux is our development platform, but we know of successful uses on
 MacOS; Windows is possible, but takes more effort.
 
-Follow the instruction at:
+Follow the instructions at:
 
 \url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#build-source}
 
@@ -41,8 +41,18 @@ Note: As of 24 August 2012, the annotation-tools test cases
 produce some error output. This is expected and can be ignored.
 
 
-\item Install and compile the SPARTA type checkers.
+\item
+Install the SPARTA tools
 
+\begin{itemize}
+\item
+ Download the SPARTA code from \url{http://types.cs.washington.edu/sparta/release/}.
+(Please do not publicize this URL.)
+
+\item
+Unpack the archive.
+
+\item
 Google gson is a dependency for the "-json" targets for projects.
 Get it from \url{http://code.google.com/p/google-gson/};
 create directory \<sparta-code/lib> and unzip gson there.
@@ -53,37 +63,40 @@ gson.jar=${basedir}/lib/google-gson-2.2.2/gson-2.2.2.jar
 \end{alltt}
 % make Emacs $ happy
 
+\item
+Build the \<sparta.jar> file.
+
 In the \<sparta-code> directory, run
 
 \begin{alltt}
-$ ant jar
+ant jar
 \end{alltt}
-% make Emacs $ happy
 
-to build the \<sparta.jar> file.
-The Android SDK location is either taken from the \<ANDROID\_HOME>
-environment variable or can be set with the \<android.home> property:
+\noindent
+It is necessary to specify the Android SDK location, by setting the \<ANDROID\_HOME>
+environment variable or the \<android.home> property.  Here is an example
+of the latter:
 
 \begin{alltt}
-$ ant -Dandroid.home=...
+ant -Dandroid.home=... jar
 \end{alltt}
-% make Emacs $ happy
 
 See file \<build.properties> for other configuration properties.
+
+See the output of \<ant -p> for the build and test targets.
 
 All projects can also be built and tested in Eclipse.
 Import the annotation-tools, jsr308-langtools, checkers, javaparser,
 and sparta-code projects into a workspace.
-
+\end{itemize}
 
 \item Run test cases.
 
 As a sanity check of the installation, run
 
 \begin{alltt}
-$ ant all-tests
+ant all-tests
 \end{alltt}
-% make Emacs $ happy
 
 You should see ``\<BUILD SUCCESSFUL>'' at the end.
 \end{enumerate}

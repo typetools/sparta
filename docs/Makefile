@@ -1,12 +1,14 @@
 # This is a nearly unmodified version of the
 # Checker Framework manual Makefile.
 
-PLUME_LIB ?= ../../plume-lib/
+# Put user-specific changes in your own Makefile.user.
+# Make will silently continue if that file does not exist.
+-include Makefile.user
 
 # To regenerate this list, run:   latex-process-inputs -makefilelist manual.tex
 TEX_FILES = \
 manual.tex \
-../../checker-framework/checkers/manual/manual-style.tex \
+manual-style.tex \
 introduction.tex \
 flow.tex
 
@@ -40,7 +42,7 @@ manual.html: manual.dvi
 	hevea -fix -exec xxdate.exe urlhref.hva manual.tex
 	hevea -exec xxdate.exe urlhref.hva manual.tex
 	\mv -f manual.html manual.html-with-htoc
-	${PLUME_LIB}/bin/hevea-retarget-crossrefs < manual.html-with-htoc > manual.html
+	./hevea-retarget-crossrefs < manual.html-with-htoc > manual.html
 	\rm -f manual.html-with-htoc
 	perl -pi -e 's/\/&#XA0;/\/~/' manual.html
 #	perl -pi -e 's/(<!--TOC section Introduction-->)/$$1\n\n<p>Contents:<\/p>\n<!-- start toc.  do not edit; run html-update-toc instead -->\n<!-- end toc -->\n\n<br>\n/' manual.html
@@ -61,7 +63,8 @@ clean:
 	@\rm -f doc *.aux *.blg *.haux *.htoc *.log *.pdf *.ps *.dvi *.idx *.ind *.ilg *.toc
 
 very_clean: clean
-	@\rm manual.html
+	@\rm -f manual.html
+	${MAKE} -C figures clean
 
 .PHONY: checklink
 checklink:
