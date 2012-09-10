@@ -319,6 +319,7 @@ package android.app;
 class Activity {
 	//x@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
+	@NoFlow View findViewById(int id);
 	//x@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
 	//x@NoFlow
