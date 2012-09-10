@@ -1,3 +1,5 @@
+import checkers.quals.PolyAll;
+
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowSources.FlowSource;
 import sparta.checkers.quals.FlowSinks.FlowSink;
@@ -45,19 +47,27 @@ class NoFlowTest {
 	
 	
 	void testClass() {
+		//:: error: (argument.type.incompatible)
 		source = classNone.testClassMethod(source);
+		none = classNone.testClassMethod(sink);
+		//:: error: (assignment.type.incompatible)
 		sink = classNone.testClassMethod(sink);
+		//:: error: (argument.type.incompatible)
+		none = classNone.testClassMethod(sourceSink);
+		//:: error: (argument.type.incompatible) :: error: (assignment.type.incompatible)
 		sourceSink = classNone.testClassMethod(sourceSink);
 		none = classNone.testClassMethod(none);
 	}
 	
-	@NoFlow int testMethod(int input) {
+	@NoFlow
+	int testMethod(int input) {
 		return 0;
 	}
 }
 
-@NoFlow class TestClass {
-	int testClassMethod(int input) {
+@NoFlow
+class TestClass {
+	int testClassMethod(@PolyAll TestClass this, int input) {
 		return 0;
 	}
 }
