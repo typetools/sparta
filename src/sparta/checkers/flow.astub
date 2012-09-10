@@ -28,7 +28,7 @@ class AbstractAccountAuthenticator {
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] requiredFeatures,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options);
-	//TODO: checkBinderPermission() is a private method, acccessed through Java reflection.
+	//TODO: checkBinderPermission() is a private method, accessed through Java reflection.
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object checkBinderPermission();
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle confirmCredentials(
@@ -186,7 +186,7 @@ class AccountManager {
 	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) 
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Boolean> hasFeatures(
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String [] features,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] features,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Boolean> callback,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS})
@@ -217,13 +217,13 @@ class AccountManager {
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String key,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String value);
 	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
-	FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> updateCredentials(
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> updateCredentials(
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler)
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
 }
 
 //AccountManager$AmsTask is a private class.
@@ -369,13 +369,13 @@ class ActivityManager {
 	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_USER_DATA) Object clearApplicationUserData(java.lang.String p0,android.content.pm.IPackageDataObserver p1);
 	//forceStopPackage() is a private method.
 	@RequiredPermissions(android.Manifest.permission.FORCE_STOP_PACKAGES) Object forceStopPackage(java.lang.String p0);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.GET_TASKS) List<ActivityManager.ProcessErrorStateInfo> getRecentTasks(int maxNum, int flags);
-	//x@NoFlow
-	@RequiredPermissions(android.Manifest.permission.GET_TASKS) List<ActivityManager.RunningTaskInfo getRunningTasks(int maxNum);
-	//x@NoFlow
+	@NoFlow
+	@RequiredPermissions(android.Manifest.permission.GET_TASKS) List<ActivityManager.RunningTaskInfo> getRunningTasks(int maxNum);
+	@NoFlow
 	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) void killBackgroundProcesses(String packageName);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) void restartPackage(String packageName);
 }
 
