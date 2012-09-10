@@ -3,34 +3,69 @@ import sparta.checkers.quals.*;
 package android.accessibilityservice;
 
 class AccessibilityService {
+    //TODO: Are intents/broadcasts information flow? Is our system capable of tracking these?
+    //x@NoFlow
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper(); //Removes current wallpaper, which returns to the default.
-    void clearWallpaper();
+    //x@NoFlow
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(android.content.Intent p0); //Removes data previously sent with sendStickyBroadCast(Intent).
-    void removeStickyBroadCast(Intent intent);
+    //x@NoFlow
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(android.content.Intent p0);
-    void sendStickyBroadcast(Intent intent);
+    //x@NoFlow
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-    void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiever resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
+    //x@NoFlow
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(android.graphics.Bitmap p0);
-    void setWallpaper(Bitmap bitmap);
+    //x@NoFlow
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(java.io.InputStream p0);
-    void setWallpaper(InputStream data);
 }
 
 package android.accounts;
 
 class AbstractAccountAuthenticator {
-    @RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object addAccount(android.accounts.IAccountAuthenticatorResponse p0,java.lang.String p1,java.lang.String p2,java.lang.String [] p3,android.os.Bundle p4);
+    @RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle addAccount(
+    	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+    	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] requiredFeatures,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options);
+	//TODO: checkBinderPermission() is a private method, acccessed through Java reflection.
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object checkBinderPermission();
-	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object confirmCredentials(android.accounts.IAccountAuthenticatorResponse p0,android.accounts.Account p1,android.os.Bundle p2);
-	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object editProperties(android.accounts.IAccountAuthenticatorResponse p0,java.lang.String p1);
-	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object getAccountRemovalAllowed(android.accounts.IAccountAuthenticatorResponse p0,android.accounts.Account p1);
-	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object getAuthToken(android.accounts.IAccountAuthenticatorResponse p0,android.accounts.Account p1,java.lang.String p2,android.os.Bundle p3);
-	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object getAuthTokenLabel(android.accounts.IAccountAuthenticatorResponse p0,java.lang.String p1);
-	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object hasFeatures(android.accounts.IAccountAuthenticatorResponse p0,android.accounts.Account p1,java.lang.String [] p2);
-	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object updateCredentials(android.accounts.IAccountAuthenticatorResponse p0,android.accounts.Account p1,java.lang.String p2,android.os.Bundle p3);
+	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle confirmCredentials(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options);
+	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle editProperties(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType);
+	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle getAccountRemovalAllowed(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account);
+	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle getAuthToken(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options);
+	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String getAuthTokenLabel(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType);
+	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle hasFeatures(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] features);
+	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle updateCredentials(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options);
 }
 
+//TODO: AbstractAccountAuthenticator.Transport class is private.
 class AbstractAccountAuthenticator$Transport {
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object addAccount(android.accounts.IAccountAuthenticatorResponse p0,java.lang.String p1,java.lang.String p2,java.lang.String [] p3,android.os.Bundle p4);
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object confirmCredentials(android.accounts.IAccountAuthenticatorResponse p0,android.accounts.Account p1,android.os.Bundle p2);
@@ -43,51 +78,167 @@ class AbstractAccountAuthenticator$Transport {
 }
 
 class AccountAuthenticatorActivity {
-	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
-	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
-	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
-	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(android.content.Intent p0);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(android.content.Intent p0);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
+	//TODO: setPersistent() is not documented anywhere.
 	@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
-	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
-	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(android.graphics.Bitmap p0);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(java.io.InputStream p0);
 }
 
 class AccountManager {
-	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS) Object addAccount(java.lang.String p0,java.lang.String p1,java.lang.String [] p2,android.os.Bundle p3,android.app.Activity p4,android.accounts.AccountManagerCallback p5,android.os.Handler p6);
-	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) Object addAccountExplicitly(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2);
-	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) Object addOnAccountsUpdatedListener(android.accounts.OnAccountsUpdateListener p0,android.os.Handler p1,boolean p2);
-	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS) Object blockingGetAuthToken(android.accounts.Account p0,java.lang.String p1,boolean p2);
-	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS) Object clearPassword(android.accounts.Account p0);
-	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS) Object confirmCredentials(android.accounts.Account p0,android.os.Bundle p1,android.app.Activity p2,android.accounts.AccountManagerCallback p3,android.os.Handler p4);
-	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS) Object editProperties(java.lang.String p0,android.app.Activity p1,android.accounts.AccountManagerCallback p2,android.os.Handler p3);
-	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) Object getAccounts();
-	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) Object getAccountsByType(java.lang.String p0);
-	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) Object getAccountsByTypeAndFeatures(java.lang.String p0,java.lang.String [] p1,android.accounts.AccountManagerCallback p2,android.os.Handler p3);
-	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS) Object getAuthToken(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2,android.app.Activity p3,android.accounts.AccountManagerCallback p4,android.os.Handler p5);
-	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS) Object getAuthToken(android.accounts.Account p0,java.lang.String p1,boolean p2,android.accounts.AccountManagerCallback p3,android.os.Handler p4);
-	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) Object getAuthTokenByFeatures(java.lang.String p0,java.lang.String p1,java.lang.String [] p2,android.app.Activity p3,android.os.Bundle p4,android.os.Bundle p5,android.accounts.AccountManagerCallback p6,android.os.Handler p7);
-	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) Object getPassword(android.accounts.Account p0);
-	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) Object getUserData(android.accounts.Account p0,java.lang.String p1);
-	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) Object hasFeatures(android.accounts.Account p0,java.lang.String [] p1,android.accounts.AccountManagerCallback p2,android.os.Handler p3);
-	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS}) Object invalidateAuthToken(java.lang.String p0,java.lang.String p1);
-	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) Object peekAuthToken(android.accounts.Account p0,java.lang.String p1);
-	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS) Object removeAccount(android.accounts.Account p0,android.accounts.AccountManagerCallback p1,android.os.Handler p2);
-	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) Object setAuthToken(android.accounts.Account p0,java.lang.String p1,java.lang.String p2);
-	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) Object setPassword(android.accounts.Account p0,java.lang.String p1);
-	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) Object setUserData(android.accounts.Account p0,java.lang.String p1,java.lang.String p2);
-	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS) Object updateCredentials(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2,android.app.Activity p3,android.accounts.AccountManagerCallback p4,android.os.Handler p5);
+	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> addAccount(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] requiredFeatures,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle addAccountOptions,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) boolean addAccountExplicitly(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String password,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle userdata);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) void addOnAccountsUpdatedListener(OnAccountsUpdateListener listener, Handler handler, boolean updateImmediately);
+	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String blockingGetAuthToken(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) boolean notifyAuthFailure);
+	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
+	void clearPassword(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account);
+	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> confirmCredentials(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
+	AccountManagerFuture<Bundle> editProperties(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Account[] getAccounts();
+	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Account[] getAccountsByType(
+		@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String type);
+	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Account[]> getAccountsByTypeAndFeatures(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String type,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] features,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Account[]> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) boolean notifyAuthFailure,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) boolean notifyAuthFailure,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthTokenByFeatures(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] features,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle addAccountOptions,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle getAuthTokenOptions,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) 
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String getPassword(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account);
+	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) 
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String getUserData(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String key);
+	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) 
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Boolean> hasFeatures(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String [] features,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Boolean> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS})
+	void invalidateAuthToken(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authToken);
+	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String peekAuthToken(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType);
+	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Boolean> removeAccount(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Boolean> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS)
+	void setAuthToken(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authToken);
+	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) 
+	void setPassword(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String password);
+	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) 
+	void setUserData(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String key,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String value);
+	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
+	FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> updateCredentials(
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler)
 }
 
+//AccountManager$AmsTask is a private class.
 class AccountManager$AmsTask {
 	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS}) Object doWork();
 	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS}) Object start();
 }
 
+//AccountManager$GetAuthTokenByTypeAndFeaturesTask is a private class.
 class AccountManager$GetAuthTokenByTypeAndFeaturesTask {
 	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS}) Object doWork();
 	@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS}) Object start();
 }
 
+//AccountManagerService is a hidden class.
 class AccountManagerService {
 	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) Object addAccount(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2);
 	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS) Object addAcount(android.accounts.IAccountManagerResponse p0,java.lang.String p1,java.lang.String p2,java.lang.String [] p3,boolean p4,android.os.Bundle p5);
@@ -113,10 +264,12 @@ class AccountManagerService {
 	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS) Object updateCredentials(android.accounts.IAccountManagerResponse p0,android.accounts.Account p1,java.lang.String p2,boolean p3,android.os.Bundle p4);
 }
 
+//AccountManagerService$SimWatcher is a private class.
 class AccountManagerService$SimWatcher {
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object onReceive(android.content.Context p0,android.content.Intent p1);
 }
 
+//GrantCredentialsPermissionActivity is a hidden class.
 class GrantCredentialsPermissionActivity {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
@@ -127,6 +280,7 @@ class GrantCredentialsPermissionActivity {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
 }
 
+//IAccountAuthenticator$Stub$Proxy is a private class.
 class IAccountAuthenticator$Stub$Proxy {
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object addAccount(android.accounts.IAccountAuthenticatorResponse p0,java.lang.String p1,java.lang.String p2,java.lang.String [] p3,android.os.Bundle p4);
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object confirmCredentials(android.accounts.IAccountAuthenticatorResponse p0,android.accounts.Account p1,android.os.Bundle p2);
@@ -138,6 +292,7 @@ class IAccountAuthenticator$Stub$Proxy {
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object updateCredentials(android.accounts.IAccountAuthenticatorResponse p0,android.accounts.Account p1,java.lang.String p2,android.os.Bundle p3);
 }
 
+//IAccountManager$Stub$Proxy is a private class.
 class IAccountManager$Stub$Proxy {
 	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) Object addAccount(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2);
 	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS) Object addAcount(android.accounts.IAccountManagerResponse p0,java.lang.String p1,java.lang.String p2,java.lang.String [] p3,boolean p4,android.os.Bundle p5);
@@ -162,39 +317,66 @@ class IAccountManager$Stub$Proxy {
 package android.app;
 
 class Activity {
-	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
-	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
-	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
-	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
-	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
-	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object setContentView(int p0);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
+	//x@NoFlow
+	void sendBroadcast(Intent intent);
+	//x@NoFlow
+	void sendOrderedBroadcast(Intent intent, String receiverPermission);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(Intent intent);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.INTERNET) void setContentView(int layoutResID);
+	//setPersistent() is a hidden method.
 	@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
-	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
-	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
-	@RequiredPermissions({}) Object startActivity(android.content.Intent p0);
-	@RequiredPermissions({}) Object startActivityForResult(android.content.Intent p0,int p1);
-	@RequiredPermissions({}) Object startActivityFromChild(android.app.Activity p0,android.content.Intent p1,int p2);
-	@RequiredPermissions({}) Object startActivityIfNeeded(android.content.Intent p0,int p1);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(Bitmap bitmap);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(InputStream data);
+	//x@NoFlow
+	@RequiredPermissions({}) void startActivity(Intent intent);
+	//x@NoFlow
+	@RequiredPermissions({}) void startActivityForResult(Intent intent, int requestCode);
+	//x@NoFlow
+	@RequiredPermissions({}) void startActivityFromChild(Activity child, Intent intent, int requestCode);
+	//x@NoFlow
+	@RequiredPermissions({}) boolean startActivityIfNeeded(Intent intent, int requestCode);
 }
 
 class ActivityGroup {
-	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
-	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
-	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
-	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(Intent intent);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
+	//setPersistent() is a hidden method.
 	@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
-	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
-	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(Bitmap bitmap);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(InputStream data);
 }
 
 class ActivityManager {
+	//clearApplicationUserData() is a private method.
 	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_USER_DATA) Object clearApplicationUserData(java.lang.String p0,android.content.pm.IPackageDataObserver p1);
+	//forceStopPackage() is a private method.
 	@RequiredPermissions(android.Manifest.permission.FORCE_STOP_PACKAGES) Object forceStopPackage(java.lang.String p0);
-	@RequiredPermissions(android.Manifest.permission.GET_TASKS) Object getRecentTasks(int p0,int p1);
-	@RequiredPermissions(android.Manifest.permission.GET_TASKS) Object getRunningTasks(int p0);
-	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) Object killBackgroundProcesses(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) Object restartPackage(java.lang.String p0);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.GET_TASKS) List<ActivityManager.ProcessErrorStateInfo> getRecentTasks(int maxNum, int flags);
+	//x@NoFlow
+	@RequiredPermissions(android.Manifest.permission.GET_TASKS) List<ActivityManager.RunningTaskInfo getRunningTasks(int maxNum);
+	//x@NoFlow
+	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) void killBackgroundProcesses(String packageName);
+	//x@NoFlow
+	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) void restartPackage(String packageName);
 }
 
 class ActivityManagerNative {
@@ -952,7 +1134,7 @@ class LocationManager {
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object clearTestProviderLocation(java.lang.String p0);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object clearTestProviderStatus(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getBestProvider(android.location.Criteria p0,boolean p1);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getLastKnownLocation(java.lang.String p0);
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
 	@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME}) Location getLastKnownLocation(String provider);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProvider(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(android.location.Criteria p0,boolean p1);
@@ -1686,11 +1868,11 @@ class TelephonyManager {
 	@RequiredPermissions(android.Manifest.permission.CONTROL_LOCATION_UPDATES) Object enableLocationUpdates();
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getCellLocation();
 	@RequiredPermissions(android.Manifest.permission.CALL_PRIVILEGED) Object getCompleteVoiceMailNumber();
-	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getDeviceId();
+	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE)
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getDeviceSoftwareVersion();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getLine1AlphaTag();
-	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getLine1Number();
+	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE)
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getNeighboringCellInfo();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getSimSerialNumber();
@@ -2199,7 +2381,7 @@ class URL {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object getContent(java.lang.Class[] p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object getContent();
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openConnection(java.net.Proxy p0);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openConnection();
+	@RequiredPermissions(android.Manifest.permission.INTERNET)
 	@PolyFlowSources @PolyFlowSinks URLConnection openConnection() @PolyFlowSources @PolyFlowSinks;
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openStream();
 	@PolyFlowSources @PolyFlowSinks String toExternalForm() @PolyFlowSources @PolyFlowSinks;
