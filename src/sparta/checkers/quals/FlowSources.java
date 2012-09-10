@@ -30,6 +30,8 @@ public @interface FlowSources {
          * Using this constant is preferred to listing all constants, because it's future safe.
          */
         ANY,
+        
+        ACCOUNTS,
         CAMERA,
         FILESYSTEM,
         IMEI,

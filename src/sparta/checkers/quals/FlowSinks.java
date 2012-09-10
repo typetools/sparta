@@ -30,11 +30,12 @@ public @interface FlowSinks {
          * Using this constant is preferred to listing all constants, because it's future safe.
          */
         ANY,
-
-        NETWORK,
-        TEXTMESSAGE,
+        
+        ACCOUNTS,
         EMAIL,
-        FILESYSTEM
+        FILESYSTEM,
+        NETWORK,
+        TEXTMESSAGE
     }
 
     /**
