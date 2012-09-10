@@ -10,5 +10,6 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
+@Target({ElementType.METHOD, ElementType.CONSTRUCTOR,
+    ElementType.TYPE, ElementType.PACKAGE})
 public @interface NoFlow {}
