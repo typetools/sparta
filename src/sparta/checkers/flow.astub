@@ -676,7 +676,7 @@ class NotificationManager {
 
 @NoFlow
 class ProgressDialog {
-	static ProgressDialog show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable);
+	@NoFlow static ProgressDialog show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable);
 }
 
 class Service {
@@ -899,7 +899,8 @@ class ContentResolver {
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object openFileDescriptor(android.net.Uri p0,java.lang.String p1);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object openInputStream(android.net.Uri p0);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object openOutputStream(android.net.Uri p0);
-	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object query(android.net.Uri p0,java.lang.String [] p1,java.lang.String p2,java.lang.String [] p3,java.lang.String p4);
+	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS)
+	@PolyFlowSources @PolyFlowSinks Cursor query(@PolyFlowSources @PolyFlowSinks Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object removePeriodicSync(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setIsSyncable(android.accounts.Account p0,java.lang.String p1,int p2);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setMasterSyncAutomatically(boolean p0);
@@ -936,6 +937,7 @@ class ContentValues {
 class Context {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) String name, int mode);
+
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
@@ -949,6 +951,8 @@ class Context {
 
 class ContextWrapper {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
+	@NoFlow
+	ContentResolver getContentResolver();
 	@NoFlow
 	Resources getResources();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
@@ -979,8 +983,12 @@ class IContentService$Stub$Proxy {
 }
 
 class Intent {
-	@PolyFlowSources @PolyFlowSinks Bundle getExtras() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks Intent setData(@PolyFlowSources @PolyFlowSinks Uri data) @PolyFlowSources @PolyFlowSinks;
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getAction();
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Uri getData();
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Bundle getExtras();
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int getIntExtra(String name, int defaultValue);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getStringExtra(String name);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Intent setData(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Uri data);
 	
 }
 class MutableContextWrapper {
@@ -1031,6 +1039,8 @@ package android.content.res;
 
 class Resources {
 	@NoFlow
+	float getDimension(int id);
+	@NoFlow
 	Drawable getDrawable(int id);
 	@NoFlow
 	CharSequence getText(int id);
@@ -1057,7 +1067,9 @@ class ContextImpl$ApplicationPackageManager {
 package android.database;
 
 class Cursor {
-	 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks double getDouble(int columnIndex);
+	 @PolyFlowSources @PolyFlowSinks double getDouble(int columnIndex) @PolyFlowSources @PolyFlowSinks;
+	 @PolyFlowSources @PolyFlowSinks String getString(int columnIndex) @PolyFlowSources @PolyFlowSinks;
+	 
 	 //TODO: Add the rest of the get methods
 	 //Note: Must manually cast the results from the cursor if the cursor comes from Context.getContentResolver()
 }
@@ -1190,7 +1202,9 @@ class LocationManager {
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object clearTestProviderEnabled(java.lang.String p0);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object clearTestProviderLocation(java.lang.String p0);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object clearTestProviderStatus(java.lang.String p0);
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getBestProvider(android.location.Criteria p0,boolean p1);
+	@NoFlow 
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
+	String getBestProvider(Criteria criteria, boolean enabledOnly);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
 	@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME}) Location getLastKnownLocation(String provider);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProvider(java.lang.String p0);
@@ -1458,10 +1472,11 @@ class WifiManager$WifiLock {
 package android.os;
 
 class Bundle {
-	//Needs other put methods
-	void putDouble(String key, @PolyFlowSources @PolyFlowSinks double value) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean getBoolean(String key, boolean defaultValue) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks double getDouble(String key) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int getInt(String key) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String getString(String key) @PolyFlowSources @PolyFlowSinks;
+	void putDouble(String key, @PolyFlowSources @PolyFlowSinks double value) @PolyFlowSources @PolyFlowSinks;
 }
 	
 class DropBoxManager {
@@ -1964,7 +1979,7 @@ class FloatMath {
 }
 
 class Log {
-	int d(String tag, @PolyFlowSources @PolyFlowSinks String msg);
+	int d(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
 }
 
 package android.view;
@@ -2082,6 +2097,10 @@ class WebViewCore {
 }
 
 package android.widget;
+
+class EditText {
+	@PolyFlowSources @PolyFlowSinks Editable getText() @PolyFlowSources @PolyFlowSinks;
+}
 
 class ImageView {
 	void setImageBitmap(@PolyFlowSources @PolyFlowSinks Bitmap bm) @PolyFlowSources @PolyFlowSinks;
