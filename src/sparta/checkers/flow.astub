@@ -1,5 +1,32 @@
 import sparta.checkers.quals.*;
 
+@ConservativeFlow
+package android;
+
+@ConservativeFlow
+package com.android;
+
+@ConservativeFlow
+package org.apache.http;
+
+@ConservativeFlow
+package java;
+
+/* Is using all of java.* too conservative? At least the following
+   packages should be conservative:
+package java.io;
+package java.net;
+package java.sql;
+package java.util;
+*/
+
+// We might want to use NoFlow here.
+// package java.lang;
+
+@ConservativeFlow
+package java.lang.reflect;
+
+
 package android.accessibilityservice;
 
 class AccessibilityService {
