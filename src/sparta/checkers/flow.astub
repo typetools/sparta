@@ -31,17 +31,17 @@ package android.accessibilityservice;
 
 class AccessibilityService {
     //TODO: Are intents/broadcasts information flow? Is our system capable of tracking these?
-    //x@NoFlow
+    @NoFlow
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper(); //Removes current wallpaper, which returns to the default.
-    //x@NoFlow
+    @NoFlow
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(android.content.Intent p0); //Removes data previously sent with sendStickyBroadCast(Intent).
-    //x@NoFlow
+    @NoFlow
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(android.content.Intent p0);
-    //x@NoFlow
+    @NoFlow
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-    //x@NoFlow
+    @NoFlow
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(android.graphics.Bitmap p0);
-    //x@NoFlow
+    @NoFlow
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(java.io.InputStream p0);
 }
 
@@ -105,19 +105,19 @@ class AbstractAccountAuthenticator$Transport {
 }
 
 class AccountAuthenticatorActivity {
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(android.content.Intent p0);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(android.content.Intent p0);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	//TODO: setPersistent() is not documented anywhere.
+	//setPersistent() is a private method
 	@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(android.graphics.Bitmap p0);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(java.io.InputStream p0);
 }
 
@@ -344,52 +344,56 @@ class IAccountManager$Stub$Proxy {
 package android.app;
 
 class Activity {
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
 	@NoFlow
 	View findViewById(int id);
-	//x@NoFlow
+	@NoFlow
+	Intent getIntent();
+	@NoFlow
+	Object getSystemService(String name);
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
-	//x@NoFlow
+	@NoFlow
 	void sendBroadcast(Intent intent);
-	//x@NoFlow
+	@NoFlow
 	void sendOrderedBroadcast(Intent intent, String receiverPermission);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(Intent intent);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.INTERNET) void setContentView(int layoutResID);
 	//setPersistent() is a hidden method.
 	@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(Bitmap bitmap);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(InputStream data);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions({}) void startActivity(Intent intent);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions({}) void startActivityForResult(Intent intent, int requestCode);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions({}) void startActivityFromChild(Activity child, Intent intent, int requestCode);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions({}) boolean startActivityIfNeeded(Intent intent, int requestCode);
 }
 
 class ActivityGroup {
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(Intent intent);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
 	//setPersistent() is a hidden method.
 	@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(Bitmap bitmap);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(InputStream data);
 }
 
@@ -443,6 +447,8 @@ class AlarmManager {
 }
 
 class AlertDialog$Builder {
+	@NoFlow
+	AlertDialog create();
 	@PolyFlowSources @PolyFlowSinks Builder setMessage(@PolyFlowSources @PolyFlowSinks CharSequence message);
 }
 	
@@ -554,6 +560,11 @@ class ContextImpl$ApplicationPackageManager {
 	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setComponentEnabledSetting(ComponentName p0,int p1,int p2);
 }
 
+class Dialog {
+	@NoFlow
+	void show();
+}
+
 class ExpandableListActivity {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
@@ -661,6 +672,11 @@ class ListActivity {
 class NotificationManager {
 	@RequiredPermissions(android.Manifest.permission.VIBRATE) Object notify(int p0,android.app.Notification p1);
 	@RequiredPermissions(android.Manifest.permission.VIBRATE) Object notify(java.lang.String p0,int p1,android.app.Notification p2);
+}
+
+@NoFlow
+class ProgressDialog {
+	static ProgressDialog show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable);
 }
 
 class Service {
@@ -933,6 +949,8 @@ class Context {
 
 class ContextWrapper {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
+	@NoFlow
+	Resources getResources();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
@@ -961,9 +979,10 @@ class IContentService$Stub$Proxy {
 }
 
 class Intent {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Intent setData(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Uri data) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	//Should that be polymorphic?
-	}
+	@PolyFlowSources @PolyFlowSinks Bundle getExtras() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks Intent setData(@PolyFlowSources @PolyFlowSinks Uri data) @PolyFlowSources @PolyFlowSinks;
+	
+}
 class MutableContextWrapper {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
@@ -1006,6 +1025,15 @@ class PackageManager {
 	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object replacePreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
 	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setApplicationEnabledSetting(java.lang.String p0,int p1,int p2);
 	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setComponentEnabledSetting(android.content.ComponentName p0,int p1,int p2);
+}
+
+package android.content.res;
+
+class Resources {
+	@NoFlow
+	Drawable getDrawable(int id);
+	@NoFlow
+	CharSequence getText(int id);
 }
 
 package android.app;
@@ -1432,6 +1460,7 @@ package android.os;
 class Bundle {
 	//Needs other put methods
 	void putDouble(String key, @PolyFlowSources @PolyFlowSinks double value) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks boolean getBoolean(String key, boolean defaultValue) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String getString(String key) @PolyFlowSources @PolyFlowSinks;
 }
 	
@@ -2016,6 +2045,11 @@ class SurfaceView {
 	@NoFlow
 	SurfaceHolder getHolder();
 }
+
+class View {
+	@PolyFlowSources @PolyFlowSinks Object getTag() @PolyFlowSources @PolyFlowSinks;
+}
+
 package android.webkit;
 
 class GeolocationService {
@@ -2051,6 +2085,7 @@ package android.widget;
 
 class ImageView {
 	void setImageBitmap(@PolyFlowSources @PolyFlowSinks Bitmap bm) @PolyFlowSources @PolyFlowSinks;
+	void setImageDrawable(@PolyFlowSources @PolyFlowSinks Drawable drawable) @PolyFlowSources @PolyFlowSinks;
 }
 	
 class QuickContactBadge {
