@@ -59,6 +59,10 @@ class NoFlowTest {
 		sourceSink = classNone.testClassMethod(sourceSink);
 		none = classNone.testClassMethod(none);
 	}
+
+	// This test assumes that SurfaceView.getHolder is annotated
+	// with @NoFlow. If this test fails, checks whether that specification changed.
+	// If so, change it to some other API that uses @NoFlow.
 	SurfaceHolder sHolder;
 	void testAndroid(SurfaceView view) {
 		sHolder = view.getHolder(); 
