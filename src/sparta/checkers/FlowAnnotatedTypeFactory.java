@@ -1,10 +1,6 @@
 package sparta.checkers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.lang.model.element.Element;
-import javax.lang.model.util.Elements;
 
 import sparta.checkers.quals.ConservativeFlow;
 import sparta.checkers.quals.NoFlow;
