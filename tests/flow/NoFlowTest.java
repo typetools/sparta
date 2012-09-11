@@ -1,5 +1,6 @@
 import checkers.quals.PolyAll;
-
+import android.app.Activity;
+import android.view.*;
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowSources.FlowSource;
 import sparta.checkers.quals.FlowSinks.FlowSink;
@@ -57,6 +58,10 @@ class NoFlowTest {
 		//:: error: (argument.type.incompatible) :: error: (assignment.type.incompatible)
 		sourceSink = classNone.testClassMethod(sourceSink);
 		none = classNone.testClassMethod(none);
+	}
+	SurfaceHolder sHolder;
+	void testAndroid(SurfaceView view) {
+		sHolder = view.getHolder(); 
 	}
 	
 	@NoFlow

@@ -319,7 +319,8 @@ package android.app;
 class Activity {
 	//x@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
-	@NoFlow View findViewById(int id);
+	@NoFlow
+	View findViewById(int id);
 	//x@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
 	//x@NoFlow
@@ -1984,6 +1985,10 @@ class SurfaceSession {
 	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) Object SurfaceSession();
 }
 
+class SurfaceView {
+	@NoFlow
+	SurfaceHolder getHolder();
+}
 package android.webkit;
 
 class GeolocationService {
