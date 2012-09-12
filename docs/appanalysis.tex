@@ -219,7 +219,9 @@ over the network. By default, every literal has \<@FlowSinks()>
 (i.e., nothing) and \<@FlowSources()>.
 
 \begin{alltt}
-    @SuppressWarnings("flow") // Validated String literal, with no query parameters that have my credit card number
+    // Validated String literal, with no query parameters
+    // that have my credit card number.
+    @SuppressWarnings("flow") // manually checked
     @FlowSinks(FlowSink.NETWORK) String url = "http://bazinga.com/";
 \end{alltt}
 
@@ -265,4 +267,4 @@ the application.
 Providing the \<stricter> option enables additional checks that are
 required for soundness, but would be disruptive to enable initially.
 In particular, the tests for casts and array subtyping are stricter.
-See the discussion in \secref{TODO}.
+See the discussion in \chapterpageref{flow-checker}.

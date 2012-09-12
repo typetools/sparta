@@ -108,7 +108,8 @@ in a stub file one has to write
      returntype methodname(params) @Annotations;
 \end{alltt}
 
-\item enum constants in annotations need to be fully qualified. TODO: example
+\item enum constants in annotations need to be fully qualified.
+% TODO: example
 \end{itemize}
 
 
@@ -116,11 +117,6 @@ The constructor:
 	mark as "@Annotations ClassName(params);" as if it was returning itself, rather than being a receiver.
 TODO: this is not special to the stub file; this should be moved
 	somewhere else.
-
-======
-
-TODO: provide type qualifier hierarchy, general overview, list of type
-systems, ...
 
 ======
 
@@ -148,8 +144,9 @@ Default annotations at various places (fields vs local variables):
  FlowSink{}. Currently I have most toString() calls overwritten with a
  @SuppressWarnings("flow") and a comment explaining that. 
 
-\item String literals [TODO: and all primitive literals? 1.0, true, 3, 'c',
- etc] have a default FlowSource{} FlowSink{}. A variable declaration:
+\item String literals and all primitive literals (1.0, true, 3, 'c',
+ etc.) have a default \<@FlowSources({}) @FlowSinks({})>.
+ A variable declaration:
 
  @FlowSink{something} String realString = "asdf";
 
@@ -200,6 +197,6 @@ Default annotations at various places (fields vs local variables):
 
 \end{itemize}
 
--[TODO: Explain "top types" and the type hierarchy more.]
--[TODO: Explain flow inference.]
--[TODO: Explain polymorphic qualifiers.]
+% -[TODO: Explain "top types" and the type hierarchy more.]
+% -[TODO: Explain flow inference.]
+% -[TODO: Explain polymorphic qualifiers.]

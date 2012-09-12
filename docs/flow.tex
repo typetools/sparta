@@ -1,8 +1,49 @@
 \htmlhr
 \chapter{Flow Checker\label{flow-checker}}
 
-TODO: describe the flow type system.
+Each type consists of a flow source and a flow sink qualifier.
+
+Each qualifier is a set of enum constants from the respective enum,
+defined in \<sparta.checkers.quals.FlowSources.FlowSource> and
+\<sparta.checkers.quals.FlowSinks.FlowSink>.
 
 
-In a cast \<(Object []) x\> the component type of 
-[jsr308.javac] ... warning: "@FlowSinks @sparta.checkers.quals.FlowSources({sparta.checkers.quals.FlowSources.FlowSource.ANY}) Object" may not be casted to the type "@FlowSinks @FlowSources LocationManager"
+See \figref{fig:flowsources-hierarchy} for an example hierarchy of
+source qualifiers and \figref{fig:flowsinks-hierarchy} for sink
+qualifiers.
+
+
+\begin{figure}
+\includeimage{flowsources}{5cm}
+\caption{Qualifier hierarchy for four possible flow sources.}
+\label{fig:flowsources-hierarchy}
+\end{figure}
+
+\begin{figure}
+\includeimage{flowsinks}{5cm}
+\caption{Qualifier hierarchy for four possible flow sinks.}
+\label{fig:flowsinks-hierarchy}
+\end{figure}
+
+
+Explain qualifier subtyping for each individual hierarchy using the examples.
+
+Explain subtyping.
+
+Explain @PolyFlowSources and @PolyFlowSinks.
+
+Explain flow.astub.
+Explain defaulting, @NoFlow, @ConservativeFlow.
+
+A cast \<(Object []) x>, were \<x> is of type \<Object>, will result
+in a compiler warning:
+
+\begin{alltt}
+[jsr308.javac] ... warning: "@FlowSinks @FlowSources({FlowSource.ANY}) Object"
+       may not be casted to the type "@FlowSinks @FlowSources Object"
+\end{alltt}
+
+The reason is that statically the component type of the array is
+simply defaulted. There is no static knowledge about the actual
+runtime values in the array and important flow could be hidden.
+Use \<-Dstricter> to turn on these stricter checks.
