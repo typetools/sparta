@@ -442,7 +442,7 @@ class IDevicePolicyManager$Stub$Proxy {
 package android.app;
 
 class AlarmManager {
-	void set(int p1, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long p2, PendingIntent p3);
+	void set(int p1, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long p2, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) PendingIntent p3) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 	@RequiredPermissions(android.Manifest.permission.SET_TIME) Object setTime(long p0);
 	@RequiredPermissions(android.Manifest.permission.SET_TIME_ZONE) Object setTimeZone(java.lang.String p0);
 }
@@ -725,6 +725,9 @@ package android.appwidget;
 
 class AppWidgetManager {
 	@RequiredPermissions(android.Manifest.permission.BIND_APPWIDGET) Object bindAppWidgetId(int p0,android.content.ComponentName p1);
+	@NoFlow int [] getAppWidgetIds(ComponentName cn);
+	@NoFlow AppWidgetManager getInstance(Context c);
+	
 }
 
 package android.bluetooth;
@@ -948,6 +951,8 @@ class Context {
 	@NoFlow ContentResolver getContentResolver();
 	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) String name, int mode);
 	@NoFlow String getPackageName();
+	@NoFlow Resources getResources();
+	@NoFlow String getString(int i, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object... objs);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
@@ -1055,6 +1060,8 @@ class Resources {
 	@NoFlow
 	String getString(int id);
 	@NoFlow
+	String getString(int id, Object... objs);
+	@NoFlow
 	CharSequence getText(int id);
 }
 
@@ -1080,13 +1087,15 @@ class ContextImpl$ApplicationPackageManager {
 package android.database;
 
 class Cursor {
-	 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) double getDouble(int columnIndex);
-	 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) long getLong(int columnIndex);
-	 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getString(int columnIndex);
-	 @NoFlow boolean moveToFirst() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);	
+	@NoFlow void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) double getDouble(int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) long getLong(int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getString(int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int getInt(int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@NoFlow boolean moveToFirst() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);	
 	 
-	 //TODO: Add the rest of the get methods
-	 //Note: Must manually cast the results from the cursor if the cursor comes from Context.getContentResolver()
+	//TODO: Add the rest of the get methods
+	//Note: Must manually cast the results from the cursor if the cursor comes from Context.getContentResolver()
 }
 
 package android.database.sqlite;
@@ -1995,6 +2004,10 @@ class TextUtils {
 
 package android.text.format;
 
+class DateUtils {
+	@PolyFlowSources @PolyFlowSinks String getDayOfWeekString(@PolyFlowSources @PolyFlowSinks int p0, int p1);
+}
+
 class Time {
 	//TODO: This should probably be double checked later:
 	boolean parse3339(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String s);
@@ -2144,6 +2157,7 @@ class EditText {
 class ImageView {
 	void setImageBitmap(@PolyFlowSources @PolyFlowSinks Bitmap bm) @PolyFlowSources @PolyFlowSinks;
 	void setImageDrawable(@PolyFlowSources @PolyFlowSinks Drawable drawable) @PolyFlowSources @PolyFlowSinks;
+	void setImageResource(@PolyFlowSources @PolyFlowSinks int i) @PolyFlowSources @PolyFlowSinks;
 }
 	
 class QuickContactBadge {
@@ -2153,7 +2167,12 @@ class QuickContactBadge {
 }
 
 class TextView {
+	@NoFlow ColorStateList getTextColors();
 	void setText(@PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
+}
+
+class RemoteViews {
+	@NoFlow void setOnClickPendingIntent(int i, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) PendingIntent pi);
 }
 	
 package com.android.http.multipart;
@@ -2576,8 +2595,8 @@ class HashMap<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSo
 }
 
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-	@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
-	boolean add(@PolyFlowSources @PolyFlowSinks T object) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks T get(int index) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ALL) @PolyFlowSinks;
+	boolean add( @PolyFlowSinks T object) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ALL) @PolyFlowSinks;
 	@NoFlow int size() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 }
 
@@ -2585,6 +2604,11 @@ class Map<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSource
 	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 	V put(@PolyFlowSources @PolyFlowSinks K key, @PolyFlowSources @PolyFlowSinks V value) @PolyFlowSources @PolyFlowSinks;
 }
+
+class Queue<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+	T poll() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ALL);
+}
+
 
 package java.util.concurrent;
 
@@ -2602,6 +2626,7 @@ class Matcher {
 }
 
 class Pattern {
+	static @PolyFlowSources @PolyFlowSinks Pattern compile(@PolyFlowSources @PolyFlowSinks String str, int i);
 	@PolyFlowSources @PolyFlowSinks Matcher matcher(@PolyFlowSources @PolyFlowSinks CharSequence input) @PolyFlowSources @PolyFlowSinks;
 }
 
