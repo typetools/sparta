@@ -727,8 +727,12 @@ package android.appwidget;
 
 class AppWidgetManager {
 	@RequiredPermissions(android.Manifest.permission.BIND_APPWIDGET) Object bindAppWidgetId(int p0,android.content.ComponentName p1);
-	@NoFlow int [] getAppWidgetIds(ComponentName cn);
-	@NoFlow AppWidgetManager getInstance(Context c);
+	@NoFlow
+	int [] getAppWidgetIds(ComponentName cn);
+	@NoFlow
+	AppWidgetProviderInfo getAppWidgetInfo(int appWidgetId);
+	@NoFlow
+	AppWidgetManager getInstance(Context c);
 	
 }
 
@@ -891,6 +895,11 @@ class ScoSocket {
 }
 
 package android.content;
+
+class ComponentName {
+	@NoFlow
+	String getClassName();
+}
 
 class ContentProvider {
 	@NoFlow Context getContext();
@@ -1135,8 +1144,11 @@ class BitmapFactory {
 package android.hardware;
 
 class Camera {
+	@NoFlow
+	Parameters getParameters();
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
-	@RequiredPermissions(android.Manifest.permission.CAMERA) Object open();
+	@NoFlow 
+	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
 	void takePicture(ShutterCallback shutter, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback raw, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback jpeg);
 }
 
@@ -1170,11 +1182,11 @@ class Address {
 }
 
 class Geocoder {
-	List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Address> 
+	@FlowSources({}) List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Address> 
 		getFromLocation(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double latitude, 
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double longitude, int maxResults);
 		
-	List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Address> 
+	@FlowSources({}) List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Address> 
 	    getFromLocationName(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String locationName, int maxResults);
 }
 
@@ -2363,8 +2375,8 @@ class ByteArrayInputStream {
 
 class ByteArrayOutputStream {
 	void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY); //@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@PolyFlowSources @PolyFlowSinks byte[] toByteArray() @PolyFlowSources @PolyFlowSinks;
-	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer, int offset, int len) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) [] toByteArray() @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) [] buffer, int offset, int len) @PolyFlowSources @PolyFlowSinks;
 }
 
 class File {
@@ -2427,6 +2439,11 @@ package java.lang;
 class Double {
 	static @PolyFlowSources @PolyFlowSinks boolean isNaN(@PolyFlowSources @PolyFlowSinks double d);
 	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks double d);
+}
+
+class Class {
+	@NoFlow
+	String getName();
 }
 
 class Float {
@@ -2604,6 +2621,10 @@ class HashMap<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSo
 	@PolyFlowSources @PolyFlowSinks String put(@PolyFlowSources @PolyFlowSinks K key, @PolyFlowSources @PolyFlowSinks V value) @PolyFlowSources @PolyFlowSinks;
 }
 
+class LinkedList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+
+}
+
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 	T get(int index);
 	boolean add(T object);
@@ -2616,7 +2637,8 @@ class Map<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSource
 }
 
 class Queue<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-	T poll() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ALL);
+	T peek();
+	T poll();
 }
 
 
