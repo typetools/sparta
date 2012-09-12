@@ -61,9 +61,6 @@ public class FlowChecker extends BaseTypeChecker {
         sinkValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSinks", "value", 0, processingEnv);
 
         super.initChecker();
-
-        // Always warn about unsafe casts.
-        this.setLintOption("cast:strict", true);
     }
 
     protected ExecutableElement sourceValue;
