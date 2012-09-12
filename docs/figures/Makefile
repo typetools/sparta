@@ -1,6 +1,6 @@
-EPSFILES = flowsources.eps # flowsinks.eps
-PDFFILES = flowsources.pdf # flowsinks.pdf
-PNGFILES = flowsources.png # flowsinks.png
+EPSFILES = flowsources.eps flowsinks.eps
+PDFFILES = flowsources.pdf flowsinks.pdf
+PNGFILES = flowsources.png flowsinks.png
 
 all: ${EPSFILES} ${PDFFILES} ${PNGFILES} png-copy
 
