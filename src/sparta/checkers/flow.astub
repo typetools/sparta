@@ -1395,7 +1395,7 @@ class ThrottleManager {
 
 class Uri {
 	List<@PolyFlowSources @PolyFlowSinks String> getPathSegments() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks Uri parse(@PolyFlowSources @PolyFlowSinks String uriString);
+	static @PolyFlowSources @PolyFlowSinks Uri parse(@PolyFlowSources @PolyFlowSinks String uriString);
 	static @PolyFlowSources @PolyFlowSinks Uri withAppendedPath(@PolyFlowSources @PolyFlowSInks Uri baseUri, @PolyFlowSources @PolyFlowSinks String pathSegment);
 }
 	
@@ -2101,6 +2101,10 @@ class WebViewCore {
 }
 
 package android.widget;
+
+class AdapterView {
+	@PolyFlowSources @PolyFlowSinks Object getItemAtPosition(int position) @PolyFlowSources @PolyFlowSinks;
+}
 
 class EditText {
 	@PolyFlowSources @PolyFlowSinks Editable getText() @PolyFlowSources @PolyFlowSinks;
