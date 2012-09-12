@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="release-cleanup" default="help">
+    <property environment="env"/>
+    
+    <target name="clean">
+        <condition property="missing-spartaDir">
+   		    <not><isset property="spartaDir"/></not>
+        </condition>
+    
+        <fail message="You must specify the spartaDir to clean.  General use: ant -buildfile release-cleanup.xml -DspartaDir=sparta-subjects dir" if="missing-spartaDir"/>
+    
+    	<echo>Cleaning: ${spartaDir}</echo>
+    	<echo/>
+    
+    	<!-- careful now specifying the files to delete -->
+    	<delete dir="${spartaDir}/.hg"/>
+    
+    </target>
+    
+    <target name="help">
+    	<echo>Deletes all files that should not be delivered with sparta-code (at the moment only the .hg folder).</echo>
+    	<echo/>	
+    	<echo>To use this script:</echo>
+    	<echo>ant -buildfile release-cleanup.xml clean -DspartaDir=(sparta-code directory)</echo>
+    	<echo>Where (sparta-code directory) is the directory you want to clean (If that is the case you can pass ".")</echo>
+    
+    	<echo>Clean for delivery does not delete itself so please delete it after calling it</echo>
+    </target>
+	
+</project>
