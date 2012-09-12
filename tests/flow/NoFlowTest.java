@@ -4,7 +4,8 @@ import android.view.*;
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowSources.FlowSource;
 import sparta.checkers.quals.FlowSinks.FlowSink;
-
+import android.app.*;
+import android.content.*;
 class NoFlowTest {
 	@FlowSources(FlowSource.NETWORK) int source = 1;
 	@SuppressWarnings("flow") //Variable initialization
@@ -64,8 +65,14 @@ class NoFlowTest {
 	// with @NoFlow. If this test fails, checks whether that specification changed.
 	// If so, change it to some other API that uses @NoFlow.
 	SurfaceHolder sHolder;
-	void testAndroid(SurfaceView view) {
+	void testAndroidMethod(SurfaceView view) {
 		sHolder = view.getHolder(); 
+	}
+	
+	ProgressDialog pd;
+	
+	void testAndroidClass(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable) {
+		pd = ProgressDialog.show(context, title, message, indeterminate, cancelable);
 	}
 	
 	@NoFlow
