@@ -353,6 +353,8 @@ class Activity {
 	@NoFlow
 	Object getSystemService(String name);
 	@NoFlow
+	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
 	@NoFlow
 	void sendBroadcast(Intent intent);
@@ -908,7 +910,8 @@ class ContentResolver {
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object openInputStream(android.net.Uri p0);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object openOutputStream(android.net.Uri p0);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS)
-	@PolyFlowSources @PolyFlowSinks Cursor query(@PolyFlowSources @PolyFlowSinks Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
+	@NoFlow
+	Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object removePeriodicSync(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setIsSyncable(android.accounts.Account p0,java.lang.String p1,int p2);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setMasterSyncAutomatically(boolean p0);
@@ -1051,6 +1054,11 @@ class PackageManager {
 }
 
 package android.content.res;
+
+class ColorStateList {
+	@NoFlow
+	int getDefaultColor();
+}
 
 class Resources {
 	@NoFlow
@@ -2109,6 +2117,8 @@ class SurfaceView {
 }
 
 class View {
+	@NoFlow
+	View findViewById(int id);
 	@PolyFlowSources @PolyFlowSinks Object getTag() @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2595,14 +2605,14 @@ class HashMap<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSo
 }
 
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-	@PolyFlowSources @PolyFlowSinks T get(int index) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ALL) @PolyFlowSinks;
-	boolean add( @PolyFlowSinks T object) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ALL) @PolyFlowSinks;
-	@NoFlow int size() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	T get(int index);
+	boolean add(T object);
+	@NoFlow int size();
 }
 
 class Map<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
 	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-	V put(@PolyFlowSources @PolyFlowSinks K key, @PolyFlowSources @PolyFlowSinks V value) @PolyFlowSources @PolyFlowSinks;
+	V put(K key, V value);
 }
 
 class Queue<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
