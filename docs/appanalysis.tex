@@ -10,7 +10,6 @@ sparta-code/docs/installation.txt
 
 
 \section{Task:  set up the tools for the new application}
-% TODO: should this stay here, or go to apanalysis.tex?
 
 Checking applications
 
@@ -122,6 +121,18 @@ from/go to in the application. You can remove the warning by writing
 \<@RequiredPermissions({android.Manifest.permissions.|specific
 permission|})> in front of the method header in the source code.
 
+Once all methods in the subject application are correctly annotated,
+\<ant reqperms> will not issue any warnings.
+Grep for \<@RequiredPermissions> to find the required permissions
+in the application.
+
+
+% TODO: The required permission information is based on Android 2.2
+% information. Explain the caveat of Android 4.0 changes and the issue
+% with "entry-method" checks versus correct checking on all
+% possible paths into an API.
+
+
 
 \section{Task: see what precise APIs are used where in the application}
 
@@ -146,6 +157,13 @@ If it has flow properties, add the method to the flow.astub file.
 Specify the flow properties by writing annotations in the flows.astub
 file such as \<@FlowSinks(FlowSink.NETWORK)> or
 \<@FlowSources(FlowSource.ESP\_FROM\_ALIENS)>.
+
+Methods that were checked but deemed to not have any flow should
+be marked with a \<@NoFlow> declaration annotation.
+This annotation is short-hand for annotating the return type and each
+parameter as not having any flow.
+By marking methods as having no flow, the next person looking at that
+API does not need to perform the same analysis again.
 
 We do not expect that any API method will contain both a \<@FlowSources>
 and a \<@FlowSinks> annotation.
@@ -185,7 +203,7 @@ prefer.)
 
 \section{Task: check the flow in the application}
 
-Run \<ant flowcheck> on the application.
+Run \<ant flowtest> on the application.
 Eliminate the warnings in one of two ways.
 
 Add annotations to method signatures and fields in the application, as
@@ -241,3 +259,10 @@ decide whether this is a desired information flow or not.
 
 You can continue to use \<ant flowshow> to visualize the annotation
 progress.
+
+Once all warnings were resolved, run \<ant -Dstricter=true flowtest> on
+the application.
+Providing the \<stricter> option enables additional checks that are
+required for soundness, but would be disruptive to enable initially.
+In particular, the tests for casts and array subtyping are stricter.
+See the discussion in \secref{TODO}.
