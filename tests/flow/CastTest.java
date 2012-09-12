@@ -21,4 +21,14 @@ class CastTest {
         return (@FlowSources(FlowSource.LOCATION) double) x;
     }
 
+    public @FlowSources(FlowSource.LOCATION) double fromAny(@FlowSources(FlowSource.ANY) int x) {
+        //:: warning: (cast.unsafe)
+        return (@FlowSources(FlowSource.LOCATION) double) x;
+    }
+
+    public @FlowSources({}) double toNone(@FlowSources(FlowSource.ANY) int x) {
+        //:: warning: (cast.unsafe)
+        return (@FlowSources({}) double) x;
+    }
+
 }
