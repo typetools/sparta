@@ -69,8 +69,9 @@ class NoFlowTest {
 		sHolder = view.getHolder(); 
 	}
 	
+	// This test assumes that class ProgressDialog is annotated with @NoFlow.
+	// An annotation on the class should make all methods default to @NoFlow.
 	ProgressDialog pd;
-	
 	void testAndroidClass(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable) {
 		pd = ProgressDialog.show(context, title, message, indeterminate, cancelable);
 	}

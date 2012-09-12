@@ -1,6 +1,7 @@
 package sparta.checkers;
 
 import javax.lang.model.element.Element;
+import javax.lang.model.element.PackageElement;
 
 import sparta.checkers.quals.ConservativeFlow;
 import sparta.checkers.quals.NoFlow;
@@ -11,6 +12,7 @@ import com.sun.source.tree.Tree;
 import checkers.quals.DefaultLocation;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.BasicAnnotatedTypeFactory;
+import checkers.util.ElementUtils;
 import checkers.util.InternalUtils;
 import checkers.util.QualifierDefaults.DefaultApplier;
 
@@ -60,7 +62,11 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 // Nothing needs to be done for parameters.
                 // new DefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSOURCES);
             }
-            element = element.getEnclosingElement();
+            if (element instanceof PackageElement) {
+                element = ElementUtils.parentPackage(this.elements, (PackageElement) element);
+            } else {
+                element = element.getEnclosingElement();
+            }
         }
     }
 
