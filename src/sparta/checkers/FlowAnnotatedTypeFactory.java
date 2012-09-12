@@ -48,24 +48,30 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         super.annotateImplicit(element, type);
     }
 
-    protected void handleDefaulting(Element element, AnnotatedTypeMirror type) {
-        while (element != null) {
-            if (this.getDeclAnnotation(element, NoFlow.class) != null) {
+    protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
+        Element iter = element;
+        while (iter != null) {
+            if (this.getDeclAnnotation(iter, NoFlow.class) != null) {
                 // Use no flow sources for the return type.
                 new DefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.NOFLOWSOURCES);
                 // Nothing needs to be done for parameters.
-                // new DefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSOURCES);
+                // new DefaultApplier(start, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSOURCES);
+                // Cache the result for future uses.
+                // defaults.addElementDefault(element, checker.NOFLOWSOURCES, DefaultLocation.RETURNS);
                 return;
-            } else if (this.getDeclAnnotation(element, ConservativeFlow.class) != null) {
+            } else if (this.getDeclAnnotation(iter, ConservativeFlow.class) != null) {
                 // Use the top type for return types in the Android packages
-                defaults.addElementDefault(element, checker.ANYFLOWSOURCES, DefaultLocation.RETURNS);
+                new DefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.ANYFLOWSOURCES);
                 // Nothing needs to be done for parameters.
-                // new DefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSOURCES);
+                // new DefaultApplier(start, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSOURCES);
+                // Cache the result for future uses.
+                // defaults.addElementDefault(element, checker.ANYFLOWSOURCES, DefaultLocation.RETURNS);
+                return;
             }
-            if (element instanceof PackageElement) {
-                element = ElementUtils.parentPackage(this.elements, (PackageElement) element);
+            if (iter instanceof PackageElement) {
+                iter = ElementUtils.parentPackage(this.elements, (PackageElement) iter);
             } else {
-                element = element.getEnclosingElement();
+                iter = iter.getEnclosingElement();
             }
         }
     }
