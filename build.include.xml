@@ -28,12 +28,21 @@
                    else="${jar.libs.dir}">
                 <isset property="tested.project.absolute.dir" />
             </condition>
+            <!-- Option to show all subtyping tests. -->
             <condition property="showchecks"
                    value="-Ashowchecks -AprintErrorStack"
                    else="">
                 <equals arg1="${debug}" arg2="true" />
             </condition>
-                    <!--classpathref="android.target.classpath"-->
+            <!-- Option to enforce stricter checks, in particular for casts. -->
+            <!-- Note that only one -Alint argument can be provided. -->
+            <condition property="lintoptions"
+                   value="-Alint=cast:strict,arrays:invariant"
+                   else="">
+                <equals arg1="${stricter}" arg2="true" />
+            </condition>
+
+            <!--classpathref="android.target.classpath"-->
             <jsr308.javac
                    destdir="${out.classes.absolute.dir}"
                    classpathref="project.target.class.path"
@@ -43,9 +52,9 @@
                 <classpath>
                     <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
                 </classpath>
-                <compilerarg line="${java.compilerargs} ${showchecks}" />
+                <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
                 <compilerarg line="-processor @{processor}"/>
-                <compilerarg line="-encoding ISO8859-1" />
+                <compilerarg line="-encoding ISO8859-1 -AprintErrorStack" />
                 <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/"/>
             </jsr308.javac>
             <more-tasks/>
