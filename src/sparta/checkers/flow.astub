@@ -442,6 +442,7 @@ class IDevicePolicyManager$Stub$Proxy {
 package android.app;
 
 class AlarmManager {
+	void set(int p1, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long p2, PendingIntent p3);
 	@RequiredPermissions(android.Manifest.permission.SET_TIME) Object setTime(long p0);
 	@RequiredPermissions(android.Manifest.permission.SET_TIME_ZONE) Object setTimeZone(java.lang.String p0);
 }
@@ -886,6 +887,10 @@ class ScoSocket {
 
 package android.content;
 
+class ContentProvider {
+	@NoFlow Context getContext();
+}
+
 class ContentResolver {
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object addPeriodicSync(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2,long p3);
 	@RequiredPermissions(android.Manifest.permission.READ_SYNC_STATS) Object getCurrentSync();
@@ -933,11 +938,16 @@ class ContentValues {
 	void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks String value);
 	//TODO: Add the rest of the put methods
 }
+
+class ContentUris {
+ 	@PolyFlowSources Uri withAppendedId(@PolyFlowSources Uri p1, @PolyFlowSources long p2);
+}
 	
 class Context {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
-	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) String name, int mode);
 	@NoFlow ContentResolver getContentResolver();
+	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) String name, int mode);
+	@NoFlow String getPackageName();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
@@ -1050,6 +1060,7 @@ class Resources {
 
 package android.app;
 
+
 class ContextImpl$ApplicationPackageManager {
 	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object addPreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
 	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_USER_DATA) Object clearApplicationUserData(java.lang.String p0,IPackageDataObserver p1);
@@ -1072,9 +1083,26 @@ class Cursor {
 	 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) double getDouble(int columnIndex);
 	 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) long getLong(int columnIndex);
 	 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getString(int columnIndex);
+	 @NoFlow boolean moveToFirst() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);	
 	 
 	 //TODO: Add the rest of the get methods
 	 //Note: Must manually cast the results from the cursor if the cursor comes from Context.getContentResolver()
+}
+
+package android.database.sqlite;
+
+class SQLiteOpenHelper {
+	@NoFlow SQLiteDatabase getWritableDatabase();
+}
+
+class SQLiteDatabase {
+	@NoFlow int delete(String p1, String p2, String[] p3);
+	@FlowSources({}) int insert(String p1, String p2, @PolyFlowSources ContentValues p3) @PolyFlowSources;
+	@FlowSources({}) int update(String p1, @PolyFlowSources ContentValues p2, String p3, String[] p4) @PolyFlowSources;
+}
+
+class SQLiteQueryBuilder {
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Cursor query(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) SQLiteDatabase p0, String[] p1, String p2, String[] p3, String p4, String p5, String p6, String p7); 
 }
 
 package android.graphics;
@@ -1394,7 +1422,7 @@ class ThrottleManager {
 }
 
 class Uri {
-	List<@PolyFlowSources @PolyFlowSinks String> getPathSegments() @PolyFlowSources @PolyFlowSinks;
+	@FlowSources({}) List<@PolyFlowSources @PolyFlowSinks String> getPathSegments() @PolyFlowSources @PolyFlowSinks;
 	static @PolyFlowSources @PolyFlowSinks Uri parse(@PolyFlowSources @PolyFlowSinks String uriString);
 	static @PolyFlowSources @PolyFlowSinks Uri withAppendedPath(@PolyFlowSources @PolyFlowSInks Uri baseUri, @PolyFlowSources @PolyFlowSinks String pathSegment);
 }
@@ -1970,6 +1998,8 @@ package android.text.format;
 class Time {
 	//TODO: This should probably be double checked later:
 	boolean parse3339(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String s);
+	void set(@PolyFlowSources @PolyFlowSinks long l1) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks long toMillis(boolean b) @PolyFlowSources @PolyFlowSinks;
 }
 
 package android.util;
@@ -2104,6 +2134,7 @@ package android.widget;
 
 class AdapterView {
 	@PolyFlowSources @PolyFlowSinks Object getItemAtPosition(int position) @PolyFlowSources @PolyFlowSinks;
+	@NoFlow void setOnItemClickListener(AdapterView.OnItemClickListener listener) @PolyFlowSources @PolyFlowSinks;
 }
 
 class EditText {
@@ -2362,7 +2393,6 @@ class Writer {
 		@PolyFlowSources @PolyFlowSinks int count) @PolyFlowSources @PolyFlowSinks;
 }
 
-
 package java.lang;
 	
 class Double {
@@ -2374,19 +2404,27 @@ class Float {
 	static @PolyFlowSources @PolyFlowSinks int floatToIntBits(@PolyFlowSources @PolyFlowSinks float value);
 }
 
+class Integer {
+	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s);
+}
+
 class Long {
 	static @PolyFlowSources @PolyFlowSinks long parseLong(@PolyFlowSources @PolyFlowSinks String string);
+	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks long l1);
 }
 
 class Math {
 	static @PolyFlowSources @PolyFlowSinks float abs(@PolyFlowSources @PolyFlowSinks float f);
+	static @PolyFlowSources @PolyFlowSinks long abs(@PolyFlowSources @PolyFlowSinks long l);
 	static @PolyFlowSources @PolyFlowSinks double acos(@PolyFlowSources @PolyFlowSinks double d);
 	static @PolyFlowSources @PolyFlowSinks double asin(@PolyFlowSources @PolyFlowSinks double d);
 	static @PolyFlowSources @PolyFlowSinks double atan(@PolyFlowSources @PolyFlowSinks double d);
 	static @PolyFlowSources @PolyFlowSinks double atan2(@PolyFlowSources @PolyFlowSinks double y, @PolyFlowSources @PolyFlowSinks double x);
 	static @PolyFlowSources @PolyFlowSinks double log10(@PolyFlowSources @PolyFlowSinks double d);
+	static @PolyFlowSources @PolyFlowSinks long min(@PolyFlowSources @PolyFlowSinks long l1, @PolyFlowSources @PolyFlowSinks long l2);
 	static @PolyFlowSources @PolyFlowSinks double pow(@PolyFlowSources @PolyFlowSinks double x, @PolyFlowSources @PolyFlowSinks double y);
 }
+
 	
 class Object {
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean equals(Object object);
@@ -2420,7 +2458,9 @@ class StringBuffer {
 	@PolyFlowSources @PolyFlowSinks StringBuffer append(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
 }
 
-
+class System {
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long currentTimeMillis();
+}
 
 package java.net;
 
@@ -2512,6 +2552,10 @@ class Calendar {
 	void setTime(@PolyFlowSources @PolyFlowSinks Date date) @PolyFlowSources @PolyFlowSinks;
 	void setTimeInMillis(@PolyFlowSources @PolyFlowSinks long milliseconds) @PolyFlowSources @PolyFlowSinks;
 }
+
+class Collection {
+	@NoFlow boolean isEmpty();
+}
 	
 class Collections {
 	<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> void sort(List<T> list, Comparator<? super T> comparator);
@@ -2534,6 +2578,7 @@ class HashMap<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSo
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 	@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
 	boolean add(@PolyFlowSources @PolyFlowSinks T object) @PolyFlowSources @PolyFlowSinks;
+	@NoFlow int size() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 }
 
 class Map<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
