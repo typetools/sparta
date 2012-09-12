@@ -937,7 +937,7 @@ class ContentValues {
 class Context {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) String name, int mode);
-
+	@NoFlow ContentResolver getContentResolver();
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
@@ -1043,6 +1043,8 @@ class Resources {
 	@NoFlow
 	Drawable getDrawable(int id);
 	@NoFlow
+	String getString(int id);
+	@NoFlow
 	CharSequence getText(int id);
 }
 
@@ -1067,8 +1069,9 @@ class ContextImpl$ApplicationPackageManager {
 package android.database;
 
 class Cursor {
-	 @PolyFlowSources @PolyFlowSinks double getDouble(int columnIndex) @PolyFlowSources @PolyFlowSinks;
-	 @PolyFlowSources @PolyFlowSinks String getString(int columnIndex) @PolyFlowSources @PolyFlowSinks;
+	 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) double getDouble(int columnIndex);
+	 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) long getLong(int columnIndex);
+	 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getString(int columnIndex);
 	 
 	 //TODO: Add the rest of the get methods
 	 //Note: Must manually cast the results from the cursor if the cursor comes from Context.getContentResolver()
@@ -1393,6 +1396,7 @@ class ThrottleManager {
 class Uri {
 	List<@PolyFlowSources @PolyFlowSinks String> getPathSegments() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks Uri parse(@PolyFlowSources @PolyFlowSinks String uriString);
+	static @PolyFlowSources @PolyFlowSinks Uri withAppendedPath(@PolyFlowSources @PolyFlowSInks Uri baseUri, @PolyFlowSources @PolyFlowSinks String pathSegment);
 }
 	
 package android.net.wifi;
