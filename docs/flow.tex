@@ -1,12 +1,29 @@
 \htmlhr
 \chapter{Flow Checker\label{flow-checker}}
 
-Each type consists of a flow source and a flow sink qualifier.
+This chapter gives a brief overview of the Flow Checker, one of
+the main components of SPARTA.
 
-Each qualifier is a set of enum constants from the respective enum,
-defined in \<sparta.checkers.quals.FlowSources.FlowSource> and
-\<sparta.checkers.quals.FlowSinks.FlowSink>.
+\paragraph{Overview}
 
+Each type consists of a flow source and a flow sink qualifier and each
+qualifier consists of a set of possible source/sink enum constants,
+the empty set, or the special \<ANY> source/sink.
+
+See classes
+\<sparta.checkers.quals.FlowSources.FlowSource> and\\
+\<sparta.checkers.quals.FlowSources.FlowSource> for the definition of
+the possible sources/sinks.
+
+As an example, the type
+\<@FlowSources(FlowSource.LOCATION) double>
+marks that the value might be tainted by location information.
+Similarly, the type
+\<@FlowSinks(FlowSink.NETWORK) Data>
+marks that the value might flow to the network.
+
+
+\paragraph{Subtyping}
 
 See \figref{fig:flowsources-hierarchy} for an example hierarchy of
 source qualifiers and \figref{fig:flowsinks-hierarchy} for sink
@@ -25,17 +42,100 @@ qualifiers.
 \label{fig:flowsinks-hierarchy}
 \end{figure}
 
+For flow sources, \<FlowSources(FlowSource.ANY)> builds the top of the
+type hierarchy. Any other flow source is subsumed by it, as it is safe
+to conservatively claim more possible sources of information.
+Subsets of source enums build subtypes.
+The empty set is the bottom type.
 
-Explain qualifier subtyping for each individual hierarchy using the examples.
 
-Explain subtyping.
+For flow sinks, \<FlowSinks(\{\})> --- that is, the empty set of flow
+sinks --- builds the top of the type hierarchy.
+A reference that is not allowed to flow anywhere can safely refer to
+an object that would have been able to flow somewhere.
+A type with additional sinks builds a subtype.
+The type \<FlowSinks(FlowSinks.ANY)> builds the bottom type.
 
-Explain @PolyFlowSources and @PolyFlowSinks.
+Note the different subtyping behavior for sources and sinks.
 
-Explain flow.astub.
-Explain defaulting, @NoFlow, @ConservativeFlow.
 
-A cast \<(Object []) x>, were \<x> is of type \<Object>, will result
+\paragraph{Defaults}
+
+In field and method signature types, the default source type is the
+empty set and the default sink qualifier is the empty set.
+The Checker Framework supports flow-sensitive type refinement.
+The type of local variables is the top type for each hierarchy, that
+is, any flow source and no flow sinks.
+The initializer of a variable is used to refine that type to something
+more concrete.
+
+String literals and all primitive literals (1.0, true, 3, 'c',
+etc.) have as default \<@FlowSources({}) @FlowSinks({})>, that is, no
+flow sources and no flow sinks.
+A variable declaration:
+
+\begin{alltt}
+@FlowSinks(FlowSink.NETWORK) String realString = "asdf";
+\end{alltt}
+
+will raise an error, because an unqualified type flows to a sink.
+After verifying that this is legal, one can suppress
+the warning, using \<@SuppressWarnings("flow")>.
+
+
+\paragraph{Qualifier polymorphism}
+
+Two additional type qualifiers exist to express type polymorphism:
+\<@PolyFlowSources> and \<@PolyFlowSinks>.
+These range over their respective type hierarchy and can be used to
+express type dependencies, for example, that the receiver and
+parameter types have to correspond.
+The invocation of a method is used to resolve polymorphic qualifiers
+to something concrete.
+
+
+\paragraph{API specifications}
+
+File \<sparta-code/src/sparta/checkers/flow.astub> gives the API
+specification for the Flow Checker.
+Besides the qualifiers discussed so far, two additional declaration
+annotations can be used here: \<@NoFlow> and \<@ConservativeFlow>.
+These annotations can be used on any declaration: a method, a class,
+or even a whole package.
+For example, in the beginning of \<flow.astub> we declare that the
+whole \<android> package should use conservative defaults.
+More specific annotations given in the rest of the file override these
+defaults.
+
+Annotation \<@NoFlow> expresses that the method has no flow sources
+and no flow sinks --- in the return type and all parameter types.
+It is used to mark methods/classes/packages that have been analyzed
+and deemed safe.
+
+Annotation \<@ConservativeFlow> uses
+\<FlowSources(FlowSource.ANY)> as the return type of the annotated
+element.
+This return type ensures that any use of the method will be tainted as
+possibly coming from an arbitrary source.
+The analyst therefore very easily can track down the used API methods,
+and analyze and annotate the used subset.
+
+
+
+\paragraph{Stricter tests}
+
+The default checks ensure soundness of the flow qualifiers.
+It ignores two possible sources of unsoundness: covariant array
+subtyping and downcasts that are not checked at runtime.
+After getting the basic checks passing, the stricter checks should be
+enabled.
+This two-phase approach was chosen to not interfere with
+the annotation effort too severely and to give two separate phases of
+the annotation effort.
+
+
+When strict checks are turned on,
+a cast \<(Object []) x>, were \<x> is of type \<Object>, will result
 in a compiler warning:
 
 \begin{alltt}
@@ -46,57 +146,38 @@ in a compiler warning:
 The reason is that statically the component type of the array is
 simply defaulted. There is no static knowledge about the actual
 runtime values in the array and important flow could be hidden.
-Use \<-Dstricter> to turn on these stricter checks.
+The analyst should argue why the downcast is safe.
+
+Note that the main qualifier of a cast is automatically flow-refined
+by the cast expression.
+
+
+\medskip
+
+Stricter checking also enforces invariant array subtyping, which is
+needed for sound array behavior in the absence of runtime checks.
+Flow inference automatically refines the type of array creation
+expressions depending on the LHS.
 
 
 
-Default annotations at various places (fields vs local variables):
--Fields by default have no FlowSource or FlowSink. Local variables have FlowSource.ANY and FlowSink{}.
+\paragraph{Miscellaneous}
+
+Methods like \<equals()> and \<toString()> that are inherited from
+\<Object> are the most general possible, so that overriding methods
+can restrict the annotations further. Thus, they
+return \<FlowSource.ANY> and no flow sinks.
+
+Binary operations like string concatenation or integer addition,
+result in the least upper bound of the two component types.
 
 
-
-On subtyping:
-It is safe to mark a \<@FlowSource{}> variable as
- \<@FlowSource{something}>, because we're just noting that it could have
- come from the source. It is NOT safe to do the same to a \<FlowSink{}>
- variable, because that would go from saying it CANNOT go to a sink to
- it MAY go to a sink. If you want to do so, mark it with
- \<@SuppressWarnings("flow")> before the annotation, and add a comment
- explaining why this annotation is safe.
-
-
-On overriding and defaults:
-For methods like \<equals()> and \<toString()> that are inherited from
- \<Object>, we require the Object class's annotations on those to be the
- most general possible, so that overriding methods can restrict the
- annotations further. Thus, they return FlowSource.ANY and
- FlowSink{}. Currently I have most toString() calls overwritten with a
- @SuppressWarnings("flow") and a comment explaining that. 
-
-On literals
-String literals and all primitive literals (1.0, true, 3, 'c',
- etc.) have a default \<@FlowSources({}) @FlowSinks({})>.
- A variable declaration:
-
- @FlowSink{something} String realString = "asdf";
-
- will raise an error, because an unqualified type flows to a sink.
- Add a @SuppressWarnings("flow"), or split it up into two
- lines, a @Suppressed '@FlowSink{something} String tempString =
- "asdf";' and then assign realString = tempString;
-
-Adding on to that, if you try to compute a @FlowSource{something} int
- with a int literal (0 or 100, etc) it will resolve to another
- @FlowSource{something} int. If you try the same with a
- @FlowSink{something} int with an int literal, it will result in
- @FlowSink{} int because it's not safe to add a flowsink to the int
- literal. To bypass this, you must declare a local variable with
- "@SuppressWarnings("flow") @FlowSink{something} int tempZero = 0;"
- and then use the local variable in the calculation.
- Again document why the warning can be suppressed.
-
-
-
-% -[TODO: Explain "top types" and the type hierarchy more.]
-% -[TODO: Explain flow inference.]
-% -[TODO: Explain polymorphic qualifiers.]
+%% Adding on to that, if you try to compute a @FlowSource{something} int
+%%  with a int literal (0 or 100, etc) it will resolve to another
+%%  @FlowSource{something} int. If you try the same with a
+%%  @FlowSink{something} int with an int literal, it will result in
+%%  @FlowSink{} int because it's not safe to add a flowsink to the int
+%%  literal. To bypass this, you must declare a local variable with
+%%  "@SuppressWarnings("flow") @FlowSink{something} int tempZero = 0;"
+%%  and then use the local variable in the calculation.
+%%  Again document why the warning can be suppressed.
