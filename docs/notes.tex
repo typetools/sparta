@@ -4,17 +4,11 @@
 This chapter is currently disorganized notes that will be incorporated into
 either this manual or the Checker Framework manual.
 
-=====
+[Note: \srcsome{} is shorthand noting that the specific flow
+properties aren't relevant.]
 
-Usage notes for the SPARTA information flow type system. This document
-is meant to provide a reference for the specifics of the annotation
-process, specifically regarding syntax in various situations and how
-qualifiers are resolved.
 
-[Note: \<FlowSource{}> is short for empty flow sources. \<@FlowSources...> is
-just shorthand noting that the specifics aren't relevant.]
-
-=====
+\section{JSR 308 and Eclipse}
 
 JSR 308 extends the Java language to allow annotations in more
 locations. Java 8 will include support for this extended syntax.
@@ -39,13 +33,13 @@ Single qualifiers can use the ``annotation-in-comment'' syntax
 
 \begin{itemize}
 \item Generics:
-	\|List</*@FlowSources...*/ String>|
+	\|List</*@FlowSources(...)*/ String>|
 
 \item Object creation:
-	\|new /*@FlowSinks...*/ Object();|
+	\|new /*@FlowSinks(...)*/ Object();|
 
 \item Casts:
-	\|return (/*@FlowSources...*/ double) x;|
+	\|return (/*@FlowSources(...)*/ double) x;|
 \end{itemize}
 
 Note that only a single annotation can be in a comment; for
@@ -57,8 +51,9 @@ A separate comment syntax can be used to hide method receivers from
 Eclipse, while still keeping them available to the Checker Framework:
 
 \begin{alltt}
-	public Class(/*>>> @FlowSinks(FlowSink.NETWORK) Class this, */ String paramTwo) {}
+        public Class(/*>>> @FlowSinks(FlowSink.NETWORK) Class this, */ String paramTwo) {}
 \end{alltt}
+
 
 When using annotations in comments, Eclipse might warn about unused
 imports for these annotations. To prevent such warnings, similarly put
@@ -70,6 +65,7 @@ import sparta.checkers.quals.*;
 */
 \end{alltt}
 
+
 Sometimes method type argument inference does not interact well with
 type qualifiers. In such situations, you might need to provide
 explicit method type arguments, for which the syntax is as follows:
@@ -78,7 +74,8 @@ explicit method type arguments, for which the syntax is as follows:
 	Collections.</*@FlowSources({...})*/ Object>sort(l, c);
 \end{alltt}
 
-=====
+
+\section{Annotating libraries}
 
 To support adding annotations to libraries, we provide special .astub
 files that contain the annotations on the signatures of such classes.
@@ -109,94 +106,51 @@ in a stub file one has to write
 \end{alltt}
 
 \item enum constants in annotations need to be fully qualified.
-% TODO: example
+For example, one has to write the following
+
+\begin{alltt}
+@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY)
+\end{alltt}
+
+even when the classes are correctly imported.
+
 \end{itemize}
 
 
-The constructor:
-	mark as "@Annotations ClassName(params);" as if it was returning itself, rather than being a receiver.
-TODO: this is not special to the stub file; this should be moved
-	somewhere else.
-
-======
-
-Default annotations at various places (fields vs local variables):
--Fields by default have no FlowSource or FlowSink. Local variables have FlowSource.ANY and FlowSink{}.
+% The constructor:
+% 	mark as "@Annotations ClassName(params);" as if it was returning itself, rather than being a receiver.
+% TODO: this is not special to the stub file; this should be moved
+% 	somewhere else.
 
 
-=====
+\section{Suppressing warnings}
 
-\section{Miscellaneous explanations}
+Warnings can be suppressed using the standard \<@SuppressWarnings>
+annotation.
+To suppress warnings from the Flow Checker, use
+\<@SuppressWarnings("flow")>.
 
-\begin{itemize}
-\item It is safe to mark a \<@FlowSource{}> variable as
- \<@FlowSource{something}>, because we're just noting that it could have
- come from the source. It is NOT safe to do the same to a \<FlowSink{}>
- variable, because that would go from saying it CANNOT go to a sink to
- it MAY go to a sink. If you want to do so, mark it with
- \<@SuppressWarnings("flow")> before the annotation, and add a comment
- explaining why this annotation is safe.
+The \<@SuppressWarnings> annotation cannot be used on statements or
+expressions, only on declarations.
+Warnings should be suppressed in the smallest possible scope and
+should always contain an explanation for why it is safe to ignore the
+warning.
 
-\item For methods like \<equals()> and \<toString()> that are inherited from
- \<Object>, we require the Object class's annotations on those to be the
- most general possible, so that overriding methods can restrict the
- annotations further. Thus, they return FlowSource.ANY and
- FlowSink{}. Currently I have most toString() calls overwritten with a
- @SuppressWarnings("flow") and a comment explaining that. 
-
-\item String literals and all primitive literals (1.0, true, 3, 'c',
- etc.) have a default \<@FlowSources({}) @FlowSinks({})>.
- A variable declaration:
-
- @FlowSink{something} String realString = "asdf";
-
- will raise an error, because an unqualified type flows to a sink.
- Add a @SuppressWarnings("flow"), or split it up into two
- lines, a @Suppressed '@FlowSink{something} String tempString =
- "asdf";' and then assign realString = tempString;
-
-\item Adding on to that, if you try to compute a @FlowSource{something} int
- with a int literal (0 or 100, etc) it will resolve to another
- @FlowSource{something} int. If you try the same with a
- @FlowSink{something} int with an int literal, it will result in
- @FlowSink{} int because it's not safe to add a flowsink to the int
- literal. To bypass this, you must declare a local variable with
- "@SuppressWarnings("flow") @FlowSink{something} int tempZero = 0;"
- and then use the local variable in the calculation.
- Again document why the warning can be suppressed.
-
-\item @SuppressWarnings("flow") cannot be used on assignments, only at
- variable or method declarations. This is relevant for local
- variables.
- The following is legal:
+The general pattern is to introduce a new local variable and suppress
+the warning on that local variable.
+The following is legal example for this:
 
 \begin{alltt}
 	@SuppressWarnings("flow") // Explain why suppression is sound.
-	@FlowSource... String a = method();
+	@FlowSources(...) String a = method();
 \end{alltt}
 
- The following is not legal, because the @SuppressWarnings is not on a
- declaration:
+The following is not legal, because the @SuppressWarnings is not on a
+declaration:
 
 \begin{alltt}
-	@FlowSource... String a; 
+	@FlowSources(...) String a; 
 	@SuppressWarnings("flow") // Explain why suppression is sound.
 	a = method();
 \end{alltt}
 
- To get around this, add a new local variable with the proper
- annotations and suppress on that declaration, then assign the new local
- variable to the variable you originally wanted to assign to:
-
-\begin{alltt}
-	String a;
-	@SuppressWarnings("flow") // Explain why suppression is sound.
-	@FlowSource... String b = method();
-	a = b;
-\end{alltt}
-
-\end{itemize}
-
-% -[TODO: Explain "top types" and the type hierarchy more.]
-% -[TODO: Explain flow inference.]
-% -[TODO: Explain polymorphic qualifiers.]
