@@ -55,7 +55,7 @@
                 <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
                 <compilerarg line="-processor @{processor}"/>
                 <compilerarg line="-encoding ISO8859-1 -AprintErrorStack" />
-                <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/"/>
+                <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/:${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
             </jsr308.javac>
             <more-tasks/>
         </sequential>
@@ -76,7 +76,7 @@
             </condition>
 
             <property name="classpath"
-                value="${checkers_dir}/${checkers_base}/jdk/jdk.jar:${checkers_dir}/${checkers_base}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
+                value="${checkers_dir}/${checkers_base}/jdk/jdk.jar:${checkers_dir}/${checkers_base}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
 
             <fileset dir="${source.absolute.dir}" id="mySourceJava">
                 <include name="**/*.java" />
