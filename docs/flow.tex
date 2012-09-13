@@ -47,3 +47,56 @@ The reason is that statically the component type of the array is
 simply defaulted. There is no static knowledge about the actual
 runtime values in the array and important flow could be hidden.
 Use \<-Dstricter> to turn on these stricter checks.
+
+
+
+Default annotations at various places (fields vs local variables):
+-Fields by default have no FlowSource or FlowSink. Local variables have FlowSource.ANY and FlowSink{}.
+
+
+
+On subtyping:
+It is safe to mark a \<@FlowSource{}> variable as
+ \<@FlowSource{something}>, because we're just noting that it could have
+ come from the source. It is NOT safe to do the same to a \<FlowSink{}>
+ variable, because that would go from saying it CANNOT go to a sink to
+ it MAY go to a sink. If you want to do so, mark it with
+ \<@SuppressWarnings("flow")> before the annotation, and add a comment
+ explaining why this annotation is safe.
+
+
+On overriding and defaults:
+For methods like \<equals()> and \<toString()> that are inherited from
+ \<Object>, we require the Object class's annotations on those to be the
+ most general possible, so that overriding methods can restrict the
+ annotations further. Thus, they return FlowSource.ANY and
+ FlowSink{}. Currently I have most toString() calls overwritten with a
+ @SuppressWarnings("flow") and a comment explaining that. 
+
+On literals
+String literals and all primitive literals (1.0, true, 3, 'c',
+ etc.) have a default \<@FlowSources({}) @FlowSinks({})>.
+ A variable declaration:
+
+ @FlowSink{something} String realString = "asdf";
+
+ will raise an error, because an unqualified type flows to a sink.
+ Add a @SuppressWarnings("flow"), or split it up into two
+ lines, a @Suppressed '@FlowSink{something} String tempString =
+ "asdf";' and then assign realString = tempString;
+
+Adding on to that, if you try to compute a @FlowSource{something} int
+ with a int literal (0 or 100, etc) it will resolve to another
+ @FlowSource{something} int. If you try the same with a
+ @FlowSink{something} int with an int literal, it will result in
+ @FlowSink{} int because it's not safe to add a flowsink to the int
+ literal. To bypass this, you must declare a local variable with
+ "@SuppressWarnings("flow") @FlowSink{something} int tempZero = 0;"
+ and then use the local variable in the calculation.
+ Again document why the warning can be suppressed.
+
+
+
+% -[TODO: Explain "top types" and the type hierarchy more.]
+% -[TODO: Explain flow inference.]
+% -[TODO: Explain polymorphic qualifiers.]
