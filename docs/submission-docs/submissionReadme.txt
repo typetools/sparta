@@ -21,7 +21,18 @@ Machine Name:sparta-VirtualBox
 	Please see ~/Documents/sparta/sparta-code/docs/manual.pdf for more info.  (Note if this file doesn't exist follow the instructions in ~/Documents/sparta/sparta-code/docs/README)
 	
 ~/Document/sparta/sparta-subjects : contains the example programs that have been annotated/checked using SPARTA.
-    ant all-tests - will run SPARTA on the subjects
+    ant all-tests - will run SPARTA checks on the subjects
+    
+    Note: The process applied to sparta-subjects is the same process outlined in the manual.pdf section 3.
+    You can descend into the individual projects and use the commands outlined in section3.
+    E.g.:
+    cd ~/Document/sparta/sparta-subjects/Sky
+    ant flowtest
+    
+    or
+    
+    cd ~/Document/sparta/sparta-subjects/CameraTest
+    ant reqperms
     
 Please see
 ~/Documents/sparta/sparta-code/docs/manual.pdf for more in depth instructions. 
