@@ -2508,6 +2508,11 @@ class System {
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long currentTimeMillis();
 }
 
+class Throwable {
+	@NoFlow
+	Throwable initCause(Throwable throwable);
+}
+
 package java.net;
 
 class DatagramSocket {
