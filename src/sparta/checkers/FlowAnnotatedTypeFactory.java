@@ -36,14 +36,14 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
     }
 
     @Override
-    protected void annotateImplicit(Tree tree, AnnotatedTypeMirror type) {
+    public void annotateImplicit(Tree tree, AnnotatedTypeMirror type) {
         Element element = InternalUtils.symbol(tree);
         handleDefaulting(element, type);
         super.annotateImplicit(tree, type);
     }
 
     @Override
-    protected void annotateImplicit(Element element, AnnotatedTypeMirror type) {
+    public void annotateImplicit(Element element, AnnotatedTypeMirror type) {
         handleDefaulting(element, type);
         super.annotateImplicit(element, type);
     }

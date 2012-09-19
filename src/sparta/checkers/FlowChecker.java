@@ -161,48 +161,48 @@ public class FlowChecker extends BaseTypeChecker {
             if (isSourceQualifier(rhs)) {
                 if (isPolySourceQualifier(lhs)) {
                     // If LHS is poly, rhs has to be bottom or poly qualifier.
-                    return AnnotationUtils.areSame(elements, rhs, NOFLOWSOURCES) ||
-                            AnnotationUtils.areSame(elements, rhs, POLYFLOWSOURCES) ||
-                            AnnotationUtils.areSame(elements, rhs, POLYALL);
+                    return AnnotationUtils.areSame(rhs, NOFLOWSOURCES) ||
+                            AnnotationUtils.areSame(rhs, POLYFLOWSOURCES) ||
+                            AnnotationUtils.areSame(rhs, POLYALL);
                 } else if (isPolySourceQualifier(rhs)) {
                     // If RHS is poly, lhs has to be top or poly qualifier.
-                    return AnnotationUtils.areSame(elements, lhs, ANYFLOWSOURCES) ||
-                            AnnotationUtils.areSame(elements, lhs, POLYFLOWSOURCES) ||
-                            AnnotationUtils.areSame(elements, lhs, POLYALL);
+                    return AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) ||
+                            AnnotationUtils.areSame(lhs, POLYFLOWSOURCES) ||
+                            AnnotationUtils.areSame(lhs, POLYALL);
                 } else {
                     if (!isSourceQualifier(lhs)) {
                         return false;
                     }
-                    List<FlowSource> lhssrc = AnnotationUtils.elementValueEnumArrayWithDefaults(elements, lhs, "value", FlowSource.class);
-                    List<FlowSource> rhssrc = AnnotationUtils.elementValueEnumArrayWithDefaults(elements, rhs, "value", FlowSource.class);
-                    return  AnnotationUtils.areSame(elements, lhs, ANYFLOWSOURCES) ||
+                    List<FlowSource> lhssrc = AnnotationUtils.elementValueEnumArrayWithDefaults(lhs, "value", FlowSource.class);
+                    List<FlowSource> rhssrc = AnnotationUtils.elementValueEnumArrayWithDefaults(rhs, "value", FlowSource.class);
+                    return  AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) ||
                             lhssrc.containsAll(rhssrc);
                 }
             } else if (isSinkQualifier(rhs)) {
                 if (isPolySinkQualifier(lhs)) {
                     // If LHS is poly, rhs has to be bottom or poly qualifier.
-                    return AnnotationUtils.areSame(elements, rhs, ANYFLOWSINKS) ||
-                            AnnotationUtils.areSame(elements, rhs, POLYFLOWSINKS);
+                    return AnnotationUtils.areSame(rhs, ANYFLOWSINKS) ||
+                            AnnotationUtils.areSame(rhs, POLYFLOWSINKS);
                 } else if (isPolySinkQualifier(rhs)) {
                     // If RHS is poly, lhs has to be top or poly qualifier.
-                    return AnnotationUtils.areSame(elements, lhs, NOFLOWSINKS) ||
-                            AnnotationUtils.areSame(elements, lhs, POLYFLOWSINKS);
+                    return AnnotationUtils.areSame(lhs, NOFLOWSINKS) ||
+                            AnnotationUtils.areSame(lhs, POLYFLOWSINKS);
                 } else {
                     if (!isSinkQualifier(lhs)) {
                         return false;
                     }
-                    List<FlowSink> lhssnk = AnnotationUtils.elementValueEnumArrayWithDefaults(elements, lhs, "value", FlowSink.class);
-                    List<FlowSink> rhssnk = AnnotationUtils.elementValueEnumArrayWithDefaults(elements, rhs, "value", FlowSink.class);
+                    List<FlowSink> lhssnk = AnnotationUtils.elementValueEnumArrayWithDefaults(lhs, "value", FlowSink.class);
+                    List<FlowSink> rhssnk = AnnotationUtils.elementValueEnumArrayWithDefaults(rhs, "value", FlowSink.class);
                     return lhssnk.isEmpty() ||
                             rhssnk.containsAll(lhssnk) ||
                         (rhssnk.contains(FlowSink.ANY) && rhssnk.size()==1);
                 }
             } else if (QualifierPolymorphism.isPolyAll(rhs)) {
                 // If RHS is polyall, the LHS has to be a top qualifier or also poly.
-                return AnnotationUtils.areSame(elements, lhs, NOFLOWSINKS) ||
-                        AnnotationUtils.areSame(elements, lhs, ANYFLOWSOURCES) ||
-                        AnnotationUtils.areSame(elements, lhs, POLYFLOWSINKS) ||
-                        AnnotationUtils.areSame(elements, lhs, POLYFLOWSOURCES);
+                return AnnotationUtils.areSame(lhs, NOFLOWSINKS) ||
+                        AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) ||
+                        AnnotationUtils.areSame(lhs, POLYFLOWSINKS) ||
+                        AnnotationUtils.areSame(lhs, POLYFLOWSOURCES);
  
             } else {
                 SourceChecker.errorAbort("FlowChecker: unexpected AnnotationMirrors: " + rhs + " and " + lhs);

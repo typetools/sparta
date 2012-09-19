@@ -54,10 +54,10 @@ public class FlowShow extends FlowChecker {
                 AnnotatedTypeMirror type = this.atypeFactory.getAnnotatedType(tree);
                 boolean show = false;
 
-                if (!AnnotationUtils.areSame(elements, type.getAnnotationInHierarchy(NOFLOWSOURCES), NOFLOWSOURCES)) {
+                if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(NOFLOWSOURCES), NOFLOWSOURCES)) {
                     show = true;
                 }
-                if (!AnnotationUtils.areSame(elements, type.getAnnotationInHierarchy(NOFLOWSINKS), NOFLOWSINKS)) {
+                if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(NOFLOWSINKS), NOFLOWSINKS)) {
                     show = true;
                 }
                 if (show) {
