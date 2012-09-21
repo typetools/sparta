@@ -36,7 +36,7 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
         ExecutableElement methodElt = TreeUtils.elementFromUse(node);
         AnnotationMirror reqP = atypeFactory.getDeclAnnotation(methodElt, RequiredPermissions.class);
         if (reqP!=null) {
-            List<String> reqPerms = AnnotationUtils.elementValueArray(reqP, "value");
+            List<String> reqPerms = AnnotationUtils.getElementValueArray(reqP, "value", String.class, false);
             if (!reqPerms.isEmpty()) {
                 ExecutableElement callerElt = TreeUtils.elementFromDeclaration(TreeUtils.enclosingMethod(getCurrentPath()));
                 AnnotationMirror callerReq = atypeFactory.getDeclAnnotation(callerElt, RequiredPermissions.class);
@@ -46,7 +46,7 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
                     missing.addAll(reqPerms);
                     callerPerms = new LinkedList<String>();
                 } else {
-                    callerPerms = AnnotationUtils.elementValueArray(callerReq, "value");
+                    callerPerms = AnnotationUtils.getElementValueArray(callerReq, "value", String.class, false);
                     for (String perm : reqPerms) {
                         if (!callerPerms.contains(perm)) {
                             missing.add(perm);

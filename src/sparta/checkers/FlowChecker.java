@@ -17,6 +17,7 @@ import checkers.quals.PolyAll;
 import checkers.source.SourceChecker;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.QualifierHierarchy;
+import checkers.util.AnnotationBuilder;
 import checkers.util.AnnotationUtils;
 import checkers.util.MultiGraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
@@ -49,12 +50,12 @@ public class FlowChecker extends BaseTypeChecker {
         POLYFLOWSINKS = AnnotationUtils.fromClass(elements, PolyFlowSinks.class);
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
 
-        AnnotationUtils.AnnotationBuilder builder =
-                new AnnotationUtils.AnnotationBuilder(processingEnv, FlowSources.class.getCanonicalName());
+        AnnotationBuilder builder =
+                new AnnotationBuilder(processingEnv, FlowSources.class.getCanonicalName());
         builder.setValue("value", new FlowSource[] { FlowSource.ANY });
         ANYFLOWSOURCES = builder.build();
 
-        builder = new AnnotationUtils.AnnotationBuilder(processingEnv, FlowSinks.class.getCanonicalName());
+        builder = new AnnotationBuilder(processingEnv, FlowSinks.class.getCanonicalName());
         builder.setValue("value", new FlowSink[] { FlowSink.ANY });
         ANYFLOWSINKS = builder.build();
 
@@ -173,8 +174,8 @@ public class FlowChecker extends BaseTypeChecker {
                     if (!isSourceQualifier(lhs)) {
                         return false;
                     }
-                    List<FlowSource> lhssrc = AnnotationUtils.elementValueEnumArrayWithDefaults(lhs, "value", FlowSource.class);
-                    List<FlowSource> rhssrc = AnnotationUtils.elementValueEnumArrayWithDefaults(rhs, "value", FlowSource.class);
+                    List<FlowSource> lhssrc = AnnotationUtils.getElementValueEnumArray(lhs, "value", FlowSource.class, true);
+                    List<FlowSource> rhssrc = AnnotationUtils.getElementValueEnumArray(rhs, "value", FlowSource.class, true);
                     return  AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) ||
                             lhssrc.containsAll(rhssrc);
                 }
@@ -191,8 +192,8 @@ public class FlowChecker extends BaseTypeChecker {
                     if (!isSinkQualifier(lhs)) {
                         return false;
                     }
-                    List<FlowSink> lhssnk = AnnotationUtils.elementValueEnumArrayWithDefaults(lhs, "value", FlowSink.class);
-                    List<FlowSink> rhssnk = AnnotationUtils.elementValueEnumArrayWithDefaults(rhs, "value", FlowSink.class);
+                    List<FlowSink> lhssnk = AnnotationUtils.getElementValueEnumArray(lhs, "value", FlowSink.class, true);
+                    List<FlowSink> rhssnk = AnnotationUtils.getElementValueEnumArray(rhs, "value", FlowSink.class, true);
                     return lhssnk.isEmpty() ||
                             rhssnk.containsAll(lhssnk) ||
                         (rhssnk.contains(FlowSink.ANY) && rhssnk.size()==1);
