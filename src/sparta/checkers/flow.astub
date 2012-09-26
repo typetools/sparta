@@ -2610,6 +2610,8 @@ class Collection {
 	
 class Collections {
 	<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> void sort(List<T> list, Comparator<? super T> comparator);
+	//Unsure:
+	static @PolyFlowSources @PolyFlowSinks Map<K,V> synchronizedMap(@PolyFlowSources @PolyFlowSinks Map<K,V> map); 
 }
 	
 interface Comparator<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
@@ -2624,20 +2626,25 @@ class HashMap<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSo
 	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 	@PolyFlowSources @PolyFlowSinks V get(@PolyFlowSources @PolyFlowSinks Object key) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String put(@PolyFlowSources @PolyFlowSinks K key, @PolyFlowSources @PolyFlowSinks V value) @PolyFlowSources @PolyFlowSinks;
+	@NoFlow
+	int size();
 }
 
 class LinkedList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-
+	
 }
 
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-	T get(int index);
 	boolean add(T object);
+	T get(int index);
 	@NoFlow int size();
+	//How to annotate this: Object[] toArray();
 }
 
 class Map<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
 	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+	@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean containsKey(K key);
+	V get(K key);
 	V put(K key, V value);
 }
 
@@ -2678,6 +2685,11 @@ class HttpEntity {
 class HttpResponse {
 	@PolyFlowSources @PolyFlowSinks HttpEntity getEntity() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks StatusLine getStatusLine() @PolyFlowSources @PolyFlowSinks;
+}
+
+class StatusLine {
+	@PolyFlowSources @PolyFlowSinks String getReasonPhrase() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int getStatusCode() @PolyFlowSources @PolyFlowSinks;
 }
 
 package org.apache.http.auth;
