@@ -2383,6 +2383,7 @@ class File {
 	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
+	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
 	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) String separator;
 }
@@ -2492,6 +2493,7 @@ class String {
 	@PolyFlowSources @PolyFlowSinks boolean equalsIgnoreCase(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
 	static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
+	@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String replace(@PolyFlowSources @PolyFlowSinks CharSequence target,
@@ -2578,6 +2580,14 @@ class URL {
 class URLConnection {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object connect();
 	@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.NETWORK}) @PolyFlowSinks InputStream getInputStream() @PolyFlowSinks;
+}
+
+package java.security;
+
+class MessageDigest {
+	@NoFlow
+	static MessageDigest getInstance(String algorithm);
+	void update(@PolyFlowSources @PolyFlowSinks byte[] input) @PolyFlowSources @PolyFlowSinks;
 }
 
 package java.sql;
