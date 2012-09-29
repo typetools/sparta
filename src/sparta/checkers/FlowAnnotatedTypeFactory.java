@@ -30,9 +30,9 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         // Default is always the top annotation for sinks.
         defaults.addAbsoluteDefault(checker.NOFLOWSINKS, DefaultLocation.ALL);
         // But let's send null down any sink.
-        this.treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.ANYFLOWSINKS);
+        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.ANYFLOWSINKS);
 
-        this.postInit();
+        postInit();
     }
 
     @Override
