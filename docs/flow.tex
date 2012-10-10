@@ -2,9 +2,14 @@
 \chapter{Flow Checker\label{flow-checker}}
 
 This chapter gives a brief overview of the Flow Checker, one of
-the main components of SPARTA.  The Flow Checker consists of a pluggable 
-type-system written for and enforced by the Checker Framework.  For more 
-information please consult the Checker Framework manual at
+the main components of SPARTA\@.  The Flow Checker tracks information flow
+through your program --- it gives a guarantee that there is no information
+flow beyond what is expressed in type annotations.
+
+The Flow Checker does pluggable type-checking of an information flow type
+system.  It is implemented using the Checker Framework.  To better
+understand pluggable type-checking and the Checker Framework, please
+consult the Checker Framework manual at
 \url{http://types.cs.washington.edu/checker-framework/}.  
 
 \paragraph{Overview}
