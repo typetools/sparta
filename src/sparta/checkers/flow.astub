@@ -947,10 +947,10 @@ class ContentService {
 }
 
 class ContentValues {
-	void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Double value);
-	void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Integer value);
-	void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Long value);
-	void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks String value);
+	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Double value);
+	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Integer value);
+	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Long value);
+	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks String value);
 	//TODO: Add the rest of the put methods
 }
 
@@ -2417,6 +2417,7 @@ class OutputStream {
 	void close() @PolyFlowSources @PolyFlowSinks;
 	void flush() @PolyFlowSources @PolyFlowSinks;
 	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer, int off, int len) @PolyFlowSources @PolyFlowSinks;
 }
 
 class OutputStreamWriter {
@@ -2646,7 +2647,7 @@ class LinkedList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.Flo
 
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 	boolean add(T object);
-	T get(int index);
+	T get(@FlowSinks({}) int index);
 	@NoFlow int size();
 	//How to annotate this: Object[] toArray();
 }
