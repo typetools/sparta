@@ -2417,6 +2417,7 @@ class OutputStream {
 	void close() @PolyFlowSources @PolyFlowSinks;
 	void flush() @PolyFlowSources @PolyFlowSinks;
 	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer, int off, int len) @PolyFlowSources @PolyFlowSinks;
 }
 
 class OutputStreamWriter {
