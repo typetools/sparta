@@ -13,7 +13,12 @@ TEX_FILES = \
 manual.tex \
 manual-style.tex \
 introduction.tex \
-flow.tex
+installation.tex \
+appanalysis.tex \
+flow.tex \
+rules-of-engagement.tex \
+notes.tex \
+sparta-internals.tex
 
 all: figures-all manual.pdf manual.html # javadoc
 

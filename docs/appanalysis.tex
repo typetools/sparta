@@ -267,3 +267,51 @@ Providing the \<stricter> option enables additional checks that are
 required for soundness, but would be disruptive to enable initially.
 In particular, the tests for casts and array subtyping are stricter.
 See the discussion in \chapterpageref{flow-checker}.
+
+
+\section{Notes}
+
+TODO: merge into the above
+
+\paragraph{Adding Annotations}
+
+There are two parts in adding annotations. 
+Firstly, we need to annotate the flow stub file (\<flow.astub>) in
+\<sparta-code>.
+It's used for annotating Android APIs. For instance, 
+
+\begin{alltt}
+package android.telephony;
+
+class TelephonyManager {
+    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
+    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
+}
+\end{alltt}
+
+The above annotates two methods in class \<TelephonyManager>.
+It means that the \<getLine1Number> function returns a String which is
+phone number.  For more examples, look into the \<flow.astub> file.
+
+FlowSources specifies data sources such as phone number, location, and
+etc. FlowSinks specifies sinks, such as files, network, and so on.
+The types of FlowSources and FlowSinks are listed in the
+\<FlowSources.java> and \<FlowSinks.java> files in \<sparta.checkers.quals>.
+
+
+The second part is annotating the Android application to match
+the annotations specified in the stub file. Run flowtest and see if
+any incompatible types are shown and iteratively add more annotations
+to the application.
+The Android API specifications in flow.astub is currently
+incomplete. As you experience new APIs, extend the specifications.
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% TeX-command-default: "PDF"
+%%% End: 
+
+%  LocalWords:  App xml env basename sparta dir
