@@ -60,10 +60,10 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 // defaults.addElementDefault(element, checker.NOFLOWSOURCES, DefaultLocation.RETURNS);
                 return;
             } else if (this.getDeclAnnotation(iter, ConservativeFlow.class) != null) {
-                // Use the top type for return types in the Android packages
+                // Use the top types for return types
                 new DefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.ANYFLOWSOURCES);
-                // Nothing needs to be done for parameters.
-                // new DefaultApplier(start, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSOURCES);
+                // Use the bottom types for parameter types
+                new DefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.ANYFLOWSINKS);
                 // Cache the result for future uses.
                 // defaults.addElementDefault(element, checker.ANYFLOWSOURCES, DefaultLocation.RETURNS);
                 return;
