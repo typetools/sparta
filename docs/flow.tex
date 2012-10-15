@@ -42,6 +42,11 @@ The argument to \<@FlowSources> (and \<@FlowSinks>) is an enum constant, or a
 set of them to indicate that a value might combine information from
 multiple sources (or might flow to multiple locations).
 
+FlowSources specifies data sources such as phone number, location, 
+etc.  FlowSinks specifies sinks, such as files, network, and so on.
+The types of FlowSources and FlowSinks are listed in the
+\<FlowSources.java> and \<FlowSinks.java> files in \<sparta.checkers.quals>.
+
 
 \section{Subtyping}
 
@@ -81,10 +86,11 @@ as a completely public value.
 Note the different subtyping behavior for sources and sinks.
 
 
-\section{Defaults}
+\section{Defaults\label{flow-defaults}}
 
 The default qualifiers are \<@FlowSinks({})> and \<@FlowSources({})>.  This
-default applies to field and method signature types, manifest constants
+default applies to field types, method parameters and return types,
+manifest constants
 (string literals, \<1.0>, \<true>, \<3>, \<'c'>,
 \ldots), and all other locations except local variables.
 
@@ -101,9 +107,15 @@ is allowed to flow to the network (but to no other sink).  If the given
 string is permitted to flow to the network, then you can suppress the
 warning by annotating the declaration with \<@SuppressWarnings("flow")>.
 
+The \<@ConservativeFlow> annotation changes the default for return types;
+see Section~\ref{ConservativeFlow}.
 
 For \textbf{local variables}, the default is the top type for each
-hierarchy, that is, any flow source and no flow sinks.  The Checker
+hierarchy, that is, \<@FlowSources(ANY) @FlowSinks({})>.  This applies to
+the top level of the local variable type, but not to generic type arguments
+and array elements, if any.
+
+The Checker
 Framework supports flow-sensitive type refinement.  Assignments (such as
 initializers) are used to refine the type to a more precise one.  Thus, in
 general you do not have to write type annotations on local variables.  For
@@ -131,17 +143,17 @@ See section ``Qualifier polymorphism'' in the Checker Framework manual.
 \section{API specifications}
 
 File \<sparta-code/src/sparta/checkers/flow.astub> provides library
-annotations.  See chapter ``Annotating libraries'' in the Checker Framework
-manual.
+annotations.  You may need to enhance it, if you find that your application
+uses APIs that are not yet annotated.  For details, see
+section~\ref{flow-task-annotate-apis} of this manual, and also 
+chapter
+``Annotating libraries'' in the Checker Framework manual.
+
+\label{ConservativeFlow}
 
 Besides the qualifiers discussed so far, two additional declaration
-annotations can be used here: \<@NoFlow> and \<@ConservativeFlow>.
-These annotations can be used on any declaration: a method, a class,
-or even a whole package.
-For example, in the beginning of \<flow.astub> we declare that the
-whole \<android> package should use conservative defaults.
-More specific annotations given in the rest of the file override these
-defaults.
+annotations can be used in the stub file: \<@NoFlow> and \<@ConservativeFlow>.
+Their effect is to change the default annotations (Section~\ref{flow-defaults}).
 
 Annotation \<@NoFlow> expresses that each method's return type and all
 parameter types are \<@FlowSources({}) @FlowSinks({})>.  As with all
@@ -159,6 +171,13 @@ whenever the method is used.
 When the analyst encounters such type-checking errors, the analyst can
 annotate the methods more appropriately.  This is a way of knowing when a
 program uses a previously-unannotated library.
+
+These annotations can be used on any declaration: a method, a class,
+or even a whole package.
+For example, the beginning of \<flow.astub> declares that the
+whole \<android> package should use conservative defaults.
+More specific annotations given in the rest of the file override these
+defaults.
 
 
 \section{Stricter tests}
