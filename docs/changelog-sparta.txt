@@ -1,0 +1,13 @@
+SPARTA Changelog
+
+Note: Sparta depends on the Checker Framework which is updated frequently. When Sparta is updated to the latest version of the Checker Framework this changelog will mention it.  
+
+To view the Checker Framework changelog visit: 
+http://types.cs.washington.edu/checker-framework/current/changelog-checkers.txt
+
+----------------------------------------------------------------------
+Version 0.7, 16 Oct 2012
+
+Expanded flow annotations
+Improved documentation
+Updated to the latest version of the Checker Framework(1.4.2)
