@@ -8,8 +8,6 @@ http://types.cs.washington.edu/checker-framework/current/changelog-checkers.txt
 ----------------------------------------------------------------------
 Version 0.7, 16 Oct 2012
 
-Expanded flow annotations
-
 Added more API annotations for Android and JDK libraries, in file flow.astub.
   Such annotations are necessary for any API that an app uses.  By
   expanding the SPARTA-provided set, the user has less work to do.
