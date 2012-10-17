@@ -13,6 +13,7 @@ Expanded flow annotations
 Added more API annotations for Android and JDK libraries, in file flow.astub.
   Such annotations are necessary for any API that an app uses.  By
   expanding the SPARTA-provided set, the user has less work to do.
+  flow.astub now contains over 1600 annotated methods (APIs).
 
 Rewrote parts the SPARTA manual, notably Chapter 4, "Flow Checker".
   The description of the flow type system is clearer, with additional examples.
