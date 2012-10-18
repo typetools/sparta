@@ -60,6 +60,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             } else if (this.getDeclAnnotation(iter, ConservativeFlow.class) != null) {
                 // Use the top types for return types
                 new DefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.ANYFLOWSOURCES);
+                // Use the bottom types for parameter types
+                new DefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.ANYFLOWSINKS);
                 return;
             }
             if (iter instanceof PackageElement) {
