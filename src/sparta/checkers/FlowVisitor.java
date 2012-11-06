@@ -1,5 +1,6 @@
 package sparta.checkers;
 
+import com.sun.source.tree.CaseTree;
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.ConditionalExpressionTree;
 import com.sun.source.tree.DoWhileLoopTree;
@@ -7,6 +8,7 @@ import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.ForLoopTree;
 import com.sun.source.tree.IfTree;
 import com.sun.source.tree.WhileLoopTree;
+import com.sun.source.tree.SwitchTree;
 
 import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
@@ -48,6 +50,20 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         return super.visitIf(node, p);
     }
 
+    @Override
+    public Void visitSwitch(SwitchTree node, Void p) {
+        ensureNoFlow(node.getExpression(), "condition.flow");
+        return super.visitSwitch(node, p);
+    }
+    
+    @Override
+    public Void visitCase(CaseTree node, Void p) {
+        ExpressionTree exprTree = node.getExpression();
+        if (exprTree != null)
+            ensureNoFlow(exprTree, "condition.flow");
+        return super.visitCase(node, p);
+    }
+    
     @Override
     public Void visitDoWhileLoop(DoWhileLoopTree node, Void p) {
         ensureNoFlow(node.getCondition(), "condition.flow");
