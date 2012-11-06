@@ -355,6 +355,8 @@ class Activity {
 	@NoFlow
 	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@NoFlow
+	void onCreate(Bundle savedInstanceState);
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
 	@NoFlow
 	void sendBroadcast(Intent intent);
@@ -546,6 +548,27 @@ class ContextImpl$ApplicationContentResolver {
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setMasterSyncAutomatically(boolean p0);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setSyncAutomatically(android.accounts.Account p0,java.lang.String p1,boolean p2);
 }
+/*
+//TODO: For some reason the permission map has doubled this class, and it doesn't crash the stub parser.
+package android.app;
+
+
+class ContextImpl$ApplicationPackageManager {
+	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object addPreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
+	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_USER_DATA) Object clearApplicationUserData(java.lang.String p0,IPackageDataObserver p1);
+	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object clearPackagePreferredActivities(java.lang.String p0);
+	@RequiredPermissions(android.Manifest.permission.DELETE_CACHE_FILES) Object deleteApplicationCacheFiles(java.lang.String p0,android.content.pm.IPackageDataObserver p1);
+	@RequiredPermissions(android.Manifest.permission.DELETE_PACKAGES) Object deletePackage(java.lang.String p0,IPackageDeleteObserver p1,int p2);
+	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_CACHE) Object freeStorage(long p0,android.content.IntentSender p1);
+	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_CACHE) Object freeStorageAndNotify(long p0,android.content.pm.IPackageDataObserver p1);
+	@RequiredPermissions(android.Manifest.permission.GET_PACKAGE_SIZE) Object getPackageSizeInfo(java.lang.String p0,android.content.pm.IPackageStatsObserver p1);
+	@RequiredPermissions(android.Manifest.permission.INSTALL_PACKAGES) Object installPackage(Uri p0,IPackageInstallObserver p1,int p2,java.lang.String p3);
+	@RequiredPermissions(android.Manifest.permission.MOVE_PACKAGE) Object movePackage(java.lang.String p0,IPackageMoveObserver p1,int p2);
+	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object replacePreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
+	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setApplicationEnabledSetting(java.lang.String p0,int p1,int p2);
+	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setComponentEnabledSetting(android.content.ComponentName p0,int p1,int p2);
+}
+*/
 
 class ContextImpl$ApplicationPackageManager {
 	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object addPreferredActivity(IntentFilter p0,int p1,ComponentName[] p2,ComponentName p3);
@@ -955,7 +978,7 @@ class ContentValues {
 }
 
 class ContentUris {
- 	@PolyFlowSources Uri withAppendedId(@PolyFlowSources Uri p1, @PolyFlowSources long p2);
+ 	static @PolyFlowSources @PolyFlowSinks Uri withAppendedId(@PolyFlowSources @PolyFlowSinks Uri contentUri, @PolyFlowSources @PolyFlowSinks long id);
 }
 	
 class Context {
@@ -1063,6 +1086,15 @@ class PackageManager {
 	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setComponentEnabledSetting(android.content.ComponentName p0,int p1,int p2);
 }
 
+package android.content;
+
+class UriMatcher {
+	@PolyFlowSources @PolyFlowSinks int match(@PolyFlowSources @PolyFlowSinks Uri uri);
+	//@FlowSources(FlowSource.LOCATION) int match(@FlowSinks({}) Uri uri);
+	@NoFlow
+	UriMatcher(int code);
+}
+
 package android.content.res;
 
 class ColorStateList {
@@ -1081,25 +1113,6 @@ class Resources {
 	String getString(int id, Object... objs);
 	@NoFlow
 	CharSequence getText(int id);
-}
-
-package android.app;
-
-
-class ContextImpl$ApplicationPackageManager {
-	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object addPreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
-	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_USER_DATA) Object clearApplicationUserData(java.lang.String p0,IPackageDataObserver p1);
-	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object clearPackagePreferredActivities(java.lang.String p0);
-	@RequiredPermissions(android.Manifest.permission.DELETE_CACHE_FILES) Object deleteApplicationCacheFiles(java.lang.String p0,android.content.pm.IPackageDataObserver p1);
-	@RequiredPermissions(android.Manifest.permission.DELETE_PACKAGES) Object deletePackage(java.lang.String p0,IPackageDeleteObserver p1,int p2);
-	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_CACHE) Object freeStorage(long p0,android.content.IntentSender p1);
-	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_CACHE) Object freeStorageAndNotify(long p0,android.content.pm.IPackageDataObserver p1);
-	@RequiredPermissions(android.Manifest.permission.GET_PACKAGE_SIZE) Object getPackageSizeInfo(java.lang.String p0,android.content.pm.IPackageStatsObserver p1);
-	@RequiredPermissions(android.Manifest.permission.INSTALL_PACKAGES) Object installPackage(Uri p0,IPackageInstallObserver p1,int p2,java.lang.String p3);
-	@RequiredPermissions(android.Manifest.permission.MOVE_PACKAGE) Object movePackage(java.lang.String p0,IPackageMoveObserver p1,int p2);
-	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object replacePreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
-	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setApplicationEnabledSetting(java.lang.String p0,int p1,int p2);
-	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setComponentEnabledSetting(android.content.ComponentName p0,int p1,int p2);
 }
 
 package android.database;
@@ -1123,19 +1136,26 @@ class SQLiteOpenHelper {
 }
 
 class SQLiteDatabase {
-	@NoFlow int delete(String p1, String p2, String[] p3);
-	@FlowSources({}) int insert(String p1, String p2, @PolyFlowSources ContentValues p3) @PolyFlowSources;
+	@NoFlow
+	int delete(String p1, String p2, String[] p3);
+	@NoFlow
+	void execSQL(String sql);
+	@NoFlow
+	long insert(String table, String nullColumnHack, ContentValues values);
+	//@FlowSources({}) int insert(String p1, String p2, @PolyFlowSources ContentValues p3) @PolyFlowSources;
 	@FlowSources({}) int update(String p1, @PolyFlowSources ContentValues p2, String p3, String[] p4) @PolyFlowSources;
 }
 
 class SQLiteQueryBuilder {
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Cursor query(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) SQLiteDatabase p0, String[] p1, String p2, String[] p3, String p4, String p5, String p6, String p7); 
+    @NoFlow
+    void setTables(String inTables);
 }
 
 package android.graphics;
 
 class Bitmap {
-	boolean compress(CompressFormat format, int quality, @PolyFlowSinks @PolyFlowSources OutputStream stream) @PolyFlowSinks @PolyFlowSources;
+	boolean compress(@FlowSinks({}) CompressFormat format, @FlowSinks({}) int quality, @PolyFlowSinks @PolyFlowSources OutputStream stream) @PolyFlowSinks @PolyFlowSources;
 }
 
 class BitmapDrawable {
@@ -1143,7 +1163,8 @@ class BitmapDrawable {
 }
 
 class BitmapFactory {
-	@PolyFlowSources @PolyFlowSinks Bitmap decodeByteArray(@PolyFlowSources @PolyFlowSinks byte[] data, int offset, int length);
+	@PolyFlowSources @PolyFlowSinks Bitmap decodeByteArray(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] data,
+		@FlowSinks({}) int offset, @FlowSinks({}) int length);
 }
 	
 package android.hardware;
@@ -1154,7 +1175,11 @@ class Camera {
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
 	@NoFlow 
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
-	void takePicture(ShutterCallback shutter, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback raw, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback jpeg);
+	@NoFlow
+	void setParameters(Parameters params);
+	@NoFlow
+	void setPreviewDisplay(SurfaceHolder holder);
+	void takePicture(@FlowSinks({}) ShutterCallback shutter, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback raw, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
 }
 
 
@@ -2053,7 +2078,8 @@ class FloatMath {
 }
 
 class Log {
-	int d(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
+	static int d(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg);
+	static int w(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg);
 }
 
 package android.view;
@@ -2124,6 +2150,13 @@ class Surface {
 	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) Object setOrientation(int p0,int p1,int p2);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) Object setOrientation(int p0,int p1);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) Object unfreezeDisplay(int p0);
+}
+
+class SurfaceHolder {
+	@NoFlow
+	void addCallback(Callback callback);
+	@NoFlow
+	void setType(int type);
 }
 
 class SurfaceSession {
@@ -2370,7 +2403,7 @@ package java.io;
 
 class BufferedInputStream {
 	@PolyFlowSources @PolyFlowSinks BufferedInputStream(@PolyFlowSources @PolyFlowSinks InputStream in);
-	public int read(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	//@FlowSources({}) int read(@PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class BufferedReader {
@@ -2400,7 +2433,7 @@ class File {
 class FileOutputStream {
 	void close() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks File file);
-	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class FileWriter {
@@ -2408,12 +2441,12 @@ class FileWriter {
 }
 
 class FilterInputStream {
-	int read(@PolyFlowSources @PolyFlowSinks byte[] b) @PolyFlowSources @PolyFlowSinks;
+	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] b) @PolyFlowSources @PolyFlowSinks;
 }
 
 class InputStream {
 	void close() @PolyFlowSources @PolyFlowSinks; 
-	int read(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class InputStreamReader {
@@ -2425,7 +2458,7 @@ class InputStreamReader {
 class OutputStream {
 	void close() @PolyFlowSources @PolyFlowSinks;
 	void flush() @PolyFlowSources @PolyFlowSinks;
-	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class OutputStreamWriter {
@@ -2435,13 +2468,13 @@ class OutputStreamWriter {
 
 class Reader {
 	void close() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks char[] buf) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks char @FlowSources({}) @FlowSinks({}) [] buf) @PolyFlowSources @PolyFlowSinks;
 }
 
 class Writer {
 	void close() @PolyFlowSources @PolyFlowSinks;
-	void write(@PolyFlowSources @PolyFlowSinks char[] buf, @PolyFlowSources @PolyFlowSinks int offset,
-		@PolyFlowSources @PolyFlowSinks int count) @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks char @FlowSources({}) @FlowSinks({}) [] buf,
+		@PolyFlowSources @PolyFlowSinks int offset,	@PolyFlowSources @PolyFlowSinks int count) @PolyFlowSources @PolyFlowSinks;
 }
 
 package java.lang;
@@ -2662,8 +2695,9 @@ class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSourc
 
 class Map<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
 	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-	@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean containsKey(K key);
-	V get(K key);
+	@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean containsKey(
+		@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object key);
+	V get(@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object key);
 	V put(K key, V value);
 }
 
