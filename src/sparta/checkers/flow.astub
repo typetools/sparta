@@ -1089,8 +1089,8 @@ class PackageManager {
 package android.content;
 
 class UriMatcher {
-	@PolyFlowSources @PolyFlowSinks int match(@PolyFlowSources @PolyFlowSinks Uri uri);
-	//@FlowSources(FlowSource.LOCATION) int match(@FlowSinks({}) Uri uri);
+    void addUri(@FlowSinks({}) String authority, @PolyFlowSources @PolyFlowSinks String path, @PolyFlowSources @PolyFlowSinks int code) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int match(@PolyFlowSources @PolyFlowSinks Uri uri) @PolyFlowSources @PolyFlowSinks;
 	@NoFlow
 	UriMatcher(int code);
 }
@@ -1143,11 +1143,25 @@ class SQLiteDatabase {
 	@NoFlow
 	long insert(String table, String nullColumnHack, ContentValues values);
 	//@FlowSources({}) int insert(String p1, String p2, @PolyFlowSources ContentValues p3) @PolyFlowSources;
-	@FlowSources({}) int update(String p1, @PolyFlowSources ContentValues p2, String p3, String[] p4) @PolyFlowSources;
+	@FlowSources({}) int update(
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String table,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) ContentValues values,
+        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String whereClause,
+        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] whereArgs);
 }
 
 class SQLiteQueryBuilder {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Cursor query(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) SQLiteDatabase p0, String[] p1, String p2, String[] p3, String p4, String p5, String p6, String p7); 
+	@NoFlow
+	void appendWhere(CharSequence inWhere);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Cursor query(
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) SQLiteDatabase db,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] projectionIn,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String selection,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] selectionArgs,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String groupBy,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String having,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String sortOrder,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String limit); 
     @NoFlow
     void setTables(String inTables);
 }
