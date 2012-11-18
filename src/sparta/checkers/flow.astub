@@ -1384,7 +1384,7 @@ class AudioManager {
 }
 
 class AudioRecord {
-	@RequiredPermissions(android.Manifest.permission.RECORD_AUDIO) Object AudioRecord(int p0,int p1,int p2,int p3,int p4);
+	@RequiredPermissions(android.Manifest.permission.RECORD_AUDIO) AudioRecord(int p0,int p1,int p2,int p3,int p4);
 }
 
 class AudioService {
@@ -1926,7 +1926,7 @@ class UserDictionary$Words {
 package android.server;
 
 class BluetoothA2dpService {
-	@RequiredPermissions(android.Manifest.permission.BLUETOOTH) Object BluetoothA2dpService(android.content.Context p0,android.server.BluetoothService p1);
+	@RequiredPermissions(android.Manifest.permission.BLUETOOTH) BluetoothA2dpService(android.content.Context p0,android.server.BluetoothService p1);
 	@RequiredPermissions(android.Manifest.permission.BLUETOOTH) Object addAudioSink(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions(android.Manifest.permission.MODIFY_AUDIO_SETTINGS) Object checkSinkSuspendState(int p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object connectSink(android.bluetooth.BluetoothDevice p0);
@@ -2220,7 +2220,7 @@ class SurfaceHolder {
 }
 
 class SurfaceSession {
-	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) Object SurfaceSession();
+	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) SurfaceSession();
 }
 
 class SurfaceView {
@@ -2262,13 +2262,13 @@ class WebSettings {
 }
 
 class WebView {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object WebView(android.content.Context p0,android.util.AttributeSet p1,int p2);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object WebView(android.content.Context p0,android.util.AttributeSet p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object WebView(android.content.Context p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) WebView(android.content.Context p0,android.util.AttributeSet p1,int p2);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) WebView(android.content.Context p0,android.util.AttributeSet p1);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) WebView(android.content.Context p0);
 }
 
 class WebViewCore {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object WebViewCore(android.content.Context p0,android.webkit.WebView p1,android.webkit.CallbackProxy p2,java.util.Map p3);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) WebViewCore(android.content.Context p0,android.webkit.WebView p1,android.webkit.CallbackProxy p2,java.util.Map p3);
 }
 
 package android.widget;
@@ -2655,45 +2655,45 @@ class Throwable {
 package java.net;
 
 class DatagramSocket {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DatagramSocket();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DatagramSocket(int p0);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DatagramSocket(int p0,java.net.InetAddress p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DatagramSocket(java.net.SocketAddress p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket(int p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket(int p0,java.net.InetAddress p1);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket(java.net.SocketAddress p0);
 }
 
 class HttpURLConnection {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object HttpURLConnection(java.net.URL p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) HttpURLConnection(java.net.URL p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object connect();
 }
 
 class MulticastSocket {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object MulticastSocket();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object MulticastSocket(int p0);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object MulticastSocket(java.net.SocketAddress p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) MulticastSocket();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) MulticastSocket(int p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) MulticastSocket(java.net.SocketAddress p0);
 }
 
 class NetworkInterface {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object NetworkInterface();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object NetworkInterface(java.lang.String p0,int p1,java.net.InetAddress p2);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) NetworkInterface();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) NetworkInterface(java.lang.String p0,int p1,java.net.InetAddress p2);
 }
 
 class ServerSocket {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object ServerSocket();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object ServerSocket(int p0);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object ServerSocket(int p0,int p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object ServerSocket(int p0,int p1,java.net.InetAddress p2);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) ServerSocket();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) ServerSocket(int p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) ServerSocket(int p0,int p1);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) ServerSocket(int p0,int p1,java.net.InetAddress p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object bind(java.net.SocketAddress p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object bind(java.net.SocketAddress p0,int p1);
 }
 
 class Socket {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.lang.String p0,int p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.lang.String p0,int p1,java.net.InetAddress p2,int p3);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.lang.String p0,int p1,boolean p2);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.net.InetAddress p0,int p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.net.InetAddress p0,int p1,java.net.InetAddress p2,int p3);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.net.InetAddress p0,int p1,boolean p2);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.lang.String p0,int p1);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.lang.String p0,int p1,java.net.InetAddress p2,int p3);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.lang.String p0,int p1,boolean p2);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.net.InetAddress p0,int p1);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.net.InetAddress p0,int p1,java.net.InetAddress p2,int p3);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.net.InetAddress p0,int p1,boolean p2);
 }
 
 class URI {
@@ -2735,7 +2735,7 @@ class Time {
 	
 package java.util;
 
-class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> extends List<T> {
+class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 	@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2896,10 +2896,10 @@ class AbstractHttpClient {
 }
 
 class DefaultHttpClient {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient(org.apache.http.params.HttpParams p0);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient(org.apache.http.conn.ClientConnectionManager p0,org.apache.http.params.HttpParams p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DefaultHttpClient();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DefaultHttpClient(org.apache.http.params.HttpParams p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DefaultHttpClient(org.apache.http.conn.ClientConnectionManager p0,org.apache.http.params.HttpParams p1);
+	// @RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.HttpHost p0,org.apache.http.client.methods.HttpUriRequest p1,org.apache.http.client.ResponseHandler p2,org.apache.http.protocol.HttpContext p3);
@@ -2912,6 +2912,7 @@ class DefaultHttpClient {
 
 class HttpClient {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET)
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.HttpHost p0,org.apache.http.client.methods.HttpUriRequest p1,org.apache.http.client.ResponseHandler p2,org.apache.http.protocol.HttpContext p3);
