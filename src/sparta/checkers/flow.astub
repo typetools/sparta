@@ -459,6 +459,7 @@ package android.app;
 
 class AlarmManager {
 	void set(@FlowSinks({}) int type, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long triggerAtMillis, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) PendingIntent operation) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	void set(@FlowSinks({}) int type, @PolyFlowSources @PolyFlowSinks long triggerAtMillis, @PolyFlowSources @PolyFlowSinks PendingIntent operation);
 	@RequiredPermissions(android.Manifest.permission.SET_TIME) Object setTime(long p0);
 	@RequiredPermissions(android.Manifest.permission.SET_TIME_ZONE) Object setTimeZone(java.lang.String p0);
 }
@@ -1034,7 +1035,10 @@ class ContextWrapper {
 	ContentResolver getContentResolver();
 	@NoFlow
 	Resources getResources();
-	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) Object getSystemService(@FlowSinks({}) String name);
+	// getSystemService() returns handles for various flow-sensitive classes. This method doesn't need to be annotated,
+	// but the methods on those objects do require annotation.
+	@NoFlow
+	Object getSystemService(@FlowSinks({}) String name);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
