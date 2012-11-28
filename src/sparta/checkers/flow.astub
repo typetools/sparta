@@ -690,7 +690,7 @@ class IWallpaperManager$Stub$Proxy {
 }
 
 class KeyguardManager {
-	@RequiredPermissions(android.Manifest.permission.DISABLE_KEYGUARD) Object exitKeyguardSecurely(android.app.KeyguardManager$OnKeyguardExitResult p0);
+	@RequiredPermissions(android.Manifest.permission.DISABLE_KEYGUARD) Object exitKeyguardSecurely(android.app.KeyguardManager.OnKeyguardExitResult p0);
 }
 
 class KeyguardManager$KeyguardLock {
@@ -1337,8 +1337,8 @@ interface LocationListener {
 class LocationManager {
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object _requestLocationUpdates(java.lang.String p0,long p1,float p2,android.app.PendingIntent p3);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object _requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3,android.os.Looper p4);
-	@RequiredPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) Object addGpsStatusListener(android.location.GpsStatus$Listener p0);
-	@RequiredPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) Object addNmeaListener(android.location.GpsStatus$NmeaListener p0);
+	@RequiredPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) Object addGpsStatusListener(android.location.GpsStatus.Listener p0);
+	@RequiredPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) Object addNmeaListener(android.location.GpsStatus.NmeaListener p0);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) Object addProximityAlert(double p0,double p1,float p2,long p3,android.app.PendingIntent p4);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object addTestProvider(java.lang.String p0,boolean p1,boolean p2,boolean p3,boolean p4,boolean p5,boolean p6,boolean p7,int p8,int p9);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object best(java.util.List p0);
@@ -1368,7 +1368,7 @@ package android.media;
 
 class AsyncPlayer {
 	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object acquireWakeLock();
-	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object enqueueLocked(android.media.AsyncPlayer$Command p0);
+	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object enqueueLocked(android.media.AsyncPlayer.Command p0);
 	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object play(android.content.Context p0,android.net.Uri p1,boolean p2,int p3);
 	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object releaseWakeLock();
 	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object stop();
@@ -1791,7 +1791,7 @@ class Browser {
 	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object getAllVisitedUrls(android.content.ContentResolver p0);
 	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object getVisitedHistory(android.content.ContentResolver p0);
 	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object getVisitedLike(android.content.ContentResolver p0,java.lang.String p1);
-	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object requestAllIcons(android.content.ContentResolver p0,java.lang.String p1,android.webkit.WebIconDatabase$IconListener p2);
+	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object requestAllIcons(android.content.ContentResolver p0,java.lang.String p1,android.webkit.WebIconDatabase.IconListener p2);
 	@RequiredPermissions({android.Manifest.permission.READ_HISTORY_BOOKMARKS, android.Manifest.permission.WRITE_HISTORY_BOOKMARKS}) Object truncateHistory(android.content.ContentResolver p0);
 	@RequiredPermissions({android.Manifest.permission.READ_HISTORY_BOOKMARKS, android.Manifest.permission.WRITE_HISTORY_BOOKMARKS}) Object updateVisitedHistory(android.content.ContentResolver p0,java.lang.String p1,boolean p2);
 }
@@ -1834,7 +1834,7 @@ class Contacts$People {
 	@RequiredPermissions(android.Manifest.permission.WRITE_CONTACTS) Object addToGroup(android.content.ContentResolver p0,long p1,long p2);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object addToMyContactsGroup(android.content.ContentResolver p0,long p1);
 	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_CONTACTS}) Object createPersonInMyContactsGroup(android.content.ContentResolver p0,android.content.ContentValues p1);
-	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object loadContactPhoto(android.content.Context p0,android.net.Uri p1,int p2,android.graphics.BitmapFactory$Options p3);
+	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object loadContactPhoto(android.content.Context p0,android.net.Uri p1,int p2,android.graphics.BitmapFactory.Options p3);
 	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_CONTACTS}) Object markAsContacted(android.content.ContentResolver p0,long p1);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object openContactPhotoInputStream(android.content.ContentResolver p0,android.net.Uri p1);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object queryGroups(android.content.ContentResolver p0,long p1);
@@ -2205,7 +2205,7 @@ class IWindowManager$Stub$Proxy {
 }
 
 class IWindowSession$Stub$Proxy {
-	@RequiredPermissions({android.Manifest.permission.SYSTEM_ALERT_WINDOW, android.Manifest.permission.INTERNAL_SYSTEM_WINDOW}) Object add(android.view.IWindow p0,android.view.WindowManager$LayoutParams p1,int p2,android.graphics.Rect p3);
+	@RequiredPermissions({android.Manifest.permission.SYSTEM_ALERT_WINDOW, android.Manifest.permission.INTERNAL_SYSTEM_WINDOW}) Object add(android.view.IWindow p0,android.view.WindowManager.LayoutParams p1,int p2,android.graphics.Rect p3);
 }
 
 class Surface {
@@ -2257,7 +2257,7 @@ class WebChromeClient {
 }
 
 class WebIconDatabase {
-	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object bulkRequestIconForPageUrl(android.content.ContentResolver p0,java.lang.String p1,android.webkit.WebIconDatabase$IconListener p2);
+	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object bulkRequestIconForPageUrl(android.content.ContentResolver p0,java.lang.String p1,android.webkit.WebIconDatabase.IconListener p2);
 }
 
 class WebSettings {
@@ -2961,7 +2961,7 @@ class XmlSerializer {
 	void setOutput(@PolyFlowSources @PolyFlowSinks Writer writer) @PolyFlowSources @PolyFlowSinks;
 	void startDocument(String encoding, Boolean standalone) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks XmlSerializer startTag(@PolyFlowSources @PolyFlowSinks String namespace, @PolyFlowSources @PolyFlowSinks String name) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks XmlSerializer text(@PolyFlowSources @PolyFlowSinks tring text) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks XmlSerializer text(@PolyFlowSources @PolyFlowSinks String text) @PolyFlowSources @PolyFlowSinks;
 }
 
 /* FROM EXTERNAL JARS */
