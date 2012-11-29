@@ -1,0 +1,90 @@
+\htmlhr
+\chapter{Requirements of the app developer (rules of engagement)\label{rules-of-engagement}}
+
+The goal of an application developer is to create a safe, functional
+application --- and to write the documentation and code so that the safety
+and functionality are immediately obvious.  In particular, the code and
+documentation should be clear and complete, and the system should pass all
+the tests that the SPARTA toolset performs.  If the application developer
+fails to meet any of these objectives, then the application will be
+rejected from the app store, and the fault will be with the application
+developer, not with the app store.
+
+A malicious developer would need to write clear documentation and code, but
+would attempt to hide malicious behavior in the app nonetheless.  If the
+documentation or code is not clear, or if the malicious behavior is not
+well-hidden, or if the SPARTA tools do not confirm that the code conforms
+to the documentation, then the malicious developer has failed in his task.
+
+Note that the malicious developer's goal is more difficult than just
+writing malicious code, and is even more difficult than writing well-hidden
+malicious code.  The reason is that the SPARTA toolset encourages good
+coding style:  poor style requires more warning suppressions.
+The SPARTA tools lead a programmer to better, clearer code.
+
+
+Here are some specific requirements of the app developer:
+
+\begin{itemize}
+\item
+  Use good style.  Code must not be obfuscated.  Raw types must not be
+  used.  Minimize use of undesirable/unsound features such as arrays,
+  casts, heterogeneous collections, and reflection.
+
+  Provide source code.  Provide a build file (for Ant, Maven, Android,
+  etc.).
+
+\item
+  State the intended information flows in the application.  This should
+  be expressed both in precise English and also in a machine-readable
+  format that can be read by the SPARTA tools.
+
+  The English description should include how the information flows between
+  parts of the application (the paths along which information flows), and
+  the conditions under which it flows (such as only after a particular user
+  action or external trigger).  These will eventually be represented in the
+  SPARTA toolset's file format and checked by SPARTA, but they are not yet.
+
+\item
+  Annotate the application.  Write type qualifiers on variables.  This is
+  essentially just a restatement of the information flows above at a lower
+  and more detailed level.
+
+\item
+  Type-check the application.  Run the type-checker on its source code.  Do
+  not take advantage of any of the unsound features of the type-checker.
+  (Those features are supported to reduce the workload of people who are
+  not concerned about an absolute guarantee.)  For example, do not skip any
+  portions of the code
+
+\item
+  Minimize the number of type-checking failures, and justify each one.  A
+  type-checking failure indicates either a bug (i.e., security flaw) in the
+  application, or an instance of subtle code that is beyond the
+  capabilities of the type system.  In either case, the app developer's
+  first inclination should be to rewrite the code to be correct and
+  straightforward.
+
+  If rewriting the code is impossible, then every remaining warning should
+  be suppressed with a \<@SuppressWarnings> annotation.  Every
+  \<@SuppressWarnings> annotation requires a clear, compelling
+  justification regarding why the code is actually correct and safe (even
+  though the type-checker cannot prove this property), and why the code
+  cannot be rewritten to address the warning.  This justification should be
+  written in the source code at the location of the \<@SuppressWarnings>
+  annotation.
+
+  An excessive number of type-checker warnings, or missing justifications
+  for warning suppressions, is grounds for rejection from the app store.
+
+\end{itemize}
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% TeX-command-default: "PDF"
+%%% End: 
+
+%  LocalWords:  app toolset's

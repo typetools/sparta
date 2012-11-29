@@ -2,6 +2,8 @@ package sparta.checkers;
 
 import java.util.List;
 
+import javax.lang.model.type.TypeKind;
+
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
@@ -12,6 +14,8 @@ import checkers.quals.TypeQualifiers;
 import checkers.source.SourceVisitor;
 import checkers.types.AnnotatedTypeFactory;
 import checkers.types.AnnotatedTypeMirror;
+import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
+import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
 import checkers.util.AnnotationUtils;
 import checkers.util.TreeUtils;
 
@@ -38,7 +42,7 @@ public class FlowShow extends FlowChecker {
 
     protected class FlowShowVisitor extends SourceVisitor<Void, Void> {
 
-        private Trees treemsg;
+        private final Trees treemsg;
 
         public FlowShowVisitor(FlowShow checker, CompilationUnitTree root) {
             super(checker, root);
@@ -52,6 +56,12 @@ public class FlowShow extends FlowChecker {
                     !(tree instanceof AnnotationTree) &&
                     !(tree.getKind()==Tree.Kind.NULL_LITERAL)) {
                 AnnotatedTypeMirror type = this.atypeFactory.getAnnotatedType(tree);
+                if (type.getKind() == TypeKind.WILDCARD) {
+                    type = ((AnnotatedWildcardType)type).getEffectiveExtendsBound();
+                } else if (type.getKind() == TypeKind.TYPEVAR) {
+                    type = ((AnnotatedTypeVariable)type).getEffectiveUpperBound();
+                }
+
                 boolean show = false;
 
                 if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(NOFLOWSOURCES), NOFLOWSOURCES)) {

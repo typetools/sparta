@@ -20,50 +20,19 @@ applications in Eclipse.
 
 Eclipse accepts annotations only in the locations supported by Java
 1.5, that is, only declaration locations; examples are fields, local
-variables, parameters, and return types.
+variables, parameters, and methods (return type annotations go in the same
+place).
 
 Eclipse won't accept annotations in locations that were added in
 JSR 308; added locations include type arguments, object creation,
 casts, type parameter bounds, and others.
 To avoid syntax errors from Eclipse or other Java compilers, you need
 to put such annotations in comments.
+The SPARTA tools will interpret them, but Eclipse and other Java compilers
+will ignore them.
 
-Single qualifiers can use the ``annotation-in-comment'' syntax
-\</*@X*/>. Examples:
+For details, see section ``Annotations in comments'' in the Checker Framework manual.
 
-\begin{itemize}
-\item Generics:
-	\|List</*@FlowSources(...)*/ String>|
-
-\item Object creation:
-	\|new /*@FlowSinks(...)*/ Object();|
-
-\item Casts:
-	\|return (/*@FlowSources(...)*/ double) x;|
-\end{itemize}
-
-Note that only a single annotation can be in a comment; for
-multiple annotations, use multiple comments, as in \|/*@X*/ /*@Y*/|.
-
-Also, in Java 8, method receivers can be explicitly given as a \<this>
-parameter.
-A separate comment syntax can be used to hide method receivers from
-Eclipse, while still keeping them available to the Checker Framework:
-
-\begin{alltt}
-        public Class(/*>>> @FlowSinks(FlowSink.NETWORK) Class this, */ String paramTwo) {}
-\end{alltt}
-
-
-When using annotations in comments, Eclipse might warn about unused
-imports for these annotations. To prevent such warnings, similarly put
-such imports into comments:
-
-\begin{alltt}
-/*>>>
-import sparta.checkers.quals.*;
-*/
-\end{alltt}
 
 
 Sometimes method type argument inference does not interact well with
@@ -75,82 +44,8 @@ explicit method type arguments, for which the syntax is as follows:
 \end{alltt}
 
 
-\section{Annotating libraries}
-
-To support adding annotations to libraries, we provide special .astub
-files that contain the annotations on the signatures of such classes.
-These files contain Java classes, but provide a few special features:
-\begin{itemize}
-\item they can contain multiple packages and multiple public classes in
- one file,
-\item methods do not need to provide implementations,
-\item the return type of a method does not need to match the real method,
- e.g. using java.lang.Object is valid for every method.
-\end{itemize}
-
-There are two temporary difference when annotating stub files, rather
-than source code:
-\begin{itemize}
-\item the receiver is written after the method parameter list, instead of
-as an explicit first parameter.
-That is, instead of
-
-\begin{alltt}
-     returntype methodname(@Annotations C this, params);
-\end{alltt}
-
-in a stub file one has to write
-
-\begin{alltt}
-     returntype methodname(params) @Annotations;
-\end{alltt}
-
-\item enum constants in annotations need to be fully qualified.
-For example, one has to write the following
-
-\begin{alltt}
-@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY)
-\end{alltt}
-
-even when the classes are correctly imported.
-
-\end{itemize}
-
-
-% The constructor:
-% 	mark as "@Annotations ClassName(params);" as if it was returning itself, rather than being a receiver.
-% TODO: this is not special to the stub file; this should be moved
-% 	somewhere else.
-
-
-\section{Suppressing warnings}
-
-Warnings can be suppressed using the standard \<@SuppressWarnings>
-annotation.
-To suppress warnings from the Flow Checker, use
-\<@SuppressWarnings("flow")>.
-
-The \<@SuppressWarnings> annotation cannot be used on statements or
-expressions, only on declarations.
-Warnings should be suppressed in the smallest possible scope and
-should always contain an explanation for why it is safe to ignore the
-warning.
-
-The general pattern is to introduce a new local variable and suppress
-the warning on that local variable.
-The following is legal example for this:
-
-\begin{alltt}
-	@SuppressWarnings("flow") // Explain why suppression is sound.
-	@FlowSources(...) String a = method();
-\end{alltt}
-
-The following is not legal, because the @SuppressWarnings is not on a
-declaration:
-
-\begin{alltt}
-	@FlowSources(...) String a; 
-	@SuppressWarnings("flow") // Explain why suppression is sound.
-	a = method();
-\end{alltt}
-
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% TeX-command-default: "PDF"
+%%% End: 

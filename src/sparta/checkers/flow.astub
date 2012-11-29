@@ -116,6 +116,8 @@ class AccountAuthenticatorActivity {
 	//setPersistent() is a private method
 	@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
 	@NoFlow
+	void setResult(int resultCode, Intent data);
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(android.graphics.Bitmap p0);
 	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(java.io.InputStream p0);
@@ -136,7 +138,7 @@ class AccountManager {
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String password,
 		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle userdata);
-	//x@NoFlow
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) void addOnAccountsUpdatedListener(OnAccountsUpdateListener listener, Handler handler, boolean updateImmediately);
 	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS)
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String blockingGetAuthToken(
@@ -355,7 +357,13 @@ class Activity {
 	@NoFlow
 	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@NoFlow
+	void onCreate(Bundle savedInstanceState);
+	@NoFlow
+	void onSaveInstanceState(Bundle outState);
+	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
+	@NoFlow
+	final boolean requestWindowFeature(int featureId);
 	@NoFlow
 	void sendBroadcast(Intent intent);
 	@NoFlow
@@ -368,6 +376,12 @@ class Activity {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) void setContentView(int layoutResID);
 	//setPersistent() is a hidden method.
 	@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
+	@NoFlow
+	void setProgressBarIndeterminateVisibility(boolean visible);
+    @NoFlow
+    void setResult(int resultCode, Intent data);
+    @NoFlow
+    void setTitle(CharSequence title);
 	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(Bitmap bitmap);
 	@NoFlow
@@ -444,7 +458,8 @@ class IDevicePolicyManager$Stub$Proxy {
 package android.app;
 
 class AlarmManager {
-	void set(int p1, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long p2, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) PendingIntent p3) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	void set(@FlowSinks({}) int type, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long triggerAtMillis, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) PendingIntent operation) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	void set(@FlowSinks({}) int type, @PolyFlowSources @PolyFlowSinks long triggerAtMillis, @PolyFlowSources @PolyFlowSinks PendingIntent operation);
 	@RequiredPermissions(android.Manifest.permission.SET_TIME) Object setTime(long p0);
 	@RequiredPermissions(android.Manifest.permission.SET_TIME_ZONE) Object setTimeZone(java.lang.String p0);
 }
@@ -546,6 +561,27 @@ class ContextImpl$ApplicationContentResolver {
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setMasterSyncAutomatically(boolean p0);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setSyncAutomatically(android.accounts.Account p0,java.lang.String p1,boolean p2);
 }
+/*
+//TODO: For some reason the permission map has doubled this class, and it doesn't crash the stub parser.
+package android.app;
+
+
+class ContextImpl$ApplicationPackageManager {
+	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object addPreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
+	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_USER_DATA) Object clearApplicationUserData(java.lang.String p0,IPackageDataObserver p1);
+	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object clearPackagePreferredActivities(java.lang.String p0);
+	@RequiredPermissions(android.Manifest.permission.DELETE_CACHE_FILES) Object deleteApplicationCacheFiles(java.lang.String p0,android.content.pm.IPackageDataObserver p1);
+	@RequiredPermissions(android.Manifest.permission.DELETE_PACKAGES) Object deletePackage(java.lang.String p0,IPackageDeleteObserver p1,int p2);
+	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_CACHE) Object freeStorage(long p0,android.content.IntentSender p1);
+	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_CACHE) Object freeStorageAndNotify(long p0,android.content.pm.IPackageDataObserver p1);
+	@RequiredPermissions(android.Manifest.permission.GET_PACKAGE_SIZE) Object getPackageSizeInfo(java.lang.String p0,android.content.pm.IPackageStatsObserver p1);
+	@RequiredPermissions(android.Manifest.permission.INSTALL_PACKAGES) Object installPackage(Uri p0,IPackageInstallObserver p1,int p2,java.lang.String p3);
+	@RequiredPermissions(android.Manifest.permission.MOVE_PACKAGE) Object movePackage(java.lang.String p0,IPackageMoveObserver p1,int p2);
+	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object replacePreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
+	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setApplicationEnabledSetting(java.lang.String p0,int p1,int p2);
+	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setComponentEnabledSetting(android.content.ComponentName p0,int p1,int p2);
+}
+*/
 
 class ContextImpl$ApplicationPackageManager {
 	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object addPreferredActivity(IntentFilter p0,int p1,ComponentName[] p2,ComponentName p3);
@@ -654,7 +690,7 @@ class IWallpaperManager$Stub$Proxy {
 }
 
 class KeyguardManager {
-	@RequiredPermissions(android.Manifest.permission.DISABLE_KEYGUARD) Object exitKeyguardSecurely(android.app.KeyguardManager$OnKeyguardExitResult p0);
+	@RequiredPermissions(android.Manifest.permission.DISABLE_KEYGUARD) Object exitKeyguardSecurely(android.app.KeyguardManager.OnKeyguardExitResult p0);
 }
 
 class KeyguardManager$KeyguardLock {
@@ -667,6 +703,8 @@ class ListActivity {
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
+	@NoFlow
+	void setListAdapter(ListAdapter adapter);
 	@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
@@ -677,6 +715,13 @@ class NotificationManager {
 	@RequiredPermissions(android.Manifest.permission.VIBRATE) Object notify(java.lang.String p0,int p1,android.app.Notification p2);
 }
 
+class PendingIntent {
+    @NoFlow
+    static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags);
+    @NoFlow
+    static PendingIntent getService(Context context, int requestCode, Intent intent, int flags);
+}
+
 @NoFlow
 class ProgressDialog {
 	static ProgressDialog show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable);
@@ -684,6 +729,8 @@ class ProgressDialog {
 
 class Service {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
+	@NoFlow
+	void onStart(Intent intent, int startId);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
@@ -733,6 +780,8 @@ class AppWidgetManager {
 	AppWidgetProviderInfo getAppWidgetInfo(int appWidgetId);
 	@NoFlow
 	AppWidgetManager getInstance(Context c);
+	@NoFlow
+	void updateAppWidget(int appWidgetId, RemoteViews views);
 	
 }
 
@@ -907,12 +956,14 @@ class ContentProvider {
 
 class ContentResolver {
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object addPeriodicSync(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2,long p3);
+	@PolyFlowSources @PolyFlowSinks int delete(@PolyFlowSources @PolyFlowSinks Uri url, @PolyFlowSources @PolyFlowSinks String where, @FlowSinks({}) String @FlowSinks({}) [] selectionArgs);
 	@RequiredPermissions(android.Manifest.permission.READ_SYNC_STATS) Object getCurrentSync();
 	@RequiredPermissions(android.Manifest.permission.READ_SYNC_SETTINGS) Object getIsSyncable(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions(android.Manifest.permission.READ_SYNC_SETTINGS) Object getMasterSyncAutomatically();
 	@RequiredPermissions(android.Manifest.permission.READ_SYNC_SETTINGS) Object getPeriodicSyncs(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions(android.Manifest.permission.READ_SYNC_SETTINGS) Object getSyncAutomatically(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions(android.Manifest.permission.READ_SYNC_STATS) Object getSyncStatus(android.accounts.Account p0,java.lang.String p1);
+	@PolyFlowSources @PolyFlowSinks Uri insert(@PolyFlowSources @PolyFlowSinks Uri url, @PolyFlowSources @PolyFlowSinks ContentValues value);
 	@RequiredPermissions(android.Manifest.permission.READ_SYNC_STATS) Object isSyncActive(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions(android.Manifest.permission.READ_SYNC_STATS) Object isSyncPending(android.accounts.Account p0,java.lang.String p1);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object openFileDescriptor(android.net.Uri p0,java.lang.String p1);
@@ -925,6 +976,7 @@ class ContentResolver {
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setIsSyncable(android.accounts.Account p0,java.lang.String p1,int p2);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setMasterSyncAutomatically(boolean p0);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setSyncAutomatically(android.accounts.Account p0,java.lang.String p1,boolean p2);
+	int update(@PolyFlowSources @PolyFlowSinks Uri uri, @PolyFlowSources @PolyFlowSinks ContentValues values, @FlowSinks({}) String where, @FlowSinks({}) String @FlowSinks({}) [] selectionArgs);
 }
 
 class ContentService {
@@ -947,15 +999,15 @@ class ContentService {
 }
 
 class ContentValues {
-	void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Double value);
-	void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Integer value);
-	void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Long value);
-	void put(String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks String value);
+	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Double value);
+	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Integer value);
+	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Long value);
+	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks String value);
 	//TODO: Add the rest of the put methods
 }
 
 class ContentUris {
- 	@PolyFlowSources Uri withAppendedId(@PolyFlowSources Uri p1, @PolyFlowSources long p2);
+ 	static @PolyFlowSources @PolyFlowSinks Uri withAppendedId(@PolyFlowSources @PolyFlowSinks Uri contentUri, @PolyFlowSources @PolyFlowSinks long id);
 }
 	
 class Context {
@@ -964,7 +1016,7 @@ class Context {
 	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) String name, int mode);
 	@NoFlow String getPackageName();
 	@NoFlow Resources getResources();
-	@NoFlow String getString(int i, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object... objs);
+	@NoFlow String getString(@FlowSinks({}) int i, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object... objs);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
@@ -973,16 +1025,25 @@ class Context {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
 	@RequiredPermissions({}) Object startActivity(android.content.Intent p0);
-	@RequiredPermissions({}) Object startService(android.content.Intent p0);
+	@NoFlow
+	@RequiredPermissions({}) Object startService(Intent service);
 }
 
 class ContextWrapper {
+<<<<<<< local
     @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources String name, int mode);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
+=======
+	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
+>>>>>>> other
 	@NoFlow
 	ContentResolver getContentResolver();
 	@NoFlow
 	Resources getResources();
+	// getSystemService() returns handles for various flow-sensitive classes. This method doesn't need to be annotated,
+	// but the methods on those objects do require annotation.
+	@NoFlow
+	Object getSystemService(@FlowSinks({}) String name);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
@@ -991,7 +1052,8 @@ class ContextWrapper {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
 	@RequiredPermissions({}) Object startActivity(android.content.Intent p0);
-	@RequiredPermissions({}) Object startService(android.content.Intent p0);
+	@NoFlow
+	@RequiredPermissions({}) ComponentName startService(Intent service);
 }
 
 class IContentService$Stub$Proxy {
@@ -1014,9 +1076,12 @@ class Intent {
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getAction();
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Uri getData();
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Bundle getExtras();
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int getIntExtra(String name, int defaultValue);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getStringExtra(String name);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Intent setData(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Uri data);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int getIntExtra(@FlowSinks({}) String name, @FlowSinks({}) int defaultValue);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getStringExtra(@FlowSinks({}) String name);
+	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks int value);
+	@NoFlow
+	Intent setClass(Context packageContext, Class<?> cls);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Intent setData(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) Uri data);
 	
 }
 class MutableContextWrapper {
@@ -1063,6 +1128,17 @@ class PackageManager {
 	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setComponentEnabledSetting(android.content.ComponentName p0,int p1,int p2);
 }
 
+package android.content;
+
+class UriMatcher {
+    void addURI(@PolyFlowSources @PolyFlowSinks String authority,
+        @PolyFlowSources @PolyFlowSinks String path,
+        @PolyFlowSources @PolyFlowSinks int code) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int match(@PolyFlowSources @PolyFlowSinks Uri uri) @PolyFlowSources @PolyFlowSinks;
+	@NoFlow
+	UriMatcher(int code);
+}
+
 package android.content.res;
 
 class ColorStateList {
@@ -1083,33 +1159,14 @@ class Resources {
 	CharSequence getText(int id);
 }
 
-package android.app;
-
-
-class ContextImpl$ApplicationPackageManager {
-	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object addPreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
-	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_USER_DATA) Object clearApplicationUserData(java.lang.String p0,IPackageDataObserver p1);
-	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object clearPackagePreferredActivities(java.lang.String p0);
-	@RequiredPermissions(android.Manifest.permission.DELETE_CACHE_FILES) Object deleteApplicationCacheFiles(java.lang.String p0,android.content.pm.IPackageDataObserver p1);
-	@RequiredPermissions(android.Manifest.permission.DELETE_PACKAGES) Object deletePackage(java.lang.String p0,IPackageDeleteObserver p1,int p2);
-	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_CACHE) Object freeStorage(long p0,android.content.IntentSender p1);
-	@RequiredPermissions(android.Manifest.permission.CLEAR_APP_CACHE) Object freeStorageAndNotify(long p0,android.content.pm.IPackageDataObserver p1);
-	@RequiredPermissions(android.Manifest.permission.GET_PACKAGE_SIZE) Object getPackageSizeInfo(java.lang.String p0,android.content.pm.IPackageStatsObserver p1);
-	@RequiredPermissions(android.Manifest.permission.INSTALL_PACKAGES) Object installPackage(Uri p0,IPackageInstallObserver p1,int p2,java.lang.String p3);
-	@RequiredPermissions(android.Manifest.permission.MOVE_PACKAGE) Object movePackage(java.lang.String p0,IPackageMoveObserver p1,int p2);
-	@RequiredPermissions(android.Manifest.permission.SET_PREFERRED_APPLICATIONS) Object replacePreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
-	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setApplicationEnabledSetting(java.lang.String p0,int p1,int p2);
-	@RequiredPermissions(android.Manifest.permission.CHANGE_COMPONENT_ENABLED_STATE) Object setComponentEnabledSetting(android.content.ComponentName p0,int p1,int p2);
-}
-
 package android.database;
 
 class Cursor {
 	@NoFlow void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) double getDouble(int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) long getLong(int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getString(int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int getInt(int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) double getDouble(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) long getLong(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getString(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int getInt(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 	@NoFlow boolean moveToFirst() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);	
 	 
 	//TODO: Add the rest of the get methods
@@ -1123,23 +1180,49 @@ class SQLiteOpenHelper {
 }
 
 class SQLiteDatabase {
-	@NoFlow int delete(String p1, String p2, String[] p3);
-	@FlowSources({}) int insert(String p1, String p2, @PolyFlowSources ContentValues p3) @PolyFlowSources;
-	@FlowSources({}) int update(String p1, @PolyFlowSources ContentValues p2, String p3, String[] p4) @PolyFlowSources;
+	@NoFlow
+	int delete(String p1, String p2, String[] p3);
+	@NoFlow
+	void execSQL(String sql);
+	@NoFlow
+	long insert(String table, String nullColumnHack, ContentValues values);
+	//@FlowSources({}) int insert(String p1, String p2, @PolyFlowSources ContentValues p3) @PolyFlowSources;
+	@FlowSources({}) int update(
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String table,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) ContentValues values,
+        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String whereClause,
+        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] whereArgs);
 }
 
 class SQLiteQueryBuilder {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Cursor query(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) SQLiteDatabase p0, String[] p1, String p2, String[] p3, String p4, String p5, String p6, String p7); 
+	@NoFlow
+	void appendWhere(CharSequence inWhere);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Cursor query(
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) SQLiteDatabase db,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] projectionIn,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String selection,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] selectionArgs,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String groupBy,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String having,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String sortOrder,
+	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String limit); 
+    @NoFlow
+    void setTables(String inTables);
 }
 
 package android.graphics;
 
 class Bitmap {
-	boolean compress(CompressFormat format, int quality, @PolyFlowSinks @PolyFlowSources OutputStream stream) @PolyFlowSinks @PolyFlowSources;
+	boolean compress(@FlowSinks({}) CompressFormat format, @FlowSinks({}) int quality, @PolyFlowSinks @PolyFlowSources OutputStream stream) @PolyFlowSinks @PolyFlowSources;
 }
-	
+
+class BitmapDrawable {
+	BitmapDrawable(@PolyFlowSources @PolyFlowSinks String filepath) @PolyFlowSources @PolyFlowSinks;
+}
+
 class BitmapFactory {
-	@PolyFlowSources @PolyFlowSinks Bitmap decodeByteArray(@PolyFlowSources @PolyFlowSinks byte[] data, int offset, int length);
+	@PolyFlowSources @PolyFlowSinks Bitmap decodeByteArray(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] data,
+		@FlowSinks({}) int offset, @FlowSinks({}) int length);
 }
 	
 package android.hardware;
@@ -1150,7 +1233,11 @@ class Camera {
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
 	@NoFlow 
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
-	void takePicture(ShutterCallback shutter, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback raw, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback jpeg);
+	@NoFlow
+	void setParameters(Parameters params);
+	@NoFlow
+	void setPreviewDisplay(SurfaceHolder holder);
+	void takePicture(@FlowSinks({}) ShutterCallback shutter, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback raw, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
 }
 
 
@@ -1197,11 +1284,11 @@ class Address {
 
 class Geocoder {
 	@FlowSources({}) List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Address> 
-		getFromLocation(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double latitude, 
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double longitude, int maxResults);
+		getFromLocation(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) @FlowSinks({}) double latitude, 
+		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) @FlowSinks({}) double longitude, @FlowSinks({}) int maxResults);
 		
 	@FlowSources({}) List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Address> 
-	    getFromLocationName(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String locationName, int maxResults);
+	    getFromLocationName(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) @FlowSinks({}) String locationName, @FlowSinks({}) int maxResults);
 }
 
 class ILocationManager$Stub$Proxy {
@@ -1268,8 +1355,8 @@ interface LocationListener {
 class LocationManager {
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object _requestLocationUpdates(java.lang.String p0,long p1,float p2,android.app.PendingIntent p3);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object _requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3,android.os.Looper p4);
-	@RequiredPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) Object addGpsStatusListener(android.location.GpsStatus$Listener p0);
-	@RequiredPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) Object addNmeaListener(android.location.GpsStatus$NmeaListener p0);
+	@RequiredPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) Object addGpsStatusListener(android.location.GpsStatus.Listener p0);
+	@RequiredPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) Object addNmeaListener(android.location.GpsStatus.NmeaListener p0);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) Object addProximityAlert(double p0,double p1,float p2,long p3,android.app.PendingIntent p4);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object addTestProvider(java.lang.String p0,boolean p1,boolean p2,boolean p3,boolean p4,boolean p5,boolean p6,boolean p7,int p8,int p9);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object best(java.util.List p0);
@@ -1280,7 +1367,7 @@ class LocationManager {
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
 	String getBestProvider(Criteria criteria, boolean enabledOnly);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
-	@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME}) Location getLastKnownLocation(String provider);
+	@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME}) Location getLastKnownLocation(@FlowSinks({}) String provider);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProvider(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(android.location.Criteria p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(boolean p0);
@@ -1299,7 +1386,7 @@ package android.media;
 
 class AsyncPlayer {
 	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object acquireWakeLock();
-	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object enqueueLocked(android.media.AsyncPlayer$Command p0);
+	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object enqueueLocked(android.media.AsyncPlayer.Command p0);
 	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object play(android.content.Context p0,android.net.Uri p1,boolean p2,int p3);
 	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object releaseWakeLock();
 	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object stop();
@@ -1319,7 +1406,7 @@ class AudioManager {
 }
 
 class AudioRecord {
-	@RequiredPermissions(android.Manifest.permission.RECORD_AUDIO) Object AudioRecord(int p0,int p1,int p2,int p3,int p4);
+	@RequiredPermissions(android.Manifest.permission.RECORD_AUDIO) AudioRecord(int p0,int p1,int p2,int p3,int p4);
 }
 
 class AudioService {
@@ -1467,7 +1554,7 @@ class ThrottleManager {
 class Uri {
 	@FlowSources({}) List<@PolyFlowSources @PolyFlowSinks String> getPathSegments() @PolyFlowSources @PolyFlowSinks;
 	static @PolyFlowSources @PolyFlowSinks Uri parse(@PolyFlowSources @PolyFlowSinks String uriString);
-	static @PolyFlowSources @PolyFlowSinks Uri withAppendedPath(@PolyFlowSources @PolyFlowSInks Uri baseUri, @PolyFlowSources @PolyFlowSinks String pathSegment);
+	static @PolyFlowSources @PolyFlowSinks Uri withAppendedPath(@PolyFlowSources @PolyFlowSinks Uri baseUri, @PolyFlowSources @PolyFlowSinks String pathSegment);
 }
 	
 package android.net.wifi;
@@ -1547,11 +1634,12 @@ class WifiManager$WifiLock {
 package android.os;
 
 class Bundle {
-	@PolyFlowSources @PolyFlowSinks boolean getBoolean(String key, boolean defaultValue) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks double getDouble(String key) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int getInt(String key) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String getString(String key) @PolyFlowSources @PolyFlowSinks;
-	void putDouble(String key, @PolyFlowSources @PolyFlowSinks double value) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks boolean getBoolean(@FlowSinks({}) String key, @FlowSinks({}) boolean defaultValue) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks double getDouble(@FlowSinks({}) String key) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int getInt(@FlowSinks({}) String key) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String getString(@FlowSinks({}) String key) @PolyFlowSources @PolyFlowSinks;
+	void putDouble(@PolyFlowSources @PolyFlowSinks String key, @PolyFlowSources @PolyFlowSinks double value) @PolyFlowSources @PolyFlowSinks;
+	void putInt(@PolyFlowSources @PolyFlowSinks String key, @PolyFlowSources @PolyFlowSinks int value) @PolyFlowSources @PolyFlowSinks;
 }
 	
 class DropBoxManager {
@@ -1725,7 +1813,7 @@ class Browser {
 	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object getAllVisitedUrls(android.content.ContentResolver p0);
 	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object getVisitedHistory(android.content.ContentResolver p0);
 	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object getVisitedLike(android.content.ContentResolver p0,java.lang.String p1);
-	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object requestAllIcons(android.content.ContentResolver p0,java.lang.String p1,android.webkit.WebIconDatabase$IconListener p2);
+	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object requestAllIcons(android.content.ContentResolver p0,java.lang.String p1,android.webkit.WebIconDatabase.IconListener p2);
 	@RequiredPermissions({android.Manifest.permission.READ_HISTORY_BOOKMARKS, android.Manifest.permission.WRITE_HISTORY_BOOKMARKS}) Object truncateHistory(android.content.ContentResolver p0);
 	@RequiredPermissions({android.Manifest.permission.READ_HISTORY_BOOKMARKS, android.Manifest.permission.WRITE_HISTORY_BOOKMARKS}) Object updateVisitedHistory(android.content.ContentResolver p0,java.lang.String p1,boolean p2);
 }
@@ -1768,7 +1856,7 @@ class Contacts$People {
 	@RequiredPermissions(android.Manifest.permission.WRITE_CONTACTS) Object addToGroup(android.content.ContentResolver p0,long p1,long p2);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object addToMyContactsGroup(android.content.ContentResolver p0,long p1);
 	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_CONTACTS}) Object createPersonInMyContactsGroup(android.content.ContentResolver p0,android.content.ContentValues p1);
-	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object loadContactPhoto(android.content.Context p0,android.net.Uri p1,int p2,android.graphics.BitmapFactory$Options p3);
+	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object loadContactPhoto(android.content.Context p0,android.net.Uri p1,int p2,android.graphics.BitmapFactory.Options p3);
 	@RequiredPermissions({android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_CONTACTS}) Object markAsContacted(android.content.ContentResolver p0,long p1);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object openContactPhotoInputStream(android.content.ContentResolver p0,android.net.Uri p1);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object queryGroups(android.content.ContentResolver p0,long p1);
@@ -1864,7 +1952,7 @@ class UserDictionary$Words {
 package android.server;
 
 class BluetoothA2dpService {
-	@RequiredPermissions(android.Manifest.permission.BLUETOOTH) Object BluetoothA2dpService(android.content.Context p0,android.server.BluetoothService p1);
+	@RequiredPermissions(android.Manifest.permission.BLUETOOTH) BluetoothA2dpService(android.content.Context p0,android.server.BluetoothService p1);
 	@RequiredPermissions(android.Manifest.permission.BLUETOOTH) Object addAudioSink(android.bluetooth.BluetoothDevice p0);
 	@RequiredPermissions(android.Manifest.permission.MODIFY_AUDIO_SETTINGS) Object checkSinkSuspendState(int p0);
 	@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH}) Object connectSink(android.bluetooth.BluetoothDevice p0);
@@ -2018,7 +2106,8 @@ class SmsManager {
 class TelephonyManager {
 	@RequiredPermissions(android.Manifest.permission.CONTROL_LOCATION_UPDATES) Object disableLocationUpdates();
 	@RequiredPermissions(android.Manifest.permission.CONTROL_LOCATION_UPDATES) Object enableLocationUpdates();
-	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getCellLocation();
+	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) CellLocation getCellLocation();
 	@RequiredPermissions(android.Manifest.permission.CALL_PRIVILEGED) Object getCompleteVoiceMailNumber();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE)
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
@@ -2030,11 +2119,19 @@ class TelephonyManager {
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getSimSerialNumber();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getSubscriberId();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getVoiceMailAlphaTag();
-	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getVoiceMailNumber();
+	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE)
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getVoiceMailNumber();
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object listen(android.telephony.PhoneStateListener p0,int p1);
 }
 
 package android.text;
+
+class Editable {
+    @PolyFlowSources @PolyFlowSinks Editable append(@PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
+    @NoFlow
+    void clear();
+    @PolyFlowSources @PolyFlowSinks Editable insert(@FlowSinks({}) int where, @PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
+}
 
 class TextUtils {
 	@PolyFlowSources @PolyFlowSinks boolean isEmpty(@PolyFlowSources @PolyFlowSinks CharSequence str);
@@ -2043,32 +2140,40 @@ class TextUtils {
 package android.text.format;
 
 class DateUtils {
-	@PolyFlowSources @PolyFlowSinks String getDayOfWeekString(@PolyFlowSources @PolyFlowSinks int p0, int p1);
+	@PolyFlowSources @PolyFlowSinks String getDayOfWeekString(@PolyFlowSources @PolyFlowSinks int dayOfWeek, @FlowSinks({}) int abbrev);
 }
 
 class Time {
 	//TODO: This should probably be double checked later:
-	boolean parse3339(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String s);
+	boolean parse3339(@PolyFlowSources @PolyFlowSinks String s) @PolyFlowSources @PolyFlowSinks;
 	void set(@PolyFlowSources @PolyFlowSinks long l1) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks long toMillis(boolean b) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks long toMillis(@FlowSinks({}) boolean b) @PolyFlowSources @PolyFlowSinks;
 }
 
 package android.util;
 
 class FloatMath {
-	static @PolyFlowSources @PolyFlowSinks float ceil(@PolyFlowSources @PolyFlowSinks float value);
-	static @PolyFlowSources @PolyFlowSinks float cos(@PolyFlowSources @PolyFlowSinks float angle);
-	static @PolyFlowSources @PolyFlowSinks float floor(@PolyFlowSources @PolyFlowSinks float value);
-	static @PolyFlowSources @PolyFlowSinks float sin(@PolyFlowSources @PolyFlowSinks float angle);
-	static @PolyFlowSources @PolyFlowSinks float sqrt(@PolyFlowSources @PolyFlowSinks float value);
+    static @PolyFlowSources @PolyFlowSinks float ceil(@PolyFlowSources @PolyFlowSinks float value);
+    static @PolyFlowSources @PolyFlowSinks float cos(@PolyFlowSources @PolyFlowSinks float angle);
+    static @PolyFlowSources @PolyFlowSinks float floor(@PolyFlowSources @PolyFlowSinks float value);
+    static @PolyFlowSources @PolyFlowSinks float sin(@PolyFlowSources @PolyFlowSinks float angle);
+    static @PolyFlowSources @PolyFlowSinks float sqrt(@PolyFlowSources @PolyFlowSinks float value);
 }
 
 class Log {
+<<<<<<< local
 	int d(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
 	int e(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
 	int i(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
 	
 	
+=======
+    static int d(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg);
+    static int e(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag,
+        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg,
+        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) Throwable tr);
+    static int w(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg);
+>>>>>>> other
 }
 
 package android.view;
@@ -2130,7 +2235,7 @@ class IWindowManager$Stub$Proxy {
 }
 
 class IWindowSession$Stub$Proxy {
-	@RequiredPermissions({android.Manifest.permission.SYSTEM_ALERT_WINDOW, android.Manifest.permission.INTERNAL_SYSTEM_WINDOW}) Object add(android.view.IWindow p0,android.view.WindowManager$LayoutParams p1,int p2,android.graphics.Rect p3);
+	@RequiredPermissions({android.Manifest.permission.SYSTEM_ALERT_WINDOW, android.Manifest.permission.INTERNAL_SYSTEM_WINDOW}) Object add(android.view.IWindow p0,android.view.WindowManager.LayoutParams p1,int p2,android.graphics.Rect p3);
 }
 
 class Surface {
@@ -2141,8 +2246,15 @@ class Surface {
 	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) Object unfreezeDisplay(int p0);
 }
 
+class SurfaceHolder {
+	@NoFlow
+	void addCallback(Callback callback);
+	@NoFlow
+	void setType(int type);
+}
+
 class SurfaceSession {
-	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) Object SurfaceSession();
+	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) SurfaceSession();
 }
 
 class SurfaceView {
@@ -2153,7 +2265,13 @@ class SurfaceView {
 class View {
 	@NoFlow
 	View findViewById(int id);
+	@PolyFlowSources @PolyFlowSinks Context getContext() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int getId() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks Object getTag() @PolyFlowSources @PolyFlowSinks;
+	@NoFlow
+	void setOnClickListener(OnClickListener l);
+	@NoFlow
+	void setVisibility(int visibility);
 }
 
 class Window {
@@ -2172,7 +2290,7 @@ class WebChromeClient {
 }
 
 class WebIconDatabase {
-	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object bulkRequestIconForPageUrl(android.content.ContentResolver p0,java.lang.String p1,android.webkit.WebIconDatabase$IconListener p2);
+	@RequiredPermissions(android.Manifest.permission.READ_HISTORY_BOOKMARKS) Object bulkRequestIconForPageUrl(android.content.ContentResolver p0,java.lang.String p1,android.webkit.WebIconDatabase.IconListener p2);
 }
 
 class WebSettings {
@@ -2181,19 +2299,19 @@ class WebSettings {
 }
 
 class WebView {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object WebView(android.content.Context p0,android.util.AttributeSet p1,int p2);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object WebView(android.content.Context p0,android.util.AttributeSet p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object WebView(android.content.Context p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) WebView(android.content.Context p0,android.util.AttributeSet p1,int p2);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) WebView(android.content.Context p0,android.util.AttributeSet p1);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) WebView(android.content.Context p0);
 }
 
 class WebViewCore {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object WebViewCore(android.content.Context p0,android.webkit.WebView p1,android.webkit.CallbackProxy p2,java.util.Map p3);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) WebViewCore(android.content.Context p0,android.webkit.WebView p1,android.webkit.CallbackProxy p2,java.util.Map p3);
 }
 
 package android.widget;
 
 class AdapterView {
-	@PolyFlowSources @PolyFlowSinks Object getItemAtPosition(int position) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks Object getItemAtPosition(@FlowSinks({}) int position) @PolyFlowSources @PolyFlowSinks;
 	@NoFlow void setOnItemClickListener(AdapterView.OnItemClickListener listener) @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2213,13 +2331,43 @@ class QuickContactBadge {
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object trigger(android.net.Uri p0);
 }
 
+class RadioGroup {
+    @NoFlow
+    void setOnCheckedChangeListener(OnCheckedChangeListener listener);
+}
+
 class TextView {
-	@NoFlow ColorStateList getTextColors();
+	@NoFlow
+	ColorStateList getTextColors();
+	@NoFlow
+	void setCompoundDrawablePadding(int pad);
+	@NoFlow
+	void setCompoundDrawablesWithIntrinsicBounds(int left, int top, int right, int bottom);
+	@NoFlow
+	void setEllipsize(TruncateAt where);
+	@NoFlow
+	void setEnabled(boolean enabled);
+	@NoFlow
+	void setGravity(int gravity);
+	@NoFlow
+	void setPadding(int left, int top, int right, int bottom);
+	@NoFlow
+	void setSelected(boolean selected);
+	@NoFlow
+	void setSingleLine();
 	void setText(@PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
+	void setText(@PolyFlowSources @PolyFlowSinks int resid) @PolyFlowSources @PolyFlowSinks;
+	@NoFlow
+	void setTextColor(int color);
 }
 
 class RemoteViews {
-	@NoFlow void setOnClickPendingIntent(int i, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) PendingIntent pi);
+	@NoFlow
+	void setOnClickPendingIntent(int i, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) PendingIntent pi);
+	void setImageViewResource(@FlowSinks({}) int viewId, @PolyFlowSources @PolyFlowSinks int srcId) @PolyFlowSources @PolyFlowSinks;
+	void setTextViewText(@FlowSinks({}) int viewId, @PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
+	@NoFlow
+	void setViewVisibility(int viewId, int visibility);
 }
 	
 package com.android.http.multipart;
@@ -2387,7 +2535,7 @@ package java.io;
 
 class BufferedInputStream {
 	@PolyFlowSources @PolyFlowSinks BufferedInputStream(@PolyFlowSources @PolyFlowSinks InputStream in);
-	public int read(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	//@FlowSources({}) int read(@PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class BufferedReader {
@@ -2408,7 +2556,11 @@ class File {
 	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
+<<<<<<< local
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks File dir, @PolyFlowSources @PolyFlowSinks String name);
+=======
+	@PolyFlowSources @PolyFlowSinks String getAbsolutePath() @PolyFlowSources @PolyFlowSinks;
+>>>>>>> other
 	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
 	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) String separator;
@@ -2420,7 +2572,7 @@ class File {
 class FileOutputStream {
 	void close() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks File file);
-	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class FileReader {
@@ -2433,12 +2585,12 @@ class FileWriter {
 }
 
 class FilterInputStream {
-	int read(@PolyFlowSources @PolyFlowSinks byte[] b) @PolyFlowSources @PolyFlowSinks;
+	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] b) @PolyFlowSources @PolyFlowSinks;
 }
 
 class InputStream {
 	void close() @PolyFlowSources @PolyFlowSinks; 
-	int read(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class InputStreamReader {
@@ -2450,7 +2602,7 @@ class InputStreamReader {
 class OutputStream {
 	void close() @PolyFlowSources @PolyFlowSinks;
 	void flush() @PolyFlowSources @PolyFlowSinks;
-	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
 class OutputStreamWriter {
@@ -2460,13 +2612,13 @@ class OutputStreamWriter {
 
 class Reader {
 	void close() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks char[] buf) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks char @FlowSources({}) @FlowSinks({}) [] buf) @PolyFlowSources @PolyFlowSinks;
 }
 
 class Writer {
 	void close() @PolyFlowSources @PolyFlowSinks;
-	void write(@PolyFlowSources @PolyFlowSinks char[] buf, @PolyFlowSources @PolyFlowSinks int offset,
-		@PolyFlowSources @PolyFlowSinks int count) @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks char @FlowSources({}) @FlowSinks({}) [] buf,
+		@PolyFlowSources @PolyFlowSinks int offset,	@PolyFlowSources @PolyFlowSinks int count) @PolyFlowSources @PolyFlowSinks;
 }
 
 package java.lang;
@@ -2552,45 +2704,45 @@ class Throwable {
 package java.net;
 
 class DatagramSocket {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DatagramSocket();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DatagramSocket(int p0);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DatagramSocket(int p0,java.net.InetAddress p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DatagramSocket(java.net.SocketAddress p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket(int p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket(int p0,java.net.InetAddress p1);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket(java.net.SocketAddress p0);
 }
 
 class HttpURLConnection {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object HttpURLConnection(java.net.URL p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) HttpURLConnection(java.net.URL p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object connect();
 }
 
 class MulticastSocket {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object MulticastSocket();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object MulticastSocket(int p0);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object MulticastSocket(java.net.SocketAddress p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) MulticastSocket();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) MulticastSocket(int p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) MulticastSocket(java.net.SocketAddress p0);
 }
 
 class NetworkInterface {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object NetworkInterface();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object NetworkInterface(java.lang.String p0,int p1,java.net.InetAddress p2);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) NetworkInterface();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) NetworkInterface(java.lang.String p0,int p1,java.net.InetAddress p2);
 }
 
 class ServerSocket {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object ServerSocket();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object ServerSocket(int p0);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object ServerSocket(int p0,int p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object ServerSocket(int p0,int p1,java.net.InetAddress p2);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) ServerSocket();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) ServerSocket(int p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) ServerSocket(int p0,int p1);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) ServerSocket(int p0,int p1,java.net.InetAddress p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object bind(java.net.SocketAddress p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object bind(java.net.SocketAddress p0,int p1);
 }
 
 class Socket {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.lang.String p0,int p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.lang.String p0,int p1,java.net.InetAddress p2,int p3);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.lang.String p0,int p1,boolean p2);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.net.InetAddress p0,int p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.net.InetAddress p0,int p1,java.net.InetAddress p2,int p3);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object Socket(java.net.InetAddress p0,int p1,boolean p2);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.lang.String p0,int p1);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.lang.String p0,int p1,java.net.InetAddress p2,int p3);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.lang.String p0,int p1,boolean p2);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.net.InetAddress p0,int p1);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.net.InetAddress p0,int p1,java.net.InetAddress p2,int p3);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) Socket(java.net.InetAddress p0,int p1,boolean p2);
 }
 
 class URI {
@@ -2632,7 +2784,7 @@ class Time {
 	
 package java.util;
 
-class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> extends List<T> {
+class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 	@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2653,7 +2805,7 @@ class Collection {
 }
 	
 class Collections {
-	<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> void sort(List<T> list, Comparator<? super T> comparator);
+	<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> void sort(@FlowSinks({}) List<T> list, @FlowSinks({}) Comparator<? super T> comparator);
 	//Unsure:
 	static @PolyFlowSources @PolyFlowSinks Map<K,V> synchronizedMap(@PolyFlowSources @PolyFlowSinks Map<K,V> map); 
 }
@@ -2679,16 +2831,23 @@ class LinkedList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.Flo
 }
 
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+<<<<<<< local
 	@NoFlow boolean add(T object) @FlowSources(FlowSource.ANY);
 	T get(int index);
 	@NoFlow int size() @FlowSources(FlowSource.ANY);
+=======
+	boolean add(T object);
+	T get(@FlowSinks({}) int index);
+	@NoFlow int size();
+>>>>>>> other
 	//How to annotate this: Object[] toArray();
 }
 
 class Map<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
 	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-	@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean containsKey(K key);
-	V get(K key);
+	@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean containsKey(
+		@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object key);
+	V get(@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object key);
 	V put(K key, V value);
 }
 
@@ -2718,7 +2877,7 @@ class Matcher {
 }
 
 class Pattern {
-	static @PolyFlowSources @PolyFlowSinks Pattern compile(@PolyFlowSources @PolyFlowSinks String str, int i);
+	static @PolyFlowSources @PolyFlowSinks Pattern compile(@PolyFlowSources @PolyFlowSinks String str, @FlowSinks({}) int i);
 	@PolyFlowSources @PolyFlowSinks Matcher matcher(@PolyFlowSources @PolyFlowSinks CharSequence input) @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2796,10 +2955,10 @@ class AbstractHttpClient {
 }
 
 class DefaultHttpClient {
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient();
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient(org.apache.http.params.HttpParams p0);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object DefaultHttpClient(org.apache.http.conn.ClientConnectionManager p0,org.apache.http.params.HttpParams p1);
-	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DefaultHttpClient();
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DefaultHttpClient(org.apache.http.params.HttpParams p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET) DefaultHttpClient(org.apache.http.conn.ClientConnectionManager p0,org.apache.http.params.HttpParams p1);
+	// @RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.HttpHost p0,org.apache.http.client.methods.HttpUriRequest p1,org.apache.http.client.ResponseHandler p2,org.apache.http.protocol.HttpContext p3);
@@ -2812,6 +2971,7 @@ class DefaultHttpClient {
 
 class HttpClient {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
+	@RequiredPermissions(android.Manifest.permission.INTERNET)
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.HttpHost p0,org.apache.http.client.methods.HttpUriRequest p1,org.apache.http.client.ResponseHandler p2,org.apache.http.protocol.HttpContext p3);
@@ -2856,7 +3016,7 @@ class XmlSerializer {
 	void setOutput(@PolyFlowSources @PolyFlowSinks Writer writer) @PolyFlowSources @PolyFlowSinks;
 	void startDocument(String encoding, Boolean standalone) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks XmlSerializer startTag(@PolyFlowSources @PolyFlowSinks String namespace, @PolyFlowSources @PolyFlowSinks String name) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks XmlSerializer text(@PolyFlowSources @PolyFlowSinks tring text) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks XmlSerializer text(@PolyFlowSources @PolyFlowSinks String text) @PolyFlowSources @PolyFlowSinks;
 }
 
 /* FROM EXTERNAL JARS */
@@ -2866,6 +3026,12 @@ package uk.me.jstott.coordconv;
 class LatitudeLongitude {
 	void setLatitude(@PolyFlowSources @PolyFlowSinks double latitude) @PolyFlowSources @PolyFlowSinks;
 	void setLongitude(@PolyFlowSources @PolyFlowSinks double longitude) @PolyFlowSources @PolyFlowSinks;
+}
+
+package com.commonsware.cwac.bus; //A library of Wordpress
+
+class SimpleBus {
+	@PolyFlowSources @PolyFlowSinks Bundle createMessage(@PolyFlowSources @PolyFlowSinks String key);
 }
 
 package com.commonsware.cwac.task; //A library of Wordpress

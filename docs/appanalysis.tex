@@ -144,31 +144,58 @@ Additional \<.astub> files can be passed as \<-Astubs=...> argument in the
 build file.
 
 
-\section{Task: ensure that the used APIs are annotated with flow information}
+\section{Task: ensure that the used APIs are annotated with flow information\label{flow-task-annotate-apis}}
 
-This step is necessary until we have good coverage of all APIs.
+File \<sparta-code/src/sparta/checkers/flow.astub> provides library
+annotations.  You may need to enhance it, if you find that your application
+uses APIs that are not yet annotated.
+(The  more APIs get annotated, the less work you will have to do in this
+step for each new app.)
+For details, see chapter
+``Annotating libraries'' in the Checker Framework manual.
+
+An example from \<flow.astub> is:
+
+\begin{Verbatim}
+package android.telephony;
+
+class TelephonyManager {
+    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
+    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
+}
+\end{Verbatim}
+
+\noindent
+The above annotates two methods in class \<TelephonyManager>.
+It means that the \<getLine1Number> function returns a String which is
+phone number.  For more examples, look into the \<flow.astub> file.
+
 For every API method used by this app (i.e., those output by \<ant
-reportusage>):
-If the method appears in file
-\<sparta-code/src/sparta/checkers/flow.astub>, you have nothing to do.
-Read the Javadoc, decide what flow properties the method has.
-If it has flow properties, add the method to the flow.astub file.
-Specify the flow properties by writing annotations in the flows.astub
-file such as \<@FlowSinks(FlowSink.NETWORK)> or
-\<@FlowSources(FlowSource.ESP\_FROM\_ALIENS)>.
+reportusage>) that does \emph{not} already appear in file
+\<sparta-code/src/sparta/checkers/flow.astub>, do the following.
+\begin{itemize}
+\item
+Read the Javadoc
+\item
+Decide what flow properties the method has.
+\item
+Add the method to the \<flow.astub> file, with
+appropriate flow properties expressed as \<@FlowSinks(...)> and
+\<@FlowSources(...)> annotations.
+It would be unusual for an API method to contain both a \<@FlowSources>
+and a \<@FlowSinks> annotation.
 
-Methods that were checked but deemed to not have any flow should
-be marked with a \<@NoFlow> declaration annotation.
+If the method has no flow, you can write the 
+\<@FlowSources>
+and \<@FlowSinks> annotations on each parameter and the return type, \emph{or} you can write a single 
+\<@NoFlow> declaration annotation.
 This annotation is short-hand for annotating the return type and each
 parameter as not having any flow.
-By marking methods as having no flow, the next person looking at that
+It is important to mark API methods that have no flow, so that the method
+appears in the \<flow.astub> file and the next person looking at that
 API does not need to perform the same analysis again.
+\end{itemize}
 
-We do not expect that any API method will contain both a \<@FlowSources>
-and a \<@FlowSinks> annotation.
-This task is onerous now, but as more APIs get annotated, it will
-become relatively quick because few APIs will be first used by each
-new app.
 
 Note: we have not yet added any annotations to the app itself.
 
@@ -267,3 +294,12 @@ Providing the \<stricter> option enables additional checks that are
 required for soundness, but would be disruptive to enable initially.
 In particular, the tests for casts and array subtyping are stricter.
 See the discussion in \chapterpageref{flow-checker}.
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% TeX-command-default: "PDF"
+%%% End: 
+
+%  LocalWords:  App xml env basename sparta dir

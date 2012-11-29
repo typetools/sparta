@@ -4,8 +4,11 @@
 This document contains details that are only relevant for
 people inside the SPARTA team at UW.
 
-The source code for the SPARTA checkers is in a Mercurial repository at
-\</projects/swlab1/darpa-apac/sparta-code>.
+The SPARTA team uses four Mercurial repositories:
+\<sparta-code> for the source code of the SPARTA toolset,
+\<sparta-subjects> for test applications (case studies),
+\<sparta-meetings> for notes about UW team meetings, and
+\<apac-meetings> for notes about DARPA meetings.
 
 To get a copy do:
 
@@ -14,28 +17,20 @@ $ hg clone ssh://YOURID@SERVERNAME//projects/swlab1/darpa-apac/sparta-code
 \end{alltt}
 % make Emacs $ happy
 
-To push your changes to the repository you need to be in sparta
-group. Contact Werner or Mike to get the permission.
+\noindent
+and similarly for the other three repositories.
 
-(Along with sparta-code, you may be interested in the sparta-meetings
-and apac-meetings repositories for general information on the SPARTA
-project.)
+To push your changes to the repository you need to be in the \<sparta> Unix
+group. Contact Werner or Mike to get the permission.
 
 Note that SPARTA as well as the Checker Framework are evolving
 rapidly.
-Thus you may need to pull and update with updated source code and
-rebuild the projects:
-
-\begin{alltt}
-$ hg fetch
-\end{alltt}
-% make Emacs $ happy
-
-Test applications are stored in
-\</projects/swlab1/darpa-apac/sparta-subjects>
+Thus you should periodically get the latest version of the source code (by
+running \<hg fetch>) and
+rebuild the projects.
 
 
-Try to run ant in sparta-subjects/Sky 
+After installing your copy, try to run \<ant> in \<sparta-subjects/Sky>:
 
 \begin{alltt}
 $ ant flowtest
@@ -44,20 +39,22 @@ $ ant flowtest
 
 If it gives results like this, you're ready to work on annotating!
 
+\begin{smaller}
 \begin{alltt}
-[jsr308.javac] /home/syhan/jsr308/sparta-subjects/Sky/src/org/jsharkey/sky/WebserviceHelper.java:308: error: incompatible types.
+[jsr308.javac] .../sparta-subjects/Sky/src/org/jsharkey/sky/WebserviceHelper.java:308: error: incompatible types.
 [jsr308.javac]             HttpGet request = new HttpGet(String.format(WEBSERVICE_URL, lat, lon, days));
 [jsr308.javac]                                                        ^
 [jsr308.javac]   found   : @FlowSinks @FlowSources String
 [jsr308.javac]   required: @sparta.checkers.quals.FlowSinks({sparta.checkers.quals.FlowSinks.FlowSink.NETWORK}) @FlowSources String
 \end{alltt}
+\end{smaller}
 
 If you want to add a new application, put it under the
 \<sparta-subjects> directory.
 
-You may need to get Android source code to get sense of what api returns (or
+You may need to get Android source code to get sense of what API returns (or
 gets) what type of data. See \url{http://source.android.com/source/index.html}
-You can find the list of all apis from the android source code in 
+You can find the list of all APIs from the android source code in 
 \<frameworks/base/api/15.txt> - api list for api version 15 (Android 4.0.3)
 Accessing resource is closely related to android permissions (some of the
 resources are not protected with permissions though). Android permission list
@@ -68,34 +65,12 @@ to call which functions):
 \url{http://www.android-permissions.org/permissionmap.html}
 
 
-Adding Annotations
-There are two parts in adding annotations. 
-Firstly, we need to annotate the flow stub file (\<flow.astub>) in
-\<sparta-code>.
-It's used for annotating Android APIs. For instance, 
 
-\begin{alltt}
-package android.telephony;
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% TeX-command-default: "PDF"
+%%% End: 
 
-class TelephonyManager {
-    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
-    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
-}
-\end{alltt}
-
-The above annotates two methods in class \<TelephonyManager>.
-It means that the \<getLine1Number> function returns a String which is
-phone number.  For more examples, look into the \<flow.astub> file.
-
-FlowSources specifies data sources such as phone number, location, and
-etc. FlowSinks specifies sinks, such as files, network, and so on.
-The types of FlowSources and FlowSinks are listed in the
-\<FlowSources.java> and \<FlowSinks.java> files in \<sparta.checkers.quals>.
-
-
-The second part is annotating the Android application to match
-the annotations specified in the stub file. Run flowtest and see if
-any incompatible types are shown and iteratively add more annotations
-to the application.
-The Android API specifications in flow.astub is currently
-incomplete. As you experience new APIs, extend the specifications.
+%  LocalWords:  sparta apac hg jsr308 HttpGet WEBSERVICE lon FlowSinks
+%  LocalWords:  FlowSources
