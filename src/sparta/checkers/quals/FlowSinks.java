@@ -35,7 +35,8 @@ public @interface FlowSinks {
         EMAIL,
         FILESYSTEM,
         NETWORK,
-        TEXTMESSAGE
+        TEXTMESSAGE,
+        EXTERNAL_STORAGE
     }
 
     /**

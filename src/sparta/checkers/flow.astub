@@ -977,6 +977,7 @@ class Context {
 }
 
 class ContextWrapper {
+    @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources String name, int mode);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@NoFlow
 	ContentResolver getContentResolver();
@@ -1155,6 +1156,19 @@ class Camera {
 
 interface Camera$PictureCallback {
 	void onPictureTaken(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) byte[] data, Camera camera);
+}
+
+
+class Sensor {
+	  @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCELEROMETER) int TYPE_ACCELEROMETER;
+}
+
+class SensorManager {
+	 @PolyFlowSources @PolyFlowSinks android.hardware.Sensor getDefaultSensor(@PolyFlowSources @PolyFlowSinks int type);
+}
+
+class SensorEvent {
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCELEROMETER) @FlowSinks float[] values;
 }
 
 package android.inputmethodservice;
@@ -1542,6 +1556,10 @@ class Bundle {
 	
 class DropBoxManager {
 	@RequiredPermissions(android.Manifest.permission.READ_LOGS) Object getNextEntry(java.lang.String p0,long p1);
+}
+
+class Environment {
+	@RequiredPermissions({android.Manifest.permission.WRITE_EXTERNAL_STORAGE, /*OR*/ android.Manifest.permission.READ_EXTERNAL_STORAGE}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.EXTERNAL_STORAGE) File getExternalStorageDirectory();
 }
 
 class IHardwareService$Stub$Proxy {
@@ -2047,6 +2065,10 @@ class FloatMath {
 
 class Log {
 	int d(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
+	int e(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
+	int i(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
+	
+	
 }
 
 package android.view;
@@ -2134,6 +2156,9 @@ class View {
 	@PolyFlowSources @PolyFlowSinks Object getTag() @PolyFlowSources @PolyFlowSinks;
 }
 
+class Window {
+	void setFlags(int flags, int mask) @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.ANY});	
+}
 package android.webkit;
 
 class GeolocationService {
@@ -2383,9 +2408,13 @@ class File {
 	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
+	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks File dir, @PolyFlowSources @PolyFlowSinks String name);
 	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
 	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) String separator;
+	@PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks File[] listFiles() @PolyFlowSources @PolyFlowSinks ;
+	
 }
 
 class FileOutputStream {
@@ -2394,8 +2423,13 @@ class FileOutputStream {
 	void write(@PolyFlowSources @PolyFlowSinks byte[] buffer) @PolyFlowSources @PolyFlowSinks;
 }
 
+class FileReader {
+	@PolyFlowSources @PolyFlowSinks FileReader(@PolyFlowSources @PolyFlowSinks File file) @PolyFlowSources @PolyFlowSinks ;
+}
+
 class FileWriter {
 	@PolyFlowSources @PolyFlowSinks FileWriter(@PolyFlowSources @PolyFlowSinks File file);
+	void write (@PolyFlowSources @PolyFlowSinks String str) @PolyFlowSources @PolyFlowSinks ;
 }
 
 class FilterInputStream {
@@ -2645,9 +2679,9 @@ class LinkedList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.Flo
 }
 
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-	boolean add(T object);
+	@NoFlow boolean add(T object) @FlowSources(FlowSource.ANY);
 	T get(int index);
-	@NoFlow int size();
+	@NoFlow int size() @FlowSources(FlowSource.ANY);
 	//How to annotate this: Object[] toArray();
 }
 
@@ -2663,6 +2697,10 @@ class Queue<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSour
 	T poll();
 }
 
+class Scanner {
+	@PolyFlowSources @PolyFlowSinks Scanner (@PolyFlowSources @PolyFlowSinks Readable src);
+	boolean hasNext() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+}
 
 package java.util.concurrent;
 
