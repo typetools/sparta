@@ -1030,12 +1030,8 @@ class Context {
 }
 
 class ContextWrapper {
-<<<<<<< local
     @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources String name, int mode);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
-=======
-	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
->>>>>>> other
 	@NoFlow
 	ContentResolver getContentResolver();
 	@NoFlow
@@ -2161,19 +2157,11 @@ class FloatMath {
 }
 
 class Log {
-<<<<<<< local
-	int d(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
-	int e(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
-	int i(String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String msg);
-	
-	
-=======
     static int d(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg);
     static int e(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag,
         @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg,
         @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) Throwable tr);
     static int w(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg);
->>>>>>> other
 }
 
 package android.view;
@@ -2556,11 +2544,8 @@ class File {
 	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
-<<<<<<< local
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks File dir, @PolyFlowSources @PolyFlowSinks String name);
-=======
 	@PolyFlowSources @PolyFlowSinks String getAbsolutePath() @PolyFlowSources @PolyFlowSinks;
->>>>>>> other
 	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
 	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) String separator;
@@ -2831,15 +2816,9 @@ class LinkedList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.Flo
 }
 
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-<<<<<<< local
 	@NoFlow boolean add(T object) @FlowSources(FlowSource.ANY);
-	T get(int index);
+    T get(@FlowSinks({}) int index);
 	@NoFlow int size() @FlowSources(FlowSource.ANY);
-=======
-	boolean add(T object);
-	T get(@FlowSinks({}) int index);
-	@NoFlow int size();
->>>>>>> other
 	//How to annotate this: Object[] toArray();
 }
 
