@@ -2536,7 +2536,7 @@ class ByteArrayInputStream {
 
 class ByteArrayOutputStream {
 	void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY); //@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) [] toByteArray() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks byte @FlowSources [] toByteArray() @PolyFlowSources @PolyFlowSinks;
 	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) [] buffer, int offset, int len) @PolyFlowSources @PolyFlowSinks;
 }
 
