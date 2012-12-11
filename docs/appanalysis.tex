@@ -50,7 +50,7 @@ SPARTA build targets at the end (right before the ``$<$/project$>$''):
 <basename property="checkers_base" file="${env.CHECKERS}"/>
 <dirname property="sparta-code_dir" file="${env.SPARTA_CODE}"/>
 <basename property="sparta-code_base" file="${env.SPARTA_CODE}"/>
-<import file="${sparta-code_dir}/${sparta-code_base}/build.include.xml"/>
+<import file="${sparta-code_dir}/${sparta-code_base}/build.include.xml" optional="true"/>
 \end{alltt}
 
 
