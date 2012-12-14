@@ -40,6 +40,7 @@ public @interface FlowSources {
         MICROPHONE,
         NETWORK,
         PHONE_NUMBER,
+        RANDOM,
         TIME,
         USER_INPUT,
         EXTERNAL_STORAGE

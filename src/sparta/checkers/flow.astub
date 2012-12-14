@@ -1039,6 +1039,8 @@ class ContextWrapper {
     @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources String name, int mode);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@NoFlow
+	Context getBaseContext();
+	@NoFlow
 	ContentResolver getContentResolver();
 	@NoFlow
 	Resources getResources();
@@ -2132,7 +2134,9 @@ class Editable {
     @PolyFlowSources @PolyFlowSinks Editable append(@PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
     @NoFlow
     void clear();
+    @PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object o) @PolyFlowSources @PolyFlowSinks;
     @PolyFlowSources @PolyFlowSinks Editable insert(@FlowSinks({}) int where, @PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 
 class TextUtils {
@@ -2342,6 +2346,8 @@ class AdapterView {
 
 class EditText {
 	@PolyFlowSources @PolyFlowSinks Editable getText() @PolyFlowSources @PolyFlowSinks;
+	void setSelection(@PolyFlowSources @PolyFlowSinks int index) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 
 class ImageView {
@@ -2362,6 +2368,7 @@ class RadioGroup {
 }
 
 class TextView {
+    void append(@PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
 	@NoFlow
 	ColorStateList getTextColors();
 	@NoFlow
@@ -2649,12 +2656,21 @@ package java.lang;
 	
 class Double {
 	static @PolyFlowSources @PolyFlowSinks boolean isNaN(@PolyFlowSources @PolyFlowSinks double d);
+	static @PolyFlowSources @PolyFlowSinks double parseDouble(@PolyFlowSources @PolyFlowSinks String string);
 	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks double d);
+}
+
+class CharSequence {
+    @PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 
 class Class {
 	@NoFlow
 	String getName();
+}
+
+class Enum {
+    @PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object other) @PolyFlowSources @PolyFlowSinks;
 }
 
 class Float {
@@ -2663,6 +2679,7 @@ class Float {
 
 class Integer {
 	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s);
+	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks int i);
 }
 
 class Long {
@@ -2699,6 +2716,7 @@ class Runtime {
 }
 
 class String {
+    @PolyFlowSources @PolyFlowSinks boolean contains(@PolyFlowSources @PolyFlowSinks CharSequence cs) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object object) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean equalsIgnoreCase(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
 	static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
@@ -2805,7 +2823,18 @@ package java.sql;
 class Time {
 	@PolyFlowSources @PolyFlowSinks Time(@PolyFlowSources @PolyFlowSinks long theTime); 
 }
-	
+
+package java.text;
+
+class DecimalFormat {
+    @NoFlow
+    void setMaximumIntegerDigits(int value);
+}
+
+class NumberFormat {
+    @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks double value);
+}
+
 package java.util;
 
 class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
@@ -2815,8 +2844,8 @@ class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.Flow
 class Calendar {
 	@PolyFlowSources @PolyFlowSinks boolean after(@PolyFlowSources @PolyFlowSinks Object calendar) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks Calendar getInstance() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks Calendar getInstance(TimeZone timezone) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int get(int field) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks Calendar getInstance(@FlowSinks({}) TimeZone timezone) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int get(@FlowSinks({}) int field) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks Date getTime() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks long getTimeInMillis() @PolyFlowSources @PolyFlowSinks;
 	void set(int field, @PolyFlowSources @PolyFlowSinks int value) @PolyFlowSources @PolyFlowSinks;
@@ -2876,6 +2905,19 @@ class Map<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSource
 class Queue<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 	T peek();
 	T poll();
+}
+
+class Random {
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) protected int next(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.RANDOM) int bits);
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) boolean nextBoolean();
+    void nextBytes(byte @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) @FlowSinks({}) [] bytes);
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) double nextDouble();
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) float nextFloat();
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) double nextGaussian();
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) int nextInt();
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) int nextInt(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.RANDOM)  int n);
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) long nextLong();
+    void setSeed(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.RANDOM) long seed);
 }
 
 class Scanner {
