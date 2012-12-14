@@ -355,9 +355,15 @@ class Activity {
 	@NoFlow
 	Object getSystemService(String name);
 	@NoFlow
+	WindowManager getWindowManager();
+	@NoFlow
 	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@NoFlow
 	void onCreate(Bundle savedInstanceState);
+	@NoFlow
+	boolean onCreateOptionsMenu(Menu menu);
+	@NoFlow
+	boolean onOptionsItemSelected(MenuItem item);
 	@NoFlow
 	void onSaveInstanceState(Bundle outState);
 	@NoFlow
@@ -2171,8 +2177,15 @@ class ContextThemeWrapper {
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
+	@NoFlow
+	void setTheme(int resid);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
+}
+
+class Display {
+    @NoFlow
+    void getMetrics(DisplayMetrics outMetrics);
 }
 
 class IWindowManager$Stub$Proxy {
@@ -2226,6 +2239,22 @@ class IWindowSession$Stub$Proxy {
 	@RequiredPermissions({android.Manifest.permission.SYSTEM_ALERT_WINDOW, android.Manifest.permission.INTERNAL_SYSTEM_WINDOW}) Object add(android.view.IWindow p0,android.view.WindowManager.LayoutParams p1,int p2,android.graphics.Rect p3);
 }
 
+class KeyEvent {
+    @NoFlow
+    int getAction();
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.USER_INPUT) int getKeyCode();
+}
+
+class Menu {
+    @NoFlow
+    MenuItem add(int groupId, int itemId, int order, CharSequence title);
+}
+
+class MenuItem {
+    @NoFlow
+    int getItemId();
+}
+
 class Surface {
 	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) Object closeTransaction();
 	@RequiredPermissions(android.Manifest.permission.ACCESS_SURFACE_FLINGER) Object freezeDisplay(int p0);
@@ -2259,12 +2288,20 @@ class View {
 	@NoFlow
 	void setOnClickListener(OnClickListener l);
 	@NoFlow
+	void setOnKeyListener(OnKeyListener l);
+	@NoFlow
 	void setVisibility(int visibility);
 }
 
 class Window {
 	void setFlags(int flags, int mask) @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.ANY});	
 }
+
+class WindowManager {
+    @NoFlow
+    Display getDefaultDisplay();
+}
+
 package android.webkit;
 
 class GeolocationService {
@@ -2347,6 +2384,8 @@ class TextView {
 	void setText(@PolyFlowSources @PolyFlowSinks int resid) @PolyFlowSources @PolyFlowSinks;
 	@NoFlow
 	void setTextColor(int color);
+	@NoFlow
+	void setTextSize(float size);
 }
 
 class RemoteViews {
@@ -2801,6 +2840,10 @@ interface Comparator<T extends @FlowSources(sparta.checkers.quals.FlowSources.Fl
 	
 class Date {
 	@PolyFlowSources @PolyFlowSinks long getTime() @PolyFlowSources @PolyFlowSinks;
+}
+
+class GregorianCalendar {
+    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) GregorianCalendar();
 }
 
 class HashMap<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
