@@ -37,7 +37,8 @@ public @interface FlowSinks {
         NETWORK,
         RANDOM,
         TEXTMESSAGE,
-        EXTERNAL_STORAGE
+        EXTERNAL_STORAGE,
+        LOGCAT
     }
 
     /**
