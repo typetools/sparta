@@ -1637,6 +1637,11 @@ class WifiManager$WifiLock {
 
 package android.os;
 
+class AsyncTask {
+    abstract @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Result doInBackground(@FlowSinks({}) Params... params);
+    AsyncTask execute(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Params... params);
+}
+
 class Bundle {
 	@PolyFlowSources @PolyFlowSinks boolean getBoolean(@FlowSinks({}) String key, @FlowSinks({}) boolean defaultValue) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks double getDouble(@FlowSinks({}) String key) @PolyFlowSources @PolyFlowSinks;
@@ -2870,7 +2875,7 @@ interface Comparator<T extends @FlowSources(sparta.checkers.quals.FlowSources.Fl
 class Date {
 	@PolyFlowSources @PolyFlowSinks long getTime() @PolyFlowSources @PolyFlowSinks;
 }
-
+@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) 
 class GregorianCalendar {
     @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) GregorianCalendar();
 }
