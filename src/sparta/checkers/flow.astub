@@ -1656,7 +1656,8 @@ class DropBoxManager {
 }
 
 class Environment {
-	@RequiredPermissions({android.Manifest.permission.WRITE_EXTERNAL_STORAGE, /*OR*/ android.Manifest.permission.READ_EXTERNAL_STORAGE}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.EXTERNAL_STORAGE) File getExternalStorageDirectory();
+	@RequiredPermissions({android.Manifest.permission.WRITE_EXTERNAL_STORAGE, /*OR*/ android.Manifest.permission.READ_EXTERNAL_STORAGE})
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.EXTERNAL_STORAGE) File getExternalStorageDirectory();
 }
 
 class IHardwareService$Stub$Proxy {
@@ -2579,6 +2580,9 @@ class BufferedInputStream {
 
 class BufferedReader {
 	@PolyFlowSources @PolyFlowSinks BufferedReader(@PolyFlowSources @PolyFlowSinks Reader in, @PolyFlowSources @PolyFlowSinks int size);
+	@NoFlow
+	void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@PolyFlowSources @PolyFlowSinks String readLine() @PolyFlowSources @PolyFlowSinks;
 }
 
 class ByteArrayInputStream {
@@ -2597,6 +2601,7 @@ class File {
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks File dir, @PolyFlowSources @PolyFlowSinks String name);
 	@PolyFlowSources @PolyFlowSinks String getAbsolutePath() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String getPath() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
 	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) String separator;
@@ -2707,6 +2712,8 @@ class Math {
 	
 class Object {
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean equals(Object object);
+	@NoFlow
+	Class getClass();
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int hashCode();
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String toString();
 }
@@ -2977,7 +2984,7 @@ class UsernamePasswordCredentials {
 package org.apache.http.client;
 
 class HttpClient {
-	@PolyFlowSources HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) @PolyFlowSources HttpUriRequest request);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
 }
 	
 package org.apache.http.client.methods;
@@ -2987,8 +2994,8 @@ class HttpEntityEnclosingRequestBase {
 }
 
 class HttpGet {
-    @PolyFlowSinks @PolyFlowSources HttpGet(@PolyFlowSinks @PolyFlowSources String uri);
-    @PolyFlowSinks @PolyFlowSources HttpGet(@PolyFlowSinks @PolyFlowSources URI uri);
+    @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpGet(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
+    @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpGet(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) URI uri);
 }
 
 class HttpPost {
@@ -3066,6 +3073,12 @@ class HttpParams {
 
 class HttpProtocolParams {
 	void setUseExpectContinue(@PolyFlowSources @PolyFlowSinks HttpParams params, boolean b) @PolyFlowSources @PolyFlowSinks;
+}
+
+package org.apache.http.util;
+
+class EntityUtils {
+    static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks HttpEntity entity);
 }
 
 package org.xmlpull.v1;

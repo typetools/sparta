@@ -33,12 +33,12 @@ public @interface FlowSinks {
         
         ACCOUNTS,
         EMAIL,
+        EXTERNAL_STORAGE,
         FILESYSTEM,
+        LOGCAT,
         NETWORK,
         RANDOM,
-        TEXTMESSAGE,
-        EXTERNAL_STORAGE,
-        LOGCAT
+        TEXTMESSAGE
     }
 
     /**

@@ -34,6 +34,7 @@ public @interface FlowSources {
         ACCOUNTS,
         ACCELEROMETER,
         CAMERA,
+        EXTERNAL_STORAGE,
         FILESYSTEM,
         IMEI,
         LOCATION,
@@ -42,8 +43,7 @@ public @interface FlowSources {
         PHONE_NUMBER,
         RANDOM,
         TIME,
-        USER_INPUT,
-        EXTERNAL_STORAGE
+        USER_INPUT
     }
 
     /**
