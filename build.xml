@@ -28,6 +28,10 @@
     <property name="run.tests.should.fork" value="true"/>
     <property name="halt.on.test.failure" value="true"/>
 
+    <condition property="jdkName" value="jdk7.jar" else="jdk6.jar">
+        <contains string="${java.version}" substring="1.7"/>
+    </condition>
+
     <target name="prep" description="Create required directories">
         <mkdir dir="${build}"/>
         <mkdir dir="${build.tests}"/>
@@ -35,8 +39,7 @@
 
         <java fork="true"
               outputproperty="compiler.version"
-              classname="com.sun.tools.javac.Main">
-          <jvmarg line="-Xbootclasspath/p:${jsr308-all.lib}"/>
+              jar="${checkers.lib}">
           <arg line="-version"/>
         </java>
 
@@ -99,7 +102,7 @@
 Needed version ${compiler.version.goal} of the JSR 308 compiler,
 but found version ${compiler.version} on your classpath.
 ${line.separator}${line.separator}
-Check that the 'jsr308-all.lib' property in 'build.properties' points to version
+Check that the 'checkers.lib' property in 'build.properties' points to version
 ${build.version} of the 'javac.jar' library."/>
 
         <copy todir="${build}" preservelastmodified="true">
@@ -116,9 +119,8 @@ ${build.version} of the 'javac.jar' library."/>
 
         <java fork="true"
               failonerror="true"
-              classpath="${jsr308-all.lib}:${junit.jar}:${gson.jar}"
-              classname="com.sun.tools.javac.Main">
-            <jvmarg line="-Xbootclasspath/p:${jsr308-all.lib}"/>
+              jar="${checkers.lib}">
+            <arg line="-cp ${junit.jar}:${gson.jar}" />
             <arg value="-g"/>
             <arg line="-sourcepath ${src}"/>
             <arg line="-d ${build}"/>
@@ -148,7 +150,7 @@ ${build.version} of the 'javac.jar' library."/>
 Version ${build.version} of the JSR 308 compiler was not found on your
 classpath.
 ${line.separator}${line.separator}
-Check that the 'jsr308-all.lib' property in 'build.properties' points to version
+Check that the 'checkers.lib' property in 'build.properties' points to version
 ${build.version} of the 'javac.jar' library."/>
         <pathconvert pathsep=" " property="src.tests">
             <path>
@@ -159,9 +161,8 @@ ${build.version} of the 'javac.jar' library."/>
         </pathconvert>
         <java fork="true"
               failonerror="true"
-              classpath="${jsr308-all.lib}:${junit.jar}:${gson.jar}:${build}"
-              classname="com.sun.tools.javac.Main">
-            <jvmarg line="-Xbootclasspath/p:${jsr308-all.lib}"/>
+              jar="${checkers.lib}">
+            <arg line="-cp ${build}:${junit.jar}:${gson.jar}" />
             <arg value="-g"/>
             <arg line="-sourcepath ${tests}"/>
             <arg line="-d ${build.tests}"/>
@@ -178,11 +179,11 @@ ${build.version} of the 'javac.jar' library."/>
             haltonfailure="${halt.on.test.failure}">
             <!-- Don't put everything on the bootclasspath, as that would
                  cause class loading issues. -->
-            <jvmarg line="-Xbootclasspath/p:${compiler.lib}"/>
+            <jvmarg line="-Xbootclasspath/p:${checkers}/binary/javac.jar:${checkers}/binary/${jdkName}"/>
             <jvmarg line="-ea"/>
 
             <classpath>
-                <pathelement path="${jsr308-all.lib}"/>
+                <pathelement path="${checkers.lib}"/>
                 <pathelement path="${junit.jar}"/>
                 <pathelement path="${gson.jar}"/>
                 <pathelement path="${build.tests}"/>
