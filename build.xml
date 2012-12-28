@@ -7,10 +7,11 @@
       This is SPARTA!
     </description>
 
+    <property environment="env"/>
+
     <property file="build.${os.name}.properties"/>
     <property file="build.properties"/>
 
-    <property environment="env"/>
     <!-- Use the environment variable, if nothing was set yet. -->
     <property name="android.home" value="${env.ANDROID_HOME}"/>
 
