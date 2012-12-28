@@ -37,7 +37,7 @@ $ ant -buildfile $SPARTA_CODE/build.local.xml
 Alternatively, you can run:
 
 \begin{alltt}
-$ $ANDROID_HOME/tools/android update project \-\-path . \-\-target android-15
+$ $ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
 \end{alltt}
 
 Edit the \<build.xml> file of the project under analysis to add the
@@ -117,7 +117,7 @@ Run \<ant reqperms> on the project to see a list of the app's methods
 that use calls that require certain Android permissions. You can use
 this to gain an understanding of where sensitive information may come
 from/go to in the application. You can remove the warning by writing
-\<@RequiredPermissions({android.Manifest.permissions.|specific
+\<@RequiredPermissions({android.Manifest.permission.|specific
 permission|})> in front of the method header in the source code.
 
 Once all methods in the subject application are correctly annotated,
