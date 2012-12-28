@@ -11,7 +11,7 @@ import checkers.util.report.ReportChecker;
 
 //Keep qualifiers & options in sync with superclass.
 @TypeQualifiers({Unqualified.class})
-@SupportedOptions({"reportTreeKinds"})
+@SupportedOptions({"reportTreeKinds", "reportModifiers"})
 @StubFiles({"report.astub", "reflection.astub"})
 public class AndroidReportChecker extends ReportChecker {
 
