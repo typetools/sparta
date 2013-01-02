@@ -352,10 +352,14 @@ class Activity {
 	View findViewById(int id);
 	@NoFlow
 	Intent getIntent();
+    @NoFlow
+    MenuInflater getMenuInflater();                                   
 	@NoFlow
 	Object getSystemService(String name);
 	@NoFlow
 	WindowManager getWindowManager();
+	@NoFlow
+	Window getWindow();
 	@NoFlow
 	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@NoFlow
@@ -1023,6 +1027,7 @@ class Context {
 	@NoFlow String getPackageName();
 	@NoFlow Resources getResources();
 	@NoFlow String getString(@FlowSinks({}) int i, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object... objs);
+	@NoFlow String getString(@FlowSinks({}) int i);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
@@ -1083,6 +1088,7 @@ class Intent {
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int getIntExtra(@FlowSinks({}) String name, @FlowSinks({}) int defaultValue);
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getStringExtra(@FlowSinks({}) String name);
 	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks int value);
+	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value);
 	@NoFlow
 	Intent setClass(Context packageContext, Class<?> cls);
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Intent setData(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) Uri data);
@@ -1227,6 +1233,10 @@ class BitmapDrawable {
 class BitmapFactory {
 	@PolyFlowSources @PolyFlowSinks Bitmap decodeByteArray(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] data,
 		@FlowSinks({}) int offset, @FlowSinks({}) int length);
+}
+
+class Color {
+    static @PolyFlowSources @PolyFlowSinks int parseColor(@PolyFlowSources @PolyFlowSinks String color);
 }
 	
 package android.hardware;
@@ -1658,6 +1668,13 @@ class DropBoxManager {
 class Environment {
 	@RequiredPermissions({android.Manifest.permission.WRITE_EXTERNAL_STORAGE, /*OR*/ android.Manifest.permission.READ_EXTERNAL_STORAGE})
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.EXTERNAL_STORAGE) File getExternalStorageDirectory();
+}
+
+class Handler {
+	@NoFlow
+	boolean sendMessageDelayed(Message m, long delay);
+    @NoFlow
+    Message obtainMessage(int what, Object obj);
 }
 
 class IHardwareService$Stub$Proxy {
@@ -2260,6 +2277,11 @@ class Menu {
     MenuItem add(int groupId, int itemId, int order, CharSequence title);
 }
 
+class MenuInflater {                                                  
+    @NoFlow                                                           
+    void inflate(int menuRes, Menu menu);                             
+}
+
 class MenuItem {
     @NoFlow
     int getItemId();
@@ -2348,6 +2370,7 @@ package android.widget;
 class AdapterView {
 	@PolyFlowSources @PolyFlowSinks Object getItemAtPosition(@FlowSinks({}) int position) @PolyFlowSources @PolyFlowSinks;
 	@NoFlow void setOnItemClickListener(AdapterView.OnItemClickListener listener) @PolyFlowSources @PolyFlowSinks;
+    @NoFlow void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener) @PolyFlowSources @PolyFlowSinks;
 }
 
 class EditText {
@@ -2613,7 +2636,9 @@ class File {
 class FileOutputStream {
 	void close() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks File file);
+	@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks String filename);
 	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
+	//void write(@PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM);
 }
 
 class FileReader {
@@ -2663,6 +2688,11 @@ class Writer {
 }
 
 package java.lang;
+
+class Character {
+	static @PolyFlowSources @PolyFlowSinks char toLowerCase(@PolyFlowSources @PolyFlowSinks char c);
+	static @PolyFlowSources @PolyFlowSinks char toUpperCase(@PolyFlowSources @PolyFlowSinks char c);
+}
 	
 class Double {
 	static @PolyFlowSources @PolyFlowSinks boolean isNaN(@PolyFlowSources @PolyFlowSinks double d);
@@ -2728,6 +2758,7 @@ class Runtime {
 }
 
 class String {
+	@PolyFlowSources @PolyFlowSinks char charAt(@PolyFlowSources @PolyFlowSinks int index) @PolyFlowSources @PolyFlowSinks;
     @PolyFlowSources @PolyFlowSinks boolean contains(@PolyFlowSources @PolyFlowSinks CharSequence cs) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object object) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean equalsIgnoreCase(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
@@ -2739,6 +2770,7 @@ class String {
 	@PolyFlowSources @PolyFlowSinks String replace(@PolyFlowSources @PolyFlowSinks CharSequence target,
 		@PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @PolyFlowSources @PolyFlowSinks;
 	
 }
 	
@@ -2848,6 +2880,10 @@ class NumberFormat {
 }
 
 package java.util;
+
+class Arrays{
+    @PolyFlowSources @PolyFlowSinks List<T> asList (T... array) @PolyFlowSources @PolyFlowSinks;
+}
 
 class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
 	@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
