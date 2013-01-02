@@ -15,7 +15,7 @@
       <!--<compilerarg value="-J-Xbootclasspath/p:${checkers}/binary/jsr308-all.jar"/>
 
       <classpath>
-        <pathelement location="${checkers}/checkers.jar"/>
+        <pathelement location="${checkers}/binary/checkers.jar"/>
       </classpath>-->
     </javac>
     </presetdef>
@@ -60,7 +60,7 @@
                 <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
                 <compilerarg line="-processor @{processor}"/>
                 <compilerarg line="-encoding ISO8859-1 -AprintErrorStack -AstubWarnIfNotFound" />
-                <compilerarg value="-Xbootclasspath/p:${checkers_dir}/${checkers_base}/binary/${jdkName}:${checkers_dir}/${checkers_base}/binary/javac.jar:${checkers_dir}/${checkers_base}/checkers.jar:${sparta-code_dir}/${sparta-code_base}/bin/:${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
+                <compilerarg value="-Xbootclasspath/p:${checkers_dir}/${checkers_base}/binary/${jdkName}:${checkers_dir}/${checkers_base}/binary/javac.jar:${checkers_dir}/${checkers_base}/binary/checkers.jar:${sparta-code_dir}/${sparta-code_base}/bin/:${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
             </jsr308.javac>
             <more-tasks/>
         </sequential>
@@ -81,7 +81,7 @@
             </condition>
 
             <property name="classpath"
-                value="${checskers_dir}/${checkers_base}/binary/${jdkName}:${checkers_dir}/${checkers_base}/javac.jar:${checkers_dir}/${checkers_base}/checkers.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
+                value="${checskers_dir}/${checkers_base}/binary/${jdkName}:${checkers_dir}/${checkers_base}/javac.jar:${checkers_dir}/${checkers_base}/binary/checkers.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
 
             <fileset dir="${source.absolute.dir}" id="mySourceJava">
                 <include name="**/*.java" />
