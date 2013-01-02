@@ -2637,8 +2637,9 @@ class FileOutputStream {
 	void close() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks File file);
 	@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks String filename);
-	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
-	//void write(@PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM);
+	//void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
+	// Workaround: Require FlowSink.FILESYSTEM for every write on a FileOutputStream
+    void write(@PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM);
 }
 
 class FileReader {
