@@ -1171,6 +1171,10 @@ class Resources {
 
 package android.database;
 
+class ContentObserver {
+    @NoFlow void onChange(boolean selfChange);
+}
+
 class Cursor {
 	@NoFlow void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) double getDouble(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
