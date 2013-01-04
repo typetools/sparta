@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="checkers" default="debug">
+
+    <condition property="jdkName" value="jdk7.jar" else="jdk6.jar">
+        <contains string="${java.version}" substring="1.7"/>
+    </condition>
+
     <presetdef name="jsr308.javac">
     <javac fork="yes" executable="${checkers_dir}/${checkers_base}/binary/javac">
       <!-- JSR308 related compiler arguments -->
@@ -10,7 +15,7 @@
       <!--<compilerarg value="-J-Xbootclasspath/p:${checkers}/binary/jsr308-all.jar"/>
 
       <classpath>
-        <pathelement location="${checkers}/checkers.jar"/>
+        <pathelement location="${checkers}/binary/checkers.jar"/>
       </classpath>-->
     </javac>
     </presetdef>
@@ -55,7 +60,7 @@
                 <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
                 <compilerarg line="-processor @{processor}"/>
                 <compilerarg line="-encoding ISO8859-1 -AprintErrorStack -AstubWarnIfNotFound" />
-                <compilerarg value="-Xbootclasspath/p:${checkers_dir}/jdk/jdk.jar:${checkers_dir}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/:${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
+                <compilerarg value="-Xbootclasspath/p:${checkers_dir}/${checkers_base}/binary/${jdkName}:${checkers_dir}/${checkers_base}/binary/javac.jar:${checkers_dir}/${checkers_base}/binary/checkers.jar:${sparta-code_dir}/${sparta-code_base}/bin/:${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
             </jsr308.javac>
             <more-tasks/>
         </sequential>
@@ -76,7 +81,7 @@
             </condition>
 
             <property name="classpath"
-                value="${checkers_dir}/${checkers_base}/jdk/jdk.jar:${checkers_dir}/${checkers_base}/binary/jsr308-all.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
+                value="${checskers_dir}/${checkers_base}/binary/${jdkName}:${checkers_dir}/${checkers_base}/javac.jar:${checkers_dir}/${checkers_base}/binary/checkers.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
 
             <fileset dir="${source.absolute.dir}" id="mySourceJava">
                 <include name="**/*.java" />
@@ -151,6 +156,13 @@
                 description="report interesting API usage as text.">
         <javamain-proj classname="sparta.checkers.JsonJavac$ReportUsageText"
             output="reportusage.txt"/>
+    </target>
+
+
+    <target name="reportbinaryonly"
+                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="report binary-only method calls and field accesses.">
+        <process-proj processor="sparta.checkers.ReportBinaryChecker"/>
     </target>
 
 </project>
