@@ -43,7 +43,8 @@ public @interface FlowSources {
         PHONE_NUMBER,
         RANDOM,
         TIME,
-        USER_INPUT
+        USER_INPUT,
+        SMS
     }
 
     /**

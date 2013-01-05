@@ -990,8 +990,7 @@ class ContentResolver {
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object openInputStream(android.net.Uri p0);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS) Object openOutputStream(android.net.Uri p0);
 	@RequiredPermissions(android.Manifest.permission.READ_CONTACTS)
-	@NoFlow
-	Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
+	@PolyFlowSources @PolyFlowSinks	Cursor query(@PolyFlowSources @PolyFlowSinks Uri uri, @PolyFlowSources @PolyFlowSinks String @PolyFlowSources @PolyFlowSinks [] projection, String selection, String[] selectionArgs, String sortOrder);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object removePeriodicSync(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setIsSyncable(android.accounts.Account p0,java.lang.String p1,int p2);
 	@RequiredPermissions(android.Manifest.permission.WRITE_SYNC_SETTINGS) Object setMasterSyncAutomatically(boolean p0);
@@ -1192,9 +1191,10 @@ class Cursor {
 	@NoFlow void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) double getDouble(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) long getLong(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getString(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@PolyFlowSources @PolyFlowSinks String getString(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) int columnIndex) @PolyFlowSources @PolyFlowSinks;
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int getInt(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@NoFlow boolean moveToFirst() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);	
+	@NoFlow boolean moveToFirst() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	@FlowSources({}) @FlowSinks({}) int getColumnIndex(String name) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);	
 	 
 	//TODO: Add the rest of the get methods
 	//Note: Must manually cast the results from the cursor if the cursor comes from Context.getContentResolver()
@@ -1666,7 +1666,7 @@ package android.os;
 
 class AsyncTask {
     abstract @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Result doInBackground(@FlowSinks({}) Params... params);
-    AsyncTask execute(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Params... params);
+    AsyncTask execute(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) Params... params);
 }
 
 class Bundle {
@@ -2798,6 +2798,7 @@ class String {
 	@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String replace(char target, char replacement) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String replace(@PolyFlowSources @PolyFlowSinks CharSequence target,
 		@PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
