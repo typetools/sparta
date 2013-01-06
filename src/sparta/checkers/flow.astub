@@ -23,6 +23,8 @@ package java.util;
 // We might want to use NoFlow here.
 package java.lang;
 
+
+
 class Thread {
 	@NoFlow
 	static void sleep(long time);
@@ -2147,6 +2149,12 @@ class SmsManager {
 	@RequiredPermissions({android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.SEND_SMS}) Object updateMessageOnIcc(int p0,int p1,boolean[] p2);
 }
 
+class SmsMessage {
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.SMS) SmsMessage createFromPdu(byte @FlowSinks []  pdu);
+	@PolyFlowSources @PolyFlowSinks String getMessageBody() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String getOriginatingAddress() @PolyFlowSources @PolyFlowSinks;
+}
+
 class TelephonyManager {
 	@RequiredPermissions(android.Manifest.permission.CONTROL_LOCATION_UPDATES) Object disableLocationUpdates();
 	@RequiredPermissions(android.Manifest.permission.CONTROL_LOCATION_UPDATES) Object enableLocationUpdates();
@@ -2750,6 +2758,7 @@ class Float {
 
 class Integer {
 	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s);
+	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s, @FlowSinks({}) int radix);
 	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks int i);
 }
 
@@ -2775,8 +2784,8 @@ class Object {
 	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean equals(Object object);
 	@NoFlow
 	Class getClass();
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int hashCode();
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String toString();
+	@PolyFlowSources @PolyFlowSinks int hashCode() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 	
 class Runtime {
@@ -2798,12 +2807,18 @@ class String {
 	@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String replace(char target, char replacement) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String replace(@PolyFlowSources @PolyFlowSinks CharSequence target,
+	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) char target, @PolyFlowSources @PolyFlowSinks char replacement) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) CharSequence target,
 		@PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 	
+}
+
+class StringBuilder {
+	@PolyFlowSources @PolyFlowSinks StringBuilder append(@PolyFlowSources @PolyFlowSinks char c) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 	
 class StringBuffer {
@@ -2948,7 +2963,9 @@ interface Comparator<T extends @FlowSources(sparta.checkers.quals.FlowSources.Fl
 }
 	
 class Date {
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) Date();
 	@PolyFlowSources @PolyFlowSinks long getTime() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) 
 class GregorianCalendar {
