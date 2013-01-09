@@ -56,11 +56,13 @@
                 <src path="${gen.absolute.dir}" />
                 <classpath>
                     <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
+                    <pathelement path="${sparta-code_dir}/${sparta-code_base}/bin/"/>
+                    <pathelement path="${sparta-code_dir}/${sparta-code_base}/build/"/>
+                    <pathelement location="${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
                 <compilerarg line="-processor @{processor}"/>
                 <compilerarg line="-encoding ISO8859-1 -AprintErrorStack -AstubWarnIfNotFound" />
-                <compilerarg value="-Xbootclasspath/p:${checkers_dir}/${checkers_base}/binary/${jdkName}:${checkers_dir}/${checkers_base}/binary/javac.jar:${checkers_dir}/${checkers_base}/binary/checkers.jar:${sparta-code_dir}/${sparta-code_base}/bin/:${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
             </jsr308.javac>
             <more-tasks/>
         </sequential>
