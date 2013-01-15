@@ -1177,8 +1177,7 @@ class Resources {
 	Drawable getDrawable(int id);
 	@NoFlow
 	String getString(int id);
-	@NoFlow
-	String getString(int id, Object... objs);
+	@PolyFlowSources @PolyFlowSinks String getString(@FlowSinks int id, @PolyFlowSources @PolyFlowSinks Object... objs);
 	@NoFlow
 	CharSequence getText(int id);
 }
@@ -1668,7 +1667,6 @@ package android.os;
 
 class AsyncTask {
     abstract @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Result doInBackground(@FlowSinks({}) Params... params);
-    AsyncTask execute(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) Params... params);
 }
 
 class Bundle {
@@ -3072,7 +3070,7 @@ class UsernamePasswordCredentials {
 package org.apache.http.client;
 
 class HttpClient {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
+	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
 }
 	
 package org.apache.http.client.methods;
