@@ -32,6 +32,7 @@ public @interface FlowSinks {
         ANY,
         
         ACCOUNTS,
+        DISPLAY,
         EMAIL,
         EXTERNAL_STORAGE,
         FILESYSTEM,

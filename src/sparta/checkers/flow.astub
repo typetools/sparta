@@ -1,4 +1,6 @@
 import sparta.checkers.quals.*;
+import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.FlowSinks.FlowSink;
 
 @ConservativeFlow
 package android;
@@ -56,47 +58,47 @@ package android.accounts;
 
 class AbstractAccountAuthenticator {
     @RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle addAccount(
-    	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-    	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] requiredFeatures,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options);
+    @FlowSources(FlowSource.ACCOUNTS) Bundle addAccount(
+    	@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+    	@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] requiredFeatures,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options);
 	//TODO: checkBinderPermission() is a private method, accessed through Java reflection.
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER) Object checkBinderPermission();
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle confirmCredentials(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options);
+	@FlowSources(FlowSource.ACCOUNTS) Bundle confirmCredentials(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options);
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle editProperties(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType);
+	@FlowSources(FlowSource.ACCOUNTS) Bundle editProperties(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType);
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle getAccountRemovalAllowed(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account);
+	@FlowSources(FlowSource.ACCOUNTS) Bundle getAccountRemovalAllowed(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account);
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle getAuthToken(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options);
+	@FlowSources(FlowSource.ACCOUNTS) Bundle getAuthToken(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options);
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String getAuthTokenLabel(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType);
+	@FlowSources(FlowSource.ACCOUNTS) String getAuthTokenLabel(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType);
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle hasFeatures(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] features);
+	@FlowSources(FlowSource.ACCOUNTS) Bundle hasFeatures(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] features);
 	@RequiredPermissions(android.Manifest.permission.ACCOUNT_MANAGER)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Bundle updateCredentials(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options);
+	@FlowSources(FlowSource.ACCOUNTS) Bundle updateCredentials(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options);
 }
 
 //TODO: AbstractAccountAuthenticator.Transport class is private.
@@ -132,134 +134,134 @@ class AccountAuthenticatorActivity {
 
 class AccountManager {
 	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> addAccount(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] requiredFeatures,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle addAccountOptions,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> addAccount(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] requiredFeatures,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle addAccountOptions,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) boolean addAccountExplicitly(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String password,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle userdata);
+	@FlowSources(FlowSource.ACCOUNTS) boolean addAccountExplicitly(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String password,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle userdata);
 	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) void addOnAccountsUpdatedListener(OnAccountsUpdateListener listener, Handler handler, boolean updateImmediately);
 	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String blockingGetAuthToken(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) boolean notifyAuthFailure);
+	@FlowSources(FlowSource.ACCOUNTS) String blockingGetAuthToken(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) boolean notifyAuthFailure);
 	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
 	void clearPassword(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account);
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account);
 	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> confirmCredentials(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> confirmCredentials(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
 	AccountManagerFuture<Bundle> editProperties(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Account[] getAccounts();
+	@FlowSources(FlowSource.ACCOUNTS) Account[] getAccounts();
 	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) Account[] getAccountsByType(
-		@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String type);
+	@FlowSources(FlowSource.ACCOUNTS) Account[] getAccountsByType(
+		@FlowSinks(FlowSink.ACCOUNTS) String type);
 	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Account[]> getAccountsByTypeAndFeatures(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String type,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] features,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Account[]> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Account[]> getAccountsByTypeAndFeatures(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String type,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] features,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Account[]> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) boolean notifyAuthFailure,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) boolean notifyAuthFailure,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) boolean notifyAuthFailure,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) boolean notifyAuthFailure,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthTokenByFeatures(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] features,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle addAccountOptions,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle getAuthTokenOptions,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthTokenByFeatures(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] features,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle addAccountOptions,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle getAuthTokenOptions,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) 
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String getPassword(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account);
+	@FlowSources(FlowSource.ACCOUNTS) String getPassword(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account);
 	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) 
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String getUserData(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String key);
+	@FlowSources(FlowSource.ACCOUNTS) String getUserData(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String key);
 	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) 
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Boolean> hasFeatures(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String[] features,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Boolean> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Boolean> hasFeatures(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] features,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Boolean> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS})
 	void invalidateAuthToken(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String accountType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authToken);
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authToken);
 	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) String peekAuthToken(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType);
+	@FlowSources(FlowSource.ACCOUNTS) String peekAuthToken(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType);
 	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Boolean> removeAccount(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Boolean> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Boolean> removeAccount(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Boolean> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS)
 	void setAuthToken(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authToken);
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authToken);
 	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) 
 	void setPassword(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String password);
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String password);
 	@RequiredPermissions(android.Manifest.permission.AUTHENTICATE_ACCOUNTS) 
 	void setUserData(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String key,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String value);
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String key,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String value);
 	@RequiredPermissions(android.Manifest.permission.MANAGE_ACCOUNTS)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> updateCredentials(
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Account account,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Bundle options,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ACCOUNTS) Handler handler);
+	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> updateCredentials(
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
+		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
 }
 
 //AccountManager$AmsTask is a private class.
@@ -479,7 +481,7 @@ class IDevicePolicyManager$Stub$Proxy {
 package android.app;
 
 class AlarmManager {
-	void set(@FlowSinks({}) int type, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long triggerAtMillis, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) PendingIntent operation) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	void set(@FlowSinks({}) int type, @FlowSources(FlowSource.TIME) long triggerAtMillis, @FlowSources(FlowSource.ANY) PendingIntent operation) @FlowSources(FlowSource.ANY);
 	void set(@FlowSinks({}) int type, @PolyFlowSources @PolyFlowSinks long triggerAtMillis, @PolyFlowSources @PolyFlowSinks PendingIntent operation);
 	@RequiredPermissions(android.Manifest.permission.SET_TIME) Object setTime(long p0);
 	@RequiredPermissions(android.Manifest.permission.SET_TIME_ZONE) Object setTimeZone(java.lang.String p0);
@@ -1020,10 +1022,10 @@ class ContentService {
 }
 
 class ContentValues {
-	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Double value);
-	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Integer value);
-	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks Long value);
-	void put(@FlowSinks({}) String key, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks String value);
+	void put(@FlowSinks({}) String key, @FlowSources(FlowSource.ANY) @FlowSinks Double value);
+	void put(@FlowSinks({}) String key, @FlowSources(FlowSource.ANY) @FlowSinks Integer value);
+	void put(@FlowSinks({}) String key, @FlowSources(FlowSource.ANY) @FlowSinks Long value);
+	void put(@FlowSinks({}) String key, @FlowSources(FlowSource.ANY) @FlowSinks String value);
 	//TODO: Add the rest of the put methods
 }
 
@@ -1034,10 +1036,10 @@ class ContentUris {
 class Context {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@NoFlow ContentResolver getContentResolver();
-	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) String name, int mode);
+	@FlowSinks(FlowSink.FILESYSTEM) File getDir(@FlowSinks(FlowSink.FILESYSTEM) String name, int mode);
 	@NoFlow String getPackageName();
 	@NoFlow Resources getResources();
-	@NoFlow String getString(@FlowSinks({}) int i, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object... objs);
+	@NoFlow String getString(@FlowSinks({}) int i, @FlowSources(FlowSource.ANY) Object... objs);
 	@NoFlow String getString(@FlowSinks({}) int i);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
@@ -1052,7 +1054,7 @@ class Context {
 }
 
 class ContextWrapper {
-    @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources File getDir(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources String name, int mode);
+    @FlowSinks(FlowSink.FILESYSTEM) @FlowSources File getDir(@FlowSinks(FlowSink.FILESYSTEM) @FlowSources String name, int mode);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
 	@NoFlow
 	Context getBaseContext();
@@ -1094,16 +1096,16 @@ class IContentService$Stub$Proxy {
 }
 
 class Intent {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getAction();
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Uri getData();
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Bundle getExtras();
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int getIntExtra(@FlowSinks({}) String name, @FlowSinks({}) int defaultValue);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) String getStringExtra(@FlowSinks({}) String name);
+	@FlowSources(FlowSource.ANY) String getAction();
+	@FlowSources(FlowSource.ANY) Uri getData();
+	@FlowSources(FlowSource.ANY) Bundle getExtras();
+	@FlowSources(FlowSource.ANY) int getIntExtra(@FlowSinks({}) String name, @FlowSinks({}) int defaultValue);
+	@FlowSources(FlowSource.ANY) String getStringExtra(@FlowSinks({}) String name);
 	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks int value);
 	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value);
 	@NoFlow
 	Intent setClass(Context packageContext, Class<?> cls);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Intent setData(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) Uri data);
+	@FlowSources(FlowSource.ANY) Intent setData(@FlowSources(FlowSource.ANY) @FlowSinks({}) Uri data);
 	@NoFlow
 	Intent setFlags(int flags);	
 }
@@ -1189,13 +1191,13 @@ class ContentObserver {
 }
 
 class Cursor {
-	@NoFlow void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) double getDouble(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) long getLong(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@PolyFlowSources @PolyFlowSinks String getString(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) int columnIndex) @PolyFlowSources @PolyFlowSinks;
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) int getInt(@FlowSinks({}) int columnIndex) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@NoFlow boolean moveToFirst() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
-	@FlowSources({}) @FlowSinks({}) int getColumnIndex(String name) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);	
+	@NoFlow void close() @FlowSources(FlowSource.ANY);
+	@FlowSources(FlowSource.ANY) double getDouble(@FlowSinks({}) int columnIndex) @FlowSources(FlowSource.ANY);
+	@FlowSources(FlowSource.ANY) long getLong(@FlowSinks({}) int columnIndex) @FlowSources(FlowSource.ANY);
+	@PolyFlowSources @PolyFlowSinks String getString(@FlowSources(FlowSource.ANY) @FlowSinks({}) int columnIndex) @PolyFlowSources @PolyFlowSinks;
+	@FlowSources(FlowSource.ANY) int getInt(@FlowSinks({}) int columnIndex) @FlowSources(FlowSource.ANY);
+	@NoFlow boolean moveToFirst() @FlowSources(FlowSource.ANY);
+	@FlowSources({}) @FlowSinks({}) int getColumnIndex(String name) @FlowSources(FlowSource.ANY);	
 	 
 	//TODO: Add the rest of the get methods
 	//Note: Must manually cast the results from the cursor if the cursor comes from Context.getContentResolver()
@@ -1216,24 +1218,24 @@ class SQLiteDatabase {
 	long insert(String table, String nullColumnHack, ContentValues values);
 	//@FlowSources({}) int insert(String p1, String p2, @PolyFlowSources ContentValues p3) @PolyFlowSources;
 	@FlowSources({}) int update(
-	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String table,
-	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) ContentValues values,
-        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String whereClause,
-        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] whereArgs);
+	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String table,
+	    @FlowSources(FlowSource.ANY) @FlowSinks({}) ContentValues values,
+        @FlowSources(FlowSource.ANY) @FlowSinks({}) String whereClause,
+        @FlowSources(FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] whereArgs);
 }
 
 class SQLiteQueryBuilder {
 	@NoFlow
 	void appendWhere(CharSequence inWhere);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Cursor query(
-	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) SQLiteDatabase db,
-	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] projectionIn,
-	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String selection,
-	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] selectionArgs,
-	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String groupBy,
-	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String having,
-	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String sortOrder,
-	    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String limit); 
+	@FlowSources(FlowSource.ANY) Cursor query(
+	    @FlowSources(FlowSource.ANY) @FlowSinks({}) SQLiteDatabase db,
+	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] projectionIn,
+	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String selection,
+	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] selectionArgs,
+	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String groupBy,
+	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String having,
+	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String sortOrder,
+	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String limit); 
     @NoFlow
     void setTables(String inTables);
 }
@@ -1269,17 +1271,17 @@ class Camera {
 	void setParameters(Parameters params);
 	@NoFlow
 	void setPreviewDisplay(SurfaceHolder holder);
-	void takePicture(@FlowSinks({}) ShutterCallback shutter, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) PictureCallback raw, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
+	void takePicture(@FlowSinks({}) ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
 }
 
 
 interface Camera$PictureCallback {
-	void onPictureTaken(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.CAMERA) byte[] data, Camera camera);
+	void onPictureTaken(@FlowSources(FlowSource.CAMERA) byte[] data, Camera camera);
 }
 
 
 class Sensor {
-	  @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCELEROMETER) int TYPE_ACCELEROMETER;
+	  @FlowSources(FlowSource.ACCELEROMETER) int TYPE_ACCELEROMETER;
 }
 
 class SensorManager {
@@ -1287,7 +1289,7 @@ class SensorManager {
 }
 
 class SensorEvent {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ACCELEROMETER) @FlowSinks float[] values;
+	@FlowSources(FlowSource.ACCELEROMETER) @FlowSinks float[] values;
 }
 
 package android.inputmethodservice;
@@ -1303,24 +1305,24 @@ class AbstractInputMethodService {
 
 package android.location;
 class Address {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getAdminArea() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getCountryName() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getFeatureName() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getLocality() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getPostalCode() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasLatitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasLongitude() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION);
+	@FlowSources(FlowSource.LOCATION) String getAdminArea() @FlowSources(FlowSource.LOCATION);
+	@FlowSources(FlowSource.LOCATION) String getCountryName() @FlowSources(FlowSource.LOCATION);
+	@FlowSources(FlowSource.LOCATION) String getFeatureName() @FlowSources(FlowSource.LOCATION);
+	@FlowSources(FlowSource.LOCATION) double getLatitude() @FlowSources(FlowSource.LOCATION);
+	@FlowSources(FlowSource.LOCATION) String getLocality() @FlowSources(FlowSource.LOCATION);
+	@FlowSources(FlowSource.LOCATION) double getLongitude() @FlowSources(FlowSource.LOCATION);
+	@FlowSources(FlowSource.LOCATION) String getPostalCode() @FlowSources(FlowSource.LOCATION);
+	@FlowSources(FlowSource.LOCATION) boolean hasLatitude() @FlowSources(FlowSource.LOCATION);
+	@FlowSources(FlowSource.LOCATION) boolean hasLongitude() @FlowSources(FlowSource.LOCATION);
 }
 
 class Geocoder {
-	@FlowSources({}) List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Address> 
-		getFromLocation(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) @FlowSinks({}) double latitude, 
-		@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) @FlowSinks({}) double longitude, @FlowSinks({}) int maxResults);
+	@FlowSources({}) List<@FlowSources(FlowSource.LOCATION) Address> 
+		getFromLocation(@FlowSources(FlowSource.LOCATION) @FlowSinks({}) double latitude, 
+		@FlowSources(FlowSource.LOCATION) @FlowSinks({}) double longitude, @FlowSinks({}) int maxResults);
 		
-	@FlowSources({}) List<@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Address> 
-	    getFromLocationName(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) @FlowSinks({}) String locationName, @FlowSinks({}) int maxResults);
+	@FlowSources({}) List<@FlowSources(FlowSource.LOCATION) Address> 
+	    getFromLocationName(@FlowSources(FlowSource.LOCATION) @FlowSinks({}) String locationName, @FlowSinks({}) int maxResults);
 }
 
 class ILocationManager$Stub$Proxy {
@@ -1345,29 +1347,29 @@ class ILocationManager$Stub$Proxy {
 }
 
 class Location {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) float bearingTo(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location dest) @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) int describeContents() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) float distanceTo(@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME}) Location dest) @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	void dump(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Printer pw, String prefix) @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) float getAccuracy() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getAltitude() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) float getBearing() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Bundle getExtras() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLatitude() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) double getLongitude() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) String getProvider() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) float getSpeed() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long getTime() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasAccuracy() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasAltitude() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasBearing() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) boolean hasSpeed() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) float bearingTo(@FlowSources(FlowSource.LOCATION) Location dest) @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) int describeContents() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) float distanceTo(@FlowSources({FlowSource.LOCATION, FlowSource.TIME}) Location dest) @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	void dump(@FlowSources(FlowSource.LOCATION) Printer pw, String prefix) @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) float getAccuracy() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) double getAltitude() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) float getBearing() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) Bundle getExtras() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) double getLatitude() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) double getLongitude() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) String getProvider() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) float getSpeed() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.TIME) long getTime() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) boolean hasAccuracy() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) boolean hasAltitude() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) boolean hasBearing() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	@FlowSources(FlowSource.LOCATION) boolean hasSpeed() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
 	
-	void removeAccuracy() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	void removeAltitude() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	void removeBearing() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	void removeSpeed() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
-	void reset() @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME});
+	void removeAccuracy() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	void removeAltitude() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	void removeBearing() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	void removeSpeed() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
+	void reset() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
 	
 	void set(@PolyFlowSources @PolyFlowSinks Location l) @PolyFlowSources @PolyFlowSinks;
 	void setAccuracy(@PolyFlowSources @PolyFlowsinks float accuracy) @PolyFlowSources @PolyFlowSinks;
@@ -1381,7 +1383,7 @@ class Location {
 }
 
 interface LocationListener {
-	void onLocationChanged(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) Location location);
+	void onLocationChanged(@FlowSources(FlowSource.LOCATION) Location location);
 }
 
 class LocationManager {
@@ -1399,7 +1401,7 @@ class LocationManager {
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
 	String getBestProvider(Criteria criteria, boolean enabledOnly);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
-	@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.LOCATION, sparta.checkers.quals.FlowSources.FlowSource.TIME}) Location getLastKnownLocation(@FlowSinks({}) String provider);
+	@FlowSources({FlowSource.LOCATION, FlowSource.TIME}) Location getLastKnownLocation(@FlowSinks({}) String provider);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProvider(java.lang.String p0);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(android.location.Criteria p0,boolean p1);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getProviders(boolean p0);
@@ -1666,7 +1668,7 @@ class WifiManager$WifiLock {
 package android.os;
 
 class AsyncTask {
-    abstract @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Result doInBackground(@FlowSinks({}) Params... params);
+    abstract @FlowSources(FlowSource.ANY) Result doInBackground(@FlowSinks({}) Params... params);
 }
 
 class Bundle {
@@ -1684,7 +1686,7 @@ class DropBoxManager {
 
 class Environment {
 	@RequiredPermissions({android.Manifest.permission.WRITE_EXTERNAL_STORAGE, /*OR*/ android.Manifest.permission.READ_EXTERNAL_STORAGE})
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.EXTERNAL_STORAGE) File getExternalStorageDirectory();
+	@FlowSources(FlowSource.EXTERNAL_STORAGE) File getExternalStorageDirectory();
 }
 
 class Handler {
@@ -2148,7 +2150,7 @@ class SmsManager {
 }
 
 class SmsMessage {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.SMS) SmsMessage createFromPdu(byte @FlowSinks []  pdu);
+	@FlowSources(FlowSource.SMS) SmsMessage createFromPdu(byte @FlowSinks []  pdu);
 	@PolyFlowSources @PolyFlowSinks String getMessageBody() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String getOriginatingAddress() @PolyFlowSources @PolyFlowSinks;
 }
@@ -2157,20 +2159,20 @@ class TelephonyManager {
 	@RequiredPermissions(android.Manifest.permission.CONTROL_LOCATION_UPDATES) Object disableLocationUpdates();
 	@RequiredPermissions(android.Manifest.permission.CONTROL_LOCATION_UPDATES) Object enableLocationUpdates();
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.LOCATION) CellLocation getCellLocation();
+	@FlowSources(FlowSource.LOCATION) CellLocation getCellLocation();
 	@RequiredPermissions(android.Manifest.permission.CALL_PRIVILEGED) Object getCompleteVoiceMailNumber();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
+	@FlowSources(FlowSource.IMEI) String getDeviceId();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getDeviceSoftwareVersion();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getLine1AlphaTag();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
+	@FlowSources(FlowSource.PHONE_NUMBER) String getLine1Number();
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object getNeighboringCellInfo();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getSimSerialNumber();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getSubscriberId();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE) Object getVoiceMailAlphaTag();
 	@RequiredPermissions(android.Manifest.permission.READ_PHONE_STATE)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getVoiceMailNumber();
+	@FlowSources(FlowSource.PHONE_NUMBER) String getVoiceMailNumber();
 	@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.ACCESS_COARSE_LOCATION}) Object listen(android.telephony.PhoneStateListener p0,int p1);
 }
 
@@ -2213,12 +2215,12 @@ class FloatMath {
 }
 
 class Log {
-    static int d(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg);
-    static int e(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg);
-    static int e(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag,
-        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg,
-        @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) Throwable tr);
-    static int w(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks({}) String msg);
+    static int d(@FlowSources(FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(FlowSource.ANY) @FlowSinks({}) String msg);
+    static int e(@FlowSources(FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(FlowSource.ANY) @FlowSinks({}) String msg);
+    static int e(@FlowSources(FlowSource.ANY) @FlowSinks({}) String tag,
+        @FlowSources(FlowSource.ANY) @FlowSinks({}) String msg,
+        @FlowSources(FlowSource.ANY) @FlowSinks({}) Throwable tr);
+    static int w(@FlowSources(FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(FlowSource.ANY) @FlowSinks({}) String msg);
 }
 
 package android.view;
@@ -2293,7 +2295,7 @@ class IWindowSession$Stub$Proxy {
 class KeyEvent {
     @NoFlow
     int getAction();
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.USER_INPUT) int getKeyCode();
+    @FlowSources(FlowSource.USER_INPUT) int getKeyCode();
 }
 
 class Menu {
@@ -2350,7 +2352,7 @@ class View {
 }
 
 class Window {
-	void setFlags(int flags, int mask) @FlowSources({sparta.checkers.quals.FlowSources.FlowSource.ANY});
+	void setFlags(int flags, int mask) @FlowSources({FlowSource.ANY});
 	@NoFlow
 	void addFlags(int flags);
 }
@@ -2402,7 +2404,7 @@ class AdapterView {
     @NoFlow void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener) @PolyFlowSources @PolyFlowSinks;
 }
 
-class ArrayAdapter<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+class ArrayAdapter<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
 }
 
 class EditText {
@@ -2414,7 +2416,7 @@ class EditText {
 class ImageView {
 	void setImageBitmap(@PolyFlowSources @PolyFlowSinks Bitmap bm) @PolyFlowSources @PolyFlowSinks;
 	void setImageDrawable(@PolyFlowSources @PolyFlowSinks Drawable drawable) @PolyFlowSources @PolyFlowSinks;
-	void setImageResource(@PolyFlowSources @PolyFlowSinks int i) @PolyFlowSources @PolyFlowSinks;
+	void setImageResource(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) int i) @PolyFlowSources @PolyFlowSinks;
 }
 	
 class QuickContactBadge {
@@ -2448,8 +2450,8 @@ class TextView {
 	void setSelected(boolean selected);
 	@NoFlow
 	void setSingleLine();
-	void setText(@PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
-	void setText(@PolyFlowSources @PolyFlowSinks int resid) @PolyFlowSources @PolyFlowSinks;
+	void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) CharSequence text) @PolyFlowSources @PolyFlowSinks;
+	void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) int resid) @PolyFlowSources @PolyFlowSinks;
 	@NoFlow
 	void setTextColor(int color);
 	@NoFlow
@@ -2465,7 +2467,7 @@ class Toast {
 
 class RemoteViews {
 	@NoFlow
-	void setOnClickPendingIntent(int i, @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) PendingIntent pi);
+	void setOnClickPendingIntent(int i, @FlowSources(FlowSource.ANY) PendingIntent pi);
 	void setImageViewResource(@FlowSinks({}) int viewId, @PolyFlowSources @PolyFlowSinks int srcId) @PolyFlowSources @PolyFlowSinks;
 	void setTextViewText(@FlowSinks({}) int viewId, @PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
 	@NoFlow
@@ -2643,7 +2645,7 @@ class BufferedInputStream {
 class BufferedReader {
 	@PolyFlowSources @PolyFlowSinks BufferedReader(@PolyFlowSources @PolyFlowSinks Reader in, @PolyFlowSources @PolyFlowSinks int size);
 	@NoFlow
-	void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	void close() @FlowSources(FlowSource.ANY);
 	@PolyFlowSources @PolyFlowSinks String readLine() @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2652,7 +2654,7 @@ class ByteArrayInputStream {
 }
 
 class ByteArrayOutputStream {
-	void close() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY); //@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	void close() @FlowSources(FlowSource.ANY); //@FlowSinks(FlowSink.FILESYSTEM) @FlowSources(FlowSource.ANY);
 	@PolyFlowSources @PolyFlowSinks byte @FlowSources [] toByteArray() @PolyFlowSources @PolyFlowSinks;
 	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) [] buffer, int offset, int len) @PolyFlowSources @PolyFlowSinks;
 }
@@ -2666,7 +2668,7 @@ class File {
 	@PolyFlowSources @PolyFlowSinks String getPath() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
-	@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.ANY) String separator;
+	@FlowSinks(FlowSink.ANY) String separator;
 	@PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks File[] listFiles() @PolyFlowSources @PolyFlowSinks ;
 	
@@ -2678,7 +2680,7 @@ class FileOutputStream {
 	@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks String filename);
 	//void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
 	// Workaround: Require FlowSink.FILESYSTEM for every write on a FileOutputStream
-    void write(@PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM);
+    void write(@PolyFlowSources @FlowSinks(FlowSink.FILESYSTEM) byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @FlowSinks(FlowSink.FILESYSTEM);
 }
 
 class FileReader {
@@ -2782,7 +2784,7 @@ class Math {
 
 	
 class Object {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean equals(Object object);
+	@FlowSources(FlowSource.ANY) boolean equals(Object object);
 	@NoFlow
 	Class getClass();
 	@PolyFlowSources @PolyFlowSinks int hashCode() @PolyFlowSources @PolyFlowSinks;
@@ -2827,7 +2829,7 @@ class StringBuffer {
 }
 
 class System {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) long currentTimeMillis();
+	@FlowSources(FlowSource.TIME) long currentTimeMillis();
 }
 
 class Throwable {
@@ -2899,7 +2901,7 @@ class URL {
 
 class URLConnection {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object connect();
-	@FlowSources({sparta.checkers.quals.FlowSources.FlowSource.NETWORK}) @PolyFlowSinks InputStream getInputStream() @PolyFlowSinks;
+	@FlowSources({FlowSource.NETWORK}) @PolyFlowSinks InputStream getInputStream() @PolyFlowSinks;
 }
 
 package java.security;
@@ -2933,7 +2935,7 @@ class Arrays{
     @PolyFlowSources @PolyFlowSinks List<T> asList (T... array) @PolyFlowSources @PolyFlowSinks;
 }
 
-class ArrayList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+class ArrayList<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
 	@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2954,73 +2956,73 @@ class Collection {
 }
 	
 class Collections {
-	<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> void sort(@FlowSinks({}) List<T> list, @FlowSinks({}) Comparator<? super T> comparator);
+	<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> void sort(@FlowSinks({}) List<T> list, @FlowSinks({}) Comparator<? super T> comparator);
 	//Unsure:
 	static @PolyFlowSources @PolyFlowSinks Map<K,V> synchronizedMap(@PolyFlowSources @PolyFlowSinks Map<K,V> map); 
 }
 	
-interface Comparator<T extends @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+interface Comparator<T extends @FlowSources(FlowSource.ANY) Object> {
 	@PolyFlowSources @PolyFlowSinks int compare(@PolyFlowSources @PolyFlowSinks T lhs, @PolyFlowSources @PolyFlowSinks T rhs);
 }
 	
 class Date {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) Date();
+	@FlowSources(FlowSource.TIME) Date();
 	@PolyFlowSources @PolyFlowSinks long getTime() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
-@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) 
+@FlowSources(FlowSource.TIME) 
 class GregorianCalendar {
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.TIME) GregorianCalendar();
+    @FlowSources(FlowSource.TIME) GregorianCalendar();
 }
 
-class HashMap<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
-	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+class HashMap<K extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object,
+	V extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
 	@PolyFlowSources @PolyFlowSinks V get(@PolyFlowSources @PolyFlowSinks Object key) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String put(@PolyFlowSources @PolyFlowSinks K key, @PolyFlowSources @PolyFlowSinks V value) @PolyFlowSources @PolyFlowSinks;
 	@NoFlow
 	int size();
 }
 
-class LinkedList<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+class LinkedList<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
 	
 }
 
-class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+class List<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
 	@NoFlow boolean add(T object) @FlowSources(FlowSource.ANY);
     T get(@FlowSinks({}) int index);
 	@NoFlow int size() @FlowSources(FlowSource.ANY);
 	//How to annotate this: Object[] toArray();
 }
 
-class Map<K extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object,
-	V extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
-	@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) boolean containsKey(
-		@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object key);
-	V get(@FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object key);
+class Map<K extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object,
+	V extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
+	@FlowSinks({}) @FlowSources(FlowSource.ANY) boolean containsKey(
+		@FlowSinks({}) @FlowSources(FlowSource.ANY) Object key);
+	V get(@FlowSinks({}) @FlowSources(FlowSource.ANY) Object key);
 	V put(K key, V value);
 }
 
-class Queue<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
+class Queue<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
 	T peek();
 	T poll();
 }
 
 class Random {
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) protected int next(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.RANDOM) int bits);
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) boolean nextBoolean();
-    void nextBytes(byte @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) @FlowSinks({}) [] bytes);
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) double nextDouble();
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) float nextFloat();
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) double nextGaussian();
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) int nextInt();
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) int nextInt(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.RANDOM)  int n);
-    @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.RANDOM) long nextLong();
-    void setSeed(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.RANDOM) long seed);
+    @FlowSources(FlowSource.RANDOM) protected int next(@FlowSinks(FlowSink.RANDOM) int bits);
+    @FlowSources(FlowSource.RANDOM) boolean nextBoolean();
+    void nextBytes(byte @FlowSources(FlowSource.RANDOM) @FlowSinks({}) [] bytes);
+    @FlowSources(FlowSource.RANDOM) double nextDouble();
+    @FlowSources(FlowSource.RANDOM) float nextFloat();
+    @FlowSources(FlowSource.RANDOM) double nextGaussian();
+    @FlowSources(FlowSource.RANDOM) int nextInt();
+    @FlowSources(FlowSource.RANDOM) int nextInt(@FlowSinks(FlowSink.RANDOM)  int n);
+    @FlowSources(FlowSource.RANDOM) long nextLong();
+    void setSeed(@FlowSinks(FlowSink.RANDOM) long seed);
 }
 
 class Scanner {
 	@PolyFlowSources @PolyFlowSinks Scanner (@PolyFlowSources @PolyFlowSinks Readable src);
-	boolean hasNext() @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY);
+	boolean hasNext() @FlowSources(FlowSource.ANY);
 }
 
 package java.util.concurrent;
@@ -3070,7 +3072,7 @@ class UsernamePasswordCredentials {
 package org.apache.http.client;
 
 class HttpClient {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
+	@FlowSources(FlowSource.NETWORK) HttpResponse execute(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.NETWORK) HttpUriRequest request);
 }
 	
 package org.apache.http.client.methods;
@@ -3080,15 +3082,15 @@ class HttpEntityEnclosingRequestBase {
 }
 
 class HttpGet {
-    @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpGet(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String uri);
-    @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpGet(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) URI uri);
+    @FlowSinks(FlowSink.NETWORK) HttpGet(@FlowSinks(FlowSink.NETWORK) String uri);
+    @FlowSinks(FlowSink.NETWORK) HttpGet(@FlowSinks(FlowSink.NETWORK) URI uri);
 }
 
 class HttpPost {
 	void addHeader(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value) @PolyFlowSources @PolyFlowSinks;
     @PolyFlowSources @PolyFlowSinks HttpPost(@PolyFlowSources @PolyFlowSinks String uri);
     @PolyFlowSources @PolyFlowSinks HttpPost(@PolyFlowSources @PolyFlowSinks URI uri);
-    void setEntity(@PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpEntity entity) @PolyFlowSources @FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK);
+    void setEntity(@PolyFlowSources @FlowSinks(FlowSink.NETWORK) HttpEntity entity) @PolyFlowSources @FlowSinks(FlowSink.NETWORK);
 }
 
 package org.apache.http.entity;
@@ -3106,13 +3108,13 @@ class FileEntity {
 package org.apache.http.entity.mime.content;
 
 class StringBody {
-	StringBody(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) String str);
+	StringBody(@FlowSinks(FlowSink.NETWORK) String str);
 }
 
 package org.apache.http.impl.client;
 
 class AbstractHttpClient {
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
+	@FlowSources(FlowSource.NETWORK) HttpResponse execute(@FlowSinks(FlowSink.NETWORK) HttpUriRequest request);
 	@PolyFlowSources @PolyFlowSinks HttpParams getParams() @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -3121,7 +3123,7 @@ class DefaultHttpClient {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) DefaultHttpClient(org.apache.http.params.HttpParams p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) DefaultHttpClient(org.apache.http.conn.ClientConnectionManager p0,org.apache.http.params.HttpParams p1);
 	// @RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
+	@FlowSources(FlowSource.NETWORK) HttpResponse execute(@FlowSinks(FlowSink.NETWORK) HttpUriRequest request);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.HttpHost p0,org.apache.http.client.methods.HttpUriRequest p1,org.apache.http.client.ResponseHandler p2,org.apache.http.protocol.HttpContext p3);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.protocol.HttpContext p1);
@@ -3134,7 +3136,7 @@ class DefaultHttpClient {
 class HttpClient {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET)
-	@FlowSources(sparta.checkers.quals.FlowSources.FlowSource.NETWORK) HttpResponse execute(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.NETWORK) HttpUriRequest request);
+	@FlowSources(FlowSource.NETWORK) HttpResponse execute(@FlowSinks(FlowSink.NETWORK) HttpUriRequest request);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.HttpHost p0,org.apache.http.client.methods.HttpUriRequest p1,org.apache.http.client.ResponseHandler p2,org.apache.http.protocol.HttpContext p3);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.protocol.HttpContext p1);
@@ -3205,5 +3207,5 @@ class SimpleBus {
 package com.commonsware.cwac.task; //A library of Wordpress
 
 class AsyncTaskEx {
-	Result doInBackground(@FlowSinks(sparta.checkers.quals.FlowSinks.FlowSink.FILESYSTEM) Params... params);
+	Result doInBackground(@FlowSinks(FlowSink.FILESYSTEM) Params... params);
 }
