@@ -200,27 +200,34 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- Make sure to add all individual tests as dependency. -->
-    <target name="all-tests" depends="jar,build-tests,reqperms-tests,report-tests,flow-tests,fenum-tests"
+    <target name="all-tests" depends="jar,build-tests,reqperms-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests"
       description="Run tests for all checkers"/>
 
     <target name="reqperms-tests" depends="jar,build-tests"
-      description="Run tests for the Android Fenum Checker">
+      description="Run tests for the Permissions Checker">
         <antcall target="-run-tests">
             <param name="testclass" value="sparta.checkers.AndroidTests$AndroidReqPermissionsCheckerTests"/>
         </antcall>
     </target>
 
     <target name="report-tests" depends="jar,build-tests"
-      description="Run tests for the Android Fenum Checker">
+      description="Run tests for the Android Report Checker">
         <antcall target="-run-tests">
             <param name="testclass" value="sparta.checkers.AndroidTests$AndroidReportCheckerTests"/>
         </antcall>
     </target>
 
     <target name="flow-tests" depends="jar,build-tests"
-      description="Run tests for the Android Fenum Checker">
+      description="Run tests for the Flow Checker">
         <antcall target="-run-tests">
             <param name="testclass" value="sparta.checkers.AndroidTests$FlowCheckerTests"/>
+        </antcall>
+    </target>
+
+    <target name="flow-policy-tests" depends="jar,build-tests"
+            description="Run tests for the Flow Checker">
+        <antcall target="-run-tests">
+            <param name="testclass" value="sparta.checkers.AndroidTests$FlowPolicyTests"/>
         </antcall>
     </target>
 

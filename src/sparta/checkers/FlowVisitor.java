@@ -13,7 +13,9 @@ import com.sun.source.tree.SwitchTree;
 import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
+import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
+import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
 
 public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
@@ -21,21 +23,34 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
        super(checker, root);
     }
 
+
+   @Override
+   public /**@Nullable*/ String isValidUse(AnnotatedDeclaredType declarationType,
+                                           AnnotatedDeclaredType useType) {
+       String errType = areFlowsValid(useType);
+       if(errType == null)
+           errType = areFlowsValid(declarationType);
+       return errType;
+   }
+
+   //TODO: DO I HAVE TO DO MORE HERE
+   @Override
+   public /**@Nullable*/ String isValidUse(AnnotatedPrimitiveType type) {
+       return areFlowsValid(type);
+   }
+
+   //TODO: DO I HAVE TO DO MORE HERE
+   @Override
+   public /**@Nullable*/ String isValidUse(AnnotatedArrayType type) {
+       return areFlowsValid(type);
+   }
+
     private void ensureNoFlow(ExpressionTree tree, /*@checkers.compilermsgs.quals.CompilerMessageKey*/ String errMsg) {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
         if (!type.hasAnnotation(checker.NOFLOWSINKS) ||
                 !type.hasAnnotation(checker.NOFLOWSOURCES)) {
             checker.report(Result.failure(errMsg, type.getAnnotations()), tree);
         }
-    }
-
-    @Override
-    public boolean isValidUse(AnnotatedDeclaredType declarationType,
-            AnnotatedDeclaredType useType) {
-        // The default annotation on a class is FlowSources({}), which is not a supertype of
-        // any interesting use.
-        // Let's just always allow annotations.
-        return true;
     }
 
     @Override
@@ -86,4 +101,20 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         return super.visitForLoop(node, p);
     }
 
+    //TODO: Questions for Mike
+    //DO WE AUTOMATICALLY ALLOW ANY -> {}
+    //WHAT ABOUT {} -> ANY
+
+    private String areFlowsValid(final AnnotatedTypeMirror atm) {
+        final FlowPolicy flowPolicy = checker.getFlowPolicy();
+
+        if( flowPolicy != null ) {
+
+            if( !checker.getFlowPolicy().areFlowsAllowed(atm) ) {
+                return "forbidden.flow";
+            }
+        }
+
+        return isValidToError(true);
+    }
 }

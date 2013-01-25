@@ -1,0 +1,23 @@
+ANY -> {}
+{}  -> ANY
+
+#Adding random
+ANY -> LOGCAT  #Comments
+
+TIME -> LOGCAT
+TIME -> FILESYSTEM
+TIME -> EMAIL
+
+
+    #<-
+ACCOUNTS -> DISPLAY, EMAIL
+
+             #There are
+MICROPHONE -> NETWORK, FILESYSTEM
+MICROPHONE -> EMAIL      #No errors #
+#####################################
+
+{} -> EMAIL
+
+  # #
+     #
