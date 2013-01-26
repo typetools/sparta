@@ -214,7 +214,271 @@ needed for sound array behavior in the absence of runtime checks.
 Flow inference automatically refines the type of array creation
 expressions depending on the left-hand side.
 
+\section{Flow Policy}
 
+A flow-policy file is essentially a list of sources mapped to sinks
+that dictates what flows should be permitted by the FlowChecker.  A
+flow-policy file serves two purposes when using the FlowChecker.
+Firstly, it allows the user to specify stricter checking guidelines.
+And secondly, it allows the user to suppress warnings and thereby
+reduce annotation overhead.  Details about how these purposes are
+achieved are described below.
+
+\subsection{Using a flow-policy file}
+To use a flow-policy file when invoking the FlowChecker from the
+command line pass it the option:
+\begin{Verbatim}
+-AflowPolicy=<my policy file>
+\end{Verbatim}
+
+\subsection{Enforcing Stricter Guarantees}
+By default the FlowChecker guarantees that there is no information
+flow beyond what is expressed in type annotations.  These guarantees
+are ensured via the subtyping rules specified in the FlowSinks and
+FlowSources qualifier hierarchies.  These rules allow annotations like:
+
+\begin{Verbatim}
+@FlowSource(FlowSource.CAMERA) @FlowSink(NETWORK) Video video = ...
+\end{Verbatim}
+
+But what if we don't ever want CAMERA information to flow to the
+NETWORK? To enforce such a property we could use a flow-policy file.
+The flow-policy file consists of a mapping of
+FlowSources -> FlowSinks.  If given an annotated type, foreach
+FlowSource of that type there must be a mapping from that
+FlowSource to all of the type's FlowSinks or an error will be raised.
+
+For the definition of video above adding the following line to the policy
+file would allow CAMERA information to flow to the NETWORK:
+
+\begin{Verbatim}
+CAMERA -> NETWORK
+\end{Verbatim}
+
+However, if this line is missing then sources with CAMERA
+would never be allowed to flow to the NETWORK and the previous
+definition of the variable video will raise an error.
+
+Here is another example:
+
+\begin{Verbatim}
+File flowPolicy contains:
+  ACCOUNTS      -> EXTERNAL_STORAGE, FILESYSTEM
+  ACCELEROMETER -> EXTERNAL_STORAGE, FILESYSTEM, NETWORK
+
+The following definitions would not generate warnings using the above flow-policy file:
+  @FlowSources(FlowSource.ACCOUNTS) @FlowSinks(FlowSink.EXTERNAL_STORAGE) Account acc = ...
+  @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
+  @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILE_SYSTEM}) int accel = ...
+
+The following definitions would generate forbidden flow errors:
+  @FlowSources(FlowSource.ACCOUNTS) @FlowSinks(@FlowSink.NETWORK) Account acc = ...
+  @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
+  @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILESYSTEM, FlowSink.NETWORK})
+\end{Verbatim}
+
+Note it is important to know that unless you specifically list
+a flow from a source X to a sink Y when using a policy-file
+then it is forbidden all information flow from X to Y is
+forbidden.  For instance, if you're policy file never mentions NETWORK
+as a source then you're application cannot read any network data without
+generating an error.  If it never mentions NETWORK as a sink then
+it can never write NETWORK without generating an error.
+
+\subsection{Suppressing Warnings}
+Most applications are separated into modules or APIs that
+provide method calls for general use.  For instance, suppose there
+was a method call to send text messages as follows:
+\begin{Verbatim}
+public void sendTxt(@FlowSinks(FlowSink.TEXTMESSAGE)String msg, PhoneNumber num)
+\end{Verbatim}
+
+Without a flow-policy file, every time \<sendTxt(myMsg, num)> is
+used with a variable \<myMsg> that contained a non-empty set of
+FlowSources then a warning would have to be suppressed since method
+parameter \<msg> has no FlowSources.
+
+Another example follows:
+
+\begin{Verbatim}
+Given a method:
+  @FlowSource({FlowSource.ACCELEROMETER}) String getAccelerometer()
+
+The following line would normally produce an error due to our subtyping rules:
+  sendText(getAccelerometer(), myPhysiciansNumber);
+
+However, if the following line appears in the flow-policy file then this warning is suppressed:
+  ACCELEROMETER -> TEXTMESSAGE
+\end{Verbatim}
+
+In order for a warning to be suppressed all of the FlowSources
+on the right-hand side of a pseudo assignment must be mapped
+in the flow-policy file to all of the FlowSinks on the left-hand
+side of the policy file.  In the case above the return type of
+getAccelerometer() is on the right-hand side and the msg
+parameter is on the left-hand side.  An example using
+assignments is given below (fake sources/sinks are used and the
+enum class names are omitted for brevity):
+
+\begin{Verbatim}
+File flowPolicy contains:
+A -> A, B, C, D
+B -> B, C
+C -> B, C, D
+
+@FlowSources({A, B, C}) Object srcAbc = ...
+@FlowSinks({B,C}) Object sinkBc = ...
+
+This following assignment would normally produce an error:
+sinkBc = srcAbc;
+\end{Verbatim}
+
+The assignment in the example above normally produces an error
+since the @FlowSinks of srcAbc are not subtypes of the
+@FlowSinks of sinkBc.  However, the FlowPolicy file has a
+mapping from A to B and C, from B to B and C, and from C to B
+and C (i.e. all the sources from srcAbc to all the sinks of
+sinkBc).   Therefore, in this case the warning would be
+suppressed.  Note the B -> B in the policy file.  Sources
+are not allowed to flow to their analogous sink unless
+permitted by the policy-file.  The use of a policy file in
+this manner allows us to avoid adding many FlowSources to a
+commonly used API or adding suppressions on invocations of
+the API.
+
+An example that would not lead to a suppressed warning
+using the previous flow-policy file would be:
+
+\begin{Verbatim}
+@FlowSinks({B,C,D}) Object sinkBcd = srcAbc;
+\end{Verbatim}
+
+In the above case, since B is not mapped to D in the
+policy-file the warning would not be suppressed.
+
+An important final note:
+Before the FlowPolicy checks flows from sources to sinks
+it removes any flow that appears in the variable being assigned
+(or pseudo assigned) to.  In the case above this variable is
+sinkBcd.  If sinkBcd were instead defined as:
+\begin{Verbatim}
+@FlowSource({A,B}) @FlowSink({B,C,D}) Object sinkBcd = srcAbc;
+\end{Verbatim}
+Then the warning on the above line would be suppressed because
+sinkBcd already has a flow from B to D.  The user would have
+already had to suppress a warning on sinkBcd and would expect
+B to flow to D in this particular instance.
+
+\subsection{Defining a policy file}
+This section covers the syntax and semantics of a policy file.
+Note:  There empty bracket symbol {} is used in flow-policy
+files to denote an empty-set of FlowSources or FlowSinks.
+The effects of using the {} symbol  as well as the special
+source and special sink denoted by ANY is discussed in
+section labelled ANY and {} (None).
+
+\subsection{ANY and {} (None)} \label{sec:any-none}
+
+The simplest policy file is a blank one.  A blank policy
+file would forbid all flows of any sort except for flows
+between variables with the effective annotations of
+\<@FlowSource({}) @FlowSink({})>.  Entries in the flow policy
+file are separated by newlines.  Empty or lines consisting
+solely of white-space or comments are ignored.  A mapping from
+one FlowSource to N flowSinks can be written as follows:
+\begin{Verbatim}
+FlowSource -> FlowSink1, FlowSink2, ..., FlowSinkN
+\end{Verbatim}
+
+Two special types of FlowSources and FlowSinks can be found in
+a flow-policy file.  ANY sources or sinks have a corresponding
+enum value in FlowSource and FlowSink.  However, they have
+special status in the enumeration in that their use implies
+the use of all other values in FlowSource in FlowSink.  The
+same principle applies to the flow-policy file.
+\begin{Verbatim}
+E.g.
+  ANY -> MICROPHONE
+  is equivalent to
+
+  ACCOUNTS      -> MICROPHONE
+  ACCELEROMETER -> MICROPHONE
+  CAMERA        -> MICROPHONE
+  ... and so on for all members of FlowSource  excluding ANY
+\end{Verbatim}
+
+The empty set {} (None) on the other hand indicates either a
+FlowSources or FlowSinks annotation is empty.
+\begin{Verbatim}
+E.g.
+ {} -> DISPLAY>
+\end{Verbatim}
+The above definition indicates that variables of type
+\<@FlowSources({}) @FlowSinks(FlowSink.DISPLAY)> have valid
+types. It also indicates that variables with
+\<@FlowSources({})> can always be assigned to variables with
+\<@FlowSinks(FlowSink.Display)>.
+
+\begin{Verbatim}
+E.g.
+   Below is a valid assignment:
+   Object noSourcesOrSinks = ...
+   @FlowSink({FlowSink.DISPLAY}) Window window = noSourcesOrSinks;
+\end{Verbatim}
+
+\begin{Verbatim}
+E.g.
+   ACCELEROMETER, NETWORK -> {}
+\end{Verbatim}
+
+The above line indicates the ACCELEROMETER and NETWORK
+data can flow to variables that have no FlowSinks (and
+therefore flow nowhere else).
+
+\begin{Verbatim}
+E.g.
+   @FlowSource(FlowSource.NETWORK) Packet packet = ...
+   Object someObj = packet;
+   The above assignment is valid given the policy file.
+\end{Verbatim}
+
+Note that an important affect of using the {} as a sink means
+that assignments like the following now have their warning
+suppressed:
+
+\begin{Verbatim}
+E.g.
+Policy File:
+ANY -> {}
+
+@FlowSource({FlowSource.NETWORK}) Packet packet = ...
+@FlowSource({FlowSource.FILESYSTEM}) Object fsObj = packet;
+This is allowed because fsObj has no sensitive sinks and ANY FlowSource is allowed to flow to a variable with no sinks.
+\end{Verbatim}
+
+The following definition implies that we can write
+any variable that has no data flowing from a
+sensitive source can be written to any variable that
+has a sensitive sink.
+\begin{Verbatim}
+ {} -> ANY
+
+E.g.
+ String myStr = "YO!"
+ @FlowSink({ACCOUNTS, NETWORK}) String str = myStr;
+ The above assignment is valid.
+\end{Verbatim}
+
+In closing you may want to add the following definitions
+to your FlowPolicy in order to reduce the number of
+warnings that occur related to unannotated variables:
+\begin{Verbatim}
+ANY -> {}
+{} -> ANY
+\end{Verbatim}
+
+But you should be aware how this affects the
+warnings produced and suppressed.
 
 \section{Miscellaneous}
 

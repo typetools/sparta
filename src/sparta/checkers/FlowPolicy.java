@@ -336,23 +336,6 @@ public class FlowPolicy {
 
             System.out.flush();
             throw new RuntimeException("Errors parsing policy file: " + policyFile.getAbsolutePath());
-        } else {
-            //For every source/sink with the same name "X" (except for ANY)
-            //always allow flows from "X" -> "X"
-            for(final FlowSource source : FlowSource.values()) {
-                if( source != FlowSource.ANY ) {
-                    for(final FlowSink sink : FlowSink.values()) {
-                        if( source.name().equals( sink.name() ) ) {
-                            Set<FlowSink> sinks = allowedFlows.get(source);
-                            if(sinks == null) {
-                                sinks = new HashSet<FlowSink>(1);
-                                allowedFlows.put(source, sinks);
-                            }
-                            sinks.add(sink);
-                        }
-                    }
-                }
-            }
         }
     }
 
