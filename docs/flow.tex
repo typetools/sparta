@@ -220,9 +220,9 @@ A flow-policy file is essentially a list of sources mapped to sinks
 that dictates what flows should be permitted by the FlowChecker.  A
 flow-policy file serves two purposes when using the FlowChecker.
 Firstly, it allows the user to specify stricter checking guidelines.
-And secondly, it allows the user to suppress warnings and thereby
-reduce annotation overhead.  Details about how these purposes are
-achieved are described below.
+And secondly, it allows the user to automatically suppress warnings
+and thereby reduce annotation overhead.  Details about how these
+purposes are achieved are described below.
 
 \subsection{Using a flow-policy file}
 To use a flow-policy file when invoking the FlowChecker from the
@@ -233,22 +233,24 @@ command line pass it the option:
 
 \subsection{Enforcing Stricter Guarantees}
 By default the FlowChecker guarantees that there is no information
-flow beyond what is expressed in type annotations.  These guarantees
-are ensured via the subtyping rules specified in the FlowSinks and
-FlowSources qualifier hierarchies.  These rules allow annotations like:
+flow except for what is explicitly expressed in type annotations.
+These guarantees are ensured via the subtyping rules specified
+in the FlowSinks and FlowSources qualifier hierarchies.
+These rules allow annotations like:
 
 \begin{Verbatim}
 @FlowSource(FlowSource.CAMERA) @FlowSink(NETWORK) Video video = ...
 \end{Verbatim}
 
-But what if we don't ever want CAMERA information to flow to the
+But what if we do not ever want CAMERA information to flow to the
 NETWORK? To enforce such a property we could use a flow-policy file.
 The flow-policy file consists of a mapping of
-FlowSources -> FlowSinks.  If given an annotated type, foreach
-FlowSource of that type there must be a mapping from that
-FlowSource to all of the type's FlowSinks or an error will be raised.
+FlowSources to FlowSinks.  When the FlowChecker encounters a type
+it checks the type's FlowSources and FlowSinks.  If, for each FlowSource,
+there exists a mapping from that FlowSource to all FlowSinks then
+the type is considered valid.  Otherwise an error will be raised.
 
-For the definition of video above adding the following line to the policy
+For the example above adding the following line to the policy
 file would allow CAMERA information to flow to the NETWORK:
 
 \begin{Verbatim}
@@ -257,7 +259,7 @@ CAMERA -> NETWORK
 
 However, if this line is missing then sources with CAMERA
 would never be allowed to flow to the NETWORK and the previous
-definition of the variable video will raise an error.
+definition of the variable \<video> will raise an error.
 
 Here is another example:
 
@@ -265,25 +267,29 @@ Here is another example:
 File flowPolicy contains:
   ACCOUNTS      -> EXTERNAL_STORAGE, FILESYSTEM
   ACCELEROMETER -> EXTERNAL_STORAGE, FILESYSTEM, NETWORK
+\end{Verbatim}
 
 The following definitions would not generate warnings using the above flow-policy file:
+\begin{Verbatim}
   @FlowSources(FlowSource.ACCOUNTS) @FlowSinks(FlowSink.EXTERNAL_STORAGE) Account acc = ...
   @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
   @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILE_SYSTEM}) int accel = ...
+\end{Verbatim}
 
 The following definitions would generate forbidden flow errors:
+\begin{Verbatim}
   @FlowSources(FlowSource.ACCOUNTS) @FlowSinks(@FlowSink.NETWORK) Account acc = ...
   @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
   @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILESYSTEM, FlowSink.NETWORK})
 \end{Verbatim}
 
-Note it is important to know that unless you specifically list
-a flow from a source X to a sink Y when using a policy-file
-then it is forbidden all information flow from X to Y is
-forbidden.  For instance, if you're policy file never mentions NETWORK
-as a source then you're application cannot read any network data without
-generating an error.  If it never mentions NETWORK as a sink then
-it can never write NETWORK without generating an error.
+If you are using a policy file then it is important to know that unless
+you explicitly list a flow from a source X to a sink Y then all
+information flow from X to Y is forbidden.  For instance,
+if you're policy file never mentions NETWORK as a source then, you're application
+cannot read any network data without generating an error.  If it never
+mentions NETWORK as a sink then, it can never write to the network without
+generating an error.
 
 \subsection{Suppressing Warnings}
 Most applications are separated into modules or APIs that
@@ -298,26 +304,31 @@ used with a variable \<myMsg> that contained a non-empty set of
 FlowSources then a warning would have to be suppressed since method
 parameter \<msg> has no FlowSources.
 
-Another example follows:
+For example:
 
-\begin{Verbatim}
 Given a method:
-  @FlowSource({FlowSource.ACCELEROMETER}) String getAccelerometer()
+\begin{Verbatim}
+  @FlowSource({FlowSource.ACCELEROMETER}) String getAccelerometerData()
+\end{Verbatim}
 
 The following line would normally produce an error due to our subtyping rules:
-  sendText(getAccelerometer(), myPhysiciansNumber);
+\begin{Verbatim}
+  sendText(getAccelerometerData(), myPhysiciansNumber);
+\end{Verbatim}
 
-However, if the following line appears in the flow-policy file then this warning is suppressed:
+However, if the following line appears in the flow-policy file then, this warning is suppressed:
+\begin{Verbatim}
   ACCELEROMETER -> TEXTMESSAGE
 \end{Verbatim}
 
 In order for a warning to be suppressed all of the FlowSources
-on the right-hand side of a pseudo assignment must be mapped
-in the flow-policy file to all of the FlowSinks on the left-hand
-side of the policy file.  In the case above the return type of
-getAccelerometer() is on the right-hand side and the msg
-parameter is on the left-hand side.  An example using
-assignments is given below (fake sources/sinks are used and the
+on the right-hand side of an assignment (or, in this case, the
+passing of parameters) must have a mapping in the flow-policy
+file to all of the FlowSinks on the left-hand side of the policy
+file.  In the case above, the return type of
+\<getAccelerometerData()> is on the right-hand side and the
+msg parameter is on the left-hand side.  An example using
+assignments is given below  (fake sources/sinks are used and the
 enum class names are omitted for brevity):
 
 \begin{Verbatim}
@@ -328,25 +339,31 @@ C -> B, C, D
 
 @FlowSources({A, B, C}) Object srcAbc = ...
 @FlowSinks({B,C}) Object sinkBc = ...
+\end{Verbatim}
 
 This following assignment would normally produce an error:
+\begin{Verbatim}
 sinkBc = srcAbc;
 \end{Verbatim}
 
 The assignment in the example above normally produces an error
-since the @FlowSinks of srcAbc are not subtypes of the
-@FlowSinks of sinkBc.  However, the FlowPolicy file has a
+since, the \<@FlowSinks> of \<srcAbc> are not subtypes of the
+\<@FlowSinks> of \<sinkBc>.  However, the flow-policy file has a
 mapping from A to B and C, from B to B and C, and from C to B
-and C (i.e. all the sources from srcAbc to all the sinks of
-sinkBc).   Therefore, in this case the warning would be
-suppressed.  Note the B -> B in the policy file.  Sources
-are not allowed to flow to their analogous sink unless
-permitted by the policy-file.  The use of a policy file in
+and C (i.e. all the sources from \<srcAbc> to all the sinks of
+\<sinkBc>).   Therefore, in this case the warning would be
+suppressed.  Note the following line in the policy file.
+\begin{Verbatim}
+B -> B
+\end{Verbatim}
+
+Sources are not allowed to flow to their analogous sink unless
+permitted by the flow-policy.  The use of a policy file in
 this manner allows us to avoid adding many FlowSources to a
 commonly used API or adding suppressions on invocations of
 the API.
 
-An example that would not lead to a suppressed warning
+An example that would not result in a suppressed warning
 using the previous flow-policy file would be:
 
 \begin{Verbatim}
@@ -357,45 +374,99 @@ In the above case, since B is not mapped to D in the
 policy-file the warning would not be suppressed.
 
 An important final note:
-Before the FlowPolicy checks flows from sources to sinks
+Before the flow-policy checks flows from sources to sinks
 it removes any flow that appears in the variable being assigned
-(or pseudo assigned) to.  In the case above this variable is
-sinkBcd.  If sinkBcd were instead defined as:
+(or pseudo assigned) to.  In the case above, this variable is
+\<sinkBcd>.  If \<sinkBcd> were instead defined as:
 \begin{Verbatim}
 @FlowSource({A,B}) @FlowSink({B,C,D}) Object sinkBcd = srcAbc;
 \end{Verbatim}
-Then the warning on the above line would be suppressed because
-sinkBcd already has a flow from B to D.  The user would have
-already had to suppress a warning on sinkBcd and would expect
+Then the warning on the above line would be suppressed because,
+\<sinkBcd> already has a flow from B to D.  The user would have
+already had to suppress a warning on \<sinkBcd> and would expect
 B to flow to D in this particular instance.
 
 \subsection{Defining a policy file}
 This section covers the syntax and semantics of a policy file.
-Note:  There empty bracket symbol {} is used in flow-policy
+
+Note:  The empty bracket symbol \<\{\}> is used in flow-policy
 files to denote an empty-set of FlowSources or FlowSinks.
-The effects of using the {} symbol  as well as the special
-source and special sink denoted by ANY is discussed in
-section labelled ANY and {} (None).
+The effects of using the \<\{\}> symbol  as well as the special
+source and special sink denoted by \<ANY> is discussed in
+section labelled "ANY and None".
 
-\subsection{ANY and {} (None)} \label{sec:any-none}
-
-The simplest policy file is a blank one.  A blank policy
-file would forbid all flows of any sort except for flows
-between variables with the effective annotations of
-\<@FlowSource({}) @FlowSink({})>.  Entries in the flow policy
-file are separated by newlines.  Empty or lines consisting
-solely of white-space or comments are ignored.  A mapping from
-one FlowSource to N flowSinks can be written as follows:
+The simplest policy file is a blank one.  A blank policy file
+forbids all flows of any sort except for flows between
+variables with the effective annotations of \<@FlowSource(\{\}) @FlowSink(\{\})>.
+Entries in the flow policy file are separated by newlines.
+Empty and lines consisting solely of white-space or comments are ignored.
+A mapping from one FlowSource to N flowSinks can be written as follows:
 \begin{Verbatim}
 FlowSource -> FlowSink1, FlowSink2, ..., FlowSinkN
 \end{Verbatim}
 
+In this case FlowSource must be a member of the enum
+\<sparta.checkers.quals.FlowSources.FlowSource> and all FlowSinks are
+members of the enum \<sparta.checkers.quals.FlowSinks.FlowSink>.
+
+Duplicate FlowSink entries for any given FlowSource will be ignored.
+Duplicate FlowSource entries are merged.
+
+\begin{Verbatim}
+E.g.
+   A policy file containing:
+   MICROPHONE -> NETWORK, LOGCAT, DISPLAY, NETWORK
+
+   is equivalent to:
+   MICROPHONE -> NETWORK, LOGCAT, DISPLAY
+
+   A policy file containing:
+   MICROPHONE -> NETWORK
+   MICROPHONE -> LOGCAT
+   MICROPHONE -> DISPLAY, NETWORK
+
+   is equivalent to:
+   MICROPHONE -> NETWORK, LOGCAT, DISPLAY
+\end{Verbatim}
+
+
+Notice the source and sink names should not preceded by the name of the
+enumeration which contains them. All of the examples above imply that
+MICROPHONE data is always allowed to flow to NETWORK, LOGCAT, and DISPLAY sinks.
+Any types with any other source to sink set (besides \<@FlowSource(\{\}) @FlowSinks(\{\})>)
+will raise errors.  Any assignments from a type with \<@FlowSink({MICROPHONE})>
+to a variable that only has one or more sinks of NETWORK, LOGCAT, or DISPLAY
+types will have their warnings suppressed.
+
+Comments start with a number sign(\<\#>) character and terminate a line at the \<\#> character.
+
+\begin{Verbatim}
+E.g.
+
+   #This line is ignored
+   MICROPHONE -> NETWORK \#, LOGCAT
+   #,LOGCAT would be disregarded above
+\end{Verbatim}
+
+You can use arbitrary spacing (except for newlines) providing you do not break
+the -> symbol (such as - >) and do not break any of the enumeration names.
+
+\begin{Verbatim}
+E.g.
+  MICROPHONE -> NETWORK
+     CAMERA  ->        NETWORK
+
+CAMERA -> EXTERNAL_STORAGE
+\end{Verbatim}
+
+\subsection{ANY and None}
+
 Two special types of FlowSources and FlowSinks can be found in
-a flow-policy file.  ANY sources or sinks have a corresponding
-enum value in FlowSource and FlowSink.  However, they have
-special status in the enumeration in that their use implies
-the use of all other values in FlowSource in FlowSink.  The
-same principle applies to the flow-policy file.
+a flow-policy file ANY and None(denoted by \<\{\}>).  ANY sources or sinks
+have a corresponding enum value in FlowSource and FlowSink.
+However, they have special status in the enumeration in that
+their use implies the use of all other values in FlowSource
+in FlowSink.  The same principle applies to the flow-policy file.
 \begin{Verbatim}
 E.g.
   ANY -> MICROPHONE
@@ -407,16 +478,17 @@ E.g.
   ... and so on for all members of FlowSource  excluding ANY
 \end{Verbatim}
 
-The empty set {} (None) on the other hand indicates either a
-FlowSources or FlowSinks annotation is empty.
+The above example does not map MICROPHONE to None(\<\{\}>).
+to MICROPHONE. \<\{\}> indicates either a FlowSources or FlowSinks
+annotation is empty.
 \begin{Verbatim}
 E.g.
- {} -> DISPLAY>
+ {} -> DISPLAY
 \end{Verbatim}
 The above definition indicates that variables of type
-\<@FlowSources({}) @FlowSinks(FlowSink.DISPLAY)> have valid
+\<@FlowSources(\{\}) @FlowSinks(FlowSink.DISPLAY)> have valid
 types. It also indicates that variables with
-\<@FlowSources({})> can always be assigned to variables with
+\<@FlowSources(\{\})> can always be assigned to variables with
 \<@FlowSinks(FlowSink.Display)>.
 
 \begin{Verbatim}
@@ -428,7 +500,8 @@ E.g.
 
 \begin{Verbatim}
 E.g.
-   ACCELEROMETER, NETWORK -> {}
+   ACCELEROMETER -> {}
+   NETWORK -> {}
 \end{Verbatim}
 
 The above line indicates the ACCELEROMETER and NETWORK
@@ -442,7 +515,7 @@ E.g.
    The above assignment is valid given the policy file.
 \end{Verbatim}
 
-Note that an important affect of using the {} as a sink means
+Note that an important affect of using the \<\{\}> as a sink means
 that assignments like the following now have their warning
 suppressed:
 
@@ -470,7 +543,7 @@ E.g.
 \end{Verbatim}
 
 In closing you may want to add the following definitions
-to your FlowPolicy in order to reduce the number of
+to your flow-policy in order to reduce the number of
 warnings that occur related to unannotated variables:
 \begin{Verbatim}
 ANY -> {}
@@ -479,6 +552,112 @@ ANY -> {}
 
 But you should be aware how this affects the
 warnings produced and suppressed.
+
+\subsection{Examples}
+
+Below are some examples of policy files and code examples that
+illustrate their effects.  Only assignment operations are used
+but remember that the flow-policy applies to all information flows.
+Comments in the code examples describe a direct effect of the
+given policy file.  Fake FlowSource and FlowSink names are used
+to aid in clarity.
+
+Any variable definition marked "OK" indicates that this
+definition would  be allowed given the policy file
+(and consequently also allowed in the absent of any flow-policy
+file).  Any variable definition marked "FORBIDDEN" indicates that
+the definition is forbidden by the flow-policy file.
+
+Any assignment marked "OK" indicates that this assignment is valid
+(with or without the policy file).  "OK*" means the assignment itself
+is valid but that one of variables in the assignment generates an
+error when it is defined.  An assignment marked "SUPPRESSED"
+indicates an assignment that would normally generate an error but
+this error was suppressed by the policy file.  Finally, an assignment
+marked "FORBIDDEN" indicates that the assignment will still fail
+with an error.
+
+In the absence of a flow-policy file all variable definitions
+below are valid.  Any assignment marked with SUPPRESSED or FORBIDDEN
+would generate an error in the absence of a flow-policy file.
+
+Example 1:
+\begin{Verbatim}
+Policy File 1:
+  A -> B, C, D, E, F
+  B -> C, D, E
+  C -> B
+
+Code Examples 1:
+  @FlowSource({A,B}) @FlowSink({D})   Object abToD;  //OK
+  @FlowSource({A,B}) @FlowSink({D,E}) Object abToDe; //OK
+  @FlowSource({A}) @FlowSink({D}) Object aToD;     //OK
+
+  @FlowSource({A,B}) @FlowSink({D,F}) Object abToDf; //FORBIDDEN
+  @FlowSource({E}) @FlowSink({F}) Object eToF;       //FORBIDDEN
+
+  @FlowSink({B}) Object noneToB;   //FORBIDDEN
+  @FlowSource({A}) Object aToNone; //FORBIDDEN
+  @FlowSource({Z}) Object zToNone; //FORBIDDEN
+  Object noneToNone; //OK
+  Object anotherNoneToNone; //OK
+  ...
+  abToD  = aToD;  //OK
+  abToDe = aToD;  //OK
+  aToD   = abToD; //SUPPRESSED
+  eToF   = aToD;        //FORBIDDEN
+  noneToNone = abToDe;  //FORBIDDEN
+  noneToNone = noneToB; //FORBIDDEN
+  noneToNone = anotherNoneToNone; //OK
+\end{Verbatim}
+
+Example 2:
+\begin{Verbatim}
+Policy File 2:
+  ANY -> {}
+  {} -> ANY
+
+Code Examples 2:
+  @FlowSource({A}) Object aToNone; //OK
+  @FlowSource({B}) Object bToNone; //OK
+  @FlowSink({B}) Object noneToB;   //OK
+  @FlowSource({A}) @FlowSink({A}) Object aToA; //FORBIDDEN
+  @FlowSource({B}) @FlowSink({A}) Object bToA; //FORBIDDEN
+  @FlowSource({ANY}) Object anyToNone; //OK
+  @FlowSink({ANY}) Object noneToAny; //OK
+  @FlowSource({ANY}) @FlowSink({A,B}) anyToAb; //FORBIDDEN
+  Object noneToNone; //OK;
+  ...
+  anyToNone = aToNone; //OK
+  bToNone   = aToNone; //OK
+  noneToB   = bToNone; //FORBIDDEN
+  anyToAb   = noneToNone; //OK*
+  anyToNone = noneToAny;  //OK
+\end{Verbatim}
+
+Example 3:
+\begin{Verbatim}
+Policy File 3:
+  ANY -> C, D, {}
+  {}  -> A, B
+  A -> B, D      #D is superfluous here
+  B -> B, C, D   #C and D are superfluous here
+
+Code Examples 3:
+  @FlowSink({A,B}) Object noneToAb;      //OK
+  @FlowSink({A,B,C}) Object noneToAbc;   //FORBIDDEN
+  @FlowSink({C,D}) Object noneToCd;      //FORBIDDEN
+  @FlowSink({A,B,C}) @FlowSink({C,D}) Object noneToCd; //FORBIDDEN
+  @FlowSource({A,B,C}) Object abcToNone; //OK
+  @FlowSource({ANY}) Object anyToNone;   //OK
+  @FlowSource({A,B}) @FlowSink({B,D}) Object abToBd;    //OK
+  @FlowSource({A,B,C}) @FlowSink({C,D}) Object abcToCd; //OK
+  ...
+  noneToAb = noneToCd; //OK
+  noneToAb = abcToCd;  //FORBIDDEN
+  abToBd = abcToCD;    //FORBIDDEN (nothing maps to A except {})
+  abcToNone = anyToNone; //OK
+\end{Verbatim}
 
 \section{Miscellaneous}
 
