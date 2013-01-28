@@ -1,14 +1,7 @@
 package sparta.checkers;
 
-import com.sun.source.tree.CaseTree;
-import com.sun.source.tree.CompilationUnitTree;
-import com.sun.source.tree.ConditionalExpressionTree;
-import com.sun.source.tree.DoWhileLoopTree;
-import com.sun.source.tree.ExpressionTree;
-import com.sun.source.tree.ForLoopTree;
-import com.sun.source.tree.IfTree;
-import com.sun.source.tree.WhileLoopTree;
-import com.sun.source.tree.SwitchTree;
+import checkers.types.visitors.AnnotatedTypeScanner;
+import com.sun.source.tree.*;
 
 import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
@@ -25,23 +18,18 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
 
    @Override
-   public /**@Nullable*/ String isValidUse(AnnotatedDeclaredType declarationType,
+   public boolean isValidUse(AnnotatedDeclaredType declarationType,
                                            AnnotatedDeclaredType useType) {
-       String errType = areFlowsValid(useType);
-       if(errType == null)
-           errType = areFlowsValid(declarationType);
-       return errType;
+       return areFlowsValid(useType) && areFlowsValid(declarationType);
    }
 
-   //TODO: DO I HAVE TO DO MORE HERE
    @Override
-   public /**@Nullable*/ String isValidUse(AnnotatedPrimitiveType type) {
+   public boolean isValidUse(AnnotatedPrimitiveType type) {
        return areFlowsValid(type);
    }
 
-   //TODO: DO I HAVE TO DO MORE HERE
    @Override
-   public /**@Nullable*/ String isValidUse(AnnotatedArrayType type) {
+   public boolean isValidUse(AnnotatedArrayType type) {
        return areFlowsValid(type);
    }
 
@@ -101,20 +89,26 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         return super.visitForLoop(node, p);
     }
 
-    //TODO: Questions for Mike
-    //DO WE AUTOMATICALLY ALLOW ANY -> {}
-    //WHAT ABOUT {} -> ANY
-
-    private String areFlowsValid(final AnnotatedTypeMirror atm) {
+    private boolean areFlowsValid(final AnnotatedTypeMirror atm) {
         final FlowPolicy flowPolicy = checker.getFlowPolicy();
 
         if( flowPolicy != null ) {
 
-            if( !checker.getFlowPolicy().areFlowsAllowed(atm) ) {
-                return "forbidden.flow";
-            }
+            return checker.getFlowPolicy().areFlowsAllowed(atm);
         }
 
-        return isValidToError(true);
+        return true;
+    }
+
+
+    @Override
+    protected BaseTypeVisitor<FlowChecker>.TypeValidator createTypeValidator() {
+        return new FlowTypeValidator();
+    }
+
+    protected class FlowTypeValidator extends BaseTypeVisitor<FlowChecker>.TypeValidator {
+        protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
+            reportValidityResult("forbidden.flow", type, p);
+        }
     }
 }
