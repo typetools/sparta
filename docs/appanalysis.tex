@@ -1,7 +1,7 @@
 \htmlhr
 \chapter{Android App Analysis\label{appanalysis}}
 
-This is a brief guide on how to analyze a new Android application and
+This is a brief guide on how to analyze a new unannotated Android application and
 find security vulnerabilities. This document gives a high-level view
 of the process, including how various tools relate to one another.
 
@@ -28,16 +28,16 @@ It is required to set three environment variables:
 \end{itemize}
 
 
-Update the project with your Android settings:
+The SPARTA project needs to be updated to your development environment, so that the path to the Android SDK is correct and the correct version of Android is use. (More details about updating a project are available here: \url{http://developer.android.com/tools/projects/projects-cmdline.html#UpdatingAProject}.)To update the project with your Android settings run the following:
 
 \begin{alltt}
-$ ant -buildfile $SPARTA_CODE/build.local.xml
+ant -buildfile $SPARTA_CODE/build.local.xml
 \end{alltt}
 
 Alternatively, you can run:
 
 \begin{alltt}
-$ $ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
+$ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
 \end{alltt}
 
 Edit the \<build.xml> file of the project under analysis to add the
@@ -75,6 +75,7 @@ Using Eclipse, import the projects (this requires the app to have a
     \item
     Add the sparta-code project to
     \<Project Properties $\rightarrow$ Java Build Path $\rightarrow$ Projects>
+    
   \end{itemize}
 
 \item Compile via command line (\<ant clean>, \<ant flowtest>)
@@ -113,12 +114,16 @@ Look at the AndroidManifest.xml file and:
 
 \section{Task: see where permissions are used in the application}
 
-Run \<ant reqperms> on the project to see a list of the app's methods
+Run \<ant reqperms>  to see a list of the app's methods
 that use calls that require certain Android permissions. You can use
 this to gain an understanding of where sensitive information may come
-from/go to in the application. You can remove the warning by writing
-\<@RequiredPermissions({android.Manifest.permission.|specific
-permission|})> in front of the method header in the source code.
+from/go to in the application. This command produces errors like the following:
+\begin{alltt}
+error: Call additionally requires permissions [android.permission.INTERNET], 
+   but caller only provides []!
+\end{alltt}
+You can remove the error by writing
+\<@RequiredPermissions({android.Manifest.permission.\emph{PERMISSION}})> in front of the method header in the source code.
 
 Once all methods in the subject application are correctly annotated,
 \<ant reqperms> will not issue any warnings.
@@ -136,12 +141,12 @@ in the application.
 \section{Task: see what precise APIs are used where in the application}
 
 Run \<ant reportusage>, \<ant reportusage-json>, or \<ant
-reportusage-text> to get a report of the used APIs.
-\<ant reportusage> only reports about some Android APIs.
-The reported APIs are specified in two files:
-\<sparta-code/src/sparta/checkers/report.astub> and \<reflection.astub>
-Additional \<.astub> files can be passed as \<-Astubs=...> argument in the
-build file.
+reportusage-text> to get a report of the used APIs. The
+\<reportusage>  only reports about Android APIs that appear in two files:
+\<sparta-code/src/sparta/checkers/report.astub> and \<reflection.astub>. 
+%TODO: I think this belongs in the next section
+%Additional \<.astub> files can be passed as \<-Astubs=...> argument in the
+%build file.
 
 
 \section{Task: ensure that the used APIs are annotated with flow information\label{flow-task-annotate-apis}}
@@ -151,8 +156,8 @@ annotations.  You may need to enhance it, if you find that your application
 uses APIs that are not yet annotated.
 (The  more APIs get annotated, the less work you will have to do in this
 step for each new app.)
-Note that the \emph{fully qualified name} is required for \<FlowSources> and 
-\<FlowSinks> annotations in the \<flow.astub> file.
+%Note that the \emph{fully qualified name} is required for \<FlowSources> and 
+%\<FlowSinks> annotations in the \<flow.astub> file.
 For details, see chapter
 ``Annotating libraries'' in the Checker Framework manual.
 
@@ -162,14 +167,14 @@ An example from \<flow.astub> is:
 package android.telephony;
 
 class TelephonyManager {
-    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.PHONE_NUMBER) String getLine1Number();
-    public @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.IMEI) String getDeviceId();
+    public @FlowSources(FlowSource.PHONE_NUMBER) String getLine1Number();
+    public @FlowSources(FlowSource.IMEI) String getDeviceId();
 }
 \end{Verbatim}
 
 \noindent
 The above annotates two methods in class \<TelephonyManager>.
-It means that the \<getLine1Number> function returns a String which is
+It indicates that the \<getLine1Number> function returns a String which is a
 phone number.  For more examples, look into the \<flow.astub> file.
 
 For every API method used by this app (i.e., those output by \<ant
@@ -187,10 +192,10 @@ appropriate flow properties expressed as \<@FlowSinks(...)> and
 It would be unusual for an API method to contain both a \<@FlowSources>
 and a \<@FlowSinks> annotation.
 
-If the method has no flow, you can write the 
-\<@FlowSources>
-and \<@FlowSinks> annotations on each parameter and the return type, \emph{or} you can write a single 
-\<@NoFlow> declaration annotation.
+If the method has no flow, you can write  
+\<@FlowSources(...)> \<@FlowSinks(...)>  on each parameter and the return type, 
+\emph{or} you can write a single 
+\<@NoFlow> declaration annotation on the method.
 This annotation is short-hand for annotating the return type and each
 parameter as not having any flow.
 It is important to mark API methods that have no flow, so that the method
@@ -199,10 +204,13 @@ API does not need to perform the same analysis again.
 \end{itemize}
 
 
-Note: we have not yet added any annotations to the app itself.
+Note: you have not yet added any annotations to the app itself.
 
 
 \section{Task: visualize the existing flow in the application}
+
+You do not have to run this step -- you can skip it if you
+prefer.
 
 Run \<ant flowshow> or \<ant flowshow-json> to get a report of the
 existing flow.
@@ -225,37 +233,34 @@ For an unannotated program, the report will not be informative: it
 only contains API annotations that are propagated to local
 variables. The report will become more informative as you add more and
 more annotations to the application. So, you can periodically rerun
-this step. (You don't have to run this step -- you can skip it if you
-prefer.)
+this step. 
 
 
 \section{Task: check the flow in the application}
 
 Run \<ant flowtest> on the application.
-Eliminate the warnings in one of two ways.
-
-Add annotations to method signatures and fields in the application, as
+Eliminate each warning in one of two ways.
+\begin{enumerate}
+\item Add annotations to method signatures and fields in the application, as
 required by the type-checker. This essentially propagates the flow
 information required by the APIs through the application.
 
-Use \<@SuppressWarnings> to indicate safe uses that are safe for reasons
+\item Use \<@SuppressWarnings> to indicate safe uses that are safe for reasons
 that are beyond the capabilities of the type system. Always write a
 comment that justifies that it is safe.
-
+\end{enumerate}
 A prime example is a String literal that should be allowed to be sent
 over the network. By default, every literal has \<@FlowSinks()>
 (i.e., nothing) and \<@FlowSources()>.
 
 \begin{alltt}
-    // Validated String literal, with no query parameters
-    // that have my credit card number.
-    @SuppressWarnings("flow") // manually checked
+    @SuppressWarnings("flow") // manually verified to not contain secret data
     @FlowSinks(FlowSink.NETWORK) String url = "http://bazinga.com/";
 \end{alltt}
 
-Without suppression this must raise an error, as some unqualified
-information may go to the network. By adding the suppression, you
-assert that it's OK to send that information.
+Without suppression the assignment raises an error, because string literals
+are assumed to be annotated with @NoFlow. By adding the suppression, you
+assert that it's OK to send this string to the network. 
 
 Focus on the most interesting flow sources and try to connect the flow
 sources and sinks in the application. Instead of trying to completely
