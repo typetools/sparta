@@ -111,6 +111,31 @@ Look at the AndroidManifest.xml file and:
   etc.
 \end{itemize}
 
+\section{Task: write a flow-policy file}
+
+Use your understanding of the App to write a flow-policy file.  A full description of Flow Policies can be 
+found in Section~\ref{sec:flowpolicy}.   You should also familiarize yourself with all the possible sources and sinks; 
+ all FlowSources  are
+members of the enum \<sparta.checkers.quals.FlowSources.FlowSource> and all FlowSinks are
+members of the enum \<sparta.checkers.quals.FlowSinks.FlowSink>.
+
+To begin, read the App description, looking for clues about the information flow.  For example,
+if this is a map app, does the description say anything about sending your location data over the
+ network?  If so, then you should add LOCATION $\rightarrow$ NETWORK to the flow-policy file.  Where
+else does the description say LOCATION data can go?   
+
+Theoretically you should be able to write a complete Flow Policy from the description 
+if the App does not contain malware.  In practice, you will have to add flows to the policy file as you
+ more fully annotate the app, but you should make note of what additional flows you had to add.
+ 
+ After you have written the flows that are apparent from the description, you may want to see if the App
+  has any ``use permissions'' in the AndroidManifest.xml file that are not listed in the flow policy. 
+  (Permissions are not one-to-one with sinks and sources, but the name of the permission should give 
+  a clue about which sources and sinks are involved.)  For example, if the SEND\_SMS permission is 
+  requested, then SMS should be listed as a flow sink somewhere in the policy file.  If this is not the 
+  case, do not add it to the policy file, but pay close attention to how this permission is used in the 
+  code.
+
 
 \section{Task: see where permissions are used in the application}
 
@@ -130,6 +155,9 @@ Once all methods in the subject application are correctly annotated,
 Grep for \<@RequiredPermissions> to find the required permissions
 in the application.
 
+Any permission that is required should already be listed in the AndroidManifest.xml file. 
+
+
 
 % TODO: The required permission information is based on Android 2.2
 % information. Explain the caveat of Android 4.0 changes and the issue
@@ -140,8 +168,7 @@ in the application.
 
 \section{Task: see what precise APIs are used where in the application}
 
-Run \<ant reportusage>, \<ant reportusage-json>, or \<ant
-reportusage-text> to get a report of the used APIs. The
+Run \<ant reportusage> to get a report of the used APIs. The
 \<reportusage>  only reports about Android APIs that appear in two files:
 \<sparta-code/src/sparta/checkers/report.astub> and \<reflection.astub>. 
 %TODO: I think this belongs in the next section
@@ -212,14 +239,16 @@ Note: you have not yet added any annotations to the app itself.
 You do not have to run this step -- you can skip it if you
 prefer.
 
-Run \<ant flowshow> or \<ant flowshow-json> to get a report of the
+Run \<ant flowshow> o get a report of the
 existing flow.
 For every type use in the application, it indicates the flow sources
 and sinks for that variable. This is exactly the annotations written
 in the program, plus possibly some additional annotations that are
 inferred by the Checker Framework.
-The \<-json> version creates file flowshow.json that can be visualized
-separately.
+
+%We don't support this
+%The \<-json> version creates file flowshow.json that can be visualized
+%separately.
 
 This step does not perform type-checking; it only visualizes the flow
 information written in the program or libraries as annotations, or
@@ -227,7 +256,8 @@ inferred from those annotations.
 
 The report is interesting exactly when a given type use contains both
 a \<@FlowSource> and a \<@FlowSink> annotation. This is an information flow,
-and the analyst must decide whether it is desirable or undesirable.
+and the analyst must decide whether it is desirable or undesirable.  The analyst
+should then write the desirable information flow into the policy file.
 
 For an unannotated program, the report will not be informative: it
 only contains API annotations that are propagated to local
