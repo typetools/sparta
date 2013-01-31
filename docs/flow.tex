@@ -236,7 +236,7 @@ command line pass it the option:
 
 \subsection{The Syntax of a Policy File}
 
-Each line of a policy file specifies a source-to-sink flow that is permitted, an in
+Each line of a policy file specifies a source-to-sink flow that is permitted, as in
 \<MICROPHONE$\rightarrow$NETWORK>, which implies that
 MICROPHONE data is always allowed to flow to NETWORK.  
 The source must be a member of the enum
@@ -244,7 +244,9 @@ The source must be a member of the enum
 member of the enum 
 
 \noindent\verb+sparta.checkers.quals.FlowSinks.FlowSink+.  The source 
-and sink names should not preceded by the name of the enumeration which contains them.   Note that ANY and \{\} are allowed just as they are in @FlowSources and @FlowSinks.  It is permitted to write multiple surouces or sinks separated by commons. For example, 
+and sink names should not be preceded by the name of the enumeration which contains them.
+Note that ANY and \{\} are allowed just as they are in @FlowSources and @FlowSinks.
+It is permitted to write multiple surouces or sinks separated by commas. For example,
 these two policy files have the same meaning:
 
 
@@ -267,7 +269,7 @@ a number sign(\<\#>) character.
 \label{sec:undsiredflows}
 The Flow Checker guarantees that there is no information
 flow except for what is explicitly permitted by the policy file. If a user writes a type that is
-not permitted by the policy file, then the flow checker issues a warning  even if all types in program otherwise type check. For example if a user writes some like this:
+not permitted by the policy file, then the flow checker issues a warning  even if all types in program otherwise type check. For example if a user writes something like this:
 \begin{alltt}
 @FlowSource(FlowSource.CAMERA) @FlowSink(NETWORK) Video video = ...
 \end{alltt}
@@ -521,7 +523,7 @@ to aid in clarity.
 
 Any variable definition marked "OK" indicates that this
 definition would  be allowed given the policy file
-(and consequently also allowed in the absent of any flow-policy
+(and consequently also allowed in the absence of any flow-policy
 file).  Any variable definition marked "FORBIDDEN" indicates that
 the definition is forbidden by the flow-policy file.
 
