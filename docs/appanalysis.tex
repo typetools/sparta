@@ -205,15 +205,21 @@ Run \<ant reportusage> to get a report of the used APIs. The
 
 \subsection{Task: ensure that the used APIs are annotated with flow information\label{flow-task-annotate-apis}}
 
-File \<sparta-code/src/sparta/checkers/flow.astub> provides library
-annotations.  You may need to enhance it, if you find that your application
+File \<sparta-code/src/sparta/checkers/flow.astub> provides Android and Java
+library annotations.  You may need to enhance it, if you find that your application
 uses APIs that are not yet annotated.
 (The  more APIs get annotated, the less work you will have to do in this
-step for each new app.)
+step for each new app.) You should not annotate libraries that are unique to your application in flow.astub;
+instead, annotated them in a new *.astub file. You can pass this file to be used with 
+\emph{flowtest} or any of the other ant targets.
+
+\begin{alltt}
+ant -Dstubs=\emph{path/myAnnoLib.astub} flowtest
+\end{alltt}
+
 %Note that the \emph{fully qualified name} is required for \<FlowSources> and 
 %\<FlowSinks> annotations in the \<flow.astub> file.
-For details, see chapter
-``Annotating libraries'' in the Checker Framework manual.
+
 
 An example from \<flow.astub> is:
 
@@ -229,7 +235,8 @@ class TelephonyManager {
 \noindent
 The above annotates two methods in class \<TelephonyManager>.
 It indicates that the \<getLine1Number> function returns a String which is a
-phone number.  For more examples, look into the \<flow.astub> file.
+phone number.  For more examples, look into the \<flow.astub> file. Also, see 
+the manual \url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}
 
 For every API method used by this app (i.e., those output by \<ant
 reportusage>) that does \emph{not} already appear in file
