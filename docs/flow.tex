@@ -65,7 +65,8 @@ qualifier hierarchy.  The top type is \<@FlowSources(ANY)>, which is
 shorthand for listing every source.  It would be legal to annotate every
 variable in a program with \<@FlowSources(ANY)>, because every variable is
 derived from some subset of all flow sources.  But, such an annotation
-would be imprecise.  \<@FlowSources({})> is the bottom type, and may only
+would be imprecise.  \<@FlowSources(\ttcbs)> or \<@FlowSources()> is the
+bottom type, and may only
 be applied to variables whose value does not depend on any sensitive
 source.
 
@@ -77,7 +78,8 @@ source.
 \end{figure}
 
 \figref{fig:flowsinks-hierarchy} shows part of the \<@FlowSinks>
-qualifier hierarchy.  The top type is \<@FlowSinks(\{\})>, which indicates
+qualifier hierarchy.  The top type is \<@FlowSinks(\ttcbs)> or
+\<@FlowSinks()>, which indicates
 that the value is only used locally by the application and never flows to
 any sensitive sink.  The bottom type, \<@FlowSinks(FlowSinks.ANY)>, is a
 value that might be output to any location whatsoever; it can be thought of
