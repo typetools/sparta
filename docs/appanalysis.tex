@@ -1,14 +1,41 @@
 \htmlhr
 \chapter{Android App Analysis\label{appanalysis}}
 
-This is a brief guide on how to analyze a new unannotated Android application and
+This is a brief guide on how to analyze an Android application and
 find security vulnerabilities. This document gives a high-level view
 of the process, including how various tools relate to one another.
 
 For details about how to install and run the code analysis tools, see \chapref{installation}.
 
+\section{How to Analyze an Annotated App}
+Analyzing an annotated app is much simpler than analyzing an unannotated one.  Basically, the analysis consists of answering affirmatively three questions.
 
-\section{Task:  set up the tools for the new application}
+\begin{enumerate}
+\item Does the Flow Checker produces any errors or warnings?
+\item Does the flow-policy file match the application description?
+\item Do the arguments for every @SuppressWarning make sense?
+\end{enumerate}
+
+\subsection{Run the Flow Checker}
+Does the Flow Checker produces any errors or warnings? A well annotated app should not produce
+any warnings or errors.  If it does, this would be grounds for rejection.  (You can follow the instructions 
+in subsection~\ref{subsec:setupapp} to set up the app for use with the Flow Checker and then run
+\<ant flowtest>.)
+
+\subsection{Review the Flow Policy}
+Does the flow-policy file match the application description? There should not be any flows that are not 
+explained in the description.  These flows may be explicitly stated, such as ``encrypt and sign messages, send them via your preferred email app.''   Or a flow may only be implied, such as ``This Application allows the user to share pics with their contacts.''  In the first example, you would expect an EMAIL sink to appear somewhere in the policy file. In the second, ``share'' could mean a you would see a Flow Sink of EMAIL, SMS, NETWORK, or something else.  Flows that are only implied in the description could be grounds for rejection if the description is too vague. 
+
+\subsection{Review @SuppressWarning Justifications}
+ Do the arguments for every @SuppressWarning make sense? Search for every instance of 
+ @SuppressWarnings(``flow'') and read the justification comment.  Compare the justification to the
+  actual code and determine if it make sense and should be allowed.  No justification comment 
+  could be grounds for rejection.
+  
+\section{How to Analyze an Unannotated App}
+
+\subsection{Task:  set up the tools for the new application}
+\label{subsec:setupapp}
 
 Checking applications
 
@@ -96,7 +123,7 @@ with Ant. To fix this, in ant.properties, add ``\<jar.libs.dir=lib>''
 (or wherever the \<.jar> is located).
 
 
-\section{Task: get a basic understanding of the application}
+\subsection{Task: get a basic understanding of the application}
 
 Look at the AndroidManifest.xml file and:
 \begin{itemize}
@@ -111,7 +138,7 @@ Look at the AndroidManifest.xml file and:
   etc.
 \end{itemize}
 
-\section{Task: write a flow-policy file}
+\subsection{Task: write a flow-policy file}
 
 Use your understanding of the App to write a flow-policy file.  A full description of Flow Policies can be 
 found in Section~\ref{sec:flowpolicy}.   You should also familiarize yourself with all the possible sources and sinks; 
@@ -137,7 +164,7 @@ if the App does not contain malware.  In practice, you will have to add flows to
   code.
 
 
-\section{Task: see where permissions are used in the application}
+\subsection{Task: see where permissions are used in the application}
 
 Run \<ant reqperms>  to see a list of the app's methods
 that use calls that require certain Android permissions. You can use
@@ -166,7 +193,7 @@ Any permission that is required should already be listed in the AndroidManifest.
 
 
 
-\section{Task: see what precise APIs are used where in the application}
+\subsection{Task: see what precise APIs are used where in the application}
 
 Run \<ant reportusage> to get a report of the used APIs. The
 \<reportusage>  only reports about Android APIs that appear in two files:
@@ -176,7 +203,7 @@ Run \<ant reportusage> to get a report of the used APIs. The
 %build file.
 
 
-\section{Task: ensure that the used APIs are annotated with flow information\label{flow-task-annotate-apis}}
+\subsection{Task: ensure that the used APIs are annotated with flow information\label{flow-task-annotate-apis}}
 
 File \<sparta-code/src/sparta/checkers/flow.astub> provides library
 annotations.  You may need to enhance it, if you find that your application
@@ -234,7 +261,7 @@ API does not need to perform the same analysis again.
 Note: you have not yet added any annotations to the app itself.
 
 
-\section{Task: visualize the existing flow in the application}
+\subsection{Task: visualize the existing flow in the application}
 
 You do not have to run this step -- you can skip it if you
 prefer.
@@ -266,7 +293,7 @@ more annotations to the application. So, you can periodically rerun
 this step. 
 
 
-\section{Task: check the flow in the application}
+\subsection{Task: check the flow in the application}
 
 Run \<ant flowtest> on the application.
 Eliminate each warning in one of two ways.
