@@ -44,7 +44,10 @@
             <condition property="lintoptions"
                    value="-Alint=cast:strict,arrays:invariant"
                    else="">
-                <equals arg1="${stricter}" arg2="true" />
+                <or>
+                    <equals arg1="${stricter}" arg2="true" />
+                    <equals arg1="${sound}" arg2="true" />                
+                </or>
             </condition>
 
             <!--classpathref="android.target.classpath"-->
