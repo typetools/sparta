@@ -399,6 +399,8 @@ class Activity {
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
 	@NoFlow
 	@RequiredPermissions(android.Manifest.permission.INTERNET) void setContentView(int layoutResID);
+	@NoFlow
+	void setContentView(View v);
 	//setPersistent() is a hidden method.
 	//@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
 	@NoFlow
@@ -1667,6 +1669,13 @@ class WifiManager$WifiLock {
 	@RequiredPermissions(android.Manifest.permission.WAKE_LOCK) Object release();
 }
 
+package android.opengl;
+
+class GLSurfaceView {
+	@NoFlow
+	void setRenderer(Renderer r);
+}
+
 package android.os;
 
 class AsyncTask {
@@ -2359,9 +2368,11 @@ class View {
 }
 
 class Window {
-	void setFlags(int flags, int mask) @FlowSources({FlowSource.ANY});
+	void setFlags(@FlowSinks({}) int flags, @FlowSinks({}) int mask) @FlowSources({FlowSource.ANY});
 	@NoFlow
 	void addFlags(int flags);
+        @NoFlow
+        void setAttributes(@FlowSources({FlowSource.ANY}) android.view.WindowManager.LayoutParams a);
 }
 
 class WindowManager {
@@ -2726,6 +2737,10 @@ class OutputStream {
 class OutputStreamWriter {
 	void close() @PolyFlowSources @PolyFlowSinks;
 	void flush() @PolyFlowSources @PolyFlowSinks;
+}
+
+class PrintStream {
+	void println(@FlowSources(FlowSource.ANY) @FlowSinks({}) Object x);
 }
 
 class Reader {
