@@ -109,8 +109,28 @@ public class FlowPolicy {
         final Set<FlowSource> sources = new HashSet<FlowSource>(from.first);
         final Set<FlowSink>   sinks   = new HashSet<FlowSink>(to.second);
 
+        //hadSources and hadSinks is intended to guard against situtations similar to the following:
+        // @FlowSource(A,B) @FlowSource(C,D) from;
+        // @FlowSource(A,B) @FlowSink(C,E) to;
+        // to = from;
+        // In this situtation we want to check the flows A->C, A->E, B->C, B->E
+        // After removing sinks and sources we would end up with the following flows to check:
+        // sources({}) sinks(E)
+        // But {} -> E is not actually one of the flows we wanted to check.  In fact, since
+        // sources is empty we know that all of the flows we wanted to check are allowed.
+        // We could also have situations like E -> {} when in fact we don't want to check
+        // the empty set of sinks.
+        boolean hadSources = !sources.isEmpty();
+        boolean hadSinks   = !sinks.isEmpty();
+
         sources.removeAll(to.first);
         sinks.removeAll(from.second);
+
+        if( hadSources && sources.isEmpty() ) {
+            sinks.clear();
+        } else if(hadSinks && sinks.isEmpty() ) {
+            sources.clear();
+        }
 
         return Pair.of(sources, sinks);
     }
@@ -118,6 +138,7 @@ public class FlowPolicy {
     public boolean suppressFlowWarnings(final AnnotatedTypeMirror lhs, final AnnotatedTypeMirror rhs) {
         final Pair<Set<FlowSource>, Set<FlowSink>> flows =
                 findUncheckedFlows(annotatedTypeMirrorToFlows(rhs), annotatedTypeMirrorToFlows(lhs));
+
         return areFlowsAllowed(flows);
     }
 
