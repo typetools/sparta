@@ -26,6 +26,7 @@
         <!-- The processor to apply. -->
         <attribute name="processor"/>
         <attribute name="stub" default="${stubs}"/>
+         <attribute name="flowPolicy" default="${flowPolicy}"/>
         <!-- Optional additional tasks to perform at the end. -->
         <element name="more-tasks" optional="yes"/>
         <sequential>
@@ -65,7 +66,7 @@
                     <pathelement location="${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
-                <compilerarg line=" -processor @{processor} -Astubs=@{stub} "/>
+                <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} "/>
                 <compilerarg line="-encoding ISO8859-1 -AprintErrorStack -AstubWarnIfNotFound" />
             </jsr308.javac>
             <more-tasks/>
