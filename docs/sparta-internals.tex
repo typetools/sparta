@@ -21,7 +21,14 @@ $ hg clone ssh://YOURID@SERVERNAME//projects/swlab1/darpa-apac/sparta-code
 and similarly for the other three repositories.
 
 To push your changes to the repository you need to be in the \<sparta> Unix
-group. Contact Werner or Mike to get the permission.
+group. Contact Werner or Mike to get the permission.  Also, if you are going to push changes, please add a .hgrc file to your home directory on the server.  The .hgrc file should contain:
+\begin{Verbatim} 
+[trusted]
+users = wmdietl
+groups = sparta
+\end{Verbatim}
+
+This allows emails to be sent when you push changes. 
 
 Note that SPARTA as well as the Checker Framework are evolving
 rapidly.
