@@ -93,7 +93,7 @@ The default qualifiers are \<@FlowSinks({})> and \<@FlowSources({})>.  This
 default applies to field types, method parameters and return types,
 manifest constants
 (string literals, \<1.0>, \<true>, \<3>, \<'c'>,
-\ldots), and all other locations except local variables.
+\ldots), and all other locations except local variables and \emph{null}. The qualifiers for local variables and \emph{null} will be explained later. 
 
 This means that this variable declaration raises an error:
 
@@ -112,7 +112,8 @@ Do not forget to write a brief comment that justifies why this flow is permitted
 The \<@ConservativeFlow> annotation changes the default for return types;
 see Section~\ref{ConservativeFlow}.
 
-For \textbf{local variables}, the default is the top type for each
+
+For \emph{local variables}, the default is the top type for each
 hierarchy, that is, \<@FlowSources(ANY) @FlowSinks({})>.  This applies to
 the top level of the local variable type, but not to generic type arguments
 and array elements, if any.
@@ -123,6 +124,10 @@ initializers) are used to refine the type to a more precise one.  Thus, in
 general you do not have to write type annotations on local variables.  For
 details, see section ``Automatic type refinement (flow-sensitive type
 qualifier inference)'' in the Checker Framework manual.
+
+
+The value \emph{null} has the bottom type (@FlowSinks(FlowSink.ANY) @FlowSources), 
+so that it can be assigned to any type. 
 
 
 \section{Qualifier polymorphism}
