@@ -110,5 +110,14 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
             reportValidityResult("forbidden.flow", type, p);
         }
+ 
+        protected void reportValidityResult(final String errorType, final AnnotatedTypeMirror type, final Tree p) {
+        	
+            checker.report(Result.failure(errorType,
+                    type.toString()), p);
+
+            isValid = false;
+        }
+
     }
 }
