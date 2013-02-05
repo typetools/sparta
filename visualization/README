@@ -2,6 +2,6 @@ The names of the data files are "API Graph Data.json" and "Flow Graph
 Data.json".
 
 The visualization files don't work in Firefox for some reason; they work in
-Safari and Chrome. If using Chrome, you must launch Chrome with the command-
-line argument --allow-file-access-from-files in order to let Chrome allow local
-HTML files to read local files.
+Safari and Chrome. If using Chrome, you must launch Chrome with the
+command-line argument --allow-file-access-from-files in order to let Chrome
+allow local HTML files to read local files.
