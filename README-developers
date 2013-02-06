@@ -21,11 +21,8 @@ http://buffalo.cs.washington.edu:8080/view/SPARTA/
 Cloning the repository
 ======================
 
-To clone the repository, run this command from a machine on the CSE file system:
-  hg clone ssh://projects/swlab1/darpa-apac/sparta-code
-Or, run this command from a machine not on the CSE file system (replacing
-the metavariables):
-  hg clone ssh://YOURID@SERVERNAME//projects/swlab1/darpa-apac/sparta-code
+To clone the repository, run this command:
+  hg clone https://dada.cs.washington.edu/hgweb/sparta-code
 
 Then, read the README.
 

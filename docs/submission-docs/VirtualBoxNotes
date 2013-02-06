@@ -67,10 +67,8 @@ https://www.virtualbox.org/manual/
 	d. mkdir sparta
 	e. cd sparta
 	f. I checked out sparta using git over ssh using the following command:
-	   hg clone ssh://jburke@coco//projects/swlab1/darpa-apac/sparta-code/ sparta-code
-	   hg clone ssh://jburke@coco//projects/swlab1/darpa-apac/sparta-subjects/ sparta-subjects
-	   Note: the second / after coco is important to make the path relative to the root
-	   and not your home directory.
+	   hg clone https://dada.cs.washington.edu/hgweb/sparta-code
+	   hg clone https://dada.cs.washington.edu/hgweb/sparta-subjects
 	g. Install ant:
 	   sudo apt-get install ant
 	h. build the docs.(The directions below are based on the README in the docs folder),
