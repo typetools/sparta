@@ -2762,6 +2762,7 @@ class Character {
 }
 	
 class Double {
+    static @PolyFlowSources @PolyFlowSinks long doubleToLongBits(@PolyFlowSources @PolyFlowSinks double d);
 	static @PolyFlowSources @PolyFlowSinks boolean isNaN(@PolyFlowSources @PolyFlowSinks double d);
 	static @PolyFlowSources @PolyFlowSinks double parseDouble(@PolyFlowSources @PolyFlowSinks String string);
 	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks double d);
