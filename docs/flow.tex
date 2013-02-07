@@ -1,7 +1,7 @@
 \htmlhr
 \chapter{Flow Checker\label{flow-checker}}
 
-This chapter gives a brief overview of the Flow Checker, a type checker that 
+This chapter gives a brief overview of the Flow Checker, a type-checker that 
 tracks information flow through your program.  It gives a guarantee that there
  is no information flow beyond what is expressed in type annotations.
 
@@ -192,7 +192,7 @@ This two-phase approach was chosen to reduce
 the annotation effortand to give two separate phases of
 the annotation effort.
  The sound checking enforces invariant 
-array sub typing and type safety in downcasts.
+array subtyping and type safety in downcasts.
 
 
 When strict checks are turned on,
@@ -250,17 +250,15 @@ Each line of a policy file specifies a source-to-sink flow that is permitted, as
 \<MICROPHONE$\rightarrow$NETWORK>, which implies that
 MICROPHONE data is always allowed to flow to NETWORK.  
 The source must be a member of the enum
-\verb+sparta.checkers.quals.FlowSources.FlowSource+ and the sink must be a
+\<sparta.checkers.quals.FlowSources.FlowSource> and the sink must be a
 member of the enum 
-
-\noindent\verb+sparta.checkers.quals.FlowSinks.FlowSink+.  The source 
+\<sparta.checkers.quals.FlowSinks.FlowSink>.  The source 
 and sink names should not be preceded by the name of the enumeration which contains them.
 Note that ANY and \{\} are allowed just as they are in @FlowSources and @FlowSinks.
+
 It is permitted to write multiple surouces or sinks separated by commas. For example,
 these two policy files have the same meaning:
 
-
- The policy file:
 \begin{alltt}
    MICROPHONE -> NETWORK, LOGCAT, DISPLAY
 \end{alltt}
@@ -271,43 +269,45 @@ is equivalent to this policy file:
    MICROPHONE -> DISPLAY, NETWORK
 \end{alltt}
 
-Also, the policy file may also contain blank lines and comments which begin with 
-a number sign(\<\#>) character.
+The policy file may contain blank lines and comments that begin with 
+a number sign (\<\#>) character.
 
 
 \subsection{Forbidding Undesired Flows}
 \label{sec:undsiredflows}
 The Flow Checker guarantees that there is no information
 flow except for what is explicitly permitted by the policy file. If a user writes a type that is
-not permitted by the policy file, then the flow checker issues a warning  even if all types in program otherwise type check. For example if a user writes something like this:
+not permitted by the policy file, then the flow checker issues a warning
+even if all types in program otherwise typecheck.
+
+For example, this variable declaration
+
 \begin{alltt}
 @FlowSource(FlowSource.CAMERA) @FlowSink(NETWORK) Video video = ...
 \end{alltt}
 
-But the policy file does not contain the following.
+\noindent
+is illegal unless the the policy file contains:
 
 \begin{alltt}
 CAMERA -> NETWORK
 \end{alltt}
 
-Then sources with CAMERA would never be allowed to flow to the 
-NETWORK and the previous definition of the variable \<video> will raise an error.
-
 Here is another example.
-The  flow policy file contains:
+The flow policy file contains:
 \begin{alltt}
   ACCOUNTS      -> EXTERNAL_STORAGE, FILESYSTEM
   ACCELEROMETER -> EXTERNAL_STORAGE, FILESYSTEM, NETWORK
 \end{alltt}
 
-The following variable declarations would not generate warnings using the above flow-policy file:
+The following variable declarations are permitted:
 \begin{alltt}
   @FlowSources(FlowSource.ACCOUNTS) @FlowSinks(FlowSink.EXTERNAL_STORAGE) Account acc = ...
   @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
   @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILE_SYSTEM}) int accel = ...
 \end{alltt}
 
-The following definitions would generate forbidden flow errors:
+The following definitions would generate ``forbidden flow'' errors:
 \begin{Verbatim}
   @FlowSources(FlowSource.ACCOUNTS) @FlowSinks(@FlowSink.NETWORK) Account acc = ...
   @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
@@ -317,9 +317,9 @@ The following definitions would generate forbidden flow errors:
 If you are using a policy file then it is important to know that unless
 you explicitly list a flow from a source X to a sink Y then all
 information flow from X to Y is forbidden.  For instance,
-if  your policy file never mentions NETWORK as a source then, your application
+if  your policy file never mentions NETWORK as a source, then your application
 cannot read any network data without generating an error.  If it never
-mentions NETWORK as a sink then, it can never write to the network without
+mentions NETWORK as a sink, then it can never write to the network without
 generating an error.
 
 
@@ -338,7 +338,7 @@ issues no warnings.
 This is also the case with arguments passed to method calls.  For instance, suppose there
 was a method call to send text messages as follows:
 \begin{Verbatim}
-public void sendTxt(@FlowSinks(FlowSink.TEXTMESSAGE)String msg, PhoneNumber num)
+public void sendTxt(@FlowSinks(FlowSink.TEXTMESSAGE) String msg, PhoneNumber num)
 \end{Verbatim}
 
 Without a flow-policy file, every time \<sendTxt(myMsg, num)> is
@@ -358,7 +358,7 @@ The following line would normally produce an error due to our subtyping rules:
   sendText(getAccelerometerData(), myPhysiciansNumber);
 \end{Verbatim}
 
-However, if the following line appears in the flow-policy file then, this warning is suppressed:
+However, if the following line appears in the flow-policy file, then this warning is suppressed:
 \begin{Verbatim}
   ACCELEROMETER -> TEXTMESSAGE
 \end{Verbatim}
@@ -369,7 +369,7 @@ passing of parameters) must have a mapping in the flow-policy
 file to all of the FlowSinks on the left-hand side of the policy
 file.  In the case above, the return type of
 \<getAccelerometerData()> is on the right-hand side and the
-msg parameter is on the left-hand side.  An example using
+\<msg> parameter is on the left-hand side.  An example using
 assignments is given below  (fake sources/sinks are used and the
 enum class names are omitted for brevity):
 
