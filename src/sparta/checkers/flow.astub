@@ -2806,6 +2806,7 @@ class Math {
 	static @PolyFlowSources @PolyFlowSinks double atan(@PolyFlowSources @PolyFlowSinks double d);
 	static @PolyFlowSources @PolyFlowSinks double atan2(@PolyFlowSources @PolyFlowSinks double y, @PolyFlowSources @PolyFlowSinks double x);
 	static @PolyFlowSources @PolyFlowSinks double log10(@PolyFlowSources @PolyFlowSinks double d);
+	static @PolyFlowSources @PolyFlowSinks int min(@PolyFlowSources @PolyFlowSinks int i1, @PolyFlowSources @PolyFlowSinks int i2);
 	static @PolyFlowSources @PolyFlowSinks long min(@PolyFlowSources @PolyFlowSinks long l1, @PolyFlowSources @PolyFlowSinks long l2);
 	static @PolyFlowSources @PolyFlowSinks double pow(@PolyFlowSources @PolyFlowSinks double x, @PolyFlowSources @PolyFlowSinks double y);
 }
