@@ -30,7 +30,7 @@ public @interface FlowSources {
          * Using this constant is preferred to listing all constants, because it's future safe.
          */
         ANY,
-        
+        LITERAL,
         ACCOUNTS,
         ACCELEROMETER,
         CAMERA,

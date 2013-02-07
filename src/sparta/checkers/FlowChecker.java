@@ -38,9 +38,12 @@ import sparta.checkers.quals.PolyFlowSources;
 @SupportedOptions({FlowPolicy.POLICY_FILE_OPTION})
 public class FlowChecker extends BaseTypeChecker {
 
-    protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES, POLYFLOWSOURCES;
+    
+	protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES, POLYFLOWSOURCES;
     protected AnnotationMirror NOFLOWSINKS, ANYFLOWSINKS, POLYFLOWSINKS;
     protected AnnotationMirror POLYALL;
+    protected AnnotationMirror LITERALFLOWSOURCE;
+    
     protected FlowPolicy flowPolicy;
 
     @Override
@@ -60,6 +63,10 @@ public class FlowChecker extends BaseTypeChecker {
         builder = new AnnotationBuilder(processingEnv, FlowSinks.class.getCanonicalName());
         builder.setValue("value", new FlowSink[] { FlowSink.ANY });
         ANYFLOWSINKS = builder.build();
+        
+        builder = new AnnotationBuilder(processingEnv, FlowSources.class.getCanonicalName());
+        builder.setValue("value", new FlowSource[] { FlowSource.LITERAL });
+        LITERALFLOWSOURCE = builder.build();
 
         sourceValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSources", "value", 0, processingEnv);
         sinkValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSinks", "value", 0, processingEnv);
