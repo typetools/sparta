@@ -1698,6 +1698,7 @@ class DropBoxManager {
 class Environment {
 	@RequiredPermissions({android.Manifest.permission.WRITE_EXTERNAL_STORAGE, /*OR*/ android.Manifest.permission.READ_EXTERNAL_STORAGE})
 	@FlowSources(FlowSource.EXTERNAL_STORAGE) File getExternalStorageDirectory();
+	@FlowSources(FlowSource.EXTERNAL_STORAGE) File getExternalStoragePublicDirectory(@FlowSinks({}) String type);
 }
 
 class Handler {
@@ -2215,8 +2216,11 @@ class DateUtils {
 
 class Time {
 	//TODO: This should probably be double checked later:
+	static @FlowSources(FlowSource.TIME) String getCurrentTimezone();
 	boolean parse3339(@PolyFlowSources @PolyFlowSinks String s) @PolyFlowSources @PolyFlowSinks;
 	void set(@PolyFlowSources @PolyFlowSinks long l1) @PolyFlowSources @PolyFlowSinks;
+	void setToNow() @FlowSources(FlowSource.TIME);
+	Time(@PolyFlowSources @PolyFlowSinks String timezone) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks long toMillis(@FlowSinks({}) boolean b) @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2680,19 +2684,31 @@ class ByteArrayOutputStream {
 	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) [] buffer, int offset, int len) @PolyFlowSources @PolyFlowSinks;
 }
 
+class DataInputStream {
+    @PolyFlowSources @PolyFlowSinks DataInputStream(@PolyFlowSources @PolyFlowSinks InputStream in);
+    int read(@PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] buffer,
+        @PolyFlowSources @PolyFlowSinks int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
+}
+
 class File {
 	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks File dir, @PolyFlowSources @PolyFlowSinks String name);
 	@PolyFlowSources @PolyFlowSinks String getAbsolutePath() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String getPath() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks File @PolyFlowSources @PolyFlowSinks [] listFiles() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
 	@FlowSinks(FlowSink.ANY) String separator;
-	@PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks File[] listFiles() @PolyFlowSources @PolyFlowSinks ;
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 	
+}
+
+class FileInputStream {
+    @PolyFlowSources @PolyFlowSinks FileInputStream(@PolyFlowSources @PolyFlowSinks File file);
 }
 
 class FileOutputStream {
@@ -2715,6 +2731,7 @@ class FileWriter {
 
 class FilterInputStream {
 	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] b) @PolyFlowSources @PolyFlowSinks;
+	void close() @FlowSources(FlowSource.ANY);
 }
 
 class InputStream {
@@ -2787,6 +2804,7 @@ class Float {
 class Integer {
 	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s);
 	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s, @FlowSinks({}) int radix);
+	static @PolyFlowSources @PolyFlowSinks String toHexString(@PolyFlowSources @PolyFlowSinks int i);
 	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks int i);
 }
 
@@ -2833,15 +2851,16 @@ class String {
 	static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int indexOf(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) char target, @PolyFlowSources @PolyFlowSinks char replacement) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) CharSequence target,
 		@PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String(@PolyFlowSources @PolyFlowSinks String toCopy);
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-	
+	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
 }
 
 class StringBuilder {
@@ -3041,8 +3060,9 @@ class Random {
     @FlowSources(FlowSource.RANDOM) float nextFloat();
     @FlowSources(FlowSource.RANDOM) double nextGaussian();
     @FlowSources(FlowSource.RANDOM) int nextInt();
-    @FlowSources(FlowSource.RANDOM) int nextInt(@FlowSinks(FlowSink.RANDOM)  int n);
+    @FlowSources(FlowSource.RANDOM) int nextInt(@FlowSinks(FlowSink.RANDOM) int n);
     @FlowSources(FlowSource.RANDOM) long nextLong();
+    Random(@FlowSinks(FlowSink.RANDOM) long seed);
     void setSeed(@FlowSinks(FlowSink.RANDOM) long seed);
 }
 
