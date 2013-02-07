@@ -1201,6 +1201,8 @@ class Cursor {
 	@PolyFlowSources @PolyFlowSinks String getString(@FlowSources(FlowSource.ANY) @FlowSinks({}) int columnIndex) @PolyFlowSources @PolyFlowSinks;
 	@FlowSources(FlowSource.ANY) int getInt(@FlowSinks({}) int columnIndex) @FlowSources(FlowSource.ANY);
 	@NoFlow boolean moveToFirst() @FlowSources(FlowSource.ANY);
+	@NoFlow boolean moveToNext() @FlowSources(FlowSource.ANY);
+	@NoFlow boolean isAfterLast() @FlowSources(FlowSource.ANY);
 	@FlowSources({}) @FlowSinks({}) int getColumnIndex(String name) @FlowSources(FlowSource.ANY);	
 	 
 	//TODO: Add the rest of the get methods
