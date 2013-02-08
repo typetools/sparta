@@ -32,6 +32,8 @@ public class FlowPolicy {
     //The name of the command line option to specify a policyFile
     //A -A will precede this name on the command line ( e.g. -ApolicyFile=/path/to/file )
     public static final String POLICY_FILE_OPTION = "flowPolicy";
+    public static final String STRICT_CONDITIONALS_OPTION = "strict-conditional";
+
 
     public static final String EMPTY = "{}";
     public static final String EMPTY_REGEX = "\\{\\}";
