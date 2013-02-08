@@ -2862,7 +2862,7 @@ class String {
 		@PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String(@PolyFlowSources @PolyFlowSinks String toCopy);
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @FlowSources(FlowSource.EXTERNAL_STORAGE) @FlowSinks({}) ;
 	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
 }
