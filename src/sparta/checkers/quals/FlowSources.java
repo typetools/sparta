@@ -33,6 +33,7 @@ public @interface FlowSources {
         
         ACCOUNTS,
         ACCELEROMETER,
+        BROWSER_HISTORY,
         CAMERA,
         EXTERNAL_STORAGE,
         FILESYSTEM,

@@ -19,3 +19,9 @@ class Method{
     @ReportUse
     Object invoke(Object recv, Object...args);
 }
+
+package java.lang;
+class Thread{
+    @ReportUse
+    void start();
+}
