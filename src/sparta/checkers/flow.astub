@@ -421,6 +421,8 @@ class Activity {
 	@RequiredPermissions({}) void startActivityFromChild(Activity child, Intent intent, int requestCode);
 	@NoFlow
 	@RequiredPermissions({}) boolean startActivityIfNeeded(Intent intent, int requestCode);
+
+    @FlowSources(FlowSource.FILESYSTEM) @FlowSinks() FileInputStream openFileInput(@FlowSources() @FlowSinks() String name);
 }
 
 class ActivityGroup {
@@ -1056,6 +1058,7 @@ class Context {
 	@RequiredPermissions({}) Object startActivity(android.content.Intent p0);
 	@NoFlow
 	@RequiredPermissions({}) Object startService(Intent service);
+    @FlowSources(FlowSource.FILESYSTEM) @FlowSinks() FileInputStream openFileInput(@FlowSources() @FlowSinks() String name);
 }
 
 class ContextWrapper {
@@ -2697,6 +2700,14 @@ class DataInputStream{
     @PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] buffer, @PolyFlowSources @PolyFlowSinks int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
 }
 
+class DataOutputStream {
+	@PolyFlowSources @PolyFlowSinks DataOutputStream(@PolyFlowSources @PolyFlowSinks OutputStream stream) @PolyFlowSources @PolyFlowSinks;
+	void close() @PolyFlowSources @PolyFlowSinks;
+	void flush() @PolyFlowSources @PolyFlowSinks;
+	void writeBytes(@PolyFlowSources @PolyFlowSinks String str) @PolyFlowSources @PolyFlowSinks;
+	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer, @PolyFlowSources @PolyFlowSinks int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
+}
+
 class File {
 	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
@@ -2711,6 +2722,13 @@ class File {
 	@PolyFlowSources @PolyFlowSinks File[] listFiles() @PolyFlowSources @PolyFlowSinks ;
 	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks ;
 	
+}
+
+class FileInputStream {
+	void close() @PolyFlowSources @PolyFlowSinks; 
+	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
+	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer, @FlowSinks() int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks int available() @PolyFlowSources @PolyFlowSinks;
 }
 
 class FileOutputStream {
@@ -2735,9 +2753,14 @@ class FilterInputStream {
 	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] b) @PolyFlowSources @PolyFlowSinks;
 }
 
+class IOException {
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
+}
+
 class InputStream {
 	void close() @PolyFlowSources @PolyFlowSinks; 
 	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks int available() @PolyFlowSources @PolyFlowSinks;
 }
 
 class InputStreamReader {
@@ -2872,6 +2895,8 @@ class StringBuilder {
 	
 class StringBuffer {
 	@PolyFlowSources @PolyFlowSinks StringBuffer append(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks StringBuffer append(@PolyFlowSources @PolyFlowSinks char ch) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 
 class System {
@@ -2895,6 +2920,8 @@ class DatagramSocket {
 class HttpURLConnection {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) HttpURLConnection(java.net.URL p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object connect();
+
+    void setRequestMethod(@FlowSinks({FlowSink.NETWORK}) String method);
 }
 
 class MulticastSocket {
@@ -2907,6 +2934,10 @@ class NetworkInterface {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) NetworkInterface();
 	//TODO:This is a constructor in Java 7, but not Android 
 	@RequiredPermissions(android.Manifest.permission.INTERNET) NetworkInterface(java.lang.String p0,int p1,java.net.InetAddress p2);
+}
+
+class MalformedURLException {
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 
 class ServerSocket {
@@ -2949,6 +2980,15 @@ class URL {
 class URLConnection {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object connect();
 	@FlowSources({FlowSource.NETWORK}) @PolyFlowSinks InputStream getInputStream() @PolyFlowSinks;
+	@FlowSinks({FlowSinks.NETWORK}) @PolyFlowSources OutputStream getOutputStream() @PolyFlowSources;
+
+	// I'm not sure if these actually leak information, but just to be safe...
+	void setDoInput(@FlowSinks({FlowSink.NETWORK}) boolean doInput);
+	void setDoOutput(@FlowSinks({FlowSink.NETWORK}) boolean doOutput);
+
+	// These definitely leak information to the remote server.
+	void setUseCaches(@FlowSinks({FlowSink.NETWORK}) boolean useCaches);
+	void setRequestProperty(@FlowSinks({FlowSink.NETWORK}) String property, @FlowSinks({FlowSink.NETWORK}) String value);
 }
 
 package java.security;
