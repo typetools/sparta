@@ -51,6 +51,7 @@ public class FlowPolicy {
     }
 
     public FlowPolicy( final File flowPolicyFile ) {
+    	System.out.println(flowPolicyFile);
         assert flowPolicyFile != null  :  "PolicyFile cannot be null!";
         assert flowPolicyFile.exists() :  "PolicyFile doesn't exist!  Filename=" + flowPolicyFile.getAbsolutePath();
 
@@ -68,8 +69,12 @@ public class FlowPolicy {
         this.allowedFlows       = new HashMap<FlowSource, Set<FlowSink>>();
         readPolicyFile(flowPolicyFile);
         this.sinksFromAnySource = allowedFlows.get(FlowSource.ANY);
-
-
+    }
+    public FlowPolicy( ) {
+        this.sinksFromEmptySource = new HashSet<FlowSink>();
+        this.sourcesToEmptySink   = new HashSet<FlowSource>();
+        this.allowedFlows       = new HashMap<FlowSource, Set<FlowSink>>();
+        this.sinksFromAnySource = allowedFlows.get(FlowSource.ANY);
     }
 
     public Pair<Set<FlowSource>, Set<FlowSink>> annotatedTypeMirrorToFlows(final AnnotatedTypeMirror atm) {
