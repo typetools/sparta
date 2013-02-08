@@ -974,6 +974,7 @@ class BluetoothSocket {
 package android.content;
 
 class ComponentName {
+    @PolyFlowSources @PolyFlowSinks ComponentName(@PolyFlowSources @PolyFlowSinks String pkg, @PolyFlowSources @PolyFlowSinks String path);	
 	@NoFlow
 	String getClassName();
 }
@@ -1107,6 +1108,7 @@ class Intent {
 	@FlowSources(FlowSource.ANY) String getStringExtra(@FlowSinks({}) String name);
 	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks int value);
 	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value);
+    @PolyFlowSources @PolyFlowSinks Intent setComponent(@PolyFlowSources @PolyFlowSinks ComponentName name);
 	@NoFlow
 	Intent setClass(Context packageContext, Class<?> cls);
 	@FlowSources(FlowSource.ANY) Intent setData(@FlowSources(FlowSource.ANY) @FlowSinks({}) Uri data);
@@ -1699,12 +1701,16 @@ class DropBoxManager {
 
 class Environment {
 	@RequiredPermissions({android.Manifest.permission.WRITE_EXTERNAL_STORAGE, /*OR*/ android.Manifest.permission.READ_EXTERNAL_STORAGE})
-	@FlowSources(FlowSource.EXTERNAL_STORAGE) File getExternalStorageDirectory();
+	static @FlowSources(FlowSource.EXTERNAL_STORAGE) File getExternalStorageDirectory();
+	@RequiredPermissions({android.Manifest.permission.WRITE_EXTERNAL_STORAGE, /*OR*/ android.Manifest.permission.READ_EXTERNAL_STORAGE})
+	static @FlowSources(FlowSource.EXTERNAL_STORAGE) File getExternalStoragePublicDirectory(@FlowSources @FlowSinks String type);
 }
 
 class Handler {
 	@NoFlow
 	boolean sendMessageDelayed(Message m, long delay);
+    @NoFlow
+    boolean postDelayed(Runnable r, long delay);
     @NoFlow
     Message obtainMessage(int what, Object obj);
 }
@@ -1826,6 +1832,11 @@ package android.preference;
 
 class EditTextPreference {
 	void setText(@PolyFlowSources @PolyFlowSinks String text) @PolyFlowSources @PolyFlowSinks;
+}
+
+class PreferenceActivity{
+    @NoFlow
+    void onCreate(Bundle savedInstanceState);
 }
 
 //package android.pim.vcard;
@@ -2682,6 +2693,10 @@ class ByteArrayOutputStream {
 	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) [] buffer, int offset, int len) @PolyFlowSources @PolyFlowSinks;
 }
 
+class DataInputStream{
+    @PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] buffer, @PolyFlowSources @PolyFlowSinks int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
+}
+
 class File {
 	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
@@ -2694,6 +2709,7 @@ class File {
 	@FlowSinks(FlowSink.ANY) String separator;
 	@PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks File[] listFiles() @PolyFlowSources @PolyFlowSinks ;
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks ;
 	
 }
 
@@ -2791,6 +2807,7 @@ class Integer {
 	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s);
 	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s, @FlowSinks({}) int radix);
 	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks int i);
+	static @PolyFlowSources @PolyFlowSinks String toHexString(@PolyFlowSources @PolyFlowSinks int i);
 }
 
 class Long {
@@ -2806,6 +2823,7 @@ class Math {
 	static @PolyFlowSources @PolyFlowSinks double atan(@PolyFlowSources @PolyFlowSinks double d);
 	static @PolyFlowSources @PolyFlowSinks double atan2(@PolyFlowSources @PolyFlowSinks double y, @PolyFlowSources @PolyFlowSinks double x);
 	static @PolyFlowSources @PolyFlowSinks double log10(@PolyFlowSources @PolyFlowSinks double d);
+	static @PolyFlowSources @PolyFlowSinks int min(@PolyFlowSources @PolyFlowSinks int i1, @PolyFlowSources @PolyFlowSinks int i2);
 	static @PolyFlowSources @PolyFlowSinks long min(@PolyFlowSources @PolyFlowSinks long l1, @PolyFlowSources @PolyFlowSinks long l2);
 	static @PolyFlowSources @PolyFlowSinks double pow(@PolyFlowSources @PolyFlowSinks double x, @PolyFlowSources @PolyFlowSinks double y);
 }
