@@ -1,7 +1,21 @@
 import checkers.util.report.quals.*;
 
-@ReportUse
-package com.android;
+//@ReportUse
+//package com.android;
 
-@ReportUse
-package android;
+//@ReportUse
+//package android;
+
+
+package java.util;
+
+class Random{
+    @ReportUse
+    Random();
+}
+
+package java.lang.reflect;
+class Method{
+    @ReportUse
+    Object invoke(Object recv, Object...args);
+}
