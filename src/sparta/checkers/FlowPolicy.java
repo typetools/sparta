@@ -1,14 +1,15 @@
 package sparta.checkers;
 
+import checkers.flow.Flow;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationUtils;
 import checkers.util.Pair;
 import sparta.checkers.quals.FlowSinks;
+import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.FlowSources;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import static sparta.checkers.quals.FlowSinks.FlowSink;
 import static sparta.checkers.quals.FlowSources.FlowSource;
 
 import java.io.BufferedReader;
@@ -41,6 +42,10 @@ public class FlowPolicy {
     private final Set<FlowSink> sinksFromEmptySource;
     private final Set<FlowSource> sourcesToEmptySink;
 
+    //True: LITERAL->CONDITIONAL is added, 
+    //False: ANY->CONDITIONAL is added
+	private final boolean strictConditionals;
+
     public FlowPolicy( final Map<FlowSource, Set<FlowSink>> allowedFlows,
                        final Set<FlowSink> sinksFromEmptySource,
                        final Set<FlowSource> sourceToEmptySink) {
@@ -48,12 +53,15 @@ public class FlowPolicy {
         this.sinksFromEmptySource = sinksFromEmptySource;
         this.sinksFromAnySource = allowedFlows.get(FlowSource.ANY);
         this.sourcesToEmptySink = sourceToEmptySink;
+        this.strictConditionals=false;
     }
-
-    public FlowPolicy( final File flowPolicyFile ) {
-    	System.out.println(flowPolicyFile);
-        assert flowPolicyFile != null  :  "PolicyFile cannot be null!";
-        assert flowPolicyFile.exists() :  "PolicyFile doesn't exist!  Filename=" + flowPolicyFile.getAbsolutePath();
+    
+    /**
+     * 
+     * @param flowPolicyFile
+     * @param strictConditionals if true LITERAL->CONDITIONAL is added, otherwise ANY->CONDITIONAL is added
+     */
+    public FlowPolicy( final File flowPolicyFile, boolean strictConditionals ) {
 
         this.sinksFromEmptySource = new HashSet<FlowSink>();
         if( this.sinksFromEmptySource.contains(FlowSink.ANY) ) {
@@ -65,18 +73,44 @@ public class FlowPolicy {
         if( this.sourcesToEmptySink.contains(FlowSource.ANY) ) {
             this.sourcesToEmptySink.addAll(Arrays.asList(FlowSource.values()));
         }
-
-        this.allowedFlows       = new HashMap<FlowSource, Set<FlowSink>>();
-        readPolicyFile(flowPolicyFile);
+        
+        this.strictConditionals=strictConditionals;
+        this.allowedFlows       = getDefalutAllowedFlows();
+        if(flowPolicyFile != null && flowPolicyFile.exists()  ){
+            readPolicyFile(flowPolicyFile);
+        }
         this.sinksFromAnySource = allowedFlows.get(FlowSource.ANY);
     }
+    
+    public FlowPolicy(final File flowPolicyFile){
+    	this(flowPolicyFile,false);
+    }
+    
     public FlowPolicy( ) {
-        this.sinksFromEmptySource = new HashSet<FlowSink>();
-        this.sourcesToEmptySink   = new HashSet<FlowSource>();
-        this.allowedFlows       = new HashMap<FlowSource, Set<FlowSink>>();
-        this.sinksFromAnySource = allowedFlows.get(FlowSource.ANY);
+        this(false);
+    }
+    
+    /**
+     * 
+     * @param strictConditionals if true LITERAL->CONDITIONAL is added, otherwise ANY->CONDITIONAL is added
+     */
+    public FlowPolicy( boolean strictConditionals ) {
+    	this(null,strictConditionals);
     }
 
+    private  HashMap<FlowSource, Set<FlowSink>>getDefalutAllowedFlows(){
+    	HashMap<FlowSource, Set<FlowSink>> defaultAllowedFlows = new HashMap<FlowSource, Set<FlowSink>>();
+    	HashSet<FlowSink> sinkSet = new HashSet<FlowSink>(1);
+    	sinkSet.add(FlowSink.CONDITIONAL);
+
+    	if(strictConditionals){
+        	defaultAllowedFlows.put(FlowSource.LITERAL, sinkSet);
+    	}else{
+        	defaultAllowedFlows.put(FlowSource.ANY, sinkSet);
+    	}
+    	
+    	return defaultAllowedFlows;
+    }
     public Pair<Set<FlowSource>, Set<FlowSink>> annotatedTypeMirrorToFlows(final AnnotatedTypeMirror atm) {
 
         final AnnotationMirror sourceAnno = atm.getAnnotation(FlowSources.class);
