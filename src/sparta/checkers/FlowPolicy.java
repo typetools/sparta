@@ -258,9 +258,10 @@ public class FlowPolicy {
         try {
             int lineNum = 1;
             bufferedReader = new BufferedReader(new FileReader(policyFile));
-            String originalLine = bufferedReader.readLine().trim();
+            String originalLine = bufferedReader.readLine();
 
             while(originalLine != null) {
+            
 
                 //Remove anything from # on in the line
                 final String line = stripComment(originalLine);
@@ -276,7 +277,15 @@ public class FlowPolicy {
                         boolean skip = false;
 
                         if( sourceStr.equals(EMPTY) ) {
-                            sinks = sinksFromEmptySource;
+                          //  sinks = sinksFromEmptySource;
+                            errors.add(
+                                    formatPolicyFileError(policyFile, lineNum,
+                                            "Unrecognized source: " + EMPTY +
+                                                    " is no longer allowed in policy files",
+                                            originalLine)
+                            );
+                            sinks = null;
+                            skip = true;
 
                         } else {
                             try {
@@ -292,8 +301,7 @@ public class FlowPolicy {
                                 errors.add(
                                         formatPolicyFileError(policyFile, lineNum,
                                                 "Unrecognized source: " + sourceStr +
-                                                        " Known sources: " + enumValuesToString(FlowSource.values()) +
-                                                        " Empty Source: {}",
+                                                        " Known sources: " + enumValuesToString(FlowSource.values()),
                                                 originalLine)
                                 );
 
@@ -305,20 +313,18 @@ public class FlowPolicy {
 
                         for(final String sink : sinkStrs) {
                             try {
-                                final String trimmedSink = sink.trim();
-                                if(trimmedSink.equals(EMPTY)) {
-                                    if(source != null) {
-                                        sourcesToEmptySink.add(source);
-                                    }
-                                } else {
-                                    //Read sinks even if source can't be decoded (i.e. source == null)
-                                    //in order to catch all errors in one pass
-                                    final FlowSink sinkEnum = FlowSink.valueOf(trimmedSink);
+								final String trimmedSink = sink.trim();
 
-                                    if(!skip) {
-                                        sinks.add(sinkEnum);
-                                    }
-                                }
+								// Read sinks even if source can't be decoded
+								// (i.e. source == null)
+								// in order to catch all errors in one pass
+								final FlowSink sinkEnum = FlowSink
+										.valueOf(trimmedSink);
+
+								if (!skip) {
+									sinks.add(sinkEnum);
+								}
+                  
                             } catch(final IllegalArgumentException iaExc) {
                                 errors.add(
                                     formatPolicyFileError(policyFile, lineNum,
