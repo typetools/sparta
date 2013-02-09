@@ -2915,6 +2915,8 @@ class DatagramSocket {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket(int p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket(int p0,java.net.InetAddress p1);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) DatagramSocket(java.net.SocketAddress p0);
+    @RequiredPermissions(android.Manifest.permission.INTERNET)
+    @PolyFlowSources @PolyFlowSinks void send(@PolyFlowSources @PolyFlowSinks DatagramPacket packet) @PolyFlowSources @PolyFlowSinks;
 }
 
 class HttpURLConnection {
@@ -2922,6 +2924,10 @@ class HttpURLConnection {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object connect();
 
     void setRequestMethod(@FlowSinks({FlowSink.NETWORK}) String method);
+}
+
+class InetAddress {
+    @PolyFlowSources @PolyFlowSinks InetAddress getByName(@PolyFlowSources @PolyFlowSinks String host) @PolyFlowSources @PolyFlowSinks;
 }
 
 class MulticastSocket {
@@ -2975,6 +2981,10 @@ class URL {
 	@PolyFlowSources @PolyFlowSinks String toExternalForm() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks URI toURI() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks URL(@PolyFlowSources @PolyFlowSinks String spec);
+	@PolyFlowSources @PolyFlowSinks String getHost()@PolyFlowSources @PolyFlowSinks ;
+	@PolyFlowSources @PolyFlowSinks String getFile()@PolyFlowSources @PolyFlowSinks ;
+	@PolyFlowSources @PolyFlowSinks String getProtocol()@PolyFlowSources @PolyFlowSinks ;
+	@PolyFlowSources @PolyFlowSinks int getPort()@PolyFlowSources @PolyFlowSinks ;
 }
 
 class URLConnection {
