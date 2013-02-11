@@ -14,6 +14,7 @@ import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
 import checkers.quals.PolyAll;
 import checkers.source.SourceChecker;
+import checkers.source.SupportedLintOptions;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.QualifierHierarchy;
 import checkers.types.TypeHierarchy;
@@ -36,11 +37,16 @@ import sparta.checkers.quals.PolyFlowSources;
     PolyAll.class})
 @StubFiles("flow.astub")
 @SupportedOptions({FlowPolicy.POLICY_FILE_OPTION})
+@SupportedLintOptions({FlowPolicy.STRICT_CONDITIONALS_OPTION})
+
 public class FlowChecker extends BaseTypeChecker {
 
-    protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES, POLYFLOWSOURCES;
+    
+	protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES, POLYFLOWSOURCES;
     protected AnnotationMirror NOFLOWSINKS, ANYFLOWSINKS, POLYFLOWSINKS;
     protected AnnotationMirror POLYALL;
+    protected AnnotationMirror LITERALFLOWSOURCE;
+    
     protected FlowPolicy flowPolicy;
 
     @Override
@@ -60,18 +66,27 @@ public class FlowChecker extends BaseTypeChecker {
         builder = new AnnotationBuilder(processingEnv, FlowSinks.class.getCanonicalName());
         builder.setValue("value", new FlowSink[] { FlowSink.ANY });
         ANYFLOWSINKS = builder.build();
+        
+        builder = new AnnotationBuilder(processingEnv, FlowSources.class.getCanonicalName());
+        builder.setValue("value", new FlowSource[] { FlowSource.LITERAL });
+        LITERALFLOWSOURCE = builder.build();
 
         sourceValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSources", "value", 0, processingEnv);
         sinkValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSinks", "value", 0, processingEnv);
 
-        final String pfArg = processingEnv.getOptions().get(FlowPolicy.POLICY_FILE_OPTION);
-        if (pfArg == null || pfArg.trim().isEmpty()) {
-            flowPolicy = null;
-        } else {
-            flowPolicy = new FlowPolicy(new File(pfArg));
-        }
+
 
         super.initChecker();
+        final String pfArg = processingEnv.getOptions().get(FlowPolicy.POLICY_FILE_OPTION);
+        //Must call super.initChecker before the lint option can be checked.
+        final boolean scArg = getLintOption(FlowPolicy.STRICT_CONDITIONALS_OPTION, false);
+      
+      
+       if (pfArg == null || pfArg.trim().isEmpty()) {
+           flowPolicy = new FlowPolicy(scArg);
+        } else {
+           flowPolicy = new FlowPolicy(new File(pfArg),scArg);
+       }
     }
 
     protected ExecutableElement sourceValue;
@@ -242,50 +257,6 @@ public class FlowChecker extends BaseTypeChecker {
         return flowPolicy;
     }
 
-    @Override
-    protected TypeHierarchy createTypeHierarchy() {
-        return new FlowTypeHierarchy(this, getQualifierHierarchy());
-    }
-
-    /**
-     * FlowTypeHierarchy is identical to TypeHierarchy EXCEPT that when
-     * isSubtype(final AnnotatedTypeMirror rhs, final AnnotatedTypeMirror lhs) fails FlowTypeHierarchy
-     * consults FlowPolicy to determine whether or no we have a flow being analyzed
-     * that was specifically greenlit by the flowPolicy file
-     */
-    private final class FlowTypeHierarchy extends TypeHierarchy {
-
-        public FlowTypeHierarchy(final FlowChecker flowChecker, final QualifierHierarchy qualifierHierarchy) {
-            super(flowChecker, qualifierHierarchy);
-        }
-
-        /**
-         * Entry point for subtype checking:
-         * Checks whether rhs is a subtype of lhs.
-         *
-         * @return  a true iff rhs a subtype of lhs
-         */
-        public boolean isSubtype(final AnnotatedTypeMirror rhs, final AnnotatedTypeMirror lhs) {
-            boolean isSubtype = super.isSubtype(rhs, lhs);
-
-            if(!isSubtype && flowPolicy != null) {
-
-                final AnnotationMirror rightSourcesAnno = rhs.getAnnotation(FlowSources.class);
-                final AnnotationMirror leftSourcesAnno  = lhs.getAnnotation(FlowSources.class);
-
-                //These should never be null (unless somehow they are removed explicitly by the checker)
-                //because FlowSources/FlowSinks is applied by default
-                if(rightSourcesAnno != null && leftSourcesAnno != null /*&&
-                   getQualifierHierarchy().isSubtype(rightSourcesAnno, leftSourcesAnno)*/ ) {
-
-                    if( flowPolicy.suppressFlowWarnings(lhs, rhs) ) {
-                        isSubtype = true;
-                    }
-                }
-            }
-
-            return isSubtype;
-        }
-    }
+   
 
 }

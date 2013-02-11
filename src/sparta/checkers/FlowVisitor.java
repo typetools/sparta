@@ -1,5 +1,14 @@
 package sparta.checkers;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
+
+import sparta.checkers.quals.FlowSinks.FlowSink;
+import sparta.checkers.quals.*;
+
 import checkers.types.visitors.AnnotatedTypeScanner;
 import com.sun.source.tree.*;
 
@@ -9,6 +18,7 @@ import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
+import checkers.util.AnnotationUtils;
 
 public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
@@ -20,7 +30,8 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
    @Override
    public boolean isValidUse(AnnotatedDeclaredType declarationType,
                                            AnnotatedDeclaredType useType) {
-       return areFlowsValid(useType) && areFlowsValid(declarationType);
+       return areFlowsValid(useType) ;
+    		   //&& areFlowsValid(declarationType);
    }
 
    @Override
@@ -41,21 +52,34 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         }
     }
 
+	private void ensureContionalSink(ExpressionTree tree) {
+		AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
+
+		final AnnotationMirror sinkAnno = type.getAnnotation(FlowSinks.class);
+		final Set<FlowSink> sinks = new HashSet<FlowSink>(
+				AnnotationUtils.getElementValueEnumArray(sinkAnno, "value",
+						FlowSinks.FlowSink.class, true));
+		if (!sinks.contains(FlowSink.CONDITIONAL)) {
+			checker.report(
+					Result.failure("condition.flow", type.getAnnotations()),
+					tree);
+		}
+	}
     @Override
     public Void visitConditionalExpression(ConditionalExpressionTree node, Void p) {
-        ensureNoFlow(node.getCondition(), "condition.flow");
+    	ensureContionalSink(node.getCondition());
         return super.visitConditionalExpression(node, p);
     }
 
     @Override
     public Void visitIf(IfTree node, Void p) {
-        ensureNoFlow(node.getCondition(), "condition.flow");
+    	ensureContionalSink(node.getCondition());
         return super.visitIf(node, p);
     }
 
     @Override
     public Void visitSwitch(SwitchTree node, Void p) {
-        ensureNoFlow(node.getExpression(), "condition.flow");
+    	ensureContionalSink(node.getExpression());
         return super.visitSwitch(node, p);
     }
     
@@ -63,19 +87,19 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     public Void visitCase(CaseTree node, Void p) {
         ExpressionTree exprTree = node.getExpression();
         if (exprTree != null)
-            ensureNoFlow(exprTree, "condition.flow");
+        	ensureContionalSink(exprTree);
         return super.visitCase(node, p);
     }
     
     @Override
     public Void visitDoWhileLoop(DoWhileLoopTree node, Void p) {
-        ensureNoFlow(node.getCondition(), "condition.flow");
+    	ensureContionalSink(node.getCondition());
         return super.visitDoWhileLoop(node, p);
     }
 
     @Override
     public Void visitWhileLoop(WhileLoopTree node, Void p) {
-        ensureNoFlow(node.getCondition(), "condition.flow");
+    	ensureContionalSink(node.getCondition());
         return super.visitWhileLoop(node, p);
     }
 
@@ -84,7 +108,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     public Void visitForLoop(ForLoopTree node, Void p) {
         if (node.getCondition()!=null) {
             // Condition is null e.g. in "for (;;) {...}"
-            ensureNoFlow(node.getCondition(), "condition.flow");
+        	ensureContionalSink(node.getCondition());
         }
         return super.visitForLoop(node, p);
     }
