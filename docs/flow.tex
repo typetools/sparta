@@ -54,6 +54,8 @@ The types of FlowSources and FlowSinks are listed in the
     \<null> &  \<@FlowSources @FlowSinks(FlowSink.ANY) >\\ \hline
     Literals & \<@FlowSources(FlowSource.LITERAL)@FlowSinks(FlowSink.CONDITIONAL)>\\ \hline
    Local Variables  &   \<@FlowSources(FlowSource.ANY) @FlowSinks> \\ \hline
+   \<@FlowSources($\alpha$)>&\<@FlowSources($\alpha$)>\<@FlowSinks($\beta$)>,  $\beta$ is all flow sinks allowed to flow from a source in $\alpha$ \\ \hline
+      \<@FlowSinks($\beta$)>&\<@FlowSources($\alpha$)>\<@FlowSinks($\beta$)>, $\alpha$ is all flow sources allowed to flow to a sink in $\beta$ \\ \hline
     \end{tabular}
     \caption{Default Types}\label{table:defaults}
 \end{table}
@@ -82,6 +84,48 @@ initializers) are used to refine the type to a more precise one.  Thus, in
 general you do not have to write type annotations on local variables.  For
 details, see section ``Automatic type refinement (flow-sensitive type
 qualifier inference)'' in the Checker Framework manual.
+
+In the case that the programmer only specifies flow sources, the flow sink is defaulted to be all 
+sinks that the specified flow sources can flow to.
+ In other words, if a type is annotated with 
+\<@FlowSources($\alpha$)>, where $\alpha$ is a set of sources, then the flow sinks are the set 
+$\beta$ where $\beta$ is the union of sinks B where A-\textgreater B and A is a flow source in 
+$\alpha$.  For example, if the flow policy contains the following:
+
+\begin{alltt}
+  A->X,Y
+  B->Y
+  C->Y
+\end{alltt}
+  
+\noindent 
+then these are equivalent:
+
+\begin{alltt}
+  @FlowSources(A)                 ==   @FlowSources(A) @FlowSinks(\{X, Y\})
+  @FlowSources(B)                 ==   @FlowSources(B) @FlowSinks(Y)
+  @FlowSources(\{B,C\})             ==   @FlowSources(B,C) @FlowSinks(Y)
+  @FlowSources(A) @FlowSinks(Y)   ==   @FlowSources(A) @FlowSinks(Y) 
+\end{alltt}
+
+Also, \<@FlowSources(A,B)>  is equivalent to 
+\<@FlowSources(\{A,B\}) @FlowSinks(\{X,Y\})>, but it does not type check because B is not allowed
+to flow to Y.  This means that \<@FlowSources(A,B)>  will not type check either.
+
+
+Similarly, if the programmer only specifies flow sinks, the flow sources are defaulted to be all sources 
+that are allowed to flow to  the specified sinks.  In other words, if a type is annotated with 
+\<@FlowSinks($\beta$)>, where $\beta$ is a set of sinks, then the flow sources are the set 
+$\alpha$ where $\alpha$ is the union of sources A where A-\textgreater B and B is a flow sink in 
+$\beta$. For example, use the same policy file as above, the following are equivalent:
+
+\begin{alltt}
+  @FlowSinks(X)                   ==   @FlowSources(A) @FlowSinks(X)
+  @FlowSinks(Y)                   ==   @FlowSources(\{A,B,C\}) @FlowSinks(Y)
+\end{alltt}
+
+
+
 
 \section{Empty Flow Sinks or Flow Sources}
 
