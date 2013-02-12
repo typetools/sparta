@@ -124,127 +124,6 @@ $\beta$. For example, use the same policy file as above, the following are equiv
   @FlowSinks(Y)                   ==   @FlowSources(\{A,B,C\}) @FlowSinks(Y)
 \end{alltt}
 
-
-
-
-\section{Empty Flow Sinks or Flow Sources}
-
-Although @FlowSources(\{\}) and @FlowSinks(\{\}) are used in the default types, 
- the programmer should not declare any variables with these types.  Every value 
- should either flow from some sensitive source or flow from a literal.  Likewise, every value
- must flow to a sensitive sink or to a conditional expression.  Any variable that does not
- have a flow source or a flow sink  does not actually affect the
-  output of the program and should therefore be removed.  
-  
-  This may seem overly strict, but a variable with out a flow source or flow sink that does affect
-  the output of the program comes from an abuse of the type system.   Most likely  a variable with
-   no source or sink would come from  an improperly suppressed warning. Therefore it is necessary to 
-  not allow  flows from and to nowhere.  (The flow policy ensures this; see section Section \ref{sec:flowpolicy}
-
-
-\section{Subtyping}
-
-
-As with standard Java types, the type annotation hierarchy indicates which
-assignments, method calls, and overriding are legal. \figref{fig:flowsources-hierarchy} 
-shows part of the \<@FlowSources>
-qualifier hierarchy.  The top type is \<@FlowSources(ANY)>, which is
-shorthand for listing every source.  It would be legal to annotate every
-variable in a program with \<@FlowSources(ANY)>, because every variable is
-derived from some subset of all flow sources.  But, such an annotation
-would be imprecise.  \<@FlowSources(\ttcbs)> or \<@FlowSources()> is the
-bottom type, and may only
-be applied to variables whose value does not depend on any sensitive
-source.
-
-
-\figref{fig:flowsinks-hierarchy} shows part of the \<@FlowSinks>
-qualifier hierarchy.  The top type is \<@FlowSinks(\ttcbs)> or
-\<@FlowSinks()>, which indicates
-that the value is only used locally by the application and never flows to
-any sensitive sink.  The bottom type, \<@FlowSinks(FlowSinks.ANY)>, is a
-value that might be output to any location whatsoever; it can be thought of
-as a completely public value.
-
-Note the different subtyping behavior for sources and sinks.
-
-\begin{figure}[h]
-\includeimage{flowsources}{5cm}
-\caption{Partial qualifier hierarchy for \<@FlowSources>.}
-\label{fig:flowsources-hierarchy}
-\end{figure}
-
-\begin{figure}[h]
-\includeimage{flowsinks}{5cm}
-\caption{Partial qualifier hierarchy for \<@FlowSinks>.}
-\label{fig:flowsinks-hierarchy}
-\end{figure}
- 
- \section{Warning Suppression}
- 
- Sometimes it might be necessary to suppress warnings or errors produced by the
-  Flow Checker.  This can be done by using the  \<@SuppressWarnings("flow")> annotation
-   on a declaration.  Because this annotation can be used to subvert the Flow Checker, its use
-   is considered suspicious.  Anytime a warning or error is suppressed, you must 
-   write a brief comment justifying the suppression.     \<@SuppressWarnings("flow")> should
-   only be used if there is no way to annotate the code so that an error or warning does not occur. 
-   Most programs should not suppress warnings. 
-\section{API specifications}
-
-File \<sparta-code/src/sparta/checkers/flow.astub> provides library
-annotations.  You may need to enhance it, if you find that your application
-uses APIs that are not yet annotated.  For details, see
-section~\ref{flow-task-annotate-apis} of this manual, and also 
-chapter
-``Annotating libraries'' in the Checker Framework manual.
-
-\section{Additional Annotations}
-Besides the qualifiers discussed so far, four additional declaration
-annotations can be used to annotate APIs:\<@PolyFlowSources>,
- \<@PolyFlowSinks>, \<@NoFlow>, and \<@ConservativeFlow>. 
- They change the default annotations (Section~\ref{flow-defaults}).
- 
- These annotations can be used on any declaration: a method, a class,
-or even a whole package.
-For example, the beginning of \<flow.astub> declares that the
-whole \<android> package should use conservative defaults.
-More specific annotations given in the rest of the file override these
-defaults.
- 
-\subsection{PolyFlowSources  and PolyFlowSinks}
-
-To make the type system more expressive, the flow type systems support
-qualifier polymorphism, via the type qualifiers \<@PolyFlowSources> and
-\<@PolyFlowSinks>.  These are mostly used when annotating API's when the
- specific flow sources or flow sinks are not known or can vary. 
-See section ``Qualifier polymorphism'' in the Checker Framework manual.  
-
-% These range over their respective type hierarchy and can be used to
-% express type dependencies, for example, that the receiver and
-% parameter types have to correspond.
-% The invocation of a method is used to resolve polymorphic qualifiers
-% to something concrete.
-\subsection{NoFlow}
-The a method or class annotated with \<@NoFlow> expresses that the 
-method's return type and all parameter types are \<@FlowSources({}) @FlowSinks({})>.  As with all
-library annotations, it is trusted rather than checked.  Thus, it should be
-used only if an external analysis has determined that it is correct for the
-annotated method, class, or package.
-
-\subsection{ConservativeFlow}
-
-Annotation \<@ConservativeFlow> expresses that each method should have the
-most conservative possible annotations:
-  \<@FlowSources({}) @FlowSinks(ANY)> on arguments, and
-  \<@FlowSources(ANY) @FlowSinks({})> on return values.
-%[TODO: what for fields?]
-This is so conservative that it is sure to cause a type-checking failure
-whenever the method is used.
-When the analyst encounters such type-checking errors, the analyst can
-annotate the methods more appropriately.  This is a way of knowing when a
-program uses a previously-unannotated library.
-
-
 \section{Flow Policy}
 \label{sec:flowpolicy}
 
@@ -252,54 +131,7 @@ A flow policy is a list of the only flows that are permitted to occur in an appl
 Flow policies are specified in a flow-policy file that is  a list 
  of flow source and flow sink pairs.  If a flow is not listed in the flow policy, then 
  it is forbidden to occur.  If no flow policy is specified, then no flows are permitted. 
-
-\subsection{Syntax of a Policy File}
-
-Each line of a policy file specifies a source-to-sink(s) flow(s) that is permitted. So if 
-A $\rightarrow$ B,C is listed in the file, then information from source A is allowed to flow
-to sink B or sink C.  
-
-For example,
-\<MICROPHONE$\rightarrow$NETWORK> implies that
-MICROPHONE data is always allowed to flow to NETWORK.  
-The source must be a member of the enum
-\<sparta.checkers.quals.FlowSources.FlowSource> and the sink must be a
-member of the enum 
-\<sparta.checkers.quals.FlowSinks.FlowSink>.  The source 
-and sink names should not be preceded by the name of the enumeration which contains them.
-ANY is allowed just as it is in @FlowSources and @FlowSinks, but empty, \{\}, is not allowed.
-
-Multiple sources or sinks can appear on the same line if they are separated by commas. 
-For example,
-these two policy files have the same meaning:
-
-\begin{alltt}
-   MICROPHONE -> NETWORK, LOGCAT, DISPLAY
-\end{alltt}
-is equivalent to this policy file:
-\begin{alltt}
-   MICROPHONE -> NETWORK
-   MICROPHONE -> LOGCAT
-   MICROPHONE -> DISPLAY, NETWORK
-\end{alltt}
-
-The policy file may contain blank lines and comments that begin with 
-a number sign (\<\#>) character.
-
-\subsection{Using a flow-policy file}
-To use a flow-policy file when invoking the Flow Checker from the
-command line pass it the option:
-\begin{alltt}
--AflowPolicy=\emph{mypolicyfile}
-\end{alltt}
-
-Or if you are using one of the ant targets, you can pass the option to ant:
-\begin{alltt}
-ant -DflowPolicy=\emph{mypolicyfile} flowtest
-\end{alltt}
-
-Remember, not specify a flow policy file is equivalent  to not allowing any flows. 
-
+ 
 \subsection{Semantic of a Flow Policy}
 \label{sec:undsiredflows}
 The Flow Checker guarantees that there is no information
@@ -341,18 +173,98 @@ The following definitions would generate ``forbidden flow'' errors:
   @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILESYSTEM, FlowSink.NETWORK})
 \end{Verbatim}
 
-If you are using a policy file then it is important to know that unless
-you explicitly list a flow from a source X to a sink Y then all
-information flow from X to Y is forbidden.  For instance,
-if  your policy file never mentions NETWORK as a source, then your application
-cannot read any network data without generating an error.  If it never
-mentions NETWORK as a sink, then it can never write to the network without
-generating an error.
+\subsection{Syntax of a Flow Policy File}
+
+Each line of a policy file specifies a source-to-sink(s) flow(s) that is permitted. So if 
+A $\rightarrow$ B,C is listed in the file, then information from source A is allowed to flow
+to sink B or sink C.  
+
+For example,
+\<MICROPHONE$\rightarrow$NETWORK> implies that
+MICROPHONE data is always allowed to flow to NETWORK.  
+The source must be a member of the enum
+\<sparta.checkers.quals.FlowSources.FlowSource> and the sink must be a
+member of the enum 
+\<sparta.checkers.quals.FlowSinks.FlowSink>.  The source 
+and sink names should not be preceded by the name of the enumeration which contains them.
+ANY is allowed just as it is in @FlowSources and @FlowSinks, but empty, \{\}, is not allowed.
+
+Multiple sources or sinks can appear on the same line if they are separated by commas. 
+For example,
+these two policy files have the same meaning:
+
+\begin{alltt}
+   MICROPHONE -> NETWORK, LOGCAT, DISPLAY
+\end{alltt}
+is equivalent to this policy file:
+\begin{alltt}
+   MICROPHONE -> NETWORK
+   MICROPHONE -> LOGCAT
+   MICROPHONE -> DISPLAY, NETWORK
+\end{alltt}
+
+The policy file may contain blank lines and comments that begin with 
+a number sign (\<\#>) character.
 
 
-\subsection{Conditionals}
 
-The Flow Checker considers conditional expressions to be flow sinks.  If a variable 
+\subsection{Using a flow-policy file}
+To use a flow-policy file when invoking the Flow Checker from the
+command line pass it the option:
+\begin{alltt}
+-AflowPolicy=\emph{mypolicyfile}
+\end{alltt}
+
+Or if you are using one of the ant targets, you can pass the option to ant:
+\begin{alltt}
+ant -DflowPolicy=\emph{mypolicyfile} flowtest
+\end{alltt}
+
+Remember, not specify a flow policy file is equivalent  to not allowing any flows. 
+
+\section{Subtyping}
+
+\begin{figure}[h]
+\includeimage{flowsources}{5cm}
+\caption{Partial qualifier hierarchy for \<@FlowSources>.}
+\label{fig:flowsources-hierarchy}
+\end{figure}
+
+\begin{figure}[h]
+\includeimage{flowsinks}{5cm}
+\caption{Partial qualifier hierarchy for \<@FlowSinks>.}
+\label{fig:flowsinks-hierarchy}
+\end{figure}
+
+As with standard Java types, the type annotation hierarchy indicates which
+assignments, method calls, and overriding are legal. \figref{fig:flowsources-hierarchy} 
+shows part of the \<@FlowSources>
+qualifier hierarchy.  The top type is \<@FlowSources(ANY)>, which is
+shorthand for listing every source.  It would be legal to annotate every
+variable in a program with \<@FlowSources(ANY)>, because every variable is
+derived from some subset of all flow sources.  But, such an annotation
+would be imprecise.  \<@FlowSources(\ttcbs)> or \<@FlowSources()> is the
+bottom type, and may only
+be applied to variables whose value does not depend on any sensitive
+source.
+
+
+\figref{fig:flowsinks-hierarchy} shows part of the \<@FlowSinks>
+qualifier hierarchy.  The top type is \<@FlowSinks(\ttcbs)> or
+\<@FlowSinks()>, which indicates
+that the value is only used locally by the application and never flows to
+any sensitive sink.  The bottom type, \<@FlowSinks(FlowSinks.ANY)>, is a
+value that might be output to any location whatsoever; it can be thought of
+as a completely public value.
+
+Note the different subtyping behavior for sources and sinks.
+
+
+
+
+\section{Conditionals}
+
+The Flow Checker considers conditional expressions to be a flow sink.  If a variable 
 will be used in a conditional, then it must have a flow sink of CONDITIONAL.  By default, 
 any source is allowed flow through a conditional.  That is to say that 
 ANY -\textgreater CONDITIONAL is added to the flow policy by default. 
@@ -372,6 +284,93 @@ for (int i = 0 ; i < MAX\_CC\_NUM ; i++)\{
 To catch this sort of information leak, pass
  \<strict-conditional> to change the default from ANY -\textgreater CONDITIONAL to 
  LITERAL-\textgreater CONDITIONAL. 
+
+
+
+\section{Empty Flow Sinks or Flow Sources}
+
+Although @FlowSources(\{\}) and @FlowSinks(\{\}) are used in the default types, 
+ the programmer should not annotate any types with these flows.  Every value 
+ should either flow flow from a literal or from some sensitive source.  Likewise, every value
+ must flow to a sensitive sink or to a conditional expression.  Any variable that does not
+ have a flow source or a flow sink  does not actually affect the
+  output of the program and should therefore be removed.  
+  
+  This may seem overly strict, but a variable without a flow source or flow sink that does affect
+  the output of the program comes from an abuse of the type system.   Most likely  a variable with
+   no source or sink would come from  an improperly suppressed warning. Therefore it is necessary to 
+  not allow  flows from and to nowhere.  (The flow policy ensures this; see section 
+  Section \ref{sec:flowpolicy})
+  
+  Note that this does not mean you must specify both a flow source annotation and 
+  a flow sink annotation as explained in Section \ref{flow-defaults}.
+
+ 
+ \section{Warning Suppression}
+ 
+ Sometimes it might be necessary to suppress warnings or errors produced by the
+  Flow Checker.  This can be done by using the  \<@SuppressWarnings("flow")> annotation
+   on a declaration.  Because this annotation can be used to subvert the Flow Checker, its use
+   is considered suspicious.  Anytime a warning or error is suppressed, you must 
+   write a brief comment justifying the suppression.     \<@SuppressWarnings("flow")> should
+   only be used if there is no way to annotate the code so that an error or warning does not occur. 
+   Most programs should not suppress warnings. 
+\section{API specifications}
+
+File \<sparta-code/src/sparta/checkers/flow.astub> provides library
+annotations.  You may need to enhance it, if you find that your application
+uses APIs that are not yet annotated.  For details, see
+section~\ref{flow-task-annotate-apis} of this manual, and also 
+chapter
+``Annotating libraries'' in the Checker Framework manual.
+
+\section{Additional Annotations}
+Besides the qualifiers discussed so far, four additional declaration
+annotations can be used to annotate APIs:\<@PolyFlowSources>,
+ \<@PolyFlowSinks>, \<@NoFlow>, and \<@ConservativeFlow>. 
+ They change the default annotations (Section~\ref{flow-defaults}).
+ 
+ These annotations can be used on any declaration: a method, a class,
+or even a whole package.
+For example, the beginning of \<flow.astub> declares that the
+whole \<android> package should use conservative defaults.
+More specific annotations given in the rest of the file override these
+defaults.
+ 
+\subsection{@PolyFlowSources  and @PolyFlowSinks}
+
+To make the type system more expressive, the flow type systems support
+qualifier polymorphism, via the type qualifiers \<@PolyFlowSources> and
+\<@PolyFlowSinks>.  These are mostly used when annotating API's when the
+ specific flow sources or flow sinks are not known or can vary. 
+See section ``Qualifier polymorphism'' in the Checker Framework manual.  
+
+% These range over their respective type hierarchy and can be used to
+% express type dependencies, for example, that the receiver and
+% parameter types have to correspond.
+% The invocation of a method is used to resolve polymorphic qualifiers
+% to something concrete.
+\subsection{@NoFlow}
+The a method or class annotated with \<@NoFlow> expresses that the 
+method's return type and all parameter types are \<@FlowSources({}) @FlowSinks({})>.  As with all
+library annotations, it is trusted rather than checked.  Thus, it should be
+used only if an external analysis has determined that it is correct for the
+annotated method, class, or package.
+
+\subsection{@ConservativeFlow}
+
+Annotation \<@ConservativeFlow> expresses that each method should have the
+most conservative possible annotations:
+  \<@FlowSources({}) @FlowSinks(ANY)> on arguments, and
+  \<@FlowSources(ANY) @FlowSinks({})> on return values.
+%[TODO: what for fields?]
+This is so conservative that it is sure to cause a type-checking failure
+whenever the method is used.
+When the analyst encounters such type-checking errors, the analyst can
+annotate the methods more appropriately.  This is a way of knowing when a
+program uses a previously-unannotated library.
+
+
 
 
 %TODO generate some more examples.
