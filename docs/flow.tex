@@ -3,7 +3,7 @@
 
 This chapter gives a brief overview of the Flow Checker, a type-checker that 
 tracks information flow through your program.  It gives a guarantee that there
- is no information flow beyond what is expressed in type annotations.
+ is no information flow beyond what is expressed in the flow policy and type annotations.
 
 The Flow Checker does pluggable type-checking of an information flow type
 system.  It is implemented using the Checker Framework.  To better
@@ -13,53 +13,97 @@ consult the Checker Framework manual at
 
 \section{Overview}
 
-You write the annotation \<@sparta.checkers.quals.FlowSources> on a variable's
+You write the annotation \<@FlowSources> on a variable's
 type to indicate what sensitive sources can affect the variable's value.
 You write the annotation \<@FlowSinks> to indicate where (part of) the
 value might be output.
 
 As an example, suppose there is a declaration
 \begin{Verbatim}
-  @FlowSources(LOCATION) double latitude;
+  @FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK) double latitude;
 \end{Verbatim}
 \noindent
-This indicates that the value of \<latitude> might have been derived from
+The \<@FlowSources(FlowSource.LOCATION)> annotation indicates that the value of \<latitude> might have been derived from
 location information.  It does not guarantee that the value came from
 authentic GPS data, but only sets a bound on where the information might
 have come from; this assignment is legal: \<latitude = 47.6097>.
-
-Similarly, the type
-\begin{Verbatim}
-  @FlowSinks(NETWORK) String someData;
-\end{Verbatim}
-\noindent
-marks that the string \<someData> might be output to the network, or a part
-of it or its length might be output to the network.  It is also possible
-that the data has already been output.
+Similarly, the annotation \<@FlowSinks(FlowSInk.NETWORK)> marks that the string \<latitude> 
+might be output to the network.  It is also possible that the data has already been output.
 
 The argument to \<@FlowSources> (and \<@FlowSinks>) is an enum constant, or a
 set of them to indicate that a value might combine information from
 multiple sources (or might flow to multiple locations).
-
 FlowSources specifies data sources such as phone number, location, 
 etc.  FlowSinks specifies sinks, such as files, network, and so on.
 The types of FlowSources and FlowSinks are listed in the
 \<FlowSources.java> and \<FlowSinks.java> files in \<sparta.checkers.quals>.
 
 
+
+
+
+
+\section{Default Types\label{flow-defaults}}
+
+\begin{table}[t]
+    \begin{tabular}{| l | l |}
+     \hline
+    Fields Types &  \<@FlowSources @FlowSinks> \\ \hline
+    Method Parameters &  \<@FlowSources @FlowSinks> \\ \hline
+    Return Types &  \<@FlowSources @FlowSinks> \\ \hline
+    \<null> &  \<@FlowSources @FlowSinks(FlowSink.ANY) >\\ \hline
+    Literals & \<@FlowSources(FlowSource.LITERAL)@FlowSinks(FlowSink.CONDITIONAL)>\\ \hline
+   Local Variables  &   \<@FlowSources(FlowSource.ANY) @FlowSinks> \\ \hline
+    \end{tabular}
+    \caption{Default Types}\label{table:defaults}
+\end{table}
+
+
+To reduce the number of annotations needed, default types are used. Table \ref{table:defaults} 
+shows some  the default types used by the flow checker. 
+
+
+ The defaults are not applied if the programmer uses annotations.  For example, the parameter 
+below is of type \<@FlowSources(FlowSource.LITERAL) @FlowSinks(FlowSink.Network)> rather
+than  \<@FlowSources @FlowSinks>. Note that \<@FlowSources> means \<@FlowSources(\{\})>
+ and \<@FlowSinks>  means \<@FlowSinks(\{\})>.
+\begin{alltt}
+public void sendToInternet(
+     @FlowSources(FlowSource.LITERAL)@FlowSinks(FlowSink.Network) String message)\{...\}
+\end{alltt} 
+
+The value \emph{null} has the bottom type (@FlowSinks(FlowSink.ANY) @FlowSources), 
+so that it can be assigned to any type. For local variables, the default applies to
+the top level of the local variable type, but not to generic type arguments
+and array elements, if any.
+
+The Checker Framework supports flow-sensitive type refinement.  Assignments (such as
+initializers) are used to refine the type to a more precise one.  Thus, in
+general you do not have to write type annotations on local variables.  For
+details, see section ``Automatic type refinement (flow-sensitive type
+qualifier inference)'' in the Checker Framework manual.
+
+\section{Empty Flow Sinks or Flow Sources}
+
+Although @FlowSources(\{\}) and @FlowSinks(\{\}) are used in the default types, 
+ the programmer should not declare any variables with these types.  Every value 
+ should either flow from some sensitive source or flow from a literal.  Likewise, every value
+ must flow to a sensitive sink or to a conditional expression.  Any variable that does not
+ have a flow source or a flow sink  does not actually affect the
+  output of the program and should therefore be removed.  
+  
+  This may seem overly strict, but a variable with out a flow source or flow sink that does affect
+  the output of the program comes from an abuse of the type system.   Most likely  a variable with
+   no source or sink would come from  an improperly suppressed warning. Therefore it is necessary to 
+  not allow  flows from and to nowhere.  (The flow policy ensures this; see section Section \ref{sec:flowpolicy}
+
+
 \section{Subtyping}
 
+
 As with standard Java types, the type annotation hierarchy indicates which
-assignments, method calls, and overriding are legal.
-
-
-\begin{figure}
-\includeimage{flowsources}{5cm}
-\caption{Partial qualifier hierarchy for \<@FlowSources>.}
-\label{fig:flowsources-hierarchy}
-\end{figure}
-
-\figref{fig:flowsources-hierarchy} shows part of the \<@FlowSources>
+assignments, method calls, and overriding are legal. \figref{fig:flowsources-hierarchy} 
+shows part of the \<@FlowSources>
 qualifier hierarchy.  The top type is \<@FlowSources(ANY)>, which is
 shorthand for listing every source.  It would be legal to annotate every
 variable in a program with \<@FlowSources(ANY)>, because every variable is
@@ -69,12 +113,6 @@ bottom type, and may only
 be applied to variables whose value does not depend on any sensitive
 source.
 
-
-\begin{figure}
-\includeimage{flowsinks}{5cm}
-\caption{Partial qualifier hierarchy for \<@FlowSinks>.}
-\label{fig:flowsinks-hierarchy}
-\end{figure}
 
 \figref{fig:flowsinks-hierarchy} shows part of the \<@FlowSinks>
 qualifier hierarchy.  The top type is \<@FlowSinks(\ttcbs)> or
@@ -86,64 +124,27 @@ as a completely public value.
 
 Note the different subtyping behavior for sources and sinks.
 
+\begin{figure}[h]
+\includeimage{flowsources}{5cm}
+\caption{Partial qualifier hierarchy for \<@FlowSources>.}
+\label{fig:flowsources-hierarchy}
+\end{figure}
 
-\section{Defaults\label{flow-defaults}}
-
-The default qualifiers are \<@FlowSinks({})> and \<@FlowSources({})>.  This
-default applies to field types, method parameters and return types,
-manifest constants
-(string literals, \<1.0>, \<true>, \<3>, \<'c'>,
-\ldots), and all other locations except local variables and \emph{null}. The qualifiers for local variables and \emph{null} will be explained later. 
-
-This means that this variable declaration raises an error:
-
-\begin{alltt}
-@FlowSinks(NETWORK) String realString = "asdf";
-\end{alltt}
-
-The reason is that the right-hand side of the assignment has type
-\<@FlowSinks({})>, which is a value that may not be output to any sink.
-This is not a subtype of the left-hand type \<@FlowSinks(NETWORK)>, which
-is allowed to flow to the network (but to no other sink).  If the given
-string is permitted to flow to the network, then you can suppress the
-warning by annotating the declaration with \<@SuppressWarnings("flow")>.
-Do not forget to write a brief comment that justifies why this flow is permitted.
-
-The \<@ConservativeFlow> annotation changes the default for return types;
-see Section~\ref{ConservativeFlow}.
-
-
-For \emph{local variables}, the default is the top type for each
-hierarchy, that is, \<@FlowSources(ANY) @FlowSinks({})>.  This applies to
-the top level of the local variable type, but not to generic type arguments
-and array elements, if any.
-
-The Checker
-Framework supports flow-sensitive type refinement.  Assignments (such as
-initializers) are used to refine the type to a more precise one.  Thus, in
-general you do not have to write type annotations on local variables.  For
-details, see section ``Automatic type refinement (flow-sensitive type
-qualifier inference)'' in the Checker Framework manual.
-
-
-The value \emph{null} has the bottom type (@FlowSinks(FlowSink.ANY) @FlowSources), 
-so that it can be assigned to any type. 
-
-
-\section{Qualifier polymorphism}
-
-To make the type system more expressive, the flow type systems support
-qualifier polymorphism, via the type qualifiers \<@PolyFlowSources> and
-\<@PolyFlowSinks>.
-See section ``Qualifier polymorphism'' in the Checker Framework manual.
-
-% These range over their respective type hierarchy and can be used to
-% express type dependencies, for example, that the receiver and
-% parameter types have to correspond.
-% The invocation of a method is used to resolve polymorphic qualifiers
-% to something concrete.
-
-
+\begin{figure}[h]
+\includeimage{flowsinks}{5cm}
+\caption{Partial qualifier hierarchy for \<@FlowSinks>.}
+\label{fig:flowsinks-hierarchy}
+\end{figure}
+ 
+ \section{Warning Suppression}
+ 
+ Sometimes it might be necessary to suppress warnings or errors produced by the
+  Flow Checker.  This can be done by using the  \<@SuppressWarnings("flow")> annotation
+   on a declaration.  Because this annotation can be used to subvert the Flow Checker, its use
+   is considered suspicious.  Anytime a warning or error is suppressed, you must 
+   write a brief comment justifying the suppression.     \<@SuppressWarnings("flow")> should
+   only be used if there is no way to annotate the code so that an error or warning does not occur. 
+   Most programs should not suppress warnings. 
 \section{API specifications}
 
 File \<sparta-code/src/sparta/checkers/flow.astub> provides library
@@ -153,17 +154,40 @@ section~\ref{flow-task-annotate-apis} of this manual, and also
 chapter
 ``Annotating libraries'' in the Checker Framework manual.
 
-\label{ConservativeFlow}
+\section{Additional Annotations}
+Besides the qualifiers discussed so far, four additional declaration
+annotations can be used to annotate APIs:\<@PolyFlowSources>,
+ \<@PolyFlowSinks>, \<@NoFlow>, and \<@ConservativeFlow>. 
+ They change the default annotations (Section~\ref{flow-defaults}).
+ 
+ These annotations can be used on any declaration: a method, a class,
+or even a whole package.
+For example, the beginning of \<flow.astub> declares that the
+whole \<android> package should use conservative defaults.
+More specific annotations given in the rest of the file override these
+defaults.
+ 
+\subsection{PolyFlowSources  and PolyFlowSinks}
 
-Besides the qualifiers discussed so far, two additional declaration
-annotations can be used in the stub file: \<@NoFlow> and \<@ConservativeFlow>.
-Their effect is to change the default annotations (Section~\ref{flow-defaults}).
+To make the type system more expressive, the flow type systems support
+qualifier polymorphism, via the type qualifiers \<@PolyFlowSources> and
+\<@PolyFlowSinks>.  These are mostly used when annotating API's when the
+ specific flow sources or flow sinks are not known or can vary. 
+See section ``Qualifier polymorphism'' in the Checker Framework manual.  
 
-Annotation \<@NoFlow> expresses that each method's return type and all
-parameter types are \<@FlowSources({}) @FlowSinks({})>.  As with all
+% These range over their respective type hierarchy and can be used to
+% express type dependencies, for example, that the receiver and
+% parameter types have to correspond.
+% The invocation of a method is used to resolve polymorphic qualifiers
+% to something concrete.
+\subsection{NoFlow}
+The a method or class annotated with \<@NoFlow> expresses that the 
+method's return type and all parameter types are \<@FlowSources({}) @FlowSinks({})>.  As with all
 library annotations, it is trusted rather than checked.  Thus, it should be
 used only if an external analysis has determined that it is correct for the
 annotated method, class, or package.
+
+\subsection{ConservativeFlow}
 
 Annotation \<@ConservativeFlow> expresses that each method should have the
 most conservative possible annotations:
@@ -176,87 +200,33 @@ When the analyst encounters such type-checking errors, the analyst can
 annotate the methods more appropriately.  This is a way of knowing when a
 program uses a previously-unannotated library.
 
-These annotations can be used on any declaration: a method, a class,
-or even a whole package.
-For example, the beginning of \<flow.astub> declares that the
-whole \<android> package should use conservative defaults.
-More specific annotations given in the rest of the file override these
-defaults.
-
-
-\section{Stricter tests}
-
-By default, the flow checker is unsound.  After getting the basic checks to pass, the
- stricter checks should be enabled, by running \<ant -Dsound=true flowtest>.
-This two-phase approach was chosen to reduce
-the annotation effortand to give two separate phases of
-the annotation effort.
- The sound checking enforces invariant 
-array subtyping and type safety in downcasts.
-
-
-When strict checks are turned on,
-a cast \<(Object []) x>, were \<x> is of type \<Object>, will result
-in a compiler warning:
-
-\begin{alltt}
-[jsr308.javac] ... warning: "@FlowSinks @FlowSources({FlowSource.ANY}) Object"
-       may not be casted to the type "@FlowSinks @FlowSources Object"
-\end{alltt}
-
-The reason is that there is not way for the type-checker to verify
- the component type of the array. There is no static knowledge about the actual
-runtime values in the array and important flow could be hidden.
-The analyst should argue why the downcast is safe.
-
-Note that the main qualifier of a cast is automatically flow-refined
-by the cast expression.
-
-
-\medskip
-
-Stricter checking also enforces invariant array subtyping, which is
-needed for sound array behavior in the absence of runtime checks.
-Flow inference automatically refines the type of array creation
-expressions depending on the left-hand side.
 
 \section{Flow Policy}
 \label{sec:flowpolicy}
 
-A flow-policy file indicates what flows are expected to occur in the app
- and therefore should be permitted by the Flow Checker.  The file is basically a list 
- of flow source and flow sink pairs.
+A flow policy is a list of the only flows that are permitted to occur in an application.
+Flow policies are specified in a flow-policy file that is  a list 
+ of flow source and flow sink pairs.  If a flow is not listed in the flow policy, then 
+ it is forbidden to occur.  If no flow policy is specified, then no flows are permitted. 
 
-A flow-policy file serves two purposes when using the Flow Checker.
-Firstly, it forbids all flows that are not explicitly specified in the policy file as described
-in Section~\ref{sec:undsiredflows}.  And secondly, it allows the user to  
-suppress warnings.
+\subsection{Syntax of a Policy File}
 
-\subsection{Using a flow-policy file}
-To use a flow-policy file when invoking the Flow Checker from the
-command line pass it the option:
-\begin{alltt}
--AflowPolicy=\emph{mypolicyfile}
-\end{alltt}
+Each line of a policy file specifies a source-to-sink(s) flow(s) that is permitted. So if 
+A $\rightarrow$ B,C is listed in the file, then information from source A is allowed to flow
+to sink B or sink C.  
 
-Or you can pass the option to ant:
-\begin{alltt}
-ant -DflowPolicy=\emph{mypolicyfile} flowtest
-\end{alltt}
-
-\subsection{The Syntax of a Policy File}
-
-Each line of a policy file specifies a source-to-sink flow that is permitted, as in
-\<MICROPHONE$\rightarrow$NETWORK>, which implies that
+For example,
+\<MICROPHONE$\rightarrow$NETWORK> implies that
 MICROPHONE data is always allowed to flow to NETWORK.  
 The source must be a member of the enum
 \<sparta.checkers.quals.FlowSources.FlowSource> and the sink must be a
 member of the enum 
 \<sparta.checkers.quals.FlowSinks.FlowSink>.  The source 
 and sink names should not be preceded by the name of the enumeration which contains them.
-Note that ANY and \{\} are allowed just as they are in @FlowSources and @FlowSinks.
+ANY is allowed just as it is in @FlowSources and @FlowSinks, but empty, \{\}, is not allowed.
 
-It is permitted to write multiple surouces or sinks separated by commas. For example,
+Multiple sources or sinks can appear on the same line if they are separated by commas. 
+For example,
 these two policy files have the same meaning:
 
 \begin{alltt}
@@ -272,8 +242,21 @@ is equivalent to this policy file:
 The policy file may contain blank lines and comments that begin with 
 a number sign (\<\#>) character.
 
+\subsection{Using a flow-policy file}
+To use a flow-policy file when invoking the Flow Checker from the
+command line pass it the option:
+\begin{alltt}
+-AflowPolicy=\emph{mypolicyfile}
+\end{alltt}
 
-\subsection{Forbidding Undesired Flows}
+Or if you are using one of the ant targets, you can pass the option to ant:
+\begin{alltt}
+ant -DflowPolicy=\emph{mypolicyfile} flowtest
+\end{alltt}
+
+Remember, not specify a flow policy file is equivalent  to not allowing any flows. 
+
+\subsection{Semantic of a Flow Policy}
 \label{sec:undsiredflows}
 The Flow Checker guarantees that there is no information
 flow except for what is explicitly permitted by the policy file. If a user writes a type that is
@@ -323,310 +306,89 @@ mentions NETWORK as a sink, then it can never write to the network without
 generating an error.
 
 
+\subsection{Conditionals}
 
-\subsection{Permitting Desired Flows}
+The Flow Checker considers conditional expressions to be flow sinks.  If a variable 
+will be used in a conditional, then it must have a flow sink of CONDITIONAL.  By default, 
+any source is allowed flow through a conditional.  That is to say that 
+ANY -\textgreater CONDITIONAL is added to the flow policy by default. 
 
-The Flow Checker ordinarily issues a warning at any assignment where the types on the left- and right-handed sides are incompatible, such as
+Conditionals are treated this way because they can leak information. For example, the given a flow policy of  USER\_INPUT -\textgreater FILESYSTEM, the following type checks.
+
 \begin{alltt}
-@FlowSources(CAMERA) var1;
-@FlowSinks(NETWORK) var2;
-var1=var2;
+@FlowSources(FlowSource.USER_INPUT)@FlowSinks(FlowSink.FILESYSTEM)
+int creditCard = getCCNumber();
+final int MAX\_CC\_NUM=9999999999999999;
+for (int i = 0 ; i < MAX\_CC\_NUM ; i++)\{
+   if ( i == creditCard )
+        sendToInternet(i);
+\}
 \end{alltt}
-However, if the difference in types is a flow that is permitted by the policy file, then the Flow Checker
-issues no warnings.
 
-This is also the case with arguments passed to method calls.  For instance, suppose there
-was a method call to send text messages as follows:
-\begin{Verbatim}
-public void sendTxt(@FlowSinks(FlowSink.TEXTMESSAGE) String msg, PhoneNumber num)
-\end{Verbatim}
-
-Without a flow-policy file, every time \<sendTxt(myMsg, num)> is
-used with a variable \<myMsg> that contained a non-empty set of
-FlowSources then a warning would have to be suppressed since method
-parameter \<msg> has no FlowSources.
-
-For example:
-
-Given a method:
-\begin{Verbatim}
-  @FlowSource({FlowSource.ACCELEROMETER}) String getAccelerometerData()
-\end{Verbatim}
-
-The following line would normally produce an error due to our subtyping rules:
-\begin{Verbatim}
-  sendText(getAccelerometerData(), myPhysiciansNumber);
-\end{Verbatim}
-
-However, if the following line appears in the flow-policy file, then this warning is suppressed:
-\begin{Verbatim}
-  ACCELEROMETER -> TEXTMESSAGE
-\end{Verbatim}
-
-In order for a warning to be suppressed all of the FlowSources
-on the right-hand side of an assignment (or, in this case, the
-passing of parameters) must have a mapping in the flow-policy
-file to all of the FlowSinks on the left-hand side of the policy
-file.  In the case above, the return type of
-\<getAccelerometerData()> is on the right-hand side and the
-\<msg> parameter is on the left-hand side.  An example using
-assignments is given below  (fake sources/sinks are used and the
-enum class names are omitted for brevity):
-
-\begin{Verbatim}
-File flowPolicy contains:
-A -> A, B, C, D
-B -> B, C
-C -> B, C, D
-\end{Verbatim}
-
-This following assignment would normally produce an error:
-\begin{Verbatim}
-@FlowSources({A, B, C}) Object srcAbc = ...
-@FlowSinks({B,C}) Object sinkBc = ...
-sinkBc = srcAbc;
-\end{Verbatim}
-
- The \<@FlowSinks> of \<srcAbc> are not subtypes of the
-\<@FlowSinks> of \<sinkBc>.  However, the flow-policy file has a
-mapping from A to B and C, from B to B and C, and from C to B
-and C (i.e. all the sources from \<srcAbc> to all the sinks of
-\<sinkBc>).   Therefore, in this case the warning would be
-suppressed.  Note the following line in the policy file.
-\begin{Verbatim}
-B -> B
-\end{Verbatim}
-
-Sources are not allowed to flow to their analogous sink unless
-permitted by the flow-policy.  The use of a policy file in
-this manner allows us to avoid adding many FlowSources to a
-commonly used API or adding suppressions on invocations of
-the API.
-
-An example that would not result in a suppressed warning
-using the previous flow-policy file would be:
-
-\begin{Verbatim}
-@FlowSinks({B,C,D}) Object sinkBcd = srcAbc;
-\end{Verbatim}
-
-In the above case, since B is not mapped to D in the
-policy-file the warning would not be suppressed.
-
-An important final note:
-Before the flow-policy checks flows from sources to sinks
-it removes any flow that appears in the variable being assigned
-(or pseudo assigned) to.  In the case above, this variable is
-\<sinkBcd>.  If \<sinkBcd> were instead defined as:
-\begin{Verbatim}
-@FlowSource({A,B}) @FlowSink({B,C,D}) Object sinkBcd = srcAbc;
-\end{Verbatim}
-Then the warning on the above line would be suppressed because,
-\<sinkBcd> already has a flow from B to D.  The user would have
-already had to suppress a warning on \<sinkBcd> and would expect
-B to flow to D in this particular instance.
+To catch this sort of information leak, pass
+ \<strict-conditional> to change the default from ANY -\textgreater CONDITIONAL to 
+ LITERAL-\textgreater CONDITIONAL. 
 
 
-
-%\subsection{ANY and None}
+%TODO generate some more examples.
+%\subsection{Examples}
 %
-%Two special types of FlowSources and FlowSinks can be found in
-%a flow-policy file ANY and None(denoted by \<\{\}>).  ANY sources or sinks
-%have a corresponding enum value in FlowSource and FlowSink.
-%However, they have special status in the enumeration in that
-%their use implies the use of all other values in FlowSource
-%in FlowSink.  The same principle applies to the flow-policy file.
-%\begin{Verbatim}
-%E.g.
-%  ANY -> MICROPHONE
-%  is equivalent to
+%Below are some examples of policy files and code examples that
+%illustrate their effects.  Only assignment operations are used
+%but remember that the flow-policy applies to all information flows.
+%Comments in the code examples describe a direct effect of the
+%given policy file.  Fake FlowSource and FlowSink names are used
+%to aid in clarity.
 %
-%  ACCOUNTS      -> MICROPHONE
-%  ACCELEROMETER -> MICROPHONE
-%  CAMERA        -> MICROPHONE
-%  ... and so on for all members of FlowSource  excluding ANY
-%\end{Verbatim}
+%Any variable definition marked "OK" indicates that this
+%definition would  be allowed given the policy file
+%(and consequently also allowed in the absence of any flow-policy
+%file).  Any variable definition marked "FORBIDDEN" indicates that
+%the definition is forbidden by the flow-policy file.
 %
-%The above example does not map MICROPHONE to None(\<\{\}>).
-%to MICROPHONE. \<\{\}> indicates either a FlowSources or FlowSinks
-%annotation is empty.
-%\begin{Verbatim}
-%E.g.
-% {} -> DISPLAY
-%\end{Verbatim}
-%The above definition indicates that variables of type
-%\<@FlowSources(\{\}) @FlowSinks(FlowSink.DISPLAY)> have valid
-%types. It also indicates that variables with
-%\<@FlowSources(\{\})> can always be assigned to variables with
-%\<@FlowSinks(FlowSink.Display)>.
-%
-%\begin{Verbatim}
-%E.g.
-%   Below is a valid assignment:
-%   Object noSourcesOrSinks = ...
-%   @FlowSink({FlowSink.DISPLAY}) Window window = noSourcesOrSinks;
-%\end{Verbatim}
-%
-%\begin{Verbatim}
-%E.g.
-%   ACCELEROMETER -> {}
-%   NETWORK -> {}
-%\end{Verbatim}
-%
-%The above line indicates the ACCELEROMETER and NETWORK
-%data can flow to variables that have no FlowSinks (and
-%therefore flow nowhere else).
-%
-%\begin{Verbatim}
-%E.g.
-%   @FlowSource(FlowSource.NETWORK) Packet packet = ...
-%   Object someObj = packet;
-%   The above assignment is valid given the policy file.
-%\end{Verbatim}
-%
-%Note that an important affect of using the \<\{\}> as a sink means
-%that assignments like the following now have their warning
-%suppressed:
-%
-%\begin{Verbatim}
-%E.g.
-%Policy File:
-%ANY -> {}
-%
-%@FlowSource({FlowSource.NETWORK}) Packet packet = ...
-%@FlowSource({FlowSource.FILESYSTEM}) Object fsObj = packet;
-%This is allowed because fsObj has no sensitive sinks and ANY FlowSource is allowed to flow to a variable with no sinks.
-%\end{Verbatim}
-%
-%The following definition implies that we can write
-%any variable that has no data flowing from a
-%sensitive source can be written to any variable that
-%has a sensitive sink.
-%\begin{Verbatim}
-% {} -> ANY
-%
-%E.g.
-% String myStr = "YO!"
-% @FlowSink({ACCOUNTS, NETWORK}) String str = myStr;
-% The above assignment is valid.
-%\end{Verbatim}
-%
-%In closing you may want to add the following definitions
-%to your flow-policy in order to reduce the number of
-%warnings that occur related to unannotated variables:
-%\begin{Verbatim}
-%ANY -> {}
-%{} -> ANY
-%\end{Verbatim}
-%
-%But you should be aware how this affects the
-%warnings produced and suppressed.
+%Any assignment marked "OK" indicates that this assignment is valid
+%(with or without the policy file).  An assignment
+%marked "FORBIDDEN" indicates that the assignment will still fail
+%with an error.
 
-\subsection{Examples}
 
-Below are some examples of policy files and code examples that
-illustrate their effects.  Only assignment operations are used
-but remember that the flow-policy applies to all information flows.
-Comments in the code examples describe a direct effect of the
-given policy file.  Fake FlowSource and FlowSink names are used
-to aid in clarity.
 
-Any variable definition marked "OK" indicates that this
-definition would  be allowed given the policy file
-(and consequently also allowed in the absence of any flow-policy
-file).  Any variable definition marked "FORBIDDEN" indicates that
-the definition is forbidden by the flow-policy file.
 
-Any assignment marked "OK" indicates that this assignment is valid
-(with or without the policy file).  "OK*" means the assignment itself
-is valid but that one of variables in the assignment generates an
-error when it is defined.  An assignment marked "SUPPRESSED"
-indicates an assignment that would normally generate an error but
-this error was suppressed by the policy file.  Finally, an assignment
-marked "FORBIDDEN" indicates that the assignment will still fail
-with an error.
+\section{Stricter tests}
 
-In the absence of a flow-policy file all variable definitions
-below are valid.  Any assignment marked with SUPPRESSED or FORBIDDEN
-would generate an error in the absence of a flow-policy file.
+By default, the flow checker is unsound.  After getting the basic checks to pass, the
+ stricter checks should be enabled, by running \<ant -Dsound=true flowtest>.
+This two-phase approach was chosen to reduce
+the annotation effortand to give two separate phases of
+the annotation effort.
+ The sound checking enforces invariant 
+array subtyping and type safety in downcasts.
 
-Example 1:
-\begin{Verbatim}
-Policy File 1:
-  A -> B, C, D, E, F
-  B -> C, D, E
-  C -> B
 
-Code Examples 1:
-  @FlowSource({A,B}) @FlowSink({D})   Object abToD;  //OK
-  @FlowSource({A,B}) @FlowSink({D,E}) Object abToDe; //OK
-  @FlowSource({A}) @FlowSink({D}) Object aToD;     //OK
+When strict checks are turned on,
+a cast \<(Object []) x>, were \<x> is of type \<Object>, will result
+in a compiler warning:
 
-  @FlowSource({A,B}) @FlowSink({D,F}) Object abToDf; //FORBIDDEN
-  @FlowSource({E}) @FlowSink({F}) Object eToF;       //FORBIDDEN
+\begin{alltt}
+[jsr308.javac] ... warning: "@FlowSinks @FlowSources({FlowSource.ANY}) Object"
+       may not be casted to the type "@FlowSinks @FlowSources Object"
+\end{alltt}
 
-  @FlowSink({B}) Object noneToB;   //FORBIDDEN
-  @FlowSource({A}) Object aToNone; //FORBIDDEN
-  @FlowSource({Z}) Object zToNone; //FORBIDDEN
-  Object noneToNone; //OK
-  Object anotherNoneToNone; //OK
-  ...
-  abToD  = aToD;  //OK
-  abToDe = aToD;  //OK
-  aToD   = abToD; //SUPPRESSED
-  eToF   = aToD;        //FORBIDDEN
-  noneToNone = abToDe;  //FORBIDDEN
-  noneToNone = noneToB; //FORBIDDEN
-  noneToNone = anotherNoneToNone; //OK
-\end{Verbatim}
+The reason is that there is not way for the type-checker to verify
+ the component type of the array. There is no static knowledge about the actual
+runtime values in the array and important flow could be hidden.
+The analyst should argue why the downcast is safe.
 
-Example 2:
-\begin{Verbatim}
-Policy File 2:
-  ANY -> {}
-  {} -> ANY
+Note that the main qualifier of a cast is automatically flow-refined
+by the cast expression.
 
-Code Examples 2:
-  @FlowSource({A}) Object aToNone; //OK
-  @FlowSource({B}) Object bToNone; //OK
-  @FlowSink({B}) Object noneToB;   //OK
-  @FlowSource({A}) @FlowSink({A}) Object aToA; //FORBIDDEN
-  @FlowSource({B}) @FlowSink({A}) Object bToA; //FORBIDDEN
-  @FlowSource({ANY}) Object anyToNone; //OK
-  @FlowSink({ANY}) Object noneToAny; //OK
-  @FlowSource({ANY}) @FlowSink({A,B}) anyToAb; //FORBIDDEN
-  Object noneToNone; //OK;
-  ...
-  anyToNone = aToNone; //OK
-  bToNone   = aToNone; //OK
-  noneToB   = bToNone; //FORBIDDEN
-  anyToAb   = noneToNone; //OK*
-  anyToNone = noneToAny;  //OK
-\end{Verbatim}
 
-Example 3:
-\begin{Verbatim}
-Policy File 3:
-  ANY -> C, D, {}
-  {}  -> A, B
-  A -> B, D      #D is superfluous here
-  B -> B, C, D   #C and D are superfluous here
+\medskip
 
-Code Examples 3:
-  @FlowSink({A,B}) Object noneToAb;      //OK
-  @FlowSink({A,B,C}) Object noneToAbc;   //FORBIDDEN
-  @FlowSink({C,D}) Object noneToCd;      //FORBIDDEN
-  @FlowSink({A,B,C}) @FlowSink({C,D}) Object noneToCd; //FORBIDDEN
-  @FlowSource({A,B,C}) Object abcToNone; //OK
-  @FlowSource({ANY}) Object anyToNone;   //OK
-  @FlowSource({A,B}) @FlowSink({B,D}) Object abToBd;    //OK
-  @FlowSource({A,B,C}) @FlowSink({C,D}) Object abcToCd; //OK
-  ...
-  noneToAb = noneToCd; //OK
-  noneToAb = abcToCd;  //FORBIDDEN
-  abToBd = abcToCD;    //FORBIDDEN (nothing maps to A except {})
-  abcToNone = anyToNone; //OK
-\end{Verbatim}
+Stricter checking also enforces invariant array subtyping, which is
+needed for sound array behavior in the absence of runtime checks.
+Flow inference automatically refines the type of array creation
+expressions depending on the left-hand side.
 
 \section{Miscellaneous}
 
