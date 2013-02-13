@@ -1,0 +1,67 @@
+// This file contains all suspicious API uses
+// that should be checked to identify malicious
+// code in an unannotated app
+//
+// used in ant target: reportsuspicious
+
+import checkers.util.report.quals.*;
+
+//
+// Suspicious use of java.io API
+//
+package java.io;
+@ReportCreation
+class FileOutputStream{}
+
+//
+// Suspicious use of java.lang API
+//
+package java.lang;
+class Class {
+    @ReportCall
+    public static Class<?> forName(String className) {}
+
+    @ReportCall
+    public static Class<?> forName(String name, boolean initialize,
+                                   ClassLoader loader) {}
+}
+class Runtime{
+    @ReportCall
+    public static Runtime getRuntime();
+}
+class System{
+    @ReportCall
+    public static long currentTimeMillis();
+}
+class Thread{
+    @ReportCall
+    public void start();
+}
+
+
+//
+// Suspicious use of reflection
+//
+package java.lang.reflect;
+class Method {
+	@ReportCall
+	public Object invoke(Object obj, Object [] objs) {}
+}
+
+//
+// Suspicious use of java.util API
+//
+package java.util;
+@ReportCreation
+class Random {}
+
+//
+// Suspicious use of android API
+//
+package android.content;
+@ReportCreation
+class Intent {}
+
+package android.webkit;
+@ReportCreation
+class WebView {}

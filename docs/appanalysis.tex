@@ -130,6 +130,12 @@ Look at the AndroidManifest.xml file and:
 \item Determine which permissions the app uses.
   Look for ``uses-permission'' entries to understand the used
   permissions.
+\item Compare the used permissions with the description of the
+  application and determine whether or not they are well justified.
+  If an application uses certain permissions that are not justified
+  in the description, this indicates suspicious code. 
+  (Determine where these permissions are used in the application,
+   see \ref{sec:appanalysis/reqperms})
 \item Determine the entry points into the source code. (This may also give
   a hint about the architecture or overall modular structure of the
   application.)
@@ -163,8 +169,43 @@ if the App does not contain malware.  In practice, you will have to add flows to
   case, do not add it to the policy file, but pay close attention to how this permission is used in the 
   code.
 
+\subsection{Task: check for the most suspicious code locations and API uses}
+\label{sec:appanalysis/suspicious}
+Run \<ant reportsuspicious> to get a list of the most suspicious code
+locations. This target only reports about suspicious APIs that appear 
+in the file:
+\<sparta-code/src/sparta/checkers/suspicious.astub>. This report
+provides the most suspicious code locations and is intended to help
+localizing malware in an unannotated application.
+
+The following example from the \<suspicious.astub> file reports all calls
+of the \verb|invoke| method and additionally, all constructor calls 
+of the class \verb|java.util.Random|:
+
+\begin{Verbatim}
+
+package java.lang.reflect;                                             
+class Method {                                                         
+    @ReportCall                                                        
+    public Object invoke(Object obj, Object [] objs) {}                
+}                                                                      
+                                                                       
+package java.util;                                                     
+@ReportCreation                                                        
+class Random {}
+
+\end{Verbatim}
+
+In addition to the reportsuspicious target, \<sparta-code/suspicious.pl> 
+can be used to recursively search for suspicious String patterns in
+\verb|java| and \verb|xml| files.
+The \<suspicious.astub> and \<suspicious.pl> files should be enhanced
+with additional API uses and String patterns that turn out to be 
+malicious for every analyzed application. 
+
 
 \subsection{Task: see where permissions are used in the application}
+\label{sec:appanalysis/reqperms}
 
 Run \<ant reqperms>  to see a list of the app's methods
 that use calls that require certain Android permissions. You can use
@@ -192,15 +233,30 @@ Any permission that is required should already be listed in the AndroidManifest.
 % possible paths into an API.
 
 
-
 \subsection{Task: see what precise APIs are used where in the application}
 
 Run \<ant reportusage> to get a report of the used APIs. The
-\<reportusage>  only reports about Android APIs that appear in two files:
-\<sparta-code/src/sparta/checkers/report.astub> and \<reflection.astub>. 
+\<reportusage> target only reports about APIs that appear in the file:
+\<sparta-code/src/sparta/checkers/report.astub>. This report is useful
+for program comprehension but not intended to provide suspicious code
+locations. For suspicious API use, see \ref{sec:appanalysis/suspicious}
 %TODO: I think this belongs in the next section
 %Additional \<.astub> files can be passed as \<-Astubs=...> argument in the
 %build file.
+
+The following example from \<report.astub> causes the reportusage 
+checker to report the use of all entities in the package 
+\verb|com.android|:
+
+\begin{Verbatim}
+@ReportUse                                                         
+package com.android;
+\end{Verbatim}
+
+The \<report.astub> file should be enhanced while and after the 
+analysis of an application. Add the entities that are most crucial to
+understand the behaviour of an application.
+
 
 
 \subsection{Task: ensure that the used APIs are annotated with flow information\label{flow-task-annotate-apis}}

@@ -144,11 +144,16 @@
             output="flowshow.json"/>
     </target>
 
+    <target name="reportsuspicious"
+                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="report suspicoius API usage.">
+        <process-proj processor="sparta.checkers.AndroidReportChecker" stub="suspicious.astub"/>
+    </target>
 
     <target name="reportusage"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report interesting API usage.">
-        <process-proj processor="sparta.checkers.AndroidReportChecker"/>
+        <process-proj processor="sparta.checkers.AndroidReportChecker" stub="report.astub"/>
     </target>
 
     <target name="reportusage-json"
