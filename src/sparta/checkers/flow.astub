@@ -2247,12 +2247,20 @@ class FloatMath {
 }
 
 class Log {
-    static int d(@FlowSources(FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(FlowSource.ANY) @FlowSinks({}) String msg);
-    static int e(@FlowSources(FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(FlowSource.ANY) @FlowSinks({}) String msg);
-    static int e(@FlowSources(FlowSource.ANY) @FlowSinks({}) String tag,
-        @FlowSources(FlowSource.ANY) @FlowSinks({}) String msg,
-        @FlowSources(FlowSource.ANY) @FlowSinks({}) Throwable tr);
-    static int w(@FlowSources(FlowSource.ANY) @FlowSinks({}) String tag, @FlowSources(FlowSource.ANY) @FlowSinks({}) String msg);
+static @FlowSources(FlowSource.LOG) int	 d(@FlowSinks(FlowSink.LOG) @FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) int	 d(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) int	 e(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) int	 e(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) int	 i(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) int	 i(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) int	 v(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) int	 v(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) int	 w(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) int	 w(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) int	 w(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) int	 wtf(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) int	 wtf(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) int	 wtf(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
 }
 
 package android.view;

@@ -70,7 +70,7 @@ public @interface FlowSources {
         INTERNET,
         LOCATION_EXTRA_COMMANDS,
         LOCATION,
-        LOGS,
+        LOG,
         MASTER_CLEAR,
         MICROPHONE,
         MMS,

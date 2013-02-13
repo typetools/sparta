@@ -73,7 +73,7 @@ public @interface FlowSinks {
         INTERNET,
         KILL_BACKGROUND_PROCESSES,
         LOCATION_UPDATES,
-        LOGCAT,
+        LOG,
         NETWORK_STATE,
         NETWORK,
         NFC,
