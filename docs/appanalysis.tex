@@ -172,14 +172,15 @@ if the App does not contain malware.  In practice, you will have to add flows to
 \subsection{Task: check for the most suspicious code locations and API uses}
 \label{sec:appanalysis/suspicious}
 Run \<ant reportsuspicious> to get a list of the most suspicious code
-locations. This target only reports about suspicious APIs that appear 
+locations. 
+This target only reports about suspicious APIs that appear 
 in the file:
 \<sparta-code/src/sparta/checkers/suspicious.astub>. This report
 provides the most suspicious code locations and is intended to help
 localizing malware in an unannotated application.
 
 The following example from the \<suspicious.astub> file reports all calls
-of the \verb|invoke| method and additionally, all constructor calls 
+of the \verb|invoke| method and, additionally, all constructor calls 
 of the class \verb|java.util.Random|:
 
 \begin{Verbatim}
@@ -196,9 +197,21 @@ class Random {}
 
 \end{Verbatim}
 
-In addition to the reportsuspicious target, \<sparta-code/suspicious.pl> 
-can be used to recursively search for suspicious String patterns in
-\verb|java| and \verb|xml| files.
+In addition to running the report checker based on the 
+\<suspicious.astub> file, the \<reportsuspicious> target executes
+the script \<sparta-code/suspicious.pl>, which recursively searches for 
+suspicious String patterns (i.e., URIs, or IP and MAC addresses) 
+in \verb|java| and \verb|xml| files.
+Generally, the \<sparta-code/suspicious.pl> script takes two arguments:
+\begin{enumerate}
+ \item root-dir: The directory in which the script recursively 
+       searches for the given patterns (built-in or argument\#2)
+ \item pattern (optional): Search pattern to use instead of the
+built-in ones. 
+\end{enumerate}
+For each match, the script reports the file name, line
+number, and the found pattern.
+
 The \<suspicious.astub> and \<suspicious.pl> files should be enhanced
 with additional API uses and String patterns that turn out to be 
 malicious for every analyzed application. 
@@ -235,16 +248,17 @@ Any permission that is required should already be listed in the AndroidManifest.
 
 \subsection{Task: see what precise APIs are used where in the application}
 
-Run \<ant reportusage> to get a report of the used APIs. The
-\<reportusage> target only reports about APIs that appear in the file:
-\<sparta-code/src/sparta/checkers/report.astub>. This report is useful
+Run \<ant reportapiusage> to get a report of the used APIs. The
+\<reportapiusage> target only reports about APIs that appear in the file:
+\<sparta-code/src/sparta/checkers/apiusage.astub>. This report is useful
 for program comprehension but not intended to provide suspicious code
-locations. For suspicious API use, see \ref{sec:appanalysis/suspicious}
+locations. For suspicious API use, see
+\ref{sec:appanalysis/suspicious}.
 %TODO: I think this belongs in the next section
 %Additional \<.astub> files can be passed as \<-Astubs=...> argument in the
 %build file.
 
-The following example from \<report.astub> causes the reportusage 
+The following example from \<apiusage.astub> causes the corresponding 
 checker to report the use of all entities in the package 
 \verb|com.android|:
 
@@ -253,8 +267,8 @@ checker to report the use of all entities in the package
 package com.android;
 \end{Verbatim}
 
-The \<report.astub> file should be enhanced while and after the 
-analysis of an application. Add the entities that are most crucial to
+The \<apiusage.astub> file should be enhanced during and after the 
+analysis of an application -- add the entities that are most crucial to
 understand the behaviour of an application.
 
 

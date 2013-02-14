@@ -147,15 +147,22 @@
     <target name="reportsuspicious"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report suspicoius API usage.">
-        <process-proj processor="sparta.checkers.AndroidReportChecker" stub="suspicious.astub"/>
+        	<!-- Run script to search for suspicious regexp pattern -->
+        		<echo>Search for suspicious regexp pattern</echo><echo/>        		
+                <exec executable="${sparta-code_dir}/${sparta-code_base}/suspicious.pl">
+                      <arg value="."/>
+                </exec><echo/>
+            <!-- Run report checker -->
+                <process-proj processor="sparta.checkers.AndroidReportChecker" stub="suspicious.astub"/>
     </target>
 
-    <target name="reportusage"
+    <target name="reportapiusage"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report interesting API usage.">
-        <process-proj processor="sparta.checkers.AndroidReportChecker" stub="report.astub"/>
+        <process-proj processor="sparta.checkers.AndroidReportChecker" stub="apiusage.astub"/>
     </target>
 
+<!-- no longer in use
     <target name="reportusage-json"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report interesting API usage with JSON.">
@@ -169,7 +176,7 @@
         <javamain-proj classname="sparta.checkers.JsonJavac$ReportUsageText"
             output="reportusage.txt"/>
     </target>
-
+-->
 
     <target name="reportbinaryonly"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 

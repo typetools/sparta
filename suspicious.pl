@@ -19,7 +19,7 @@ use Regexp::Common qw/net/;
 $#ARGV>=0 || die "usage: $0 'root-dir' [pattern]";
 
 # name pattern of files to include in analysis
-my $file_pattern="(\.java|[sS]trings.xml)\$";
+my $file_pattern="(\.java|[sS]trings\.xml)\$";
 
 # default search pattern:
 #  - content://...
