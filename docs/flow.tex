@@ -45,7 +45,7 @@ The types of FlowSources and FlowSinks are listed in the
 
 \section{Default Types\label{flow-defaults}}
 
-\begin{table}[t]
+\begin{table}[h]
     \begin{tabular}{| l | l |}
      \hline
     Fields Types &  \<@FlowSources @FlowSinks> \\ \hline
@@ -282,7 +282,7 @@ for (int i = 0 ; i < MAX\_CC\_NUM ; i++)\{
 \end{alltt}
 
 To catch this sort of information leak, pass
- \<strict-conditional> to change the default from ANY -\textgreater CONDITIONAL to 
+ \<-Alint=strict-conditional> to change the default from ANY -\textgreater CONDITIONAL to 
  LITERAL-\textgreater CONDITIONAL. 
 
 

@@ -34,6 +34,35 @@ explained in the description.  These flows may be explicitly stated, such as ``e
   
 \section{How to Analyze an Unannotated App}
 
+\subsection{Summary}
+
+The recommended work flow is shown below:  
+
+\begin{enumerate}
+\item Add lines to build.xml
+\item Read Description
+\item Check Permissions in AndroidManifest.xml
+\item Write Flow Policy
+\item Run Tools
+\item Annotate Relevant API's
+\item After all errors are gone, run ant -Dstrict flowtest
+\end{enumerate}
+
+\noindent 
+The tools should be run in the following order. 
+
+\begin{enumerate}
+\item ant reportsuspicious 
+\item sparta-code/suspicious.pl
+\item ant reqperms
+\item ant reportusage
+\item ant flowtest
+\end{enumerate}
+
+\noindent 
+The rest of this chapter gives more details about each step in the analysis process.
+
+
 \subsection{Task:  set up the tools for the new application}
 \label{subsec:setupapp}
 
@@ -124,7 +153,7 @@ with Ant. To fix this, in ant.properties, add ``\<jar.libs.dir=lib>''
 
 
 \subsection{Task: get a basic understanding of the application}
-
+Read the description of the application.  
 Look at the AndroidManifest.xml file and:
 \begin{itemize}
 \item Determine which permissions the app uses.
@@ -134,7 +163,7 @@ Look at the AndroidManifest.xml file and:
   application and determine whether or not they are well justified.
   If an application uses certain permissions that are not justified
   in the description, this indicates suspicious code. 
-  (Determine where these permissions are used in the application,
+  (To determine where these permissions are used in the application,
    see \ref{sec:appanalysis/reqperms})
 \item Determine the entry points into the source code. (This may also give
   a hint about the architecture or overall modular structure of the
@@ -322,17 +351,11 @@ appropriate flow properties expressed as \<@FlowSinks(...)> and
 \<@FlowSources(...)> annotations.
 It would be unusual for an API method to contain both a \<@FlowSources>
 and a \<@FlowSinks> annotation.
-
-If the method has no flow, you can write  
-\<@FlowSources(...)> \<@FlowSinks(...)>  on each parameter and the return type, 
-\emph{or} you can write a single 
-\<@NoFlow> declaration annotation on the method.
-This annotation is short-hand for annotating the return type and each
-parameter as not having any flow.
-It is important to mark API methods that have no flow, so that the method
-appears in the \<flow.astub> file and the next person looking at that
-API does not need to perform the same analysis again.
 \end{itemize}
+
+If according to the description, the method has no flow, then the parameters and return type
+ should be annotated with \<@PolyFlowSources @PloyFlowSinks>
+  to preserve the flow information.
 
 
 Note: you have not yet added any annotations to the app itself.
@@ -358,10 +381,6 @@ This step does not perform type-checking; it only visualizes the flow
 information written in the program or libraries as annotations, or
 inferred from those annotations.
 
-The report is interesting exactly when a given type use contains both
-a \<@FlowSource> and a \<@FlowSink> annotation. This is an information flow,
-and the analyst must decide whether it is desirable or undesirable.  The analyst
-should then write the desirable information flow into the policy file.
 
 For an unannotated program, the report will not be informative: it
 only contains API annotations that are propagated to local
@@ -430,12 +449,15 @@ decide whether this is a desired information flow or not.
 You can continue to use \<ant flowshow> to visualize the annotation
 progress.
 
+\subsection{Task: run stricter tests}
 Once all warnings were resolved, run \<ant -Dstricter=true flowtest> on
 the application.
 Providing the \<stricter> option enables additional checks that are
 required for soundness, but would be disruptive to enable initially.
 In particular, the tests for casts and array subtyping are stricter.
 See the discussion in \chapterpageref{flow-checker}.
+
+This option will also use the stricter conditional rule. (LITERAL-\textgreater CONDITIONAL rather than the relaxed ANY-\textgreater CONDITIONAL)
 
 
 %%% Local Variables: 
