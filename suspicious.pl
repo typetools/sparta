@@ -22,12 +22,13 @@ $#ARGV>=0 || die "usage: $0 'root-dir' [pattern]";
 my $file_pattern="(\.java|[sS]trings\.xml)\$";
 
 # default search pattern:
-#  - content://...
+#  - content prefix (e.g., used in content://...)
+#  - http prefix (e.g., used in String concatenation)
 #  - URIs
 #  - IPv4 addresses
-#  - MAX addresses
+#  - MAC addresses
 my $search_pattern =
-"(\"content[^\"]*\"|$RE{URI}{-keep}|$RE{net}{IPv4}{-keep}|$RE{net}{MAC}{-keep})";
+"(\"\\s*content[^\"]*\"|\"\\s*http[^\"]*\"|$RE{URI}{-keep}|$RE{net}{IPv4}{-keep}|$RE{net}{MAC}{-keep})";
 
 # use specific pattern if provided via cmd
 $search_pattern=$ARGV[1] if $#ARGV==1;
