@@ -149,10 +149,10 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             final FlowPolicy flowPolicy = checker.getFlowPolicy();
             if(sinksFromAny == null) {
                 sinksFromAny = new HashSet<FlowSinks.FlowSink>();
-                sinksFromAny.addAll(flowPolicy.getIntersectingSinks(Arrays.asList(FlowSources.FlowSource.ANY)));
+                sinksFromAny.addAll(flowPolicy.getSinksFromSource(FlowSources.FlowSource.ANY, false));
 
                 sourcesToAny = new HashSet<FlowSources.FlowSource>();
-                sourcesToAny.addAll(flowPolicy.getIntersectingSources(Arrays.asList(FlowSinks.FlowSink.ANY)));
+                sourcesToAny.addAll(flowPolicy.getSourcesFromSink(FlowSinks.FlowSink.ANY, false));
             }
 
 
@@ -176,7 +176,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             final List<FlowSinks.FlowSink>     sinks   = getValuesOrEmpty(flowSinksQuals,  FlowSinks.FlowSink.class);
 
 
-            if( !sources.isEmpty() && sinks.isEmpty()) {
+            if( !sources.isEmpty() && flowSinksQuals == null) {
                 final Set<FlowSinks.FlowSink>  newSinks = flowPolicy.getIntersectingSinks(sources);
                 newSinks.addAll(sinksFromAny);
 
@@ -184,7 +184,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                     type.replaceAnnotation( checker.createAnnoFromSinks(newSinks) );
                 }
 
-            } else if( sources.isEmpty() && !sinks.isEmpty() ) {
+            } else if( flowSourcesQual == null && !sinks.isEmpty() ) {
 
                 final Set<FlowSources.FlowSource> newSources = checker.getFlowPolicy().getIntersectingSources(sinks);
                 newSources.addAll(sourcesToAny);
