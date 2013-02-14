@@ -183,12 +183,15 @@ public class FlowPolicy {
         return out;
     }
 
+    private final List<FlowSink>   allFlowSinks   =  Collections.unmodifiableList(Arrays.asList(FlowSink.values()));
+    private final List<FlowSource> allFlowSources =  Collections.unmodifiableList(Arrays.asList(FlowSource.values()));
+
     public Set<FlowSink> getIntersectingSinks(final List<FlowSource> sources) {
-        return getIntersectingValueSets(FlowSink.class, allowedFlows, sources);
+        return getIntersectingValueSets(FlowSink.class, allowedFlows, allFlowSinks, sources);
     }
 
     public Set<FlowSource> getIntersectingSources(final List<FlowSink> sinks) {
-        return getIntersectingValueSets(FlowSource.class, reversedAllowedFlows, sinks);
+        return getIntersectingValueSets(FlowSource.class, reversedAllowedFlows, allFlowSources, sinks);
     }
 
     /**
@@ -415,33 +418,47 @@ public class FlowPolicy {
 
     private static <KEY, VALUE extends Enum<VALUE>> Set<VALUE> getIntersectingValueSets(final Class<VALUE> vc,
                                                        final Map<KEY, Set<VALUE>> kToV,
+                                                       final Collection<VALUE> allValues,
                                                        final List<KEY> keys) {
         if(keys.isEmpty()) {
             return new HashSet<VALUE>();
         }
 
         final VALUE any = VALUE.valueOf(vc, "ANY");
-
         Set<VALUE> initial = kToV.get(keys.get(0));
-        final Set<VALUE> sinks = ( initial == null ) ? new HashSet<VALUE>() : new HashSet<VALUE>(initial);
 
-        for( int i = 1; i < keys.size(); i++) {
+        final Set<VALUE> values;
+        if( initial != null ) {
+
+            if(initial.contains(any)) {
+                values = new HashSet<VALUE>(allValues);
+                values.remove(any);
+            } else {
+                values = new HashSet<VALUE>(initial);
+            }
+        } else {
+            values = new HashSet<VALUE>();
+        }
+
+        for( int i = 1; i < keys.size() && !values.isEmpty(); i++) {
             final KEY key = keys.get(i);
             final Set<VALUE> curValues = kToV.get(key);
 
             if( curValues != null ) {
-                if( curValues.contains(any) ) {
-                    sinks.clear();
-                    sinks.add(any);
-                    break;
-
-                }  else {
-                    sinks.addAll(curValues);
-                }
+                if( !curValues.contains(any) ) {
+                    values.retainAll(curValues);
+                } //else retain what we currently have as they will be in the intersection with any
+            } else {
+                values.clear();
             }
         }
 
-        return sinks;
+        if(values.size() == allValues.size()) {
+            values.clear();
+            values.add(any);
+        }
+
+        return values;
     }
 
     private <KEY, VALUE> Map<VALUE, Set<KEY>> reverse(final Map<KEY, Set<VALUE>> mapToReverse) {
