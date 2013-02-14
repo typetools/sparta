@@ -110,9 +110,6 @@ then these are equivalent:
   @FlowSources(\{A,B\})  == @FlowSources(\{A,B\}) @FlowSinks(Y)
 \end{alltt}
 
-Also, , but it does not type check because B is not allowed
-to flow to Y.  This means that \<@FlowSources(A,B)>  will not type check either.
-
 
 Similarly, if the programmer only specifies flow sinks, the flow sources are defaulted to be all sources 
 that are allowed to flow to  the specified sinks.  In other words, if a type is annotated with 
