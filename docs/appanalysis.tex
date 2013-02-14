@@ -52,10 +52,9 @@ The recommended work flow is shown below:
 The tools should be run in the following order. 
 
 \begin{enumerate}
-\item ant reportsuspicious 
-\item sparta-code/suspicious.pl
+\item ant reportsuspicious (also runs sparta-code/suspicious.pl)
 \item ant reqperms
-\item ant reportusage
+\item ant reportapiusage
 \item ant flowtest
 \end{enumerate}
 
@@ -230,7 +229,7 @@ In addition to running the report checker based on the
 \<suspicious.astub> file, the \<reportsuspicious> target executes
 the script \<sparta-code/suspicious.pl>, which recursively searches for 
 suspicious String patterns (i.e., URIs, or IP and MAC addresses) 
-in \verb|java| and \verb|strings.xml| files.
+in \verb|.java| and \verb|strings.xml| files.
 Generally, the \<sparta-code/suspicious.pl> script takes two arguments:
 \begin{enumerate}
  \item root-dir: The directory in which the script recursively 
@@ -338,7 +337,7 @@ phone number.  For more examples, look into the \<flow.astub> file. Also, see
 the manual \url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}
 
 For every API method used by this app (i.e., those output by \<ant
-reportusage>) that does \emph{not} already appear in file
+reportapiusage>) that does \emph{not} already appear in file
 \<sparta-code/src/sparta/checkers/flow.astub>, do the following.
 \begin{itemize}
 \item
