@@ -86,7 +86,8 @@ details, see section ``Automatic type refinement (flow-sensitive type
 qualifier inference)'' in the Checker Framework manual.
 
 In the case that the programmer only specifies flow sources, the flow sink is defaulted to be all 
-sinks that the specified flow sources can flow to.
+sinks that the all the specified flow sources can flow to. This is to say that 
+it is the intersection of the set of sinks each source can flow to.
  In other words, if a type is annotated with 
 \<@FlowSources($\alpha$)>, where $\alpha$ is a set of sources, then the flow sinks are the set 
 $\beta$ where $\beta$ is the union of sinks B where A-\textgreater B and A is a flow source in 
@@ -106,10 +107,10 @@ then these are equivalent:
   @FlowSources(B)                 ==   @FlowSources(B) @FlowSinks(Y)
   @FlowSources(\{B,C\})             ==   @FlowSources(B,C) @FlowSinks(Y)
   @FlowSources(A) @FlowSinks(Y)   ==   @FlowSources(A) @FlowSinks(Y) 
+  @FlowSources(\{A,B\})  == @FlowSources(\{A,B\}) @FlowSinks(Y)
 \end{alltt}
 
-Also, \<@FlowSources(A,B)>  is equivalent to 
-\<@FlowSources(\{A,B\}) @FlowSinks(\{X,Y\})>, but it does not type check because B is not allowed
+Also, , but it does not type check because B is not allowed
 to flow to Y.  This means that \<@FlowSources(A,B)>  will not type check either.
 
 
