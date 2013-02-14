@@ -1,18 +1,45 @@
 import sparta.checkers.quals.FlowSources;
+import static sparta.checkers.quals.FlowSources.FlowSource;
 
-class Arithmetics {
-  @FlowSources({FlowSources.FlowSource.CAMERA}) int cam;
-  int clean;
+import sparta.checkers.quals.FlowSinks;
+import static sparta.checkers.quals.FlowSinks.FlowSink;
 
-  void m() {
-    int i = 5;
-    clean = i;
+class Bad {
+    @FlowSources({FlowSource.ACCELEROMETER}) @FlowSinks({FlowSink.FILESYSTEM, FlowSink.CONDITIONAL}) int accel;
 
-    int j = i + 2;
-    clean = j;
+    //:: error: (forbidden.flow)
+    int clean;
 
-    int x = i;
-    x += 3;
-    clean = x;
-  }
+    public void saveAccelData(final @FlowSources({FlowSource.ACCELEROMETER}) @FlowSinks({FlowSink.FILESYSTEM}) int accelFs) {
+
+    }
+
+    void m() {
+
+        int i = 5;
+        if(i > 0) {
+        }
+
+        if(i > accel) {
+        }
+
+        //:: error: (condition.flow)
+        if(i < clean) {
+
+        }
+
+        //:: error: (assignment.type.incompatible)
+        clean = i;
+
+        int j = accel + 2;
+
+        @FlowSources({FlowSource.ACCELEROMETER, FlowSource.LITERAL}) @FlowSinks({FlowSink.FILESYSTEM, FlowSink.CONDITIONAL})
+        int x = j;
+        x += 3;
+
+        saveAccelData(accel);
+
+        //:: error: (assignment.type.incompatible)
+        clean = x;
+    }
 }

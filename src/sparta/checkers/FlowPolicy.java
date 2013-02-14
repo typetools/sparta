@@ -1,15 +1,14 @@
 package sparta.checkers;
 
-import checkers.flow.Flow;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationUtils;
 import checkers.util.Pair;
 import sparta.checkers.quals.FlowSinks;
-import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.FlowSources;
 
 import javax.lang.model.element.AnnotationMirror;
 
+import static sparta.checkers.quals.FlowSinks.FlowSink;
 import static sparta.checkers.quals.FlowSources.FlowSource;
 
 import java.io.BufferedReader;
@@ -34,73 +33,57 @@ public class FlowPolicy {
     public static final String POLICY_FILE_OPTION = "flowPolicy";
     public static final String STRICT_CONDITIONALS_OPTION = "strict-conditional";
 
-
     public static final String EMPTY = "{}";
     public static final String EMPTY_REGEX = "\\{\\}";
 
-    private final Map<FlowSource, Set<FlowSink>> allowedFlows;
+    private final Map<FlowSource, Set<FlowSink>>   allowedFlows;
+    private final Map<FlowSink,   Set<FlowSource>> reversedAllowedFlows;
 
     private final /*@Nullable*/ Set<FlowSink> sinksFromAnySource;
-    private final Set<FlowSink> sinksFromEmptySource;
-    private final Set<FlowSource> sourcesToEmptySink;
 
-    //True: LITERAL->CONDITIONAL is added, 
+    //True: LITERAL->CONDITIONAL is added,
     //False: ANY->CONDITIONAL is added
 	private final boolean strictConditionals;
 
-    public FlowPolicy( final Map<FlowSource, Set<FlowSink>> allowedFlows,
-                       final Set<FlowSink> sinksFromEmptySource,
-                       final Set<FlowSource> sourceToEmptySink) {
-        this.allowedFlows = allowedFlows;
-        this.sinksFromEmptySource = sinksFromEmptySource;
+    public FlowPolicy( final Map<FlowSource, Set<FlowSink>> allowedFlows) {
+        this.allowedFlows         = allowedFlows;
+        this.reversedAllowedFlows = reverse(allowedFlows);
         this.sinksFromAnySource = allowedFlows.get(FlowSource.ANY);
-        this.sourcesToEmptySink = sourceToEmptySink;
         this.strictConditionals=false;
     }
-    
+
     /**
-     * 
+     *
      * @param flowPolicyFile
      * @param strictConditionals if true LITERAL->CONDITIONAL is added, otherwise ANY->CONDITIONAL is added
      */
     public FlowPolicy( final File flowPolicyFile, boolean strictConditionals ) {
-
-        this.sinksFromEmptySource = new HashSet<FlowSink>();
-        if( this.sinksFromEmptySource.contains(FlowSink.ANY) ) {
-            this.sinksFromEmptySource.addAll(Arrays.asList(FlowSink.values()));
-        }
-
-        //TODO: PERHAPS ALWAYS ALLOW TO FLOW TO NOWHERE
-        this.sourcesToEmptySink   = new HashSet<FlowSource>();
-        if( this.sourcesToEmptySink.contains(FlowSource.ANY) ) {
-            this.sourcesToEmptySink.addAll(Arrays.asList(FlowSource.values()));
-        }
-        
         this.strictConditionals=strictConditionals;
-        this.allowedFlows       = getDefalutAllowedFlows();
+        this.allowedFlows       = getDefaultAllowedFlows();
         if(flowPolicyFile != null && flowPolicyFile.exists()  ){
             readPolicyFile(flowPolicyFile);
         }
         this.sinksFromAnySource = allowedFlows.get(FlowSource.ANY);
+        this.reversedAllowedFlows = reverse(allowedFlows);
     }
-    
+
     public FlowPolicy(final File flowPolicyFile){
     	this(flowPolicyFile,false);
     }
-    
+
     public FlowPolicy( ) {
         this(false);
     }
-    
+
     /**
-     * 
+     *
      * @param strictConditionals if true LITERAL->CONDITIONAL is added, otherwise ANY->CONDITIONAL is added
      */
     public FlowPolicy( boolean strictConditionals ) {
     	this(null,strictConditionals);
     }
 
-    private  HashMap<FlowSource, Set<FlowSink>>getDefalutAllowedFlows(){
+    private  HashMap<FlowSource, Set<FlowSink>> getDefaultAllowedFlows(){
     	HashMap<FlowSource, Set<FlowSink>> defaultAllowedFlows = new HashMap<FlowSource, Set<FlowSink>>();
     	HashSet<FlowSink> sinkSet = new HashSet<FlowSink>(1);
     	sinkSet.add(FlowSink.CONDITIONAL);
@@ -110,9 +93,10 @@ public class FlowPolicy {
     	}else{
         	defaultAllowedFlows.put(FlowSource.ANY, sinkSet);
     	}
-    	
+
     	return defaultAllowedFlows;
     }
+
     public Pair<Set<FlowSource>, Set<FlowSink>> annotatedTypeMirrorToFlows(final AnnotatedTypeMirror atm) {
 
         final AnnotationMirror sourceAnno = atm.getAnnotation(FlowSources.class);
@@ -127,9 +111,6 @@ public class FlowPolicy {
         final Set<FlowSink> sinks = new HashSet<FlowSink>(
                     AnnotationUtils.getElementValueEnumArray(sinkAnno,  "value", FlowSinks.FlowSink.class,   true));
 
-
-
-
         if( sources.contains( FlowSource.ANY ) ) {
             sources.addAll( Arrays.asList( FlowSource.values() ) );
             sources.remove( FlowSource.ANY );
@@ -143,46 +124,6 @@ public class FlowPolicy {
         return Pair.of(sources, sinks);
     }
 
-    /**
-     */
-    public static Pair<Set<FlowSource>, Set<FlowSink>> findUncheckedFlows(final Pair<Set<FlowSource>, Set<FlowSink>> from,
-                                                                   final Pair<Set<FlowSource>, Set<FlowSink>> to) {
-        final Set<FlowSource> sources = new HashSet<FlowSource>(from.first);
-        final Set<FlowSink>   sinks   = new HashSet<FlowSink>(to.second);
-
-        //hadSources and hadSinks is intended to guard against situtations similar to the following:
-        // @FlowSource(A,B) @FlowSource(C,D) from;
-        // @FlowSource(A,B) @FlowSink(C,E) to;
-        // to = from;
-        // In this situtation we want to check the flows A->C, A->E, B->C, B->E
-        // After removing sinks and sources we would end up with the following flows to check:
-        // sources({}) sinks(E)
-        // But {} -> E is not actually one of the flows we wanted to check.  In fact, since
-        // sources is empty we know that all of the flows we wanted to check are allowed.
-        // We could also have situations like E -> {} when in fact we don't want to check
-        // the empty set of sinks.
-        boolean hadSources = !sources.isEmpty();
-        boolean hadSinks   = !sinks.isEmpty();
-
-        sources.removeAll(to.first);
-        sinks.removeAll(from.second);
-
-        if( hadSources && sources.isEmpty() ) {
-            sinks.clear();
-        } else if(hadSinks && sinks.isEmpty() ) {
-            sources.clear();
-        }
-
-        return Pair.of(sources, sinks);
-    }
-
-    public boolean suppressFlowWarnings(final AnnotatedTypeMirror lhs, final AnnotatedTypeMirror rhs) {
-        final Pair<Set<FlowSource>, Set<FlowSink>> flows =
-                findUncheckedFlows(annotatedTypeMirrorToFlows(rhs), annotatedTypeMirrorToFlows(lhs));
-
-        return areFlowsAllowed(flows);
-    }
-
     public boolean areFlowsAllowed(final AnnotatedTypeMirror atm) {
        return areFlowsAllowed(annotatedTypeMirrorToFlows(atm));
     }
@@ -191,18 +132,8 @@ public class FlowPolicy {
         final Set<FlowSource> sources = flows.first;
         final Set<FlowSink>   sinks   = flows.second;
 
-        if( sources.isEmpty() ) {
-
-            if(sinks.isEmpty()) {
-                return true;
-            } else {
-                return sinksFromEmptySource.contains(FlowSink.ANY) ||
-                       sinksFromEmptySource.containsAll(sinks);
-            }
-        }
-
-        if( sinks.isEmpty() ) {
-            return sourcesToEmptySink.contains(FlowSource.ANY) || sourcesToEmptySink.containsAll(sources);
+        if( sources.isEmpty() || sinks.isEmpty() ) {
+            return false;
         }
 
         if(sinksFromAnySource != null) {
@@ -252,6 +183,14 @@ public class FlowPolicy {
         return out;
     }
 
+    public Set<FlowSink> getIntersectingSinks(final List<FlowSource> sources) {
+        return getIntersectingValueSets(FlowSink.class, allowedFlows, sources);
+    }
+
+    public Set<FlowSource> getIntersectingSources(final List<FlowSink> sinks) {
+        return getIntersectingValueSets(FlowSource.class, reversedAllowedFlows, sinks);
+    }
+
     /**
      * Read the given file return a one to many Map of FlowSource -> FlowSinks where
      * each entry indicates what sinks a source is given blanket access to reach
@@ -290,14 +229,17 @@ public class FlowPolicy {
 
         final List<String> errors = new ArrayList<String>();
 
+        final Set<FlowSink> allSinksButAny = new HashSet<FlowSink>(Arrays.asList(FlowSink.values()));
+        allSinksButAny.remove(FlowSink.ANY);
+
+
         BufferedReader bufferedReader = null;
         try {
             int lineNum = 1;
             bufferedReader = new BufferedReader(new FileReader(policyFile));
-            String originalLine = bufferedReader.readLine();
+            String originalLine = bufferedReader.readLine().trim();
 
             while(originalLine != null) {
-            
 
                 //Remove anything from # on in the line
                 final String line = stripComment(originalLine);
@@ -313,7 +255,6 @@ public class FlowPolicy {
                         boolean skip = false;
 
                         if( sourceStr.equals(EMPTY) ) {
-                          //  sinks = sinksFromEmptySource;
                             errors.add(
                                     formatPolicyFileError(policyFile, lineNum,
                                             "Unrecognized source: " + EMPTY +
@@ -360,7 +301,7 @@ public class FlowPolicy {
 								if (!skip) {
 									sinks.add(sinkEnum);
 								}
-                  
+
                             } catch(final IllegalArgumentException iaExc) {
                                 errors.add(
                                     formatPolicyFileError(policyFile, lineNum,
@@ -369,6 +310,12 @@ public class FlowPolicy {
                                             originalLine)
                                 );
                             }
+                        }
+
+                        //TODO: CHECK THIS WITH SUZANNE AND THE TEAM
+                        if( !skip && sinks.containsAll( allSinksButAny ) ) {
+                            sinks.clear();
+                            sinks.add( FlowSink.ANY );
                         }
 
                     } else {
@@ -391,7 +338,7 @@ public class FlowPolicy {
                 if(bufferedReader != null) {
                     bufferedReader.close();
                 }
-            } catch (IOException e) {
+            } catch (IOException ignoredCloseExc) {
             }
         }
 
@@ -409,10 +356,7 @@ public class FlowPolicy {
 
     private static final Pattern WHITE_SPACE_PATTERN = Pattern.compile("^\\s*$");
     public static boolean isWhiteSpaceLine(final String line) {
-        if(WHITE_SPACE_PATTERN.matcher(line).matches()) {
-            return true;
-        }
-        return false;
+        return WHITE_SPACE_PATTERN.matcher(line).matches();
     }
 
     public static String enumValuesToString(final Enum<?> [] enumValues) {
@@ -436,4 +380,87 @@ public class FlowPolicy {
                                                 final String message, final String line) {
         return file.getAbsolutePath() + ":" + lineNum + ": " +  message + "\n" + line;
     }
+
+    public Set<FlowSink> getSinksFromSource(final FlowSource source, boolean includeAny) {
+        return getSet(FlowSource.class, source, allowedFlows, includeAny);
+    }
+
+    public Set<FlowSource> getSourcesFromSink(final FlowSink sink, boolean includeAny) {
+        return getSet(FlowSink.class, sink, reversedAllowedFlows, includeAny);
+    }
+
+    private <KEY extends Enum<KEY>, VALUE extends Enum<VALUE>> Set<VALUE> getSet(
+            final Class<KEY> vc,
+            final KEY key,
+            final Map<KEY, Set<VALUE>> data,
+            boolean includeAny) {
+
+        Set<VALUE> values = data.get(key);
+        if(includeAny) {
+            final KEY any = KEY.valueOf(vc, "ANY");
+            Set<VALUE> results = new HashSet<VALUE>();
+            if(values != null) {
+                results.addAll(values);
+            }
+            results.addAll(getSet(vc, any, data, false));
+            return results;
+        } else {
+            if(values == null) {
+                values = new HashSet<VALUE>();
+            }
+
+            return Collections.unmodifiableSet(values);
+        }
+    }
+
+    private static <KEY, VALUE extends Enum<VALUE>> Set<VALUE> getIntersectingValueSets(final Class<VALUE> vc,
+                                                       final Map<KEY, Set<VALUE>> kToV,
+                                                       final List<KEY> keys) {
+        if(keys.isEmpty()) {
+            return new HashSet<VALUE>();
+        }
+
+        final VALUE any = VALUE.valueOf(vc, "ANY");
+
+        Set<VALUE> initial = kToV.get(keys.get(0));
+        final Set<VALUE> sinks = ( initial == null ) ? new HashSet<VALUE>() : new HashSet<VALUE>(initial);
+
+        for( int i = 1; i < keys.size(); i++) {
+            final KEY key = keys.get(i);
+            final Set<VALUE> curValues = kToV.get(key);
+
+            if( curValues != null ) {
+                if( curValues.contains(any) ) {
+                    sinks.clear();
+                    sinks.add(any);
+                    break;
+
+                }  else {
+                    sinks.addAll(curValues);
+                }
+            }
+        }
+
+        return sinks;
+    }
+
+    private <KEY, VALUE> Map<VALUE, Set<KEY>> reverse(final Map<KEY, Set<VALUE>> mapToReverse) {
+        final Map<VALUE, Set<KEY>> reversed = new HashMap<VALUE, Set<KEY>>();
+
+        for(final Map.Entry<KEY, Set<VALUE>> keyToValues : mapToReverse.entrySet()) {
+            KEY valueInReverse = keyToValues.getKey();
+
+            for(VALUE keyInReverse : keyToValues.getValue()) {
+                Set<KEY> newValues = reversed.get(keyInReverse);
+                if (newValues == null) {
+                    newValues = new HashSet<KEY>();
+                    reversed.put(keyInReverse, newValues);
+                }
+                newValues.add(valueInReverse);
+            }
+        }
+
+        return reversed;
+    }
+
 }

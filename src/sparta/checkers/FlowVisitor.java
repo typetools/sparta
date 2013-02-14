@@ -1,5 +1,6 @@
 package sparta.checkers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,23 +28,24 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     }
 
 
-   @Override
-   public boolean isValidUse(AnnotatedDeclaredType declarationType,
+    @Override
+    public boolean isValidUse(AnnotatedDeclaredType declarationType,
                                            AnnotatedDeclaredType useType) {
        return areFlowsValid(useType) ;
-    		   //&& areFlowsValid(declarationType);
-   }
+               //&& areFlowsValid(declarationType);
+    }
 
-   @Override
-   public boolean isValidUse(AnnotatedPrimitiveType type) {
+    @Override
+    public boolean isValidUse(AnnotatedPrimitiveType type) {
        return areFlowsValid(type);
-   }
+    }
 
-   @Override
-   public boolean isValidUse(AnnotatedArrayType type) {
+    @Override
+    public boolean isValidUse(AnnotatedArrayType type) {
        return areFlowsValid(type);
-   }
+    }
 
+    //TODO: WHY IS THIS HERE BUT NOT USED?
     private void ensureNoFlow(ExpressionTree tree, /*@checkers.compilermsgs.quals.CompilerMessageKey*/ String errMsg) {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
         if (!type.hasAnnotation(checker.NOFLOWSINKS) ||

@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import checkers.util.test.TestRun;
+import checkers.util.test.TestUtilities;
 import org.junit.Test;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -71,6 +73,31 @@ public class AndroidTests {
         @Parameters
         public static Collection<Object[]> data() {
             return testFiles("flow");
+        }
+
+        @Override
+        protected void test(final File testFile) {
+            final File flowPolicyFile = getFlowPolicy(testFile);
+            final String [] optionsWithPf;
+
+            if(flowPolicyFile.exists()) {
+                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 1);
+                optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy=" + flowPolicyFile.getAbsolutePath();
+            } else {
+                optionsWithPf = checkerOptions;
+            }
+
+            System.out.println("OPTIONS:\n" + join(optionsWithPf, " "));
+            test(checkerName, optionsWithPf, testFile);
+        }
+
+        private File getFlowPolicy(final File javaFile) {
+            final String path = javaFile.getAbsolutePath();
+            if(!path.endsWith(".java")) {
+                throw new RuntimeException("Cannot recognize java file " + javaFile.getAbsolutePath());
+            } else {
+                return new File(javaFile.getAbsolutePath().substring(0, path.length() - 5) + "Flowpolicy");
+            }
         }
     }
 
