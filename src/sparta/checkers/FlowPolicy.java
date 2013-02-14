@@ -453,7 +453,7 @@ public class FlowPolicy {
             }
         }
 
-        if(values.size() == allValues.size()) {
+        if(values.size() == (allValues.size() - 1) ) {  // (allValues - any)
             values.clear();
             values.add(any);
         }
