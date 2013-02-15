@@ -1468,7 +1468,27 @@ class AudioRecord {
 	@RequiredPermissions(android.Manifest.permission.MODIFY_AUDIO_SETTINGS) Object stopBluetoothSco(android.os.IBinder p0);
 }*/
 
+class ExifInterface{
+ pulic ExifInterface(@FlowSinks(FlowSink.FILESYSTEM) @PloyFlowSources String filename);
 
+@FlowSources({FlowSource.LOCATION,FlowSource.FILESYSTEM}) @PolyFlowSinks double	 getAltitude(@FlowSinks(FlowSink.FILESYSTEM) @PloyFlowSources double defaultValue);
+
+@FlowSources(FlowSource.FILESYSTEM) @PolyFlowSinks String	 getAttribute(@FlowSinks(FlowSink.FILESYSTEM) @PloyFlowSources String tag);
+
+@FlowSources({FlowSource.FILESYSTEM}) @PolyFlowSinks double	 getAttributeDouble(@FlowSinks(FlowSink.FILESYSTEM) @PloyFlowSources String tag, @FlowSinks(FlowSink.FILESYSTEM) @PloyFlowSources double defaultValue);
+
+@FlowSources({FlowSource.FILESYSTEM}) @PolyFlowSinks int	 getAttributeInt(@FlowSinks(FlowSink.FILESYSTEM) @PloyFlowSources String tag,@FlowSinks(FlowSink.FILESYSTEM) @PloyFlowSources int defaultValue);
+
+@FlowSources({FlowSource.FILESYSTEM}) @PolyFlowSinks boolean	 getLatLong(@FlowSources({FlowSource.LOCATION,FlowSource.FILESYSTEM})@PolyFlowSinks  float[] output);
+
+@FlowSources({FlowSource.FILESYSTEM}) @PolyFlowSinks byte[]	 getThumbnail();
+
+@FlowSources({FlowSource.FILESYSTEM}) @PolyFlowSinks boolean	 hasThumbnail();
+
+void	 saveAttributes();
+
+void	 setAttribute(@FlowSinks(FlowSinks.FILESYSTEM) @PloyFlowSources String tag, @FlowSinks(FlowSinks.FILESYSTEM) @PloyFlowSources String value);
+}
 
 /*class IAudioService$Stub$Proxy {
 	@RequiredPermissions(android.Manifest.permission.MODIFY_AUDIO_SETTINGS) Object setBluetoothScoOn(boolean p0);
