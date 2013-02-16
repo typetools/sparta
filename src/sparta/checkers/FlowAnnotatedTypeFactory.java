@@ -84,18 +84,18 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         while (iter != null) {
             if (this.getDeclAnnotation(iter, NoFlow.class) != null) {
                 // Use no flow sources for the return type.
-                new DefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.NOFLOWSOURCES);
+                new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.NOFLOWSOURCES);
                 // Nothing needs to be done for parameters.
                 // new DefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSOURCES);
                 return;
 
             } else if (this.getDeclAnnotation(iter, ConservativeFlow.class) != null) {
                 // Use the top types for return types
-                new DefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.ANYFLOWSOURCES);
+                new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.ANYFLOWSOURCES);
                 // Use the bottom types for parameter types
-                new DefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.ANYFLOWSINKS);
+                new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.ANYFLOWSINKS);
                 // Let @NoFlow override conservative defaults
-                new DefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSINKS);
+                new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSINKS);
                 return;
 
             }
@@ -134,30 +134,35 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             }
 
             if( element != null && element.getKind() == ElementKind.METHOD && type.getKind() == TypeKind.EXECUTABLE ) {
-                for ( final AnnotatedTypeMirror atm : ((AnnotatedExecutableType) type).getParameterTypes()) {
+                final AnnotatedExecutableType exeType = (AnnotatedExecutableType) type;
+                for ( final AnnotatedTypeMirror atm : exeType.getParameterTypes()) {
                     completePolicyFlows(atm);
                 }
-                completePolicyFlows(((AnnotatedExecutableType) type).getReturnType());
+
+                completePolicyFlows( exeType.getReturnType(), getExplicitReturnTypeAnnotations(exeType) );
 
             } else {
                 completePolicyFlows(type);
             }
         }
 
-        protected void completePolicyFlows(final AnnotatedTypeMirror type) {
+        private Set<AnnotationMirror> getExplicitReturnTypeAnnotations(final AnnotatedExecutableType aet) {
+            final Set<AnnotationMirror> methodAnnos = aet.getExplicitAnnotations();
+            final Set<AnnotationMirror> returnAnnos = new HashSet<AnnotationMirror>();
+            for(final AnnotationMirror methodAnno : methodAnnos) {
+                com.sun.tools.javac.code.Attribute.TypeCompound tc = (com.sun.tools.javac.code.Attribute.TypeCompound) methodAnno;
 
-            final FlowPolicy flowPolicy = checker.getFlowPolicy();
-            if(sinksFromAny == null) {
-                sinksFromAny = new HashSet<FlowSinks.FlowSink>();
-                sinksFromAny.addAll(flowPolicy.getSinksFromSource(FlowSources.FlowSource.ANY, false));
-
-                sourcesToAny = new HashSet<FlowSources.FlowSource>();
-                sourcesToAny.addAll(flowPolicy.getSourcesFromSink(FlowSinks.FlowSink.ANY, false));
+                //.isEmpty means we DO NOT handle array/List type parameters
+                if( tc.position.type == com.sun.tools.javac.code.TargetType.METHOD_RETURN && tc.position.location.isEmpty() ) {
+                    returnAnnos.add(methodAnno);
+                }
             }
 
+            return returnAnnos;
+        }
 
-            final Set<AnnotationMirror> explicitAnnos = type.getExplicitAnnotations();
-
+        //TODO: THIS SHOULD REALLY RETURN AN EITHER TYPE
+        protected Pair<AnnotationMirror, AnnotationMirror> explicitAnnosToFlowQuals(final Set<AnnotationMirror> explicitAnnos) {
             AnnotationMirror flowSourcesQual = null;
             AnnotationMirror flowSinksQuals  = null;
             for(final AnnotationMirror am : explicitAnnos) {
@@ -172,26 +177,74 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 }
             }
 
-            final List<FlowSources.FlowSource> sources = getValuesOrEmpty(flowSourcesQual, FlowSources.FlowSource.class);
-            final List<FlowSinks.FlowSink>     sinks   = getValuesOrEmpty(flowSinksQuals,  FlowSinks.FlowSink.class);
+            return Pair.of(flowSourcesQual, flowSinksQuals);
+        }
 
+        protected Pair<Set<FlowSources.FlowSource>, Set<FlowSinks.FlowSink>> getNewSourcesOrSinks(final Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals) {
+            final FlowPolicy flowPolicy = checker.getFlowPolicy();
 
-            if( !sources.isEmpty() && flowSinksQuals == null) {
-                final Set<FlowSinks.FlowSink>  newSinks = flowPolicy.getIntersectingSinks(sources);
+            final List<FlowSources.FlowSource> sources = getValuesOrEmpty(sourceToSinkQuals.first,   FlowSources.FlowSource.class);
+            final List<FlowSinks.FlowSink>     sinks   = getValuesOrEmpty(sourceToSinkQuals.second,  FlowSinks.FlowSink.class);
+
+            final Set<FlowSinks.FlowSink>  newSinks;
+            final Set<FlowSources.FlowSource> newSources;
+
+            if( !sources.isEmpty() && sourceToSinkQuals.second == null) {
+                newSources = null;
+                newSinks = flowPolicy.getIntersectingSinks(sources);
                 newSinks.addAll(sinksFromAny);
 
-                if( !newSinks.isEmpty() ) {
-                    type.replaceAnnotation( checker.createAnnoFromSinks(newSinks) );
-                }
-
-            } else if( flowSourcesQual == null && !sinks.isEmpty() ) {
-
-                final Set<FlowSources.FlowSource> newSources = checker.getFlowPolicy().getIntersectingSources(sinks);
+            }  else if( sourceToSinkQuals.first == null && !sinks.isEmpty() ) {
+                newSources = checker.getFlowPolicy().getIntersectingSources(sinks);
                 newSources.addAll(sourcesToAny);
+                newSinks = null;
 
-                if( !newSources.isEmpty() ) {
-                    type.replaceAnnotation( checker.createAnnoFromSources(newSources) );
-                }
+            } else {
+                newSources = null;
+                newSinks   = null;
+            }
+
+            return Pair.of(newSources, newSinks);
+        }
+
+        protected void completePolicyFlows(final AnnotatedTypeMirror type) {
+            completePolicyFlows( type, type.getExplicitAnnotations() );
+        }
+
+        protected void completePolicyFlows(final AnnotatedTypeMirror type, final Set<AnnotationMirror> explicitAnnos)  {
+            if( type.getKind() == TypeKind.VOID || explicitAnnos == null || explicitAnnos.isEmpty() ) {
+                return;
+            }
+
+            final FlowPolicy flowPolicy = checker.getFlowPolicy();
+            if(sinksFromAny == null) {
+                sinksFromAny = new HashSet<FlowSinks.FlowSink>();
+                sinksFromAny.addAll(flowPolicy.getSinksFromSource(FlowSources.FlowSource.ANY, false));
+
+                sourcesToAny = new HashSet<FlowSources.FlowSource>();
+                sourcesToAny.addAll(flowPolicy.getSourcesFromSink(FlowSinks.FlowSink.ANY, false));
+            }
+
+            //Using pairs like Either -- the rest of this method would be much shorter with Eithers
+            Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals =
+                    explicitAnnosToFlowQuals(explicitAnnos);
+
+            Pair<Set<FlowSources.FlowSource>, Set<FlowSinks.FlowSink>> newSourcesOrSinks =
+                    getNewSourcesOrSinks( sourceToSinkQuals );
+
+            final AnnotationMirror newAnno;
+            if( newSourcesOrSinks.first != null) {
+                newAnno = checker.createAnnoFromSources( newSourcesOrSinks.first );
+
+            } else if( newSourcesOrSinks.second != null ) {
+                newAnno = checker.createAnnoFromSinks( newSourcesOrSinks.second );
+
+            } else {
+                newAnno  = null;
+            }
+
+            if( newAnno != null ) {
+                type.replaceAnnotation( newAnno );
             }
         }
 
@@ -206,6 +259,26 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             Element element = InternalUtils.symbol(tree);
             completePolicyFlows(element, type);
             super.annotate(tree, type);
+        }
+    }
+
+    //TODO: This fix should really occur in the actual DefaultApplier
+    private static class FlowDefaultApplier extends DefaultApplier {
+
+        public FlowDefaultApplier(Element elt, DefaultLocation location, AnnotatedTypeMirror type) {
+            super(elt, location, type);
+        }
+
+        @Override
+        public Void scan(AnnotatedTypeMirror t, AnnotationMirror qual) {
+            if (t == null || t.getKind() == TypeKind.NONE)
+                return null;
+
+            if( t.getUnderlyingType() instanceof javax.lang.model.type.NoType) {
+                return null;
+            }
+
+            return super.scan(t, qual);
         }
     }
 }
