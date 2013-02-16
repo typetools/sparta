@@ -28,11 +28,12 @@ my $file_pattern="(\.java|[sS]trings\.xml)\$";
 #  - IPv4 addresses
 #  - MAC addresses
 #  - dangerous file mode
+#  - auto-generated catch block
 my $search_pattern =
-"(\"\\s*content[^\"]*\"|\"\\s*http[^\"]*\"|$RE{URI}{-keep}|$RE{net}{IPv4}{-keep}|$RE{net}{MAC}{-keep}|MODE_WORLD_WRITEABLE)";
+"(\"\\s*content[^\"]*\"|\"\\s*http[^\"]*\"|$RE{URI}{-keep}|$RE{net}{IPv4}{-keep}|$RE{net}{MAC}{-keep}|MODE_WORLD_WRITEABLE|//.*generated catch block)";
 
 # use specific pattern if provided via cmd
-$search_pattern=$ARGV[1] if $#ARGV==1;
+$search_pattern="($ARGV[1])" if $#ARGV==1;
 
 # recursively analyze directory
 process_dir ($ARGV[0]);

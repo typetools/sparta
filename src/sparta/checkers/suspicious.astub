@@ -12,6 +12,8 @@ import checkers.util.report.quals.*;
 package java.io;
 @ReportCreation
 class FileOutputStream{}
+@ReportCreation
+class FileInputStream{}
 
 //
 // Suspicious use of java.lang API
