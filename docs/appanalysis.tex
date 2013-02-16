@@ -11,13 +11,13 @@ For details about how to install and run the code analysis tools, see \chapref{i
 Analyzing an annotated app is much simpler than analyzing an unannotated one.  Basically, the analysis consists of answering affirmatively three questions.
 
 \begin{enumerate}
-\item Does the Flow Checker produces any errors or warnings?
+\item Does the Flow Checker produce any errors or warnings?
 \item Does the flow-policy file match the application description?
-\item Do the arguments for every @SuppressWarning make sense?
+\item Does the justification for each @SuppressWarning make sense?
 \end{enumerate}
 
 \subsection{Run the Flow Checker}
-Does the Flow Checker produces any errors or warnings? A well annotated app should not produce
+Does the Flow Checker produce any errors or warnings? A properly annotated app should not produce
 any warnings or errors.  If it does, this would be grounds for rejection.  (You can follow the instructions 
 in subsection~\ref{subsec:setupapp} to set up the app for use with the Flow Checker and then run
 \<ant flowtest>.)
@@ -27,8 +27,8 @@ Does the flow-policy file match the application description? There should not be
 explained in the description.  These flows may be explicitly stated, such as ``encrypt and sign messages, send them via your preferred email app.''   Or a flow may only be implied, such as ``This Application allows the user to share pics with their contacts.''  In the first example, you would expect an EMAIL sink to appear somewhere in the policy file. In the second, ``share'' could mean a you would see a Flow Sink of EMAIL, SMS, NETWORK, or something else.  Flows that are only implied in the description could be grounds for rejection if the description is too vague. 
 
 \subsection{Review @SuppressWarning Justifications}
- Do the arguments for every @SuppressWarning make sense? Search for every instance of 
- @SuppressWarnings(``flow'') and read the justification comment.  Compare the justification to the
+ Does the justification for every @SuppressWarning make sense? Search for every instance of 
+ \<@SuppressWarnings("flow")> and read the justification comment.  Compare the justification to the
   actual code and determine if it make sense and should be allowed.  No justification comment 
   could be grounds for rejection.
   
@@ -36,7 +36,7 @@ explained in the description.  These flows may be explicitly stated, such as ``e
 
 \subsection{Summary}
 
-The recommended work flow is shown below:  
+The recommended work flow is:  
 
 \begin{enumerate}
 \item Add lines to build.xml
@@ -96,7 +96,7 @@ $ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
 \end{alltt}
 
 Edit the \<build.xml> file of the project under analysis to add the
-SPARTA build targets at the end (right before the ``$<$/project$>$''):
+SPARTA build targets at the end, right before \verb|</project>|:
 % TODO: how does using lt and gt in TT mode work?
 
 \begin{alltt}
@@ -296,7 +296,7 @@ package com.android;
 \end{Verbatim}
 
 The \<apiusage.astub> file should be enhanced during and after the 
-analysis of an application -- add the entities that are most crucial to
+analysis of an application --- add the entities that are most crucial to
 understand the behaviour of an application.
 
 
@@ -362,7 +362,7 @@ Note: you have not yet added any annotations to the app itself.
 
 \subsection{Task: visualize the existing flow in the application}
 
-You do not have to run this step -- you can skip it if you
+You do not have to run this step --- you can skip it if you
 prefer.
 
 Run \<ant flowshow> to get a report of the
