@@ -48,16 +48,18 @@ The types of FlowSources and FlowSinks are listed in the
 \begin{table}[h]
     \begin{tabular}{| l | l |}
      \hline
-    Fields Types &  \<@FlowSources @FlowSinks> \\ \hline
-    Method Parameters &  \<@FlowSources @FlowSinks> \\ \hline
-    Return Types &  \<@FlowSources @FlowSinks> \\ \hline
+    Field types &  \<@FlowSources @FlowSinks> \\ \hline
+    Method parameters &  \<@FlowSources @FlowSinks> \\ \hline
+    Return types &  \<@FlowSources @FlowSinks> \\ \hline
     \<null> &  \<@FlowSources @FlowSinks(FlowSink.ANY) >\\ \hline
-    Literals & \<@FlowSources(FlowSource.LITERAL)@FlowSinks(FlowSink.CONDITIONAL)>\\ \hline
-   Local Variables  &   \<@FlowSources(FlowSource.ANY) @FlowSinks> \\ \hline
-   \<@FlowSources($\alpha$)>&\<@FlowSources($\alpha$)>\<@FlowSinks($\beta$)>,  $\beta$ is all flow sinks allowed to flow from a source in $\alpha$ \\ \hline
-      \<@FlowSinks($\beta$)>&\<@FlowSources($\alpha$)>\<@FlowSinks($\beta$)>, $\alpha$ is all flow sources allowed to flow to a sink in $\beta$ \\ \hline
+    Literals & \<@FlowSources(FlowSource.LITERAL) @FlowSinks(FlowSink.CONDITIONAL)>\\ \hline
+   Local variables  &   \<@FlowSources(FlowSource.ANY) @FlowSinks> \\ \hline
+   \<@FlowSources($\alpha$)>&\<@FlowSources($\alpha$)>
+   \<@FlowSinks($\beta$)>,  $\beta$ is the set of flow sinks allowed to flow from all sources in $\alpha$ \\ \hline
+      \<@FlowSinks($\beta$)>&\<@FlowSources($\alpha$)>
+      \<@FlowSinks($\beta$)>, $\alpha$ is the set of flow sources allowed to flow to all sinks in $\beta$ \\ \hline
     \end{tabular}
-    \caption{Default Types}\label{table:defaults}
+    \caption{Default types}\label{table:defaults}
 \end{table}
 
 
@@ -74,7 +76,7 @@ public void sendToInternet(
      @FlowSources(FlowSource.LITERAL)@FlowSinks(FlowSink.Network) String message)\{...\}
 \end{alltt} 
 
-The value \emph{null} has the bottom type (@FlowSinks(FlowSink.ANY) @FlowSources), 
+The value \emph{null} has the bottom type (\<@FlowSinks(FlowSink.ANY) @FlowSources>), 
 so that it can be assigned to any type. For local variables, the default applies to
 the top level of the local variable type, but not to generic type arguments
 and array elements, if any.
@@ -85,12 +87,13 @@ general you do not have to write type annotations on local variables.  For
 details, see section ``Automatic type refinement (flow-sensitive type
 qualifier inference)'' in the Checker Framework manual.
 
-In the case that the programmer only specifies flow sources, the flow sink is defaulted to be all 
+If the programmer specifies only flow sources, the flow sink is defaulted
+to be the
 sinks that the all the specified flow sources can flow to. This is to say that 
 it is the intersection of the set of sinks each source can flow to.
  In other words, if a type is annotated with 
 \<@FlowSources($\alpha$)>, where $\alpha$ is a set of sources, then the flow sinks are the set 
-$\beta$ where $\beta$ is the union of sinks B where A-\textgreater B and A is a flow source in 
+$\beta$ where $\beta$ is the intersection of sinks B where A-\textgreater B and A is a flow source in 
 $\alpha$.  For example, if the flow policy contains the following:
 
 \begin{alltt}
@@ -111,11 +114,11 @@ then these are equivalent:
 \end{alltt}
 
 
-Similarly, if the programmer only specifies flow sinks, the flow sources are defaulted to be all sources 
-that are allowed to flow to  the specified sinks.  In other words, if a type is annotated with 
+Similarly, if the programmer only specifies flow sinks, the flow sources are defaulted to be the sources 
+that are allowed to flow to all the specified sinks.  In other words, if a type is annotated with 
 \<@FlowSinks($\beta$)>, where $\beta$ is a set of sinks, then the flow sources are the set 
-$\alpha$ where $\alpha$ is the union of sources A where A-\textgreater B and B is a flow sink in 
-$\beta$. For example, use the same policy file as above, the following are equivalent:
+$\alpha$ where $\alpha$ is the intersection of sources A where A-\textgreater B and B is a flow sink in 
+$\beta$. For example, using the same policy file as above, the following are equivalent:
 
 \begin{alltt}
   @FlowSinks(X)                   ==   @FlowSources(A) @FlowSinks(X)
@@ -125,12 +128,12 @@ $\beta$. For example, use the same policy file as above, the following are equiv
 \section{Flow Policy}
 \label{sec:flowpolicy}
 
-A flow policy is a list of the only flows that are permitted to occur in an application.
+A flow policy is a list of all the flows that are permitted to occur in an application.
 Flow policies are specified in a flow-policy file that is  a list 
  of flow source and flow sink pairs.  If a flow is not listed in the flow policy, then 
  it is forbidden to occur.  If no flow policy is specified, then no flows are permitted. 
  
-\subsection{Semantic of a Flow Policy}
+\subsection{Semantics of a Flow Policy}
 \label{sec:undsiredflows}
 The Flow Checker guarantees that there is no information
 flow except for what is explicitly permitted by the policy file. If a user writes a type that is
@@ -339,7 +342,7 @@ defaults.
 
 To make the type system more expressive, the flow type systems support
 qualifier polymorphism, via the type qualifiers \<@PolyFlowSources> and
-\<@PolyFlowSinks>.  These are mostly used when annotating API's when the
+\<@PolyFlowSinks>.  These are mostly used when annotating APIs when the
  specific flow sources or flow sinks are not known or can vary. 
 See section ``Qualifier polymorphism'' in the Checker Framework manual.  
 
