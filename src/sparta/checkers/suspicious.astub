@@ -12,6 +12,8 @@ import checkers.util.report.quals.*;
 package java.io;
 @ReportCreation
 class FileOutputStream{}
+@ReportCreation
+class FileInputStream{}
 
 //
 // Suspicious use of java.lang API
@@ -64,7 +66,13 @@ class Calendar {}
 // Suspicious use of android API
 //
 package android.content;
-@ReportCreation
-class Intent {}
+class Intent {
+    @ReportReadWrite
+    public static final String ACTION_VIEW;    
+}
 @ReportCreation
 class IntentFilter {}
+class Context{
+    @ReportReadWrite
+    public static final int MODE_WORLD_WRITEABLE;
+}

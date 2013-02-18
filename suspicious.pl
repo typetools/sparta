@@ -27,12 +27,13 @@ my $file_pattern="(\.java|[sS]trings\.xml)\$";
 #  - URIs
 #  - IPv4 addresses
 #  - MAC addresses
-#  - dangerous file mode
+#  - String constant for ACTION_VIEW intent
+#  - auto-generated catch block
 my $search_pattern =
-"(\"\\s*content[^\"]*\"|\"\\s*http[^\"]*\"|$RE{URI}{-keep}|$RE{net}{IPv4}{-keep}|$RE{net}{MAC}{-keep}|MODE_WORLD_WRITEABLE)";
+"(\"\\s*content[^\"]*\"|\"\\s*http[^\"]*\"|$RE{URI}{-keep}|$RE{net}{IPv4}{-keep}|$RE{net}{MAC}{-keep}|android\.intent\.action\.VIEW|//.*generated catch block)";
 
 # use specific pattern if provided via cmd
-$search_pattern=$ARGV[1] if $#ARGV==1;
+$search_pattern="($ARGV[1])" if $#ARGV==1;
 
 # recursively analyze directory
 process_dir ($ARGV[0]);
