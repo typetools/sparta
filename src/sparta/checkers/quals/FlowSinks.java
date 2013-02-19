@@ -90,6 +90,7 @@ public @interface FlowSinks {
         REORDER_TASKS,
         SECURE_SETTINGS,
         SETTINGS,
+        SHARED_PREFERENCES,
         SIGNAL_PERSISTENT_PROCESSES,
         SIP,
         SMS,

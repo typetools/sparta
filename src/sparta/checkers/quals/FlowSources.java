@@ -85,6 +85,7 @@ public @interface FlowSources {
         PHONE_STATE,
         PROFILE,
         RANDOM,
+        SHARED_PREFERENCES,
         SIP,
         SMS,
         SOCIAL_STREAM,
