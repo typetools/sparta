@@ -41,6 +41,11 @@
                    else="">
                 <equals arg1="${debug}" arg2="true" />
             </condition>
+
+            <condition property="checkerFrameworkOpts" value="${cfOpts}" else="">
+                <isset property="cfOpts"/>
+            </condition>
+
             <!-- Option to enforce stricter checks, in particular for casts. -->
             <!-- Note that only one -Alint argument can be provided. -->
             <condition property="lintoptions"
@@ -61,12 +66,10 @@
                 <src path="${gen.absolute.dir}" />
                 <classpath>
                     <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
-                    <pathelement path="${sparta-code_dir}/${sparta-code_base}/bin/"/>
-                    <pathelement path="${sparta-code_dir}/${sparta-code_base}/build/"/>
                     <pathelement location="${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
-                <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} "/>
+                <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} ${checkerFrameworkOpts}"/>
                 <compilerarg line="-encoding ISO8859-1 -AprintErrorStack -AstubWarnIfNotFound" />
             </jsr308.javac>
             <more-tasks/>
@@ -121,6 +124,13 @@
     <target name="flowtest"
                 depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for flowtest.">
+        <process-proj processor="sparta.checkers.FlowChecker"/>
+    </target>
+
+    <target name="conditiontest"
+            depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package"
+            description="Test program conditions for types that flow to conditions and do not contain the @FlowSink.CONDITIONAL flow-sink.">
+        <property name="cfOpts" value="-AmsgFilter=condition.flow"/>
         <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
 
