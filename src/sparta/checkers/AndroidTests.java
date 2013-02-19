@@ -1,14 +1,9 @@
 package sparta.checkers;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
-import checkers.util.test.TestRun;
-import checkers.util.test.TestUtilities;
-import org.junit.Test;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
@@ -58,7 +53,7 @@ public class AndroidTests {
 
     public static class AndroidReportCheckerTests extends ParameterizedCheckerTest {
         public AndroidReportCheckerTests(File testFile) {
-            super(testFile, AndroidReportChecker.class.getName(), "sparta.checkers", "-Anomsgtext");
+            super(testFile, AndroidReportChecker.class.getName(), "sparta.checkers", "-Anomsgtext", "-Astubs=apiusage.astub:suspicious.astub");
         }
         @Parameters
         public static Collection<Object[]> data() {
