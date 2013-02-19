@@ -6,13 +6,16 @@ import java.util.*;
 import javax.annotation.processing.SupportedOptions;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.util.Elements;
+import javax.tools.Diagnostic;
 
 import checkers.basetype.BaseTypeChecker;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
 import checkers.quals.PolyAll;
+import checkers.source.Result;
 import checkers.source.SourceChecker;
 import checkers.source.SupportedLintOptions;
 import checkers.types.AnnotatedTypeMirror;
@@ -23,7 +26,9 @@ import checkers.util.MultiGraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import checkers.util.QualifierPolymorphism;
 import checkers.util.TreeUtils;
+import checkers.compilermsgs.quals.CompilerMessageKey;
 
+import com.sun.source.tree.Tree;
 import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.FlowSources;
@@ -35,11 +40,12 @@ import sparta.checkers.quals.PolyFlowSources;
     PolyFlowSources.class, PolyFlowSinks.class,
     PolyAll.class})
 @StubFiles("flow.astub")
-@SupportedOptions({FlowPolicy.POLICY_FILE_OPTION})
+@SupportedOptions({FlowPolicy.POLICY_FILE_OPTION, FlowChecker.MSG_FILTER_OPTION})
 @SupportedLintOptions({FlowPolicy.STRICT_CONDITIONALS_OPTION})
 
-public class FlowChecker extends BaseTypeChecker {
 
+public class FlowChecker extends BaseTypeChecker {
+    public static final String MSG_FILTER_OPTION = "msgFilter";
     
 	protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES, POLYFLOWSOURCES;
     protected AnnotationMirror NOFLOWSINKS, ANYFLOWSINKS, POLYFLOWSINKS;
@@ -51,6 +57,7 @@ public class FlowChecker extends BaseTypeChecker {
     protected AnnotationMirror FLOW_SINKS;
     
     protected FlowPolicy flowPolicy;
+    protected Set<String> unfilteredMessages;
 
     @Override
     public void initChecker() {
@@ -96,6 +103,24 @@ public class FlowChecker extends BaseTypeChecker {
         builder = new AnnotationBuilder(processingEnv, FlowSinks.class.getCanonicalName());
         builder.setValue("value", literalSinks.toArray(new FlowSink[literalSinks.size()]));
         FROMLITERALFLOWSINK = builder.build();
+
+
+        String unfilteredStr = processingEnv.getOptions().get(MSG_FILTER_OPTION);
+        if(unfilteredStr == null) {
+            unfilteredMessages = null;
+        } else {
+            final String [] unfilteredMsgs = unfilteredStr.split(":");
+            unfilteredMessages = new HashSet<String>();
+            for(final String unfilteredMsg : unfilteredMsgs) {
+                if(!unfilteredMsg.trim().isEmpty()) {
+                    unfilteredMessages.add(unfilteredMsg.trim());
+                }
+            }
+
+            if(unfilteredMessages.isEmpty()) {
+                unfilteredMessages = null;
+            }
+        }
     }
 
     protected ExecutableElement sourceValue;
@@ -369,5 +394,13 @@ public class FlowChecker extends BaseTypeChecker {
 
     public AnnotationMirror createAnnoFromSources(final Set<FlowSources.FlowSource> sources) {
         return createAnnoFromEnumArray(FlowSources.class, sources.toArray(new FlowSources.FlowSource[sources.size()]));
+    }
+
+    @Override
+    protected void message(Diagnostic.Kind kind, Object source, /*@CompilerMessageKey*/ String msgKey,
+                           Object... args) {
+        if( unfilteredMessages == null || unfilteredMessages.contains(msgKey)) {
+            super.message(kind, source, msgKey, args);
+        }
     }
 }

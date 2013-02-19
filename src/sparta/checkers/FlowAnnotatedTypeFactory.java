@@ -33,12 +33,14 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         super(checker, root);
 
         // Use the bottom type as default for everything but local variables.
-        defaults.addAbsoluteDefault(checker.NOFLOWSOURCES, DefaultLocation.OTHERWISE);
+        defaults.addAbsoluteDefault(checker.LITERALFLOWSOURCE, DefaultLocation.OTHERWISE);
         // Use the top type for local variables and let flow refine the type.
         defaults.addAbsoluteDefault(checker.ANYFLOWSOURCES, DefaultLocation.LOCALS);
 
-        // Default is always the top annotation for sinks.
-        defaults.addAbsoluteDefault(checker.NOFLOWSINKS, DefaultLocation.ALL);
+        // Default is LITERAL -> (ALL MAPPED SINKS) for everything but local variables.
+        defaults.addAbsoluteDefault(checker.FROMLITERALFLOWSINK, DefaultLocation.OTHERWISE);
+        // Use the top type for local variables and let flow refine the type.
+        defaults.addAbsoluteDefault(checker.NOFLOWSINKS, DefaultLocation.LOCALS);
         // But let's send null down any sink.
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.ANYFLOWSINKS);
 
@@ -57,6 +59,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.FROMLITERALFLOWSINK);
+
 
         postInit();
     }
@@ -136,10 +139,10 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             if( element != null && element.getKind() == ElementKind.METHOD && type.getKind() == TypeKind.EXECUTABLE ) {
                 final AnnotatedExecutableType exeType = (AnnotatedExecutableType) type;
                 for ( final AnnotatedTypeMirror atm : exeType.getParameterTypes()) {
-                    completePolicyFlows(atm);
+                    completePolicyFlows(atm, atm.getAnnotations());
                 }
 
-                completePolicyFlows( exeType.getReturnType(), getExplicitReturnTypeAnnotations(exeType) );
+                completePolicyFlows( exeType.getReturnType(), exeType.getAnnotations() );
 
             } else {
                 completePolicyFlows(type);
