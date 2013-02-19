@@ -41,6 +41,10 @@ class System{
 class Thread{
     @ReportCall
     public void start();
+    @ReportCall
+    public static void sleep(long millis);
+    @ReportCall
+    public static void sleep(long millis, int nanos);
 }
 
 
@@ -51,6 +55,19 @@ package java.lang.reflect;
 class Method {
 	@ReportCall
 	public Object invoke(Object obj, Object [] objs) {}
+}
+
+//
+// Suspicious use of java.net API
+//
+package java.net;
+class URL {
+	@ReportCall
+	public InputStream openStream() {}
+	@ReportCall
+	public URLConnection openConnection() {}
+	@ReportCall
+	public URLConnection openConnection(Proxy proxy) {}
 }
 
 //
@@ -70,6 +87,11 @@ class Intent {
     @ReportReadWrite
     public static final String ACTION_VIEW;    
 }
+class BroadcastReceiver{
+    @ReportCall
+    public final void abortBroadcast(){}
+}
+
 @ReportCreation
 class IntentFilter {}
 class Context{
