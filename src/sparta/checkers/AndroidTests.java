@@ -82,7 +82,7 @@ public class AndroidTests {
                 optionsWithPf = checkerOptions;
             }
 
-            System.out.println("OPTIONS:\n" + join(optionsWithPf, " "));
+            // System.out.println("OPTIONS:\n" + join(optionsWithPf, " "));
             test(checkerName, optionsWithPf, testFile);
         }
 
