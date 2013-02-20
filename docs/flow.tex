@@ -3,7 +3,8 @@
 
 This chapter gives a brief overview of the Flow Checker, a type-checker that 
 tracks information flow through your program.  It gives a guarantee that there
- is no information flow beyond what is expressed in the flow policy and type annotations.
+is no information flow beyond what is expressed in the flow policy and
+type annotations.
 
 The Flow Checker does pluggable type-checking of an information flow type
 system.  It is implemented using the Checker Framework.  To better
@@ -23,12 +24,14 @@ As an example, suppose there is a declaration
   @FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK) double latitude;
 \end{Verbatim}
 \noindent
-The \<@FlowSources(FlowSource.LOCATION)> annotation indicates that the value of \<latitude> might have been derived from
+The \<@FlowSources(FlowSource.LOCATION)> annotation indicates that the
+value of \<latitude> might have been derived from
 location information.  It does not guarantee that the value came from
 authentic GPS data, but only sets a bound on where the information might
 have come from; this assignment is legal: \<latitude = 47.6097>.
-Similarly, the annotation \<@FlowSinks(FlowSInk.NETWORK)> marks that the string \<latitude> 
-might be output to the network.  It is also possible that the data has already been output.
+Similarly, the annotation \<@FlowSinks(FlowSInk.NETWORK)> marks that
+the string \<latitude> might be output to the network.  It is also
+possible that the data has already been output.
 
 The argument to \<@FlowSources> (and \<@FlowSinks>) is an enum constant, or a
 set of them to indicate that a value might combine information from
@@ -48,10 +51,10 @@ The types of FlowSources and FlowSinks are listed in the
 \begin{table}[h]
     \begin{tabular}{| l | l |}
      \hline
-    Field types &  \<@FlowSources(FlowSource.LITERAL> \\ \hline
-    Method parameters &  \<@FlowSources(FlowSource.LITERAL> \\ \hline
-    Return types &  \<@FlowSources(FlowSource.LITERAL> \\ \hline
-    \<null> &  \<@FlowSources @FlowSinks(FlowSink.ANY) >\\ \hline
+    Field types &  \<@FlowSources(FlowSource.LITERAL)> \\ \hline
+    Method parameters &  \<@FlowSources(FlowSource.LITERAL)> \\ \hline
+    Return types &  \<@FlowSources(FlowSource.LITERAL)> \\ \hline
+    \<null> &  \<@FlowSources @FlowSinks(FlowSink.ANY)>\\ \hline
     Literals & \<@FlowSources(FlowSource.LITERAL) @FlowSinks(FlowSink.CONDITIONAL)>\\ \hline
    Local variables  &   \<@FlowSources(FlowSource.ANY) @FlowSinks> \\ \hline
    \<@FlowSources($\alpha$)>&\<@FlowSources($\alpha$)>
@@ -63,23 +66,26 @@ The types of FlowSources and FlowSinks are listed in the
 \end{table}
 
 
-To reduce the number of annotations needed, default types are used. Table \ref{table:defaults} 
-shows some  the default types used by the flow checker. 
+To reduce the number of annotations needed, default types are
+used. Table \ref{table:defaults} shows the default types used by the
+flow checker.
 
 
- The defaults are not applied if the programmer uses annotations.  For example, the parameter 
-below is of type \<@FlowSources(FlowSource.LITERAL) @FlowSinks(FlowSink.Network)> rather
-than  \<@FlowSources @FlowSinks>. Note that \<@FlowSources> means \<@FlowSources(\{\})>
- and \<@FlowSinks>  means \<@FlowSinks(\{\})>.
+The defaults are not applied if the programmer uses annotations.  For
+example, the parameter below is of type
+\<@FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK)>
+rather than  \<@FlowSources({FlowSource.LITERAL})>. Note that \<@FlowSources>
+means \<@FlowSources(\{\})> and \<@FlowSinks>  means \<@FlowSinks(\{\})>.
 \begin{alltt}
 public void sendToInternet(
-     @FlowSources(FlowSource.LITERAL)@FlowSinks(FlowSink.Network) String message)\{...\}
+    @FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK) String message)\{...\}
 \end{alltt} 
 
-The value \emph{null} has the bottom type (\<@FlowSinks(FlowSink.ANY) @FlowSources>), 
-so that it can be assigned to any type. For local variables, the default applies to
-the top level of the local variable type, but not to generic type arguments
-and array elements, if any.
+The value \emph{null} has the bottom type (\<@FlowSinks(FlowSink.ANY)
+@FlowSources>),
+so that it can be assigned to any type. For local variables, the
+default applies to the top level of the local variable type, but not
+to generic type arguments and array elements, if any.
 
 The Checker Framework supports flow-sensitive type refinement.  Assignments (such as
 initializers) are used to refine the type to a more precise one.  Thus, in
@@ -173,6 +179,7 @@ The following definitions would generate ``forbidden flow'' errors:
   @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
   @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILESYSTEM, FlowSink.NETWORK})
 \end{Verbatim}
+
 
 \subsection{Syntax of a Flow Policy File}
 
@@ -290,24 +297,31 @@ To catch this sort of information leak, pass
 
 \section{Empty Flow Sinks or Flow Sources}
 
-Although @FlowSources(\{\}) and @FlowSinks(\{\}) are used in the default types, 
- the programmer should not annotate any types with these flows.  Every value 
- should either flow flow from a literal or from some sensitive source.  Likewise, every value
- must flow to a sensitive sink or to a conditional expression.  Any variable that does not
- have a flow source or a flow sink  does not actually affect the
-  output of the program and should therefore be removed.  
+Programmers should not use @FlowSources(\{\}) and @FlowSinks(\{\}) for
+any types.
+These types are only needed for top/bottom types which are used in the
+default types: the \<null> literal uses the bottom type in order for
+it to be assignable everywhere; local variables use the top type which
+will be refined by flow sensitivity.
+Every value should either flow from a literal or from some sensitive
+source.  Likewise, every value must flow to a sensitive sink or to a
+conditional expression.  Any variable that does not have a flow source
+or a flow sink does not actually affect the output of the program and
+should therefore be removed.
   
-  This may seem overly strict, but a variable without a flow source or flow sink that does affect
-  the output of the program comes from an abuse of the type system.   Most likely  a variable with
-   no source or sink would come from  an improperly suppressed warning. Therefore it is necessary to 
-  not allow  flows from and to nowhere.  (The flow policy ensures this; see section 
-  Section \ref{sec:flowpolicy})
-  
-  Note that this does not mean you must specify both a flow source annotation and 
-  a flow sink annotation as explained in Section \ref{flow-defaults}.
+This may seem overly strict, but a variable without a flow source or
+flow sink that does affect the output of the program comes from an
+abuse of the type system.  Most likely a variable with no source or
+sink would come from an improperly suppressed warning. Therefore it is
+necessary to not allow flows from and to nowhere.  (The flow policy
+ensures this; see section Section~\ref{sec:flowpolicy})
+
+Note that this does not mean you must specify both a flow source
+annotation and a flow sink annotation as explained in
+Section~\ref{flow-defaults}. 
 
  
- \section{Warning Suppression}
+\section{Warning Suppression}
  
  Sometimes it might be necessary to suppress warnings or errors produced by the
   Flow Checker.  This can be done by using the  \<@SuppressWarnings("flow")> annotation
