@@ -377,11 +377,11 @@ class Activity {
 	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@PolyFlow
 	void moveTaskToBack(boolean nonRoot);
-	@PolyFlow
+	@NoFlow
 	void onCreate(Bundle savedInstanceState);
-	@PolyFlow
+	@NoFlow
 	boolean onCreateOptionsMenu(Menu menu);
-	@PolyFlow
+	@NoFlow
 	boolean onOptionsItemSelected(MenuItem item);
 	@PolyFlow
 	void onSaveInstanceState(Bundle outState);
@@ -2474,6 +2474,7 @@ class ArrayAdapter<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object>
 class EditText {
 	@PolyFlowSources @PolyFlowSinks Editable getText() @PolyFlowSources @PolyFlowSinks;
 	void setSelection(@PolyFlowSources @PolyFlowSinks int index) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) CharSequence text) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2514,7 +2515,7 @@ class TextView {
 	void setSelected(boolean selected);
 	@PolyFlow
 	void setSingleLine();
-	void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) CharSequence text) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) CharSequence text) @PolyFlowSources @PolyFlowSinks;
 	void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) int resid) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlow
 	void setTextColor(int color);
