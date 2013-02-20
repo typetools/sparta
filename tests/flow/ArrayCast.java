@@ -8,24 +8,33 @@ import sparta.checkers.quals.PolyFlowSources;
 class ArrayCast {
 
     void foo() {
-        @SuppressWarnings("flow")
-        @FlowSinks(FlowSink.NETWORK) Object[] params = new /*@FlowSinks(FlowSink.NETWORK)*/ Object[1];
+        //:: error: (assignment.type.incompatible)
+        @FlowSinks(FlowSink.NETWORK) Object @FlowSources(FlowSource.ACCELEROMETER) [] params = new /*@FlowSinks(FlowSink.NETWORK)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
+
         //strict:: warning: (cast.unsafe)
+        //:: error: (argument.type.incompatible)
         Object[] result = (Object[]) call("method", params);
 
         // The annotations are on the array type, not on the array component type.
         //:: error: (argument.type.incompatible)
         callStart(result);
         callFinished(result);
+
+        @FlowSinks(FlowSink.NETWORK) Object [] other = getObjs();
+        callStart(getObjs());
     }
 
     @FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) Object call(
-            String method, @FlowSinks(FlowSink.NETWORK) Object[] params) {
+            @FlowSources(FlowSource.LITERAL) String method, @FlowSinks(FlowSink.NETWORK) Object[] params) {
         @FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) Object a = params[0];
         return a;
     }
 
-    void callStart(@FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) Object [] result) {}
+    void callStart(@FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) Object []  result) {}
     void callFinished(Object @FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) [] result) {}
+
+    @FlowSinks(FlowSink.NETWORK) Object [] getObjs() {
+        return null;
+    }
 }

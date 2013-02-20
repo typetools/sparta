@@ -8,7 +8,9 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.util.Elements;
 
 import checkers.types.AnnotatedTypeFactory;
+import checkers.types.visitors.AnnotatedTypeVisitor;
 import checkers.util.*;
+import com.sun.tools.javac.code.TypeAnnotationPosition;
 import sparta.checkers.quals.ConservativeFlow;
 import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSources;
@@ -143,32 +145,56 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 return;
             }
 
-            if( element != null && element.getKind() == ElementKind.METHOD && type.getKind() == TypeKind.EXECUTABLE ) {
+            boolean isLocal = (element == null || element.getKind() == ElementKind.LOCAL_VARIABLE );
+
+
+            if( !isLocal /*&& element != null*/ && element.getKind() == ElementKind.METHOD && type.getKind() == TypeKind.EXECUTABLE ) {
                 final AnnotatedExecutableType exeType = (AnnotatedExecutableType) type;
                 for ( final AnnotatedTypeMirror atm : exeType.getParameterTypes()) {
-                    completePolicyFlows(atm, atm.getAnnotations());
+                    completePolicyFlows(false, atm);
                 }
 
-                completePolicyFlows( exeType.getReturnType(), exeType.getAnnotations() );
+                //This was exeType.getAnnotations TODO CHECK THIS
+                completePolicyFlows( false, exeType.getReturnType() );
 
             } else {
-                completePolicyFlows(type);
+                completePolicyFlows(isLocal, type);
             }
         }
 
-        private Set<AnnotationMirror> getExplicitReturnTypeAnnotations(final AnnotatedExecutableType aet) {
-            final Set<AnnotationMirror> methodAnnos = aet.getExplicitAnnotations();
-            final Set<AnnotationMirror> returnAnnos = new HashSet<AnnotationMirror>();
-            for(final AnnotationMirror methodAnno : methodAnnos) {
-                com.sun.tools.javac.code.Attribute.TypeCompound tc = (com.sun.tools.javac.code.Attribute.TypeCompound) methodAnno;
+        private void completePolicyFlows(final boolean isLocal, final AnnotatedTypeMirror type) {
+            if( type.getKind() == TypeKind.ARRAY )  {
+                final Pair<Set<AnnotationMirror>, Set<AnnotationMirror>> arrayToComponentAnnos =
+                        getArrayAnnos((AnnotatedTypeMirror.AnnotatedArrayType) type, isLocal);
 
-                //.isEmpty means we DO NOT handle array/List type parameters
-                if( tc.position.type == com.sun.tools.javac.code.TargetType.METHOD_RETURN && tc.position.location.isEmpty() ) {
-                    returnAnnos.add(methodAnno);
+                completePolicyFlows(type, arrayToComponentAnnos.first);
+                completePolicyFlows(((AnnotatedTypeMirror.AnnotatedArrayType) type).getComponentType(), arrayToComponentAnnos.second);
+            } else {
+                //Note this only works because TreeAnnotator does not add any defaults besides literals
+                completePolicyFlows(type, (isLocal) ? type.getExplicitAnnotations() : type.getAnnotations());
+            }
+        }
+
+        private Pair<Set<AnnotationMirror>, Set<AnnotationMirror>> getArrayAnnos(final AnnotatedTypeMirror.AnnotatedArrayType aat, boolean isLocal) {
+            if(!isLocal) {
+                return Pair.of(aat.getAnnotations(), aat.getComponentType().getAnnotations());
+            } //else
+
+            final Set<AnnotationMirror> arrayAnnos = aat.getExplicitAnnotations();
+            final Set<AnnotationMirror> objectAnnos    = new HashSet<AnnotationMirror>();
+            final Set<AnnotationMirror> componentAnnos = new HashSet<AnnotationMirror>();
+
+            for(final AnnotationMirror arrayAnno : arrayAnnos) {
+                com.sun.tools.javac.code.Attribute.TypeCompound tc = (com.sun.tools.javac.code.Attribute.TypeCompound) arrayAnno;
+
+                if( !tc.position.location.isEmpty() && tc.position.location.get(0) == TypeAnnotationPosition.TypePathEntry.ARRAY ) {
+                    componentAnnos.add(arrayAnno);
+                }  else {
+                    objectAnnos.add(arrayAnno);
                 }
             }
 
-            return returnAnnos;
+            return Pair.of(objectAnnos, componentAnnos);
         }
 
         //TODO: THIS SHOULD REALLY RETURN AN EITHER TYPE
@@ -216,11 +242,6 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
             return Pair.of(newSources, newSinks);
         }
-
-        protected void completePolicyFlows(final AnnotatedTypeMirror type) {
-            completePolicyFlows( type, type.getExplicitAnnotations() );
-        }
-
         protected void completePolicyFlows(final AnnotatedTypeMirror type, final Set<AnnotationMirror> explicitAnnos)  {
             if( type.getKind() == TypeKind.VOID || explicitAnnos == null || explicitAnnos.isEmpty() ) {
                 return;
