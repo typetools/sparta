@@ -99,13 +99,13 @@ sinks that the all the specified flow sources can flow to. This is to say that
 it is the intersection of the set of sinks each source can flow to.
  In other words, if a type is annotated with 
 \<@FlowSources($\alpha$)>, where $\alpha$ is a set of sources, then the flow sinks are the set 
-$\beta$ where $\beta$ is the intersection of sinks B where A-\textgreater B and A is a flow source in 
+$\beta$ where $\beta$ is the intersection of sinks B where A \flowsto{} B and A is a flow source in 
 $\alpha$.  For example, if the flow policy contains the following:
 
 \begin{alltt}
-  A->X,Y
-  B->Y
-  C->Y
+  A -> X,Y
+  B -> Y
+  C -> Y
 \end{alltt}
   
 \noindent 
@@ -123,7 +123,7 @@ then these are equivalent:
 Similarly, if the programmer only specifies flow sinks, the flow sources are defaulted to be the sources 
 that are allowed to flow to all the specified sinks.  In other words, if a type is annotated with 
 \<@FlowSinks($\beta$)>, where $\beta$ is a set of sinks, then the flow sources are the set 
-$\alpha$ where $\alpha$ is the intersection of sources A where A-\textgreater B and B is a flow sink in 
+$\alpha$ where $\alpha$ is the intersection of sources A where A \flowsto{} B and B is a flow sink in 
 $\beta$. For example, using the same policy file as above, the following are equivalent:
 
 \begin{alltt}
@@ -184,11 +184,11 @@ The following definitions would generate ``forbidden flow'' errors:
 \subsection{Syntax of a Flow Policy File}
 
 Each line of a policy file specifies a source-to-sink(s) flow(s) that is permitted. So if 
-``A $\rightarrow$ B,C'' appears in the file, then information from source A is allowed to flow
+``A \flowsto{} B,C'' appears in the file, then information from source A is allowed to flow
 to sink B or sink C.  
 
 For example,
-\<MICROPHONE$\rightarrow$NETWORK> implies that
+\<MICROPHONE \flowsto{} NETWORK> implies that
 MICROPHONE data is always allowed to flow to NETWORK.  
 The source must be a member of the enum
 \<sparta.checkers.quals.FlowSources.FlowSource> and the sink must be a
@@ -279,23 +279,23 @@ Note the different subtyping behavior for sources and sinks.
 The Flow Checker considers conditional expressions to be a flow sink.  If a variable 
 will be used in a conditional, then it must have a flow sink of CONDITIONAL.  By default, 
 any source is allowed flow through a conditional.  That is to say that 
-ANY -\textgreater CONDITIONAL is added to the flow policy by default. 
+ANY \flowsto{} CONDITIONAL is added to the flow policy by default. 
 
-Conditionals are treated this way because they can leak information. For example, the given a flow policy of  USER\_INPUT -\textgreater FILESYSTEM, the following type checks.
+Conditionals are treated this way because they can leak information. For example, the given a flow policy of  USER\_INPUT \flowsto{} FILESYSTEM, the following type checks.
 
 \begin{alltt}
 @FlowSources(FlowSource.USER_INPUT) @FlowSinks(FlowSink.FILESYSTEM)
 int creditCard = getCCNumber();
-final int MAX\_CC\_NUM=9999999999999999;
+final int MAX\_CC\_NUM = 9999999999999999;
 for (int i = 0 ; i < MAX\_CC\_NUM ; i++)\{
-   if ( i == creditCard )
+   if (i == creditCard)
         sendToInternet(i);
 \}
 \end{alltt}
 
 To catch this sort of information leak, pass
- \<-Alint=strict-conditional> to change the default from ANY -\textgreater CONDITIONAL to 
- LITERAL-\textgreater CONDITIONAL. 
+ \<-Alint=strict-conditional> to change the default from ANY \flowsto{} CONDITIONAL to 
+ LITERAL \flowsto{} CONDITIONAL. 
 
 
 
@@ -318,11 +318,11 @@ flow sink that does affect the output of the program comes from an
 abuse of the type system.  Most likely a variable with no source or
 sink would come from an improperly suppressed warning. Therefore it is
 necessary to not allow flows from and to nowhere.  (The flow policy
-ensures this; see section Section~\ref{sec:flowpolicy})
+ensures this; see section \secref{sec:flowpolicy})
 
 Note that this does not mean you must specify both a flow source
 annotation and a flow sink annotation as explained in
-Section~\ref{flow-defaults}. 
+\secref{flow-defaults}. 
 
  
 \section{Warning Suppression}
@@ -371,7 +371,7 @@ See section ``Qualifier polymorphism'' in the Checker Framework manual.
 
 Three additional declaration annotations can be used to annotate APIs:
 \<@NoFlow>, \<@ConservativeFlow>, and \<@PolyFlow>. 
-They change the default annotations (Section~\ref{flow-defaults}).
+They change the default annotations (\secref{flow-defaults}).
  
 The declaration annotations can be used on any declaration: a method,
 a class, or even a whole package.
