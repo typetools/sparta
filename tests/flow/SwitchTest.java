@@ -7,9 +7,9 @@ import sparta.checkers.quals.PolyFlowSources;
 
 class SwitchTest {
     void foo() {
-        @FlowSources(FlowSource.LOCATION) int info = 1;
-        @FlowSources({}) int noInfo = 1;
-        final @FlowSources(FlowSource.LOCATION) int caseInfo = 1;
+        @FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) int info = 1;
+        @FlowSources(FlowSource.LITERAL) int noInfo = 1;
+        final @FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) int caseInfo = 1;
         final int caseNoInfo = 2;
 
         //:: error: (condition.flow)
