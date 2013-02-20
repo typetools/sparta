@@ -2719,7 +2719,8 @@ class File {
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks File dir, @PolyFlowSources @PolyFlowSinks String name);
 	@PolyFlowSources @PolyFlowSinks String getAbsolutePath() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String getPath() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String getName() @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks String getPath() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
     @PolyFlowSources @PolyFlowSinks File @PolyFlowSources @PolyFlowSinks [] listFiles() @PolyFlowSources @PolyFlowSinks;
@@ -2827,8 +2828,14 @@ class Class {
 	String getName();
 }
 
+class ClassLoader {
+    @NoFlow
+    Class<?> loadClass(String className); // This is temporary.
+}
+
 class Enum {
     @PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object other) @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks String name() @PolyFlowSources @PolyFlowSinks;
 }
 
 class Float {
@@ -2887,6 +2894,7 @@ class String {
 	static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int indexOf(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int lastIndexOf(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) char target, @PolyFlowSources @PolyFlowSinks char replacement) @PolyFlowSources @PolyFlowSinks;
@@ -2973,6 +2981,7 @@ class URI {
 	static @PolyFlowSources @PolyFlowSinks URI create(@PolyFlowSources @PolyFlowSinks String uri);
 	@PolyFlowSources @PolyFlowSinks String getScheme() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int getPort() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks URI(@PolyFlowSources @PolyFlowSinks String spec);
 }
 
 class URL {
