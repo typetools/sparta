@@ -73,12 +73,12 @@ flow checker.
 
 The defaults are not applied if the programmer uses annotations.  For
 example, the parameter below is of type
-\<@FlowSources(FlowSource.LITERAL) @FlowSinks(FlowSink.Network)>
-rather than  \<@FlowSources @FlowSinks>. Note that \<@FlowSources>
+\<@FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK)>
+rather than  \<@FlowSources({FlowSource.LITERAL})>. Note that \<@FlowSources>
 means \<@FlowSources(\{\})> and \<@FlowSinks>  means \<@FlowSinks(\{\})>.
 \begin{alltt}
 public void sendToInternet(
-    @FlowSources(FlowSource.LITERAL) @FlowSinks(FlowSink.Network) String message)\{...\}
+    @FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK) String message)\{...\}
 \end{alltt} 
 
 The value \emph{null} has the bottom type (\<@FlowSinks(FlowSink.ANY)
