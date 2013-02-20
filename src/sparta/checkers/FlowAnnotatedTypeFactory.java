@@ -43,9 +43,9 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         defaults.addAbsoluteDefault(checker.FROMLITERALFLOWSINK, DefaultLocation.OTHERWISE);
         // Use the top type for local variables and let flow refine the type.
         defaults.addAbsoluteDefault(checker.NOFLOWSINKS, DefaultLocation.LOCALS);
-        // But let's send null down any sink.
+        // But let's send null down any sink and give it no sources.
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.ANYFLOWSINKS);
-
+        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.NOFLOWSOURCES);
 
         //Literals, other than null are different too
         treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, checker.LITERALFLOWSOURCE);
