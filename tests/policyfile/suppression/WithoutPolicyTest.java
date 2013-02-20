@@ -14,13 +14,13 @@ class PolicyTest {
 
 
     private @FlowSources({FlowSource.EXTERNAL_STORAGE, FlowSource.FILESYSTEM, FlowSource.LOCATION})
-    @FlowSinks({FlowSink.LOGCAT})
+    @FlowSinks({FlowSink.LOG})
     Object esFsLocSource = null;
 
-    private void anyToLogcatMeth(@FlowSources({FlowSource.ANY}) @FlowSinks({FlowSink.LOGCAT}) Object logcatSink) {
+    private void anyToLogcatMeth(@FlowSources({FlowSource.ANY}) @FlowSinks({FlowSink.LOG}) Object logcatSink) {
     }
 
-    private void locToLogcatMeth(@FlowSources({FlowSource.LOCATION}) @FlowSinks({FlowSink.LOGCAT}) Object logcatSink) {
+    private void locToLogcatMeth(@FlowSources({FlowSource.LOCATION}) @FlowSinks({FlowSink.LOG}) Object logcatSink) {
     }
 
     private @FlowSources({FlowSource.EXTERNAL_STORAGE, FlowSource.FILESYSTEM, FlowSource.LOCATION})
@@ -35,8 +35,8 @@ class PolicyTest {
         return null;
     }
 
-    private @FlowSources({FlowSource.ANY}) @FlowSinks({FlowSink.LOGCAT}) Object anyToLogcat = null;
-    private @FlowSources({FlowSource.PHONE_NUMBER, FlowSource.CAMERA}) @FlowSinks({FlowSink.LOGCAT}) Object phToLogcat = null;
+    private @FlowSources({FlowSource.ANY}) @FlowSinks({FlowSink.LOG}) Object anyToLogcat = null;
+    private @FlowSources({FlowSource.PHONE_NUMBER, FlowSource.CAMERA}) @FlowSinks({FlowSink.LOG}) Object phToLogcat = null;
 
     private @FlowSources({FlowSource.ACCELEROMETER, FlowSource.CAMERA, FlowSource.ACCOUNTS})
     @FlowSinks({FlowSink.DISPLAY, FlowSink.EMAIL, FlowSink.NETWORK})
@@ -73,13 +73,13 @@ class PolicyTest {
     protected void sendNetwork(final @FlowSinks({FlowSink.NETWORK}) Object netSink) {
     }
 
-    protected void sendNetLogSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.LOGCAT}) Object netLogSink) {
+    protected void sendNetLogSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.LOG}) Object netLogSink) {
     }
 
     protected void sendNetExtSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.EXTERNAL_STORAGE}) Object netExtSink) {
     }
 
-    protected void sendNetLogTextSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.LOGCAT, FlowSink.TEXTMESSAGE}) Object netExtSink) {
+    protected void sendNetLogTextSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.LOG, FlowSink.SMS}) Object netExtSink) {
     }
 
     void test() {

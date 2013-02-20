@@ -19,16 +19,16 @@ class PolicyTest {
 
     private @FlowSources({FlowSource.ANY}) Object anySource = new @FlowSources({FlowSource.ANY}) Object();
     private @FlowSources({FlowSource.EXTERNAL_STORAGE, FlowSource.FILESYSTEM, FlowSource.LOCATION})
-    @FlowSinks({FlowSink.LOGCAT})
+    @FlowSinks({FlowSink.LOG})
     Object esFsLocSource = null;
 
-    private @FlowSinks({FlowSink.LOGCAT}) Object logcatSink = null;
+    private @FlowSinks({FlowSink.LOG}) Object logcatSink = null;
 
-    private @FlowSources({FlowSource.ANY}) @FlowSinks({FlowSink.LOGCAT}) Object fsAny() {
+    private @FlowSources({FlowSource.ANY}) @FlowSinks({FlowSink.LOG}) Object fsAny() {
         return null;
     }
 
-    public void timeToLogCat(final @FlowSources({FlowSource.TIME}) @FlowSinks({FlowSink.LOGCAT}) Object obj) {
+    public void timeToLogCat(final @FlowSources({FlowSource.TIME}) @FlowSinks({FlowSink.LOG}) Object obj) {
     }
 
     public void micToExt(final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.EXTERNAL_STORAGE}) Object obj) {
@@ -48,9 +48,9 @@ class PolicyTest {
     public List<? extends @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.FILESYSTEM}) File> accFileToNet() { return null; }
 
     void test() {
-        final @FlowSources({FlowSource.PHONE_NUMBER}) @FlowSinks({FlowSink.LOGCAT}) Object obj = null;
-        final @FlowSources({FlowSource.TIME}) @FlowSinks({FlowSink.LOGCAT}) Object anyObj = null;
-        final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.LOGCAT}) Object micToLc = null;
+        final @FlowSources({FlowSource.PHONE_NUMBER}) @FlowSinks({FlowSink.LOG}) Object obj = null;
+        final @FlowSources({FlowSource.TIME}) @FlowSinks({FlowSink.LOG}) Object anyObj = null;
+        final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.LOG}) Object micToLc = null;
 
 
         final @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.EMAIL}) Object accToEm = null;
@@ -73,7 +73,7 @@ class PolicyTest {
         List<@FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.EMAIL, FlowSink.NETWORK}) File> maFile2 = null;
 
 
-        @FlowSources({FlowSource.PHONE_NUMBER}) @FlowSinks({FlowSink.EMAIL, FlowSink.LOGCAT})
+        @FlowSources({FlowSource.PHONE_NUMBER}) @FlowSinks({FlowSink.EMAIL, FlowSink.LOG})
         class Whatever {
 
             public Whatever(@FlowSources({FlowSource.PHONE_NUMBER}) @FlowSinks({FlowSink.NETWORK}) Whatever this) {
@@ -89,7 +89,7 @@ class PolicyTest {
 
         final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.NETWORK, FlowSink.EXTERNAL_STORAGE}) Object micToNExt = null;
 
-        final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.NETWORK, FlowSink.LOGCAT, FlowSink.TEXTMESSAGE}) Object micToNetLogMsg = null;
+        final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.NETWORK, FlowSink.LOG, FlowSink.SMS}) Object micToNetLogMsg = null;
     }
 
     public static void testInstantiate() {

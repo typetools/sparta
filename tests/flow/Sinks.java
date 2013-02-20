@@ -13,7 +13,7 @@ class Sinks {
         sendData(p);
     }
 
-    void two(@FlowSinks({FlowSink.NETWORK, FlowSink.TEXTMESSAGE}) Object p) {
+    void two(@FlowSinks({FlowSink.NETWORK, FlowSink.SMS}) Object p) {
         // Allowed: fewer sinks
         sendData(p);
         // Forbidden: more sinks
