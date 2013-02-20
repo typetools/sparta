@@ -377,11 +377,11 @@ class Activity {
 	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@PolyFlow
 	void moveTaskToBack(boolean nonRoot);
-	@NoFlow
+	@PolyFlow
 	void onCreate(Bundle savedInstanceState);
-	@NoFlow
+	@PolyFlow
 	boolean onCreateOptionsMenu(Menu menu);
-	@NoFlow
+	@PolyFlow
 	boolean onOptionsItemSelected(MenuItem item);
 	@PolyFlow
 	void onSaveInstanceState(Bundle outState);
