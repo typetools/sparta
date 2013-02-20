@@ -5,6 +5,8 @@ import checkers.util.AnnotationUtils;
 import checkers.util.Pair;
 import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSources;
+import sparta.checkers.quals.PolyFlowSinks;
+import sparta.checkers.quals.PolyFlowSources;
 
 import javax.lang.model.element.AnnotationMirror;
 
@@ -101,10 +103,11 @@ public class FlowPolicy {
 
         final AnnotationMirror sourceAnno = atm.getAnnotation(FlowSources.class);
         final AnnotationMirror sinkAnno   = atm.getAnnotation(FlowSinks.class);
+        
 
         assert sourceAnno != null : "Annotated Type Mirror must have a FlowSources annotation";
         assert sinkAnno != null : "Annotated Type Mirror must have a FlowSinks annotation";
-
+        
         final Set<FlowSource> sources = new HashSet<FlowSource>(
                 AnnotationUtils.getElementValueEnumArray(sourceAnno, "value", FlowSources.FlowSource.class, true));
 
@@ -125,6 +128,14 @@ public class FlowPolicy {
     }
 
     public boolean areFlowsAllowed(final AnnotatedTypeMirror atm) {
+    	final AnnotationMirror polySourceAnno = atm.getAnnotation(PolyFlowSources.class);
+        final AnnotationMirror polySinkAnno   = atm.getAnnotation(PolyFlowSinks.class);
+        //If the type is marked with poly flow source or poly flow sink, 
+        //Then the flow is allowed.
+        if(polySinkAnno != null || polySourceAnno != null){
+        	return true;
+        }
+         
        return areFlowsAllowed(annotatedTypeMirrorToFlows(atm));
     }
 

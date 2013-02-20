@@ -13,6 +13,7 @@ import sparta.checkers.quals.ConservativeFlow;
 import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSources;
 import sparta.checkers.quals.NoFlow;
+import sparta.checkers.quals.PolyFlow;
 
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
@@ -99,6 +100,12 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.ANYFLOWSINKS);
                 // Let @NoFlow override conservative defaults
                 new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSINKS);
+                return;
+
+            } else if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
+                // Use poly flow sources and sinks for all locations.
+                new FlowDefaultApplier(element, DefaultLocation.ALL, type).scan(type, checker.POLYFLOWSOURCES);
+                new FlowDefaultApplier(element, DefaultLocation.ALL, type).scan(type, checker.POLYFLOWSINKS);
                 return;
 
             }
