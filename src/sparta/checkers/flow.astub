@@ -30,7 +30,7 @@ package java.lang;
 
 
 class Thread {
-	@NoFlow
+	@PloyFlow
 	static void sleep(long time);
 }
 
@@ -42,17 +42,17 @@ package android.accessibilityservice;
 
 class AccessibilityService {
     //TODO: Are intents/broadcasts information flow? Is our system capable of tracking these?
-    @NoFlow
+    @PloyFlow
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper(); //Removes current wallpaper, which returns to the default.
-    @NoFlow
+    @PloyFlow
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(android.content.Intent p0); //Removes data previously sent with sendStickyBroadCast(Intent).
-    @NoFlow
+    @PloyFlow
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(android.content.Intent p0);
-    @NoFlow
+    @PloyFlow
     @RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-    @NoFlow
+    @PloyFlow
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(android.graphics.Bitmap p0);
-    @NoFlow
+    @PloyFlow
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(java.io.InputStream p0);
 }
 
@@ -116,21 +116,21 @@ class AbstractAccountAuthenticator {
 }*/
 
 class AccountAuthenticatorActivity {
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(android.content.Intent p0);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(android.content.Intent p0);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
 	//setPersistent() is a private method
 	//@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
-	@NoFlow
+	@PloyFlow
 	void setResult(int resultCode, Intent data);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(android.graphics.Bitmap p0);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(java.io.InputStream p0);
 }
 
@@ -149,7 +149,7 @@ class AccountManager {
 		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
 		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String password,
 		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle userdata);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.GET_ACCOUNTS) void addOnAccountsUpdatedListener(OnAccountsUpdateListener listener, Handler handler, boolean updateImmediately);
 	@RequiredPermissions(android.Manifest.permission.USE_CREDENTIALS)
 	@FlowSources(FlowSource.ACCOUNTS) String blockingGetAuthToken(
@@ -357,88 +357,88 @@ class AccountManager {
 package android.app;
 
 class Activity {
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
-	@NoFlow
+	@PloyFlow
 	View findViewById(int id);
-	@NoFlow
+	@PloyFlow
 	Context getApplicationContext();
-	@NoFlow
+	@PloyFlow
 	Intent getIntent();
-    @NoFlow
+    @PloyFlow
     MenuInflater getMenuInflater();                                   
-	@NoFlow
+	@PloyFlow
 	Object getSystemService(String name);
-	@NoFlow
+	@PloyFlow
 	WindowManager getWindowManager();
-	@NoFlow
+	@PloyFlow
 	Window getWindow();
-	@NoFlow
+	@PloyFlow
 	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
-	@NoFlow
+	@PloyFlow
 	void moveTaskToBack(boolean nonRoot);
-	@NoFlow
+	@PloyFlow
 	void onCreate(Bundle savedInstanceState);
-	@NoFlow
+	@PloyFlow
 	boolean onCreateOptionsMenu(Menu menu);
-	@NoFlow
+	@PloyFlow
 	boolean onOptionsItemSelected(MenuItem item);
-	@NoFlow
+	@PloyFlow
 	void onSaveInstanceState(Bundle outState);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
-	@NoFlow
+	@PloyFlow
 	final boolean requestWindowFeature(int featureId);
-	@NoFlow
+	@PloyFlow
 	void sendBroadcast(Intent intent);
-	@NoFlow
+	@PloyFlow
 	void sendOrderedBroadcast(Intent intent, String receiverPermission);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(Intent intent);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.INTERNET) void setContentView(int layoutResID);
-	@NoFlow
+	@PloyFlow
 	void setContentView(View v);
 	//setPersistent() is a hidden method.
 	//@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
-	@NoFlow
+	@PloyFlow
 	void setProgressBarIndeterminateVisibility(boolean visible);
-    @NoFlow
+    @PloyFlow
     void setResult(int resultCode, Intent data);
-    @NoFlow
+    @PloyFlow
     void setTitle(CharSequence title);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(Bitmap bitmap);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(InputStream data);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions({}) void startActivity(Intent intent);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions({}) void startActivityForResult(Intent intent, int requestCode);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions({}) void startActivityFromChild(Activity child, Intent intent, int requestCode);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions({}) boolean startActivityIfNeeded(Intent intent, int requestCode);
 
     @FlowSources(FlowSource.FILESYSTEM) @FlowSinks() FileInputStream openFileInput(@FlowSources() @FlowSinks() String name);
 }
 
 class ActivityGroup {
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void clearWallpaper();
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void removeStickyBroadcast(Intent intent);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyBroadcast(Intent intent);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
 	//setPersistent() is a hidden method.
 	//@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(Bitmap bitmap);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) void setWallpaper(InputStream data);
 }
 
@@ -447,13 +447,13 @@ class ActivityManager {
 	//@RequiredPermissions(android.Manifest.permission.CLEAR_APP_USER_DATA) Object clearApplicationUserData(java.lang.String p0,android.content.pm.IPackageDataObserver p1);
 	//forceStopPackage() is a private method.
 	//@RequiredPermissions(android.Manifest.permission.FORCE_STOP_PACKAGES) Object forceStopPackage(java.lang.String p0);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.GET_TASKS) List<ActivityManager.ProcessErrorStateInfo> getRecentTasks(int maxNum, int flags);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.GET_TASKS) List<ActivityManager.RunningTaskInfo> getRunningTasks(int maxNum);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) void killBackgroundProcesses(String packageName);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}) void restartPackage(String packageName);
 }
 
@@ -494,7 +494,7 @@ class AlarmManager {
 }
 
 class AlertDialog$Builder {
-	@NoFlow
+	@PloyFlow
 	AlertDialog create();
 	@PolyFlowSources @PolyFlowSinks Builder setMessage(@PolyFlowSources @PolyFlowSinks CharSequence message);
 }
@@ -629,7 +629,7 @@ package android.app;
 }*/
 
 class Dialog {
-	@NoFlow
+	@PloyFlow
 	void show();
 }
 
@@ -732,7 +732,7 @@ class ListActivity {
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	@NoFlow
+	@PloyFlow
 	void setListAdapter(ListAdapter adapter);
 	//@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
@@ -745,20 +745,20 @@ class NotificationManager {
 }
 
 class PendingIntent {
-    @NoFlow
+    @PloyFlow
     static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags);
-    @NoFlow
+    @PloyFlow
     static PendingIntent getService(Context context, int requestCode, Intent intent, int flags);
 }
 
-@NoFlow
+@PloyFlow
 class ProgressDialog {
 	static ProgressDialog show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable);
 }
 
 class Service {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
-	@NoFlow
+	@PloyFlow
 	void onStart(Intent intent, int startId);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
@@ -767,7 +767,7 @@ class Service {
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions({}) void startActivity(Intent intent);
 	@RequiredPermissions({}) Object startService(android.content.Intent p0);
 }
@@ -804,13 +804,13 @@ package android.appwidget;
 
 class AppWidgetManager {
 	@RequiredPermissions(android.Manifest.permission.BIND_APPWIDGET) Object bindAppWidgetId(int p0,android.content.ComponentName p1);
-	@NoFlow
+	@PloyFlow
 	int [] getAppWidgetIds(ComponentName cn);
-	@NoFlow
+	@PloyFlow
 	AppWidgetProviderInfo getAppWidgetInfo(int appWidgetId);
-	@NoFlow
+	@PloyFlow
 	AppWidgetManager getInstance(Context c);
-	@NoFlow
+	@PloyFlow
 	void updateAppWidget(int appWidgetId, RemoteViews views);
 	
 }
@@ -977,12 +977,12 @@ package android.content;
 
 class ComponentName {
     @PolyFlowSources @PolyFlowSinks ComponentName(@PolyFlowSources @PolyFlowSinks String pkg, @PolyFlowSources @PolyFlowSinks String path);	
-	@NoFlow
+	@PloyFlow
 	String getClassName();
 }
 
 class ContentProvider {
-	@NoFlow Context getContext();
+	@PloyFlow Context getContext();
 }
 
 class ContentResolver {
@@ -1042,12 +1042,12 @@ class ContentUris {
 	
 class Context {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
-	@NoFlow ContentResolver getContentResolver();
+	@PloyFlow ContentResolver getContentResolver();
 	@FlowSinks(FlowSink.FILESYSTEM) File getDir(@FlowSinks(FlowSink.FILESYSTEM) String name, int mode);
-	@NoFlow String getPackageName();
-	@NoFlow Resources getResources();
-	@NoFlow String getString(@FlowSinks({}) int i, @FlowSources(FlowSource.ANY) Object... objs);
-	@NoFlow String getString(@FlowSinks({}) int i);
+	@PloyFlow String getPackageName();
+	@PloyFlow Resources getResources();
+	@PloyFlow String getString(@FlowSinks({}) int i, @FlowSources(FlowSource.ANY) Object... objs);
+	@PloyFlow String getString(@FlowSinks({}) int i);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
@@ -1056,7 +1056,7 @@ class Context {
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
 	@RequiredPermissions({}) Object startActivity(android.content.Intent p0);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions({}) Object startService(Intent service);
     @FlowSources(FlowSource.FILESYSTEM) @FlowSinks() FileInputStream openFileInput(@FlowSources() @FlowSinks() String name);
 }
@@ -1064,15 +1064,15 @@ class Context {
 class ContextWrapper {
     @FlowSinks(FlowSink.FILESYSTEM) @FlowSources File getDir(@FlowSinks(FlowSink.FILESYSTEM) @FlowSources String name, int mode);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object clearWallpaper();
-	@NoFlow
+	@PloyFlow
 	Context getBaseContext();
-	@NoFlow
+	@PloyFlow
 	ContentResolver getContentResolver();
-	@NoFlow
+	@PloyFlow
 	Resources getResources();
 	// getSystemService() returns handles for various flow-sensitive classes. This method doesn't need to be annotated,
 	// but the methods on those objects do require annotation.
-	@NoFlow
+	@PloyFlow
 	Object getSystemService(@FlowSinks({}) String name);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions({}) Object sendBroadcast(android.content.Intent p0);
@@ -1081,9 +1081,9 @@ class ContextWrapper {
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions({}) void startActivity(Intent intent);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions({}) ComponentName startService(Intent service);
 }
 
@@ -1112,10 +1112,10 @@ class Intent {
 	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks int value);
 	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value);
     @PolyFlowSources @PolyFlowSinks Intent setComponent(@PolyFlowSources @PolyFlowSinks ComponentName name);
-	@NoFlow
+	@PloyFlow
 	Intent setClass(Context packageContext, Class<?> cls);
 	@FlowSources(FlowSource.ANY) Intent setData(@FlowSources(FlowSource.ANY) @FlowSinks({}) Uri data);
-	@NoFlow
+	@PloyFlow
 	Intent setFlags(int flags);	
 }
 
@@ -1170,44 +1170,44 @@ class UriMatcher {
         @PolyFlowSources @PolyFlowSinks String path,
         @PolyFlowSources @PolyFlowSinks int code) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int match(@PolyFlowSources @PolyFlowSinks Uri uri) @PolyFlowSources @PolyFlowSinks;
-	@NoFlow
+	@PloyFlow
 	UriMatcher(int code);
 }
 
 package android.content.res;
 
 class ColorStateList {
-	@NoFlow
+	@PloyFlow
 	int getDefaultColor();
 }
 
 class Resources {
-	@NoFlow
+	@PloyFlow
 	float getDimension(int id);
-	@NoFlow
+	@PloyFlow
 	Drawable getDrawable(int id);
-	@NoFlow
+	@PloyFlow
 	String getString(int id);
 	@PolyFlowSources @PolyFlowSinks String getString(@FlowSinks int id, @PolyFlowSources @PolyFlowSinks Object... objs);
-	@NoFlow
+	@PloyFlow
 	CharSequence getText(int id);
 }
 
 package android.database;
 
 class ContentObserver {
-    @NoFlow void onChange(boolean selfChange);
+    @PloyFlow void onChange(boolean selfChange);
 }
 
 class Cursor {
-	@NoFlow void close() @FlowSources(FlowSource.ANY);
+	@PloyFlow void close() @FlowSources(FlowSource.ANY);
 	@FlowSources(FlowSource.ANY) double getDouble(@FlowSinks({}) int columnIndex) @FlowSources(FlowSource.ANY);
 	@FlowSources(FlowSource.ANY) long getLong(@FlowSinks({}) int columnIndex) @FlowSources(FlowSource.ANY);
 	@PolyFlowSources @PolyFlowSinks String getString(@FlowSources(FlowSource.ANY) @FlowSinks({}) int columnIndex) @PolyFlowSources @PolyFlowSinks;
 	@FlowSources(FlowSource.ANY) int getInt(@FlowSinks({}) int columnIndex) @FlowSources(FlowSource.ANY);
-	@NoFlow boolean moveToFirst() @FlowSources(FlowSource.ANY);
-	@NoFlow boolean moveToNext() @FlowSources(FlowSource.ANY);
-	@NoFlow boolean isAfterLast() @FlowSources(FlowSource.ANY);
+	@PloyFlow boolean moveToFirst() @FlowSources(FlowSource.ANY);
+	@PloyFlow boolean moveToNext() @FlowSources(FlowSource.ANY);
+	@PloyFlow boolean isAfterLast() @FlowSources(FlowSource.ANY);
 	@FlowSources({}) @FlowSinks({}) int getColumnIndex(String name) @FlowSources(FlowSource.ANY);	
 	 
 	//TODO: Add the rest of the get methods
@@ -1217,15 +1217,15 @@ class Cursor {
 package android.database.sqlite;
 
 class SQLiteOpenHelper {
-	@NoFlow SQLiteDatabase getWritableDatabase();
+	@PloyFlow SQLiteDatabase getWritableDatabase();
 }
 
 class SQLiteDatabase {
-	@NoFlow
+	@PloyFlow
 	int delete(String p1, String p2, String[] p3);
-	@NoFlow
+	@PloyFlow
 	void execSQL(String sql);
-	@NoFlow
+	@PloyFlow
 	long insert(String table, String nullColumnHack, ContentValues values);
 	//@FlowSources({}) int insert(String p1, String p2, @PolyFlowSources ContentValues p3) @PolyFlowSources;
 	@FlowSources({}) int update(
@@ -1236,7 +1236,7 @@ class SQLiteDatabase {
 }
 
 class SQLiteQueryBuilder {
-	@NoFlow
+	@PloyFlow
 	void appendWhere(CharSequence inWhere);
 	@FlowSources(FlowSource.ANY) Cursor query(
 	    @FlowSources(FlowSource.ANY) @FlowSinks({}) SQLiteDatabase db,
@@ -1247,7 +1247,7 @@ class SQLiteQueryBuilder {
 	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String having,
 	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String sortOrder,
 	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String limit); 
-    @NoFlow
+    @PloyFlow
     void setTables(String inTables);
 }
 
@@ -1273,14 +1273,14 @@ class Color {
 package android.hardware;
 
 class Camera {
-	@NoFlow
+	@PloyFlow
 	Parameters getParameters();
 	//@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
-	@NoFlow 
+	@PloyFlow 
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
-	@NoFlow
+	@PloyFlow
 	void setParameters(Parameters params);
-	@NoFlow
+	@PloyFlow
 	void setPreviewDisplay(SurfaceHolder holder);
 	void takePicture(@FlowSinks({}) ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
 }
@@ -1408,7 +1408,7 @@ class LocationManager {
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object clearTestProviderEnabled(java.lang.String p0);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object clearTestProviderLocation(java.lang.String p0);
 	@RequiredPermissions(android.Manifest.permission.ACCESS_MOCK_LOCATION) Object clearTestProviderStatus(java.lang.String p0);
-	@NoFlow 
+	@PloyFlow 
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
 	String getBestProvider(Criteria criteria, boolean enabledOnly);
 	@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
@@ -1701,7 +1701,7 @@ class WifiManager$WifiLock {
 package android.opengl;
 
 class GLSurfaceView {
-	@NoFlow
+	@PloyFlow
 	void setRenderer(Renderer r);
 }
 
@@ -1732,11 +1732,11 @@ class Environment {
 }
 
 class Handler {
-	@NoFlow
+	@PloyFlow
 	boolean sendMessageDelayed(Message m, long delay);
-    @NoFlow
+    @PloyFlow
     boolean postDelayed(Runnable r, long delay);
-    @NoFlow
+    @PloyFlow
     Message obtainMessage(int what, Object obj);
 }
 
@@ -1860,7 +1860,7 @@ class EditTextPreference {
 }
 
 class PreferenceActivity{
-    @NoFlow
+    @PloyFlow
     void onCreate(Bundle savedInstanceState);
 }
 
@@ -2234,7 +2234,7 @@ package android.text;
 
 class Editable {
     @PolyFlowSources @PolyFlowSinks Editable append(@PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
-    @NoFlow
+    @PloyFlow
     void clear();
    // @PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object o) @PolyFlowSources @PolyFlowSinks;
     @PolyFlowSources @PolyFlowSinks Editable insert(@FlowSinks({}) int where, @PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
@@ -2292,14 +2292,14 @@ class ContextThemeWrapper {
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object removeStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyBroadcast(android.content.Intent p0);
 	@RequiredPermissions(android.Manifest.permission.BROADCAST_STICKY) Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	@NoFlow
+	@PloyFlow
 	void setTheme(int resid);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(android.graphics.Bitmap p0);
 	@RequiredPermissions(android.Manifest.permission.SET_WALLPAPER) Object setWallpaper(java.io.InputStream p0);
 }
 
 class Display {
-    @NoFlow
+    @PloyFlow
     void getMetrics(DisplayMetrics outMetrics);
 }
 
@@ -2355,23 +2355,23 @@ class Display {
 }*/
 
 class KeyEvent {
-    @NoFlow
+    @PloyFlow
     int getAction();
     @FlowSources(FlowSource.USER_INPUT) int getKeyCode();
 }
 
 class Menu {
-    @NoFlow
+    @PloyFlow
     MenuItem add(int groupId, int itemId, int order, CharSequence title);
 }
 
 class MenuInflater {                                                  
-    @NoFlow                                                           
+    @PloyFlow                                                           
     void inflate(int menuRes, Menu menu);                             
 }
 
 class MenuItem {
-    @NoFlow
+    @PloyFlow
     int getItemId();
 }
 
@@ -2384,9 +2384,9 @@ class Surface {
 }
 
 class SurfaceHolder {
-	@NoFlow
+	@PloyFlow
 	void addCallback(Callback callback);
-	@NoFlow
+	@PloyFlow
 	void setType(int type);
 }
 
@@ -2395,34 +2395,34 @@ class SurfaceHolder {
 }*/
 
 class SurfaceView {
-	@NoFlow
+	@PloyFlow
 	SurfaceHolder getHolder();
 }
 
 class View {
-	@NoFlow
+	@PloyFlow
 	View findViewById(int id);
 	@PolyFlowSources @PolyFlowSinks Context getContext() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int getId() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks Object getTag() @PolyFlowSources @PolyFlowSinks;
-	@NoFlow
+	@PloyFlow
 	void setOnClickListener(OnClickListener l);
-	@NoFlow
+	@PloyFlow
 	void setOnKeyListener(OnKeyListener l);
-	@NoFlow
+	@PloyFlow
 	void setVisibility(int visibility);
 }
 
 class Window {
 	void setFlags(@FlowSinks({}) int flags, @FlowSinks({}) int mask) @FlowSources({FlowSource.ANY});
-	@NoFlow
+	@PloyFlow
 	void addFlags(int flags);
-        @NoFlow
+        @PloyFlow
         void setAttributes(@FlowSources({FlowSource.ANY}) android.view.WindowManager.LayoutParams a);
 }
 
 class WindowManager {
-    @NoFlow
+    @PloyFlow
     Display getDefaultDisplay();
 }
 
@@ -2448,11 +2448,11 @@ class WebSettings {
 }
 
 class WebView {
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.INTERNET) WebView(android.content.Context p0,android.util.AttributeSet p1,int p2);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.INTERNET) WebView(android.content.Context p0,android.util.AttributeSet p1);
-	@NoFlow
+	@PloyFlow
 	@RequiredPermissions(android.Manifest.permission.INTERNET) WebView(android.content.Context p0);
 }
 
@@ -2464,8 +2464,8 @@ package android.widget;
 
 class AdapterView {
 	@PolyFlowSources @PolyFlowSinks Object getItemAtPosition(@FlowSinks({}) int position) @PolyFlowSources @PolyFlowSinks;
-	@NoFlow void setOnItemClickListener(AdapterView.OnItemClickListener listener) @PolyFlowSources @PolyFlowSinks;
-    @NoFlow void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener) @PolyFlowSources @PolyFlowSinks;
+	@PloyFlow void setOnItemClickListener(AdapterView.OnItemClickListener listener) @PolyFlowSources @PolyFlowSinks;
+    @PloyFlow void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener) @PolyFlowSources @PolyFlowSinks;
 }
 
 class ArrayAdapter<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
@@ -2490,51 +2490,51 @@ class QuickContactBadge {
 }
 
 class RadioGroup {
-    @NoFlow
+    @PloyFlow
     void setOnCheckedChangeListener(OnCheckedChangeListener listener);
 }
 
 class TextView {
     void append(@PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
-	@NoFlow
+	@PloyFlow
 	ColorStateList getTextColors();
-	@NoFlow
+	@PloyFlow
 	void setCompoundDrawablePadding(int pad);
-	@NoFlow
+	@PloyFlow
 	void setCompoundDrawablesWithIntrinsicBounds(int left, int top, int right, int bottom);
-	@NoFlow
+	@PloyFlow
 	void setEllipsize(TruncateAt where);
-	@NoFlow
+	@PloyFlow
 	void setEnabled(boolean enabled);
-	@NoFlow
+	@PloyFlow
 	void setGravity(int gravity);
-	@NoFlow
+	@PloyFlow
 	void setPadding(int left, int top, int right, int bottom);
-	@NoFlow
+	@PloyFlow
 	void setSelected(boolean selected);
-	@NoFlow
+	@PloyFlow
 	void setSingleLine();
 	void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) CharSequence text) @PolyFlowSources @PolyFlowSinks;
 	void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) int resid) @PolyFlowSources @PolyFlowSinks;
-	@NoFlow
+	@PloyFlow
 	void setTextColor(int color);
-	@NoFlow
+	@PloyFlow
 	void setTextSize(float size);
 }
 
 class Toast {
-	@NoFlow
+	@PloyFlow
 	void show();
-	@NoFlow
+	@PloyFlow
 	static Toast makeText(Context context, CharSequence text, int duration);
 }
 
 class RemoteViews {
-	@NoFlow
+	@PloyFlow
 	void setOnClickPendingIntent(int i, @FlowSources(FlowSource.ANY) PendingIntent pi);
 	void setImageViewResource(@FlowSinks({}) int viewId, @PolyFlowSources @PolyFlowSinks int srcId) @PolyFlowSources @PolyFlowSinks;
 	void setTextViewText(@FlowSinks({}) int viewId, @PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
-	@NoFlow
+	@PloyFlow
 	void setViewVisibility(int viewId, int visibility);
 }
 	
@@ -2711,7 +2711,7 @@ class BufferedInputStream {
 
 class BufferedReader {
 	@PolyFlowSources @PolyFlowSinks BufferedReader(@PolyFlowSources @PolyFlowSinks Reader in, @PolyFlowSources @PolyFlowSinks int size);
-	@NoFlow
+	@PloyFlow
 	void close() @FlowSources(FlowSource.ANY);
 	@PolyFlowSources @PolyFlowSinks String readLine() @PolyFlowSources @PolyFlowSinks;
 }
@@ -2844,7 +2844,7 @@ class CharSequence {
 }
 
 class Class {
-	@NoFlow
+	@PloyFlow
 	String getName();
 }
 
@@ -2884,7 +2884,7 @@ class Math {
 	
 class Object {
 	@FlowSources(FlowSource.ANY) boolean equals(Object object);
-	@NoFlow
+	@PloyFlow
 	Class getClass();
 	@PolyFlowSources @PolyFlowSinks int hashCode() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
@@ -2934,7 +2934,7 @@ class System {
 }
 
 class Throwable {
-	@NoFlow
+	@PloyFlow
 	Throwable initCause(Throwable throwable);
 }
 
@@ -3034,7 +3034,7 @@ class URLConnection {
 package java.security;
 
 class MessageDigest {
-	@NoFlow
+	@PloyFlow
 	static MessageDigest getInstance(String algorithm);
 	void update(@PolyFlowSources @PolyFlowSinks byte[] input) @PolyFlowSources @PolyFlowSinks;
 }
@@ -3048,7 +3048,7 @@ class Time {
 package java.text;
 
 class DecimalFormat {
-    @NoFlow
+    @PloyFlow
     void setMaximumIntegerDigits(int value);
 }
 
@@ -3079,7 +3079,7 @@ class Calendar {
 }
 
 class Collection {
-	@NoFlow boolean isEmpty();
+	@PloyFlow boolean isEmpty();
 }
 	
 class Collections {
@@ -3106,7 +3106,7 @@ class HashMap<K extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object,
 	V extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
 	@PolyFlowSources @PolyFlowSinks V get(@PolyFlowSources @PolyFlowSinks Object key) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String put(@PolyFlowSources @PolyFlowSinks K key, @PolyFlowSources @PolyFlowSinks V value) @PolyFlowSources @PolyFlowSinks;
-	@NoFlow
+	@PloyFlow
 	int size();
 }
 
@@ -3115,9 +3115,9 @@ class LinkedList<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
 }
 
 class List<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
-	@NoFlow boolean add(T object) @FlowSources(FlowSource.ANY);
+	@PloyFlow boolean add(T object) @FlowSources(FlowSource.ANY);
     T get(@FlowSinks({}) int index);
-	@NoFlow int size() @FlowSources(FlowSource.ANY);
+	@PloyFlow int size() @FlowSources(FlowSource.ANY);
 	//How to annotate this: Object[] toArray();
 }
 
