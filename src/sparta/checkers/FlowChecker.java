@@ -6,7 +6,6 @@ import java.util.*;
 import javax.annotation.processing.SupportedOptions;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
@@ -15,7 +14,6 @@ import checkers.basetype.BaseTypeChecker;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
 import checkers.quals.PolyAll;
-import checkers.source.Result;
 import checkers.source.SourceChecker;
 import checkers.source.SupportedLintOptions;
 import checkers.types.AnnotatedTypeMirror;
@@ -26,9 +24,11 @@ import checkers.util.MultiGraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import checkers.util.QualifierPolymorphism;
 import checkers.util.TreeUtils;
-import checkers.compilermsgs.quals.CompilerMessageKey;
 
-import com.sun.source.tree.Tree;
+/*>>>
+import checkers.compilermsgs.quals.CompilerMessageKey;
+*/
+
 import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.FlowSources;
@@ -46,7 +46,7 @@ import sparta.checkers.quals.PolyFlowSources;
 
 public class FlowChecker extends BaseTypeChecker {
     public static final String MSG_FILTER_OPTION = "msgFilter";
-    
+
 	protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES, POLYFLOWSOURCES;
     protected AnnotationMirror NOFLOWSINKS, ANYFLOWSINKS, POLYFLOWSINKS;
     protected AnnotationMirror POLYALL;
@@ -55,7 +55,7 @@ public class FlowChecker extends BaseTypeChecker {
 
     protected AnnotationMirror FLOW_SOURCES;
     protected AnnotationMirror FLOW_SINKS;
-    
+
     protected FlowPolicy flowPolicy;
     protected Set<String> unfilteredMessages;
 
@@ -76,7 +76,7 @@ public class FlowChecker extends BaseTypeChecker {
         builder = new AnnotationBuilder(processingEnv, FlowSinks.class.getCanonicalName());
         builder.setValue("value", new FlowSink[] { FlowSink.ANY });
         ANYFLOWSINKS = builder.build();
-        
+
         builder = new AnnotationBuilder(processingEnv, FlowSources.class.getCanonicalName());
         builder.setValue("value", new FlowSource[] { FlowSource.LITERAL });
         LITERALFLOWSOURCE = builder.build();
@@ -262,7 +262,7 @@ public class FlowChecker extends BaseTypeChecker {
                         AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) ||
                         AnnotationUtils.areSame(lhs, POLYFLOWSINKS) ||
                         AnnotationUtils.areSame(lhs, POLYFLOWSOURCES);
- 
+
             } else {
                 SourceChecker.errorAbort("FlowChecker: unexpected AnnotationMirrors: " + rhs + " and " + lhs);
                 return false; // dead code

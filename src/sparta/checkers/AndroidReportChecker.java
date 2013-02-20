@@ -4,7 +4,6 @@ import java.util.Properties;
 
 import javax.annotation.processing.SupportedOptions;
 
-import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
 import checkers.quals.Unqualified;
 import checkers.util.report.ReportChecker;

@@ -8,7 +8,6 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.util.Elements;
 
 import checkers.types.AnnotatedTypeFactory;
-import checkers.types.visitors.AnnotatedTypeVisitor;
 import checkers.util.*;
 import com.sun.tools.javac.code.TypeAnnotationPosition;
 import sparta.checkers.quals.ConservativeFlow;
@@ -242,6 +241,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
             return Pair.of(newSources, newSinks);
         }
+
         protected void completePolicyFlows(final AnnotatedTypeMirror type, final Set<AnnotationMirror> explicitAnnos)  {
             if( type.getKind() == TypeKind.VOID || explicitAnnos == null || explicitAnnos.isEmpty() ) {
                 return;

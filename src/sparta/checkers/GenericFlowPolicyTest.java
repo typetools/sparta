@@ -1,8 +1,6 @@
 package sparta.checkers;
 
-import checkers.util.test.CheckerParameterized;
 import checkers.util.test.CheckerTest;
-import checkers.util.test.TestUtilities;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
