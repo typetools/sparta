@@ -114,7 +114,7 @@ then these are equivalent:
 \begin{alltt}
   @FlowSources(A)                 ==   @FlowSources(A) @FlowSinks(\{X, Y\})
   @FlowSources(B)                 ==   @FlowSources(B) @FlowSinks(Y)
-  @FlowSources(\{B,C\})             ==   @FlowSources(B,C) @FlowSinks(Y)
+  @FlowSources(\{B,C\})             ==   @FlowSources(\{B,C\}) @FlowSinks(Y)
   @FlowSources(A) @FlowSinks(Y)   ==   @FlowSources(A) @FlowSinks(Y) 
   @FlowSources(\{A,B\})             ==   @FlowSources(\{A,B\}) @FlowSinks(Y)
 \end{alltt}
@@ -202,12 +202,12 @@ For example,
 these two policy files have the same meaning:
 
 \begin{alltt}
-   MICROPHONE -> NETWORK, LOGCAT, DISPLAY
+   MICROPHONE -> NETWORK, LOG, DISPLAY
 \end{alltt}
 is equivalent to this policy file:
 \begin{alltt}
    MICROPHONE -> NETWORK
-   MICROPHONE -> LOGCAT
+   MICROPHONE -> LOG
    MICROPHONE -> DISPLAY, NETWORK
 \end{alltt}
 
@@ -228,7 +228,11 @@ Or if you are using one of the ant targets, you can pass the option to ant:
 ant -DflowPolicy=\emph{mypolicyfile} flowtest
 \end{alltt}
 
-Remember, not specify a flow policy file is equivalent  to not allowing any flows. 
+Remember, not specifying a flow policy file is equivalent to not
+allowing any flows.
+% TODO: is this right? What about relaxed vs. strict?
+
+
 
 \section{Subtyping}
 
@@ -280,7 +284,7 @@ ANY -\textgreater CONDITIONAL is added to the flow policy by default.
 Conditionals are treated this way because they can leak information. For example, the given a flow policy of  USER\_INPUT -\textgreater FILESYSTEM, the following type checks.
 
 \begin{alltt}
-@FlowSources(FlowSource.USER_INPUT)@FlowSinks(FlowSink.FILESYSTEM)
+@FlowSources(FlowSource.USER_INPUT) @FlowSinks(FlowSink.FILESYSTEM)
 int creditCard = getCCNumber();
 final int MAX\_CC\_NUM=9999999999999999;
 for (int i = 0 ; i < MAX\_CC\_NUM ; i++)\{
@@ -330,6 +334,8 @@ Section~\ref{flow-defaults}.
    write a brief comment justifying the suppression.     \<@SuppressWarnings("flow")> should
    only be used if there is no way to annotate the code so that an error or warning does not occur. 
    Most programs should not suppress warnings. 
+
+
 \section{API specifications}
 
 File \<sparta-code/src/sparta/checkers/flow.astub> provides library
@@ -339,25 +345,16 @@ section~\ref{flow-task-annotate-apis} of this manual, and also
 chapter
 ``Annotating libraries'' in the Checker Framework manual.
 
-\section{Additional Annotations}
-Besides the qualifiers discussed so far, four additional declaration
-annotations can be used to annotate APIs:\<@PolyFlowSources>,
- \<@PolyFlowSinks>, \<@NoFlow>, and \<@ConservativeFlow>. 
- They change the default annotations (Section~\ref{flow-defaults}).
- 
- These annotations can be used on any declaration: a method, a class,
-or even a whole package.
-For example, the beginning of \<flow.astub> declares that the
-whole \<android> package should use conservative defaults.
-More specific annotations given in the rest of the file override these
-defaults.
- 
-\subsection{@PolyFlowSources  and @PolyFlowSinks}
 
-To make the type system more expressive, the flow type systems support
+\section{Qualifier polymorphism: @PolyFlowSources  and @PolyFlowSinks}
+
+Two additional type annotations can be used to annotate polymorphic
+methods: \<@PolyFlowSources>, \<@PolyFlowSinks>.
+
+To make the type system more expressive, the flow type system supports
 qualifier polymorphism, via the type qualifiers \<@PolyFlowSources> and
 \<@PolyFlowSinks>.  These are mostly used when annotating APIs when the
- specific flow sources or flow sinks are not known or can vary. 
+specific flow sources or flow sinks are not known or can vary. 
 See section ``Qualifier polymorphism'' in the Checker Framework manual.  
 
 % These range over their respective type hierarchy and can be used to
@@ -365,17 +362,43 @@ See section ``Qualifier polymorphism'' in the Checker Framework manual.
 % parameter types have to correspond.
 % The invocation of a method is used to resolve polymorphic qualifiers
 % to something concrete.
+
+% TODO: these have known soundness issues and with Stuart we're
+% working on fixing them.
+
+
+\section{Additional Annotations}
+
+Three additional declaration annotations can be used to annotate APIs:
+\<@NoFlow>, \<@ConservativeFlow>, and \<@PolyFlow>. 
+They change the default annotations (Section~\ref{flow-defaults}).
+ 
+The declaration annotations can be used on any declaration: a method,
+a class, or even a whole package.
+For example, the beginning of \<flow.astub> declares that the
+whole \<android> package should use conservative defaults.
+More specific annotations given in the rest of the file override these
+defaults.
+
+% Do these apply to the receiver type?
+
 \subsection{@NoFlow}
-The a method or class annotated with \<@NoFlow> expresses that the 
-method's return type and all parameter types are \<@FlowSources({}) @FlowSinks({})>.  As with all
+
+An element annotated with \<@NoFlow> expresses that an enclosed
+method's return type and all parameter types are \<@FlowSources({})
+@FlowSinks({})>.  As with all 
 library annotations, it is trusted rather than checked.  Thus, it should be
 used only if an external analysis has determined that it is correct for the
 annotated method, class, or package.
 
+% TODO: Is noflow {} or the LITERAL default?
+% Should it be renamed to @DefaultFlow?
+
+
 \subsection{@ConservativeFlow}
 
-Annotation \<@ConservativeFlow> expresses that each method should have the
-most conservative possible annotations:
+Annotation \<@ConservativeFlow> expresses that each contained method
+should have the most conservative possible annotations:
   \<@FlowSources({}) @FlowSinks(ANY)> on arguments, and
   \<@FlowSources(ANY) @FlowSinks({})> on return values.
 %[TODO: what for fields?]
@@ -385,6 +408,12 @@ When the analyst encounters such type-checking errors, the analyst can
 annotate the methods more appropriately.  This is a way of knowing when a
 program uses a previously-unannotated library.
 
+
+\subsection{@PolyFlow}
+
+Annotation \<@PolyFlow> expresses that each contained method should be
+annotated as \<@PolyFlowSource @PolyFlowSink> for both the return
+types and all parameters.
 
 
 
