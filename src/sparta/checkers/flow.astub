@@ -377,10 +377,9 @@ class Activity {
 	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@PolyFlow
 	void moveTaskToBack(boolean nonRoot);
-	@PolyFlow
+	@NoFlow
 	void onCreate(Bundle savedInstanceState);
-	@PolyFlow
-	boolean onCreateOptionsMenu(Menu menu);
+	@PolyFlowSources @PolyFlowSinks boolean onCreateOptionsMenu(@PolyFlowSources @PolyFlowSinks Menu menu);
 	@PolyFlow
 	boolean onOptionsItemSelected(MenuItem item);
 	@PolyFlow
@@ -2474,7 +2473,7 @@ class ArrayAdapter<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object>
 class EditText {
 	@PolyFlowSources @PolyFlowSinks Editable getText() @PolyFlowSources @PolyFlowSinks;
 	void setSelection(@PolyFlowSources @PolyFlowSinks int index) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) CharSequence text) @PolyFlowSources @PolyFlowSinks;
+	void setText(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) CharSequence text);
 	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2515,7 +2514,7 @@ class TextView {
 	void setSelected(boolean selected);
 	@PolyFlow
 	void setSingleLine();
-	@PolyFlowSources void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) CharSequence text) @PolyFlowSources @PolyFlowSinks;
+	void setText(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) CharSequence text);
 	void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) int resid) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlow
 	void setTextColor(int color);
@@ -2847,6 +2846,10 @@ class CharSequence {
 class Class {
 	@PolyFlow
 	String getName();
+    @PolyFlow
+    Class forName(String s1);
+    @NoFlow
+    boolean isAnnotationPresent(Class<? extends Annotation> annotationClass);
 }
 
 class Enum {
@@ -3051,6 +3054,7 @@ package java.text;
 class DecimalFormat {
     @PolyFlow
     void setMaximumIntegerDigits(int value);
+    @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks double value);
 }
 
 class NumberFormat {
