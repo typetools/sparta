@@ -175,14 +175,14 @@ Look at the AndroidManifest.xml file and:
 \subsection{Task: write a flow-policy file}
 
 Use your understanding of the App to write a flow-policy file.  A full description of Flow Policies can be 
-found in Section~\ref{sec:flowpolicy}.   You should also familiarize yourself with all the possible sources and sinks; 
+found in \secref{sec:flowpolicy}.   You should also familiarize yourself with all the possible sources and sinks; 
  all FlowSources  are
 members of the enum \<sparta.checkers.quals.FlowSources.FlowSource> and all FlowSinks are
 members of the enum \<sparta.checkers.quals.FlowSinks.FlowSink>.
 
 To begin, read the App description, looking for clues about the information flow.  For example,
 if this is a map app, does the description say anything about sending your location data over the
- network?  If so, then you should add LOCATION $\rightarrow$ NETWORK to the flow-policy file.  Where
+ network?  If so, then you should add LOCATION \flowsto{} NETWORK to the flow-policy file.  Where
 else does the description say LOCATION data can go?   
 
 Theoretically you should be able to write a complete Flow Policy from the description 
@@ -456,7 +456,8 @@ required for soundness, but would be disruptive to enable initially.
 In particular, the tests for casts and array subtyping are stricter.
 See the discussion in \chapterpageref{flow-checker}.
 
-This option will also use the stricter conditional rule. (LITERAL-\textgreater CONDITIONAL rather than the relaxed ANY-\textgreater CONDITIONAL)
+This option will also use the stricter conditional rule. (LITERAL
+\flowsto{} CONDITIONAL rather than the relaxed ANY \flowsto{} CONDITIONAL)
 
 
 %%% Local Variables: 
