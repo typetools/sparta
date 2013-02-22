@@ -108,21 +108,8 @@ public class FlowPolicy {
         assert sourceAnno != null : "Annotated Type Mirror must have a FlowSources annotation";
         assert sinkAnno != null : "Annotated Type Mirror must have a FlowSinks annotation";
         
-        final Set<FlowSource> sources = new HashSet<FlowSource>(
-                AnnotationUtils.getElementValueEnumArray(sourceAnno, "value", FlowSources.FlowSource.class, true));
-
-        final Set<FlowSink> sinks = new HashSet<FlowSink>(
-                    AnnotationUtils.getElementValueEnumArray(sinkAnno,  "value", FlowSinks.FlowSink.class,   true));
-
-        if( sources.contains( FlowSource.ANY ) ) {
-            sources.addAll( Arrays.asList( FlowSource.values() ) );
-            sources.remove( FlowSource.ANY );
-        }
-
-        if( sinks.contains(FlowSink.ANY) ) {
-            sinks.addAll(Arrays.asList(FlowSink.values()));
-            sinks.remove(FlowSink.ANY);
-        }
+        final Set<FlowSource> sources = FlowUtil.getFlowSources(sourceAnno, true);
+        final Set<FlowSink>   sinks   = FlowUtil.getFlowSinks(sinkAnno, true);
 
         return Pair.of(sources, sinks);
     }
@@ -197,11 +184,11 @@ public class FlowPolicy {
     private final List<FlowSink>   allFlowSinks   =  Collections.unmodifiableList(Arrays.asList(FlowSink.values()));
     private final List<FlowSource> allFlowSources =  Collections.unmodifiableList(Arrays.asList(FlowSource.values()));
 
-    public Set<FlowSink> getIntersectingSinks(final List<FlowSource> sources) {
+    public Set<FlowSink> getIntersectingSinks(final Collection<FlowSource> sources) {
         return getIntersectingValueSets(FlowSink.class, allowedFlows, allFlowSinks, sources);
     }
 
-    public Set<FlowSource> getIntersectingSources(final List<FlowSink> sinks) {
+    public Set<FlowSource> getIntersectingSources(final Collection<FlowSink> sinks) {
         return getIntersectingValueSets(FlowSource.class, reversedAllowedFlows, allFlowSources, sinks);
     }
 
@@ -427,16 +414,18 @@ public class FlowPolicy {
         }
     }
 
-    private static <KEY, VALUE extends Enum<VALUE>> Set<VALUE> getIntersectingValueSets(final Class<VALUE> vc,
+    public static <KEY, VALUE extends Enum<VALUE>> Set<VALUE> getIntersectingValueSets(final Class<VALUE> vc,
                                                        final Map<KEY, Set<VALUE>> kToV,
                                                        final Collection<VALUE> allValues,
-                                                       final List<KEY> keys) {
+                                                       final Collection<KEY> keys) {
         if(keys.isEmpty()) {
             return new HashSet<VALUE>();
         }
 
+        final List<KEY> keyList = new ArrayList<KEY>(keys);
+
         final VALUE any = VALUE.valueOf(vc, "ANY");
-        Set<VALUE> initial = kToV.get(keys.get(0));
+        Set<VALUE> initial = kToV.get(keyList.get(0));
 
         final Set<VALUE> values;
         if( initial != null ) {
@@ -451,8 +440,8 @@ public class FlowPolicy {
             values = new HashSet<VALUE>();
         }
 
-        for( int i = 1; i < keys.size() && !values.isEmpty(); i++) {
-            final KEY key = keys.get(i);
+        for( int i = 1; i < keyList.size() && !values.isEmpty(); i++) {
+            final KEY key = keyList.get(i);
             final Set<VALUE> curValues = kToV.get(key);
 
             if( curValues != null ) {

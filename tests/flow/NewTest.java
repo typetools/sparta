@@ -17,7 +17,7 @@ class NewTest {
         sink = new TestClass1(param);
         sink = new @FlowSinks(FlowSink.NETWORK) TestClass1(param);
         //:: error: (assignment.type.incompatible)
-        sink = new @FlowSinks(FlowSink.FILESYSTEM) TestClass1(param); 
+        sink = new @FlowSinks(FlowSink.FILESYSTEM) TestClass1(param);
     }
 
     @FlowSinks(FlowSink.NETWORK) TestClass3 sink3;
@@ -47,15 +47,18 @@ class NewTest {
         unqual_field = new @FlowSources(FlowSource.CAMERA) TestClass2(fs);
 
         fs_field = new @FlowSinks(FlowSink.FILESYSTEM) TestClass2(fs);
-        //:: error: (assignment.type.incompatible)
-        fs_field = new @FlowSources(FlowSource.CAMERA) TestClass2(fs);
+
+        fs_field = new @FlowSources(FlowSource.CAMERA) TestClass2(fs); //Allowed via Flow-policy
+
+        //:: error: (forbidden.flow) :: error: (assignment.type.incompatible)
+        fs_field = new @FlowSources(FlowSource.NETWORK) TestClass2(fs);
 
     }
 }
 
 // Test specific constructor return type.
 class TestClass1 {
-    @FlowSinks(FlowSink.NETWORK) TestClass1(@FlowSinks(FlowSink.NETWORK) String param) {}
+    @FlowSinks(FlowSink.NETWORK) TestClass1(@FlowSinks(FlowSink.NETWORK) String tc1Params) {}
 }
 
 // Test polymorphic constructor return type.

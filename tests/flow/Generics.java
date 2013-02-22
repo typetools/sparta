@@ -7,6 +7,7 @@ class ListTest {
     String t = s.get(1);
 }
 
+//:: error: (forbidden.flow)
 class List<T extends @FlowSinks({}) @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) Object> {
     T get( @FlowSources(sparta.checkers.quals.FlowSources.FlowSource.ANY) List<T> this, int index) { return null; }
     void add(T p) {}

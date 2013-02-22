@@ -119,15 +119,6 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         }
     }
 
-    protected <T extends Enum<T>> List<T> getValuesOrEmpty( AnnotationMirror am, Class<T> enumClass) {
-        if(am == null) {
-            return new ArrayList<T>();
-        } else {
-            final List<T> values = AnnotationUtils.getElementValueEnumArray(am, "value", enumClass, true);
-            return values;
-        }
-    }
-
     class FlowCompletingDefaults extends QualifierDefaults {
 
         //Instantiated lazily
@@ -147,14 +138,16 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             boolean isLocal = (element == null || element.getKind() == ElementKind.LOCAL_VARIABLE );
 
 
-            if( !isLocal /*&& element != null*/ && element.getKind() == ElementKind.METHOD && type.getKind() == TypeKind.EXECUTABLE ) {
+            if( !isLocal /*&& element != null*/ &&
+                (element.getKind() == ElementKind.METHOD || element.getKind() == ElementKind.CONSTRUCTOR) &&
+                type.getKind() == TypeKind.EXECUTABLE ) {
                 final AnnotatedExecutableType exeType = (AnnotatedExecutableType) type;
                 for ( final AnnotatedTypeMirror atm : exeType.getParameterTypes()) {
                     completePolicyFlows(false, atm);
                 }
 
-                //This was exeType.getAnnotations TODO CHECK THIS
-                completePolicyFlows( false, exeType.getReturnType() );
+                completePolicyFlows( false, exeType.getReturnType()   );
+                completePolicyFlows(false,  exeType.getReceiverType() );
 
             } else {
                 completePolicyFlows(isLocal, type);
@@ -218,8 +211,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         protected Pair<Set<FlowSources.FlowSource>, Set<FlowSinks.FlowSink>> getNewSourcesOrSinks(final Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals) {
             final FlowPolicy flowPolicy = checker.getFlowPolicy();
 
-            final List<FlowSources.FlowSource> sources = getValuesOrEmpty(sourceToSinkQuals.first,   FlowSources.FlowSource.class);
-            final List<FlowSinks.FlowSink>     sinks   = getValuesOrEmpty(sourceToSinkQuals.second,  FlowSinks.FlowSink.class);
+            final Set<FlowSources.FlowSource> sources = FlowUtil.getFlowSourcesOrEmpty(sourceToSinkQuals.first, false);
+            final Set<FlowSinks.FlowSink>     sinks   = FlowUtil.getFlowSinksOrEmpty(sourceToSinkQuals.second,  false);
 
             final Set<FlowSinks.FlowSink>  newSinks;
             final Set<FlowSources.FlowSource> newSources;
@@ -265,10 +258,10 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
             final AnnotationMirror newAnno;
             if( newSourcesOrSinks.first != null) {
-                newAnno = checker.createAnnoFromSources( newSourcesOrSinks.first );
+                newAnno = FlowUtil.createAnnoFromSources(processingEnv, newSourcesOrSinks.first );
 
             } else if( newSourcesOrSinks.second != null ) {
-                newAnno = checker.createAnnoFromSinks( newSourcesOrSinks.second );
+                newAnno = FlowUtil.createAnnoFromSinks(processingEnv, newSourcesOrSinks.second );
 
             } else {
                 newAnno  = null;
