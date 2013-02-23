@@ -7,18 +7,22 @@ import android.util.FloatMath;
 class MultiplyTest {
 
     @FlowSources(FlowSource.LOCATION) float raRadians;
+    @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float raLitLocRadians;
 
     float x;
-    @FlowSources(FlowSource.LOCATION) float y; 
-    @FlowSources(FlowSource.ANY) float z;
+    @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float y;
+    @FlowSources({FlowSource.ANY}) float z;
 
     void test_Multiply() {
-        @FlowSources(FlowSource.LOCATION) float ra = (float) 1.0;
-        @FlowSources(FlowSource.LOCATION) float dec = 2.0f;
+        @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float ra = (float) 1.0;
+        @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float dec = 2.0f;
 
         float dtr = (float) 0.5;
 
+        //:: error: (assignment.type.incompatible)
         raRadians = ra * dtr;
+        raLitLocRadians = ra * dtr;
+
         float decRadians = dec * dtr;
 
         //:: error: (assignment.type.incompatible)
@@ -29,17 +33,21 @@ class MultiplyTest {
     }
 
     void test_Cast() {
-        @FlowSources(FlowSource.LOCATION) float ra = (float) 1.0;
+        @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float ra = (float) 1.0;
 
-        raRadians = (float) ra;
+        //:: error: (assignment.type.incompatible)
+        raRadians       = (float) ra;
+        raLitLocRadians = (float) ra;
     }
 
     void test_Unary() {
-        @FlowSources(FlowSource.LOCATION) float ra = (float) 1.0;
+        @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float ra = (float) 1.0;
 
         //:: error: (assignment.type.incompatible)
         x = -ra;
 
+        //:: error: (assignment.type.incompatible)
         raRadians = -ra;
+        raLitLocRadians = -ra;
     }
 }

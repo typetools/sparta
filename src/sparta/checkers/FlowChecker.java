@@ -35,6 +35,7 @@ import sparta.checkers.quals.FlowSources;
 import sparta.checkers.quals.FlowSources.FlowSource;
 import sparta.checkers.quals.PolyFlowSinks;
 import sparta.checkers.quals.PolyFlowSources;
+import static sparta.checkers.FlowUtil.*;
 
 @TypeQualifiers({FlowSources.class, FlowSinks.class,
     PolyFlowSources.class, PolyFlowSinks.class,
@@ -68,18 +69,8 @@ public class FlowChecker extends BaseTypeChecker {
         POLYFLOWSINKS = AnnotationUtils.fromClass(elements, PolyFlowSinks.class);
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
 
-        AnnotationBuilder builder =
-                new AnnotationBuilder(processingEnv, FlowSources.class.getCanonicalName());
-        builder.setValue("value", new FlowSource[] { FlowSource.ANY });
-        ANYFLOWSOURCES = builder.build();
-
-        builder = new AnnotationBuilder(processingEnv, FlowSinks.class.getCanonicalName());
-        builder.setValue("value", new FlowSink[] { FlowSink.ANY });
-        ANYFLOWSINKS = builder.build();
-
-        builder = new AnnotationBuilder(processingEnv, FlowSources.class.getCanonicalName());
-        builder.setValue("value", new FlowSource[] { FlowSource.LITERAL });
-        LITERALFLOWSOURCE = builder.build();
+        ANYFLOWSOURCES = FlowUtil.createAnnoFromSources(processingEnv, new HashSet<FlowSource>(Arrays.asList(FlowSource.ANY)));
+        ANYFLOWSINKS = FlowUtil.createAnnoFromSinks(processingEnv, new HashSet<FlowSink>(Arrays.asList(FlowSink.ANY)));
 
         FLOW_SOURCES = AnnotationUtils.fromClass(elements, FlowSources.class);
         FLOW_SINKS   = AnnotationUtils.fromClass(elements, FlowSinks.class);
@@ -99,10 +90,10 @@ public class FlowChecker extends BaseTypeChecker {
            flowPolicy = new FlowPolicy(new File(pfArg),scArg);
         }
 
+        LITERALFLOWSOURCE = FlowUtil.createAnnoFromSources(processingEnv, new HashSet<FlowSource>(Arrays.asList(FlowSource.LITERAL)));
+
         final Set<FlowSink> literalSinks = new HashSet<FlowSink>(flowPolicy.getSinksFromSource(FlowSource.LITERAL, true));
-        builder = new AnnotationBuilder(processingEnv, FlowSinks.class.getCanonicalName());
-        builder.setValue("value", literalSinks.toArray(new FlowSink[literalSinks.size()]));
-        FROMLITERALFLOWSINK = builder.build();
+        FROMLITERALFLOWSINK = FlowUtil.createAnnoFromSinks(processingEnv, literalSinks);
 
 
         String unfilteredStr = processingEnv.getOptions().get(MSG_FILTER_OPTION);
@@ -232,10 +223,10 @@ public class FlowChecker extends BaseTypeChecker {
                     if (!isSourceQualifier(lhs)) {
                         return false;
                     }
-                    List<FlowSource> lhssrc = AnnotationUtils.getElementValueEnumArray(lhs, "value", FlowSource.class, true);
-                    List<FlowSource> rhssrc = AnnotationUtils.getElementValueEnumArray(rhs, "value", FlowSource.class, true);
-                    return  AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) ||
-                            lhssrc.containsAll(rhssrc);
+                    List<FlowSource> lhssrc = FlowUtil.getFlowSources(lhs);
+                    List<FlowSource> rhssrc = FlowUtil.getFlowSources(rhs);
+                    return  AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) || //TODO: Remove the ANY below when we start warning about FlowSources(ANY, Something else)
+                            lhssrc.containsAll(rhssrc) || lhssrc.contains(FlowSource.ANY);
                 }
             } else if (isSinkQualifier(rhs)) {
                 if (isPolySinkQualifier(lhs)) {
@@ -250,8 +241,8 @@ public class FlowChecker extends BaseTypeChecker {
                     if (!isSinkQualifier(lhs)) {
                         return false;
                     }
-                    List<FlowSink> lhssnk = AnnotationUtils.getElementValueEnumArray(lhs, "value", FlowSink.class, true);
-                    List<FlowSink> rhssnk = AnnotationUtils.getElementValueEnumArray(rhs, "value", FlowSink.class, true);
+                    List<FlowSink> lhssnk = FlowUtil.getFlowSinks(lhs);
+                    List<FlowSink> rhssnk = FlowUtil.getFlowSinks(rhs);
                     return lhssnk.isEmpty() ||
                             rhssnk.containsAll(lhssnk) ||
                         (rhssnk.contains(FlowSink.ANY) && rhssnk.size()==1);
@@ -296,13 +287,15 @@ public class FlowChecker extends BaseTypeChecker {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    final Set<FlowSources.FlowSource> superset =
-                            supersetOfElementEnumValues(a1, a2, "value", FlowSources.FlowSource.class, true);
+                    final Set<FlowSources.FlowSource> superset = FlowUtil.getFlowSources(a1, true);
+                    superset.addAll(FlowUtil.getFlowSources(a2, true));
+                    FlowUtil.allToAnySource(superset, true);
                     return boundFlowSources(superset);
 
                 } else if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-                    final Set<FlowSinks.FlowSink> intersection =
-                            intersectionOfElementEnumValues(a1, a2, "value", FlowSinks.FlowSink.class, true);
+                    final Set<FlowSinks.FlowSink> intersection =  FlowUtil.getFlowSinks(a1, true);
+                    intersection.retainAll(FlowUtil.getFlowSinks(a2, true));
+                    FlowUtil.allToAnySink(intersection, true);
                     return boundFlowSinks(intersection);
 
                 }
@@ -319,14 +312,16 @@ public class FlowChecker extends BaseTypeChecker {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    final Set<FlowSources.FlowSource> intersection =
-                            intersectionOfElementEnumValues(a1, a2, "value", FlowSources.FlowSource.class, true);
+                    final Set<FlowSources.FlowSource> intersection = FlowUtil.getFlowSources(a1, true);
+                    intersection.retainAll(FlowUtil.getFlowSources(a2, true));
+                    FlowUtil.allToAnySource(intersection, true);
                     return boundFlowSources(intersection);
 
                 } else if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-                    final Set<FlowSinks.FlowSink> superset =
-                            supersetOfElementEnumValues(a1, a2, "value", FlowSinks.FlowSink.class, true);
-                    return boundFlowSinks(superset);
+                    final Set<FlowSinks.FlowSink> superSet =  FlowUtil.getFlowSinks(a1, true);
+                    superSet.addAll(FlowUtil.getFlowSinks(a2, true));
+                    FlowUtil.allToAnySink(superSet, true);
+                    return boundFlowSinks(superSet);
 
                 }
             }
@@ -338,12 +333,12 @@ public class FlowChecker extends BaseTypeChecker {
         private AnnotationMirror boundFlowSources(final Set<FlowSource> flowSources) {
 
             final AnnotationMirror am;
-            if(flowSources.size() == FlowSource.values().length || flowSources.contains(FlowSource.ANY)) { //contains all FlowSources
+            if( flowSources.contains(FlowSource.ANY) ) { //contains all FlowSources
                 am = getTopAnnotation(FLOW_SOURCES);
             } else if(flowSources.isEmpty()) {
                 am = getBottomAnnotation(FLOW_SOURCES);
             } else {
-                am = createAnnoFromSources( flowSources );
+                am = createAnnoFromSources( processingEnv, flowSources );
             }
             return am;
         }
@@ -352,48 +347,17 @@ public class FlowChecker extends BaseTypeChecker {
             final AnnotationMirror am;
             if( flowSinks.isEmpty() ) {
                 am = getTopAnnotation(FLOW_SINKS);
-            } else if(flowSinks.size() == FlowSinks.FlowSink.values().length || flowSinks.contains(FlowSink.ANY)) { //contains all FlowSinks
+            } else if( flowSinks.contains(FlowSink.ANY) ) { //contains all FlowSinks
                 am = getBottomAnnotation(FLOW_SINKS);
             } else {
-                am = createAnnoFromSinks( flowSinks );
+                am = createAnnoFromSinks( processingEnv, flowSinks );
             }
             return am;
         }
     }
 
-
-    private static <T extends Enum<T>> Set<T> supersetOfElementEnumValues(
-            final AnnotationMirror a1, final AnnotationMirror a2,
-            final CharSequence name, final Class<T> t, boolean useDefaults) {
-        final Set<T> a1Values = new LinkedHashSet<T>(AnnotationUtils.getElementValueEnumArray(a1, name, t, useDefaults));
-        a1Values.addAll(AnnotationUtils.getElementValueEnumArray(a2, name, t, useDefaults));
-        return a1Values;
-    }
-
-    private static <T extends Enum<T>> Set<T> intersectionOfElementEnumValues(
-            final AnnotationMirror a1, final AnnotationMirror a2,
-            final CharSequence name, final Class<T> t, boolean useDefaults) {
-        final Set<T> a1Values = new LinkedHashSet<T>(AnnotationUtils.getElementValueEnumArray(a1, name, t, useDefaults));
-        a1Values.retainAll(AnnotationUtils.getElementValueEnumArray(a2, name, t, useDefaults));
-        return a1Values;
-    }
-
     public FlowPolicy getFlowPolicy() {
         return flowPolicy;
-    }
-
-    protected <T, E> AnnotationMirror createAnnoFromEnumArray(final Class<T> qualClass, final E[] enumVals ) {
-        final AnnotationBuilder builder = new AnnotationBuilder(processingEnv, qualClass.getCanonicalName());
-        builder.setValue("value", enumVals );
-        return builder.build();
-    }
-
-    public AnnotationMirror createAnnoFromSinks(final Set<FlowSinks.FlowSink> sinks) {
-        return createAnnoFromEnumArray(FlowSinks.class, sinks.toArray(new FlowSinks.FlowSink[sinks.size()]));
-    }
-
-    public AnnotationMirror createAnnoFromSources(final Set<FlowSources.FlowSource> sources) {
-        return createAnnoFromEnumArray(FlowSources.class, sources.toArray(new FlowSources.FlowSource[sources.size()]));
     }
 
     @Override
