@@ -37,6 +37,11 @@ class Thread {
 @ConservativeFlow
 package java.lang.reflect;
 
+class Method {
+    @PolyFlow
+    Object invoke(Object obj, Object[] args);
+}
+
 
 package android.accessibilityservice;
 
@@ -380,6 +385,8 @@ class Activity {
 	@NoFlow
 	void onCreate(Bundle savedInstanceState);
 	@PolyFlowSources @PolyFlowSinks boolean onCreateOptionsMenu(@PolyFlowSources @PolyFlowSinks Menu menu);
+    @NoFlow
+    void onNewIntent(Intent intent);
 	@PolyFlow
 	boolean onOptionsItemSelected(MenuItem item);
 	@PolyFlow
@@ -400,6 +407,8 @@ class Activity {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) void setContentView(int layoutResID);
 	@PolyFlow
 	void setContentView(View v);
+    @PolyFlow
+    void setIntent(Intent i);
 	//setPersistent() is a hidden method.
 	//@RequiredPermissions(android.Manifest.permission.PERSISTENT_ACTIVITY) Object setPersistent(boolean p0);
 	@PolyFlow
@@ -2259,6 +2268,10 @@ class Time {
 
 package android.util;
 
+class Base64 {
+    static @PolyFlowSources @PolyFlowSinks byte[] decode(@PolyFlowSources @PolyFlowSinks java.lang.String str, @PolyFlowSources @PolyFlowSinks int flags);
+}
+
 class FloatMath {
     static @PolyFlowSources @PolyFlowSinks float ceil(@PolyFlowSources @PolyFlowSinks float value);
     static @PolyFlowSources @PolyFlowSinks float cos(@PolyFlowSources @PolyFlowSinks float angle);
@@ -2850,6 +2863,10 @@ class Class {
     Class forName(String s1);
     @NoFlow
     boolean isAnnotationPresent(Class<? extends Annotation> annotationClass);
+    @PolyFlow
+    Constructor getConstructor(Class[] parameterTypes);
+    @PolyFlow
+    Method  getMethod(String name, Class[] parameterTypes);
 }
 
 class Enum {
@@ -2957,7 +2974,7 @@ class HttpURLConnection {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) HttpURLConnection(java.net.URL p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object connect();
 
-    void setRequestMethod(@FlowSinks({FlowSink.NETWORK}) String method);
+    @PolyFlow void setRequestMethod(String method);
 }
 
 class InetAddress {
@@ -3014,7 +3031,7 @@ class URL {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object openStream();
 	@PolyFlowSources @PolyFlowSinks String toExternalForm() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks URI toURI() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks URL(@PolyFlowSources @PolyFlowSinks String spec);
+	@PolyFlow Object URL(String spec);
 	@PolyFlowSources @PolyFlowSinks String getHost()@PolyFlowSources @PolyFlowSinks ;
 	@PolyFlowSources @PolyFlowSinks String getFile()@PolyFlowSources @PolyFlowSinks ;
 	@PolyFlowSources @PolyFlowSinks String getProtocol()@PolyFlowSources @PolyFlowSinks ;
