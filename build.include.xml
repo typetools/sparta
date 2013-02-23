@@ -121,8 +121,12 @@
         </sequential>
     </macrodef>
 
+    <target name="-setup-flowtest">
+        <property name="build.target" value="flowtest" />
+    </target>
+
     <target name="flowtest"
-                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                depends="clean,-setup-flowtest, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for flowtest.">
         <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
@@ -134,8 +138,12 @@
         <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
 
+    <target name="-setup-reqperms">
+        <property name="build.target" value="reqperms" />
+    </target>
+
     <target name="reqperms"
-                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for required permissions.">
         <process-proj processor="sparta.checkers.PermissionsChecker"/>
     </target>
@@ -154,8 +162,12 @@
             output="flowshow.json"/>
     </target>
 
+    <target name="-setup-reportsuspicious">
+        <property name="build.target" value="reportsuspicious" />
+    </target>
+
     <target name="reportsuspicious"
-                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                depends="clean, -setup-reportsuspicious, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report suspicoius API usage.">
         	<!-- Run script to search for suspicious regexp pattern -->
         		<echo>Search for suspicious regexp pattern</echo><echo/>        		
