@@ -10,12 +10,11 @@ import java.net.*;
 class NewTest {
     @FlowSinks(FlowSink.NETWORK) TestClass1 sink;
 
-    @SuppressWarnings("flow") // Variable initialization.
     @FlowSinks(FlowSink.NETWORK) String param = "jkl";
 
     void method1() {
         sink = new TestClass1(param);
-        sink = new @FlowSinks(FlowSink.NETWORK) TestClass1(param);
+        sink = new @FlowSinks({FlowSink.NETWORK, FlowSink.CONDITIONAL}) TestClass1(param);
         //:: error: (assignment.type.incompatible)
         sink = new @FlowSinks(FlowSink.FILESYSTEM) TestClass1(param);
     }
@@ -28,29 +27,28 @@ class NewTest {
     }
 
     TestClass2 unqual_field;
-    @FlowSinks(FlowSink.FILESYSTEM) TestClass2 fs_field;
+    @FlowSinks({FlowSink.CONDITIONAL,FlowSink.FILESYSTEM}) TestClass2 fs_field;
 
-    @FlowSinks(FlowSink.FILESYSTEM) String fs;
+   	@FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM})  String fs;
 
     void foo() {
-        TestClass2 local;
-
-        local = new @FlowSinks(FlowSink.FILESYSTEM) TestClass2(fs);
+ 
+        TestClass2 local= new TestClass2(fs);
         fs_field = local;
         // Mismatch between explicitly given type and result of poly-resolution.
         //:: error: (constructor.invocation.invalid)
         local = new @FlowSources(FlowSource.CAMERA) TestClass2(fs);
 
         // Specific sink is a subtype of empty sinks.
-        unqual_field = new @FlowSinks(FlowSink.FILESYSTEM) TestClass2(fs);
+        unqual_field = new @FlowSinks({FlowSink.FILESYSTEM, FlowSink.CONDITIONAL, FlowSink.NETWORK}) @FlowSources(FlowSource.LITERAL) TestClass2(fs);
         //:: error: (assignment.type.incompatible)
         unqual_field = new @FlowSources(FlowSource.CAMERA) TestClass2(fs);
 
-        fs_field = new @FlowSinks(FlowSink.FILESYSTEM) TestClass2(fs);
+        fs_field = new @FlowSinks({FlowSink.FILESYSTEM,FlowSink.CONDITIONAL}) TestClass2(fs);
 
-        fs_field = new @FlowSources(FlowSource.CAMERA) TestClass2(fs); //Allowed via Flow-policy
+        fs_field = new @FlowSources({FlowSource.CAMERA, FlowSource.LITERAL}) TestClass2(fs); //Allowed via Flow-policy
 
-        //:: error: (forbidden.flow) :: error: (assignment.type.incompatible)
+        //:: error: (assignment.type.incompatible)
         fs_field = new @FlowSources(FlowSource.NETWORK) TestClass2(fs);
 
     }
