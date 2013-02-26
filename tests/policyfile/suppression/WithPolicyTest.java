@@ -24,7 +24,6 @@ class PolicyTest {
     }
 
     private @FlowSources({FlowSource.EXTERNAL_STORAGE, FlowSource.FILESYSTEM, FlowSource.LOCATION})
-            @FlowSinks({})
             Object eflSrc = null;
 
     private Object noneToNone = null;
@@ -69,14 +68,15 @@ class PolicyTest {
 
     protected void sendNetLogSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.LOG}) Object netLogSink) {
     }
-
+    //:: error: (forbidden.flow)
     protected void sendNetExtSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.EXTERNAL_STORAGE}) Object netExtSink) {
     }
-
+    //:: error: (forbidden.flow)
     protected void sendNetLogTextSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.LOG, FlowSink.SMS}) Object netExtSink) {
     }
 
     void test() {
+    	//:: error: (assignment.type.incompatible)
         aclToDer  = acaToDen;
         aclToDer2 = aclToDer;
 
@@ -85,6 +85,7 @@ class PolicyTest {
 
         anyToLogcatMeth(anySource);
         anyToLogcatMeth(noneToNone);
+    	//:: error: (argument.type.incompatible)
         locToLogcatMeth(anySource);
 
         phToLogcat = phCaSource;
@@ -95,7 +96,7 @@ class PolicyTest {
         //OK
         anyToLogcat = esFsLocSource;
 
-        //:: error: (forbidden.flow)
+        //:: error: (assignment.type.incompatible)
         @FlowSinks({FlowSink.FILESYSTEM}) Object fsSink = accSrc;
         //:: error: (forbidden.flow)
         @FlowSinks({FlowSink.FILESYSTEM, FlowSink.DISPLAY}) Object fsDiSink = accSrc;

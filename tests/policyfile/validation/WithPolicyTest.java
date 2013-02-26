@@ -62,11 +62,11 @@ class PolicyTest {
         final @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.FILESYSTEM, FlowSink.DISPLAY}) Object accToFsDi = null;
 
 
-
+      //:: error: (forbidden.flow)
         List<@FlowSources({FlowSource.MICROPHONE, FlowSource.TIME}) @FlowSinks({FlowSink.EMAIL, FlowSink.FILESYSTEM}) File> maTiFile = null;
         //:: error: (forbidden.flow)
         List<@FlowSources({FlowSource.MICROPHONE, FlowSource.TIME}) @FlowSinks({FlowSink.EMAIL, FlowSink.NETWORK}) File> maTiFile2 = null;
-
+      //:: error: (forbidden.flow)
         List<@FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.EMAIL, FlowSink.NETWORK}) File> maFile2 = null;
 
         //TODO: IS THIS RIGHT?
@@ -92,8 +92,7 @@ class PolicyTest {
     }
 
     public static void testInstantiate() {
-        //TODO: IS THIS RIGHT?
-        //:: error: (forbidden.flow)
+
         final Object obj = new PolicyTest();
     }
 }

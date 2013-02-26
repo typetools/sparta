@@ -1,10 +1,9 @@
-ANY -> {}
-{}  -> ANY
+
 
 #Adding random
-ANY -> LOGCAT  #Comments
+ANY -> LOG  #Comments
 
-TIME -> LOGCAT
+TIME -> LOG
 TIME -> FILESYSTEM
 TIME -> EMAIL
 
@@ -17,7 +16,7 @@ MICROPHONE -> NETWORK, FILESYSTEM
 MICROPHONE -> EMAIL      #No errors #
 #####################################
 
-{} -> EMAIL
+
 
   # #
      #
