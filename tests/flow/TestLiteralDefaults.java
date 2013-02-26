@@ -13,9 +13,12 @@ import sparta.checkers.quals.FlowSources.FlowSource;
  * bottom type?
  */
 class TestLiteralDefaults {
+    //:: error: (forbidden.flow)
     @FlowSinks({}) @FlowSources({FlowSource.ANY}) float ntop;
     @PolyFlowSources @PolyFlowSinks float npoly;
-    @FlowSinks({FlowSink.ANY}) @FlowSources({}) float nbot;
+
+    //:: error: (forbidden.flow)
+   @FlowSinks({FlowSink.ANY}) @FlowSources({}) float nbot;
     float nunqual;
 
     void testNumeric() {
@@ -27,8 +30,11 @@ class TestLiteralDefaults {
         nunqual = 2f;
     }
 
+    //:: error: (forbidden.flow)
     @FlowSinks({}) @FlowSources({FlowSource.ANY}) Object rtop;
     @PolyFlowSources @PolyFlowSinks Object rpoly;
+
+    //:: error: (forbidden.flow)
     @FlowSinks({FlowSink.ANY}) @FlowSources({}) Object rbot;
     Object runqual;
 
@@ -48,8 +54,10 @@ class TestLiteralDefaults {
         runqual = new Object();
     }
 
+    //:: error: (forbidden.flow)
     @FlowSinks({}) @FlowSources({FlowSource.ANY}) char ctop;
     @PolyFlowSources @PolyFlowSinks char cpoly;
+    //:: error: (forbidden.flow)
     @FlowSinks({FlowSink.ANY}) @FlowSources({}) char cbot;
     char cunqual;
 

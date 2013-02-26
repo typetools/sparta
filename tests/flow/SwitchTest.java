@@ -8,14 +8,36 @@ import sparta.checkers.quals.PolyFlowSources;
 class SwitchTest {
     void foo() {
         @FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) int info = 1;
+
+        //Explicitly forbid this field from having FlowSink.CONDITIONAL
+        //:: error: (forbidden.flow)
+        @FlowSources({FlowSource.LOCATION}) @FlowSinks({}) int badInfo = 1;
+
         @FlowSources(FlowSource.LITERAL) int noInfo = 1;
+
+        //This field gets FlowSink.CONDITIONAL added by default
         final @FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) int caseInfo = 1;
         final int caseNoInfo = 2;
 
-        //:: error: (condition.flow)
+
+        //Explicitly forbid this field from having FlowSink.CONDITIONAL
+        //:: error: (forbidden.flow)
+        final @FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) @FlowSinks({}) int badCaseInfo = 3;
+
         switch (info) {
-            //:: error: (condition.flow)
+
             case caseInfo: {
+                info++;
+            }
+            case caseNoInfo: {
+                info++;
+            }
+        }
+
+        //:: error: (condition.flow)
+        switch (badInfo) {
+            //:: error: (condition.flow)
+            case badCaseInfo: {
                 info++;
             }
             case caseNoInfo: {
@@ -25,9 +47,14 @@ class SwitchTest {
 
         switch (noInfo) {
             //:: error: (condition.flow)
+            case badCaseInfo: {
+                info++;
+            }
+
             case caseInfo: {
                 info++;
             }
+
             case caseNoInfo: {
                 info++;
             }

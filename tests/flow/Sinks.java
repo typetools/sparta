@@ -7,7 +7,8 @@ class Sinks {
         noComm(p);
     }
 
-    void noComm(Object p) {
+    //:: error: (forbidden.flow)
+    void noComm(@FlowSinks({}) Object p) {
         // Forbidden: more sinks
         //:: error: (argument.type.incompatible)
         sendData(p);
@@ -21,6 +22,7 @@ class Sinks {
         any(p);
     }
 
+    //:: error: (forbidden.flow)
     void any(@FlowSinks(FlowSink.ANY) Object p) {
         // Allowed: fewer sinks
         two(p);
