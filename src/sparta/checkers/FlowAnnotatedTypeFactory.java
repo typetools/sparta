@@ -12,7 +12,9 @@ import checkers.util.*;
 import com.sun.tools.javac.code.TypeAnnotationPosition;
 import sparta.checkers.quals.ConservativeFlow;
 import sparta.checkers.quals.FlowSinks;
+import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.FlowSources;
+import sparta.checkers.quals.FlowSources.FlowSource;
 import sparta.checkers.quals.NoFlow;
 import sparta.checkers.quals.PolyFlow;
 
@@ -221,11 +223,22 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 newSources = null;
                 newSinks = flowPolicy.getIntersectingSinks(sources);
                 newSinks.addAll(sinksFromAny);
+		if (newSinks.contains(FlowSink.ANY) && newSinks.size() > 1) {
+		    System.out.println("Drop extra sinks");
+		    newSinks.clear();
+		    newSinks.add(FlowSink.ANY);
+		}
 
             }  else if( sourceToSinkQuals.first == null && !sinks.isEmpty() ) {
                 newSources = checker.getFlowPolicy().getIntersectingSources(sinks);
                 newSources.addAll(sourcesToAny);
                 newSinks = null;
+		if (newSources.contains(FlowSource.ANY)
+			&& newSources.size() > 1) {
+		    System.out.println("Drop extra sources");
+		    newSources.clear();
+		    newSources.add(FlowSource.ANY);
+		}
 
             } else {
                 newSources = null;
