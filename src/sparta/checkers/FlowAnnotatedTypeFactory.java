@@ -217,7 +217,10 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
         protected Pair<Set<FlowSources.FlowSource>, Set<FlowSinks.FlowSink>> getNewSourcesOrSinks(final Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals) {
             final FlowPolicy flowPolicy = checker.getFlowPolicy();
-
+            if(AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.first, checker.POLYFLOWSOURCES)  ||
+        	    AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.second, checker.POLYFLOWSINKS) ) {
+        	return Pair.of(null, null);
+            }
             final Set<FlowSources.FlowSource> sources = FlowUtil.getFlowSourcesOrEmpty(sourceToSinkQuals.first, false);
             final Set<FlowSinks.FlowSink>     sinks   = FlowUtil.getFlowSinksOrEmpty(sourceToSinkQuals.second,  false);
 
