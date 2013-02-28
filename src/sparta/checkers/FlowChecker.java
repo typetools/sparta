@@ -208,15 +208,15 @@ public class FlowChecker extends BaseTypeChecker {
 
         @Override
         public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
-        	try {
-				checkAny(rhs);
-				checkAny(lhs);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				System.out.println(e.getMessage());
-//				e.printStackTrace();
-//				System.exit(0);
-			}
+	    try {
+		checkAny(rhs);
+		checkAny(lhs);
+	    } catch (Exception e) {
+		// TODO Auto-generated catch block
+		System.out.println(e.getMessage());
+		// e.printStackTrace();
+		// System.exit(0);
+	    }
         	
             if (isSourceQualifier(rhs)) {
                 if (isPolySourceQualifier(lhs)) {
