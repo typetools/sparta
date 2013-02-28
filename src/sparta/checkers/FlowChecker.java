@@ -208,6 +208,16 @@ public class FlowChecker extends BaseTypeChecker {
 
         @Override
         public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
+        	try {
+				checkAny(rhs);
+				checkAny(lhs);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+//				e.printStackTrace();
+//				System.exit(0);
+			}
+        	
             if (isSourceQualifier(rhs)) {
                 if (isPolySourceQualifier(lhs)) {
                     // If LHS is poly, rhs has to be bottom or poly qualifier.
@@ -260,7 +270,27 @@ public class FlowChecker extends BaseTypeChecker {
             }
         }
 
-        @Override
+	private void checkAny(AnnotationMirror anm) throws Exception {
+	    boolean isPolySink = AnnotationUtils.areSame(anm, POLYFLOWSINKS);
+	    boolean isPolySource = AnnotationUtils.areSame(anm, POLYFLOWSOURCES);
+	  
+	    if (!isPolySource && isSourceQualifier(anm)) {
+		List<FlowSource> sources = FlowUtil.getFlowSources(anm);
+		if (sources.contains(FlowSource.ANY) && sources.size() > 1) {
+		    throw new Exception(
+			    "Found FlowSource.ANY and something else");
+		}
+	    }
+	    if (!isPolySink && isSinkQualifier(anm)) {
+		List<FlowSink> sinks = FlowUtil.getFlowSinks(anm);
+		if (sinks.contains(FlowSink.ANY) && sinks.size() > 1) {
+		    throw new Exception("Found FlowSink.ANY and something else");
+		}
+	    }
+
+	}
+
+		@Override
         protected void addPolyRelations(QualifierHierarchy qualHierarchy,
                 Map<AnnotationMirror, Set<AnnotationMirror>> fullMap,
                 Map<AnnotationMirror, AnnotationMirror> polyQualifiers,
