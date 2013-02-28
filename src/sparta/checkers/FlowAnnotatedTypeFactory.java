@@ -106,9 +106,14 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 return;
 
             } else if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
-                // Use poly flow sources and sinks for all locations.
-                new FlowDefaultApplier(element, DefaultLocation.ALL, type).scan(type, checker.POLYFLOWSOURCES);
-                new FlowDefaultApplier(element, DefaultLocation.ALL, type).scan(type, checker.POLYFLOWSINKS);
+                // Use poly flow sources and sinks for return types .
+                new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.POLYFLOWSOURCES);
+                new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.POLYFLOWSINKS);
+                
+             // Use poly flow sources and sinks for Parameter types (This is excluding receivers) 
+                new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.POLYFLOWSINKS);
+                new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.POLYFLOWSOURCES);
+
                 return;
 
             }
