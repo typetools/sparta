@@ -7,7 +7,7 @@ class PolyTest {
     
 	void polyPut() {
 		ContentValues values = new ContentValues();
-		@FlowSources(FlowSource.LOCATION) double input = 2.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) double input = 2.0;
 		values.put("test", input);
 	}
 	
@@ -53,17 +53,17 @@ class PolyTest {
 	/*--------*/
 	
 	void test_allPrimitive_FirstQualifiers() {
-		@FlowSources(FlowSource.LOCATION) double a = 1.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) double a = 1.0;
 		double b = 2.0;
 		String c = PolyTest.merge("abc", a, b);
 	}
 	void test_onePrimitive_FirstQualifiers() {
-		@FlowSources(FlowSource.LOCATION) Double a = 1.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) Double a = 1.0;
 		double b = 2.0;
 		String c = PolyTest.merge("abc", a, b);
 	}
 	void test_noPrimitive_FirstQualifiers() {
-		@FlowSources(FlowSource.LOCATION) Double a = 1.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) Double a = 1.0;
 		Double b = 2.0;
 		String c = PolyTest.merge("abc", a, b);
 	}
@@ -72,35 +72,35 @@ class PolyTest {
 	
 	void test_allPrimitive_SecondQualifiers() {
 		double a = 1.0;
-		@FlowSources(FlowSource.LOCATION) double b = 2.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) double b = 2.0;
 		String c = PolyTest.merge("abc", a, b);
 	}
 	void test_onePrimitive_SecondQualifiers() {
 		Double a = 1.0;
-		@FlowSources(FlowSource.LOCATION) double b = 2.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) double b = 2.0;
 		String c = PolyTest.merge("abc", a, b);
 	}
 	void test_noPrimitive_SecondQualifiers() {
 		Double a = 1.0;
-		@FlowSources(FlowSource.LOCATION) Double b = 2.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) Double b = 2.0;
 		String c = PolyTest.merge("abc", a, b);
 	}
 	
 	/*--------*/
 	
 	void test_allPrimitive_AllQualifiers() {
-		@FlowSources(FlowSource.LOCATION) double a = 1.0;
-		@FlowSources(FlowSource.LOCATION) double b = 2.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) double a = 1.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) double b = 2.0;
 		String c = PolyTest.merge("abc", a, b);
 	}
 	void test_onePrimitive_AllQualifiers() {
-		@FlowSources(FlowSource.LOCATION) Double a = 1.0;
-		@FlowSources(FlowSource.LOCATION) double b = 2.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) Double a = 1.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) double b = 2.0;
 		String c = PolyTest.merge("abc", a, b);
 	}
 	void test_noPrimitive_AllQualifiers() {
-		@FlowSources(FlowSource.LOCATION) Double a = 1.0;
-		@FlowSources(FlowSource.LOCATION) Double b = 2.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) Double a = 1.0;
+		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) Double b = 2.0;
 		String c = PolyTest.merge("abc", a, b);
 	}
 	

@@ -1,19 +1,21 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowSources.FlowSource;
 import sparta.checkers.quals.FlowSinks.FlowSink;
+import sparta.checkers.quals.PolyFlow;
 
+@PolyFlow
 class HttpGet {
-    @FlowSinks(FlowSink.NETWORK) @PolyFlowSources HttpGet(
-            @FlowSinks(FlowSink.NETWORK) @PolyFlowSources HttpGet this, // TODO: valid? remove?
-            @FlowSinks(FlowSink.NETWORK) @PolyFlowSources String uri) {
+    @FlowSinks(FlowSink.NETWORK)  HttpGet(@FlowSinks(FlowSink.NETWORK)  HttpGet this, 
+            @FlowSinks(FlowSink.NETWORK)  String uri) {
     }
 }
 
 class PolyConstructors {
 
-    @FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK) HttpGet request;
+   
     void testPolyConstructor(@FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK) String in) {	
-        request = new HttpGet(in);
+    	@FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK)
+    	HttpGet request = new HttpGet(in);
     }
 
 }

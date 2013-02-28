@@ -1,0 +1,2 @@
+  #@FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK)
+LOCATION->NETWORK
