@@ -4,13 +4,13 @@ import checkers.util.AnnotationBuilder;
 import checkers.util.AnnotationUtils;
 import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSources;
+import sparta.checkers.quals.FlowSinks.FlowSink;
+import sparta.checkers.quals.FlowSources.FlowSource;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 
-import static sparta.checkers.quals.FlowSources.FlowSource;
 
-import static sparta.checkers.quals.FlowSinks.FlowSink;
 
 import java.util.*;
 
@@ -94,11 +94,19 @@ public class FlowUtil {
     }
 
     public static AnnotationMirror createAnnoFromSinks(final ProcessingEnvironment processingEnv, final Set<FlowSinks.FlowSink> sinks) {
+	if (sinks.contains(FlowSink.ANY) && sinks.size() > 1) {
+	    sinks.clear();
+	    sinks.add(FlowSink.ANY);
+	}
         return createAnnoFromEnumArray(processingEnv, FlowSinks.class, sinks.toArray(new FlowSinks.FlowSink[sinks.size()]));
     }
 
-    public static AnnotationMirror createAnnoFromSources(final ProcessingEnvironment processingEnv, final Set<FlowSources.FlowSource> sources) {
-        return createAnnoFromEnumArray(processingEnv, FlowSources.class, sources.toArray(new FlowSources.FlowSource[sources.size()]));
+    public static AnnotationMirror createAnnoFromSources(final ProcessingEnvironment processingEnv, Set<FlowSources.FlowSource> sources) {
+	if (sources.contains(FlowSource.ANY) && sources.size() > 1) {
+	    sources.clear();
+	    sources.add(FlowSource.ANY);
+	}
+	return createAnnoFromEnumArray(processingEnv, FlowSources.class, sources.toArray(new FlowSources.FlowSource[sources.size()]));
     }
 
     public static Set<FlowSink> replaceAnySink(final Set<FlowSink> sinks, boolean inPlace) {
