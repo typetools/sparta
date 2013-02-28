@@ -370,7 +370,7 @@ See section ``Qualifier polymorphism'' in the Checker Framework manual.
 \section{Additional Annotations}
 
 Three additional declaration annotations can be used to annotate APIs:
-\<@NoFlow>, \<@ConservativeFlow>, and \<@PolyFlow>. 
+\<@DefaultFlow>, \<@ConservativeFlow>, and \<@PolyFlow>. 
 They change the default annotations (\secref{flow-defaults}).
  
 The declaration annotations can be used on any declaration: a method,
@@ -382,17 +382,16 @@ defaults.
 
 % Do these apply to the receiver type?
 
-\subsection{@NoFlow}
+\subsection{@DefaultFlow}
 
-An element annotated with \<@NoFlow> expresses that an enclosed
-method's return type and all parameter types are \<@FlowSources({})
-@FlowSinks({})>.  As with all 
+An element annotated with \<@DefaultFlow> expresses that an enclosed
+method's return type and all parameter types are \<@FlowSources(FlowSource.LITERAL)
+@FlowSinks(FlowSink.CONDITIONAL)>.  As with all 
 library annotations, it is trusted rather than checked.  Thus, it should be
 used only if an external analysis has determined that it is correct for the
 annotated method, class, or package.
 
-% TODO: Is noflow {} or the LITERAL default?
-% Should it be renamed to @DefaultFlow?
+
 
 
 \subsection{@ConservativeFlow}

@@ -1,5 +1,6 @@
 package sparta.checkers;
 
+import checkers.quals.PolyAll;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationUtils;
 import checkers.util.Pair;
@@ -105,11 +106,8 @@ public class FlowPolicy {
         final AnnotationMirror sinkAnno   = atm.getAnnotation(FlowSinks.class);
         
 
-        assert sourceAnno != null : "Annotated Type Mirror must have a FlowSources annotation";
-        assert sinkAnno != null : "Annotated Type Mirror must have a FlowSinks annotation";
-        
         final Set<FlowSource> sources = FlowUtil.getFlowSources(sourceAnno, true);
-        final Set<FlowSink>   sinks   = FlowUtil.getFlowSinks(sinkAnno, true);
+        final Set<FlowSink>   sinks   = FlowUtil.getFlowSinks(sinkAnno, true); ;
 
         return Pair.of(sources, sinks);
     }
@@ -117,9 +115,10 @@ public class FlowPolicy {
     public boolean areFlowsAllowed(final AnnotatedTypeMirror atm) {
     	final AnnotationMirror polySourceAnno = atm.getAnnotation(PolyFlowSources.class);
         final AnnotationMirror polySinkAnno   = atm.getAnnotation(PolyFlowSinks.class);
+        final AnnotationMirror polyAllAnno   = atm.getAnnotation(PolyAll.class);
         //If the type is marked with poly flow source or poly flow sink, 
         //Then the flow is allowed.
-        if(polySinkAnno != null || polySourceAnno != null){
+        if(polySinkAnno != null || polySourceAnno != null || polyAllAnno != null){
         	return true;
         }
          

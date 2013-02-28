@@ -11,7 +11,7 @@ import java.lang.annotation.*;
  *
  * TODO: should field types be influenced?
  *
- * @see NoFlow
+ * @see DefaultFlow
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

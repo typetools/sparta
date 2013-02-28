@@ -45,10 +45,17 @@ public class FlowUtil {
     }
 
     public static List<FlowSink> getFlowSinks(final AnnotationMirror am) {
+	if(am == null){
+	    return new ArrayList<FlowSink>();
+	}
         return AnnotationUtils.getElementValueEnumArray(am, "value", FlowSink.class, true);
     }
 
     public static List<FlowSource> getFlowSources(final AnnotationMirror am) {
+	if(am == null){
+	    return new ArrayList<FlowSource>();
+	}
+	
         return AnnotationUtils.getElementValueEnumArray(am, "value", FlowSource.class, true);
     }
 
@@ -60,7 +67,12 @@ public class FlowUtil {
 
         return sinkSet;
     }
-
+/**
+ * Returns the set of flow sources for the given annotation mirror
+ * @param annotationMirror if null, then the empty set is returned
+ * @param replaceAny
+ * @return
+ */
     public static Set<FlowSource> getFlowSources(final AnnotationMirror annotationMirror, boolean replaceAny) {
         final Set<FlowSource> sourceSet =  new HashSet<FlowSource>(getFlowSources(annotationMirror));
         if(replaceAny) {
@@ -70,7 +82,12 @@ public class FlowUtil {
         return sourceSet;
     }
 
-
+/**
+ * REturn the set of flow sinks for the given annoation mirror
+ * @param annotationMirror if null, then the empty set is returned
+ * @param replaceAny
+ * @return
+ */
     public static Set<FlowSource> getFlowSourcesOrEmpty(final AnnotationMirror annotationMirror, boolean replaceAny) {
         if(annotationMirror == null) {
             return new HashSet<FlowSource>();

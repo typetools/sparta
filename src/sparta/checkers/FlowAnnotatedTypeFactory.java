@@ -15,7 +15,7 @@ import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.FlowSources;
 import sparta.checkers.quals.FlowSources.FlowSource;
-import sparta.checkers.quals.NoFlow;
+import sparta.checkers.quals.DefaultFlow;
 import sparta.checkers.quals.PolyFlow;
 
 import com.sun.source.tree.CompilationUnitTree;
@@ -89,11 +89,13 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
     protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
         Element iter = element;
         while (iter != null) {
-            if (this.getDeclAnnotation(iter, NoFlow.class) != null) {
-                // Use no flow sources for the return type.
-                new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.NOFLOWSOURCES);
-                // Nothing needs to be done for parameters.
-                // new DefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSOURCES);
+            if (this.getDeclAnnotation(iter, DefaultFlow.class) != null) {
+                // Use LITERAL->?  the return type.
+                new FlowDefaultApplier(element, DefaultLocation.OTHERWISE, type).scan(type, checker.LITERALFLOWSOURCE);
+                new FlowDefaultApplier(element, DefaultLocation.OTHERWISE, type).scan(type, checker.FROMLITERALFLOWSINK);
+               
+
+
                 return;
 
             } else if (this.getDeclAnnotation(iter, ConservativeFlow.class) != null) {
@@ -101,7 +103,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.ANYFLOWSOURCES);
                 // Use the bottom types for parameter types
                 new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.ANYFLOWSINKS);
-                // Let @NoFlow override conservative defaults
+                // Let @DefaultFlow override conservative defaults
                 new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSINKS);
                 return;
 

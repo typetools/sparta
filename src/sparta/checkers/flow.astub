@@ -24,7 +24,7 @@ package java.sql;
 package java.util;
 */
 
-// We might want to use NoFlow here.
+// We might want to use DefaultFlow here.
 package java.lang;
 
 
@@ -382,10 +382,10 @@ class Activity {
 	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@PolyFlow
 	void moveTaskToBack(boolean nonRoot);
-	@NoFlow
+	@DefaultFlow
 	void onCreate(Bundle savedInstanceState);
 	@PolyFlowSources @PolyFlowSinks boolean onCreateOptionsMenu(@PolyFlowSources @PolyFlowSinks Menu menu);
-    @NoFlow
+    @DefaultFlow
     void onNewIntent(Intent intent);
 	@PolyFlow
 	boolean onOptionsItemSelected(MenuItem item);
@@ -2861,7 +2861,7 @@ class Class {
 	String getName();
     @PolyFlow
     Class forName(String s1);
-    @NoFlow
+    @DefaultFlow
     boolean isAnnotationPresent(Class<? extends Annotation> annotationClass);
     @PolyFlow
     Constructor getConstructor(Class[] parameterTypes);

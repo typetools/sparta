@@ -412,7 +412,7 @@ over the network. By default, every literal has \<@FlowSinks()>
 
 \noindent
 Without suppression the assignment raises an error, because string literals
-are assumed to be annotated with @NoFlow. By adding the suppression, you
+are assumed to be annotated with \<FlowSources(FlowSource.LITERAL)>. By adding the suppression, you
 assert that it's OK to send this string to the network. 
 
 Focus on the most interesting flow sources and try to connect the flow
