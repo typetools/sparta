@@ -5,11 +5,12 @@ import sparta.checkers.quals.PolyFlowSources;
 import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.FlowSources.FlowSource;
 
+
 class PrimiOps {
-    @SuppressWarnings("flow")//Need to test top type
+    @SuppressWarnings("flow")
     @FlowSinks({}) @FlowSources({FlowSource.ANY}) float top;
     @PolyFlowSources @PolyFlowSinks float poly;
-    @SuppressWarnings("flow")//Need to test bottom type
+    @SuppressWarnings("flow")
     @FlowSinks({FlowSink.ANY}) @FlowSources({}) float bot;
     float unqual;
 
@@ -23,14 +24,14 @@ class PrimiOps {
         top = top / unqual;
         unqual = unqual / bot;
 
-        //Shouldn't this work??
+        //:: error: (assignment.type.incompatible)
         poly = poly / bot;
 
         // This does not work, because unqualified is
         // a top/bottom mix.
         //:: error: (assignment.type.incompatible)
         poly = poly / unqual;
-       
+        //:: error: (assignment.type.incompatible)
         unqual = poly / unqual;
     }
 

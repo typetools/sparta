@@ -329,7 +329,31 @@ public class FlowChecker extends BaseTypeChecker {
                     return boundFlowSinks(intersection);
 
                 }
+                //Poly Flows must be handled as if they are Top Type   
+            }else if(AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
+        	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS) ) {
+        	    return boundFlowSinks(new HashSet<FlowSinks.FlowSink>());
+        	}
+        	
+            }else if(AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
+        	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
+        	    return boundFlowSinks(new HashSet<FlowSinks.FlowSink>());
+        	}
+            }else if(AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
+        	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES) ) {
+                    Set<FlowSources.FlowSource> top = new HashSet<FlowSources.FlowSource>();
+                    top.add(FlowSources.FlowSource.ANY);
+                    return boundFlowSources(top);
+                }
+        	
+            }else if(AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
+        	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
+                    Set<FlowSources.FlowSource> top = new HashSet<FlowSources.FlowSource>();
+                    top.add(FlowSources.FlowSource.ANY);
+                    return boundFlowSources(top);
+                }
             }
+
 
             return super.leastUpperBound(a1, a2);
         }
@@ -354,8 +378,30 @@ public class FlowChecker extends BaseTypeChecker {
                     return boundFlowSinks(superSet);
 
                 }
+             //Poly Flows must be handled as if they are Bottom Type   
+            }else if(AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
+        	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS) ) {
+        	    Set<FlowSinks.FlowSink> bottom = new HashSet<FlowSinks.FlowSink>();
+        	    bottom.add(FlowSinks.FlowSink.ANY);
+        	    return boundFlowSinks(bottom);
+        	}
+        	
+            }else if(AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
+        	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
+        	    Set<FlowSinks.FlowSink> bottom = new HashSet<FlowSinks.FlowSink>();
+        	    bottom.add(FlowSinks.FlowSink.ANY);
+        	    return boundFlowSinks(bottom);
+        	}
+            }else if(AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
+        	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES) ) {
+                    return boundFlowSources(new HashSet<FlowSources.FlowSource>());
+                }
+        	
+            }else if(AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
+        	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
+                    return boundFlowSources(new HashSet<FlowSources.FlowSource>());
+                }
             }
-
             return super.greatestLowerBound(a1, a2);
         }
 
