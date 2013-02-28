@@ -203,7 +203,11 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             for(final AnnotationMirror am : explicitAnnos) {
                 if( flowSourcesQual == null && AnnotationUtils.areSameIgnoringValues(am, checker.FLOW_SOURCES) ) {
                     flowSourcesQual = am;
-                } else if( flowSinksQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.FLOW_SINKS) ) {
+                }else if( flowSourcesQual == null && AnnotationUtils.areSameIgnoringValues(am, checker.POLYFLOWSOURCES) ) {
+                    flowSourcesQual = am;
+                }else if( flowSinksQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.FLOW_SINKS) ) {
+                    flowSinksQuals = am;
+                }else if( flowSinksQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.POLYFLOWSINKS) ) {
                     flowSinksQuals = am;
                 }
 
