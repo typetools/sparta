@@ -49,18 +49,22 @@ The types of FlowSources and FlowSinks are listed in the
 \section{Default Types\label{flow-defaults}}
 
 \begin{table}[h]
-    \begin{tabular}{| l | l |}
-     \hline
-    Field types &  \<@FlowSources(FlowSource.LITERAL)> \\ \hline
-    Method parameters &  \<@FlowSources(FlowSource.LITERAL)> \\ \hline
-    Return types &  \<@FlowSources(FlowSource.LITERAL)> \\ \hline
-    \<null> &  \<@FlowSources @FlowSinks(FlowSink.ANY)>\\ \hline
-    Literals & \<@FlowSources(FlowSource.LITERAL) @FlowSinks(FlowSink.CONDITIONAL)>\\ \hline
-   Local variables  &   \<@FlowSources(FlowSource.ANY) @FlowSinks> \\ \hline
+    \begin{tabular}{ll}
+    \toprule
+\bf{Location}&\bf{Default Flow Type}\\
+\midrule 
+    Fields &  \<@FlowSources(FlowSource.LITERAL)> \\ 
+    Method parameters &  \<@FlowSources(FlowSource.LITERAL)> \\ 
+    Return values &  \<@FlowSources(FlowSource.LITERAL)> \\ 
+    \<null> &  \<@FlowSources @FlowSinks(FlowSink.ANY)>\\ 
+    Literals & \<@FlowSources(FlowSource.LITERAL) @FlowSinks(FlowSink.CONDITIONAL)>\\ 
+   Local variables  &   \<@FlowSources(FlowSource.ANY) @FlowSinks> \\ 
    \<@FlowSources($\alpha$)>&\<@FlowSources($\alpha$)>
-   \<@FlowSinks($\beta$)>,  $\beta$ is the set of flow sinks allowed to flow from all sources in $\alpha$ \\ \hline
-      \<@FlowSinks($\beta$)>&\<@FlowSources($\alpha$)>
-      \<@FlowSinks($\beta$)>, $\alpha$ is the set of flow sources allowed to flow to all sinks in $\beta$ \\ \hline
+   \<@FlowSinks($\omega$)>,  $\omega$ is the set of  sinks allowed to flow from all sources in $\alpha$ \\ 
+      \<@FlowSinks($\omega$)>&\<@FlowSources($\alpha$)>
+      \<@FlowSinks($\omega$)>, $\alpha$ is the set of  sources allowed to flow to all sinks in $\omega$ \\ 
+      
+      \bottomrule
     \end{tabular}
     \caption{Default types}\label{table:defaults}
 \end{table}
@@ -99,7 +103,7 @@ sinks that the all the specified flow sources can flow to. This is to say that
 it is the intersection of the set of sinks each source can flow to.
  In other words, if a type is annotated with 
 \<@FlowSources($\alpha$)>, where $\alpha$ is a set of sources, then the flow sinks are the set 
-$\beta$ where $\beta$ is the intersection of sinks B where A \flowsto{} B and A is a flow source in 
+$\omega$ where $\omega$ is the intersection of sinks B where A \flowsto{} B and A is a flow source in 
 $\alpha$.  For example, if the flow policy contains the following:
 
 \begin{alltt}
@@ -122,9 +126,9 @@ then these are equivalent:
 
 Similarly, if the programmer only specifies flow sinks, the flow sources are defaulted to be the sources 
 that are allowed to flow to all the specified sinks.  In other words, if a type is annotated with 
-\<@FlowSinks($\beta$)>, where $\beta$ is a set of sinks, then the flow sources are the set 
+\<@FlowSinks($\omega$)>, where $\omega$ is a set of sinks, then the flow sources are the set 
 $\alpha$ where $\alpha$ is the intersection of sources A where A \flowsto{} B and B is a flow sink in 
-$\beta$. For example, using the same policy file as above, the following are equivalent:
+$\omega$. For example, using the same policy file as above, the following are equivalent:
 
 \begin{alltt}
   @FlowSinks(X)                   ==   @FlowSources(A) @FlowSinks(X)

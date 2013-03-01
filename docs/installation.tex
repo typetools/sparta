@@ -3,18 +3,17 @@
 
 This chapter briefly describes how to install the SPARTA project tools.
 
-\section {Prerequisites}
+\section {Requirements}
 \paragraph{Java 7}
 \begin{itemize}
 
-\item Download and install Java 7.
- \item Add \<.../jdk1.7.0/bin> your path.
- \item set \<JAVA\_HOME> to  \<.../jdk1.7.0>.
+ \item  \<.../jdk1.7.0/bin> must be on your path.
+ \item \<JAVA\_HOME> should be set to \<.../jdk1.7.0>.
 \end{itemize}
 
 \paragraph{Ant}
 \begin{itemize}
-\item Ensure you have recent versions of ant  installed;
+\item Ensure you have recent versions of ant  installed
  \item ant version 1.8.2 is known to work
 \end{itemize}
 
@@ -32,7 +31,7 @@ and install the Android ADT Plugin (\url{https://dl-ssl.google.com/android/eclip
 \paragraph{Checker Framework}
 \begin{itemize}
 \item Follow the installation instructions in the manual: 
-\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#build-source}
+\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#installation}
 \item Set \<CHECKERS> to \<checker-framework\/checkers/>
 \end{itemize}
 
@@ -62,9 +61,23 @@ Alternatively, set build property \<gson.jar>, which defaults to:
 gson.jar=${basedir}/lib/google-gson-2.2.2/gson-2.2.2.jar
 \end{alltt}
 % make Emacs $ happy
-\paragraph{Build SPARTA}
+\item Update SPARTA 
+
+The SPARTA project needs to be updated to your development environment, so that the path to the Android SDK is correct and the correct version of Android is used. (More details about updating a project are available here: \url{http://developer.android.com/tools/projects/projects-cmdline.html#UpdatingAProject}.)To update the project with your Android settings run the following:
+
+\begin{alltt}
+ant -buildfile $SPARTA_CODE/build.local.xml
+\end{alltt}
+
+Alternatively, you can run:
+
+\begin{alltt}
+$ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
+\end{alltt}
+
 \item To build SPARTA:
 \begin{alltt}
+export CHECKERS=$HOME/checker-framework/checkers/
 ant jar
 \end{alltt}
 
@@ -86,7 +99,7 @@ ant jar
 %and sparta-code projects into a workspace.
 \end{itemize}
 
-\section{ Run test cases}
+\section{Run test cases}
 
 As a sanity check of the installation, run
 
@@ -95,6 +108,47 @@ ant all-tests
 \end{alltt}
 
 You should see ``\<BUILD SUCCESSFUL>'' at the end.
+
+\section{Android App Setup\label{sec:antsetup}}
+
+This section explains how to setup an Android application for analysis with the SPARTA tools.
+\\ \\
+1.) Ensure the following environment variables are set. 
+
+\begin{itemize}
+\item
+\<CHECKERS> pointing to the
+\<.../checker-framework/checkers> directory
+
+\item
+\<SPARTA\_CODE> pointing to the \<.../sparta-code> directory
+
+\item
+\<ANDROID\_HOME> pointing to the \<.../android-sdk> directory
+
+\end{itemize}
+
+\noindent
+2.) If your Android project does not have a build.xml file, update the project.
+
+\begin{alltt}
+$ANDROID_HOME/tools/android update project -{}-path .
+\end{alltt}
+
+\noindent
+3.) Add the SPARTA build targets to the end of the \<build.xml>
+ file, just above \verb|</project>|.
+
+% TODO: how does using lt and gt in TT mode work?
+
+\begin{alltt}
+<property environment="env"/>
+<dirname property="checkers_dir" file="\$\{env.CHECKERS\}"/>
+<basename property="checkers_base" file="\$\{env.CHECKERS\}"/>
+<dirname property="sparta-code_dir" file="\$\{env.SPARTA_CODE\}"/>
+<basename property="sparta-code_base" file="\$\{env.SPARTA_CODE\}"/>
+<import file="\$\{sparta-code_dir\}/\$\{sparta-code_base\}/build.include.xml" optional="true"/>
+\end{alltt}
 
 
 
