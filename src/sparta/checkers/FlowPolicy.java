@@ -122,7 +122,54 @@ public class FlowPolicy {
         	return true;
         }
          
-       return areFlowsAllowed(annotatedTypeMirrorToFlows(atm));
+	return areFlowsAllowed(annotatedTypeMirrorToFlows(atm));
+    }
+
+    public List<Flow> forbiddenFlows(
+	    final AnnotatedTypeMirror atm) {
+	return forbiddenFlows(annotatedTypeMirrorToFlows(atm));
+    }
+
+    public List<Flow> forbiddenFlows(
+	final Pair<Set<FlowSource>, Set<FlowSink>> flows) {
+	final Set<FlowSource> sources = flows.first;
+	final Set<FlowSink> sinks = flows.second;
+	
+	FlowUtil.allToAnySink(sinks, true);
+	FlowUtil.allToAnySource(sources, true);
+	List<Flow> forflows = new ArrayList<Flow>();
+	
+	if(sources.isEmpty() || sinks.isEmpty()){
+	    forflows.add(new Flow(sources, sinks));
+	    return forflows;
+	} 
+
+	if (sinksFromAnySource != null) {
+	    sinks.removeAll(sinksFromAnySource);
+	}
+	   
+		
+	for (final FlowSource source : sources) {
+	    final Set<FlowSink> allowedSinks = allowedFlows.get(source);
+
+	    if (allowedSinks == null){
+		forflows.add(new Flow(source, sinks));
+	    }else if(allowedSinks.contains(FlowSink.ANY)){
+		//Then source->ANY is allowed
+	    }else if(!(allowedSinks.containsAll(sinks))) {
+		Flow flow = new Flow(source);
+		for(FlowSink sink : sinks){
+		    if(!allowedSinks.contains(sink)){
+			flow.addSink(sink);
+		    }
+		}
+		if(flow.hasSinks()){
+		    forflows.add(flow);
+		}
+	    }
+	}
+
+	    return forflows;
     }
 
     public boolean areFlowsAllowed(final Pair<Set<FlowSource>, Set<FlowSink>> flows) {

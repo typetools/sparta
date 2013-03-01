@@ -1,12 +1,14 @@
 package sparta.checkers;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 
 import sparta.checkers.quals.FlowSinks.FlowSink;
 import sparta.checkers.quals.*;
+import sparta.checkers.quals.FlowSources.FlowSource;
 
 import com.sun.source.tree.*;
 
@@ -121,8 +123,16 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     protected class FlowTypeValidator extends BaseTypeVisitor<FlowChecker>.TypeValidator {
         @Override
         protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
-            reportValidityResult("forbidden.flow", type, p);
+            StringBuffer buf = new StringBuffer();
+            for(Flow flow: checker.getFlowPolicy().forbiddenFlows(type)){
+        	buf.append(flow.toString()+"\n");
+            }
+            checker.report(Result.failure("forbidden.flow",
+                    type.toString(), buf.toString()), p);
+
+            isValid = false;
         }
+ 
 
         @Override
         protected void reportValidityResult(final String errorType, final AnnotatedTypeMirror type, final Tree p) {

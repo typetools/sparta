@@ -1,5 +1,6 @@
 package sparta.checkers;
 
+import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationBuilder;
 import checkers.util.AnnotationUtils;
 import sparta.checkers.quals.FlowSinks;
@@ -44,6 +45,12 @@ public class FlowUtil {
         return FLOW_SINKS_NO_ANY;
     }
 
+    public static List<FlowSink> getFlowSinks(final AnnotatedTypeMirror type){
+	return getFlowSinks(type.getAnnotation(FlowSinks.class));
+    }
+    public static List<FlowSource> getFlowSources(final AnnotatedTypeMirror type){
+	return getFlowSources(type.getAnnotation(FlowSources.class));
+    }
     public static List<FlowSink> getFlowSinks(final AnnotationMirror am) {
 	if(am == null){
 	    return new ArrayList<FlowSink>();
@@ -153,7 +160,7 @@ public class FlowUtil {
                                                                     final Set<VALUE> values,
                                                                     final boolean inPlace) {
         final Set<VALUE> retSet = (inPlace) ? values : new HashSet<VALUE>(values);
-        if(values.size() == enumValues.length) {
+        if(values.size() == enumValues.length-1) {
             retSet.clear();
             retSet.add(VALUE.valueOf(vc, "ANY"));
         }
