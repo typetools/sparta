@@ -3,59 +3,56 @@
 
 This chapter briefly describes how to install the SPARTA project tools.
 
-\section{Compiling the SPARTA code}
-
-\begin{enumerate}
-
-\item Required programs:
-
+\section {Prerequisites}
+\paragraph{Java 7}
 \begin{itemize}
-\item Download and install Java 7. Add \<.../jdk1.7.0/bin> to the
-  beginning of the PATH variable and set \<JAVA\_HOME> to
-  \<.../jdk1.7.0>.
 
-\item Ensure you have recent versions of ant and Mercurial (\<hg>) installed;
-  ant version 1.8.2 and Mercurial version 2.0.2 are known to work.
+\item Download and install Java 7.
+ \item Add \<.../jdk1.7.0/bin> your path.
+ \item set \<JAVA\_HOME> to  \<.../jdk1.7.0>.
+\end{itemize}
 
-\item Install the Android SDK to some directory. Set \<ANDROID\_HOME> to that
-  location.
-  Download the \<android-15> target.
+\paragraph{Ant}
+\begin{itemize}
+\item Ensure you have recent versions of ant  installed;
+ \item ant version 1.8.2 is known to work
+\end{itemize}
 
-\item If using Eclipse, go to
+\paragraph{Android SDK}
+\begin{itemize}
+ \item Install the Android SDK to some directory. 
+ \item Set \<ANDROID\_HOME> to that location.
+ \item Download the \<android-15> target.
+\end{itemize}
+
+If using Eclipse, go to
 \<Help $\rightarrow$ Install New Software>
 and install the Android ADT Plugin (\url{https://dl-ssl.google.com/android/eclipse}) and MercurialEclipse (\url{http://cbes.javaforge.com/update}).
 
+\paragraph{Checker Framework}
+\begin{itemize}
+\item Follow the installation instructions in the manual: 
+\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#build-source}
+\item Set \<CHECKERS> to \<checker-framework\/checkers/>
 \end{itemize}
 
 
-\item Install the Checker Framework tool set.
-
-Follow the instructions at:
-
-\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#build-source}
-
-
-\item
-Install the SPARTA tools
-
+\section{Install SPARTA}
 \begin{itemize}
-\item
- Obtain the SPARTA code.
 
- Run \<hg clone https://dada.cs.washington.edu/hgweb/sparta-code>
- using the credentials you have been given.
-
- If you don not have access to the source code repository, then
- you can find a release at
+% Run \<hg clone https://dada.cs.washington.edu/hgweb/sparta-code>
+% using the credentials you have been given.
+%
+% If you don not have access to the source code repository, then
+\item Download the SPARTA release here:
  \url{http://types.cs.washington.edu/sparta/release/}.  (Please do not
- publicize this URL.)  The release usually is not as up-to-date as the
- repository.
+ publicize this URL.)  
 
-\item
-Unpack the archive.
+
+\item Unpack the archive.
 
 %For now, we don't support the JSON feature
-%\item
+\item
 Google gson is a dependency for the "-json" targets for projects.
 Get it from \url{http://code.google.com/p/google-gson/};
 create directory \<sparta-code/lib> and unzip gson there.
@@ -65,35 +62,31 @@ Alternatively, set build property \<gson.jar>, which defaults to:
 gson.jar=${basedir}/lib/google-gson-2.2.2/gson-2.2.2.jar
 \end{alltt}
 % make Emacs $ happy
-
-\item
-Build the \<sparta.jar> file.
-
-In the \<sparta-code> directory, run
-
+\paragraph{Build SPARTA}
+\item To build SPARTA:
 \begin{alltt}
 ant jar
 \end{alltt}
 
-\noindent
-It is necessary to specify the Android SDK location, by setting the \<ANDROID\_HOME>
-environment variable or the \<android.home> property.  Here is an example
-of the latter:
-
-\begin{alltt}
-ant -Dandroid.home=... jar
-\end{alltt}
-
-See file \<build.properties> for other configuration properties.
-
-See the output of \<ant -p> for the build and test targets.
-
-All projects can also be built and tested in Eclipse.
-Import the annotation-tools, jsr308-langtools, checkers, javaparser,
-and sparta-code projects into a workspace.
+%\noindent
+%It is necessary to specify the Android SDK location, by setting the \<ANDROID\_HOME>
+%environment variable or the \<android.home> property.  Here is an example
+%of the latter:
+%
+%\begin{alltt}
+%ant -Dandroid.home=... jar
+%\end{alltt}
+%
+%See file \<build.properties> for other configuration properties.
+%
+%See the output of \<ant -p> for the build and test targets.
+%
+%All projects can also be built and tested in Eclipse.
+%Import the annotation-tools, jsr308-langtools, checkers, javaparser,
+%and sparta-code projects into a workspace.
 \end{itemize}
 
-\item Run test cases.
+\section{ Run test cases}
 
 As a sanity check of the installation, run
 
@@ -102,7 +95,6 @@ ant all-tests
 \end{alltt}
 
 You should see ``\<BUILD SUCCESSFUL>'' at the end.
-\end{enumerate}
 
 
 
