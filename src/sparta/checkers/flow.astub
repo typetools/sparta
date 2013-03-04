@@ -24,7 +24,7 @@ package java.sql;
 package java.util;
 */
 
-// We might want to use DefaultFlow here.
+// We might want to use NoFlow here.
 package java.lang;
 
 
@@ -382,10 +382,11 @@ class Activity {
 	Cursor managedQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 	@PolyFlow
 	void moveTaskToBack(boolean nonRoot);
-	@DefaultFlow
+	@PolyFlow
 	void onCreate(Bundle savedInstanceState);
-	@PolyFlowSources @PolyFlowSinks boolean onCreateOptionsMenu(@PolyFlowSources @PolyFlowSinks Menu menu);
-    @DefaultFlow
+	@PolyFlow
+	boolean onCreateOptionsMenu(Menu menu);
+	@PolyFlow
     void onNewIntent(Intent intent);
 	@PolyFlow
 	boolean onOptionsItemSelected(MenuItem item);
@@ -2261,8 +2262,11 @@ class DateUtils {
 
 class Time {
 	//TODO: This should probably be double checked later:
+	static @FlowSources(FlowSource.TIME) String getCurrentTimezone();
 	boolean parse3339(@PolyFlowSources @PolyFlowSinks String s) @PolyFlowSources @PolyFlowSinks;
 	void set(@PolyFlowSources @PolyFlowSinks long l1) @PolyFlowSources @PolyFlowSinks;
+	void setToNow() @FlowSources(FlowSource.TIME);
+	Time(@PolyFlowSources @PolyFlowSinks String timezone) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks long toMillis(@FlowSinks({}) boolean b) @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2486,7 +2490,7 @@ class ArrayAdapter<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object>
 class EditText {
 	@PolyFlowSources @PolyFlowSinks Editable getText() @PolyFlowSources @PolyFlowSinks;
 	void setSelection(@PolyFlowSources @PolyFlowSinks int index) @PolyFlowSources @PolyFlowSinks;
-	void setText(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) CharSequence text);
+	@PolyFlowSources void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) CharSequence text) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2527,7 +2531,7 @@ class TextView {
 	void setSelected(boolean selected);
 	@PolyFlow
 	void setSingleLine();
-	void setText(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) CharSequence text);
+	@PolyFlowSources void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) CharSequence text) @PolyFlowSources @PolyFlowSinks;
 	void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) int resid) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlow
 	void setTextColor(int color);
@@ -2740,6 +2744,7 @@ class ByteArrayOutputStream {
 }
 
 class DataInputStream{
+	@PolyFlowSources @PolyFlowSinks DataInputStream(@PolyFlowSources @PolyFlowSinks InputStream in);
     @PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] buffer, @PolyFlowSources @PolyFlowSinks int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -2753,22 +2758,27 @@ class DataOutputStream {
 
 class File {
 	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks File dir, @PolyFlowSources @PolyFlowSinks String name);
 	@PolyFlowSources @PolyFlowSinks String getAbsolutePath() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String getPath() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String getName() @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks String getPath() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks File @PolyFlowSources @PolyFlowSinks [] listFiles() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
 	@FlowSinks(FlowSink.ANY) String separator;
 	@PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks File[] listFiles() @PolyFlowSources @PolyFlowSinks ;
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks ;
+	@PolyFlowSources @PolyFlowSinks File[] listFiles() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 	
 }
 
 class FileInputStream {
 	void close() @PolyFlowSources @PolyFlowSinks; 
+	@PolyFlowSources @PolyFlowSinks FileInputStream(@PolyFlowSources @PolyFlowSinks File file);	
 	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
 	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer, @FlowSinks() int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
     @PolyFlowSources @PolyFlowSinks int available() @PolyFlowSources @PolyFlowSinks;
@@ -2794,6 +2804,7 @@ class FileWriter {
 
 class FilterInputStream {
 	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] b) @PolyFlowSources @PolyFlowSinks;
+	void close() @FlowSources(FlowSource.ANY);
 }
 
 class IOException {
@@ -2869,8 +2880,14 @@ class Class {
     Method  getMethod(String name, Class[] parameterTypes);
 }
 
+class ClassLoader {
+    @NoFlow
+    Class<?> loadClass(String className); // This is temporary.
+}
+
 class Enum {
     @PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object other) @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks String name() @PolyFlowSources @PolyFlowSinks;
 }
 
 class Float {
@@ -2880,6 +2897,7 @@ class Float {
 class Integer {
 	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s);
 	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s, @FlowSinks({}) int radix);
+	static @PolyFlowSources @PolyFlowSinks String toHexString(@PolyFlowSources @PolyFlowSinks int i);
 	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks int i);
 	static @PolyFlowSources @PolyFlowSinks String toHexString(@PolyFlowSources @PolyFlowSinks int i);
 }
@@ -2928,15 +2946,18 @@ class String {
 	static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int indexOf(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int lastIndexOf(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) char target, @PolyFlowSources @PolyFlowSinks char replacement) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) CharSequence target,
 		@PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String(@PolyFlowSources @PolyFlowSinks String toCopy);
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-	
+	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
 }
 
 class StringBuilder {
@@ -2973,7 +2994,6 @@ class DatagramSocket {
 class HttpURLConnection {
 	@RequiredPermissions(android.Manifest.permission.INTERNET) HttpURLConnection(java.net.URL p0);
 	@RequiredPermissions(android.Manifest.permission.INTERNET) Object connect();
-
     @PolyFlow void setRequestMethod(String method);
 }
 
@@ -3020,6 +3040,7 @@ class URI {
 	static @PolyFlowSources @PolyFlowSinks URI create(@PolyFlowSources @PolyFlowSinks String uri);
 	@PolyFlowSources @PolyFlowSinks String getScheme() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int getPort() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks URI(@PolyFlowSources @PolyFlowSinks String spec);
 }
 
 class URL {
@@ -3164,8 +3185,9 @@ class Random {
     @FlowSources(FlowSource.RANDOM) float nextFloat();
     @FlowSources(FlowSource.RANDOM) double nextGaussian();
     @FlowSources(FlowSource.RANDOM) int nextInt();
-    @FlowSources(FlowSource.RANDOM) int nextInt(@FlowSinks(FlowSink.RANDOM)  int n);
+    @FlowSources(FlowSource.RANDOM) int nextInt(@FlowSinks(FlowSink.RANDOM) int n);
     @FlowSources(FlowSource.RANDOM) long nextLong();
+    Random(@FlowSinks(FlowSink.RANDOM) long seed);
     void setSeed(@FlowSinks(FlowSink.RANDOM) long seed);
 }
 
