@@ -1,0 +1,13 @@
+Version 0.8.0, 1 March 2013
+
+Policy Files
+  Applications are now required to have flow policies describing 
+  permitted flows. 
+
+Default Types
+  Literals are now typed with @FlowSources(FlowSource.LITERAL)
+  Other changes to defaulting to reduce annotation burden
+
+Documentation
+  Improvements to the manual 
+
