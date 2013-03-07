@@ -1,19 +1,182 @@
 v\htmlhr
 \chapter{How to Annotate an Android App\label{app-annotation}}
 
-This chapter describes the best practices for annotating an Android application.
+This chapter describes the best practices for annotating an Android application.  In general, only 
+fields, methods, and APIs need to been annotated.
 
-\section{Annotating APIs}
 \section{Flow Checker}
-Don't need to run the other tools
+An application is fully annotated when the \<ant flowtest> returns no errors.  So the typical work flow is 
+to run \<flowtest>, add a few annotations or annotate a few API methods, and the run \<flowtest> again.  
+This repeats until all of the annotation errors have been resolved.
 
-Goal is for you to only need annotations on methods and fields
+\section{Typical Errors}
 
-\section{Flow Policy)
+\paragraph{Forbidden Flow}  To correct a forbidden flow error, add the flow or flows to the policy file.  
+For example, fix the error below by adding \<LITERAL -\textgreater FILESYSTEM> to the policy file.
+\begin{Verbatim}
+NewTest.java:43: error: flow forbidden by flow-policy  
+        test = new @FlowSinks(FlowSink.FILESYSTEM)@FlowSources(FlowSource.LITERAL) TestClass2(fs);
+                  ^
+  found: @FlowSinks(FlowSink.FILESYSTEM) @FlowSources(FlowSource.LITERAL) TestClass2 
+  forbidden flows:
+    LITERAL -> FILESYSTEM
+\end{Verbatim}
 
-You'll need one.  
+\paragraph{Conservative Typing}
 
-\section{Annotating non-Android APIs}
-If you are using API's besides Android, you will need to annotate this APIs in a stub file. 
+APIs that have not been annotated have been typed so conservatively that they will always produce incompatible types errors where the required is \<@FlowSinks(ANY) @FlowSources({})> or 
+\<@FlowSinks({}) @FlowSources(ANY)>.  These errors can be fixed by annotating the API method; 
+Section \ref(sec:annotatedAPI) gives guidelines for annotating APIs. 
+Below is an example of this sort of error.
 
-\section{Possible Errors}
+\begin{Verbatim}
+HelloWorld.java:84: error: incompatible types in argument.
+                 .replace(R.id.container, fragment)
+                                          ^
+   found   : @FlowSinks(CONDITIONAL) @FlowSources(LITERAL) Fragment
+   required: @FlowSinks(ANY) @FlowSources({}) Fragment
+\end{Verbatim}
+
+\paragraph{Incompatible Types}
+
+If the incompatible types error is not from conservative defaulting, then the error must be fixed by adding or
+removing annotations in the application.  For example, the error below can be fixed by adding ACCELEROMETER to the FlowSource of the return type.  
+
+\begin{Verbatim}
+HelloWorld.java:49: error: incompatible types in return.
+       return x;
+              ^
+   found   : @FlowSinks(CONDITIONAL) @FlowSources({LITERAL, ACCELEROMETER}) int
+   required: @FlowSinks(CONDITIONAL) @FlowSources(LITERAL) int
+\end{Verbatim}
+
+\paragraph{Conditionals}
+Any item in a conditional statement must have CONDITIONAL listed as a FlowSink.  If a variable is only annotated with FlowSources and strict conditionals are not used, then CONDITIONAL is added as a flow sink by default.  For example, if input is a parameter in a method and is annotated with @FlowSinks(FlowSink.NETWORK), the following error will occur.  To fix the error, add CONDITIONAL to the flow sink annotation.  
+
+\begin{Verbatim}
+HelloWorld.java:48: error: Conditions are not allowed to depend on flow information.
+         if( i1 > 2){
+            ^
+\end{Verbatim}
+
+\section{Annotating Application Methods}
+
+Typically, return types should be annotated with just FlowSources so that the FlowSinks can be inferred from the policy file as explained in Section \ref{flow-defaults}.
+Similarly, parameters should only be annotated with FlowSinks, so that the FlowSources can be inferred from  the policy file.  Local variables should not have to be annotated, their types can be inferred. Fields must be annotated with at FlowSinks or FlowSources, or sometimes both. 
+The guidelines for annotating API methods described in the next sections also apply to annotating methods in your application. 
+
+
+\section{Annotating APIs\label{sec:annotatedAPI}}
+
+File \<sparta-code/src/sparta/checkers/flow.astub> provides Android and Java
+library annotations.  You may need to enhance it, if you find that your application
+uses APIs that are not yet annotated.
+(The  more APIs get annotated, the less work you will have to do in this
+step for each new app.) 
+Also, see the manual 
+\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}
+
+For every API method used by this app (i.e., those output by \<ant
+reportapiusage>) that does \emph{not} already appear in file
+\<sparta-code/src/sparta/checkers/flow.astub>, read the Javadoc and decide what flow properties the method
+has.  Use this information to annotate the method in \<flow.astub>.  The next few sections have guidelines on
+how to annotate certain kinds of methods. 
+
+
+
+
+\subsection{Methods with Sources}
+If you read the javadoc and the method returns an object from a certain source, then you should annotated 
+the return with that flow source and an ANY flowsink.
+
+The getParameters method is an example of a method that returns an object with a source.
+\begin{Verbatim}
+package android.hardware;
+class Camera{
+    @FlowSources(FlowSource.CAMERA_SETTINGS)@FlowSinks(FlowSink.ANY)
+        Camera.Parameters getParameters ();
+    void setParameters (@FlowSources(FlowSource.ANY)@FlowSinks(CAMERA_SETTINGS) 
+         Camera.Parameters params);
+}
+\end{Verbatim}
+
+\begin{Verbatim}
+Camera.Parameters parameters
+     = mCamera.getParameters();
+//Change some parameters
+//If the policy file contains: CAMERA_SETTINGS->CAMERA_SETTINGS
+mCamera.setParameters(parameters);
+\end{Verbatim}
+
+
+
+\subsection{Methods with Sinks}
+If you read the javadoc for an API method an it sends some parameters to a FlowSink, then the parameters
+should be annotated with that flow sink and ANY flow source.  
+
+Example annotation in flow.astub
+\begin{Verbatim}
+package android.database.sqlite;
+class SQLiteDatabase{
+  public void execSQL (@FlowSinks(FlowSink.DATABASE) @FlowSource(FlowSource.ANY) String sql);
+}
+\end{Verbatim}
+Use of the API
+\begin{Verbatim}
+@FlowSources(SMS,LITERAL)  String getSMSQuery(){..}
+String mes = getSMSQuery();
+//if SMS,LITERAL->DATABASE is in flow policy
+db.execSQL(mes);
+\end{Verbatim}
+
+\subsection{Callbacks}
+The Android API frequently uses callbacks.  These are methods that the developer must 
+implement and register. In flow.astub, these callbacks should be annotated
+with source information and FlowSink.ANY.  
+
+An example annotation of a callback method
+\begin{Verbatim}
+package android.hardware;
+class Camera$PictureCallback{
+  //data: a byte array of the picture data
+   void onPictureTaken 
+   (@FlowSource(CAMERA)@FlowSinks(FlowSink.ANY) byte[] data, 
+   @FlowSource(CAMERA)@FlowSinks(FlowSink.ANY)  Camera camera);
+}
+\end{Verbatim}
+
+An example implementation of a callback
+\begin{Verbatim}
+public void onPictureTaken
+(@FlowSource(CAMERA) byte[] data, @FlowSource(CAMERA) Camera camera){
+   //If CAMERA->FILE_SYSTEM is in policy file
+    writeToFile(data);
+}
+\end{Verbatim}
+
+
+\subsection{Methods that Transform Data}
+
+Some methods take the arguments passed, transform them, and then return them.  These sorts of 
+methods should be annotated with \<@PolyFlowSources @PloyFlowSinks>
+  to preserve the flow information.  The declaration annotation \<@PolyFlow> can be used instead of
+  annotating all the parameters and return types. See Section \ref{sec:polyflow} for more information 
+  
+  Math.min(...) is a good example of these kinds of methods. 
+  
+  \begin{Verbatim}
+package java.lang;
+class Math{
+   @PolyFlow  
+   int min(int i1, int i2);
+}
+\end{Verbatim}
+
+Example use of \<@PolyFlow>.
+\begin{Verbatim}
+@FlowSources(FlowSource.LOCATION) int i1 = getLocation();
+@FlowSources(FlowSource.NETWORK) int i2 = getLocationForNetwork();
+@FlowSources({FlowSource.LOCATION,FlowSource.NETWORK)}) int min = Math.min(i1,i2);
+ \end{Verbatim}
+
+

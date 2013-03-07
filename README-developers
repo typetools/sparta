@@ -34,6 +34,8 @@ To make a release:
  * update build.properties with the new version number
    and the version number of the Checker Framework
    and in the manual
+ * Commit all of this and tag the release
+hg tag sparta-X.X.X
  * build sparta.jar
  * build the manual 
  * copy to /cse/www2/types/sparta/release/vX.X.X (renaming to add version numbers):
