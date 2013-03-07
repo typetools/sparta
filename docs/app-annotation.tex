@@ -59,6 +59,16 @@ HelloWorld.java:48: error: Conditions are not allowed to depend on flow informat
             ^
 \end{Verbatim}
 
+\paragraph{StubParser}
+
+Errors like the one below are from the parsing of the stub file.  They happen because of typos in flow.astub or  
+if an API does not exist in the version of Android or Java used.
+
+\begin{Verbatim}
+StubParser: Method isLLowerCase(char) not found in type java.lang.Character
+\end{Verbatim}
+This error can be corrected by removing the extra L in the method name in flow.astub.
+
 \section{Annotating Application Methods}
 
 Typically, return types should be annotated with just FlowSources so that the FlowSinks can be inferred from the policy file as explained in Section \ref{flow-defaults}.
@@ -70,9 +80,8 @@ The guidelines for annotating API methods described in the next sections also ap
 
 File \<sparta-code/src/sparta/checkers/flow.astub> provides Android and Java
 library annotations.  You may need to enhance it, if you find that your application
-uses APIs that are not yet annotated.
-(The  more APIs get annotated, the less work you will have to do in this
-step for each new app.) 
+uses APIs that are not yet annotated.  (Remember to rebuild sparta.jar each time you change flow.astub)
+
 Also, see the manual 
 \url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}
 
@@ -82,8 +91,8 @@ reportapiusage>) that does \emph{not} already appear in file
 has.  Use this information to annotate the method in \<flow.astub>.  The next few sections have guidelines on
 how to annotate certain kinds of methods. 
 
-
-
+To speed up annotating an entire API class, copy the output from Checker Framework's StubGenerator to 
+flow.astub and then annotate the methods.  See \url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#stub} for more details. 
 
 \subsection{Methods with Sources}
 If you read the javadoc and the method returns an object from a certain source, then you should annotated 
