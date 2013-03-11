@@ -5,7 +5,7 @@ import re
 print("import sparta.checkers.quals.*;")
 print
 
-f = open("APICalls-Stowaway.txt", "r")
+f = open("APICalls-PScout-4.0.1.txt", "r")
 lines = f.readlines()[1:]
 f.close()
 prev_package = ""
