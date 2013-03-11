@@ -4,12 +4,12 @@
 This chapter describes the best practices for annotating an Android application.  In general, only 
 fields, methods, and APIs need to been annotated.
 
-\section{Flow Checker}
+\section{Flow Checker\label{flowchecker}}
 An application is fully annotated when the \<ant flowtest> returns no errors.  So the typical work flow is 
 to run \<flowtest>, add a few annotations or annotate a few API methods, and the run \<flowtest> again.  
 This repeats until all of the annotation errors have been resolved.
 
-\section{Typical Errors}
+\section{Typical Errors\label{errors}}
 
 \paragraph{Forbidden Flow}  To correct a forbidden flow error, add the flow or flows to the policy file.  
 For example, fix the error below by adding \<LITERAL -\textgreater FILESYSTEM> to the policy file.
@@ -69,7 +69,7 @@ StubParser: Method isLLowerCase(char) not found in type java.lang.Character
 \end{Verbatim}
 This error can be corrected by removing the extra L in the method name in flow.astub.
 
-\section{Annotating Application Methods}
+\section{Annotating Application Methods\label{sec:annomethods}}
 
 Typically, return types should be annotated with just FlowSources so that the FlowSinks can be inferred from the policy file as explained in Section \ref{flow-defaults}.
 Similarly, parameters should only be annotated with FlowSinks, so that the FlowSources can be inferred from  the policy file.  Local variables should not have to be annotated, their types can be inferred. Fields must be annotated with at FlowSinks or FlowSources, or sometimes both. 

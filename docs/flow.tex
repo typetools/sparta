@@ -12,6 +12,7 @@ understand pluggable type-checking and the Checker Framework, please
 consult the Checker Framework manual at
 \url{http://types.cs.washington.edu/checker-framework/}.  
 
+
 \section{Overview\label{sec:overview}}
 
 You write the annotation \<@FlowSources> on a variable's
@@ -135,8 +136,8 @@ $\omega$. For example, using the same policy file as above, the following are eq
   @FlowSinks(Y)                   ==   @FlowSources(\{A,B,C\}) @FlowSinks(Y)
 \end{alltt}
 
-\section{Flow Policy}
-\label{sec:flowpolicy}
+\section{Flow Policy\label{sec:flowpolicy}}
+
 
 A flow policy is a list of all the flows that are permitted to occur in an application.
 Flow policies are specified in a flow-policy file that is  a list 
@@ -238,7 +239,7 @@ allowing any flows.
 
 
 
-\section{Subtyping}
+\section{Subtyping\label{sec:subtyping}}
 
 \begin{figure}[h]
 \includeimage{flowsources}{5cm}
@@ -278,7 +279,7 @@ Note the different subtyping behavior for sources and sinks.
 
 
 
-\section{Conditionals}
+\section{Conditionals\label{sec:conditionals}}
 
 The Flow Checker considers conditional expressions to be a flow sink.  If a variable 
 will be used in a conditional, then it must have a flow sink of CONDITIONAL.  By default, 
@@ -303,7 +304,7 @@ To catch this sort of information leak, pass
 
 
 
-\section{Empty Flow Sinks or Flow Sources}
+\section{Empty Flow Sinks or Flow Sources\label{sec:emptyflow}}
 
 Programmers should not use @FlowSources(\{\}) and @FlowSinks(\{\}) for
 any types.
@@ -329,7 +330,7 @@ annotation and a flow sink annotation as explained in
 \secref{flow-defaults}. 
 
  
-\section{Warning Suppression}
+\section{Warning Suppression\label{sec:waringsuppression}}
  
  Sometimes it might be necessary to suppress warnings or errors produced by the
   Flow Checker.  This can be done by using the  \<@SuppressWarnings("flow")> annotation
@@ -340,7 +341,7 @@ annotation and a flow sink annotation as explained in
    Most programs should not suppress warnings. 
 
 
-\section{API specifications}
+\section{API specifications\label{sec:apispecs}}
 
 File \<sparta-code/src/sparta/checkers/flow.astub> provides library
 annotations.  You may need to enhance it, if you find that your application
@@ -350,7 +351,7 @@ chapter
 ``Annotating libraries'' in the Checker Framework manual.
 
 
-\section{Qualifier polymorphism: @PolyFlowSources  and @PolyFlowSinks}
+\section{Qualifier polymorphism: @PolyFlowSources  and @PolyFlowSinks \label{sec:polyflowsources}}
 
 Two additional type annotations can be used to annotate polymorphic
 methods: \<@PolyFlowSources>, \<@PolyFlowSinks>.
@@ -371,7 +372,7 @@ See section ``Qualifier polymorphism'' in the Checker Framework manual.
 % working on fixing them.
 
 
-\section{Additional Annotations}
+\section{Additional Annotations\label{sec:addtionalanno}}
 
 Three additional declaration annotations can be used to annotate APIs:
 \<@DefaultFlow>, \<@ConservativeFlow>, and \<@PolyFlow>. 
@@ -444,7 +445,7 @@ types and all parameters.
 
 
 
-\section{Stricter tests}
+\section{Stricter tests\label{sec:stricter}}
 
 By default, the flow checker is unsound.  After getting the basic checks to pass, the
  stricter checks should be enabled, by running \<ant -Dsound=true flowtest>.
@@ -480,7 +481,7 @@ needed for sound array behavior in the absence of runtime checks.
 Flow inference automatically refines the type of array creation
 expressions depending on the left-hand side.
 
-\section{Miscellaneous}
+\section{Miscellaneous\label{sec:miscellaneous}}
 
 Methods like \<equals()> and \<toString()> that are inherited from
 \<Object> are the most general possible, so that overriding methods
