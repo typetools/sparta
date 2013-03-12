@@ -24,6 +24,24 @@ package java.sql;
 package java.util;
 */
 
+// We might want to use DefaultFlow here.
+package java.lang;
+
+
+
+class Thread {
+	@PolyFlow
+	static void sleep(long time);
+}
+
+@ConservativeFlow
+package java.lang.reflect;
+
+class Method {
+    @PolyFlow
+    Object invoke(Object obj, Object[] args);
+}
+
 
 package android.accessibilityservice;
 
@@ -37,6 +55,7 @@ class AccessibilityService extends Service {
     void setServiceInfo(AccessibilityServiceInfo arg0);
     IBinder onBind(Intent arg0);
 }
+
 package android.accounts;
 
 class AbstractAccountAuthenticator {
@@ -82,7 +101,6 @@ class AbstractAccountAuthenticator {
 		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options);
 }
 
-
 class AccountAuthenticatorActivity {
 	@PolyFlow
 	 void clearWallpaper();
@@ -93,7 +111,7 @@ class AccountAuthenticatorActivity {
 	@PolyFlow
 	 void sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
 	@PolyFlow
-	void setResult(int resultCode, Intent data);
+	 void setResult(int resultCode, Intent data);
 	@PolyFlow
 	 void setWallpaper(android.graphics.Bitmap p0);
 	@PolyFlow
@@ -234,11 +252,9 @@ class AccountManager {
 
 package android.app;
 
-
  class Activity {
    // @FlowSources(FlowSource.FILESYSTEM) @FlowSinks() FileInputStream openFileInput(@FlowSources() @FlowSinks() String name);
 }
-
 
 package android.app;
 
@@ -254,11 +270,8 @@ class AlertDialog$Builder {
 	AlertDialog create();
 	@PolyFlowSources @PolyFlowSinks Builder setMessage(@PolyFlowSources @PolyFlowSinks CharSequence message);
 }
-	
 
 package android.app;
-
-
 
 class PendingIntent {
     @PolyFlow
@@ -266,7 +279,6 @@ class PendingIntent {
     @PolyFlow
     static PendingIntent getService(Context context, int requestCode, Intent intent, int flags);
 }
-
 
 class ProgressDialog {
 	static ProgressDialog show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable);
@@ -286,7 +298,6 @@ class Service {
 	 Object startService(android.content.Intent p0);
 }
 
-
 class TabActivity {
 	 Object clearWallpaper();
 	 Object removeStickyBroadcast(android.content.Intent p0);
@@ -303,7 +314,6 @@ class WallpaperManager {
 	 Object setStream(java.io.InputStream p0);
 	 Object suggestDesiredDimensions(int p0,int p1);
 }
-
 
 package android.content;
 
@@ -400,7 +410,6 @@ class ContextWrapper {
 	 ComponentName startService(Intent service);
 }
 
-
 class Intent {
 	@FlowSources(FlowSource.ANY) String getAction();
 	@FlowSources(FlowSource.ANY) Uri getData();
@@ -448,7 +457,6 @@ class UriMatcher {
 
 package android.content.res;
 
-
 class Resources {
 	@PolyFlow
 	float getDimension(int id);
@@ -462,7 +470,6 @@ class Resources {
 }
 
 package android.database;
-
 
 class Cursor {
 	@PolyFlow void close() @FlowSources(FlowSource.ANY);
@@ -521,7 +528,6 @@ package android.graphics;
 class Bitmap {
 	boolean compress(@FlowSinks({}) CompressFormat format, @FlowSinks({}) int quality, @PolyFlowSinks @PolyFlowSources OutputStream stream) @PolyFlowSinks @PolyFlowSources;
 }
-
 
 class BitmapFactory {
 	@PolyFlowSources @PolyFlowSinks Bitmap decodeByteArray(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] data,
@@ -597,7 +603,6 @@ class Geocoder {
 	    getFromLocationName(@FlowSources(FlowSource.LOCATION) @FlowSinks({}) String locationName, @FlowSinks({}) int maxResults);
 }
 
-
 class Location {
 	@FlowSources(FlowSource.LOCATION) float bearingTo(@FlowSources(FlowSource.LOCATION) Location dest) @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
 	@FlowSources(FlowSource.LOCATION) int describeContents() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
@@ -639,7 +644,6 @@ interface LocationListener {
 }
 
 class LocationManager {
-
 	 Object addGpsStatusListener(android.location.GpsStatus.Listener p0);
 	 Object addNmeaListener(android.location.GpsStatus.NmeaListener p0);
 	 Object addProximityAlert(double p0,double p1,float p2,long p3,android.app.PendingIntent p4);
@@ -648,9 +652,7 @@ class LocationManager {
 	 Object clearTestProviderLocation(java.lang.String p0);
 	 Object clearTestProviderStatus(java.lang.String p0);
 	@PolyFlow 
-	
 	String getBestProvider(Criteria criteria, boolean enabledOnly);
-	
 	@FlowSources({FlowSource.LOCATION, FlowSource.TIME}) Location getLastKnownLocation(@FlowSinks({}) String provider);
 	 Object getProvider(java.lang.String p0);
 	 Object getProviders(android.location.Criteria p0,boolean p1);
@@ -690,9 +692,6 @@ void     saveAttributes();
 void     setAttribute(@FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources String tag, @FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources String value);
 }
 
-
-
-
 package android.net;
 
 class Uri {
@@ -700,9 +699,6 @@ class Uri {
 	static @PolyFlowSources @PolyFlowSinks Uri parse(@PolyFlowSources @PolyFlowSinks String uriString);
 	static @PolyFlowSources @PolyFlowSinks Uri withAppendedPath(@PolyFlowSources @PolyFlowSinks Uri baseUri, @PolyFlowSources @PolyFlowSinks String pathSegment);
 }
-	
-package android.net.wifi;
-
 
 package android.opengl;
 
@@ -712,8 +708,6 @@ class GLSurfaceView {
 }
 
 package android.os;
-
-
 
 class Bundle {
 	@PolyFlowSources @PolyFlowSinks boolean getBoolean(@FlowSinks({}) String key, @FlowSinks({}) boolean defaultValue) @PolyFlowSources @PolyFlowSinks;
@@ -737,14 +731,9 @@ class Environment {
 	getExternalStoragePublicDirectory(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.EXTERNAL_STORAGE) String type);
 }
 
-
-
 class Parcel {
 	void writeString(@PolyFlowSources @PolyFlowSinks String val) @PolyFlowSources @PolyFlowSinks;
 }
-	
-
-
 
 package android.os;
 
@@ -760,13 +749,10 @@ class EditTextPreference {
 	void setText(@PolyFlowSources @PolyFlowSinks String text) @PolyFlowSources @PolyFlowSinks;
 }
 
-
 package android.telephony;
-
 
 class SmsMessage {
 	@FlowSources(FlowSource.SMS) @FlowSinks({}) SmsMessage createFromPdu(@FlowSinks(FlowSink.SMS) @FlowSources(FlowSource.ANY) byte @FlowSinks(FlowSink.SMS) @FlowSources(FlowSource.ANY) []  pdu);
-
 }
 
 class TelephonyManager {
@@ -795,7 +781,6 @@ package android.text.format;
 class DateUtils {
 	@PolyFlowSources @PolyFlowSinks String getDayOfWeekString(@PolyFlowSources @PolyFlowSinks int dayOfWeek, @FlowSinks({}) int abbrev);
 }
-
 
 package android.util;
 
@@ -838,9 +823,6 @@ class ContextThemeWrapper {
 	 Object setWallpaper(java.io.InputStream p0);
 }
 
-
-
-
 class KeyEvent {
     @PolyFlow
     int getAction();
@@ -870,8 +852,6 @@ class Surface {
 
 }
 
-
-
 class View {
 	@PolyFlow
 	View findViewById(int id);
@@ -885,13 +865,6 @@ class View {
 	@PolyFlow
 	void setVisibility(int visibility);
 }
-
-
-
-
-package android.webkit;
-
-
 
 package android.widget;
 
@@ -920,18 +893,12 @@ class ImageView {
 class QuickContactBadge {
 	 Object assignContactFromEmail(java.lang.String p0,boolean p1);
 	 Object assignContactFromPhone(java.lang.String p0,boolean p1);
-
 }
-
 
 class TextView {
 	void setText(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) CharSequence text);
 	void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) int resid) @PolyFlowSources @PolyFlowSinks;
 }
-
-
-
-
 
 /* JAVA PACKAGES BELOW */
 
@@ -960,6 +927,7 @@ class ByteArrayOutputStream {
 }
 
 class DataInputStream{
+	@PolyFlowSources @PolyFlowSinks DataInputStream(@PolyFlowSources @PolyFlowSinks InputStream in);
     @PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] buffer, @PolyFlowSources @PolyFlowSinks int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
 }
 
@@ -973,22 +941,27 @@ class DataOutputStream {
 
 class File {
 	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
 	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks File dir, @PolyFlowSources @PolyFlowSinks String name);
 	@PolyFlowSources @PolyFlowSinks String getAbsolutePath() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String getPath() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String getName() @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks String getPath() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks File @PolyFlowSources @PolyFlowSinks [] listFiles() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
 	@FlowSinks(FlowSink.ANY) String separator;
 	@PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks File[] listFiles() @PolyFlowSources @PolyFlowSinks ;
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks ;
+	@PolyFlowSources @PolyFlowSinks File[] listFiles() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
 	
 }
 
 class FileInputStream {
 	void close() @PolyFlowSources @PolyFlowSinks; 
+	@PolyFlowSources @PolyFlowSinks FileInputStream(@PolyFlowSources @PolyFlowSinks File file);	
 	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
 	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer, @FlowSinks() int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
     @PolyFlowSources @PolyFlowSinks int available() @PolyFlowSources @PolyFlowSinks;
@@ -1014,6 +987,7 @@ class FileWriter {
 
 class FilterInputStream {
 	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] b) @PolyFlowSources @PolyFlowSinks;
+	void close() @FlowSources(FlowSource.ANY);
 }
 
 class IOException {
@@ -1149,10 +1123,13 @@ class Character {
     char reverseBytes(char arg0);
     String getName(int arg0);
 }
-
-
-
-
+	
+class Double {
+    static @PolyFlowSources @PolyFlowSinks long doubleToLongBits(@PolyFlowSources @PolyFlowSinks double d);
+	static @PolyFlowSources @PolyFlowSinks boolean isNaN(@PolyFlowSources @PolyFlowSinks double d);
+	static @PolyFlowSources @PolyFlowSinks double parseDouble(@PolyFlowSources @PolyFlowSinks String string);
+	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks double d);
+}
 
 class CharSequence {
     @PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
@@ -1173,6 +1150,7 @@ class Class {
 
 class Enum {
     @PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object other) @PolyFlowSources @PolyFlowSinks;
+    @PolyFlowSources @PolyFlowSinks String name() @PolyFlowSources @PolyFlowSinks;
 }
 
 class Float {
@@ -1182,8 +1160,8 @@ class Float {
 class Integer {
 	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s);
 	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s, @FlowSinks({}) int radix);
-	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks int i);
 	static @PolyFlowSources @PolyFlowSinks String toHexString(@PolyFlowSources @PolyFlowSinks int i);
+	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks int i);
 }
 
 class Long {
@@ -1230,15 +1208,18 @@ class String {
 	static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
 	@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int indexOf(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks int lastIndexOf(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) char target, @PolyFlowSources @PolyFlowSinks char replacement) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) CharSequence target,
 		@PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks String(@PolyFlowSources @PolyFlowSinks String toCopy);
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-	
+	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
 }
 
 class StringBuilder {
@@ -1275,7 +1256,6 @@ class DatagramSocket {
 class HttpURLConnection {
 	 HttpURLConnection(java.net.URL p0);
 	 Object connect();
-
     @PolyFlow void setRequestMethod(String method);
 }
 
@@ -1322,17 +1302,18 @@ class URI {
 	static @PolyFlowSources @PolyFlowSinks URI create(@PolyFlowSources @PolyFlowSinks String uri);
 	@PolyFlowSources @PolyFlowSinks String getScheme() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks int getPort() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlowSources @PolyFlowSinks URI(@PolyFlowSources @PolyFlowSinks String spec);
 }
 
 class URL {
 	 Object getContent(java.lang.Class[] p0);
 	 Object getContent();
 	 Object openConnection(java.net.Proxy p0);
-	
 	@PolyFlowSources @PolyFlowSinks URLConnection openConnection() @PolyFlowSources @PolyFlowSinks;
 	 Object openStream();
 	@PolyFlowSources @PolyFlowSinks String toExternalForm() @PolyFlowSources @PolyFlowSinks;
 	@PolyFlowSources @PolyFlowSinks URI toURI() @PolyFlowSources @PolyFlowSinks;
+	@PolyFlow Object URL(String spec);
 	@PolyFlowSources @PolyFlowSinks String getHost()@PolyFlowSources @PolyFlowSinks ;
 	@PolyFlowSources @PolyFlowSinks String getFile()@PolyFlowSources @PolyFlowSinks ;
 	@PolyFlowSources @PolyFlowSinks String getProtocol()@PolyFlowSources @PolyFlowSinks ;
@@ -1352,6 +1333,7 @@ class URLConnection {
 	void setUseCaches(@FlowSinks({FlowSink.NETWORK}) boolean useCaches);
 	void setRequestProperty(@FlowSinks({FlowSink.NETWORK}) String property, @FlowSinks({FlowSink.NETWORK}) String value);
 }
+
 @ConservativeFlow
 package java.lang.reflect;
 
@@ -1359,8 +1341,6 @@ class Method {
     @PolyFlow
     Object invoke(Object obj, Object[] args);
 }
-
-
 
 package java.security;
 
@@ -1474,8 +1454,9 @@ class Random {
     @FlowSources(FlowSource.RANDOM) float nextFloat();
     @FlowSources(FlowSource.RANDOM) double nextGaussian();
     @FlowSources(FlowSource.RANDOM) int nextInt();
-    @FlowSources(FlowSource.RANDOM) int nextInt(@FlowSinks(FlowSink.RANDOM)  int n);
+    @FlowSources(FlowSource.RANDOM) int nextInt(@FlowSinks(FlowSink.RANDOM) int n);
     @FlowSources(FlowSource.RANDOM) long nextLong();
+    Random(@FlowSinks(FlowSink.RANDOM) long seed);
     void setSeed(@FlowSinks(FlowSink.RANDOM) long seed);
 }
 
@@ -1564,7 +1545,6 @@ class FileEntity {
 	void setContentType(@PolyFlowSources @PolyFlowSinks String ctString) @PolyFlowSources @PolyFlowSinks;
 }
 
-
 package org.apache.http.impl.client;
 
 class AbstractHttpClient {
@@ -1580,10 +1560,7 @@ class DefaultHttpClient {
 	 Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
 	 Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.protocol.HttpContext p1);
 	 Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1);
-
 }
-
-
 
 package org.apache.http.message;
 
