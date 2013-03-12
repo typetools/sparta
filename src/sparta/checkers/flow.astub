@@ -24,7 +24,7 @@ package java.sql;
 package java.util;
 */
 
-// We might want to use NoFlow here.
+// We might want to use DefaultFlow here.
 package java.lang;
 
 
@@ -2411,8 +2411,7 @@ class SurfaceHolder {
 }*/
 
 class SurfaceView {
-	@PolyFlow
-	SurfaceHolder getHolder();
+	@PolyFlow SurfaceHolder getHolder();
 }
 
 class View {
@@ -2881,7 +2880,7 @@ class Class {
 }
 
 class ClassLoader {
-    @NoFlow
+    @DefaultFlow
     Class<?> loadClass(String className); // This is temporary.
 }
 
