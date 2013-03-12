@@ -63,7 +63,6 @@ class ActivityGroup{
 class ActivityManager{
 @RequiredPermissions({"android.permission.GET_TASKS"})  java.util.List getRecentTasks(int arg0, int arg1);
 @RequiredPermissions({"android.permission.GET_TASKS"})  java.util.List getRunningTasks(int arg0);
-@RequiredPermissions({"android.permission.GET_TASKS"})  java.util.List getRunningTasks(int arg0, int arg1, android.app.IThumbnailReceiver arg2);
 @RequiredPermissions({"android.permission.RESTART_PACKAGES", "android.permission.KILL_BACKGROUND_PROCESSES"})  void restartPackage(java.lang.String arg0);
 @RequiredPermissions({"android.permission.RESTART_PACKAGES", "android.permission.KILL_BACKGROUND_PROCESSES"})  void killBackgroundProcesses(java.lang.String arg0);
 @RequiredPermissions({"android.permission.REORDER_TASKS"})  void moveTaskToFront(int arg0, int arg1);
@@ -186,13 +185,8 @@ class BackupAgentHelper{
 package android.bluetooth;
 class BluetoothA2dp{
 @RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.BLUETOOTH"})  boolean isA2dpPlaying(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.BLUETOOTH"})  boolean disconnect(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.WRITE_SETTINGS", "android.permission.BLUETOOTH"})  boolean setPriority(android.bluetooth.BluetoothDevice arg0, int arg1);
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.BLUETOOTH"})  boolean connect(android.bluetooth.BluetoothDevice arg0);
 @RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getConnectedDevices();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  boolean isEnabled();
 @RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getDevicesMatchingConnectionStates(int[] arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  int getPriority(android.bluetooth.BluetoothDevice arg0);
 @RequiredPermissions({"android.permission.BLUETOOTH"})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
 }
 class BluetoothAdapter{
@@ -204,7 +198,6 @@ class BluetoothAdapter{
 @RequiredPermissions({"android.permission.BLUETOOTH"})  int getProfileConnectionState(int arg0);
 @RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.Set getBondedDevices();
 @RequiredPermissions({"android.permission.BLUETOOTH"})  android.bluetooth.BluetoothServerSocket listenUsingRfcommWithServiceRecord(java.lang.String arg0, java.util.UUID arg1);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  int getConnectionState();
 @RequiredPermissions({"android.permission.BLUETOOTH"})  boolean isDiscovering();
 @RequiredPermissions({"android.permission.BLUETOOTH"})  boolean isEnabled();
 @RequiredPermissions({"android.permission.BLUETOOTH"})  java.lang.String getName();
@@ -221,21 +214,15 @@ class BluetoothDevice{
 @RequiredPermissions({"android.permission.BLUETOOTH"})  android.bluetooth.BluetoothSocket createInsecureRfcommSocketToServiceRecord(java.util.UUID arg0);
 }
 class BluetoothHeadset{
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.BLUETOOTH"})  int getPriority(android.bluetooth.BluetoothDevice arg0);
 @RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.MODIFY_AUDIO_SETTINGS", "android.permission.BLUETOOTH"})  boolean stopVoiceRecognition(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.WRITE_SETTINGS", "android.permission.BLUETOOTH"})  boolean setPriority(android.bluetooth.BluetoothDevice arg0, int arg1);
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.BLUETOOTH"})  boolean disconnect(android.bluetooth.BluetoothDevice arg0);
 @RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.MODIFY_AUDIO_SETTINGS", "android.permission.WAKE_LOCK", "android.permission.BLUETOOTH"})  boolean startVoiceRecognition(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.BLUETOOTH"})  boolean connect(android.bluetooth.BluetoothDevice arg0);
 @RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getDevicesMatchingConnectionStates(int[] arg0);
 @RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getConnectedDevices();
 @RequiredPermissions({"android.permission.BLUETOOTH"})  boolean isAudioConnected(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  boolean isEnabled();
 @RequiredPermissions({"android.permission.BLUETOOTH"})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
 }
 class BluetoothHealth{
 @RequiredPermissions({"android.permission.BLUETOOTH"})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  boolean isEnabled();
 @RequiredPermissions({"android.permission.BLUETOOTH"})  boolean unregisterAppConfiguration(android.bluetooth.BluetoothHealthAppConfiguration arg0);
 @RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getConnectedDevices();
 @RequiredPermissions({"android.permission.BLUETOOTH"})  boolean disconnectChannel(android.bluetooth.BluetoothDevice arg0, android.bluetooth.BluetoothHealthAppConfiguration arg1, int arg2);
@@ -245,11 +232,8 @@ class BluetoothHealth{
 @RequiredPermissions({"android.permission.BLUETOOTH"})  boolean connectChannelToSource(android.bluetooth.BluetoothDevice arg0, android.bluetooth.BluetoothHealthAppConfiguration arg1);
 }
 class BluetoothServerSocket{
-@RequiredPermissions({"android.permission.BLUETOOTH"})  BluetoothServerSocket(int arg0, boolean arg1, boolean arg2, int arg3);
 }
 class BluetoothSocket{
-@RequiredPermissions({"android.permission.BLUETOOTH"})  BluetoothSocket(int arg0, int arg1, boolean arg2, boolean arg3, java.lang.String arg4, int arg5);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  BluetoothSocket(int arg0, int arg1, boolean arg2, boolean arg3, android.bluetooth.BluetoothDevice arg4, int arg5, android.os.ParcelUuid arg6);
 @RequiredPermissions({"android.permission.BLUETOOTH"})  void connect();
 }
 package android.content;
@@ -361,7 +345,6 @@ class AudioManager{
 @RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setSpeakerphoneOn(boolean arg0);
 @RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setBluetoothScoOn(boolean arg0);
 @RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setMicrophoneMute(boolean arg0);
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setParameter(java.lang.String arg0, java.lang.String arg1);
 @RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  boolean isWiredHeadsetOn();
 @RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setParameters(java.lang.String arg0);
 @RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  boolean isBluetoothA2dpOn();
@@ -384,16 +367,12 @@ class MediaRecorder{
 class Ringtone{
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void stop();
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void setStreamType(int arg0);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void open(android.net.Uri arg0);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void play();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void open(android.content.res.AssetFileDescriptor arg0);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void open(java.io.FileDescriptor arg0);
 }
 class RingtoneManager{
 @RequiredPermissions({"android.permission.WRITE_SETTINGS"})  void setActualDefaultRingtoneUri(android.content.Context arg0, int arg1, android.net.Uri arg2);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void stopPreviousRingtone();
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  android.media.Ringtone getRingtone(int arg0);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  android.media.Ringtone getRingtone(android.content.Context arg0, android.net.Uri arg1, int arg2);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  android.media.Ringtone getRingtone(android.content.Context arg0, android.net.Uri arg1);
 }
 package android.media.effect;
@@ -424,9 +403,7 @@ package android.net.sip;
 class SipAudioCall{
 @RequiredPermissions({"android.permission.ACCESS_WIFI_STATE", "android.permission.WAKE_LOCK"})  void startAudio();
 @RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setSpeakerMode(boolean arg0);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void onError(int arg0, java.lang.String arg1);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void close();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void close(boolean arg0);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void endCall();
 }
 class SipManager{
@@ -448,7 +425,6 @@ package android.net.wifi;
 class WifiManager{
 @RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean reassociate();
 @RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean startScan();
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE", "android.permission.WRITE_SETTINGS"})  void setCountryCode(java.lang.String arg0, boolean arg1);
 @RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean disableNetwork(int arg0);
 @RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  int updateNetwork(android.net.wifi.WifiConfiguration arg0);
 @RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean removeNetwork(int arg0);
@@ -483,39 +459,29 @@ class WifiP2pManager{
 package android.nfc;
 class NfcAdapter{
 @RequiredPermissions({"android.permission.NFC"})  void setOnNdefPushCompleteCallback(OnNdefPushCompleteCallback arg0, android.app.Activity arg1, android.app.Activity[] arg2);
-@RequiredPermissions({"android.permission.NFC"})  android.nfc.INfcAdapter getService();
 @RequiredPermissions({"android.permission.NFC"})  void enableForegroundDispatch(android.app.Activity arg0, android.app.PendingIntent arg1, android.content.IntentFilter[] arg2, java.lang.String[][] arg3);
-@RequiredPermissions({"android.permission.NFC"})  android.nfc.NfcAdapter getDefaultAdapter();
 @RequiredPermissions({"android.permission.NFC"})  void setNdefPushMessage(android.nfc.NdefMessage arg0, android.app.Activity arg1, android.app.Activity[] arg2);
-@RequiredPermissions({"android.permission.NFC"})  boolean enable();
-@RequiredPermissions({"android.permission.NFC"})  boolean disable();
 @RequiredPermissions({"android.permission.NFC"})  boolean isEnabled();
 @RequiredPermissions({"android.permission.NFC"})  void setNdefPushMessageCallback(CreateNdefMessageCallback arg0, android.app.Activity arg1, android.app.Activity[] arg2);
 @RequiredPermissions({"android.permission.NFC"})  void enableForegroundNdefPush(android.app.Activity arg0, NdefPushCallback arg1);
 @RequiredPermissions({"android.permission.NFC"})  void disableForegroundDispatch(android.app.Activity arg0);
-@RequiredPermissions({"android.permission.NFC"})  android.nfc.NfcAdapter getSingleton();
 @RequiredPermissions({"android.permission.NFC"})  void enableForegroundNdefPush(android.app.Activity arg0, android.nfc.NdefMessage arg1);
 @RequiredPermissions({"android.permission.NFC"})  void disableForegroundNdefPush(android.app.Activity arg0);
 }
 class NfcManager{
-@RequiredPermissions({"android.permission.NFC"})  NfcManager(android.content.Context arg0);
 }
 package android.nfc.tech;
 class BasicTagTechnology{
 @RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  void reconnect();
 @RequiredPermissions({"android.permission.NFC"})  void connect();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0, boolean arg1);
 }
 class IsoDep{
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0, boolean arg1);
 @RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
 @RequiredPermissions({"android.permission.NFC"})  int getTimeout();
 @RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
 @RequiredPermissions({"android.permission.NFC"})  void setTimeout(int arg0);
 @RequiredPermissions({"android.permission.NFC"})  void close();
 @RequiredPermissions({"android.permission.NFC"})  void connect();
-@RequiredPermissions({"android.permission.NFC"})  void reconnect();
 }
 class MifareClassic{
 @RequiredPermissions({"android.permission.NFC"})  void writeBlock(int arg0, byte[] arg1);
@@ -527,17 +493,13 @@ class MifareClassic{
 @RequiredPermissions({"android.permission.NFC"})  void close();
 @RequiredPermissions({"android.permission.NFC"})  void restore(int arg0);
 @RequiredPermissions({"android.permission.NFC"})  byte[] readBlock(int arg0);
-@RequiredPermissions({"android.permission.NFC"})  boolean authenticate(int arg0, byte[] arg1, boolean arg2);
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0, boolean arg1);
 @RequiredPermissions({"android.permission.NFC"})  void setTimeout(int arg0);
 @RequiredPermissions({"android.permission.NFC"})  int getTimeout();
-@RequiredPermissions({"android.permission.NFC"})  void reconnect();
 @RequiredPermissions({"android.permission.NFC"})  void decrement(int arg0, int arg1);
 @RequiredPermissions({"android.permission.NFC"})  void connect();
 @RequiredPermissions({"android.permission.NFC"})  boolean authenticateSectorWithKeyA(int arg0, byte[] arg1);
 }
 class MifareUltralight{
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0, boolean arg1);
 @RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
 @RequiredPermissions({"android.permission.NFC"})  void connect();
 @RequiredPermissions({"android.permission.NFC"})  void writePage(int arg0, byte[] arg1);
@@ -546,32 +508,24 @@ class MifareUltralight{
 @RequiredPermissions({"android.permission.NFC"})  void close();
 @RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
 @RequiredPermissions({"android.permission.NFC"})  byte[] readPages(int arg0);
-@RequiredPermissions({"android.permission.NFC"})  void reconnect();
 }
 class Ndef{
 @RequiredPermissions({"android.permission.NFC"})  boolean canMakeReadOnly();
 @RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  void reconnect();
 @RequiredPermissions({"android.permission.NFC"})  android.nfc.NdefMessage getNdefMessage();
 @RequiredPermissions({"android.permission.NFC"})  void writeNdefMessage(android.nfc.NdefMessage arg0);
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0, boolean arg1);
 @RequiredPermissions({"android.permission.NFC"})  boolean makeReadOnly();
 @RequiredPermissions({"android.permission.NFC"})  void connect();
 }
 class NdefFormatable{
 @RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0, boolean arg1);
-@RequiredPermissions({"android.permission.NFC"})  void format(android.nfc.NdefMessage arg0, boolean arg1);
-@RequiredPermissions({"android.permission.NFC"})  void reconnect();
 @RequiredPermissions({"android.permission.NFC"})  void formatReadOnly(android.nfc.NdefMessage arg0);
 @RequiredPermissions({"android.permission.NFC"})  void connect();
 @RequiredPermissions({"android.permission.NFC"})  void format(android.nfc.NdefMessage arg0);
 }
 class NfcA{
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0, boolean arg1);
 @RequiredPermissions({"android.permission.NFC"})  int getTimeout();
 @RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
-@RequiredPermissions({"android.permission.NFC"})  void reconnect();
 @RequiredPermissions({"android.permission.NFC"})  void close();
 @RequiredPermissions({"android.permission.NFC"})  void setTimeout(int arg0);
 @RequiredPermissions({"android.permission.NFC"})  void connect();
@@ -580,28 +534,22 @@ class NfcA{
 class NfcB{
 @RequiredPermissions({"android.permission.NFC"})  void close();
 @RequiredPermissions({"android.permission.NFC"})  void connect();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0, boolean arg1);
 @RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
-@RequiredPermissions({"android.permission.NFC"})  void reconnect();
 @RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
 }
 class NfcF{
-@RequiredPermissions({"android.permission.NFC"})  void reconnect();
 @RequiredPermissions({"android.permission.NFC"})  int getTimeout();
 @RequiredPermissions({"android.permission.NFC"})  void close();
 @RequiredPermissions({"android.permission.NFC"})  void setTimeout(int arg0);
 @RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
 @RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
 @RequiredPermissions({"android.permission.NFC"})  void connect();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0, boolean arg1);
 }
 class NfcV{
 @RequiredPermissions({"android.permission.NFC"})  void close();
 @RequiredPermissions({"android.permission.NFC"})  void connect();
 @RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
-@RequiredPermissions({"android.permission.NFC"})  void reconnect();
 @RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0, boolean arg1);
 }
 package android.os;
 class DropBoxManager{
@@ -609,7 +557,6 @@ class DropBoxManager{
 }
 class PowerManager$WakeLock{
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void finalize();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void release(int arg0);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void acquire(long arg0);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void acquire();
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void release();
@@ -640,14 +587,12 @@ class Browser{
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", "android.permission.GET_ACCOUNTS"})  void deleteHistoryTimeFrame(android.content.ContentResolver arg0, long arg1, long arg2);
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", "android.permission.GET_ACCOUNTS"})  void addSearchUrl(android.content.ContentResolver arg0, java.lang.String arg1);
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS"})  boolean canClearHistory(android.content.ContentResolver arg0);
-@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS"})  java.lang.String[] getVisitedHistory(android.content.ContentResolver arg0);
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", "android.permission.GET_ACCOUNTS"})  void clearHistory(android.content.ContentResolver arg0);
 }
 class CalendarContract$Attendees{
 @RequiredPermissions({"android.permission.READ_CALENDAR"})  android.database.Cursor query(android.content.ContentResolver arg0, long arg1, java.lang.String[] arg2);
 }
 class CalendarContract$CalendarAlerts{
-@RequiredPermissions({"android.permission.READ_CALENDAR", "android.permission.WRITE_CALENDAR"})  android.net.Uri insert(android.content.ContentResolver arg0, long arg1, long arg2, long arg3, long arg4, int arg5);
 }
 class CalendarContract$EventDays{
 @RequiredPermissions({"android.permission.READ_CALENDAR"})  android.database.Cursor query(android.content.ContentResolver arg0, int arg1, int arg2, java.lang.String[] arg3);
@@ -863,11 +808,9 @@ class WebIconDatabase{
 }
 class WebSettings{
 @RequiredPermissions({"android.permission.INTERNET"})  void setBlockNetworkLoads(boolean arg0);
-@RequiredPermissions({"android.permission.INTERNET"})  WebSettings(android.content.Context arg0, android.webkit.WebView arg1);
 }
 class WebView{
 @RequiredPermissions({"android.permission.INTERNET"})  WebView(android.content.Context arg0);
-@RequiredPermissions({"android.permission.INTERNET"})  WebView(android.content.Context arg0, android.util.AttributeSet arg1, int arg2, java.util.Map arg3, boolean arg4);
 @RequiredPermissions({"android.permission.INTERNET"})  WebView(android.content.Context arg0, android.util.AttributeSet arg1, int arg2, boolean arg3);
 @RequiredPermissions({"android.permission.INTERNET"})  WebView(android.content.Context arg0, android.util.AttributeSet arg1, int arg2);
 @RequiredPermissions({"android.permission.INTERNET"})  WebView(android.content.Context arg0, android.util.AttributeSet arg1);
@@ -900,12 +843,10 @@ class RemoteViewsService{
 class VideoView{
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  boolean onKeyDown(int arg0, android.view.KeyEvent arg1);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void resume();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void setVideoURI(android.net.Uri arg0, java.util.Map arg1);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void setVideoPath(java.lang.String arg0);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void stopPlayback();
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void suspend();
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void pause();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void release(boolean arg0);
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void start();
 @RequiredPermissions({"android.permission.WAKE_LOCK"})  void setVideoURI(android.net.Uri arg0);
 }
@@ -914,21 +855,18 @@ class DatagramSocket{
 @RequiredPermissions({"android.permission.INTERNET"})  DatagramSocket(int arg0);
 }
 class HttpURLConnection{
-@RequiredPermissions({"android.permission.INTERNET"})  HttpURLConnection(int arg0);
 @RequiredPermissions({"android.permission.INTERNET"})  void connect();
 }
 class MulticastSocket{
 @RequiredPermissions({"android.permission.INTERNET"})  MulticastSocket(int arg0);
 }
 class NetworkInterface{
-@RequiredPermissions({"android.permission.INTERNET"})  NetworkInterface(int arg0);
 }
 class ServerSocket{
 @RequiredPermissions({"android.permission.INTERNET"})  void bind(java.net.SocketAddress arg0);
 @RequiredPermissions({"android.permission.INTERNET"})  ServerSocket(int arg0);
 }
 class Socket{
-@RequiredPermissions({"android.permission.INTERNET"})  Socket(int arg0);
 }
 class URL{
 @RequiredPermissions({"android.permission.INTERNET"})  java.io.InputStream openStream();
@@ -942,5 +880,4 @@ class URLConnection{
 package org.apache.http.impl.client;
 class DefaultHttpClient{
 @RequiredPermissions({"android.permission.INTERNET"})  org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest arg0);
-@RequiredPermissions({"android.permission.INTERNET"})  DefaultHttpClient(int arg0);
 }

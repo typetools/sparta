@@ -1,2 +1,7 @@
 APICalls-Stowaway.txt is for Android 2.2 and downloaded from http://www.android-permissions.org/ in 08/05/12
 APICalls-PScout-4.0.1.txt.txt is for Android 4.0.1 and downloaded from http://pscout.csl.toronto.edu/download.php?file=results/ics_publishedapimapping
+Private-APIs.txt is the output from the stub parser.
+
+PermissionMap.java usage:
+java -classpath . PermissionMap APICalls-PScout-4.0.1.txt Private-APIs.txt > permission.astub 
+

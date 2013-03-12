@@ -1,4 +1,4 @@
-API call	Permission(s)	Notes		
+/API call	Permission(s)	Notes		
 android.accessibilityservice.AccessibilityService.clearWallpaper()	android.permission.SET_WALLPAPER			
 android.accessibilityservice.AccessibilityService.removeStickyBroadcast(android.content.Intent)	android.permission.BROADCAST_STICKY	An additional permission check depends on the Intent; see the Intent permissions section.		
 android.accessibilityservice.AccessibilityService.sendStickyBroadcast(android.content.Intent)	android.permission.BROADCAST_STICKY	An additional permission check depends on the Intent; see the Intent permissions section.		
