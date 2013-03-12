@@ -27,7 +27,7 @@ class Method{
 	    this.classname = s[s.length-1];
 	}
 	public void addPermission(String perm){
-	    String modPerm = perm.replace("permission", "Manifest.permission");
+	    String modPerm = "\""+perm+"\"";
 	    perms.add(modPerm);
 	}
 	@Override
