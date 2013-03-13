@@ -224,7 +224,12 @@ class Method{
 	    this.classname = s[s.length-1];
 	}
 	public void addPermission(String perm){
-	    String modPerm = "\""+perm+"\"";
+	    String modPerm ;
+	    if(perm.startsWith("android.permission")){
+		modPerm = perm.replaceAll("android\\.permission", "android\\.Manifest\\.permission");
+	    }else{
+		modPerm = "\""+perm+"\"";
+	    }
 	    perms.add(modPerm);
 	}
 	@Override

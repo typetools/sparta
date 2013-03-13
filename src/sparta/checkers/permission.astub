@@ -1,672 +1,672 @@
 import sparta.checkers.quals.*;
 package android.accessibilityservice;
 class AccessibilityService{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 package android.accounts;
 class AccountAuthenticatorActivity{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 }
 class AccountManager{
-@RequiredPermissions({"android.permission.AUTHENTICATE_ACCOUNTS"})  void setUserData(android.accounts.Account arg0, java.lang.String arg1, java.lang.String arg2);
-@RequiredPermissions({"android.permission.AUTHENTICATE_ACCOUNTS"})  void setPassword(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.AUTHENTICATE_ACCOUNTS"})  java.lang.String getPassword(android.accounts.Account arg0);
-@RequiredPermissions({"android.permission.AUTHENTICATE_ACCOUNTS"})  boolean addAccountExplicitly(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2);
-@RequiredPermissions({"android.permission.AUTHENTICATE_ACCOUNTS"})  java.lang.String peekAuthToken(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.AUTHENTICATE_ACCOUNTS"})  java.lang.String getUserData(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.AUTHENTICATE_ACCOUNTS"})  void setAuthToken(android.accounts.Account arg0, java.lang.String arg1, java.lang.String arg2);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture editProperties(java.lang.String arg0, android.app.Activity arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture confirmCredentials(android.accounts.Account arg0, android.os.Bundle arg1, android.app.Activity arg2, android.accounts.AccountManagerCallback arg3, android.os.Handler arg4);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, boolean arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, boolean arg2, android.accounts.AccountManagerCallback arg3, android.os.Handler arg4);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture getAuthTokenByFeatures(java.lang.String arg0, java.lang.String arg1, java.lang.String[] arg2, android.app.Activity arg3, android.os.Bundle arg4, android.os.Bundle arg5, android.accounts.AccountManagerCallback arg6, android.os.Handler arg7);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture addAccount(java.lang.String arg0, java.lang.String arg1, java.lang.String[] arg2, android.os.Bundle arg3, android.app.Activity arg4, android.accounts.AccountManagerCallback arg5, android.os.Handler arg6);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture getAccountsByTypeAndFeatures(java.lang.String arg0, java.lang.String[] arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS"})  void addOnAccountsUpdatedListener(android.accounts.OnAccountsUpdateListener arg0, android.os.Handler arg1, boolean arg2);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture removeAccount(android.accounts.Account arg0, android.accounts.AccountManagerCallback arg1, android.os.Handler arg2);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, android.app.Activity arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS"})  android.accounts.Account[] getAccountsByType(java.lang.String arg0);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture updateCredentials(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, android.app.Activity arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS"})  android.accounts.Account[] getAccounts();
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.MANAGE_ACCOUNTS"})  android.accounts.AccountManagerFuture hasFeatures(android.accounts.Account arg0, java.lang.String[] arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
-@RequiredPermissions({"android.permission.GET_ACCOUNTS", "android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  java.lang.String blockingGetAuthToken(android.accounts.Account arg0, java.lang.String arg1, boolean arg2);
-@RequiredPermissions({"android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  void invalidateAuthToken(java.lang.String arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.MANAGE_ACCOUNTS"})  void clearPassword(android.accounts.Account arg0);
+@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  void setUserData(android.accounts.Account arg0, java.lang.String arg1, java.lang.String arg2);
+@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  void setPassword(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  java.lang.String getPassword(android.accounts.Account arg0);
+@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  boolean addAccountExplicitly(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2);
+@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  java.lang.String peekAuthToken(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  java.lang.String getUserData(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  void setAuthToken(android.accounts.Account arg0, java.lang.String arg1, java.lang.String arg2);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture editProperties(java.lang.String arg0, android.app.Activity arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture confirmCredentials(android.accounts.Account arg0, android.os.Bundle arg1, android.app.Activity arg2, android.accounts.AccountManagerCallback arg3, android.os.Handler arg4);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, boolean arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, boolean arg2, android.accounts.AccountManagerCallback arg3, android.os.Handler arg4);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthTokenByFeatures(java.lang.String arg0, java.lang.String arg1, java.lang.String[] arg2, android.app.Activity arg3, android.os.Bundle arg4, android.os.Bundle arg5, android.accounts.AccountManagerCallback arg6, android.os.Handler arg7);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture addAccount(java.lang.String arg0, java.lang.String arg1, java.lang.String[] arg2, android.os.Bundle arg3, android.app.Activity arg4, android.accounts.AccountManagerCallback arg5, android.os.Handler arg6);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture getAccountsByTypeAndFeatures(java.lang.String arg0, java.lang.String[] arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  void addOnAccountsUpdatedListener(android.accounts.OnAccountsUpdateListener arg0, android.os.Handler arg1, boolean arg2);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture removeAccount(android.accounts.Account arg0, android.accounts.AccountManagerCallback arg1, android.os.Handler arg2);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, android.app.Activity arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.Account[] getAccountsByType(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture updateCredentials(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, android.app.Activity arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.Account[] getAccounts();
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture hasFeatures(android.accounts.Account arg0, java.lang.String[] arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  java.lang.String blockingGetAuthToken(android.accounts.Account arg0, java.lang.String arg1, boolean arg2);
+@RequiredPermissions({android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  void invalidateAuthToken(java.lang.String arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS})  void clearPassword(android.accounts.Account arg0);
 }
 package android.app;
 class Activity{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 }
 class ActivityGroup{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 class ActivityManager{
-@RequiredPermissions({"android.permission.GET_TASKS"})  java.util.List getRecentTasks(int arg0, int arg1);
-@RequiredPermissions({"android.permission.GET_TASKS"})  java.util.List getRunningTasks(int arg0);
-@RequiredPermissions({"android.permission.RESTART_PACKAGES", "android.permission.KILL_BACKGROUND_PROCESSES"})  void restartPackage(java.lang.String arg0);
-@RequiredPermissions({"android.permission.RESTART_PACKAGES", "android.permission.KILL_BACKGROUND_PROCESSES"})  void killBackgroundProcesses(java.lang.String arg0);
-@RequiredPermissions({"android.permission.REORDER_TASKS"})  void moveTaskToFront(int arg0, int arg1);
+@RequiredPermissions({android.Manifest.permission.GET_TASKS})  java.util.List getRecentTasks(int arg0, int arg1);
+@RequiredPermissions({android.Manifest.permission.GET_TASKS})  java.util.List getRunningTasks(int arg0);
+@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES})  void restartPackage(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES})  void killBackgroundProcesses(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.REORDER_TASKS})  void moveTaskToFront(int arg0, int arg1);
 }
 class AlarmManager{
-@RequiredPermissions({"android.permission.SET_TIME_ZONE"})  void setTimeZone(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.SET_TIME_ZONE})  void setTimeZone(java.lang.String arg0);
 }
 class AliasActivity{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 }
 class Application{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 class DownloadManager{
-@RequiredPermissions({"android.permission.VIBRATE", "android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE"})  android.net.Uri getUriForDownloadedFile(long arg0);
-@RequiredPermissions({"android.permission.VIBRATE", "android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE"})  long addCompletedDownload(java.lang.String arg0, java.lang.String arg1, boolean arg2, java.lang.String arg3, java.lang.String arg4, long arg5, boolean arg6);
-@RequiredPermissions({"android.permission.VIBRATE", "android.permission.INTERNET", "android.permission.WRITE_EXTERNAL_STORAGE"})  long enqueue(Request arg0);
+@RequiredPermissions({android.Manifest.permission.VIBRATE, android.Manifest.permission.INTERNET, android.Manifest.permission.WRITE_EXTERNAL_STORAGE})  android.net.Uri getUriForDownloadedFile(long arg0);
+@RequiredPermissions({android.Manifest.permission.VIBRATE, android.Manifest.permission.INTERNET, android.Manifest.permission.WRITE_EXTERNAL_STORAGE})  long addCompletedDownload(java.lang.String arg0, java.lang.String arg1, boolean arg2, java.lang.String arg3, java.lang.String arg4, long arg5, boolean arg6);
+@RequiredPermissions({android.Manifest.permission.VIBRATE, android.Manifest.permission.INTERNET, android.Manifest.permission.WRITE_EXTERNAL_STORAGE})  long enqueue(Request arg0);
 }
 class ExpandableListActivity{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 }
 class IntentService{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 class KeyguardManager{
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS", "android.permission.DISABLE_KEYGUARD", "android.permission.GET_ACCOUNTS", "android.permission.USE_CREDENTIALS", "android.permission.MANAGE_ACCOUNTS"})  void exitKeyguardSecurely(OnKeyguardExitResult arg0);
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.DISABLE_KEYGUARD, android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  void exitKeyguardSecurely(OnKeyguardExitResult arg0);
 }
 class KeyguardManager$KeyguardLock{
-@RequiredPermissions({"android.permission.DISABLE_KEYGUARD"})  void reenableKeyguard();
-@RequiredPermissions({"android.permission.DISABLE_KEYGUARD"})  void disableKeyguard();
+@RequiredPermissions({android.Manifest.permission.DISABLE_KEYGUARD})  void reenableKeyguard();
+@RequiredPermissions({android.Manifest.permission.DISABLE_KEYGUARD})  void disableKeyguard();
 }
 class LauncherActivity{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 }
 class ListActivity{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 }
 class NativeActivity{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 }
 class NotificationManager{
-@RequiredPermissions({"android.permission.VIBRATE"})  void notify(int arg0, android.app.Notification arg1);
-@RequiredPermissions({"android.permission.VIBRATE"})  void notify(java.lang.String arg0, int arg1, android.app.Notification arg2);
+@RequiredPermissions({android.Manifest.permission.VIBRATE})  void notify(int arg0, android.app.Notification arg1);
+@RequiredPermissions({android.Manifest.permission.VIBRATE})  void notify(java.lang.String arg0, int arg1, android.app.Notification arg2);
 }
 class Service{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 }
 class TabActivity{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 class WallpaperManager{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setResource(int arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setStream(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setBitmap(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clear();
-@RequiredPermissions({"android.permission.SET_WALLPAPER_HINTS"})  void suggestDesiredDimensions(int arg0, int arg1);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setResource(int arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setStream(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setBitmap(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clear();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER_HINTS})  void suggestDesiredDimensions(int arg0, int arg1);
 }
 package android.app.backup;
 class BackupAgent{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 }
 class BackupAgentHelper{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 package android.bluetooth;
 class BluetoothA2dp{
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.BLUETOOTH"})  boolean isA2dpPlaying(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getConnectedDevices();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getDevicesMatchingConnectionStates(int[] arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH})  boolean isA2dpPlaying(android.bluetooth.BluetoothDevice arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.util.List getConnectedDevices();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.util.List getDevicesMatchingConnectionStates(int[] arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
 }
 class BluetoothAdapter{
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN"})  boolean enable();
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.BLUETOOTH"})  boolean startDiscovery();
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.BLUETOOTH"})  boolean setName(java.lang.String arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.BLUETOOTH"})  boolean cancelDiscovery();
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN"})  boolean disable();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  int getProfileConnectionState(int arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.Set getBondedDevices();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  android.bluetooth.BluetoothServerSocket listenUsingRfcommWithServiceRecord(java.lang.String arg0, java.util.UUID arg1);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  boolean isDiscovering();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  boolean isEnabled();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  java.lang.String getName();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  int getScanMode();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  java.lang.String getAddress();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  android.bluetooth.BluetoothServerSocket listenUsingInsecureRfcommWithServiceRecord(java.lang.String arg0, java.util.UUID arg1);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  int getState();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN})  boolean enable();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH})  boolean startDiscovery();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH})  boolean setName(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH})  boolean cancelDiscovery();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN})  boolean disable();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getProfileConnectionState(int arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.util.Set getBondedDevices();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  android.bluetooth.BluetoothServerSocket listenUsingRfcommWithServiceRecord(java.lang.String arg0, java.util.UUID arg1);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean isDiscovering();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean isEnabled();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.lang.String getName();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getScanMode();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.lang.String getAddress();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  android.bluetooth.BluetoothServerSocket listenUsingInsecureRfcommWithServiceRecord(java.lang.String arg0, java.util.UUID arg1);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getState();
 }
 class BluetoothDevice{
-@RequiredPermissions({"android.permission.BLUETOOTH"})  java.lang.String getName();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  android.bluetooth.BluetoothClass getBluetoothClass();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  int getBondState();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  android.bluetooth.BluetoothSocket createRfcommSocketToServiceRecord(java.util.UUID arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  android.bluetooth.BluetoothSocket createInsecureRfcommSocketToServiceRecord(java.util.UUID arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.lang.String getName();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  android.bluetooth.BluetoothClass getBluetoothClass();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getBondState();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  android.bluetooth.BluetoothSocket createRfcommSocketToServiceRecord(java.util.UUID arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  android.bluetooth.BluetoothSocket createInsecureRfcommSocketToServiceRecord(java.util.UUID arg0);
 }
 class BluetoothHeadset{
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.MODIFY_AUDIO_SETTINGS", "android.permission.BLUETOOTH"})  boolean stopVoiceRecognition(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.MODIFY_AUDIO_SETTINGS", "android.permission.WAKE_LOCK", "android.permission.BLUETOOTH"})  boolean startVoiceRecognition(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getDevicesMatchingConnectionStates(int[] arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getConnectedDevices();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  boolean isAudioConnected(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.BLUETOOTH})  boolean stopVoiceRecognition(android.bluetooth.BluetoothDevice arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.WAKE_LOCK, android.Manifest.permission.BLUETOOTH})  boolean startVoiceRecognition(android.bluetooth.BluetoothDevice arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.util.List getDevicesMatchingConnectionStates(int[] arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.util.List getConnectedDevices();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean isAudioConnected(android.bluetooth.BluetoothDevice arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
 }
 class BluetoothHealth{
-@RequiredPermissions({"android.permission.BLUETOOTH"})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  boolean unregisterAppConfiguration(android.bluetooth.BluetoothHealthAppConfiguration arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getConnectedDevices();
-@RequiredPermissions({"android.permission.BLUETOOTH"})  boolean disconnectChannel(android.bluetooth.BluetoothDevice arg0, android.bluetooth.BluetoothHealthAppConfiguration arg1, int arg2);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  java.util.List getDevicesMatchingConnectionStates(int[] arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  android.os.ParcelFileDescriptor getMainChannelFd(android.bluetooth.BluetoothDevice arg0, android.bluetooth.BluetoothHealthAppConfiguration arg1);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  boolean registerSinkAppConfiguration(java.lang.String arg0, int arg1, android.bluetooth.BluetoothHealthCallback arg2);
-@RequiredPermissions({"android.permission.BLUETOOTH"})  boolean connectChannelToSource(android.bluetooth.BluetoothDevice arg0, android.bluetooth.BluetoothHealthAppConfiguration arg1);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean unregisterAppConfiguration(android.bluetooth.BluetoothHealthAppConfiguration arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.util.List getConnectedDevices();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean disconnectChannel(android.bluetooth.BluetoothDevice arg0, android.bluetooth.BluetoothHealthAppConfiguration arg1, int arg2);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.util.List getDevicesMatchingConnectionStates(int[] arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  android.os.ParcelFileDescriptor getMainChannelFd(android.bluetooth.BluetoothDevice arg0, android.bluetooth.BluetoothHealthAppConfiguration arg1);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean registerSinkAppConfiguration(java.lang.String arg0, int arg1, android.bluetooth.BluetoothHealthCallback arg2);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean connectChannelToSource(android.bluetooth.BluetoothDevice arg0, android.bluetooth.BluetoothHealthAppConfiguration arg1);
 }
 class BluetoothServerSocket{
 }
 class BluetoothSocket{
-@RequiredPermissions({"android.permission.BLUETOOTH"})  void connect();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH})  void connect();
 }
 package android.content;
 class ContentResolver{
-@RequiredPermissions({"android.permission.READ_SYNC_STATS"})  boolean isSyncActive(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.READ_SYNC_STATS"})  android.content.SyncInfo getCurrentSync();
-@RequiredPermissions({"android.permission.READ_SYNC_STATS"})  java.util.List getCurrentSyncs();
-@RequiredPermissions({"android.permission.READ_SYNC_STATS"})  boolean isSyncPending(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.READ_SYNC_SETTINGS"})  boolean getMasterSyncAutomatically();
-@RequiredPermissions({"android.permission.READ_SYNC_SETTINGS"})  java.util.List getPeriodicSyncs(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.READ_SYNC_SETTINGS"})  boolean getSyncAutomatically(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.READ_SYNC_SETTINGS"})  int getIsSyncable(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void addPeriodicSync(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, long arg3);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void setSyncAutomatically(android.accounts.Account arg0, java.lang.String arg1, boolean arg2);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void setIsSyncable(android.accounts.Account arg0, java.lang.String arg1, int arg2);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void setMasterSyncAutomatically(boolean arg0);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void removePeriodicSync(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2);
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_STATS})  boolean isSyncActive(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_STATS})  android.content.SyncInfo getCurrentSync();
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_STATS})  java.util.List getCurrentSyncs();
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_STATS})  boolean isSyncPending(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_SETTINGS})  boolean getMasterSyncAutomatically();
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_SETTINGS})  java.util.List getPeriodicSyncs(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_SETTINGS})  boolean getSyncAutomatically(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_SETTINGS})  int getIsSyncable(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void addPeriodicSync(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, long arg3);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void setSyncAutomatically(android.accounts.Account arg0, java.lang.String arg1, boolean arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void setIsSyncable(android.accounts.Account arg0, java.lang.String arg1, int arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void setMasterSyncAutomatically(boolean arg0);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void removePeriodicSync(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2);
 }
 class Context{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 }
 class ContextWrapper{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 class MutableContextWrapper{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 package android.hardware;
 class Camera{
-@RequiredPermissions({"android.permission.CAMERA"})  android.hardware.Camera open();
+@RequiredPermissions({android.Manifest.permission.CAMERA})  android.hardware.Camera open();
 }
 package android.inputmethodservice;
 class AbstractInputMethodService{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 class InputMethodService{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 class KeyboardView{
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  boolean onLongPress(Key arg0);
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setKeyboard(android.inputmethodservice.Keyboard arg0);
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  boolean onTouchEvent(android.view.MotionEvent arg0);
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  boolean onHoverEvent(android.view.MotionEvent arg0);
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  boolean onLongPress(Key arg0);
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  void setKeyboard(android.inputmethodservice.Keyboard arg0);
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  boolean onTouchEvent(android.view.MotionEvent arg0);
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  boolean onHoverEvent(android.view.MotionEvent arg0);
 }
 package android.location;
 class LocationManager{
-@RequiredPermissions({"android.permission.ACCESS_MOCK_LOCATION"})  void clearTestProviderLocation(java.lang.String arg0);
-@RequiredPermissions({"android.permission.ACCESS_MOCK_LOCATION"})  void clearTestProviderEnabled(java.lang.String arg0);
-@RequiredPermissions({"android.permission.ACCESS_MOCK_LOCATION"})  void addTestProvider(java.lang.String arg0, boolean arg1, boolean arg2, boolean arg3, boolean arg4, boolean arg5, boolean arg6, boolean arg7, int arg8, int arg9);
-@RequiredPermissions({"android.permission.ACCESS_MOCK_LOCATION"})  void setTestProviderLocation(java.lang.String arg0, android.location.Location arg1);
-@RequiredPermissions({"android.permission.ACCESS_MOCK_LOCATION"})  void removeTestProvider(java.lang.String arg0);
-@RequiredPermissions({"android.permission.ACCESS_MOCK_LOCATION"})  void setTestProviderEnabled(java.lang.String arg0, boolean arg1);
-@RequiredPermissions({"android.permission.ACCESS_MOCK_LOCATION"})  void clearTestProviderStatus(java.lang.String arg0);
-@RequiredPermissions({"android.permission.ACCESS_MOCK_LOCATION"})  void setTestProviderStatus(java.lang.String arg0, int arg1, android.os.Bundle arg2, long arg3);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  void requestLocationUpdates(long arg0, float arg1, android.location.Criteria arg2, android.location.LocationListener arg3, android.os.Looper arg4);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  java.util.List getProviders(android.location.Criteria arg0, boolean arg1);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  void requestSingleUpdate(android.location.Criteria arg0, android.app.PendingIntent arg1);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  android.location.LocationProvider getProvider(java.lang.String arg0);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  android.location.Location getLastKnownLocation(java.lang.String arg0);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  boolean isProviderEnabled(java.lang.String arg0);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  void addProximityAlert(double arg0, double arg1, float arg2, long arg3, android.app.PendingIntent arg4);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.location.LocationListener arg3);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  java.lang.String getBestProvider(android.location.Criteria arg0, boolean arg1);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  java.util.List getProviders(boolean arg0);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  void requestLocationUpdates(long arg0, float arg1, android.location.Criteria arg2, android.app.PendingIntent arg3);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"})  boolean sendExtraCommand(java.lang.String arg0, java.lang.String arg1, android.os.Bundle arg2);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.app.PendingIntent arg3);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  void requestSingleUpdate(java.lang.String arg0, android.location.LocationListener arg1, android.os.Looper arg2);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  void requestSingleUpdate(android.location.Criteria arg0, android.location.LocationListener arg1, android.os.Looper arg2);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  void requestSingleUpdate(java.lang.String arg0, android.app.PendingIntent arg1);
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.location.LocationListener arg3, android.os.Looper arg4);
-@RequiredPermissions({"android.permission.ACCESS_FINE_LOCATION"})  boolean addNmeaListener(NmeaListener arg0);
-@RequiredPermissions({"android.permission.ACCESS_FINE_LOCATION"})  boolean addGpsStatusListener(Listener arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void clearTestProviderLocation(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void clearTestProviderEnabled(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void addTestProvider(java.lang.String arg0, boolean arg1, boolean arg2, boolean arg3, boolean arg4, boolean arg5, boolean arg6, boolean arg7, int arg8, int arg9);
+@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void setTestProviderLocation(java.lang.String arg0, android.location.Location arg1);
+@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void removeTestProvider(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void setTestProviderEnabled(java.lang.String arg0, boolean arg1);
+@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void clearTestProviderStatus(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void setTestProviderStatus(java.lang.String arg0, int arg1, android.os.Bundle arg2, long arg3);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(long arg0, float arg1, android.location.Criteria arg2, android.location.LocationListener arg3, android.os.Looper arg4);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  java.util.List getProviders(android.location.Criteria arg0, boolean arg1);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestSingleUpdate(android.location.Criteria arg0, android.app.PendingIntent arg1);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  android.location.LocationProvider getProvider(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  android.location.Location getLastKnownLocation(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  boolean isProviderEnabled(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void addProximityAlert(double arg0, double arg1, float arg2, long arg3, android.app.PendingIntent arg4);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.location.LocationListener arg3);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  java.lang.String getBestProvider(android.location.Criteria arg0, boolean arg1);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  java.util.List getProviders(boolean arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(long arg0, float arg1, android.location.Criteria arg2, android.app.PendingIntent arg3);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS})  boolean sendExtraCommand(java.lang.String arg0, java.lang.String arg1, android.os.Bundle arg2);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.app.PendingIntent arg3);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestSingleUpdate(java.lang.String arg0, android.location.LocationListener arg1, android.os.Looper arg2);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestSingleUpdate(android.location.Criteria arg0, android.location.LocationListener arg1, android.os.Looper arg2);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestSingleUpdate(java.lang.String arg0, android.app.PendingIntent arg1);
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.location.LocationListener arg3, android.os.Looper arg4);
+@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION})  boolean addNmeaListener(NmeaListener arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION})  boolean addGpsStatusListener(Listener arg0);
 }
 package android.media;
 class AsyncPlayer{
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void stop();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void play(android.content.Context arg0, android.net.Uri arg1, boolean arg2, int arg3);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void stop();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void play(android.content.Context arg0, android.net.Uri arg1, boolean arg2, int arg3);
 }
 class AudioManager{
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.MODIFY_AUDIO_SETTINGS", "android.permission.BROADCAST_STICKY", "android.permission.BLUETOOTH"})  void setMode(int arg0);
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.MODIFY_AUDIO_SETTINGS", "android.permission.BROADCAST_STICKY", "android.permission.BLUETOOTH"})  void startBluetoothSco();
-@RequiredPermissions({"android.permission.BLUETOOTH_ADMIN", "android.permission.MODIFY_AUDIO_SETTINGS", "android.permission.BROADCAST_STICKY", "android.permission.BLUETOOTH"})  void stopBluetoothSco();
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setSpeakerphoneOn(boolean arg0);
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setBluetoothScoOn(boolean arg0);
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setMicrophoneMute(boolean arg0);
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  boolean isWiredHeadsetOn();
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setParameters(java.lang.String arg0);
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  boolean isBluetoothA2dpOn();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.BROADCAST_STICKY, android.Manifest.permission.BLUETOOTH})  void setMode(int arg0);
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.BROADCAST_STICKY, android.Manifest.permission.BLUETOOTH})  void startBluetoothSco();
+@RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.BROADCAST_STICKY, android.Manifest.permission.BLUETOOTH})  void stopBluetoothSco();
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  void setSpeakerphoneOn(boolean arg0);
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  void setBluetoothScoOn(boolean arg0);
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  void setMicrophoneMute(boolean arg0);
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  boolean isWiredHeadsetOn();
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  void setParameters(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  boolean isBluetoothA2dpOn();
 }
 class AudioRecord{
-@RequiredPermissions({"android.permission.RECORD_AUDIO"})  AudioRecord(int arg0, int arg1, int arg2, int arg3, int arg4);
+@RequiredPermissions({android.Manifest.permission.RECORD_AUDIO})  AudioRecord(int arg0, int arg1, int arg2, int arg3, int arg4);
 }
 class MediaPlayer{
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void stop();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void start();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void setWakeMode(android.content.Context arg0, int arg1);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void pause();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void reset();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void release();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void stop();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void start();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void setWakeMode(android.content.Context arg0, int arg1);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void pause();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void reset();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void release();
 }
 class MediaRecorder{
-@RequiredPermissions({"android.permission.CAMERA"})  void setVideoSource(int arg0);
-@RequiredPermissions({"android.permission.RECORD_AUDIO"})  void setAudioSource(int arg0);
+@RequiredPermissions({android.Manifest.permission.CAMERA})  void setVideoSource(int arg0);
+@RequiredPermissions({android.Manifest.permission.RECORD_AUDIO})  void setAudioSource(int arg0);
 }
 class Ringtone{
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void stop();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void setStreamType(int arg0);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void play();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void stop();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void setStreamType(int arg0);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void play();
 }
 class RingtoneManager{
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  void setActualDefaultRingtoneUri(android.content.Context arg0, int arg1, android.net.Uri arg2);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void stopPreviousRingtone();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  android.media.Ringtone getRingtone(int arg0);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  android.media.Ringtone getRingtone(android.content.Context arg0, android.net.Uri arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  void setActualDefaultRingtoneUri(android.content.Context arg0, int arg1, android.net.Uri arg2);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void stopPreviousRingtone();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  android.media.Ringtone getRingtone(int arg0);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  android.media.Ringtone getRingtone(android.content.Context arg0, android.net.Uri arg1);
 }
 package android.media.effect;
 class EffectContext{
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void release();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void release();
 }
 package android.net;
 class ConnectivityManager{
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE", "android.permission.BLUETOOTH_ADMIN", "android.permission.CHANGE_NETWORK_STATE", "android.permission.ACCESS_NETWORK_STATE", "android.permission.BLUETOOTH"})  int startUsingNetworkFeature(int arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE", "android.permission.BLUETOOTH_ADMIN", "android.permission.CHANGE_NETWORK_STATE", "android.permission.WRITE_SETTINGS", "android.permission.ACCESS_NETWORK_STATE", "android.permission.BLUETOOTH"})  void setNetworkPreference(int arg0);
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE", "android.permission.BLUETOOTH_ADMIN", "android.permission.CHANGE_NETWORK_STATE", "android.permission.ACCESS_NETWORK_STATE", "android.permission.BLUETOOTH"})  int stopUsingNetworkFeature(int arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.CHANGE_NETWORK_STATE"})  boolean requestRouteToHost(int arg0, int arg1);
-@RequiredPermissions({"android.permission.ACCESS_NETWORK_STATE"})  android.net.NetworkInfo getNetworkInfo(int arg0);
-@RequiredPermissions({"android.permission.ACCESS_NETWORK_STATE"})  int getNetworkPreference();
-@RequiredPermissions({"android.permission.ACCESS_NETWORK_STATE"})  android.net.NetworkInfo getActiveNetworkInfo();
-@RequiredPermissions({"android.permission.ACCESS_NETWORK_STATE"})  android.net.NetworkInfo[] getAllNetworkInfo();
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE, android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.BLUETOOTH})  int startUsingNetworkFeature(int arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE, android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.WRITE_SETTINGS, android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.BLUETOOTH})  void setNetworkPreference(int arg0);
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE, android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.CHANGE_NETWORK_STATE, android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.BLUETOOTH})  int stopUsingNetworkFeature(int arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.CHANGE_NETWORK_STATE})  boolean requestRouteToHost(int arg0, int arg1);
+@RequiredPermissions({android.Manifest.permission.ACCESS_NETWORK_STATE})  android.net.NetworkInfo getNetworkInfo(int arg0);
+@RequiredPermissions({android.Manifest.permission.ACCESS_NETWORK_STATE})  int getNetworkPreference();
+@RequiredPermissions({android.Manifest.permission.ACCESS_NETWORK_STATE})  android.net.NetworkInfo getActiveNetworkInfo();
+@RequiredPermissions({android.Manifest.permission.ACCESS_NETWORK_STATE})  android.net.NetworkInfo[] getAllNetworkInfo();
 }
 class VpnService{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  android.content.Intent prepare(android.content.Context arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  android.content.Intent prepare(android.content.Context arg0);
 }
 package android.net.sip;
 class SipAudioCall{
-@RequiredPermissions({"android.permission.ACCESS_WIFI_STATE", "android.permission.WAKE_LOCK"})  void startAudio();
-@RequiredPermissions({"android.permission.MODIFY_AUDIO_SETTINGS"})  void setSpeakerMode(boolean arg0);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void close();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void endCall();
+@RequiredPermissions({android.Manifest.permission.ACCESS_WIFI_STATE, android.Manifest.permission.WAKE_LOCK})  void startAudio();
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS})  void setSpeakerMode(boolean arg0);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void close();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void endCall();
 }
 class SipManager{
-@RequiredPermissions({"android.permission.USE_SIP"})  android.net.sip.SipSession getSessionFor(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.USE_SIP"})  android.net.sip.SipAudioCall takeAudioCall(android.content.Intent arg0, Listener arg1);
-@RequiredPermissions({"android.permission.USE_SIP", "android.permission.WAKE_LOCK"})  void open(android.net.sip.SipProfile arg0, android.app.PendingIntent arg1, android.net.sip.SipRegistrationListener arg2);
-@RequiredPermissions({"android.permission.USE_SIP"})  android.net.sip.SipAudioCall makeAudioCall(android.net.sip.SipProfile arg0, android.net.sip.SipProfile arg1, Listener arg2, int arg3);
-@RequiredPermissions({"android.permission.USE_SIP"})  void register(android.net.sip.SipProfile arg0, int arg1, android.net.sip.SipRegistrationListener arg2);
-@RequiredPermissions({"android.permission.USE_SIP"})  boolean isOpened(java.lang.String arg0);
-@RequiredPermissions({"android.permission.USE_SIP"})  boolean isRegistered(java.lang.String arg0);
-@RequiredPermissions({"android.permission.USE_SIP"})  void open(android.net.sip.SipProfile arg0);
-@RequiredPermissions({"android.permission.USE_SIP"})  void unregister(android.net.sip.SipProfile arg0, android.net.sip.SipRegistrationListener arg1);
-@RequiredPermissions({"android.permission.USE_SIP"})  android.net.sip.SipAudioCall makeAudioCall(java.lang.String arg0, java.lang.String arg1, Listener arg2, int arg3);
-@RequiredPermissions({"android.permission.USE_SIP", "android.permission.WAKE_LOCK"})  void close(java.lang.String arg0);
-@RequiredPermissions({"android.permission.USE_SIP"})  void setRegistrationListener(java.lang.String arg0, android.net.sip.SipRegistrationListener arg1);
-@RequiredPermissions({"android.permission.USE_SIP"})  android.net.sip.SipSession createSipSession(android.net.sip.SipProfile arg0, Listener arg1);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  android.net.sip.SipSession getSessionFor(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  android.net.sip.SipAudioCall takeAudioCall(android.content.Intent arg0, Listener arg1);
+@RequiredPermissions({android.Manifest.permission.USE_SIP, android.Manifest.permission.WAKE_LOCK})  void open(android.net.sip.SipProfile arg0, android.app.PendingIntent arg1, android.net.sip.SipRegistrationListener arg2);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  android.net.sip.SipAudioCall makeAudioCall(android.net.sip.SipProfile arg0, android.net.sip.SipProfile arg1, Listener arg2, int arg3);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  void register(android.net.sip.SipProfile arg0, int arg1, android.net.sip.SipRegistrationListener arg2);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  boolean isOpened(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  boolean isRegistered(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  void open(android.net.sip.SipProfile arg0);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  void unregister(android.net.sip.SipProfile arg0, android.net.sip.SipRegistrationListener arg1);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  android.net.sip.SipAudioCall makeAudioCall(java.lang.String arg0, java.lang.String arg1, Listener arg2, int arg3);
+@RequiredPermissions({android.Manifest.permission.USE_SIP, android.Manifest.permission.WAKE_LOCK})  void close(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  void setRegistrationListener(java.lang.String arg0, android.net.sip.SipRegistrationListener arg1);
+@RequiredPermissions({android.Manifest.permission.USE_SIP})  android.net.sip.SipSession createSipSession(android.net.sip.SipProfile arg0, Listener arg1);
 }
 package android.net.wifi;
 class WifiManager{
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean reassociate();
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean startScan();
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean disableNetwork(int arg0);
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  int updateNetwork(android.net.wifi.WifiConfiguration arg0);
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean removeNetwork(int arg0);
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean reconnect();
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  int addNetwork(android.net.wifi.WifiConfiguration arg0);
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean enableNetwork(int arg0, boolean arg1);
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean disconnect();
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean setWifiEnabled(boolean arg0);
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE"})  boolean saveConfiguration();
-@RequiredPermissions({"android.permission.ACCESS_WIFI_STATE"})  java.util.List getScanResults();
-@RequiredPermissions({"android.permission.ACCESS_WIFI_STATE"})  android.net.DhcpInfo getDhcpInfo();
-@RequiredPermissions({"android.permission.ACCESS_WIFI_STATE"})  boolean pingSupplicant();
-@RequiredPermissions({"android.permission.ACCESS_WIFI_STATE"})  boolean isWifiEnabled();
-@RequiredPermissions({"android.permission.ACCESS_WIFI_STATE"})  android.net.wifi.WifiInfo getConnectionInfo();
-@RequiredPermissions({"android.permission.ACCESS_WIFI_STATE"})  int getWifiState();
-@RequiredPermissions({"android.permission.ACCESS_WIFI_STATE"})  java.util.List getConfiguredNetworks();
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  boolean reassociate();
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  boolean startScan();
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  boolean disableNetwork(int arg0);
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  int updateNetwork(android.net.wifi.WifiConfiguration arg0);
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  boolean removeNetwork(int arg0);
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  boolean reconnect();
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  int addNetwork(android.net.wifi.WifiConfiguration arg0);
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  boolean enableNetwork(int arg0, boolean arg1);
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  boolean disconnect();
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  boolean setWifiEnabled(boolean arg0);
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE})  boolean saveConfiguration();
+@RequiredPermissions({android.Manifest.permission.ACCESS_WIFI_STATE})  java.util.List getScanResults();
+@RequiredPermissions({android.Manifest.permission.ACCESS_WIFI_STATE})  android.net.DhcpInfo getDhcpInfo();
+@RequiredPermissions({android.Manifest.permission.ACCESS_WIFI_STATE})  boolean pingSupplicant();
+@RequiredPermissions({android.Manifest.permission.ACCESS_WIFI_STATE})  boolean isWifiEnabled();
+@RequiredPermissions({android.Manifest.permission.ACCESS_WIFI_STATE})  android.net.wifi.WifiInfo getConnectionInfo();
+@RequiredPermissions({android.Manifest.permission.ACCESS_WIFI_STATE})  int getWifiState();
+@RequiredPermissions({android.Manifest.permission.ACCESS_WIFI_STATE})  java.util.List getConfiguredNetworks();
 }
 class WifiManager$MulticastLock{
-@RequiredPermissions({"android.permission.CHANGE_WIFI_MULTICAST_STATE"})  void release();
-@RequiredPermissions({"android.permission.CHANGE_WIFI_MULTICAST_STATE"})  void acquire();
-@RequiredPermissions({"android.permission.CHANGE_WIFI_MULTICAST_STATE"})  void finalize();
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_MULTICAST_STATE})  void release();
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_MULTICAST_STATE})  void acquire();
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_MULTICAST_STATE})  void finalize();
 }
 class WifiManager$WifiLock{
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void finalize();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void release();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void acquire();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void finalize();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void release();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void acquire();
 }
 package android.net.wifi.p2p;
 class WifiP2pManager{
-@RequiredPermissions({"android.permission.CHANGE_WIFI_STATE", "android.permission.ACCESS_WIFI_STATE"})  android.net.wifi.p2p.WifiP2pManager$Channel initialize(android.content.Context arg0, android.os.Looper arg1, ChannelListener arg2);
+@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_STATE, android.Manifest.permission.ACCESS_WIFI_STATE})  android.net.wifi.p2p.WifiP2pManager$Channel initialize(android.content.Context arg0, android.os.Looper arg1, ChannelListener arg2);
 }
 package android.nfc;
 class NfcAdapter{
-@RequiredPermissions({"android.permission.NFC"})  void setOnNdefPushCompleteCallback(OnNdefPushCompleteCallback arg0, android.app.Activity arg1, android.app.Activity[] arg2);
-@RequiredPermissions({"android.permission.NFC"})  void enableForegroundDispatch(android.app.Activity arg0, android.app.PendingIntent arg1, android.content.IntentFilter[] arg2, java.lang.String[][] arg3);
-@RequiredPermissions({"android.permission.NFC"})  void setNdefPushMessage(android.nfc.NdefMessage arg0, android.app.Activity arg1, android.app.Activity[] arg2);
-@RequiredPermissions({"android.permission.NFC"})  boolean isEnabled();
-@RequiredPermissions({"android.permission.NFC"})  void setNdefPushMessageCallback(CreateNdefMessageCallback arg0, android.app.Activity arg1, android.app.Activity[] arg2);
-@RequiredPermissions({"android.permission.NFC"})  void enableForegroundNdefPush(android.app.Activity arg0, NdefPushCallback arg1);
-@RequiredPermissions({"android.permission.NFC"})  void disableForegroundDispatch(android.app.Activity arg0);
-@RequiredPermissions({"android.permission.NFC"})  void enableForegroundNdefPush(android.app.Activity arg0, android.nfc.NdefMessage arg1);
-@RequiredPermissions({"android.permission.NFC"})  void disableForegroundNdefPush(android.app.Activity arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void setOnNdefPushCompleteCallback(OnNdefPushCompleteCallback arg0, android.app.Activity arg1, android.app.Activity[] arg2);
+@RequiredPermissions({android.Manifest.permission.NFC})  void enableForegroundDispatch(android.app.Activity arg0, android.app.PendingIntent arg1, android.content.IntentFilter[] arg2, java.lang.String[][] arg3);
+@RequiredPermissions({android.Manifest.permission.NFC})  void setNdefPushMessage(android.nfc.NdefMessage arg0, android.app.Activity arg1, android.app.Activity[] arg2);
+@RequiredPermissions({android.Manifest.permission.NFC})  boolean isEnabled();
+@RequiredPermissions({android.Manifest.permission.NFC})  void setNdefPushMessageCallback(CreateNdefMessageCallback arg0, android.app.Activity arg1, android.app.Activity[] arg2);
+@RequiredPermissions({android.Manifest.permission.NFC})  void enableForegroundNdefPush(android.app.Activity arg0, NdefPushCallback arg1);
+@RequiredPermissions({android.Manifest.permission.NFC})  void disableForegroundDispatch(android.app.Activity arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void enableForegroundNdefPush(android.app.Activity arg0, android.nfc.NdefMessage arg1);
+@RequiredPermissions({android.Manifest.permission.NFC})  void disableForegroundNdefPush(android.app.Activity arg0);
 }
 class NfcManager{
 }
 package android.nfc.tech;
 class BasicTagTechnology{
-@RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  void connect();
+@RequiredPermissions({android.Manifest.permission.NFC})  void close();
+@RequiredPermissions({android.Manifest.permission.NFC})  void connect();
 }
 class IsoDep{
-@RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
-@RequiredPermissions({"android.permission.NFC"})  int getTimeout();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
-@RequiredPermissions({"android.permission.NFC"})  void setTimeout(int arg0);
-@RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  void connect();
+@RequiredPermissions({android.Manifest.permission.NFC})  int getMaxTransceiveLength();
+@RequiredPermissions({android.Manifest.permission.NFC})  int getTimeout();
+@RequiredPermissions({android.Manifest.permission.NFC})  byte[] transceive(byte[] arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void setTimeout(int arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void close();
+@RequiredPermissions({android.Manifest.permission.NFC})  void connect();
 }
 class MifareClassic{
-@RequiredPermissions({"android.permission.NFC"})  void writeBlock(int arg0, byte[] arg1);
-@RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
-@RequiredPermissions({"android.permission.NFC"})  void increment(int arg0, int arg1);
-@RequiredPermissions({"android.permission.NFC"})  void transfer(int arg0);
-@RequiredPermissions({"android.permission.NFC"})  boolean authenticateSectorWithKeyB(int arg0, byte[] arg1);
-@RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  void restore(int arg0);
-@RequiredPermissions({"android.permission.NFC"})  byte[] readBlock(int arg0);
-@RequiredPermissions({"android.permission.NFC"})  void setTimeout(int arg0);
-@RequiredPermissions({"android.permission.NFC"})  int getTimeout();
-@RequiredPermissions({"android.permission.NFC"})  void decrement(int arg0, int arg1);
-@RequiredPermissions({"android.permission.NFC"})  void connect();
-@RequiredPermissions({"android.permission.NFC"})  boolean authenticateSectorWithKeyA(int arg0, byte[] arg1);
+@RequiredPermissions({android.Manifest.permission.NFC})  void writeBlock(int arg0, byte[] arg1);
+@RequiredPermissions({android.Manifest.permission.NFC})  int getMaxTransceiveLength();
+@RequiredPermissions({android.Manifest.permission.NFC})  byte[] transceive(byte[] arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void increment(int arg0, int arg1);
+@RequiredPermissions({android.Manifest.permission.NFC})  void transfer(int arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  boolean authenticateSectorWithKeyB(int arg0, byte[] arg1);
+@RequiredPermissions({android.Manifest.permission.NFC})  void close();
+@RequiredPermissions({android.Manifest.permission.NFC})  void restore(int arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  byte[] readBlock(int arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void setTimeout(int arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  int getTimeout();
+@RequiredPermissions({android.Manifest.permission.NFC})  void decrement(int arg0, int arg1);
+@RequiredPermissions({android.Manifest.permission.NFC})  void connect();
+@RequiredPermissions({android.Manifest.permission.NFC})  boolean authenticateSectorWithKeyA(int arg0, byte[] arg1);
 }
 class MifareUltralight{
-@RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
-@RequiredPermissions({"android.permission.NFC"})  void connect();
-@RequiredPermissions({"android.permission.NFC"})  void writePage(int arg0, byte[] arg1);
-@RequiredPermissions({"android.permission.NFC"})  void setTimeout(int arg0);
-@RequiredPermissions({"android.permission.NFC"})  int getTimeout();
-@RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
-@RequiredPermissions({"android.permission.NFC"})  byte[] readPages(int arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  int getMaxTransceiveLength();
+@RequiredPermissions({android.Manifest.permission.NFC})  void connect();
+@RequiredPermissions({android.Manifest.permission.NFC})  void writePage(int arg0, byte[] arg1);
+@RequiredPermissions({android.Manifest.permission.NFC})  void setTimeout(int arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  int getTimeout();
+@RequiredPermissions({android.Manifest.permission.NFC})  void close();
+@RequiredPermissions({android.Manifest.permission.NFC})  byte[] transceive(byte[] arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  byte[] readPages(int arg0);
 }
 class Ndef{
-@RequiredPermissions({"android.permission.NFC"})  boolean canMakeReadOnly();
-@RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  android.nfc.NdefMessage getNdefMessage();
-@RequiredPermissions({"android.permission.NFC"})  void writeNdefMessage(android.nfc.NdefMessage arg0);
-@RequiredPermissions({"android.permission.NFC"})  boolean makeReadOnly();
-@RequiredPermissions({"android.permission.NFC"})  void connect();
+@RequiredPermissions({android.Manifest.permission.NFC})  boolean canMakeReadOnly();
+@RequiredPermissions({android.Manifest.permission.NFC})  void close();
+@RequiredPermissions({android.Manifest.permission.NFC})  android.nfc.NdefMessage getNdefMessage();
+@RequiredPermissions({android.Manifest.permission.NFC})  void writeNdefMessage(android.nfc.NdefMessage arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  boolean makeReadOnly();
+@RequiredPermissions({android.Manifest.permission.NFC})  void connect();
 }
 class NdefFormatable{
-@RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  void formatReadOnly(android.nfc.NdefMessage arg0);
-@RequiredPermissions({"android.permission.NFC"})  void connect();
-@RequiredPermissions({"android.permission.NFC"})  void format(android.nfc.NdefMessage arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void close();
+@RequiredPermissions({android.Manifest.permission.NFC})  void formatReadOnly(android.nfc.NdefMessage arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void connect();
+@RequiredPermissions({android.Manifest.permission.NFC})  void format(android.nfc.NdefMessage arg0);
 }
 class NfcA{
-@RequiredPermissions({"android.permission.NFC"})  int getTimeout();
-@RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
-@RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  void setTimeout(int arg0);
-@RequiredPermissions({"android.permission.NFC"})  void connect();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  int getTimeout();
+@RequiredPermissions({android.Manifest.permission.NFC})  int getMaxTransceiveLength();
+@RequiredPermissions({android.Manifest.permission.NFC})  void close();
+@RequiredPermissions({android.Manifest.permission.NFC})  void setTimeout(int arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void connect();
+@RequiredPermissions({android.Manifest.permission.NFC})  byte[] transceive(byte[] arg0);
 }
 class NfcB{
-@RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  void connect();
-@RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void close();
+@RequiredPermissions({android.Manifest.permission.NFC})  void connect();
+@RequiredPermissions({android.Manifest.permission.NFC})  int getMaxTransceiveLength();
+@RequiredPermissions({android.Manifest.permission.NFC})  byte[] transceive(byte[] arg0);
 }
 class NfcF{
-@RequiredPermissions({"android.permission.NFC"})  int getTimeout();
-@RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  void setTimeout(int arg0);
-@RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
-@RequiredPermissions({"android.permission.NFC"})  void connect();
+@RequiredPermissions({android.Manifest.permission.NFC})  int getTimeout();
+@RequiredPermissions({android.Manifest.permission.NFC})  void close();
+@RequiredPermissions({android.Manifest.permission.NFC})  void setTimeout(int arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  int getMaxTransceiveLength();
+@RequiredPermissions({android.Manifest.permission.NFC})  byte[] transceive(byte[] arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void connect();
 }
 class NfcV{
-@RequiredPermissions({"android.permission.NFC"})  void close();
-@RequiredPermissions({"android.permission.NFC"})  void connect();
-@RequiredPermissions({"android.permission.NFC"})  int getMaxTransceiveLength();
-@RequiredPermissions({"android.permission.NFC"})  byte[] transceive(byte[] arg0);
+@RequiredPermissions({android.Manifest.permission.NFC})  void close();
+@RequiredPermissions({android.Manifest.permission.NFC})  void connect();
+@RequiredPermissions({android.Manifest.permission.NFC})  int getMaxTransceiveLength();
+@RequiredPermissions({android.Manifest.permission.NFC})  byte[] transceive(byte[] arg0);
 }
 package android.os;
 class DropBoxManager{
-@RequiredPermissions({"android.permission.READ_LOGS"})  android.os.DropBoxManager$Entry getNextEntry(java.lang.String arg0, long arg1);
+@RequiredPermissions({android.Manifest.permission.READ_LOGS})  android.os.DropBoxManager$Entry getNextEntry(java.lang.String arg0, long arg1);
 }
 class PowerManager$WakeLock{
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void finalize();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void acquire(long arg0);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void acquire();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void release();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void finalize();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void acquire(long arg0);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void acquire();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void release();
 }
 class Vibrator{
-@RequiredPermissions({"android.permission.VIBRATE"})  void vibrate(long[] arg0, int arg1);
-@RequiredPermissions({"android.permission.VIBRATE", "android.permission.WAKE_LOCK"})  void vibrate(long arg0);
-@RequiredPermissions({"android.permission.VIBRATE"})  void cancel();
+@RequiredPermissions({android.Manifest.permission.VIBRATE})  void vibrate(long[] arg0, int arg1);
+@RequiredPermissions({android.Manifest.permission.VIBRATE, android.Manifest.permission.WAKE_LOCK})  void vibrate(long arg0);
+@RequiredPermissions({android.Manifest.permission.VIBRATE})  void cancel();
 }
 package android.preference;
 class PreferenceActivity{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 }
 package android.provider;
 class Browser{
-@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", "android.permission.GET_ACCOUNTS"})  void deleteFromHistory(android.content.ContentResolver arg0, java.lang.String arg1);
+@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", android.Manifest.permission.GET_ACCOUNTS})  void deleteFromHistory(android.content.ContentResolver arg0, java.lang.String arg1);
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS"})  android.database.Cursor getAllVisitedUrls(android.content.ContentResolver arg0);
-@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", "android.permission.GET_ACCOUNTS"})  void updateVisitedHistory(android.content.ContentResolver arg0, java.lang.String arg1, boolean arg2);
-@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", "android.permission.GET_ACCOUNTS"})  void truncateHistory(android.content.ContentResolver arg0);
+@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", android.Manifest.permission.GET_ACCOUNTS})  void updateVisitedHistory(android.content.ContentResolver arg0, java.lang.String arg1, boolean arg2);
+@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", android.Manifest.permission.GET_ACCOUNTS})  void truncateHistory(android.content.ContentResolver arg0);
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS"})  void requestAllIcons(android.content.ContentResolver arg0, java.lang.String arg1, IconListener arg2);
-@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", "android.permission.GET_ACCOUNTS"})  void clearSearches(android.content.ContentResolver arg0);
+@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", android.Manifest.permission.GET_ACCOUNTS})  void clearSearches(android.content.ContentResolver arg0);
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS"})  android.database.Cursor getAllBookmarks(android.content.ContentResolver arg0);
-@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", "android.permission.GET_ACCOUNTS"})  void deleteHistoryTimeFrame(android.content.ContentResolver arg0, long arg1, long arg2);
-@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", "android.permission.GET_ACCOUNTS"})  void addSearchUrl(android.content.ContentResolver arg0, java.lang.String arg1);
+@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", android.Manifest.permission.GET_ACCOUNTS})  void deleteHistoryTimeFrame(android.content.ContentResolver arg0, long arg1, long arg2);
+@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", android.Manifest.permission.GET_ACCOUNTS})  void addSearchUrl(android.content.ContentResolver arg0, java.lang.String arg1);
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS"})  boolean canClearHistory(android.content.ContentResolver arg0);
-@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", "android.permission.GET_ACCOUNTS"})  void clearHistory(android.content.ContentResolver arg0);
+@RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", android.Manifest.permission.GET_ACCOUNTS})  void clearHistory(android.content.ContentResolver arg0);
 }
 class CalendarContract$Attendees{
-@RequiredPermissions({"android.permission.READ_CALENDAR"})  android.database.Cursor query(android.content.ContentResolver arg0, long arg1, java.lang.String[] arg2);
+@RequiredPermissions({android.Manifest.permission.READ_CALENDAR})  android.database.Cursor query(android.content.ContentResolver arg0, long arg1, java.lang.String[] arg2);
 }
 class CalendarContract$CalendarAlerts{
 }
 class CalendarContract$EventDays{
-@RequiredPermissions({"android.permission.READ_CALENDAR"})  android.database.Cursor query(android.content.ContentResolver arg0, int arg1, int arg2, java.lang.String[] arg3);
+@RequiredPermissions({android.Manifest.permission.READ_CALENDAR})  android.database.Cursor query(android.content.ContentResolver arg0, int arg1, int arg2, java.lang.String[] arg3);
 }
 class CalendarContract$Instances{
-@RequiredPermissions({"android.permission.READ_CALENDAR"})  android.database.Cursor query(android.content.ContentResolver arg0, java.lang.String[] arg1, long arg2, long arg3);
-@RequiredPermissions({"android.permission.READ_CALENDAR"})  android.database.Cursor query(android.content.ContentResolver arg0, java.lang.String[] arg1, long arg2, long arg3, java.lang.String arg4);
+@RequiredPermissions({android.Manifest.permission.READ_CALENDAR})  android.database.Cursor query(android.content.ContentResolver arg0, java.lang.String[] arg1, long arg2, long arg3);
+@RequiredPermissions({android.Manifest.permission.READ_CALENDAR})  android.database.Cursor query(android.content.ContentResolver arg0, java.lang.String[] arg1, long arg2, long arg3, java.lang.String arg4);
 }
 class CalendarContract$Reminders{
-@RequiredPermissions({"android.permission.READ_CALENDAR"})  android.database.Cursor query(android.content.ContentResolver arg0, long arg1, java.lang.String[] arg2);
+@RequiredPermissions({android.Manifest.permission.READ_CALENDAR})  android.database.Cursor query(android.content.ContentResolver arg0, long arg1, java.lang.String[] arg2);
 }
 class CallLog$Calls{
-@RequiredPermissions({"com.android.voicemail.permission.ADD_VOICEMAIL", "android.permission.READ_CONTACTS"})  java.lang.String getLastOutgoingCall(android.content.Context arg0);
+@RequiredPermissions({"com.android.voicemail.permission.ADD_VOICEMAIL", android.Manifest.permission.READ_CONTACTS})  java.lang.String getLastOutgoingCall(android.content.Context arg0);
 }
 class Contacts$ContactMethods{
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  void addPostalLocation(android.content.Context arg0, long arg1, double arg2, double arg3);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void addPostalLocation(android.content.Context arg0, long arg1, double arg2, double arg3);
 }
 class Contacts$People{
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  void markAsContacted(android.content.ContentResolver arg0, long arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.READ_CONTACTS", "android.permission.READ_SOCIAL_STREAM"})  android.database.Cursor queryGroups(android.content.ContentResolver arg0, long arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  android.net.Uri createPersonInMyContactsGroup(android.content.ContentResolver arg0, android.content.ContentValues arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  android.net.Uri addToGroup(android.content.ContentResolver arg0, long arg1, java.lang.String arg2);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  android.net.Uri addToMyContactsGroup(android.content.ContentResolver arg0, long arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  android.net.Uri addToGroup(android.content.ContentResolver arg0, long arg1, long arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void markAsContacted(android.content.ContentResolver arg0, long arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.database.Cursor queryGroups(android.content.ContentResolver arg0, long arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri createPersonInMyContactsGroup(android.content.ContentResolver arg0, android.content.ContentValues arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri addToGroup(android.content.ContentResolver arg0, long arg1, java.lang.String arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri addToMyContactsGroup(android.content.ContentResolver arg0, long arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri addToGroup(android.content.ContentResolver arg0, long arg1, long arg2);
 }
 class Contacts$Settings{
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  void setSetting(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.READ_CONTACTS", "android.permission.READ_SOCIAL_STREAM"})  java.lang.String getSetting(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void setSetting(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  java.lang.String getSetting(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
 }
 class ContactsContract$Contacts{
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  android.net.Uri getLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  void markAsContacted(android.content.ContentResolver arg0, long arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  android.net.Uri getLookupUri(long arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void markAsContacted(android.content.ContentResolver arg0, long arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getLookupUri(long arg0, java.lang.String arg1);
 }
 class ContactsContract$Data{
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  android.net.Uri getContactLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getContactLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
 }
 class ContactsContract$Directory{
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  void notifyDirectoryChange(android.content.ContentResolver arg0);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void notifyDirectoryChange(android.content.ContentResolver arg0);
 }
 class ContactsContract$ProfileSyncState{
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.READ_CONTACTS", "android.permission.READ_SOCIAL_STREAM"})  byte[] get(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  android.content.ContentProviderOperation newSetOperation(android.accounts.Account arg0, byte[] arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.READ_CONTACTS", "android.permission.READ_SOCIAL_STREAM"})  android.util.Pair getWithUri(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  void set(android.content.ContentProviderClient arg0, android.accounts.Account arg1, byte[] arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  byte[] get(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.content.ContentProviderOperation newSetOperation(android.accounts.Account arg0, byte[] arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.util.Pair getWithUri(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void set(android.content.ContentProviderClient arg0, android.accounts.Account arg1, byte[] arg2);
 }
 class ContactsContract$RawContacts{
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  android.net.Uri getContactLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getContactLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
 }
 class ContactsContract$SyncState{
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  void set(android.content.ContentProviderClient arg0, android.accounts.Account arg1, byte[] arg2);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.READ_CONTACTS", "android.permission.READ_SOCIAL_STREAM"})  android.util.Pair getWithUri(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.WRITE_SOCIAL_STREAM", "android.permission.READ_CONTACTS", "android.permission.READ_SYNC_SETTINGS", "android.permission.READ_SOCIAL_STREAM"})  android.content.ContentProviderOperation newSetOperation(android.accounts.Account arg0, byte[] arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.READ_CONTACTS", "android.permission.READ_SOCIAL_STREAM"})  byte[] get(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void set(android.content.ContentProviderClient arg0, android.accounts.Account arg1, byte[] arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.util.Pair getWithUri(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.content.ContentProviderOperation newSetOperation(android.accounts.Account arg0, byte[] arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  byte[] get(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
 }
 class Settings$Secure{
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  boolean putString(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  boolean putLong(android.content.ContentResolver arg0, java.lang.String arg1, long arg2);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  boolean putInt(android.content.ContentResolver arg0, java.lang.String arg1, int arg2);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  boolean putFloat(android.content.ContentResolver arg0, java.lang.String arg1, float arg2);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  android.net.Uri getUriFor(java.lang.String arg0);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  void setLocationProviderEnabled(android.content.ContentResolver arg0, java.lang.String arg1, boolean arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putString(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putLong(android.content.ContentResolver arg0, java.lang.String arg1, long arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putInt(android.content.ContentResolver arg0, java.lang.String arg1, int arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putFloat(android.content.ContentResolver arg0, java.lang.String arg1, float arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  android.net.Uri getUriFor(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  void setLocationProviderEnabled(android.content.ContentResolver arg0, java.lang.String arg1, boolean arg2);
 }
 class Settings$System{
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  android.net.Uri getUriFor(java.lang.String arg0);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  void setShowGTalkServiceStatus(android.content.ContentResolver arg0, boolean arg1);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  boolean putLong(android.content.ContentResolver arg0, java.lang.String arg1, long arg2);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  boolean putInt(android.content.ContentResolver arg0, java.lang.String arg1, int arg2);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  boolean putFloat(android.content.ContentResolver arg0, java.lang.String arg1, float arg2);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  boolean putString(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
-@RequiredPermissions({"android.permission.WRITE_SETTINGS"})  boolean putConfiguration(android.content.ContentResolver arg0, android.content.res.Configuration arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  android.net.Uri getUriFor(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  void setShowGTalkServiceStatus(android.content.ContentResolver arg0, boolean arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putLong(android.content.ContentResolver arg0, java.lang.String arg1, long arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putInt(android.content.ContentResolver arg0, java.lang.String arg1, int arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putFloat(android.content.ContentResolver arg0, java.lang.String arg1, float arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putString(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putConfiguration(android.content.ContentResolver arg0, android.content.res.Configuration arg1);
 }
 class UserDictionary$Words{
-@RequiredPermissions({"android.permission.READ_USER_DICTIONARY", "android.permission.WRITE_USER_DICTIONARY"})  void addWord(android.content.Context arg0, java.lang.String arg1, int arg2, int arg3);
+@RequiredPermissions({android.Manifest.permission.READ_USER_DICTIONARY, android.Manifest.permission.WRITE_USER_DICTIONARY})  void addWord(android.content.Context arg0, java.lang.String arg1, int arg2, int arg3);
 }
 class VoicemailContract$Status{
 @RequiredPermissions({"com.android.voicemail.permission.ADD_VOICEMAIL"})  android.net.Uri buildSourceUri(java.lang.String arg0);
@@ -676,126 +676,126 @@ class VoicemailContract$Voicemails{
 }
 package android.service.textservice;
 class SpellCheckerService{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 package android.service.wallpaper;
 class WallpaperService{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 }
 package android.speech;
 class RecognitionService{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 class SpeechRecognizer{
-@RequiredPermissions({"android.permission.RECORD_AUDIO"})  void stopListening();
-@RequiredPermissions({"android.permission.RECORD_AUDIO"})  void setRecognitionListener(android.speech.RecognitionListener arg0);
-@RequiredPermissions({"android.permission.RECORD_AUDIO"})  void cancel();
-@RequiredPermissions({"android.permission.RECORD_AUDIO"})  void startListening(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.RECORD_AUDIO})  void stopListening();
+@RequiredPermissions({android.Manifest.permission.RECORD_AUDIO})  void setRecognitionListener(android.speech.RecognitionListener arg0);
+@RequiredPermissions({android.Manifest.permission.RECORD_AUDIO})  void cancel();
+@RequiredPermissions({android.Manifest.permission.RECORD_AUDIO})  void startListening(android.content.Intent arg0);
 }
 package android.speech.tts;
 class TextToSpeechService{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 }
 package android.telephony;
 class SmsManager{
-@RequiredPermissions({"android.permission.SEND_SMS"})  void sendMultipartTextMessage(java.lang.String arg0, java.lang.String arg1, java.util.ArrayList arg2, java.util.ArrayList arg3, java.util.ArrayList arg4);
-@RequiredPermissions({"android.permission.SEND_SMS"})  void sendTextMessage(java.lang.String arg0, java.lang.String arg1, java.lang.String arg2, android.app.PendingIntent arg3, android.app.PendingIntent arg4);
-@RequiredPermissions({"android.permission.SEND_SMS"})  void sendDataMessage(java.lang.String arg0, java.lang.String arg1, short arg2, byte[] arg3, android.app.PendingIntent arg4, android.app.PendingIntent arg5);
+@RequiredPermissions({android.Manifest.permission.SEND_SMS})  void sendMultipartTextMessage(java.lang.String arg0, java.lang.String arg1, java.util.ArrayList arg2, java.util.ArrayList arg3, java.util.ArrayList arg4);
+@RequiredPermissions({android.Manifest.permission.SEND_SMS})  void sendTextMessage(java.lang.String arg0, java.lang.String arg1, java.lang.String arg2, android.app.PendingIntent arg3, android.app.PendingIntent arg4);
+@RequiredPermissions({android.Manifest.permission.SEND_SMS})  void sendDataMessage(java.lang.String arg0, java.lang.String arg1, short arg2, byte[] arg3, android.app.PendingIntent arg4, android.app.PendingIntent arg5);
 }
 class TelephonyManager{
-@RequiredPermissions({"android.permission.READ_PHONE_STATE"})  java.lang.String getSubscriberId();
-@RequiredPermissions({"android.permission.READ_PHONE_STATE"})  java.lang.String getDeviceSoftwareVersion();
-@RequiredPermissions({"android.permission.READ_PHONE_STATE", "android.permission.ACCESS_COARSE_LOCATION"})  void listen(android.telephony.PhoneStateListener arg0, int arg1);
-@RequiredPermissions({"android.permission.READ_PHONE_STATE"})  java.lang.String getLine1Number();
-@RequiredPermissions({"android.permission.READ_PHONE_STATE"})  java.lang.String getSimSerialNumber();
-@RequiredPermissions({"android.permission.READ_PHONE_STATE"})  java.lang.String getVoiceMailAlphaTag();
-@RequiredPermissions({"android.permission.READ_PHONE_STATE"})  java.lang.String getVoiceMailNumber();
-@RequiredPermissions({"android.permission.READ_PHONE_STATE"})  java.lang.String getDeviceId();
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  java.util.List getNeighboringCellInfo();
-@RequiredPermissions({"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})  android.telephony.CellLocation getCellLocation();
+@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getSubscriberId();
+@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getDeviceSoftwareVersion();
+@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.ACCESS_COARSE_LOCATION})  void listen(android.telephony.PhoneStateListener arg0, int arg1);
+@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getLine1Number();
+@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getSimSerialNumber();
+@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getVoiceMailAlphaTag();
+@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getVoiceMailNumber();
+@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getDeviceId();
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  java.util.List getNeighboringCellInfo();
+@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  android.telephony.CellLocation getCellLocation();
 }
 package android.telephony.gsm;
 class SmsManager{
-@RequiredPermissions({"android.permission.SEND_SMS"})  void sendTextMessage(java.lang.String arg0, java.lang.String arg1, java.lang.String arg2, android.app.PendingIntent arg3, android.app.PendingIntent arg4);
-@RequiredPermissions({"android.permission.SEND_SMS"})  void sendDataMessage(java.lang.String arg0, java.lang.String arg1, short arg2, byte[] arg3, android.app.PendingIntent arg4, android.app.PendingIntent arg5);
-@RequiredPermissions({"android.permission.SEND_SMS"})  void sendMultipartTextMessage(java.lang.String arg0, java.lang.String arg1, java.util.ArrayList arg2, java.util.ArrayList arg3, java.util.ArrayList arg4);
+@RequiredPermissions({android.Manifest.permission.SEND_SMS})  void sendTextMessage(java.lang.String arg0, java.lang.String arg1, java.lang.String arg2, android.app.PendingIntent arg3, android.app.PendingIntent arg4);
+@RequiredPermissions({android.Manifest.permission.SEND_SMS})  void sendDataMessage(java.lang.String arg0, java.lang.String arg1, short arg2, byte[] arg3, android.app.PendingIntent arg4, android.app.PendingIntent arg5);
+@RequiredPermissions({android.Manifest.permission.SEND_SMS})  void sendMultipartTextMessage(java.lang.String arg0, java.lang.String arg1, java.util.ArrayList arg2, java.util.ArrayList arg3, java.util.ArrayList arg4);
 }
 package android.test;
 class IsolatedContext{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 }
 class RenamingDelegatingContext{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 }
 class SyncBaseInstrumentation{
-@RequiredPermissions({"android.permission.READ_SYNC_STATS"})  void syncProvider(android.net.Uri arg0, java.lang.String arg1, java.lang.String arg2);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void cancelSyncsandDisableAutoSync();
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_STATS})  void syncProvider(android.net.Uri arg0, java.lang.String arg1, java.lang.String arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void cancelSyncsandDisableAutoSync();
 }
 package android.test.mock;
 class MockApplication{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 class MockContentResolver{
-@RequiredPermissions({"android.permission.READ_SYNC_STATS"})  boolean isSyncActive(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.READ_SYNC_STATS"})  boolean isSyncPending(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.READ_SYNC_STATS"})  android.content.SyncInfo getCurrentSync();
-@RequiredPermissions({"android.permission.READ_SYNC_STATS"})  java.util.List getCurrentSyncs();
-@RequiredPermissions({"android.permission.READ_SYNC_SETTINGS"})  boolean getSyncAutomatically(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.READ_SYNC_SETTINGS"})  int getIsSyncable(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.READ_SYNC_SETTINGS"})  boolean getMasterSyncAutomatically();
-@RequiredPermissions({"android.permission.READ_SYNC_SETTINGS"})  java.util.List getPeriodicSyncs(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void setIsSyncable(android.accounts.Account arg0, java.lang.String arg1, int arg2);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void setSyncAutomatically(android.accounts.Account arg0, java.lang.String arg1, boolean arg2);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void addPeriodicSync(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, long arg3);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void removePeriodicSync(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2);
-@RequiredPermissions({"android.permission.WRITE_SYNC_SETTINGS"})  void setMasterSyncAutomatically(boolean arg0);
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_STATS})  boolean isSyncActive(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_STATS})  boolean isSyncPending(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_STATS})  android.content.SyncInfo getCurrentSync();
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_STATS})  java.util.List getCurrentSyncs();
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_SETTINGS})  boolean getSyncAutomatically(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_SETTINGS})  int getIsSyncable(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_SETTINGS})  boolean getMasterSyncAutomatically();
+@RequiredPermissions({android.Manifest.permission.READ_SYNC_SETTINGS})  java.util.List getPeriodicSyncs(android.accounts.Account arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void setIsSyncable(android.accounts.Account arg0, java.lang.String arg1, int arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void setSyncAutomatically(android.accounts.Account arg0, java.lang.String arg1, boolean arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void addPeriodicSync(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, long arg3);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void removePeriodicSync(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_SYNC_SETTINGS})  void setMasterSyncAutomatically(boolean arg0);
 }
 package android.view;
 class ContextThemeWrapper{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 }
 class View{
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  boolean startDrag(android.content.ClipData arg0, DragShadowBuilder arg1, java.lang.Object arg2, int arg3);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  boolean startDrag(android.content.ClipData arg0, DragShadowBuilder arg1, java.lang.Object arg2, int arg3);
 }
 package android.webkit;
 class WebIconDatabase{
@@ -807,77 +807,77 @@ class WebIconDatabase{
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS"})  void retainIconForPageUrl(java.lang.String arg0);
 }
 class WebSettings{
-@RequiredPermissions({"android.permission.INTERNET"})  void setBlockNetworkLoads(boolean arg0);
+@RequiredPermissions({android.Manifest.permission.INTERNET})  void setBlockNetworkLoads(boolean arg0);
 }
 class WebView{
-@RequiredPermissions({"android.permission.INTERNET"})  WebView(android.content.Context arg0);
-@RequiredPermissions({"android.permission.INTERNET"})  WebView(android.content.Context arg0, android.util.AttributeSet arg1, int arg2, boolean arg3);
-@RequiredPermissions({"android.permission.INTERNET"})  WebView(android.content.Context arg0, android.util.AttributeSet arg1, int arg2);
-@RequiredPermissions({"android.permission.INTERNET"})  WebView(android.content.Context arg0, android.util.AttributeSet arg1);
-@RequiredPermissions({"android.permission.ACCESS_NETWORK_STATE"})  void enablePlatformNotifications();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void onSizeChanged(int arg0, int arg1, int arg2, int arg3);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  boolean dispatchKeyEvent(android.view.KeyEvent arg0);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  boolean onKeyDown(int arg0, android.view.KeyEvent arg1);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void clearView();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void onPause();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void onDraw(android.graphics.Canvas arg0);
+@RequiredPermissions({android.Manifest.permission.INTERNET})  WebView(android.content.Context arg0);
+@RequiredPermissions({android.Manifest.permission.INTERNET})  WebView(android.content.Context arg0, android.util.AttributeSet arg1, int arg2, boolean arg3);
+@RequiredPermissions({android.Manifest.permission.INTERNET})  WebView(android.content.Context arg0, android.util.AttributeSet arg1, int arg2);
+@RequiredPermissions({android.Manifest.permission.INTERNET})  WebView(android.content.Context arg0, android.util.AttributeSet arg1);
+@RequiredPermissions({android.Manifest.permission.ACCESS_NETWORK_STATE})  void enablePlatformNotifications();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void onSizeChanged(int arg0, int arg1, int arg2, int arg3);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  boolean dispatchKeyEvent(android.view.KeyEvent arg0);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  boolean onKeyDown(int arg0, android.view.KeyEvent arg1);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void clearView();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void onPause();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void onDraw(android.graphics.Canvas arg0);
 }
 class WebViewFragment{
-@RequiredPermissions({"android.permission.INTERNET"})  android.view.View onCreateView(android.view.LayoutInflater arg0, android.view.ViewGroup arg1, android.os.Bundle arg2);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void onPause();
+@RequiredPermissions({android.Manifest.permission.INTERNET})  android.view.View onCreateView(android.view.LayoutInflater arg0, android.view.ViewGroup arg1, android.os.Bundle arg2);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void onPause();
 }
 package android.widget;
 class QuickContactBadge{
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.READ_CONTACTS", "android.permission.READ_SOCIAL_STREAM"})  void assignContactFromPhone(java.lang.String arg0, boolean arg1);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.READ_CONTACTS", "android.permission.READ_SOCIAL_STREAM"})  void onClick(android.view.View arg0);
-@RequiredPermissions({"android.permission.WRITE_CONTACTS", "android.permission.READ_CONTACTS", "android.permission.READ_SOCIAL_STREAM"})  void assignContactFromEmail(java.lang.String arg0, boolean arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  void assignContactFromPhone(java.lang.String arg0, boolean arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  void onClick(android.view.View arg0);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  void assignContactFromEmail(java.lang.String arg0, boolean arg1);
 }
 class RemoteViewsService{
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(android.graphics.Bitmap arg0);
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void clearWallpaper();
-@RequiredPermissions({"android.permission.SET_WALLPAPER"})  void setWallpaper(java.io.InputStream arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void removeStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyBroadcast(android.content.Intent arg0);
-@RequiredPermissions({"android.permission.BROADCAST_STICKY"})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
+@RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 }
 class VideoView{
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  boolean onKeyDown(int arg0, android.view.KeyEvent arg1);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void resume();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void setVideoPath(java.lang.String arg0);
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void stopPlayback();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void suspend();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void pause();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void start();
-@RequiredPermissions({"android.permission.WAKE_LOCK"})  void setVideoURI(android.net.Uri arg0);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  boolean onKeyDown(int arg0, android.view.KeyEvent arg1);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void resume();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void setVideoPath(java.lang.String arg0);
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void stopPlayback();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void suspend();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void pause();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void start();
+@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void setVideoURI(android.net.Uri arg0);
 }
 package java.net;
 class DatagramSocket{
-@RequiredPermissions({"android.permission.INTERNET"})  DatagramSocket(int arg0);
+@RequiredPermissions({android.Manifest.permission.INTERNET})  DatagramSocket(int arg0);
 }
 class HttpURLConnection{
-@RequiredPermissions({"android.permission.INTERNET"})  void connect();
+@RequiredPermissions({android.Manifest.permission.INTERNET})  void connect();
 }
 class MulticastSocket{
-@RequiredPermissions({"android.permission.INTERNET"})  MulticastSocket(int arg0);
+@RequiredPermissions({android.Manifest.permission.INTERNET})  MulticastSocket(int arg0);
 }
 class NetworkInterface{
 }
 class ServerSocket{
-@RequiredPermissions({"android.permission.INTERNET"})  void bind(java.net.SocketAddress arg0);
-@RequiredPermissions({"android.permission.INTERNET"})  ServerSocket(int arg0);
+@RequiredPermissions({android.Manifest.permission.INTERNET})  void bind(java.net.SocketAddress arg0);
+@RequiredPermissions({android.Manifest.permission.INTERNET})  ServerSocket(int arg0);
 }
 class Socket{
 }
 class URL{
-@RequiredPermissions({"android.permission.INTERNET"})  java.io.InputStream openStream();
-@RequiredPermissions({"android.permission.INTERNET"})  java.net.URLConnection openConnection();
-@RequiredPermissions({"android.permission.INTERNET"})  java.lang.Object getContent();
+@RequiredPermissions({android.Manifest.permission.INTERNET})  java.io.InputStream openStream();
+@RequiredPermissions({android.Manifest.permission.INTERNET})  java.net.URLConnection openConnection();
+@RequiredPermissions({android.Manifest.permission.INTERNET})  java.lang.Object getContent();
 }
 class URLConnection{
-@RequiredPermissions({"android.permission.INTERNET"})  java.io.InputStream getInputStream();
-@RequiredPermissions({"android.permission.INTERNET"})  void connect();
+@RequiredPermissions({android.Manifest.permission.INTERNET})  java.io.InputStream getInputStream();
+@RequiredPermissions({android.Manifest.permission.INTERNET})  void connect();
 }
 package org.apache.http.impl.client;
 class DefaultHttpClient{
-@RequiredPermissions({"android.permission.INTERNET"})  org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest arg0);
+@RequiredPermissions({android.Manifest.permission.INTERNET})  org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest arg0);
 }
