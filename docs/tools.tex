@@ -1,41 +1,42 @@
 \htmlhr
 \chapter{Tools\label{tools}}
 
-SPARTA contains four independent tools.  The first three are used to find potentially malicious code locations.  The final tool is used to statically verify data flow properties.  All four tools are ant targets;  Section
-\ref{sec:antsetup} explains how to install these targets in an Android App.
+SPARTA contains four independent tools.  The first three are used to find potentially malicious code
+ locations in an Android app.  The final tool is used to statically verify information flow properties. 
+  All four tools can be invoked via  ant targets;  Section
+\ref{sec:antsetup} explains how to install these targets in an Android app.
 
 \section{Suspicious API Tool\label{sec:suspicioustool}}
 
+This tool reports uses of potentially dangerous APIs. These include uses of reflection, randomness, thread spawning, the ACTION VIEW intent, hard-coded strings such as URIs, and so forth. These APIs may be innocuous, but a human should examine their use.  The file src/sparta/checkers/suspicious.astub contains the classes and methods that are considered suspicious.
+ 
 \begin{alltt}
 ant reportsuspicious
 \end{alltt}
 
-
-This tool reports uses of potentially dangerous APIs. These include uses of reflection, randomness, thread spawning, the ACTION VIEW intent, hard-coded strings such as URIs, and so forth. These APIs may be innocuous, but a human should examine their use.  The file src/sparta/checkers/suspicious.astub contains the classes and methods that are considered suspicious. 
-
 \section{Permission Tool\label{sec:permtool}}
- 
+  
+This tool indicates every API call in the Android app that might require a permission.  The file src/sparta/checkers/permission.astub contains the Android API that has been annotated with \<@RequiredPermissions> and is used by this tool.
+
  \begin{alltt}
 ant reqperms
 \end{alltt}
- 
-This tool indicates every API call in the code that requires a permission or might require a permission 
-depending on the arguments passed.  The file src/sparta/checkers/permission.astub contains the Android API that has been annotated with \<@RequiredPermissions> and is used by this tool.
 
-\section{General API Tool\label{sec:generaltool}}
+
+\section{Android API Tool\label{sec:generaltool}}
+
+This tool reports uses of Android and other APIs. These APIs are not suspicious in general. However, they do help the analyst to better understand the structure of the code not just with respect to its standard module structure, but in terms of how it interacts with Android interfaces. 
+
 
 \begin{alltt}
 ant reportapiusage
 \end{alltt}
 
-This tool reports uses of Android and other APIs. These APIs are not suspicious in general. However, they do help the analyst to better understand the structure of the code not just with respect to its standard module structure, but in terms of how it interacts with Android interfaces. 
-
 \section{Flow Checker Tool\label{sec:checkertool}}
-
-\begin{alltt}
-ant -DflowPolicy=myflowpolicy flow test
-\end{alltt}
 
 This tool ensures that there is no data flow in the application beyond what is expressed in the given flow policy.  A full description of the Flow Checker is given in Chapter \ref{flow-checker}. 
 
+\begin{alltt}
+ant -DflowPolicy=myflowpolicy flowtest
+\end{alltt}
 
