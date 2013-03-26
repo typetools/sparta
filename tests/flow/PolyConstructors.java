@@ -5,7 +5,7 @@ import sparta.checkers.quals.PolyFlow;
 
 @PolyFlow
 class HttpGet {
-    @FlowSinks(FlowSink.NETWORK)  HttpGet(@FlowSinks(FlowSink.NETWORK)  HttpGet this, 
+    @FlowSinks(FlowSink.NETWORK)  HttpGet( 
             @FlowSinks(FlowSink.NETWORK)  String uri) {
     }
 }
