@@ -12,9 +12,9 @@ class HttpGet {
 
 class PolyConstructors {
 
-//:: error: (constructor.invocation.invalid)   
     void testPolyConstructor(@FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK) String in) {	
     	@FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK)
+//:: error: (constructor.invocation.invalid)   
     	HttpGet request = new HttpGet(in);
     }
 

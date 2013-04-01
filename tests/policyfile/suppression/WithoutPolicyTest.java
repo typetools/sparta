@@ -1,131 +1,107 @@
 import sparta.checkers.quals.*;
+import sparta.checkers.quals.FlowSinks;
 import sparta.checkers.quals.FlowSources.FlowSource;
 import sparta.checkers.quals.FlowSinks.FlowSink;
+
+import java.util.List;
+import java.io.File;
 
 /**
  * Example assumes a policy file that allows flows
  * from the microphone to the network and
  * {} to email, but nothing else.
  */
+
+
+
+@FlowSources({FlowSource.PHONE_NUMBER}) @FlowSinks({FlowSink.NETWORK})
 class PolicyTest {
 
-    //ANY -> {}
     private @FlowSources({FlowSource.ANY}) Object anySource = new @FlowSources({FlowSource.ANY}) Object();
-
-
-//    private @FlowSources({FlowSource.EXTERNAL_STORAGE, FlowSource.FILESYSTEM, FlowSource.LOCATION})
-//    @FlowSinks({FlowSink.LOG})
-//    Object esFsLocSource = null;
-    //:: error: (forbidden.flow) 
-    private void anyToLogcatMeth(@FlowSources({FlowSource.ANY}) @FlowSinks({FlowSink.LOG}) Object logcatSink) {
-    }
-    //:: error: (forbidden.flow) 
-    private void locToLogcatMeth(@FlowSources({FlowSource.LOCATION}) @FlowSinks({FlowSink.LOG}) Object logcatSink) {
-    }
-
     private @FlowSources({FlowSource.EXTERNAL_STORAGE, FlowSource.FILESYSTEM, FlowSource.LOCATION})
-    
-    @FlowSinks({})
-  //:: error: (forbidden.flow) 
-    Object eflSrc = null;
-
-    private Object noneToNone = null;
-
-    private @FlowSources({FlowSource.PHONE_NUMBER}) Object phCaSource = null;
-
-    private @FlowSources({FlowSource.TIME}) Object timeSrcMeth() {
+    @FlowSinks({FlowSink.LOG})
+//	//:: error: (forbidden.flow)
+    Object esFsLocSource = null;
+  //  //:: error: (forbidden.flow)
+    private @FlowSinks({FlowSink.LOG}) Object logcatSink = null;
+    ////:: error: (forbidden.flow)
+    private @FlowSources({FlowSource.ANY}) @FlowSinks({FlowSink.LOG}) Object fsAny() {
         return null;
     }
-    //:: error: (forbidden.flow) 
-    private @FlowSources({FlowSource.ANY}) @FlowSinks({FlowSink.LOG}) Object anyToLogcat = null;
-    
-  //:: error: (forbidden.flow) 
-    private @FlowSources({FlowSource.PHONE_NUMBER, FlowSource.CAMERA}) @FlowSinks({FlowSink.LOG}) Object phToLogcat = null;
-
-    private @FlowSources({FlowSource.ACCELEROMETER, FlowSource.CAMERA, FlowSource.ACCOUNTS})
-    @FlowSinks({FlowSink.DISPLAY, FlowSink.EMAIL, FlowSink.NETWORK})
-  //:: error: (forbidden.flow) 
-    Object acaToDen = null;
-
-    private @FlowSources({FlowSource.ACCELEROMETER, FlowSource.CAMERA, FlowSource.LOCATION})
-    @FlowSinks({FlowSink.DISPLAY, FlowSink.EMAIL, FlowSink.RANDOM})
-  //:: error: (forbidden.flow) 
-    Object aclToDer = null;
-
-    private @FlowSources({FlowSource.ACCELEROMETER, FlowSource.CAMERA, FlowSource.LOCATION})
-    @FlowSinks({FlowSink.DISPLAY, FlowSink.EMAIL, FlowSink.RANDOM})
-  //:: error: (forbidden.flow) 
-    Object aclToDer2 = null;
-
- 
-    protected @FlowSources({FlowSource.ACCOUNTS}) Object accSrc = null;
-
-    //:: error: (forbidden.flow) 
-    protected @FlowSinks({FlowSink.DISPLAY, FlowSink.EMAIL}) Object diEmSink = accSrc;
-
-    //:: error: (forbidden.flow)
-    protected @FlowSinks({FlowSink.EMAIL}) Object emSink = accSrc;
-
-    //:: error: (forbidden.flow)
-    protected @FlowSinks({FlowSink.DISPLAY}) Object diSink = accSrc;
-
-
-    protected String @FlowSources(FlowSource.MICROPHONE) [] getMicroData() {
+    ////:: error: (forbidden.flow)
+    public void timeToLogCat(final @FlowSources({FlowSource.TIME}) @FlowSinks({FlowSink.LOG}) Object obj) {
+    }
+ //   //:: error: (forbidden.flow)
+    public void micToExt(final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.EXTERNAL_STORAGE}) Object obj) {
+    }
+ //   //:: error: (forbidden.flow)
+    public @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.EXTERNAL_STORAGE}) Object micToExt2(final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({}) Object obj) {
         return null;
     }
-    //:: error: (forbidden.flow) 
-    protected void sendNetworkEmail(final @FlowSinks({FlowSink.NETWORK, FlowSink.EMAIL}) Object netEmSink) {
+   //  //:: error: (forbidden.flow)
+    public @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.EXTERNAL_STORAGE) double fromAny(@FlowSources(FlowSource.LOCATION)  @FlowSinks(FlowSink.EXTERNAL_STORAGE) int x) {
+      //  //:: error: (forbidden.flow)
+    	return (@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.EXTERNAL_STORAGE)  double) x;
     }
-    //:: error: (forbidden.flow) 
-    protected void sendNetwork(final @FlowSinks({FlowSink.NETWORK}) Object netSink) {
-    }
-    //:: error: (forbidden.flow) 
-    protected void sendNetLogSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.LOG}) Object netLogSink) {
-    }
-    //:: error: (forbidden.flow) 
-    protected void sendNetExtSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.EXTERNAL_STORAGE}) Object netExtSink) {
-    }
-    //:: error: (forbidden.flow) 
-    protected void sendNetLogTextSink(final @FlowSinks({FlowSink.NETWORK, FlowSink.LOG, FlowSink.SMS}) Object netExtSink) {
-    }
+
+  //  //:: error: (forbidden.flow)
+    public <T extends @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.NETWORK}) Object> T accToNet() { return null; }
+    // //:: error: (forbidden.flow)
+    public List<? extends @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.FILESYSTEM}) File> accFileToNet() { return null; }
 
     void test() {
-        //:: error: (assignment.type.incompatible)
-        aclToDer  = acaToDen;
-        aclToDer2 = aclToDer;
+       //  //:: error: (forbidden.flow)
+        final @FlowSources({FlowSource.PHONE_NUMBER}) @FlowSinks({FlowSink.LOG}) Object obj = null;
+       //  //:: error: (forbidden.flow)
+        final @FlowSources({FlowSource.TIME}) @FlowSinks({FlowSink.LOG}) Object anyObj = null;
+        // //:: error: (forbidden.flow)
+        final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.LOG}) Object micToLc = null;
 
-        //:: error: (assignment.type.incompatible)
-        anyToLogcat = eflSrc;
+       // //:: error: (forbidden.flow)
+        final @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.EMAIL}) Object accToEm = null;
+       //  //:: error: (forbidden.flow)
+        final @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.DISPLAY}) Object accToDi = null;
+        // //:: error: (forbidden.flow)
+        final String [] arrayOfAccToDEm = new String @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.DISPLAY, FlowSink.EMAIL}) []{};
+
+        // //:: error: (forbidden.flow)
+        final String [] arrayOfAccToDEmFs = new String @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.DISPLAY, FlowSink.EMAIL, FlowSink.FILESYSTEM}) []{};
+        // //:: error: (forbidden.flow)
+        final @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.FILESYSTEM}) Object accToFs = null;
+        // //:: error: (forbidden.flow)
+        final @FlowSources({FlowSource.ACCOUNTS}) @FlowSinks({FlowSink.FILESYSTEM, FlowSink.DISPLAY}) Object accToFsDi = null;
+
+
+        // //:: error: (forbidden.flow)
+        List<@FlowSources({FlowSource.MICROPHONE, FlowSource.TIME}) @FlowSinks({FlowSink.EMAIL, FlowSink.FILESYSTEM}) File> maTiFile = null;
+        // //:: error: (forbidden.flow)
+        List<@FlowSources({FlowSource.MICROPHONE, FlowSource.TIME}) @FlowSinks({FlowSink.EMAIL, FlowSink.NETWORK}) File> maTiFile2 = null;
+        // //:: error: (forbidden.flow)
+        List<@FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.EMAIL, FlowSink.NETWORK}) File> maFile2 = null;
+
         
-        //:: error: (assignment.type.incompatible)        
-        anyToLogcat = timeSrcMeth();
-        //:: error: (argument.type.incompatible)
-        anyToLogcatMeth(anySource);
-        //:: error: (argument.type.incompatible)
-        anyToLogcatMeth(noneToNone);
-        //:: error: (argument.type.incompatible)
-        locToLogcatMeth(anySource);
+        @FlowSources({FlowSource.PHONE_NUMBER}) @FlowSinks({FlowSink.EMAIL, FlowSink.LOG})
+        class Whatever {
+//:: error: receiver parameter not applicable for constructor of top-level class: @FlowSources(value = {FlowSource.PHONE_NUMBER}) 
+            public Whatever(@FlowSources({FlowSource.PHONE_NUMBER}) @FlowSinks({FlowSink.NETWORK}) Whatever this) {
 
-        //:: error: (assignment.type.incompatible)
-        phToLogcat = phCaSource;
-        //:: error: (assignment.type.incompatible)        
-        anyToLogcat = anySource;
-        anyToLogcat = null;
+            }
+        }
 
-        //:: error: (forbidden.flow)
-        @FlowSinks({FlowSink.FILESYSTEM}) Object fsSink = accSrc;
-        //:: error: (forbidden.flow)
-        @FlowSinks({FlowSink.FILESYSTEM, FlowSink.DISPLAY}) Object fsDiSink = accSrc;
+      /// /:: error: (forbidden.flow)
+        final Object whatever = new @FlowSources({FlowSource.PHONE_NUMBER}) @FlowSinks({FlowSink.NETWORK}) Whatever();
+      //// :: error: (forbidden.flow)
+        final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.RANDOM}) Object micToRandom = null;
 
-        //:: error: (argument.type.incompatible)
-        sendNetworkEmail(getMicroData());
-        //:: error: (argument.type.incompatible)
-        sendNetwork(getMicroData());
-        //:: error: (argument.type.incompatible)
-        sendNetLogSink(getMicroData());
-        //:: error: (argument.type.incompatible)
-        sendNetExtSink(getMicroData());
-        //:: error: (argument.type.incompatible)
-        sendNetLogTextSink(getMicroData());
+      ////:: error: (forbidden.flow)
+        final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.NETWORK, FlowSink.EXTERNAL_STORAGE}) Object micToNExt = null;
+      ////:: error: (forbidden.flow) 
+        final @FlowSources({FlowSource.MICROPHONE}) @FlowSinks({FlowSink.NETWORK, FlowSink.LOG, FlowSink.SMS}) Object micToNetLogMsg = null;
+    }
+
+    public static void testInstantiate() {
+
+
+        final Object obj = new PolicyTest();
     }
 }
