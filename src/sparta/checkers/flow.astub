@@ -353,25 +353,9 @@ class ContentUris {
 }
 	
 class Context {
-	 Object clearWallpaper();
 	@PolyFlow ContentResolver getContentResolver();
 	@FlowSinks(FlowSink.FILESYSTEM) File getDir(@FlowSinks(FlowSink.FILESYSTEM) String name, int mode);
-	@PolyFlow String getPackageName();
-	@PolyFlow Resources getResources();
-	@PolyFlow 
-	String getString( int i,Object... objs);
-	@PolyFlow String getString(@FlowSinks({}) int i);
-	 Object removeStickyBroadcast(android.content.Intent p0);
-	 Object sendBroadcast(android.content.Intent p0);
-	 Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
-	 Object sendStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	 Object setWallpaper(android.graphics.Bitmap p0);
-	 Object setWallpaper(java.io.InputStream p0);
-	 Object startActivity(android.content.Intent p0);
-	@PolyFlow
-	 Object startService(Intent service);
-    @FlowSources(FlowSource.FILESYSTEM) @FlowSinks() FileInputStream openFileInput(@FlowSources() @FlowSinks() String name);
+	
 }
 
 class ContextWrapper {
@@ -401,21 +385,7 @@ class ContextWrapper {
 }
 
 
-class Intent {
-	@FlowSources(FlowSource.ANY) String getAction();
-	@FlowSources(FlowSource.ANY) Uri getData();
-	@FlowSources(FlowSource.ANY) Bundle getExtras();
-	@FlowSources(FlowSource.ANY) int getIntExtra(@FlowSinks({}) String name, @FlowSinks({}) int defaultValue);
-	@FlowSources(FlowSource.ANY) String getStringExtra(@FlowSinks({}) String name);
-	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks int value);
-	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value);
-    @PolyFlowSources @PolyFlowSinks Intent setComponent(@PolyFlowSources @PolyFlowSinks ComponentName name);
-	@PolyFlow
-	Intent setClass(Context packageContext, Class<?> cls);
-	@FlowSources(FlowSource.ANY) Intent setData(@FlowSources(FlowSource.ANY) @FlowSinks({}) Uri data);
-	@PolyFlow
-	Intent setFlags(int flags);	
-}
+
 
 class MutableContextWrapper {
 	 Object clearWallpaper();
@@ -426,25 +396,7 @@ class MutableContextWrapper {
 	 Object setWallpaper(java.io.InputStream p0);
 }
 
-package android.content.pm;
 
-class PackageManager {
-	 Object addPreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
-	 Object clearPackagePreferredActivities(java.lang.String p0);
-	 Object setApplicationEnabledSetting(java.lang.String p0,int p1,int p2);
-	 Object setComponentEnabledSetting(android.content.ComponentName p0,int p1,int p2);
-}
-
-package android.content;
-
-class UriMatcher {
-    void addURI(@PolyFlowSources @PolyFlowSinks String authority,
-        @PolyFlowSources @PolyFlowSinks String path,
-        @PolyFlowSources @PolyFlowSinks int code) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int match(@PolyFlowSources @PolyFlowSinks Uri uri) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlow
-	UriMatcher(int code);
-}
 
 package android.content.res;
 
@@ -639,31 +591,10 @@ interface LocationListener {
 }
 
 class LocationManager {
-
-	 Object addGpsStatusListener(android.location.GpsStatus.Listener p0);
-	 Object addNmeaListener(android.location.GpsStatus.NmeaListener p0);
-	 Object addProximityAlert(double p0,double p1,float p2,long p3,android.app.PendingIntent p4);
-	 Object addTestProvider(java.lang.String p0,boolean p1,boolean p2,boolean p3,boolean p4,boolean p5,boolean p6,boolean p7,int p8,int p9);
-	 Object clearTestProviderEnabled(java.lang.String p0);
-	 Object clearTestProviderLocation(java.lang.String p0);
-	 Object clearTestProviderStatus(java.lang.String p0);
 	@PolyFlow 
-	
 	String getBestProvider(Criteria criteria, boolean enabledOnly);
 	
 	@FlowSources({FlowSource.LOCATION, FlowSource.TIME}) Location getLastKnownLocation(@FlowSinks({}) String provider);
-	 Object getProvider(java.lang.String p0);
-	 Object getProviders(android.location.Criteria p0,boolean p1);
-	 Object getProviders(boolean p0);
-	 Object isProviderEnabled(java.lang.String p0);
-	 Object removeTestProvider(java.lang.String p0);
-	 Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.app.PendingIntent p3);
-	 Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3,android.os.Looper p4);
-	 Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3);
-	 Object sendExtraCommand(java.lang.String p0,java.lang.String p1,android.os.Bundle p2);
-	 Object setTestProviderEnabled(java.lang.String p0,boolean p1);
-	 Object setTestProviderLocation(java.lang.String p0,android.location.Location p1);
-	 Object setTestProviderStatus(java.lang.String p0,int p1,android.os.Bundle p2,long p3);
 }
 	
 package android.media;
@@ -693,14 +624,7 @@ void     setAttribute(@FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources String ta
 
 
 
-package android.net;
 
-class Uri {
-	@FlowSources({}) List<@PolyFlowSources @PolyFlowSinks String> getPathSegments() @PolyFlowSources @PolyFlowSinks;
-	static @PolyFlowSources @PolyFlowSinks Uri parse(@PolyFlowSources @PolyFlowSinks String uriString);
-	static @PolyFlowSources @PolyFlowSinks Uri withAppendedPath(@PolyFlowSources @PolyFlowSinks Uri baseUri, @PolyFlowSources @PolyFlowSinks String pathSegment);
-}
-	
 package android.net.wifi;
 
 
@@ -711,48 +635,7 @@ class GLSurfaceView {
 	void setRenderer(Renderer r);
 }
 
-package android.os;
 
-
-
-class Bundle {
-	@PolyFlowSources @PolyFlowSinks boolean getBoolean(@FlowSinks({}) String key, @FlowSinks({}) boolean defaultValue) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks double getDouble(@FlowSinks({}) String key) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int getInt(@FlowSinks({}) String key) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String getString(@FlowSinks({}) String key) @PolyFlowSources @PolyFlowSinks;
-	void putDouble(@PolyFlowSources @PolyFlowSinks String key, @PolyFlowSources @PolyFlowSinks double value) @PolyFlowSources @PolyFlowSinks;
-	void putInt(@PolyFlowSources @PolyFlowSinks String key, @PolyFlowSources @PolyFlowSinks int value) @PolyFlowSources @PolyFlowSinks;
-}
-	
-class DropBoxManager {
-	 Object getNextEntry(java.lang.String p0,long p1);
-}
-
-class Environment {
-	
-	static @FlowSources(FlowSource.EXTERNAL_STORAGE) @FlowSinks(FlowSink.ANY) File getExternalStorageDirectory();
-	
-	//TODO:Fake Enum
-	static @FlowSources(FlowSource.EXTERNAL_STORAGE) @FlowSinks(FlowSink.ANY) File 
-	getExternalStoragePublicDirectory(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.EXTERNAL_STORAGE) String type);
-}
-
-
-
-class Parcel {
-	void writeString(@PolyFlowSources @PolyFlowSinks String val) @PolyFlowSources @PolyFlowSinks;
-}
-	
-
-
-
-package android.os;
-
-class Vibrator {
-	 void cancel();
-	 void vibrate(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.VIBRATE) long[] p0, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.VIBRATE) int p1);
-	 void vibrate( @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.VIBRATE) long p0);
-}
 
 package android.preference;
 
@@ -793,7 +676,7 @@ class TextUtils {
 package android.text.format;
 
 class DateUtils {
-	@PolyFlowSources @PolyFlowSinks String getDayOfWeekString(@PolyFlowSources @PolyFlowSinks int dayOfWeek, @FlowSinks({}) int abbrev);
+	@PolyFlowSources @PolyFlowSinks String getDayOfWeekString(@PolyFlowSources @PolyFlowSinks int dayOfWeek, @FlowSources(FlowSource.ANY) @FlowSinks({}) int abbrev);
 }
 
 
@@ -828,14 +711,9 @@ static @FlowSources(FlowSource.LOG) int	 wtf(@FlowSinks(FlowSink.LOG) String tag
 package android.view;
 
 class ContextThemeWrapper {
-	 Object clearWallpaper();
-	 Object removeStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
 	@PolyFlow
 	void setTheme(int resid);
-	 Object setWallpaper(android.graphics.Bitmap p0);
-	 Object setWallpaper(java.io.InputStream p0);
+
 }
 
 
@@ -854,22 +732,12 @@ class Menu {
      @FlowSinks({FlowSink.DISPLAY, FlowSink.CONDITIONAL})@PolyFlowSources MenuItem findItem ( @FlowSinks({FlowSink.DISPLAY, FlowSink.CONDITIONAL}) @PolyFlowSources int id);
 }
 
-class MenuInflater {                                                  
-    @DefaultFlow                                                           
-    void inflate(int menuRes, Menu menu);                             
-}
-
 @DefaultFlow
 class MenuItem {
     @PolyFlow
     int getItemId();
    @FlowSinks({FlowSink.DISPLAY, FlowSink.CONDITIONAL}) MenuItem setVisible(@FlowSinks({FlowSink.DISPLAY, FlowSink.CONDITIONAL}) boolean visible);
 }
-
-class Surface {
-
-}
-
 
 
 class View {
@@ -916,13 +784,6 @@ class ImageView {
 	void setImageDrawable(@PolyFlowSources @PolyFlowSinks Drawable drawable) @PolyFlowSources @PolyFlowSinks;
 	void setImageResource(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) int i) @PolyFlowSources @PolyFlowSinks;
 }
-	
-class QuickContactBadge {
-	 Object assignContactFromEmail(java.lang.String p0,boolean p1);
-	 Object assignContactFromPhone(java.lang.String p0,boolean p1);
-
-}
-
 
 class TextView {
 	void setText(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) CharSequence text);
