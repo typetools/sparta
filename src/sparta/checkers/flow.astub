@@ -541,8 +541,7 @@ class Color {
 package android.hardware;
 
 class Camera {
-	@PolyFlow
-	Parameters getParameters();
+	@FlowSources(FlowSource.CAMERA_SETTINGS) Parameters getParameters();
 	@PolyFlow 
 	 Camera open();
 	@PolyFlow
