@@ -13,7 +13,17 @@
     	<echo/>
     
     	<!-- careful now specifying the files to delete -->
+        <!-- You'll need to add the following to .hgrc in your home directory
+         [extensions]
+         purge =
+         -->
+        <exec executable="hg">
+            <arg value="purge" />
+            <arg value="--all" />
+        </exec>
+        
     	<delete dir="${spartaDir}/.hg"/>
+
     
     </target>
     
