@@ -793,7 +793,7 @@ class FloatMath {
 }
 
 class Log {
-static @FlowSources(FlowSource.LOG) int	 d(@FlowSinks(FlowSink.LOG) @FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) int	 d(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
 static @FlowSources(FlowSource.LOG) int	 d(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
 static @FlowSources(FlowSource.LOG) int	 e(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
 static @FlowSources(FlowSource.LOG) int	 e(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
