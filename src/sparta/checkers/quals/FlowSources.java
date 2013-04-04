@@ -50,6 +50,7 @@ public @interface FlowSources {
         CALENDAR,
         CALL_LOG,
         CAMERA,
+        CAMERA_SETTINGS,
         CHECKIN_PROPERTIES,
         CLEAR_APP_CACHE,
         CLEAR_APP_USER_DATA,
