@@ -73,13 +73,14 @@
              to get just one *.uptodate property, so do them individually
              and then combine with <condition>. -->
         <!-- Probably should depend on a file rather than a directory. -->
-        <uptodate property="src.files.uptodate" targetfile="${build}">
+        <uptodate property="src.files.uptodate">
           <srcfiles refid="src.files"/>
-          <mapper type="glob" from="*.java" to="${build}/*.class"/>
+          <mapper type="glob" from="*.java" to="../${build}/*.class"/>
         </uptodate>
 
-        <uptodate property="src.astub.files.uptodate" targetfile="${build}">
+        <uptodate property="src.astub.files.uptodate">
           <srcfiles refid="src.astub.files"/>
+          <mapper type="glob" from="*" to="../${build}/*"/>
         </uptodate>
 
         <condition property="build.uptodate">
