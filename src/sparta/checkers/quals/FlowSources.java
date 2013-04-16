@@ -99,7 +99,7 @@ public @interface FlowSources {
         USER_DICTIONARY,
         USER_INPUT,
         WAP_PUSH,
-        WIFI_STATE,
+        WIFI_STATE, CAMERA_SETTINGS,
 
 
     }
