@@ -1,0 +1,7 @@
+
+package android.location;
+
+ interface LocationListener {
+//Added by SOM
+        void onLocationChanged(@FlowSources(FlowSource.LOCATION) Location location);
+ }

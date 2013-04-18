@@ -5,11 +5,12 @@ import sparta.checkers.quals.FlowSources.FlowSource;
 
 class PolyTest {
     
-	void polyPut() {
-		ContentValues values = new ContentValues();
-		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) double input = 2.0;
-		values.put("test", input);
-	}
+//ContentValues.put(..) were not annotated correctly before.	
+//	void polyPut() {
+//		ContentValues values = new ContentValues();
+//		@FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) double input = 2.0;
+//		values.put("test", input);
+//	}
 	
 	/*void stringFormat() {
 		@FlowSources(FlowSource.LOCATION) double mLat = 2.0;

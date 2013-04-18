@@ -1,10 +1,4 @@
 package android.hardware;
-import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSources.FlowSource;
-import sparta.checkers.quals.FlowSinks.FlowSink;
-
-/*
-package android.hardware;
 
 //Annotations by Philip 
 class Camera {
@@ -16,4 +10,4 @@ class Camera {
 	@PolyFlow
 	void setPreviewDisplay(SurfaceHolder holder);
 	void takePicture(@FlowSinks({}) ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
-}*/
+}
