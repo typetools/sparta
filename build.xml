@@ -18,6 +18,9 @@
     <property name="android.jar" value="${android.home}/platforms/${android.version}/android.jar"/>
 
     <property name="src" value="src"/>
+    <property name="flow.stubfiles" value="src/sparta/checkers/flowstubfiles"/>
+    <property name="flow.astub" value="src/sparta/checkers/flow.astub"/>
+
     <property name="tests" value="tests"/>
 
     <property name="build" value="build"/>
@@ -33,7 +36,13 @@
         <contains string="${java.version}" substring="1.7"/>
     </condition>
 
-    <target name="prep" description="Create required directories">
+    <target name="merge-stubfiles" description= "Merge stubfiles in src/sparta/checkers/flowstubfiles/ into flow.astub">
+        <concat destfile="${flow.astub}">
+             <fileset dir="${flow.stubfiles}" includes="*.astub"/>
+        </concat> 
+    </target>
+
+    <target name="prep" depends="merge-stubfiles" description="Create required directories">
         <mkdir dir="${build}"/>
         <mkdir dir="${build.tests}"/>
         <mkdir dir="${build.tests}/testclasses"/>
