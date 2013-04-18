@@ -43,3 +43,4 @@ docs/figures/*.eps
 docs/figures/*.pdf
 docs/figures/*.png
 docs/bib
+src/sparta/checkers/flow.astub 

@@ -1,0 +1,19 @@
+package android.hardware;
+import sparta.checkers.quals.*;
+import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.FlowSinks.FlowSink;
+
+/*
+package android.hardware;
+
+//Annotations by Philip 
+class Camera {
+	@FlowSources(FlowSource.CAMERA_SETTINGS) Parameters getParameters();
+	//@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
+	@FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) 
+	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
+	void setParameters(@FlowSinks(FlowSink.CAMERA_SETTINGS) Parameters params);
+	@PolyFlow
+	void setPreviewDisplay(SurfaceHolder holder);
+	void takePicture(@FlowSinks({}) ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
+}*/
