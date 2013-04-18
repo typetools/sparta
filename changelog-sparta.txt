@@ -7,6 +7,7 @@ Permissions
   permission.astub now uses the PScout Permission map for Android 
   version 4.0.1. (http://pscout.csl.toronto.edu) 
 
+----------------------------------------------------------------------
 Version 0.8.0, 1 March 2013
 
 Policy Files
@@ -19,4 +20,29 @@ Default Types
 
 Documentation
   Improvements to the manual 
+
+----------------------------------------------------------------------
+Version 0.7, 16 Oct 2012
+
+Added more API annotations for Android and JDK libraries, in file flow.astub.
+  Such annotations are necessary for any API that an app uses.  By
+  expanding the SPARTA-provided set, the user has less work to do.
+  flow.astub now contains over 1600 annotated methods (APIs).
+
+Rewrote parts the SPARTA manual, notably Chapter 4, "Flow Checker".
+  The description of the flow type system is clearer, with additional examples.
+  Some material that was redundant with the Checker Framework manual has
+  been replaced by a cross-reference to the Checker Framework manual, so
+  that users can look just one place for authoritative information.
+  Defaulting is more clearly explained.
+  A new	chapter 5 details what an app developer is required to do in order
+  to have the app approved.  For example, source code obfuscation is not
+  permitted, and each warning suppression must be justified.
+
+Use version 1.4.2 instead of 1.4.0 of the Checker Framework.
+  SPARTA is built on the Checker Framework.  The detailed changes (mostly
+  bug fixes and refactorings, but also a few new features) appear in
+  the Checker Framework changelog at
+  http://types.cs.washington.edu/checker-framework/current/changelog-checkers.txt
+
 
