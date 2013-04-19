@@ -91,6 +91,7 @@ public @interface FlowSources {
         SIP,
         SMS,
         SOCIAL_STREAM,
+        SQLITE_DATABASE,
         SUBSCRIBED_FEEDS,
         SURFACE_FLINGER,
         SYNC_SETTINGS,
