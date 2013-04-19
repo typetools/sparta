@@ -18,7 +18,8 @@ class Camera {
 
 interface  Camera$PictureCallback {
 //Annotations by Philip 
-	void onPictureTaken(@FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) byte @FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) [] data,@FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) Camera camera);
+//Can't override this method, so annotate it for the CameraTest app. 
+	void onPictureTaken(@FlowSources(FlowSource.CAMERA)@FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY}) byte @FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY})  [] data,@FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY})  Camera camera);
 }
 
 
