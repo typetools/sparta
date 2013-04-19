@@ -52,6 +52,7 @@ public @interface FlowSinks {
         CALENDAR,
         CALL_LOG,
         CALL_PHONE,
+        CAMERA_SETTINGS,
         CLEAR_APP_CACHE,
         CLEAR_APP_USER_DATA,
         COMPONENT_ENABLED_STATE,
