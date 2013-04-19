@@ -18,7 +18,7 @@ class Camera {
 
 interface  Camera$PictureCallback {
 //Annotations by Philip 
-	void onPictureTaken(@FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) byte @FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) [] data, Camera camera);
+	void onPictureTaken(@FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) byte @FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) [] data,@FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) Camera camera);
 }
 
 
