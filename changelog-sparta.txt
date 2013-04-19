@@ -1,3 +1,12 @@
+Version 0.9.0 22 April 2013
+
+Stub Files
+   flow.astub is now generated from files in 
+   src/sparta/checkers/flowstubfile.  Annotations for Android and Java 
+   class should go in the file name that corresponds with its package 
+   name. 
+  
+----------------------------------------------------------------------
 Version 0.8.1 3 April 2013
 
 flow.astub

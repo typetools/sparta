@@ -343,8 +343,8 @@ annotation and a flow sink annotation as explained in
 
 \section{API specifications\label{sec:apispecs}}
 
-File \<sparta-code/src/sparta/checkers/flow.astub> provides library
-annotations.  You may need to enhance it, if you find that your application
+Files in  \<sparta-code/src/sparta/checkers/flowstubfiles> provides library
+annotations.  You may need to enhance them, if you find that your application
 uses APIs that are not yet annotated.  For details, see
 section~\ref{flow-task-annotate-apis} of this manual, and also 
 chapter
@@ -380,7 +380,7 @@ They change the default annotations (\secref{flow-defaults}).
  
 The declaration annotations can be used on any declaration: a method,
 a class, or even a whole package.
-For example, the beginning of \<flow.astub> declares that the
+For example, the
 whole \<android> package should use conservative defaults.
 More specific annotations given in the rest of the file override these
 defaults.
