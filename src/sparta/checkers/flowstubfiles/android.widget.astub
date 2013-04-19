@@ -1,0 +1,9 @@
+
+package android.widget;
+
+class ImageView {
+//Added by Philip
+	void setImageBitmap(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) Bitmap bm);
+	void setImageDrawable(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) Drawable drawable);
+	void setImageResource(@PolyFlowSources @PolyFlowSinks int i) @PolyFlowSources @PolyFlowSinks;
+}

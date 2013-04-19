@@ -1,0 +1,22 @@
+
+package java.io;
+
+class FileOutputStream {
+//Added by SOM
+
+ @FlowSources(FlowSource.FILESYSTEM) @FlowSinks(FlowSink.ANY)  FileOutputStream(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM)  File file);
+ void write(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM) byte @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM)  [] bytes);
+}
+
+class File {
+//Added by SOM
+
+	@FlowSources(FlowSource.FILESYSTEM) @FlowSinks(FlowSink.ANY) File( @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM) String path);
+}
+
+class ByteArrayOutputStream{
+//Added by SOM
+    @FlowSources({}) @FlowSinks(FlowSink.ANY) ByteArrayOutputStream();
+   @PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] toByteArray() @PolyFlowSources @PolyFlowSinks;
+   void close() @FlowSources(FlowSource.ANY) @FlowSinks({});
+}

@@ -1,13 +1,24 @@
 package android.hardware;
 
-//Annotations by Philip 
 class Camera {
+//Annotations by Philip 
+//All for these need to be reviewed
+//Every parameter and return must be annotated with both a Source and a Sink
 	@FlowSources(FlowSource.CAMERA_SETTINGS) Parameters getParameters();
 	//@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
-	@FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) 
+	@DefaultFlow
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
+	//void release();
 	void setParameters(@FlowSinks(FlowSink.CAMERA_SETTINGS) Parameters params);
-	@PolyFlow
-	void setPreviewDisplay(SurfaceHolder holder);
-	void takePicture(@FlowSinks({}) ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
+	void setPreviewDisplay(@FlowSinks(FlowSink.DISPLAY) SurfaceHolder holder);
+	//void startPreview();
+	//void stopPreview();
+	void takePicture(ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
 }
+
+interface  Camera$PictureCallback {
+//Annotations by Philip 
+	void onPictureTaken(@FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) byte @FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) [] data, Camera camera);
+}
+
+

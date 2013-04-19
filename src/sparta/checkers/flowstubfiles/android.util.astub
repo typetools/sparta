@@ -10,3 +10,22 @@ class FloatMath {
    static @PolyFlowSources @PolyFlowSinks float sqrt(@PolyFlowSources @PolyFlowSinks float value);
 }
 
+
+class Log {
+//Added by SOM
+
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY) int	 d(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 d(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 e(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 e(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 i(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 i(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 v(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 v(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG)  @FlowSinks(FlowSink.ANY) int	 w(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 w(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 w(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 wtf(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 wtf(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG)  @FlowSinks(FlowSink.ANY) int	 wtf(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+}
