@@ -23,6 +23,7 @@
         </exec>
         
     	<delete dir="${spartaDir}/.hg"/>
+    	<delete dir="${spartaDir}/developer-docs"/>
 
     
     </target>

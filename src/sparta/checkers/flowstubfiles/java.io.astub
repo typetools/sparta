@@ -16,7 +16,7 @@ class File {
 
 class ByteArrayOutputStream{
 //Added by SOM
-    @FlowSources({}) @FlowSinks(FlowSink.ANY) ByteArrayOutputStream();
+   @FlowSources({}) @FlowSinks(FlowSink.ANY) ByteArrayOutputStream();
    @PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] toByteArray() @PolyFlowSources @PolyFlowSinks;
    void close() @FlowSources(FlowSource.ANY) @FlowSinks({});
 }

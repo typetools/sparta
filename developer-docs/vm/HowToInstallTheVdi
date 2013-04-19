@@ -1,0 +1,29 @@
+Online Manual:
+Date: September 7, 2012
+
+https://www.virtualbox.org/manual/
+1. Download SPARTA.vdi //TODO: This can be found in sparta-<whatever>/deliverables
+   
+2. Download /Install VirtualBox VM for your selected HOST platform.  
+  a. Download VirtualBox for your HOST platform at: https://www.virtualbox.org/wiki/Linux_Downloads
+  	 Remember: Host platform is YOUR operating system and GUEST operating system is the one your installing.
+  b. Install: Installation should be straightforward (most likely just double click on the icon) 
+  	          and similar to any other program.
+
+3.  Open VirtualBox and create VM
+	a. Open Virtual Box
+	b. Click New
+	c. Using the Wizard, create a VM with the following settings:
+		1. VMName = "SPARTA" (or at least that's what I used")
+		   Operating System = 
+		   		Type = Linux
+		   		Version = Ubuntu(64 bit)
+		2. Base Memory (Amount of RAM Devoted to the VM): I put 2 gigs, I will revisit this after
+		installing it.
+		3. Select the SPARTA.vdi virtual disk.
+			
+		4. Accept the settings and create the VM.
+
+4. The sparta installation is in ~/Documents/sparta 
+   The username is sparta and the password is "ThisIsSparta!" with NO quotes
+   
