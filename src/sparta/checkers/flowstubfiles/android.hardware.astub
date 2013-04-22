@@ -16,10 +16,5 @@ class Camera {
 	void takePicture(ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
 }
 
-interface  Camera$PictureCallback {
-//Annotations by Philip 
-//Can't override this method, so annotate it for the CameraTest app. 
-	void onPictureTaken(@FlowSources(FlowSource.CAMERA)@FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY}) byte @FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY})  [] data,@FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY})  Camera camera);
-}
 
 
