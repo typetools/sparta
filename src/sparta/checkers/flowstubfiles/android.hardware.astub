@@ -4,17 +4,17 @@ class Camera {
 //Annotations by Philip 
 //All for these need to be reviewed
 //Every parameter and return must be annotated with both a Source and a Sink
-	@FlowSources(FlowSource.CAMERA_SETTINGS) Parameters getParameters();
+	@FlowSources(FlowSource.CAMERA_SETTINGS) @FlowSinks(FlowSink.ANY) Parameters getParameters();
 	//@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
-	@DefaultFlow
-	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
-	//void release();
-	void setParameters(@FlowSinks(FlowSink.CAMERA_SETTINGS) Parameters params);
-	void setPreviewDisplay(@FlowSinks(FlowSink.DISPLAY) SurfaceHolder holder);
-	//void startPreview();
-	//void stopPreview();
-	void takePicture(ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
+	@DefaultFlow @RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
+	void setParameters(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.CAMERA_SETTINGS) Parameters params);
+	void setPreviewDisplay(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) SurfaceHolder holder);
+	void takePicture(@FlowSources(FlowSource.ANY) @FlowSinks() ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) PictureCallback jpeg);
 }
 
-
-
+interface Camera$PictureCallback {
+//Annotations by Philip 
+//Can't override this method, so annotate it for the CameraTest app. 
+	void onPictureTaken(@FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY}) byte @FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY}) [] data,
+	           @FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY})  Camera camera);
+}

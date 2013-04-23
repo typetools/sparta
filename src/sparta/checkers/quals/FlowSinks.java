@@ -52,6 +52,7 @@ public @interface FlowSinks {
         CALENDAR,
         CALL_LOG,
         CALL_PHONE,
+        CAMERA_SETTINGS,
         CLEAR_APP_CACHE,
         CLEAR_APP_USER_DATA,
         COMPONENT_ENABLED_STATE,
@@ -107,7 +108,7 @@ public @interface FlowSinks {
         WALLPAPER_HINTS,
         WALLPAPER,
         WIFI_MULTICAST_STATE,
-        WIFI_STATE, CAMERA_SETTINGS,
+        WIFI_STATE,
 }
 
     /**
