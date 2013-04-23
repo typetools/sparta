@@ -108,7 +108,7 @@ public @interface FlowSinks {
         WALLPAPER_HINTS,
         WALLPAPER,
         WIFI_MULTICAST_STATE,
-        WIFI_STATE, CAMERA_SETTINGS,
+        WIFI_STATE,
 }
 
     /**

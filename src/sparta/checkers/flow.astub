@@ -2,13 +2,16 @@ import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowSources.FlowSource;
 import sparta.checkers.quals.FlowSinks.FlowSink;
 
+/*
+This file is generate by ant merge-stubfiles.
+Please put annotations in the correct stub file in flowstubfiles.
+*/
+
 @ConservativeFlow
 package android;
 
 @ConservativeFlow
 package com.android;
-
-
 
 @ConservativeFlow
 package org.apache.http;
@@ -16,1611 +19,163 @@ package org.apache.http;
 @ConservativeFlow
 package java;
 
-/* Is using all of java.* too conservative? At least the following
-   packages should be conservative:
-package java.io;
-package java.net;
-package java.sql;
-package java.util;
-*/
-
-// We might want to use DefaultFlow here.
-package java.lang;
-
-
-
-class Thread {
-	@PolyFlow
-	static void sleep(long time);
-}
-
-@ConservativeFlow
-package java.lang.reflect;
-
-class Method {
-    @PolyFlow
-    Object invoke(Object obj, Object[] args);
-}
-
-
-package android.accessibilityservice;
-
-class AccessibilityService extends Service {
-    String SERVICE_INTERFACE;
-    String SERVICE_META_DATA;
-    AccessibilityService();
-    void onAccessibilityEvent(AccessibilityEvent arg0);
-    void onInterrupt();
-    protected void onServiceConnected();
-    void setServiceInfo(AccessibilityServiceInfo arg0);
-    IBinder onBind(Intent arg0);
-}
-
-package android.accounts;
-
-class AbstractAccountAuthenticator {
-    
-    @FlowSources(FlowSource.ACCOUNTS) Bundle addAccount(
-    	@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-    	@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] requiredFeatures,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options);
-	
-	@FlowSources(FlowSource.ACCOUNTS) Bundle confirmCredentials(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options);
-	
-	@FlowSources(FlowSource.ACCOUNTS) Bundle editProperties(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType);
-	
-	@FlowSources(FlowSource.ACCOUNTS) Bundle getAccountRemovalAllowed(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account);
-	
-	@FlowSources(FlowSource.ACCOUNTS) Bundle getAuthToken(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options);
-	
-	@FlowSources(FlowSource.ACCOUNTS) String getAuthTokenLabel(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType);
-	
-	@FlowSources(FlowSource.ACCOUNTS) Bundle hasFeatures(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] features);
-	
-	@FlowSources(FlowSource.ACCOUNTS) Bundle updateCredentials(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountAuthenticatorResponse response,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options);
-}
-
-class AccountAuthenticatorActivity {
-	@PolyFlow
-	 void clearWallpaper();
-	@PolyFlow
-	 void removeStickyBroadcast(android.content.Intent p0);
-	@PolyFlow
-	 void sendStickyBroadcast(android.content.Intent p0);
-	@PolyFlow
-	 void sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	@PolyFlow
-	 void setResult(int resultCode, Intent data);
-	@PolyFlow
-	 void setWallpaper(android.graphics.Bitmap p0);
-	@PolyFlow
-	 void setWallpaper(java.io.InputStream p0);
-}
-
-class AccountManager {
-	
-	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> addAccount(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] requiredFeatures,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle addAccountOptions,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-	
-	@FlowSources(FlowSource.ACCOUNTS) boolean addAccountExplicitly(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String password,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle userdata);
-	@PolyFlow
-	 void addOnAccountsUpdatedListener(OnAccountsUpdateListener listener, Handler handler, boolean updateImmediately);
-	
-	@FlowSources(FlowSource.ACCOUNTS) String blockingGetAuthToken(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) boolean notifyAuthFailure);
-	
-	void clearPassword(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account);
-	
-	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> confirmCredentials(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-	
-	AccountManagerFuture<Bundle> editProperties(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-	
-	@FlowSources(FlowSource.ACCOUNTS) Account[] getAccounts();
-	
-	@FlowSources(FlowSource.ACCOUNTS) Account[] getAccountsByType(
-		@FlowSinks(FlowSink.ACCOUNTS) String type);
-	
-	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Account[]> getAccountsByTypeAndFeatures(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String type,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] features,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Account[]> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-	
-	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-	
-	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) boolean notifyAuthFailure,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-	
-	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthToken(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) boolean notifyAuthFailure,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-	
-	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> getAuthTokenByFeatures(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] features,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle addAccountOptions,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle getAuthTokenOptions,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-	 
-	@FlowSources(FlowSource.ACCOUNTS) String getPassword(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account);
-	 
-	@FlowSources(FlowSource.ACCOUNTS) String getUserData(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String key);
-	 
-	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Boolean> hasFeatures(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String[] features,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Boolean> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-	
-	void invalidateAuthToken(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String accountType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authToken);
-	
-	@FlowSources(FlowSource.ACCOUNTS) String peekAuthToken(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType);
-	
-	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Boolean> removeAccount(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Boolean> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-	
-	void setAuthToken(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authToken);
-	 
-	void setPassword(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String password);
-	 
-	void setUserData(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String key,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String value);
-	
-	@FlowSources(FlowSource.ACCOUNTS) AccountManagerFuture<Bundle> updateCredentials(
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Account account,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) String authTokenType,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Bundle options,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Activity activity,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) AccountManagerCallback<Bundle> callback,
-		@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.ACCOUNTS) Handler handler);
-}
-
-package android.app;
-
- class Activity {
-   // @FlowSources(FlowSource.FILESYSTEM) @FlowSinks() FileInputStream openFileInput(@FlowSources() @FlowSinks() String name);
-}
-
-package android.app;
-
-class AlarmManager {
-	void set(@FlowSinks({}) int type, @FlowSources(FlowSource.TIME) long triggerAtMillis, @FlowSources(FlowSource.ANY) PendingIntent operation) @FlowSources(FlowSource.ANY);
-	void set(@FlowSinks({}) int type, @PolyFlowSources @PolyFlowSinks long triggerAtMillis, @PolyFlowSources @PolyFlowSinks PendingIntent operation);
-	 Object setTime(long p0);
-	 Object setTimeZone(java.lang.String p0);
-}
-
-class AlertDialog$Builder {
-	@PolyFlow
-	AlertDialog create();
-	@PolyFlowSources @PolyFlowSinks Builder setMessage(@PolyFlowSources @PolyFlowSinks CharSequence message);
-}
-
-package android.app;
-
-class PendingIntent {
-    @PolyFlow
-    static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags);
-    @PolyFlow
-    static PendingIntent getService(Context context, int requestCode, Intent intent, int flags);
-}
-
-class ProgressDialog {
-	static ProgressDialog show(Context context, CharSequence title, CharSequence message, boolean indeterminate, boolean cancelable);
-}
-
-class Service {
-	 Object clearWallpaper();
-	void onStart(Intent intent, int startId);
-	 Object removeStickyBroadcast(android.content.Intent p0);
-	 Object sendBroadcast(android.content.Intent p0);
-	 Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
-	 Object sendStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	 Object setWallpaper(android.graphics.Bitmap p0);
-	 Object setWallpaper(java.io.InputStream p0);
-	 void startActivity(Intent intent);
-	 Object startService(android.content.Intent p0);
-}
-
-class TabActivity {
-	 Object clearWallpaper();
-	 Object removeStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	 Object setWallpaper(android.graphics.Bitmap p0);
-	 Object setWallpaper(java.io.InputStream p0);
-}
-
-class WallpaperManager {
-	 Object clear();
-	 Object setBitmap(android.graphics.Bitmap p0);
-	 Object setResource(int p0);
-	 Object setStream(java.io.InputStream p0);
-	 Object suggestDesiredDimensions(int p0,int p1);
-}
 
 package android.content;
 
-class ComponentName {
-    @PolyFlowSources @PolyFlowSinks ComponentName(@PolyFlowSources @PolyFlowSinks String pkg, @PolyFlowSources @PolyFlowSinks String path);	
-	@PolyFlow
-	String getClassName();
-}
+class Context{
 
-class ContentProvider {
-	@PolyFlow Context getContext();
-}
-
-class ContentResolver {
-	 Object addPeriodicSync(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2,long p3);
-	@PolyFlowSources @PolyFlowSinks int delete(@PolyFlowSources @PolyFlowSinks Uri url, @PolyFlowSources @PolyFlowSinks String where, @FlowSinks({}) String @FlowSinks({}) [] selectionArgs);
-	 Object getCurrentSync();
-	 Object getIsSyncable(android.accounts.Account p0,java.lang.String p1);
-	 Object getMasterSyncAutomatically();
-	 Object getPeriodicSyncs(android.accounts.Account p0,java.lang.String p1);
-	 Object getSyncAutomatically(android.accounts.Account p0,java.lang.String p1);
-	@PolyFlowSources @PolyFlowSinks Uri insert(@PolyFlowSources @PolyFlowSinks Uri url, @PolyFlowSources @PolyFlowSinks ContentValues value);
-	 Object isSyncActive(android.accounts.Account p0,java.lang.String p1);
-	 Object isSyncPending(android.accounts.Account p0,java.lang.String p1);
-	 Object openFileDescriptor(android.net.Uri p0,java.lang.String p1);
-	 Object openInputStream(android.net.Uri p0);
-	 Object openOutputStream(android.net.Uri p0);
-	
-	@PolyFlowSources @PolyFlowSinks	Cursor query(@PolyFlowSources @PolyFlowSinks Uri uri, @PolyFlowSources @PolyFlowSinks String @PolyFlowSources @PolyFlowSinks [] projection, String selection, String[] selectionArgs, String sortOrder);
-	 Object removePeriodicSync(android.accounts.Account p0,java.lang.String p1,android.os.Bundle p2);
-	 Object setIsSyncable(android.accounts.Account p0,java.lang.String p1,int p2);
-	 Object setMasterSyncAutomatically(boolean p0);
-	 Object setSyncAutomatically(android.accounts.Account p0,java.lang.String p1,boolean p2);
-	int update(@PolyFlowSources @PolyFlowSinks Uri uri, @PolyFlowSources @PolyFlowSinks ContentValues values, @FlowSinks({}) String where, @FlowSinks({}) String @FlowSinks({}) [] selectionArgs);
-}
-
-class ContentValues {
-	void put(@FlowSinks({}) String key, @FlowSources(FlowSource.ANY) @FlowSinks Double value);
-	void put(@FlowSinks({}) String key, @FlowSources(FlowSource.ANY) @FlowSinks Integer value);
-	void put(@FlowSinks({}) String key, @FlowSources(FlowSource.ANY) @FlowSinks Long value);
-	void put(@FlowSinks({}) String key, @FlowSources(FlowSource.ANY) @FlowSinks String value);
-	//TODO: Add the rest of the put methods
-}
-
-class ContentUris {
- 	static @PolyFlowSources @PolyFlowSinks Uri withAppendedId(@PolyFlowSources @PolyFlowSinks Uri contentUri, @PolyFlowSources @PolyFlowSinks long id);
-}
-	
-class Context {
-	 Object clearWallpaper();
-	@PolyFlow ContentResolver getContentResolver();
-	@FlowSinks(FlowSink.FILESYSTEM) File getDir(@FlowSinks(FlowSink.FILESYSTEM) String name, int mode);
-	@PolyFlow String getPackageName();
-	@PolyFlow Resources getResources();
-	@PolyFlow 
-	String getString( int i,Object... objs);
-	@PolyFlow String getString(@FlowSinks({}) int i);
-	 Object removeStickyBroadcast(android.content.Intent p0);
-	 Object sendBroadcast(android.content.Intent p0);
-	 Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
-	 Object sendStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	 Object setWallpaper(android.graphics.Bitmap p0);
-	 Object setWallpaper(java.io.InputStream p0);
-	 Object startActivity(android.content.Intent p0);
-	@PolyFlow
-	 Object startService(Intent service);
-    @FlowSources(FlowSource.FILESYSTEM) @FlowSinks() FileInputStream openFileInput(@FlowSources() @FlowSinks() String name);
-}
-
-class ContextWrapper {
-    @FlowSinks(FlowSink.FILESYSTEM) @FlowSources File getDir(@FlowSinks(FlowSink.FILESYSTEM) @FlowSources String name, int mode);
-	 Object clearWallpaper();
-	@PolyFlow
-	Context getBaseContext();
-	@PolyFlow
-	ContentResolver getContentResolver();
-	@PolyFlow
-	Resources getResources();
-	//TODO getSystemService() returns handles for various flow-sensitive classes. This method doesn't need to be annotated,
-	// but the methods on those objects do require annotation.
-	@PolyFlow
-	Object getSystemService(@FlowSinks({}) String name);
-	 Object removeStickyBroadcast(android.content.Intent p0);
-	 Object sendBroadcast(android.content.Intent p0);
-	 Object sendOrderedBroadcast(android.content.Intent p0,java.lang.String p1);
-	 Object sendStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	 Object setWallpaper(android.graphics.Bitmap p0);
-	 Object setWallpaper(java.io.InputStream p0);
-	@PolyFlow
-	 void startActivity(Intent intent);
-	@PolyFlow
-	 ComponentName startService(Intent service);
-}
-
-class Intent {
-	@FlowSources(FlowSource.ANY) String getAction();
-	@FlowSources(FlowSource.ANY) Uri getData();
-	@FlowSources(FlowSource.ANY) Bundle getExtras();
-	@FlowSources(FlowSource.ANY) int getIntExtra(@FlowSinks({}) String name, @FlowSinks({}) int defaultValue);
-	@FlowSources(FlowSource.ANY) String getStringExtra(@FlowSinks({}) String name);
-	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks int value);
-	@PolyFlowSources @PolyFlowSinks Intent putExtra(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value);
-    @PolyFlowSources @PolyFlowSinks Intent setComponent(@PolyFlowSources @PolyFlowSinks ComponentName name);
-	@PolyFlow
-	Intent setClass(Context packageContext, Class<?> cls);
-	@FlowSources(FlowSource.ANY) Intent setData(@FlowSources(FlowSource.ANY) @FlowSinks({}) Uri data);
-	@PolyFlow
-	Intent setFlags(int flags);	
-}
-
-class MutableContextWrapper {
-	 Object clearWallpaper();
-	 Object removeStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	 Object setWallpaper(android.graphics.Bitmap p0);
-	 Object setWallpaper(java.io.InputStream p0);
-}
-
-package android.content.pm;
-
-class PackageManager {
-	 Object addPreferredActivity(android.content.IntentFilter p0,int p1,android.content.ComponentName[] p2,android.content.ComponentName p3);
-	 Object clearPackagePreferredActivities(java.lang.String p0);
-	 Object setApplicationEnabledSetting(java.lang.String p0,int p1,int p2);
-	 Object setComponentEnabledSetting(android.content.ComponentName p0,int p1,int p2);
-}
-
-package android.content;
-
-class UriMatcher {
-    void addURI(@PolyFlowSources @PolyFlowSinks String authority,
-        @PolyFlowSources @PolyFlowSinks String path,
-        @PolyFlowSources @PolyFlowSinks int code) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int match(@PolyFlowSources @PolyFlowSinks Uri uri) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlow
-	UriMatcher(int code);
-}
-
-package android.content.res;
-
-class Resources {
-	@PolyFlow
-	float getDimension(int id);
-	@PolyFlow
-	Drawable getDrawable(int id);
-	@PolyFlow
-	String getString(int id);
-	@PolyFlowSources @PolyFlowSinks String getString(@FlowSinks int id, @PolyFlowSources @PolyFlowSinks Object... objs);
-	@PolyFlow
-	CharSequence getText(int id);
-}
-
-package android.database;
-
-class Cursor {
-	@PolyFlow void close() @FlowSources(FlowSource.ANY);
-	@FlowSources(FlowSource.ANY) double getDouble(@FlowSinks({}) int columnIndex) @FlowSources(FlowSource.ANY);
-	@FlowSources(FlowSource.ANY) long getLong(@FlowSinks({}) int columnIndex) @FlowSources(FlowSource.ANY);
-	@PolyFlowSources @PolyFlowSinks String getString(@FlowSources(FlowSource.ANY) @FlowSinks({}) int columnIndex) @PolyFlowSources @PolyFlowSinks;
-	@FlowSources(FlowSource.ANY) int getInt(@FlowSinks({}) int columnIndex) @FlowSources(FlowSource.ANY);
-	@PolyFlow boolean moveToFirst() @FlowSources(FlowSource.ANY);
-	@PolyFlow boolean moveToNext() @FlowSources(FlowSource.ANY);
-	@PolyFlow boolean isAfterLast() @FlowSources(FlowSource.ANY);
-	@FlowSources({}) @FlowSinks({}) int getColumnIndex(String name) @FlowSources(FlowSource.ANY);	
-	 
-	//TODO: Add the rest of the get methods
-	//Note: Must manually cast the results from the cursor if the cursor comes from Context.getContentResolver()
-}
-
-package android.database.sqlite;
-
-class SQLiteOpenHelper {
-	@PolyFlow SQLiteDatabase getWritableDatabase();
-}
-
-class SQLiteDatabase {
-	@PolyFlow
-	int delete(String p1, String p2, String[] p3);
-	@PolyFlow
-	void execSQL(String sql);
-	@PolyFlow
-	long insert(String table, String nullColumnHack, ContentValues values);
-	//@FlowSources({}) int insert(String p1, String p2, @PolyFlowSources ContentValues p3) @PolyFlowSources;
-	@FlowSources({}) int update(
-	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String table,
-	    @FlowSources(FlowSource.ANY) @FlowSinks({}) ContentValues values,
-        @FlowSources(FlowSource.ANY) @FlowSinks({}) String whereClause,
-        @FlowSources(FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] whereArgs);
-}
-
-class SQLiteQueryBuilder {
-	@PolyFlow
-	void appendWhere(CharSequence inWhere);
-	@FlowSources(FlowSource.ANY) Cursor query(
-	    @FlowSources(FlowSource.ANY) @FlowSinks({}) SQLiteDatabase db,
-	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] projectionIn,
-	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String selection,
-	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String @FlowSinks({}) [] selectionArgs,
-	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String groupBy,
-	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String having,
-	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String sortOrder,
-	    @FlowSources(FlowSource.ANY) @FlowSinks({}) String limit); 
-    @PolyFlow
-    void setTables(String inTables);
+	@FlowSources(FlowSource.FILESYSTEM) @FlowSinks(FlowSink.ANY) File getDir(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM) String name, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.CONDITIONAL) int mode);
 }
 
 package android.graphics;
 
-class Bitmap {
-	boolean compress(@FlowSinks({}) CompressFormat format, @FlowSinks({}) int quality, @PolyFlowSinks @PolyFlowSources OutputStream stream) @PolyFlowSinks @PolyFlowSources;
-}
-
 class BitmapFactory {
-	@PolyFlowSources @PolyFlowSinks Bitmap decodeByteArray(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] data,
-		@FlowSinks({}) int offset, @FlowSinks({}) int length);
+//Added by SOM
+	@PolyFlowSources @PolyFlowSinks Bitmap decodeByteArray(
+	                                @PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] data, 
+	                                @FlowSources(FlowSource.ANY) @FlowSinks({}) int offset,  
+	                                @FlowSources(FlowSource.ANY) @FlowSinks({}) int length);
 }
 
-class Color {
-    static @PolyFlowSources @PolyFlowSinks int parseColor(@PolyFlowSources @PolyFlowSinks String color);
-}
-	
-package android.hardware;
+class Bitmap {
+//Added by SOM
+//The CompressFormat is any enum value
+	@FlowSources({}) @FlowSinks(FlowSink.ANY) boolean compress(
+	          @FlowSources(FlowSource.ANY) @FlowSinks({}) CompressFormat format, @FlowSources(FlowSource.ANY) @FlowSinks({}) int quality, 
+	          @PolyFlowSinks @PolyFlowSources OutputStream stream) @PolyFlowSinks @PolyFlowSources;
+}package android.hardware;
 
 class Camera {
+//Annotations by Philip 
+//All for these need to be reviewed
+//Every parameter and return must be annotated with both a Source and a Sink
 	@FlowSources(FlowSource.CAMERA_SETTINGS) Parameters getParameters();
-	@PolyFlow 
-	 Camera open();
-	@PolyFlow
-	void setParameters(Parameters params);
-	@PolyFlow
-	void setPreviewDisplay(SurfaceHolder holder);
-	void takePicture(@FlowSinks({}) ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
+	//@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
+	@DefaultFlow
+	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
+	//void release();
+	void setParameters(@FlowSinks(FlowSink.CAMERA_SETTINGS) Parameters params);
+	void setPreviewDisplay(@FlowSinks(FlowSink.DISPLAY) SurfaceHolder holder);
+	//void startPreview();
+	//void stopPreview();
+	void takePicture(ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
+}
+
+interface  Camera$PictureCallback {
+//Annotations by Philip 
+//Can't override this method, so annotate it for the CameraTest app. 
+	void onPictureTaken(@FlowSources(FlowSource.CAMERA)@FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY}) byte @FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY})  [] data,@FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY})  Camera camera);
 }
 
 
-interface Camera$PictureCallback {
-	void onPictureTaken(@FlowSources(FlowSource.CAMERA) byte[] data, Camera camera);
-}
-
-
-class Sensor {
-	  @FlowSources(FlowSource.ACCELEROMETER) int TYPE_ACCELEROMETER;
-}
-
-class SensorManager {
-	 @PolyFlowSources @PolyFlowSinks android.hardware.Sensor getDefaultSensor(@PolyFlowSources @PolyFlowSinks int type);
-}
-
-class SensorEvent {
-	@FlowSources(FlowSource.ACCELEROMETER) @FlowSinks float[] values;
-}
-
-package android.inputmethodservice;
-
-class AbstractInputMethodService {
-	 Object clearWallpaper();
-	 Object removeStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	 Object setWallpaper(android.graphics.Bitmap p0);
-	 Object setWallpaper(java.io.InputStream p0);
-}
 
 package android.location;
-class Address {
-	@FlowSources(FlowSource.LOCATION) String getAdminArea() @FlowSources(FlowSource.LOCATION);
-	@FlowSources(FlowSource.LOCATION) String getCountryName() @FlowSources(FlowSource.LOCATION);
-	@FlowSources(FlowSource.LOCATION) String getFeatureName() @FlowSources(FlowSource.LOCATION);
-	@FlowSources(FlowSource.LOCATION) double getLatitude() @FlowSources(FlowSource.LOCATION);
-	@FlowSources(FlowSource.LOCATION) String getLocality() @FlowSources(FlowSource.LOCATION);
-	@FlowSources(FlowSource.LOCATION) double getLongitude() @FlowSources(FlowSource.LOCATION);
-	@FlowSources(FlowSource.LOCATION) String getPostalCode() @FlowSources(FlowSource.LOCATION);
-	@FlowSources(FlowSource.LOCATION) boolean hasLatitude() @FlowSources(FlowSource.LOCATION);
-	@FlowSources(FlowSource.LOCATION) boolean hasLongitude() @FlowSources(FlowSource.LOCATION);
-}
 
-class Geocoder {
-	@FlowSources({}) List<@FlowSources(FlowSource.LOCATION) Address> 
-		getFromLocation(@FlowSources(FlowSource.LOCATION) @FlowSinks({}) double latitude, 
-		@FlowSources(FlowSource.LOCATION) @FlowSinks({}) double longitude, @FlowSinks({}) int maxResults);
-		
-	@FlowSources({}) List<@FlowSources(FlowSource.LOCATION) Address> 
-	    getFromLocationName(@FlowSources(FlowSource.LOCATION) @FlowSinks({}) String locationName, @FlowSinks({}) int maxResults);
-}
-
-class Location {
-	@FlowSources(FlowSource.LOCATION) float bearingTo(@FlowSources(FlowSource.LOCATION) Location dest) @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) int describeContents() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) float distanceTo(@FlowSources({FlowSource.LOCATION, FlowSource.TIME}) Location dest) @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	void dump(@FlowSources(FlowSource.LOCATION) Printer pw, String prefix) @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) float getAccuracy() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) double getAltitude() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) float getBearing() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) Bundle getExtras() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) double getLatitude() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) double getLongitude() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) String getProvider() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) float getSpeed() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.TIME) long getTime() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) boolean hasAccuracy() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) boolean hasAltitude() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) boolean hasBearing() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	@FlowSources(FlowSource.LOCATION) boolean hasSpeed() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	
-	void removeAccuracy() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	void removeAltitude() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	void removeBearing() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	void removeSpeed() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	void reset() @FlowSources({FlowSource.LOCATION, FlowSource.TIME});
-	
-	void set(@PolyFlowSources @PolyFlowSinks Location l) @PolyFlowSources @PolyFlowSinks;
-	void setAccuracy(@PolyFlowSources @PolyFlowsinks float accuracy) @PolyFlowSources @PolyFlowSinks;
-	void setAltitude(@PolyFlowSources @PolyFlowsinks double altitude) @PolyFlowSources @PolyFlowSinks;
-	void setBearing(@PolyFlowSources @PolyFlowsinks float bearing) @PolyFlowSources @PolyFlowSinks;
-	void setExtras(@PolyFlowSources @PolyFlowsinks Bundle extras) @PolyFlowSources @PolyFlowSinks;
-	void setLongitude(@PolyFlowSources @PolyFlowsinks double longitude) @PolyFlowSources @PolyFlowSinks;
-	void setProvider(@PolyFlowSources @PolyFlowsinks String provider) @PolyFlowSources @PolyFlowSinks;
-	void setSpeed(@PolyFlowSources @PolyFlowsinks float speed) @PolyFlowSources @PolyFlowSinks;
-	void setTime(@PolyFlowSources @PolyFlowsinks long time) @PolyFlowSources @PolyFlowSinks;
-}
-
-interface LocationListener {
-	void onLocationChanged(@FlowSources(FlowSource.LOCATION) Location location);
-}
-
-class LocationManager {
-	 Object addGpsStatusListener(android.location.GpsStatus.Listener p0);
-	 Object addNmeaListener(android.location.GpsStatus.NmeaListener p0);
-	 Object addProximityAlert(double p0,double p1,float p2,long p3,android.app.PendingIntent p4);
-	 Object addTestProvider(java.lang.String p0,boolean p1,boolean p2,boolean p3,boolean p4,boolean p5,boolean p6,boolean p7,int p8,int p9);
-	 Object clearTestProviderEnabled(java.lang.String p0);
-	 Object clearTestProviderLocation(java.lang.String p0);
-	 Object clearTestProviderStatus(java.lang.String p0);
-	@PolyFlow 
-	String getBestProvider(Criteria criteria, boolean enabledOnly);
-	@FlowSources({FlowSource.LOCATION, FlowSource.TIME}) Location getLastKnownLocation(@FlowSinks({}) String provider);
-	 Object getProvider(java.lang.String p0);
-	 Object getProviders(android.location.Criteria p0,boolean p1);
-	 Object getProviders(boolean p0);
-	 Object isProviderEnabled(java.lang.String p0);
-	 Object removeTestProvider(java.lang.String p0);
-	 Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.app.PendingIntent p3);
-	 Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3,android.os.Looper p4);
-	 Object requestLocationUpdates(java.lang.String p0,long p1,float p2,android.location.LocationListener p3);
-	 Object sendExtraCommand(java.lang.String p0,java.lang.String p1,android.os.Bundle p2);
-	 Object setTestProviderEnabled(java.lang.String p0,boolean p1);
-	 Object setTestProviderLocation(java.lang.String p0,android.location.Location p1);
-	 Object setTestProviderStatus(java.lang.String p0,int p1,android.os.Bundle p2,long p3);
-}
-	
-package android.media;
-
-class ExifInterface{
- public ExifInterface(@FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources String filename);
-
-@FlowSources({FlowSource.LOCATION,FlowSource.FILESYSTEM}) @PolyFlowSinks double  getAltitude(@FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources double defaultValue);
-
-@FlowSources(FlowSource.FILESYSTEM) @PolyFlowSinks String        getAttribute(@FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources String tag);
-
-@FlowSources({FlowSource.FILESYSTEM}) @PolyFlowSinks double      getAttributeDouble(@FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources String tag, @FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources double defaultValue);
-
-@FlowSources({FlowSource.FILESYSTEM}) @PolyFlowSinks int         getAttributeInt(@FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources String tag,@FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources int defaultValue);
-
-@FlowSources({FlowSource.FILESYSTEM}) @PolyFlowSinks boolean     getLatLong(@FlowSources({FlowSource.LOCATION,FlowSource.FILESYSTEM})@PolyFlowSinks  float[] output);
-
-@FlowSources({FlowSource.FILESYSTEM}) @PolyFlowSinks byte[]      getThumbnail();
-
-@FlowSources({FlowSource.FILESYSTEM}) @PolyFlowSinks boolean     hasThumbnail();
-
-void     saveAttributes();
-
-void     setAttribute(@FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources String tag, @FlowSinks(FlowSink.FILESYSTEM) @PolyFlowSources String value);
-}
-
-package android.net;
-
-class Uri {
-	@FlowSources({}) List<@PolyFlowSources @PolyFlowSinks String> getPathSegments() @PolyFlowSources @PolyFlowSinks;
-	static @PolyFlowSources @PolyFlowSinks Uri parse(@PolyFlowSources @PolyFlowSinks String uriString);
-	static @PolyFlowSources @PolyFlowSinks Uri withAppendedPath(@PolyFlowSources @PolyFlowSinks Uri baseUri, @PolyFlowSources @PolyFlowSinks String pathSegment);
-}
-
-package android.opengl;
-
-class GLSurfaceView {
-	@PolyFlow
-	void setRenderer(Renderer r);
-}
-
-package android.os;
-
-class Bundle {
-	@PolyFlowSources @PolyFlowSinks boolean getBoolean(@FlowSinks({}) String key, @FlowSinks({}) boolean defaultValue) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks double getDouble(@FlowSinks({}) String key) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int getInt(@FlowSinks({}) String key) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String getString(@FlowSinks({}) String key) @PolyFlowSources @PolyFlowSinks;
-	void putDouble(@PolyFlowSources @PolyFlowSinks String key, @PolyFlowSources @PolyFlowSinks double value) @PolyFlowSources @PolyFlowSinks;
-	void putInt(@PolyFlowSources @PolyFlowSinks String key, @PolyFlowSources @PolyFlowSinks int value) @PolyFlowSources @PolyFlowSinks;
-}
-	
-class DropBoxManager {
-	 Object getNextEntry(java.lang.String p0,long p1);
-}
-
-class Environment {
-	
-	static @FlowSources(FlowSource.EXTERNAL_STORAGE) @FlowSinks(FlowSink.ANY) File getExternalStorageDirectory();
-	
-	//TODO:Fake Enum
-	static @FlowSources(FlowSource.EXTERNAL_STORAGE) @FlowSinks(FlowSink.ANY) File 
-	getExternalStoragePublicDirectory(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.EXTERNAL_STORAGE) String type);
-}
-
-class Parcel {
-	void writeString(@PolyFlowSources @PolyFlowSinks String val) @PolyFlowSources @PolyFlowSinks;
-}
-
-package android.os;
-
-class Vibrator {
-	 void cancel();
-	 void vibrate(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.VIBRATE) long[] p0, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.VIBRATE) int p1);
-	 void vibrate( @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.VIBRATE) long p0);
-}
-
-package android.preference;
-
-class EditTextPreference {
-	void setText(@PolyFlowSources @PolyFlowSinks String text) @PolyFlowSources @PolyFlowSinks;
-}
-
-package android.telephony;
-
-class SmsMessage {
-	@FlowSources(FlowSource.SMS) @FlowSinks({}) SmsMessage createFromPdu(@FlowSinks(FlowSink.SMS) @FlowSources(FlowSource.ANY) byte @FlowSinks(FlowSink.SMS) @FlowSources(FlowSource.ANY) []  pdu);
-}
-
-class TelephonyManager {
-	@FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.ANY) CellLocation getCellLocation();
-	@FlowSources(FlowSource.IMEI) @FlowSinks(FlowSink.ANY) String getDeviceId();	
-	@FlowSources(FlowSource.PHONE_NUMBER) @FlowSinks(FlowSink.ANY) String getLine1Number();
-	@FlowSources(FlowSource.PHONE_NUMBER) @FlowSinks(FlowSink.ANY) String getVoiceMailNumber();
-}
-
-package android.text;
-
-class Editable {
-    @PolyFlowSources @PolyFlowSinks Editable append(@PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
-    @PolyFlow
-    void clear();
-    @PolyFlowSources @PolyFlowSinks Editable insert(@FlowSinks({}) int where, @PolyFlowSources @PolyFlowSinks CharSequence text) @PolyFlowSources @PolyFlowSinks;
-    @PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-}
-
-class TextUtils {
-	@PolyFlowSources @PolyFlowSinks boolean isEmpty(@PolyFlowSources @PolyFlowSinks CharSequence str);
-}
-
-package android.text.format;
-
-class DateUtils {
-	@PolyFlowSources @PolyFlowSinks String getDayOfWeekString(@PolyFlowSources @PolyFlowSinks int dayOfWeek, @FlowSources(FlowSource.ANY) @FlowSinks({}) int abbrev);
-}
+ interface LocationListener {
+//Added by SOM
+        void onLocationChanged(@FlowSources(FlowSource.LOCATION) Location location);
+ }
 
 package android.util;
 
-class Base64 {
-    static @PolyFlowSources @PolyFlowSinks byte[] decode(@PolyFlowSources @PolyFlowSinks java.lang.String str, @PolyFlowSources @PolyFlowSinks int flags);
-}
-
-@PolyFlow
 class FloatMath {
-
+//Added by SOM
+   static @PolyFlowSources @PolyFlowSinks float ceil(@PolyFlowSources @PolyFlowSinks float value);
+   static @PolyFlowSources @PolyFlowSinks float cos(@PolyFlowSources @PolyFlowSinks float angle);
+   static @PolyFlowSources @PolyFlowSinks float floor(@PolyFlowSources @PolyFlowSinks float value);
+   static @PolyFlowSources @PolyFlowSinks float sin(@PolyFlowSources @PolyFlowSinks float angle);
+   static @PolyFlowSources @PolyFlowSinks float sqrt(@PolyFlowSources @PolyFlowSinks float value);
 }
+
 
 class Log {
-static @FlowSources(FlowSource.LOG) int	 d(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
-static @FlowSources(FlowSource.LOG) int	 d(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
-static @FlowSources(FlowSource.LOG) int	 e(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
-static @FlowSources(FlowSource.LOG) int	 e(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
-static @FlowSources(FlowSource.LOG) int	 i(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
-static @FlowSources(FlowSource.LOG) int	 i(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
-static @FlowSources(FlowSource.LOG) int	 v(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
-static @FlowSources(FlowSource.LOG) int	 v(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
-static @FlowSources(FlowSource.LOG) int	 w(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) Throwable tr);
-static @FlowSources(FlowSource.LOG) int	 w(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
-static @FlowSources(FlowSource.LOG) int	 w(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
-static @FlowSources(FlowSource.LOG) int	 wtf(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) Throwable tr);
-static @FlowSources(FlowSource.LOG) int	 wtf(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg);
-static @FlowSources(FlowSource.LOG) int	 wtf(@FlowSinks(FlowSink.LOG) String tag, @FlowSinks(FlowSink.LOG) String msg, @FlowSinks(FlowSink.LOG) Throwable tr);
-}
+//Added by SOM
 
-package android.view;
-
-class ContextThemeWrapper {
-	 Object clearWallpaper();
-	 Object removeStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyBroadcast(android.content.Intent p0);
-	 Object sendStickyOrderedBroadcast(android.content.Intent p0,android.content.BroadcastReceiver p1,android.os.Handler p2,int p3,java.lang.String p4,android.os.Bundle p5);
-	@PolyFlow
-	void setTheme(int resid);
-	 Object setWallpaper(android.graphics.Bitmap p0);
-	 Object setWallpaper(java.io.InputStream p0);
-}
-
-class KeyEvent {
-    @PolyFlow
-    int getAction();
-    @FlowSources(FlowSource.USER_INPUT) @FlowSinks(FlowSink.ANY) int getKeyCode();
-}
-
-class Menu {
-    @PolyFlow
-    MenuItem add(int groupId, int itemId, int order, CharSequence title);
-    
-     @FlowSinks({FlowSink.DISPLAY, FlowSink.CONDITIONAL})@PolyFlowSources MenuItem findItem ( @FlowSinks({FlowSink.DISPLAY, FlowSink.CONDITIONAL}) @PolyFlowSources int id);
-}
-
-class MenuInflater {                                                  
-    @DefaultFlow                                                           
-    void inflate(int menuRes, Menu menu);                             
-}
-
-@DefaultFlow
-class MenuItem {
-    @PolyFlow
-    int getItemId();
-   @FlowSinks({FlowSink.DISPLAY, FlowSink.CONDITIONAL}) MenuItem setVisible(@FlowSinks({FlowSink.DISPLAY, FlowSink.CONDITIONAL}) boolean visible);
-}
-
-class Surface {
-
-}
-
-class View {
-	@PolyFlow
-	View findViewById(int id);
-	@PolyFlowSources @PolyFlowSinks Context getContext() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int getId() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks Object getTag() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlow
-	void setOnClickListener(OnClickListener l);
-	@PolyFlow
-	void setOnKeyListener(OnKeyListener l);
-	@PolyFlow
-	void setVisibility(int visibility);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY) int	 d(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 d(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 e(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 e(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 i(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 i(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 v(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 v(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG)  @FlowSinks(FlowSink.ANY) int	 w(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 w(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 w(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 wtf(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 wtf(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG)  @FlowSinks(FlowSink.ANY) int	 wtf(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
 }
 
 package android.widget;
 
-class AdapterView {
-	@PolyFlowSources @PolyFlowSinks Object getItemAtPosition(@FlowSinks({}) int position) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlow void setOnItemClickListener(AdapterView.OnItemClickListener listener) @PolyFlowSources @PolyFlowSinks;
-    @PolyFlow void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener) @PolyFlowSources @PolyFlowSinks;
-}
-
-class ArrayAdapter<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
-}
-
-class EditText {
-	@PolyFlowSources @PolyFlowSinks Editable getText() @PolyFlowSources @PolyFlowSinks;
-	void setSelection(@PolyFlowSources @PolyFlowSinks int index) @PolyFlowSources @PolyFlowSinks;
-	void setText(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) CharSequence text);
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-}
-
 class ImageView {
-	void setImageBitmap(@PolyFlowSources @PolyFlowSinks Bitmap bm) @PolyFlowSources @PolyFlowSinks;
-	void setImageDrawable(@PolyFlowSources @PolyFlowSinks Drawable drawable) @PolyFlowSources @PolyFlowSinks;
-	void setImageResource(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) int i) @PolyFlowSources @PolyFlowSinks;
+//Added by Philip
+	void setImageBitmap(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) Bitmap bm);
+	void setImageDrawable(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) Drawable drawable);
+	void setImageResource(@PolyFlowSources @PolyFlowSinks int i) @PolyFlowSources @PolyFlowSinks;
 }
-	
-class QuickContactBadge {
-	 Object assignContactFromEmail(java.lang.String p0,boolean p1);
-	 Object assignContactFromPhone(java.lang.String p0,boolean p1);
-}
-
-class TextView {
-	void setText(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) CharSequence text);
-	void setText(@PolyFlowSources @FlowSinks(FlowSink.DISPLAY) int resid) @PolyFlowSources @PolyFlowSinks;
-}
-
-/* JAVA PACKAGES BELOW */
-
 package java.io;
 
-class BufferedInputStream {
-	@PolyFlowSources @PolyFlowSinks BufferedInputStream(@PolyFlowSources @PolyFlowSinks InputStream in);
-	//@FlowSources({}) int read(@PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] buffer) @PolyFlowSources @PolyFlowSinks;
-}
+class FileOutputStream {
+//Added by SOM
 
-class BufferedReader {
-	@PolyFlowSources @PolyFlowSinks BufferedReader(@PolyFlowSources @PolyFlowSinks Reader in, @PolyFlowSources @PolyFlowSinks int size);
-	@PolyFlow
-	void close() @FlowSources(FlowSource.ANY);
-	@PolyFlowSources @PolyFlowSinks String readLine() @PolyFlowSources @PolyFlowSinks;
-}
-
-class ByteArrayInputStream {
-	@PolyFlowSources @PolyFlowSinks ByteArrayInputStream(@PolyFlowSources @PolyFlowSinks byte[] buf);
-}
-
-class ByteArrayOutputStream {
-	void close() @FlowSources(FlowSource.ANY); //@FlowSinks(FlowSink.FILESYSTEM) @FlowSources(FlowSource.ANY);
-	@PolyFlowSources @PolyFlowSinks byte @FlowSources [] toByteArray() @PolyFlowSources @PolyFlowSinks;
-	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) [] buffer, int offset, int len) @PolyFlowSources @PolyFlowSinks;
-}
-
-class DataInputStream{
-	@PolyFlowSources @PolyFlowSinks DataInputStream(@PolyFlowSources @PolyFlowSinks InputStream in);
-    @PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] buffer, @PolyFlowSources @PolyFlowSinks int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
-}
-
-class DataOutputStream {
-	@PolyFlowSources @PolyFlowSinks DataOutputStream(@PolyFlowSources @PolyFlowSinks OutputStream stream) @PolyFlowSources @PolyFlowSinks;
-	void close() @PolyFlowSources @PolyFlowSinks;
-	void flush() @PolyFlowSources @PolyFlowSinks;
-	void writeBytes(@PolyFlowSources @PolyFlowSinks String str) @PolyFlowSources @PolyFlowSinks;
-	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer, @PolyFlowSources @PolyFlowSinks int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
+ @FlowSources(FlowSource.FILESYSTEM) @FlowSinks(FlowSink.ANY)  FileOutputStream(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM)  File file);
+ void write(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM) byte @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM)  [] bytes);
 }
 
 class File {
-	@PolyFlowSources @PolyFlowSinks boolean createNewFile() @PolyFlowSources @PolyFlowSinks;
-    @PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks boolean exists() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks String path);
-	@PolyFlowSources @PolyFlowSinks File(@PolyFlowSources @PolyFlowSinks File dir, @PolyFlowSources @PolyFlowSinks String name);
-	@PolyFlowSources @PolyFlowSinks String getAbsolutePath() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String getName() @PolyFlowSources @PolyFlowSinks;
-    @PolyFlowSources @PolyFlowSinks String getPath() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks boolean isDirectory() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
-    @PolyFlowSources @PolyFlowSinks File @PolyFlowSources @PolyFlowSinks [] listFiles() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks boolean mkdirs() @PolyFlowSources @PolyFlowSinks;
-	@FlowSinks(FlowSink.ANY) String separator;
-	@PolyFlowSources @PolyFlowSinks boolean delete() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks File[] listFiles() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-	
+//Added by SOM
+
+	@FlowSources(FlowSource.FILESYSTEM) @FlowSinks(FlowSink.ANY) File( @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM) String path);
 }
 
-class FileInputStream {
-	void close() @PolyFlowSources @PolyFlowSinks; 
-	@PolyFlowSources @PolyFlowSinks FileInputStream(@PolyFlowSources @PolyFlowSinks File file);	
-	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
-	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer, @FlowSinks() int offset, @PolyFlowSources @PolyFlowSinks int length) @PolyFlowSources @PolyFlowSinks;
-    @PolyFlowSources @PolyFlowSinks int available() @PolyFlowSources @PolyFlowSinks;
+class ByteArrayOutputStream{
+//Added by SOM
+   @FlowSources({}) @FlowSinks(FlowSink.ANY) ByteArrayOutputStream();
+   @PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] toByteArray() @PolyFlowSources @PolyFlowSinks;
+   void close() @FlowSources(FlowSource.ANY) @FlowSinks({});
 }
-
-class FileOutputStream {
-	void close() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks File file);
-	@PolyFlowSources @PolyFlowSinks FileOutputStream(@PolyFlowSources @PolyFlowSinks String filename);
-	//void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
-	// Workaround: Require FlowSink.FILESYSTEM for every write on a FileOutputStream
-    void write(@PolyFlowSources @FlowSinks(FlowSink.FILESYSTEM) byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @FlowSinks(FlowSink.FILESYSTEM);
-}
-
-class FileReader {
-	@PolyFlowSources @PolyFlowSinks FileReader(@PolyFlowSources @PolyFlowSinks File file) @PolyFlowSources @PolyFlowSinks ;
-}
-
-class FileWriter {
-	@PolyFlowSources @PolyFlowSinks FileWriter(@PolyFlowSources @PolyFlowSinks File file);
-	void write (@PolyFlowSources @PolyFlowSinks String str) @PolyFlowSources @PolyFlowSinks ;
-}
-
-class FilterInputStream {
-	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] b) @PolyFlowSources @PolyFlowSinks;
-	void close() @FlowSources(FlowSource.ANY);
-}
-
-class IOException {
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-}
-
-class InputStream {
-	void close() @PolyFlowSources @PolyFlowSinks; 
-	int read(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
-    @PolyFlowSources @PolyFlowSinks int available() @PolyFlowSources @PolyFlowSinks;
-}
-
-class InputStreamReader {
-	void close() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks InputStreamReader(@PolyFlowSources @PolyFlowSinks InputStream in);
-	@PolyFlowSources @PolyFlowSinks InputStreamReader(@PolyFlowSources @PolyFlowSinks InputStream in, String enc);
-}
-
-class OutputStream {
-	void close() @PolyFlowSources @PolyFlowSinks;
-	void flush() @PolyFlowSources @PolyFlowSinks;
-	void write(@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] buffer) @PolyFlowSources @PolyFlowSinks;
-}
-
-class OutputStreamWriter {
-	void close() @PolyFlowSources @PolyFlowSinks;
-	void flush() @PolyFlowSources @PolyFlowSinks;
-}
-
-class PrintStream {
-	void println(@FlowSources(FlowSource.ANY) @FlowSinks({}) Object x);
-}
-
-class Reader {
-	void close() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int read(@PolyFlowSources @PolyFlowSinks char @FlowSources({}) @FlowSinks({}) [] buf) @PolyFlowSources @PolyFlowSinks;
-}
-
-class Writer {
-	void close() @PolyFlowSources @PolyFlowSinks;
-	void write(@PolyFlowSources @PolyFlowSinks char @FlowSources({}) @FlowSinks({}) [] buf,
-		@PolyFlowSources @PolyFlowSinks int offset,	@PolyFlowSources @PolyFlowSinks int count) @PolyFlowSources @PolyFlowSinks;
-}
-
 package java.lang;
 
-@PolyFlow
-class Character {
-    Character(@PolyFlowSources @PolyFlowSinks char arg0);
-    Character valueOf(char arg0);
-    char charValue();
-    int hashCode();
-    boolean equals(Object arg0);
-    String toString();
-    String toString(char arg0);
-    boolean isValidCodePoint(int arg0);
-    boolean isBmpCodePoint(int arg0);
-    boolean isSupplementaryCodePoint(int arg0);
-    boolean isHighSurrogate(char arg0);
-    boolean isLowSurrogate(char arg0);
-    boolean isSurrogate(char arg0);
-    boolean isSurrogatePair(char arg0, char arg1);
-    int charCount(int arg0);
-    int toCodePoint(char arg0, char arg1);
-    int codePointAt(CharSequence arg0, int arg1);
-    int codePointAt(char[] arg0, int arg1);
-    int codePointAt(char[] arg0, int arg1, int arg2);
-    int codePointBefore(CharSequence arg0, int arg1);
-    int codePointBefore(char[] arg0, int arg1);
-    int codePointBefore(char[] arg0, int arg1, int arg2);
-    char highSurrogate(int arg0);
-    char lowSurrogate(int arg0);
-    int toChars(int arg0, char[] arg1, int arg2);
-    char[] toChars(int arg0);
-    int codePointCount(CharSequence arg0, int arg1, int arg2);
-    int codePointCount(char[] arg0, int arg1, int arg2);
-    int offsetByCodePoints(CharSequence arg0, int arg1, int arg2);
-    int offsetByCodePoints(char[] arg0, int arg1, int arg2, int arg3, int arg4);
-    boolean isLowerCase(char arg0);
-    boolean isLowerCase(int arg0);
-    boolean isUpperCase(char arg0);
-    boolean isUpperCase(int arg0);
-    boolean isTitleCase(char arg0);
-    boolean isTitleCase(int arg0);
-    boolean isDigit(char arg0);
-    boolean isDigit(int arg0);
-    boolean isDefined(char arg0);
-    boolean isDefined(int arg0);
-    boolean isLetter(char arg0);
-    boolean isLetter(int arg0);
-    boolean isLetterOrDigit(char arg0);
-    boolean isLetterOrDigit(int arg0);
-    boolean isJavaLetter(char arg0);
-    boolean isJavaLetterOrDigit(char arg0);
-    boolean isAlphabetic(int arg0);
-    boolean isIdeographic(int arg0);
-    boolean isJavaIdentifierStart(char arg0);
-    boolean isJavaIdentifierStart(int arg0);
-    boolean isJavaIdentifierPart(char arg0);
-    boolean isJavaIdentifierPart(int arg0);
-    boolean isUnicodeIdentifierStart(char arg0);
-    boolean isUnicodeIdentifierStart(int arg0);
-    boolean isUnicodeIdentifierPart(char arg0);
-    boolean isUnicodeIdentifierPart(int arg0);
-    boolean isIdentifierIgnorable(char arg0);
-    boolean isIdentifierIgnorable(int arg0);
-    char toLowerCase(char arg0);
-    int toLowerCase(int arg0);
-    char toUpperCase(char arg0);
-    int toUpperCase(int arg0);
-    char toTitleCase(char arg0);
-    int toTitleCase(int arg0);
-    int digit(char arg0, int arg1);
-    int digit(int arg0, int arg1);
-    int getNumericValue(char arg0);
-    int getNumericValue(int arg0);
-    boolean isSpace(char arg0);
-    boolean isSpaceChar(char arg0);
-    boolean isSpaceChar(int arg0);
-    boolean isWhitespace(char arg0);
-    boolean isWhitespace(int arg0);
-    boolean isISOControl(char arg0);
-    boolean isISOControl(int arg0);
-    int getType(char arg0);
-    int getType(int arg0);
-    char forDigit(int arg0, int arg1);
-    byte getDirectionality(char arg0);
-    byte getDirectionality(int arg0);
-    boolean isMirrored(char arg0);
-    boolean isMirrored(int arg0);
-    int compareTo(Character arg0);
-    int compare(char arg0, char arg1);
-    char reverseBytes(char arg0);
-    String getName(int arg0);
-}
-	
-class Double {
-    static @PolyFlowSources @PolyFlowSinks long doubleToLongBits(@PolyFlowSources @PolyFlowSinks double d);
-	static @PolyFlowSources @PolyFlowSinks boolean isNaN(@PolyFlowSources @PolyFlowSinks double d);
-	static @PolyFlowSources @PolyFlowSinks double parseDouble(@PolyFlowSources @PolyFlowSinks String string);
-	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks double d);
-}
-
-class CharSequence {
-    @PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-}
-
-class Class {
-	@PolyFlow
-	String getName();
-    @PolyFlow
-    Class forName(String s1);
-    @DefaultFlow
-    boolean isAnnotationPresent(Class<? extends Annotation> annotationClass);
-    @PolyFlow
-    Constructor getConstructor(Class[] parameterTypes);
-    @PolyFlow
-    Method  getMethod(String name, Class[] parameterTypes);
-}
-
-class Enum {
-    @PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object other) @PolyFlowSources @PolyFlowSinks;
-    @PolyFlowSources @PolyFlowSinks String name() @PolyFlowSources @PolyFlowSinks;
-}
-
-class Float {
-	static @PolyFlowSources @PolyFlowSinks int floatToIntBits(@PolyFlowSources @PolyFlowSinks float value);
-}
-
-class Integer {
-	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s);
-	static @PolyFlowSources @PolyFlowSinks int parseInt(@PolyFlowSources @PolyFlowSinks String s, @FlowSinks({}) int radix);
-	static @PolyFlowSources @PolyFlowSinks String toHexString(@PolyFlowSources @PolyFlowSinks int i);
-	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks int i);
-}
-
-class Long {
-	static @PolyFlowSources @PolyFlowSinks long parseLong(@PolyFlowSources @PolyFlowSinks String string);
-	static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks long l1);
-}
-
-class Math {
-	static @PolyFlowSources @PolyFlowSinks float abs(@PolyFlowSources @PolyFlowSinks float f);
-	static @PolyFlowSources @PolyFlowSinks long abs(@PolyFlowSources @PolyFlowSinks long l);
-	static @PolyFlowSources @PolyFlowSinks double acos(@PolyFlowSources @PolyFlowSinks double d);
-	static @PolyFlowSources @PolyFlowSinks double asin(@PolyFlowSources @PolyFlowSinks double d);
-	static @PolyFlowSources @PolyFlowSinks double atan(@PolyFlowSources @PolyFlowSinks double d);
-	static @PolyFlowSources @PolyFlowSinks double atan2(@PolyFlowSources @PolyFlowSinks double y, @PolyFlowSources @PolyFlowSinks double x);
-	static @PolyFlowSources @PolyFlowSinks double log10(@PolyFlowSources @PolyFlowSinks double d);
-	static @PolyFlowSources @PolyFlowSinks int min(@PolyFlowSources @PolyFlowSinks int i1, @PolyFlowSources @PolyFlowSinks int i2);
-	static @PolyFlowSources @PolyFlowSinks long min(@PolyFlowSources @PolyFlowSinks long l1, @PolyFlowSources @PolyFlowSinks long l2);
-	static @PolyFlowSources @PolyFlowSinks double pow(@PolyFlowSources @PolyFlowSinks double x, @PolyFlowSources @PolyFlowSinks double y);
-}
-
-	
-class Object {
-	@FlowSources(FlowSource.ANY) boolean equals(Object object);
-	@PolyFlow
-	Class getClass();
-	@PolyFlowSources @PolyFlowSinks int hashCode() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-}
-	
-class Runtime {
-	 Object exec(java.lang.String p0);
-	 Object exec(java.lang.String[] p0);
-	 Object exec(java.lang.String[] p0,java.lang.String[] p1);
-	 Object exec(java.lang.String[] p0,java.lang.String[] p1,java.io.File p2);
-	 Object exec(java.lang.String p0,java.lang.String[] p1);
-	 Object exec(java.lang.String p0,java.lang.String[] p1,java.io.File p2);
+class ByteArrayOutputStream {
+     @PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] toByteArray() @PolyFlowSources @PolyFlowSinks;
 }
 
 class String {
-	@PolyFlowSources @PolyFlowSinks char charAt(@PolyFlowSources @PolyFlowSinks int index) @PolyFlowSources @PolyFlowSinks;
-    @PolyFlowSources @PolyFlowSinks boolean contains(@PolyFlowSources @PolyFlowSinks CharSequence cs) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object object) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks boolean equalsIgnoreCase(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
-	static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
-	static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
-	@PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int indexOf(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int lastIndexOf(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) char target, @PolyFlowSources @PolyFlowSinks char replacement) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) CharSequence target,
-		@PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String(@PolyFlowSources @PolyFlowSinks String toCopy);
-	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
+//Added for Misc. Test SOM
+   @PolyFlowSources @PolyFlowSinks char charAt(@PolyFlowSources @PolyFlowSinks int index) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks boolean contains(@PolyFlowSources @PolyFlowSinks CharSequence cs) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object object) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks boolean equalsIgnoreCase(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
+   static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
+   static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
+   @PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) char target, @PolyFlowSources @PolyFlowSinks char replacement) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) CharSequence target,
+   @PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
+
 }
 
-class StringBuilder {
-	@PolyFlowSources @PolyFlowSinks StringBuilder append(@PolyFlowSources @PolyFlowSinks char c) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-}
-	
-class StringBuffer {
-	@PolyFlowSources @PolyFlowSinks StringBuffer append(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks StringBuffer append(@PolyFlowSources @PolyFlowSinks char ch) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-}
-
-class System {
-	@FlowSources(FlowSource.TIME) long currentTimeMillis();
-}
-
-class Throwable {
-	@PolyFlow
-	Throwable initCause(Throwable throwable);
-}
-
-package java.net;
-
-class DatagramSocket {
-	 DatagramSocket();
-	 DatagramSocket(int p0);
-	 DatagramSocket(int p0,java.net.InetAddress p1);
-	 DatagramSocket(java.net.SocketAddress p0);
-    
-    @PolyFlowSources @PolyFlowSinks void send(@PolyFlowSources @PolyFlowSinks DatagramPacket packet) @PolyFlowSources @PolyFlowSinks;
-}
-
-class HttpURLConnection {
-	 HttpURLConnection(java.net.URL p0);
-	 Object connect();
-    @PolyFlow void setRequestMethod(String method);
-}
-
-class InetAddress {
-    @PolyFlowSources @PolyFlowSinks InetAddress getByName(@PolyFlowSources @PolyFlowSinks String host) @PolyFlowSources @PolyFlowSinks;
-}
-
-class MulticastSocket {
-	 MulticastSocket();
-	 MulticastSocket(int p0);
-	 MulticastSocket(java.net.SocketAddress p0);
-}
-
-class NetworkInterface {
-	 NetworkInterface();
-	//TODO:This is a constructor in Java 7, but not Android 
-//	 NetworkInterface(java.lang.String p0,int p1,java.net.InetAddress p2);
-}
-
-class MalformedURLException {
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-}
-
-class ServerSocket {
-	 ServerSocket();
-	 ServerSocket(int p0);
-	 ServerSocket(int p0,int p1);
-	 ServerSocket(int p0,int p1,java.net.InetAddress p2);
-	 Object bind(java.net.SocketAddress p0);
-	 Object bind(java.net.SocketAddress p0,int p1);
-}
-
-class Socket {
-	 Socket();
-	 Socket(java.lang.String p0,int p1);
-	 Socket(java.lang.String p0,int p1,java.net.InetAddress p2,int p3);
-	 Socket(java.lang.String p0,int p1,boolean p2);
-	 Socket(java.net.InetAddress p0,int p1);
-	 Socket(java.net.InetAddress p0,int p1,java.net.InetAddress p2,int p3);
-	 Socket(java.net.InetAddress p0,int p1,boolean p2);
-}
-
-class URI {
-	static @PolyFlowSources @PolyFlowSinks URI create(@PolyFlowSources @PolyFlowSinks String uri);
-	@PolyFlowSources @PolyFlowSinks String getScheme() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int getPort() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks URI(@PolyFlowSources @PolyFlowSinks String spec);
-}
-
-class URL {
-	 Object getContent(java.lang.Class[] p0);
-	 Object getContent();
-	 Object openConnection(java.net.Proxy p0);
-	@PolyFlowSources @PolyFlowSinks URLConnection openConnection() @PolyFlowSources @PolyFlowSinks;
-	 Object openStream();
-	@PolyFlowSources @PolyFlowSinks String toExternalForm() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks URI toURI() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlow Object URL(String spec);
-	@PolyFlowSources @PolyFlowSinks String getHost()@PolyFlowSources @PolyFlowSinks ;
-	@PolyFlowSources @PolyFlowSinks String getFile()@PolyFlowSources @PolyFlowSinks ;
-	@PolyFlowSources @PolyFlowSinks String getProtocol()@PolyFlowSources @PolyFlowSinks ;
-	@PolyFlowSources @PolyFlowSinks int getPort()@PolyFlowSources @PolyFlowSinks ;
-}
-
-class URLConnection {
-	 Object connect();
-	@FlowSources({FlowSource.NETWORK}) @PolyFlowSinks InputStream getInputStream() @PolyFlowSinks;
-	@FlowSinks({FlowSink.NETWORK}) @PolyFlowSources OutputStream getOutputStream() @PolyFlowSources;
-
-	// I'm not sure if these actually leak information, but just to be safe...
-	void setDoInput(@FlowSinks({FlowSink.NETWORK}) boolean doInput);
-	void setDoOutput(@FlowSinks({FlowSink.NETWORK}) boolean doOutput);
-
-	// These definitely leak information to the remote server.
-	void setUseCaches(@FlowSinks({FlowSink.NETWORK}) boolean useCaches);
-	void setRequestProperty(@FlowSinks({FlowSink.NETWORK}) String property, @FlowSinks({FlowSink.NETWORK}) String value);
-}
-
-@ConservativeFlow
-package java.lang.reflect;
-
-class Method {
-    @PolyFlow
-    Object invoke(Object obj, Object[] args);
-}
-
-package java.security;
-
-class MessageDigest {
-	@PolyFlow
-	static MessageDigest getInstance(String algorithm);
-	void update(@PolyFlowSources @PolyFlowSinks byte[] input) @PolyFlowSources @PolyFlowSinks;
-}
-
-package java.sql;
-
-class Time {
-	@PolyFlowSources @PolyFlowSinks Time(@PolyFlowSources @PolyFlowSinks long theTime); 
-}
-
-package java.text;
-
-class DecimalFormat {
-    @PolyFlow
-    void setMaximumIntegerDigits(int value);
-    @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks double value);
-}
-
-class NumberFormat {
-    @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks double value);
-}
 
 package java.util;
 
-class Arrays{
-    @PolyFlowSources @PolyFlowSinks List<T> asList (T... array) @PolyFlowSources @PolyFlowSinks;
-}
-
-class ArrayList<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
-	@PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
-}
-
-class Calendar {
-	@PolyFlowSources @PolyFlowSinks boolean after(@PolyFlowSources @PolyFlowSinks Object calendar) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks Calendar getInstance() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks Calendar getInstance(@FlowSinks({}) TimeZone timezone) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int get(@FlowSinks({}) int field) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks Date getTime() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks long getTimeInMillis() @PolyFlowSources @PolyFlowSinks;
-	void set(int field, @PolyFlowSources @PolyFlowSinks int value) @PolyFlowSources @PolyFlowSinks;
-	void setTime(@PolyFlowSources @PolyFlowSinks Date date) @PolyFlowSources @PolyFlowSinks;
-	void setTimeInMillis(@PolyFlowSources @PolyFlowSinks long milliseconds) @PolyFlowSources @PolyFlowSinks;
-}
-
-class Collection {
-	@PolyFlow boolean isEmpty();
-}
-	
-class Collections {
-	<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> void sort(@FlowSinks({}) List<T> list, @FlowSinks({}) Comparator<? super T> comparator);
-	//Unsure:
-	static @PolyFlowSources @PolyFlowSinks Map<K,V> synchronizedMap(@PolyFlowSources @PolyFlowSinks Map<K,V> map); 
-}
-	
-interface Comparator<T extends @FlowSources(FlowSource.ANY) Object> {
-	@PolyFlowSources @PolyFlowSinks int compare(@PolyFlowSources @PolyFlowSinks T lhs, @PolyFlowSources @PolyFlowSinks T rhs);
-}
-	
-class Date {
-	@FlowSources(FlowSource.TIME) Date();
-	@PolyFlowSources @PolyFlowSinks long getTime() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
-}
-@FlowSources(FlowSource.TIME) 
-class GregorianCalendar {
-    @FlowSources(FlowSource.TIME) GregorianCalendar();
-}
-
-class HashMap<K extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object,
-	V extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
-	@PolyFlowSources @PolyFlowSinks V get(@PolyFlowSources @PolyFlowSinks Object key) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String put(@PolyFlowSources @PolyFlowSinks K key, @PolyFlowSources @PolyFlowSinks V value) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlow
-	int size();
-}
-
-class LinkedList<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
-	
-}
+ //Added by SOM
+ class ArrayList<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
+         @PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
+ }
 
 class List<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
-//	@PolyFlow boolean add(T object) @FlowSources(FlowSource.ANY);
-    T get(@FlowSinks({}) int index);
-	@PolyFlow int size() @FlowSources(FlowSource.ANY);
-	//How to annotate this: Object[] toArray();
+//Copied from Orig. flow.astub file
+//Need for list test SOM
+   @NoFlow boolean add(T object) @FlowSources(FlowSource.ANY);
+   T get(@FlowSinks({}) int index);
+   @NoFlow int size() @FlowSources(FlowSource.ANY);
+  //How to annotate this: Object[] toArray();
 }
 
-class Map<K extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object,
-	V extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
-	@FlowSinks({}) @FlowSources(FlowSource.ANY) boolean containsKey(
-		@FlowSinks({}) @FlowSources(FlowSource.ANY) Object key);
-	V get(@FlowSinks({}) @FlowSources(FlowSource.ANY) Object key);
-	V put(K key, V value);
-}
-
-class Queue<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
-	T peek();
-	T poll();
-}
-
-class Random {
-    @FlowSources(FlowSource.RANDOM) protected int next(@FlowSinks(FlowSink.RANDOM) int bits);
-    @FlowSources(FlowSource.RANDOM) boolean nextBoolean();
-    void nextBytes(byte @FlowSources(FlowSource.RANDOM) @FlowSinks({}) [] bytes);
-    @FlowSources(FlowSource.RANDOM) double nextDouble();
-    @FlowSources(FlowSource.RANDOM) float nextFloat();
-    @FlowSources(FlowSource.RANDOM) double nextGaussian();
-    @FlowSources(FlowSource.RANDOM) int nextInt();
-    @FlowSources(FlowSource.RANDOM) int nextInt(@FlowSinks(FlowSink.RANDOM) int n);
-    @FlowSources(FlowSource.RANDOM) long nextLong();
-    Random(@FlowSinks(FlowSink.RANDOM) long seed);
-    void setSeed(@FlowSinks(FlowSink.RANDOM) long seed);
-}
-
-class Scanner {
-	@PolyFlowSources @PolyFlowSinks Scanner (@PolyFlowSources @PolyFlowSinks Readable src);
-	boolean hasNext() @FlowSources(FlowSource.ANY);
-}
-
-package java.util.concurrent;
-
-//class TimeUnit {
-//	@PolyFlowSources @PolyFlowSinks long toHours(@PolyFlowSources @PolyFlowSinks long duration);
-//	@PolyFlowSources @PolyFlowSinks long toMinutes(@PolyFlowSources @PolyFlowSinks long duration);
-//	@PolyFlowSources @PolyFlowSinks long toSeconds(@PolyFlowSources @PolyFlowSinks long duration);
-//}
-
-package java.util.regex;
-
-class Matcher {
-	@PolyFlowSources @PolyFlowSinks boolean find() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String group(int group) @PolyFlowSources @PolyFlowSinks;
-}
-
-class Pattern {
-	static @PolyFlowSources @PolyFlowSinks Pattern compile(@PolyFlowSources @PolyFlowSinks String str, @FlowSinks({}) int i);
-	@PolyFlowSources @PolyFlowSinks Matcher matcher(@PolyFlowSources @PolyFlowSinks CharSequence input) @PolyFlowSources @PolyFlowSinks;
-}
-
-/* Android HTTP components */
-
-package org.apache.http;
-
-class HttpEntity {
-	@PolyFlowSources @PolyFlowSinks InputStream getContent() @PolyFlowSources @PolyFlowSinks;
-}
-	
-class HttpResponse {
-	@PolyFlowSources @PolyFlowSinks HttpEntity getEntity() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks StatusLine getStatusLine() @PolyFlowSources @PolyFlowSinks;
-}
-
-class StatusLine {
-	@PolyFlowSources @PolyFlowSinks String getReasonPhrase() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int getStatusCode() @PolyFlowSources @PolyFlowSinks;
-}
-
-package org.apache.http.auth;
-
-class UsernamePasswordCredentials {
-	@PolyFlowSources @PolyFlowSinks UsernamePasswordCredentials(@PolyFlowSources @PolyFlowSinks String username, @PolyFlowSources @PolyFlowSinks String password);
-}
-
-package org.apache.http.client;
-
-class HttpClient {
-	@FlowSources(FlowSource.NETWORK) HttpResponse execute(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.NETWORK) HttpUriRequest request);
-}
-	
-package org.apache.http.client.methods;
-
-class HttpEntityEnclosingRequestBase {
-	void setEntity(@PolyFlowSources @PolyFlowSinks HttpEntity entity) @PolyFlowSources @PolyFlowSinks;
-}
-
-class HttpGet {
-    @FlowSinks(FlowSink.NETWORK) HttpGet(@FlowSinks(FlowSink.NETWORK) String uri);
-    @FlowSinks(FlowSink.NETWORK) HttpGet(@FlowSinks(FlowSink.NETWORK) URI uri);
-}
-
-class HttpPost {
-	void addHeader(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value) @PolyFlowSources @PolyFlowSinks;
-    @PolyFlowSources @PolyFlowSinks HttpPost(@PolyFlowSources @PolyFlowSinks String uri);
-    @PolyFlowSources @PolyFlowSinks HttpPost(@PolyFlowSources @PolyFlowSinks URI uri);
-    void setEntity(@PolyFlowSources @FlowSinks(FlowSink.NETWORK) HttpEntity entity) @PolyFlowSources @FlowSinks(FlowSink.NETWORK);
-}
-
-package org.apache.http.entity;
-
-class BufferedHttpEntity {
-	@PolyFlowSources @PolyFlowSinks BufferedHttpEntity(@PolyFlowSources @PolyFlowSinks HttpEntity entity);
-	@PolyFlowSources @PolyFlowSinks InputStream getContent() @PolyFlowSources @PolyFlowSinks;
-}
-
-class FileEntity {
-	@PolyFlowSources @PolyFlowSinks FileEntity(@PolyFlowSources @PolyFlowSinks File file, @PolyFlowSources @PolyFlowSinks String contentType);
-	void setContentType(@PolyFlowSources @PolyFlowSinks String ctString) @PolyFlowSources @PolyFlowSinks;
-}
-
-package org.apache.http.impl.client;
-
-class AbstractHttpClient {
-	@FlowSources(FlowSource.NETWORK) HttpResponse execute(@FlowSinks(FlowSink.NETWORK) HttpUriRequest request);
-	@PolyFlowSources @PolyFlowSinks HttpParams getParams() @PolyFlowSources @PolyFlowSinks;
-}
-
-class DefaultHttpClient {
-	 DefaultHttpClient();
-	 DefaultHttpClient(org.apache.http.params.HttpParams p0);
-	 DefaultHttpClient(org.apache.http.conn.ClientConnectionManager p0,org.apache.http.params.HttpParams p1);
-	@FlowSources(FlowSource.NETWORK) HttpResponse execute(@FlowSinks(FlowSink.NETWORK) HttpUriRequest request);
-	 Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1,org.apache.http.protocol.HttpContext p2);
-	 Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.protocol.HttpContext p1);
-	 Object execute(org.apache.http.client.methods.HttpUriRequest p0,org.apache.http.client.ResponseHandler p1);
-}
-
-package org.apache.http.message;
-
-class AbstractHttpMessage {
-	void addHeader(@PolyFlowSources @PolyFlowSinks String name, @PolyFlowSources @PolyFlowSinks String value) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks HttpParams getParams() @PolyFlowSources @PolyFlowSinks;
-}
-
-package org.apache.http.params;
-
-class HttpParams {
-	@PolyFlowSources @PolyFlowSinks HttpParams setParameter(String name, @PolyFlowSources @PolyFlowSinks Object value) @PolyFlowSources @PolyFlowSinks; 
-}
-
-class HttpProtocolParams {
-	void setUseExpectContinue(@PolyFlowSources @PolyFlowSinks HttpParams params, boolean b) @PolyFlowSources @PolyFlowSinks;
-}
-
-package org.apache.http.util;
-
-class EntityUtils {
-    static @PolyFlowSources @PolyFlowSinks String toString(@PolyFlowSources @PolyFlowSinks HttpEntity entity);
-}
-
-package org.xmlpull.v1;
-
-class XmlPullParser {
-	@PolyFlowSources @PolyFlowSinks int getAttributeCount() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String getAttributeName(int index) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String getAttributeValue(int index) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int getEventType() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks String getName() @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks int next() @PolyFlowSources @PolyFlowSinks;
-	void setInput(@PolyFlowSources @PolyFlowSinks InputStream inputStream, String inputEncoding) @PolyFlowSources @PolyFlowSinks;
-}
-
-class XmlSerializer {
-	@PolyFlowSources @PolyFlowSinks XmlSerializer endTag(@PolyFlowSources @PolyFlowSinks String nameSpace, @PolyFlowSources @PolyFlowSinks String name) @PolyFlowSources @PolyFlowSinks;
-	void setOutput(@PolyFlowSources @PolyFlowSinks Writer writer) @PolyFlowSources @PolyFlowSinks;
-	void startDocument(String encoding, Boolean standalone) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks XmlSerializer startTag(@PolyFlowSources @PolyFlowSinks String namespace, @PolyFlowSources @PolyFlowSinks String name) @PolyFlowSources @PolyFlowSinks;
-	@PolyFlowSources @PolyFlowSinks XmlSerializer text(@PolyFlowSources @PolyFlowSinks String text) @PolyFlowSources @PolyFlowSinks;
-}
-
-/* FROM EXTERNAL JARS */
-
-//package uk.me.jstott.coordconv;
-//
-//class LatitudeLongitude {
-//	void setLatitude(@PolyFlowSources @PolyFlowSinks double latitude) @PolyFlowSources @PolyFlowSinks;
-//	void setLongitude(@PolyFlowSources @PolyFlowSinks double longitude) @PolyFlowSources @PolyFlowSinks;
-//}
-//
-//package com.commonsware.cwac.bus; //A library of Wordpress
-//
-//class SimpleBus {
-//	@PolyFlowSources @PolyFlowSinks Bundle createMessage(@PolyFlowSources @PolyFlowSinks String key);
-//}
-//
-//package com.commonsware.cwac.task; //A library of Wordpress
-//
-//class AsyncTaskEx {
-//	Result doInBackground(@FlowSinks(FlowSink.FILESYSTEM) Params... params);
-//}
