@@ -22,6 +22,7 @@ class ArrayCast {
         callFinished(result);
 
         @FlowSinks(FlowSink.NETWORK) Object [] otherOne = getObjs();
+        //This error need to be fixed
         Object [] other = getObjs();
         callStart(getObjs());
     }
