@@ -1,9 +1,7 @@
 
 package java.lang;
 
-class ByteArrayOutputStream {
-     @PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] toByteArray() @PolyFlowSources @PolyFlowSinks;
-}
+
 
 class String {
 //Added for Misc. Test SOM
