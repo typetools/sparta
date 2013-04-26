@@ -2,14 +2,12 @@
 - Local variable inference does not happen on element types of arrays.  
 
 Example:   
-void callStart(@FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) Object [] result) {}
 
 @FlowSinks(FlowSink.NETWORK) Object [] getObjs() { return null;}
 
 void foo()
 {
    Object [] other = getObjs();
-   callStart(getObjs());
 }
 
 //Policy File NETWORK->NETWORK
