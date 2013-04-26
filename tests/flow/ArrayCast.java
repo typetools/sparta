@@ -21,7 +21,8 @@ class ArrayCast {
         callStart(result);
         callFinished(result);
 
-        @FlowSinks(FlowSink.NETWORK) Object [] other = getObjs();
+//        @FlowSinks(FlowSink.NETWORK) Object [] other = getObjs();
+        Object [] other = getObjs();
         callStart(getObjs());
     }
 
