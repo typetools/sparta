@@ -6,22 +6,21 @@ This chapter briefly describes how to install the SPARTA project tools.
 \section {Requirements\label{sec:requirements}}
 \paragraph{Java 7}
 \begin{itemize}
-
  \item  \<.../jdk1.7.0/bin> must be on your path.
  \item \<JAVA\_HOME> should be set to \<.../jdk1.7.0>.
 \end{itemize}
 
 \paragraph{Ant}
 \begin{itemize}
-\item Ensure you have recent versions of ant  installed
- \item ant version 1.8.2 is known to work
+ \item Ant version 1.8.2 or later
 \end{itemize}
 
 \paragraph{Android SDK}
 \begin{itemize}
  \item Install the Android SDK to some directory. 
- \item Set \<ANDROID\_HOME> to that location.
- \item Download the \<android-15> target.
+ \item Set \<ANDROID\_HOME> to the directory where you installed the
+   Android SDK.
+ \item Download the \<android-15> target.  [[TODO: How?]]
 \end{itemize}
 
 If using Eclipse, go to
@@ -32,7 +31,8 @@ and install the Android ADT Plugin (\url{https://dl-ssl.google.com/android/eclip
 \begin{itemize}
 \item Follow the installation instructions in the manual: 
 \url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#installation}
-\item Set \<CHECKERS> to \<checker-framework\/checkers/>
+\item As described in the installation instructions, set the \<CHECKERS>
+  environment variable to \<.../checker-framework/checkers/> .
 \end{itemize}
 
 
