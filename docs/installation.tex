@@ -1,7 +1,9 @@
 \htmlhr
-\chapter{Installation\label{installation}}
+\chapter{Installation and app setup\label{installation}}
 
-This chapter briefly describes how to install the SPARTA project tools.
+This chapter describes how to install the SPARTA tools
+(Section~\ref{sec:install}) and how to prepare an Android App to have the
+SPARTA tools run on it (Section~\ref{sec:antsetup}).
 
 \section {Requirements\label{sec:requirements}}
 \paragraph{Java 7}
@@ -32,54 +34,88 @@ and install the Android ADT Plugin (\url{https://dl-ssl.google.com/android/eclip
 \item Follow the installation instructions in the manual: 
 \url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#installation}
 \item As described in the installation instructions, set the \<CHECKERS>
-  environment variable to \<.../checker-framework/checkers/> .
+  environment variable to \<.../checker-framework/checkers/>
 \end{itemize}
 
 
 \section{Install SPARTA\label{sec:install}}
+
+\begin{enumerate}
+
+\item
+  Obtain the source code for the SPARTA tools, either from its version
+  control repository or from a packaged release.
+
 \begin{itemize}
+\item
+  To obtain from the version control repository, run
+\begin{Verbatim}
+ hg clone https://dada.cs.washington.edu/hgweb/sparta-code
+\end{Verbatim}
+  using the credentials you have been given.
+\item 
+  If you do not have access to the source code repository, then
+  download the SPARTA release from
+  \url{http://types.cs.washington.edu/sparta/release/}.  (Please do not
+  publicize this URL.)  
 
-% Run \<hg clone https://dada.cs.washington.edu/hgweb/sparta-code>
-% using the credentials you have been given.
-%
-% If you don not have access to the source code repository, then
-\item Download the SPARTA release here:
- \url{http://types.cs.washington.edu/sparta/release/}.  (Please do not
- publicize this URL.)  
-
-
-\item Unpack the archive.
+  Then, unpack the archive.
+\end{itemize}
 
 %For now, we don't support the JSON feature
 \item
 Google gson is a dependency for the "-json" targets for projects.
-Get it from \url{http://code.google.com/p/google-gson/};
-create directory \<sparta-code/lib> and unzip gson there.
-Alternatively, set build property \<gson.jar>, which defaults to:
 
+\begin{itemize}
+\item
+If Google gson is already installed, then set build property \<gson.jar>, which defaults to:
 \begin{alltt}
 gson.jar=${basedir}/lib/google-gson-2.2.2/gson-2.2.2.jar
 \end{alltt}
-% make Emacs $ happy
-\item Update SPARTA 
+% unconfuse Emacs LaTeX mode: $
+\item
+If Google gson is not already installed, then 
+get it from \url{http://code.google.com/p/google-gson/};
+create directory \<sparta-code/lib> and unzip gson there.
+\end{itemize}
 
-The SPARTA project needs to be updated to your development environment, so that the path to the Android SDK is correct and the correct version of Android is used. (More details about updating a project are available here: \url{http://developer.android.com/tools/projects/projects-cmdline.html#UpdatingAProject}.)To update the project with your Android settings run the following:
+\item Update the Android development environment
+
+Run the following:
 
 \begin{alltt}
 ant -buildfile $SPARTA_CODE/build.local.xml
 \end{alltt}
+% unconfuse Emacs LaTeX mode: $
 
 Alternatively, you can run:
 
 \begin{alltt}
 $ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
 \end{alltt}
+% unconfuse Emacs LaTeX mode: $
 
-\item To build SPARTA:
+
+Rationale:  When working with Android, a developer must ``update a project'' to
+properly set the path to the Android SDK\@.  (For more details about
+updating a project, see
+\url{http://developer.android.com/tools/projects/projects-cmdline.html#UpdatingAProject}.)
+
+
+\item Build the SPARTA tools by compiling the source code:
 \begin{alltt}
-export CHECKERS=$HOME/checker-framework/checkers/
 ant jar
 \end{alltt}
+
+\item
+As a sanity check of the installation, run
+
+\begin{alltt}
+ant all-tests
+\end{alltt}
+
+You should see ``\<BUILD SUCCESSFUL>'' at the end.
+
 
 %\noindent
 %It is necessary to specify the Android SDK location, by setting the \<ANDROID\_HOME>
@@ -97,17 +133,9 @@ ant jar
 %All projects can also be built and tested in Eclipse.
 %Import the annotation-tools, jsr308-langtools, checkers, javaparser,
 %and sparta-code projects into a workspace.
-\end{itemize}
 
-\section{Run test cases\label{sec:testcase}}
+\end{enumerate}
 
-As a sanity check of the installation, run
-
-\begin{alltt}
-ant all-tests
-\end{alltt}
-
-You should see ``\<BUILD SUCCESSFUL>'' at the end.
 
 \section{Android App Setup\label{sec:antsetup}}
 
