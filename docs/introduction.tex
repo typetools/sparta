@@ -9,14 +9,17 @@ SPARTA aims to detect certain types of malware in Android applications, or
 to verify that the app contains no such malware.  SPARTA's verification
 approach is type-checking:  the developer states a security property,
 annotates the source code with type qualifiers that express that security
-property, then runs a pluggable type-checker~\cite{PapiACPE2008,DietlDEMS2011} to verify that the type
-qualifiers are right (and thus that the program satisfies the security
+property, then runs a pluggable type-checker~\cite{PapiACPE2008,DietlDEMS2011} to verify the type
+qualifiers (and thus to verify that the program satisfies the security
 property).
 
 
-The Checker Framework is a pluggable type-checker that provides the foundation for the SPARTA project. 
-For more information on pluggable type-systems, please consult the Checker Framework manual at 
-\url{http://types.cs.washington.edu/checker-framework/}.  
+%% This feels premature; readers don't know why or what parts of the
+%% Checker Framework mnual to read.
+% The SPARTA toolset is largely built upon 
+% the Checker Framework. 
+% For more information on pluggable type-systems, please consult the Checker Framework manual at 
+% \url{http://types.cs.washington.edu/checker-framework/}.  
 
 
 You can find the latest version of this manual in the sparta-code version
