@@ -29,6 +29,56 @@ find it in a SPARTA release at
 be as up-to-date.
 
 
+\section{Overview:  malware detection and prevention tools}
+
+The SPARTA toolset contains two types of tools:  tools to find potentially
+dangerous code in an Android app, and tools to statically verify
+information flow properties.
+
+The tools to statically verify information flow require a person to write
+the information flow properties of the program, primarily as source code
+annotations.  For instance, an array that contains data that came from the
+camera and is destined for the network would be written as 
+
+\begin{Verbatim}
+\<@FlowSources(CAMERA) @FlowSinks(NETWORK)>
+\end{Verbatim}
+
+By contrast, the tools to find potentially dangerous code can be run on
+arbitrary unannotated Android source code.  Those tools give no guarantees,
+however; they just direct the analyst's attention to suspicious locations
+in the source code.
+
+
+There are two different ways to use the tools.
+\begin{itemize}
+\item
+  Ideally, the application vendor, who understands the source code,
+  writes information flow annotations such as \<@FlowSources> in the source
+  code, iterating until the static information flow tool issues no warnings.
+
+  In this case, the analyst first runs the static information flow tool to
+  confirm that there are no undesired information flows in the program.
+  Then, to find other vulnerabilities, the analyst runs the suspicious code
+  detection tools and manually examines those locations.
+  [To do:  explain why this additional step is required and what one might
+  learn.]
+
+\item
+  If the application vendor delivers an unannotated program, then the
+  analyst must understand the program well enough to annotate it and then
+  annotate it.
+
+  In this case, it is most efficient to first run the suspicious code
+  detection tools; that might reveal either malware or code that the vendor
+  should rewrite in a clearer or safer way.  If the suspicous code
+  detection tools do not reveal problems so severe that the app should be
+  rejected, then the analyst can write annotations and run the information
+  flow tool until either the analyst has found a vulnerability or the lack
+  of tool warnings indicates there is no vulnerability.
+\end{itemize}
+
+
 \section{In case of trouble\label{sec:incaseoftrouble}}
 
 \begin{sloppypar}
