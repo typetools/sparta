@@ -13,7 +13,7 @@ Analyzing an annotated app is much simpler than analyzing an unannotated one.  B
 \begin{enumerate}
 \item Does the Flow Checker produce any errors or warnings?
 \item Does the flow-policy file match the application description?
-\item Does the justification for each @SuppressWarning make sense?
+\item Does the justification for each \<@SuppressWarnings> make sense?
 \end{enumerate}
 
 \subsection{Run the Flow Checker}
@@ -26,8 +26,8 @@ in subsection~\ref{subsec:setupapp} to set up the app for use with the Flow Chec
 Does the flow-policy file match the application description? There should not be any flows that are not 
 explained in the description.  These flows may be explicitly stated, such as ``encrypt and sign messages, send them via your preferred email app.''   Or a flow may only be implied, such as ``This Application allows the user to share pics with their contacts.''  In the first example, you would expect an EMAIL sink to appear somewhere in the policy file. In the second, ``share'' could mean a you would see a Flow Sink of EMAIL, SMS, NETWORK, or something else.  Flows that are only implied in the description could be grounds for rejection if the description is too vague. 
 
-\subsection{Review @SuppressWarning Justifications}
- Does the justification for every @SuppressWarning make sense? Search for every instance of 
+\subsection{Review \<@SuppressWarnings> Justifications}
+ Does the justification for every \<@SuppressWarnings> make sense? Search for every instance of 
  \<@SuppressWarnings("flow")> and read the justification comment.  Compare the justification to the
   actual code and determine if it make sense and should be allowed.  No justification comment 
   could be grounds for rejection.
@@ -39,13 +39,13 @@ explained in the description.  These flows may be explicitly stated, such as ``e
 The recommended work flow is:  
 
 \begin{enumerate}
-\item Add lines to build.xml
+\item Add lines to \<build.xml>
 \item Read Description
-\item Check Permissions in AndroidManifest.xml
+\item Check Permissions in \<AndroidManifest.xml>
 \item Write Flow Policy
 \item Run Tools
 \item Annotate Relevant APIs
-\item After all errors are gone, run ant -Dstrict flowtest
+\item After all errors are gone, run \<ant -Dstrict flowtest>
 \end{enumerate}
 
 \noindent 
@@ -115,7 +115,7 @@ steps:
 \begin{itemize}
 \item
 Using Eclipse, import the projects (this requires the app to have a
-.project and .classpath file)
+\<.project> and \<.classpath> file)
   \begin{itemize}
     \item
     Make sure
@@ -261,7 +261,7 @@ You can remove the error by writing
 
 Once all methods in the subject application are correctly annotated,
 \<ant reqperms> will not issue any warnings.
-Grep for \<@RequiredPermissions> to find the required permissions
+Search for \<@RequiredPermissions> to find the required permissions
 in the application.
 
 Any permission that is required should already be listed in the AndroidManifest.xml file. 
@@ -297,7 +297,7 @@ package com.android;
 
 The \<apiusage.astub> file should be enhanced during and after the 
 analysis of an application --- add the entities that are most crucial to
-understand the behaviour of an application.
+understand the behavior of an application.
 
 
 
@@ -465,4 +465,10 @@ This option will also use the stricter conditional rule. (LITERAL
 %%% TeX-command-default: "PDF"
 %%% End: 
 
-%  LocalWords:  App xml env basename sparta dir
+%  LocalWords:  App xml env basename sparta dir app flowtest Dstrict SDK
+%  LocalWords:  reportsuspicious reqperms reportapiusage buildfile dirname
+%  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
+%  LocalWords:  RequiredPermissions FlowSources FlowSinks apiusage Dstubs
+%  LocalWords:  flowstubfiles TelephonyManager getLine1Number flowshow url
+%  LocalWords:  PolyFlowSources PloyFlowSinks FlowSink FlowSource grep
+%  LocalWords:  Dstricter

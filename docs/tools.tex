@@ -8,7 +8,7 @@ SPARTA contains four independent tools.  The first three are used to find potent
 
 \section{Suspicious API Tool\label{sec:suspicioustool}}
 
-This tool reports uses of potentially dangerous APIs. These include uses of reflection, randomness, thread spawning, the ACTION VIEW intent, hard-coded strings such as URIs, and so forth. These APIs may be innocuous, but a human should examine their use.  The file src/sparta/checkers/suspicious.astub contains the classes and methods that are considered suspicious.
+This tool reports uses of potentially dangerous APIs. These include uses of reflection, randomness, thread spawning, the ACTION VIEW intent, hard-coded strings such as URIs, and so forth. These APIs may be innocuous, but a human should examine their use.  The file \<src/sparta/checkers/suspicious.astub> contains the classes and methods that are considered suspicious.
  
 \begin{alltt}
 ant reportsuspicious
@@ -40,3 +40,6 @@ This tool ensures that there is no data flow in the application beyond what is e
 ant -DflowPolicy=myflowpolicy flowtest
 \end{alltt}
 
+
+%  LocalWords:  app URIs src reportsuspicious RequiredPermissions reqperms
+%  LocalWords:  reportapiusage DflowPolicy myflowpolicy flowtest
