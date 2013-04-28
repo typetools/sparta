@@ -62,41 +62,40 @@ and install the Android ADT Plugin (\url{https://dl-ssl.google.com/android/eclip
   Then, unpack the archive.
 \end{itemize}
 
-%For now, we don't support the JSON feature
-\item
-Google gson is a dependency for the "-json" targets for projects.
+%%For now, we don't support the JSON feature
+% \item
+% Google gson is a dependency for the \<\emph{*}-json> ant targets.
+% 
+% \begin{itemize}
+% \item
+% If Google gson is already installed, then set build property \<gson.jar>, which defaults to:
+% \begin{alltt}
+% gson.jar=${basedir}/lib/google-gson-2.2.2/gson-2.2.2.jar
+% \end{alltt}
+% \item
+% If Google gson is not already installed, then 
+% get it from \url{http://code.google.com/p/google-gson/};
+% create directory \<sparta-code/lib> and unzip gson there.
+% \end{itemize}
 
-\begin{itemize}
-\item
-If Google gson is already installed, then set build property \<gson.jar>, which defaults to:
-\begin{alltt}
-gson.jar=${basedir}/lib/google-gson-2.2.2/gson-2.2.2.jar
-\end{alltt}
-\item
-If Google gson is not already installed, then 
-get it from \url{http://code.google.com/p/google-gson/};
-create directory \<sparta-code/lib> and unzip gson there.
-\end{itemize}
+\item Update the Android development environment, by 
+running the following:
 
-\item Update the Android development environment
-
-Run the following:
-
-\begin{alltt}
+\begin{Verbatim}
 ant -buildfile $SPARTA_CODE/build.local.xml
-\end{alltt}
+\end{Verbatim}
 
 Alternatively, you can run:
 
-\begin{alltt}
+\begin{Verbatim}
 $ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
-\end{alltt}
+\end{Verbatim}
 
 
 Rationale:  When working with Android, a developer must ``update a project'' to
-properly set the path to the Android SDK\@.  (For more details about
-updating a project, see
-\url{http://developer.android.com/tools/projects/projects-cmdline.html#UpdatingAProject}.)
+properly set the path to the Android SDK\@.  For more details about
+updating an Android project, see
+\url{http://developer.android.com/tools/projects/projects-cmdline.html#UpdatingAProject}.
 
 
 \item Build the SPARTA tools by compiling the source code:
@@ -136,44 +135,88 @@ You should see ``\<BUILD SUCCESSFUL>'' at the end.
 
 \section{Android App Setup\label{sec:antsetup}}
 
-This section explains how to setup an Android application for analysis with the SPARTA tools.
-\\ \\
-1.) Ensure the following environment variables are set. 
+This section explains how to set up an Android application for analysis with the SPARTA tools.
+
+\begin{enumerate}
+\item
+Ensure the following environment variables are set. 
 
 \begin{itemize}
 \item
-\<CHECKERS> pointing to the
+\<CHECKERS> is the
 \<.../checker-framework/checkers> directory
 
 \item
-\<SPARTA\_CODE> pointing to the \<.../sparta-code> directory
+\<SPARTA\_CODE> is the \<.../sparta-code> directory
 
 \item
-\<ANDROID\_HOME> pointing to the \<.../android-sdk> directory
+\<ANDROID\_HOME> is the \<.../android-sdk> directory
 
 \end{itemize}
 
-\noindent
-2.) If your Android project does not have a build.xml file, update the project.
+\item
+If your Android project does not have a build.xml file, update the project.
 
-\begin{alltt}
-$ANDROID_HOME/tools/android update project -{}-path .
-\end{alltt}
+\begin{Verbatim}
+$ANDROID_HOME/tools/android update project --path .
+\end{Verbatim}
 
-\noindent
-3.) Add the SPARTA build targets to the end of the \<build.xml>
+\item
+Add the SPARTA build targets to the end of the \<build.xml>
  file, just above \verb|</project>|.
 
-% TODO: how does using lt and gt in TT mode work?
 
-\begin{alltt}
+\begin{Verbatim}
 <property environment="env"/>
 <dirname property="checkers_dir" file="\$\{env.CHECKERS\}"/>
 <basename property="checkers_base" file="\$\{env.CHECKERS\}"/>
 <dirname property="sparta-code_dir" file="\$\{env.SPARTA_CODE\}"/>
 <basename property="sparta-code_base" file="\$\{env.SPARTA_CODE\}"/>
 <import file="\$\{sparta-code_dir\}/\$\{sparta-code_base\}/build.include.xml" optional="true"/>
-\end{alltt}
+\end{Verbatim}
+
+\end{enumerate}
+
+
+To use Eclipse to look at and build the code, perform these simple
+steps:
+\begin{itemize}
+\item
+Using Eclipse, import the projects (this requires the app to have a
+\<.project> and \<.classpath> file)
+  \begin{itemize}
+    \item
+    Make sure
+    \<Project Properties $\rightarrow$ Android $\rightarrow$ Android
+    version \#> is checked
+
+    \item
+    Check that
+    \<Project Properties $\rightarrow$ Java Build Path $\rightarrow$
+    Libraries $\rightarrow$ Android version \#> appears
+
+    \item
+    Add the sparta-code project to
+    \<Project Properties $\rightarrow$ Java Build Path $\rightarrow$ Projects>
+    
+  \end{itemize}
+
+\item Compile via command line (\<ant clean>, \<ant flowtest>)
+
+\item If it compiles, or the errors are exclusively about annotations,
+  it's working correctly.
+\end{itemize}
+
+Most Android apps will rely on an auto-generated \<R.java> file
+in the \</gen> directory of the project. This will only be generated
+if there are no errors in the project. There may be errors in the
+resources (\<.../res> directory) that could cause \<R.java> to not be
+generated.
+
+Additionally, if the app depends on an external \<.jar> file (often
+located in the \<lib/> directory), it will compile in Eclipse but not
+with Ant. To fix this, in ant.properties, add ``\<jar.libs.dir=lib>''
+(or wherever the \<.jar> is located).
 
 
 

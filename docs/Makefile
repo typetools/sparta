@@ -14,10 +14,11 @@ manual.tex \
 manual-style.tex \
 introduction.tex \
 installation.tex \
-appanalysis.tex \
 flow.tex \
+annotated-app.tex \
+app-annotation.tex \
+appanalysis.tex \
 rules-of-engagement.tex \
-notes.tex \
 sparta-internals.tex
 
 all: figures-all manual.pdf manual.html # javadoc

@@ -1,4 +1,6 @@
 \usepackage{pslatex}
+\usepackage[T1]{fontenc}
+
 \usepackage{fullpage}
 \usepackage{graphicx}
 \usepackage{hevea}
@@ -17,6 +19,12 @@
 \newcommand{\myurl}[1]{{\codesize\url{#1}}}
 %HEVEA \def\myurl{\url}
 \def\<#1>{\code{#1}}
+
+% The bar rarely appears in Java code and makes generics easier to write.
+% (A disadvantage is that this violates the group's convention about what
+% \| means in other documents...)
+\def\|#1|{\code{#1}}
+
 
 \usepackage{fancyvrb}
 %BEGIN LATEX

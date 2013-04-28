@@ -1,19 +1,42 @@
 \htmlhr
 \chapter{Flow Checker\label{flow-checker}}
 
-This chapter gives a brief overview of the Flow Checker, a type-checker that 
-tracks information flow through your program.  It gives a guarantee that there
-is no information flow beyond what is expressed in the flow policy and
-type annotations.
+This chapter describes the Flow Checker, a type-checker that 
+tracks information flow through your program.
+
+To use the Flow Checker, a programmer must supply two typeos of
+information:
+\begin{itemize}
+\item
+A flow policy that expresses what information flows the program is allowed
+to have.  For example, a program might be allowed to send location
+information to the network, but not allowed to access contacts nor to send
+SMS messages.  The flow policy is primarily derived from the program's user
+documentation.  \secref{sec:flow-policy} describes how to write a flow
+policy.
+\item
+Type qualifiers written on (some of) the variables in the program.  The
+type qualifiers indicate where the variable's value came from and where it
+might go to.
+\end{itemize}
+
+When you run the Flow Checker, it verifies that the annotations in the
+program are consistent with what the program's code does, and that the
+annotations are consistent with the flow policy.  This gives a guarantee
+that the program has no information flow beyond what is expressed in the
+flow policy and type annotations.
 
 The Flow Checker does pluggable type-checking of an information flow type
-system.  It is implemented using the Checker Framework.  To better
-understand pluggable type-checking and the Checker Framework, please
-consult the Checker Framework manual at
-\url{http://types.cs.washington.edu/checker-framework/}.  
+system.  It is implemented using the Checker Framework.  This chapter is
+logically a chapter of the 
+Checker Framework Manual (\ifhevea\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html}\else\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.pdf}\fi).
+Therefore, in order to understand this chapter, you should first read
+chapters 1--2 of the Checker Framework Manual, and you should at least skim
+chapters 18--21 (generics through libraries) and 24--25 (FAQ and
+troubleshooting).
 
 
-\section{Overview\label{sec:overview}}
+\section{The flow type system\label{sec:flow-type-system}}
 
 You write the annotation \<@FlowSources> on a variable's
 type to indicate what sensitive sources can affect the variable's value.
@@ -44,6 +67,193 @@ The types of FlowSources and FlowSinks are listed in the
 
 
 
+\subsection{Subtyping\label{sec:subtyping}}
+
+\begin{figure}
+\centerline{\includegraphics[width=.49\textwidth]{figures/flowsources}%
+  \hfill%
+  \includegraphics[width=.49\textwidth]{figures/flowsinks}}
+\caption{Partial qualifier hierarchy for \<@FlowSources> and \<@FlowSinks>.}
+\label{fig:flow-hierarchy}
+\end{figure}
+
+As with standard Java types, the type annotation hierarchy indicates which
+assignments, method calls, and overriding are legal. \figref{fig:flowsources-hierarchy} 
+shows part of the \<@FlowSources>
+qualifier hierarchy.  The top type is \<@FlowSources(ANY)>, which is
+shorthand for listing every source.  It would be legal to annotate every
+variable in a program with \<@FlowSources(ANY)>, because every variable is
+derived from some subset of all flow sources.  But, such an annotation
+would be imprecise.  \<@FlowSources(\ttcbs)> or \<@FlowSources()> is the
+bottom type, and may only
+be applied to variables whose value does not depend on any sensitive
+source.
+
+
+\figref{fig:flowsinks-hierarchy} shows part of the \<@FlowSinks>
+qualifier hierarchy.  The top type is \<@FlowSinks(\ttcbs)> or
+\<@FlowSinks()>, which indicates
+that the value is only used locally by the application and never flows to
+any sensitive sink.  The bottom type, \<@FlowSinks(FlowSinks.ANY)>, is a
+value that might be output to any location whatsoever; it can be thought of
+as a completely public value.
+
+Note the different subtyping behavior for sources and sinks.
+
+
+
+
+\subsection{Conditionals\label{sec:conditionals}}
+
+The Flow Checker considers conditional expressions to be a flow sink.  If a variable 
+will be used in a conditional, then it must have a flow sink of CONDITIONAL.  By default, 
+any source is allowed flow through a conditional.  That is to say that 
+ANY \flowsto{} CONDITIONAL is added to the flow policy by default. 
+
+Conditionals are treated this way because they can leak information. For example, the given a flow policy of  USER\_INPUT \flowsto{} FILESYSTEM, the following type checks.
+
+\begin{alltt}
+@FlowSources(FlowSource.USER_INPUT) @FlowSinks(FlowSink.FILESYSTEM)
+int creditCard = getCCNumber();
+final int MAX\_CC\_NUM = 9999999999999999;
+for (int i = 0 ; i < MAX\_CC\_NUM ; i++)\{
+   if (i == creditCard)
+        sendToInternet(i);
+\}
+\end{alltt}
+
+To catch this sort of information leak, pass
+ \<-Alint=strict-conditional> to change the default from ANY \flowsto{} CONDITIONAL to 
+ LITERAL \flowsto{} CONDITIONAL. 
+
+
+
+\subsection{Empty Flow Sinks or Flow Sources\label{sec:emptyflow}}
+
+Programmers should not use @FlowSources(\{\}) and @FlowSinks(\{\}) for
+any types.
+These types are only needed for top/bottom types which are used in the
+default types: the \<null> literal uses the bottom type in order for
+it to be assignable everywhere; local variables use the top type which
+will be refined by flow sensitivity.
+Every value should either flow from a literal or from some sensitive
+source.  Likewise, every value must flow to a sensitive sink or to a
+conditional expression.  Any variable that does not have a flow source
+or a flow sink does not actually affect the output of the program and
+should therefore be removed.
+  
+This may seem overly strict, but a variable without a flow source or
+flow sink that does affect the output of the program comes from an
+abuse of the type system.  Most likely a variable with no source or
+sink would come from an improperly suppressed warning. Therefore it is
+necessary to not allow flows from and to nowhere.  (The flow policy
+ensures this; see section \secref{sec:flowpolicy})
+
+Note that this does not mean you must specify both a flow source
+annotation and a flow sink annotation as explained in
+\secref{flow-defaults}. 
+
+ 
+
+
+\section{Flow Policy\label{sec:flowpolicy}}
+
+A flow policy is a list of all the flows that are permitted to occur in an application.
+A flow-policy file is a list 
+ of $\langle$flow source, flow sink$\rangle$ pairs.  If a flow is not listed in the flow policy, then 
+ it is forbidden to occur.  If no flow policy is specified, then no flows are permitted. 
+ 
+\subsection{Semantics of a Flow Policy}
+\label{sec:undsiredflows}
+The Flow Checker guarantees that there is no information
+flow except for what is explicitly permitted by the policy file. If a user writes a type that is
+not permitted by the policy file, then the flow checker issues a warning
+even if all types in program otherwise typecheck.
+
+For example, this variable declaration
+
+\begin{alltt}
+@FlowSource(FlowSource.CAMERA) @FlowSink(NETWORK) Video video = ...
+\end{alltt}
+
+\noindent
+is illegal unless the the policy file contains:
+
+\begin{alltt}
+CAMERA -> NETWORK
+\end{alltt}
+
+Here is another example.
+The flow policy file contains:
+\begin{alltt}
+  ACCOUNTS      -> EXTERNAL_STORAGE, FILESYSTEM
+  ACCELEROMETER -> EXTERNAL_STORAGE, FILESYSTEM, NETWORK
+\end{alltt}
+
+The following variable declarations are permitted:
+\begin{alltt}
+  @FlowSources(FlowSource.ACCOUNTS) @FlowSinks(FlowSink.EXTERNAL_STORAGE) Account acc = ...
+  @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
+  @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILE_SYSTEM}) int accel = ...
+\end{alltt}
+
+The following definitions would generate ``forbidden flow'' errors:
+\begin{Verbatim}
+  @FlowSources(FlowSource.ACCOUNTS) @FlowSinks(@FlowSink.NETWORK) Account acc = ...
+  @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
+  @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILESYSTEM, FlowSink.NETWORK})
+\end{Verbatim}
+
+
+\subsection{Syntax of a Flow Policy File}
+
+Each line of a policy file specifies a permitted flow from a source to one
+or more sinks.  For example,
+\code{MICROPHONE -> NETWORK} implies that
+MICROPHONE data is always allowed to flow to NETWORK.
+The source must be a member of the enum
+\<sparta.checkers.quals.FlowSources.FlowSource> and the sink must be a
+member of the enum 
+\<sparta.checkers.quals.FlowSinks.FlowSink>.  The source 
+and sink names should not be preceded by the name of the enumeration which contains them.
+ANY is allowed just as it is in @FlowSources and @FlowSinks, but empty, \{\}, is not allowed.
+
+Multiple sources or sinks can appear on the same line if they are separated by commas. 
+For example,
+this policy file:
+\begin{alltt}
+   MICROPHONE -> NETWORK, LOG, DISPLAY
+\end{alltt}
+is equivalent to this policy file:
+\begin{alltt}
+   MICROPHONE -> NETWORK
+   MICROPHONE -> LOG
+   MICROPHONE -> DISPLAY, NETWORK
+\end{alltt}
+
+The policy file may contain blank lines and comments that begin with 
+a number sign (\<\#>) character.
+
+
+
+\subsection{Using a flow-policy file}
+To use a flow-policy file when invoking the Flow Checker from the
+command line pass it the option:
+\begin{alltt}
+-AflowPolicy=\emph{mypolicyfile}
+\end{alltt}
+
+Or if you are using the \<flowtest> ant targets, you can pass the option to ant:
+\begin{alltt}
+ant -DflowPolicy=\emph{mypolicyfile} flowtest
+\end{alltt}
+
+Remember, not specifying a flow policy file is equivalent to not
+allowing any flows.
+% TODO: is this right? What about relaxed vs. strict?
+
+
+
 
 
 
@@ -57,9 +267,9 @@ The types of FlowSources and FlowSinks are listed in the
     Fields &  \<@FlowSources(FlowSource.LITERAL)> \\ 
     Method parameters &  \<@FlowSources(FlowSource.LITERAL)> \\ 
     Return values &  \<@FlowSources(FlowSource.LITERAL)> \\ 
-    \<null> &  \<@FlowSources @FlowSinks(FlowSink.ANY)>\\ 
+    \<null> &  \<@FlowSources(\{\}) @FlowSinks(FlowSink.ANY)>\\ 
     Literals & \<@FlowSources(FlowSource.LITERAL) @FlowSinks(FlowSink.CONDITIONAL)>\\ 
-   Local variables  &   \<@FlowSources(FlowSource.ANY) @FlowSinks> \\ 
+   Local variables  &   \<@FlowSources(FlowSource.ANY) @FlowSinks(\{\})> \\ 
    \<@FlowSources($\alpha$)>&\<@FlowSources($\alpha$)>
    \<@FlowSinks($\omega$)>,  $\omega$ is the set of  sinks allowed to flow from all sources in $\alpha$ \\ 
       \<@FlowSinks($\omega$)>&\<@FlowSources($\alpha$)>
@@ -86,7 +296,7 @@ public void sendToInternet(
     @FlowSources(FlowSource.LOCATION) @FlowSinks(FlowSink.NETWORK) String message)\{...\}
 \end{alltt} 
 
-The value \emph{null} has the bottom type (\<@FlowSinks(FlowSink.ANY)
+The value \<null> has the bottom type (\<@FlowSinks(FlowSink.ANY)
 @FlowSources>),
 so that it can be assigned to any type. For local variables, the
 default applies to the top level of the local variable type, but not
@@ -136,200 +346,7 @@ $\omega$. For example, using the same policy file as above, the following are eq
   @FlowSinks(Y)                   ==   @FlowSources(\{A,B,C\}) @FlowSinks(Y)
 \end{alltt}
 
-\section{Flow Policy\label{sec:flowpolicy}}
 
-
-A flow policy is a list of all the flows that are permitted to occur in an application.
-Flow policies are specified in a flow-policy file that is  a list 
- of flow source and flow sink pairs.  If a flow is not listed in the flow policy, then 
- it is forbidden to occur.  If no flow policy is specified, then no flows are permitted. 
- 
-\subsection{Semantics of a Flow Policy}
-\label{sec:undsiredflows}
-The Flow Checker guarantees that there is no information
-flow except for what is explicitly permitted by the policy file. If a user writes a type that is
-not permitted by the policy file, then the flow checker issues a warning
-even if all types in program otherwise typecheck.
-
-For example, this variable declaration
-
-\begin{alltt}
-@FlowSource(FlowSource.CAMERA) @FlowSink(NETWORK) Video video = ...
-\end{alltt}
-
-\noindent
-is illegal unless the the policy file contains:
-
-\begin{alltt}
-CAMERA -> NETWORK
-\end{alltt}
-
-Here is another example.
-The flow policy file contains:
-\begin{alltt}
-  ACCOUNTS      -> EXTERNAL_STORAGE, FILESYSTEM
-  ACCELEROMETER -> EXTERNAL_STORAGE, FILESYSTEM, NETWORK
-\end{alltt}
-
-The following variable declarations are permitted:
-\begin{alltt}
-  @FlowSources(FlowSource.ACCOUNTS) @FlowSinks(FlowSink.EXTERNAL_STORAGE) Account acc = ...
-  @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
-  @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILE_SYSTEM}) int accel = ...
-\end{alltt}
-
-The following definitions would generate ``forbidden flow'' errors:
-\begin{Verbatim}
-  @FlowSources(FlowSource.ACCOUNTS) @FlowSinks(@FlowSink.NETWORK) Account acc = ...
-  @FlowSources({FlowSource.ACCELEROMETER, FlowSource.ACCOUNTS})
-  @FlowSinks({FlowSink.EXTERNAL_STORAGE, FlowSink.FILESYSTEM, FlowSink.NETWORK})
-\end{Verbatim}
-
-
-\subsection{Syntax of a Flow Policy File}
-
-Each line of a policy file specifies a source-to-sink(s) flow(s) that is permitted. So if 
-``A \flowsto{} B,C'' appears in the file, then information from source A is allowed to flow
-to sink B or sink C.  
-
-For example,
-\<MICROPHONE \flowsto{} NETWORK> implies that
-MICROPHONE data is always allowed to flow to NETWORK.  
-The source must be a member of the enum
-\<sparta.checkers.quals.FlowSources.FlowSource> and the sink must be a
-member of the enum 
-\<sparta.checkers.quals.FlowSinks.FlowSink>.  The source 
-and sink names should not be preceded by the name of the enumeration which contains them.
-ANY is allowed just as it is in @FlowSources and @FlowSinks, but empty, \{\}, is not allowed.
-
-Multiple sources or sinks can appear on the same line if they are separated by commas. 
-For example,
-these two policy files have the same meaning:
-
-\begin{alltt}
-   MICROPHONE -> NETWORK, LOG, DISPLAY
-\end{alltt}
-is equivalent to this policy file:
-\begin{alltt}
-   MICROPHONE -> NETWORK
-   MICROPHONE -> LOG
-   MICROPHONE -> DISPLAY, NETWORK
-\end{alltt}
-
-The policy file may contain blank lines and comments that begin with 
-a number sign (\<\#>) character.
-
-
-
-\subsection{Using a flow-policy file}
-To use a flow-policy file when invoking the Flow Checker from the
-command line pass it the option:
-\begin{alltt}
--AflowPolicy=\emph{mypolicyfile}
-\end{alltt}
-
-Or if you are using one of the ant targets, you can pass the option to ant:
-\begin{alltt}
-ant -DflowPolicy=\emph{mypolicyfile} flowtest
-\end{alltt}
-
-Remember, not specifying a flow policy file is equivalent to not
-allowing any flows.
-% TODO: is this right? What about relaxed vs. strict?
-
-
-
-\section{Subtyping\label{sec:subtyping}}
-
-\begin{figure}[h]
-\includeimage{flowsources}{5cm}
-\caption{Partial qualifier hierarchy for \<@FlowSources>.}
-\label{fig:flowsources-hierarchy}
-\end{figure}
-
-\begin{figure}[h]
-\includeimage{flowsinks}{5cm}
-\caption{Partial qualifier hierarchy for \<@FlowSinks>.}
-\label{fig:flowsinks-hierarchy}
-\end{figure}
-
-As with standard Java types, the type annotation hierarchy indicates which
-assignments, method calls, and overriding are legal. \figref{fig:flowsources-hierarchy} 
-shows part of the \<@FlowSources>
-qualifier hierarchy.  The top type is \<@FlowSources(ANY)>, which is
-shorthand for listing every source.  It would be legal to annotate every
-variable in a program with \<@FlowSources(ANY)>, because every variable is
-derived from some subset of all flow sources.  But, such an annotation
-would be imprecise.  \<@FlowSources(\ttcbs)> or \<@FlowSources()> is the
-bottom type, and may only
-be applied to variables whose value does not depend on any sensitive
-source.
-
-
-\figref{fig:flowsinks-hierarchy} shows part of the \<@FlowSinks>
-qualifier hierarchy.  The top type is \<@FlowSinks(\ttcbs)> or
-\<@FlowSinks()>, which indicates
-that the value is only used locally by the application and never flows to
-any sensitive sink.  The bottom type, \<@FlowSinks(FlowSinks.ANY)>, is a
-value that might be output to any location whatsoever; it can be thought of
-as a completely public value.
-
-Note the different subtyping behavior for sources and sinks.
-
-
-
-
-\section{Conditionals\label{sec:conditionals}}
-
-The Flow Checker considers conditional expressions to be a flow sink.  If a variable 
-will be used in a conditional, then it must have a flow sink of CONDITIONAL.  By default, 
-any source is allowed flow through a conditional.  That is to say that 
-ANY \flowsto{} CONDITIONAL is added to the flow policy by default. 
-
-Conditionals are treated this way because they can leak information. For example, the given a flow policy of  USER\_INPUT \flowsto{} FILESYSTEM, the following type checks.
-
-\begin{alltt}
-@FlowSources(FlowSource.USER_INPUT) @FlowSinks(FlowSink.FILESYSTEM)
-int creditCard = getCCNumber();
-final int MAX\_CC\_NUM = 9999999999999999;
-for (int i = 0 ; i < MAX\_CC\_NUM ; i++)\{
-   if (i == creditCard)
-        sendToInternet(i);
-\}
-\end{alltt}
-
-To catch this sort of information leak, pass
- \<-Alint=strict-conditional> to change the default from ANY \flowsto{} CONDITIONAL to 
- LITERAL \flowsto{} CONDITIONAL. 
-
-
-
-\section{Empty Flow Sinks or Flow Sources\label{sec:emptyflow}}
-
-Programmers should not use @FlowSources(\{\}) and @FlowSinks(\{\}) for
-any types.
-These types are only needed for top/bottom types which are used in the
-default types: the \<null> literal uses the bottom type in order for
-it to be assignable everywhere; local variables use the top type which
-will be refined by flow sensitivity.
-Every value should either flow from a literal or from some sensitive
-source.  Likewise, every value must flow to a sensitive sink or to a
-conditional expression.  Any variable that does not have a flow source
-or a flow sink does not actually affect the output of the program and
-should therefore be removed.
-  
-This may seem overly strict, but a variable without a flow source or
-flow sink that does affect the output of the program comes from an
-abuse of the type system.  Most likely a variable with no source or
-sink would come from an improperly suppressed warning. Therefore it is
-necessary to not allow flows from and to nowhere.  (The flow policy
-ensures this; see section \secref{sec:flowpolicy})
-
-Note that this does not mean you must specify both a flow source
-annotation and a flow sink annotation as explained in
-\secref{flow-defaults}. 
-
- 
 \section{Warning Suppression\label{sec:waringsuppression}}
  
  Sometimes it might be necessary to suppress warnings or errors produced by the
@@ -483,13 +500,17 @@ expressions depending on the left-hand side.
 
 \section{Miscellaneous\label{sec:miscellaneous}}
 
-Methods like \<equals()> and \<toString()> that are inherited from
-\<Object> are the most general possible, so that overriding methods
-can restrict the annotations further. Thus, they
-return \<FlowSource.ANY> and no flow sinks.
+Some methods that are intended to be overridden by subclasses, such as 
+\<Object>'s \<equals()> and \<toString()>, are given the most general
+possible return type, \<@FlowSources(FlowSource.ANY) @FlowSinks({})>.
+% Is this rationale correct??
+This permits overriding methods to give them a more specific return type, which
+might depend on fields of the overriding class as well as on the types of
+the arguments.  In fact, an overriding method must give a more specific
+return type, since \<@FlowSinks> prevents the value from being used.
 
-Binary operations like string concatenation or integer addition,
-result in the least upper bound of the two component types.
+Most binary operations, such as string concatenation and integer addition,
+produce a result whose type is the least upper bound of the two operand types.
 
 
 %% Adding on to that, if you try to compute a @FlowSource{something} int

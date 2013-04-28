@@ -38,9 +38,12 @@ docs/manual.dvi
 docs/manual.pdf
 docs/manual.ps
 docs/manual.toc
+docs/manual.image.tex
 docs/*.png
 docs/figures/*.eps
 docs/figures/*.pdf
 docs/figures/*.png
 docs/bib
+
+
 src/sparta/checkers/flow.astub 

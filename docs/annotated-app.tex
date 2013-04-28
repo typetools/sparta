@@ -1,0 +1,49 @@
+\htmlhr
+\chapter{How to Analyze an Annotated App\label{analyze-annotated-app}}
+
+If you are presented with an annotated app, you can confirm the work of the
+person who did the annotation by answering affirmatively three questions.
+
+\begin{enumerate}
+\item Does the Flow Checker produce any errors or warnings?
+\item Does the flow-policy file match the application description?
+\item Does the justification for each \<@SuppressWarnings> make sense?
+\end{enumerate}
+
+\section{Run the Flow Checker}
+
+Run the Flow Checker (\chapref{flow-checker}) to ensure that there is no
+data flow in the application beyond what is expressed in the given flow
+policy:
+
+\begin{alltt}
+ant -DflowPolicy=myflowpolicy flowtest
+\end{alltt}
+
+If the Flow Checker produces any errors or warnings, then the app has not
+been properly annotated and should be rejected.
+
+\section{Review the Flow Policy}
+Does the flow-policy file match the application description? There should
+not be any flows that are not explained in the description.  These flows
+may be explicitly stated, such as ``encrypt and sign messages, send them
+via your preferred email app.''  Or a flow may only be implied, such as
+``This Application allows the user to share pics with their contacts.''  In
+the first example, you would expect an EMAIL sink to appear somewhere in
+the policy file. In the second, ``share'' could mean a you would see a Flow
+Sink of EMAIL, SMS, NETWORK, or something else.  Flows that are only
+implied in the description could be grounds for rejection if the
+description is too vague.
+
+\section{Review \<@SuppressWarnings> Justifications}
+Does the justification for every \<@SuppressWarnings> make sense? Search
+for every instance of \<@SuppressWarnings("flow")> and read the
+justification comment.  Compare the justification to the actual code and
+determine if it make sense and should be allowed.  No justification comment
+could be grounds for rejection.
+  
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% End: 

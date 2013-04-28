@@ -1,45 +1,45 @@
 \htmlhr
-\chapter{How to Detect Malware\label{appanalysis}}
+\chapter{How to Analyze an Unannotated App\label{analyze-unannotated-app}}
 
-This is a brief guide on how to analyze an Android application and
-find security vulnerabilities. This document gives a high-level view
-of the process, including how various tools relate to one another.
+\section{Description of tools, to work in}
 
-For details about how to install and run the code analysis tools, see \chapref{installation}.
+These three tools are used to find potentially malicious code
+ locations in an Android app.
 
-\section{How to Analyze an Annotated App\label{sec:analyzeannoapp}}
-Analyzing an annotated app is much simpler than analyzing an unannotated one.  Basically, the analysis consists of answering affirmatively three questions.
 
-\begin{enumerate}
-\item Does the Flow Checker produce any errors or warnings?
-\item Does the flow-policy file match the application description?
-\item Does the justification for each \<@SuppressWarnings> make sense?
-\end{enumerate}
+\subsection{Suspicious API Tool\label{sec:suspicioustool}}
 
-\subsection{Run the Flow Checker}
-Does the Flow Checker produce any errors or warnings? A properly annotated app should not produce
-any warnings or errors.  If it does, this would be grounds for rejection.  (You can follow the instructions 
-in subsection~\ref{subsec:setupapp} to set up the app for use with the Flow Checker and then run
-\<ant flowtest>.)
+This tool reports uses of potentially dangerous APIs. These include uses of reflection, randomness, thread spawning, the ACTION VIEW intent, hard-coded strings such as URIs, and so forth. These APIs may be innocuous, but a human should examine their use.  The file \<src/sparta/checkers/suspicious.astub> contains the classes and methods that are considered suspicious.
+ 
+\begin{alltt}
+ant reportsuspicious
+\end{alltt}
 
-\subsection{Review the Flow Policy}
-Does the flow-policy file match the application description? There should not be any flows that are not 
-explained in the description.  These flows may be explicitly stated, such as ``encrypt and sign messages, send them via your preferred email app.''   Or a flow may only be implied, such as ``This Application allows the user to share pics with their contacts.''  In the first example, you would expect an EMAIL sink to appear somewhere in the policy file. In the second, ``share'' could mean a you would see a Flow Sink of EMAIL, SMS, NETWORK, or something else.  Flows that are only implied in the description could be grounds for rejection if the description is too vague. 
-
-\subsection{Review \<@SuppressWarnings> Justifications}
- Does the justification for every \<@SuppressWarnings> make sense? Search for every instance of 
- \<@SuppressWarnings("flow")> and read the justification comment.  Compare the justification to the
-  actual code and determine if it make sense and should be allowed.  No justification comment 
-  could be grounds for rejection.
+\subsection{Permission Tool\label{sec:permtool}}
   
-\section{How to Analyze an Unannotated App\label{sec:analyzeunano}}
+This tool indicates every API call in the Android app that might require a permission.  The file src/sparta/checkers/permission.astub contains the Android API that has been annotated with \<@RequiredPermissions> and is used by this tool.
 
-\subsection{Summary}
+ \begin{alltt}
+ant reqperms
+\end{alltt}
+
+
+\subsection{Android API Tool\label{sec:generaltool}}
+
+This tool reports uses of Android and other APIs. These APIs are not suspicious in general. However, they do help the analyst to better understand the structure of the code not just with respect to its standard module structure, but in terms of how it interacts with Android interfaces. 
+
+
+\begin{alltt}
+ant reportapiusage
+\end{alltt}
+
+
+\section{Summary}
 
 The recommended work flow is:  
 
 \begin{enumerate}
-\item Add lines to \<build.xml>
+\item Set up the app for analysis by the SPARTA tools; see \secref{sec:antsetup}
 \item Read Description
 \item Check Permissions in \<AndroidManifest.xml>
 \item Write Flow Policy
@@ -62,96 +62,9 @@ The tools should be run in the following order.
 The rest of this chapter gives more details about each step in the analysis process.
 
 
-\subsection{Task:  set up the tools for the new application}
-\label{subsec:setupapp}
-
-Checking applications
-
-It is required to set three environment variables:
-
-\begin{itemize}
-\item
-\<CHECKERS> pointing to the
-\<.../checker-framework/checkers> directory
-
-\item
-\<SPARTA\_CODE> pointing to the \<.../sparta-code> directory
-
-\item
-\<ANDROID\_HOME> pointing to the \<.../android-sdk> directory
-
-\end{itemize}
 
 
-The SPARTA project needs to be updated to your development environment, so that the path to the Android SDK is correct and the correct version of Android is use. (More details about updating a project are available here: \url{http://developer.android.com/tools/projects/projects-cmdline.html#UpdatingAProject}.)To update the project with your Android settings run the following:
-
-\begin{alltt}
-ant -buildfile $SPARTA_CODE/build.local.xml
-\end{alltt}
-
-Alternatively, you can run:
-
-\begin{alltt}
-$ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
-\end{alltt}
-
-Edit the \<build.xml> file of the project under analysis to add the
-SPARTA build targets at the end, right before \verb|</project>|:
-% TODO: how does using lt and gt in TT mode work?
-
-\begin{alltt}
-<property environment="env"/>
-<dirname property="checkers_dir" file="\$\{env.CHECKERS\}"/>
-<basename property="checkers_base" file="\$\{env.CHECKERS\}"/>
-<dirname property="sparta-code_dir" file="\$\{env.SPARTA_CODE\}"/>
-<basename property="sparta-code_base" file="\$\{env.SPARTA_CODE\}"/>
-<import file="\$\{sparta-code_dir\}/\$\{sparta-code_base\}/build.include.xml" optional="true"/>
-\end{alltt}
-
-
-
-To use Eclipse to look at and build the code, perform these simple
-steps:
-\begin{itemize}
-\item
-Using Eclipse, import the projects (this requires the app to have a
-\<.project> and \<.classpath> file)
-  \begin{itemize}
-    \item
-    Make sure
-    \<Project Properties $\rightarrow$ Android $\rightarrow$ Android
-    version \#> is checked
-
-    \item
-    Check that
-    \<Project Properties $\rightarrow$ Java Build Path $\rightarrow$
-    Libraries $\rightarrow$ Android version \#> appears
-
-    \item
-    Add the sparta-code project to
-    \<Project Properties $\rightarrow$ Java Build Path $\rightarrow$ Projects>
-    
-  \end{itemize}
-
-\item Compile via command line (\<ant clean>, \<ant flowtest>)
-
-\item If it compiles, or the errors are exclusively about annotations,
-  it's working correctly.
-\end{itemize}
-
-Most Android apps will rely on an auto-generated \<R.java> file
-in the \</gen> directory of the project. This will only be generated
-if there are no errors in the project. There may be errors in the
-resources (\<.../res> directory) that could cause \<R.java> to not be
-generated.
-
-Additionally, if the app depends on an external \<.jar> file (often
-located in the \<lib/> directory), it will compile in Eclipse but not
-with Ant. To fix this, in ant.properties, add ``\<jar.libs.dir=lib>''
-(or wherever the \<.jar> is located).
-
-
-\subsection{Task: get a basic understanding of the application}
+\section{Task: get a basic understanding of the application}
 Read the description of the application.  
 Look at the AndroidManifest.xml file and:
 \begin{itemize}
@@ -172,7 +85,7 @@ Look at the AndroidManifest.xml file and:
   etc.
 \end{itemize}
 
-\subsection{Task: write a flow-policy file}
+\section{Task: write a flow-policy file}
 
 Use your understanding of the App to write a flow-policy file.  A full description of Flow Policies can be 
 found in \secref{sec:flowpolicy}.   You should also familiarize yourself with all the possible sources and sinks; 
@@ -197,7 +110,7 @@ if the App does not contain malware.  In practice, you will have to add flows to
   case, do not add it to the policy file, but pay close attention to how this permission is used in the 
   code.
 
-\subsection{Task: check for the most suspicious code locations and API uses}
+\section{Task: check for the most suspicious code locations and API uses}
 \label{sec:appanalysis/suspicious}
 Run \<ant reportsuspicious> to get a list of the most suspicious code
 locations. 
@@ -245,7 +158,7 @@ with additional API uses and String patterns that turn out to be
 malicious for every analyzed application. 
 
 
-\subsection{Task: see where permissions are used in the application}
+\section{Task: see where permissions are used in the application}
 \label{sec:appanalysis/reqperms}
 
 Run \<ant reqperms>  to see a list of the app's methods
@@ -274,7 +187,7 @@ Any permission that is required should already be listed in the AndroidManifest.
 % possible paths into an API.
 
 
-\subsection{Task: see what precise APIs are used where in the application}
+\section{Task: see what precise APIs are used where in the application}
 
 Run \<ant reportapiusage> to get a report of the used APIs. The
 \<reportapiusage> target only reports about APIs that appear in the file:
@@ -301,7 +214,7 @@ understand the behavior of an application.
 
 
 
-\subsection{Task: ensure that the used APIs are annotated with flow information\label{flow-task-annotate-apis}}
+\section{Task: ensure that the used APIs are annotated with flow information\label{flow-task-annotate-apis}}
 
 Stub files in  \<sparta-code/src/sparta/checkers/flowstubfiles> provides Android and Java
 library annotations.  You may need to enhance it, if you find that your application
@@ -359,7 +272,7 @@ If according to the description, the method has no flow, then the parameters and
 Note: you have not yet added any annotations to the app itself.
 
 
-\subsection{Task: visualize the existing flow in the application}
+\section{Task: visualize the existing flow in the application}
 
 You do not have to run this step --- you can skip it if you
 prefer.
@@ -387,7 +300,7 @@ more annotations to the application. So, you can periodically rerun
 this step. 
 
 
-\subsection{Task: check the flow in the application}
+\section{Task: check the flow in the application}
 
 Run \<ant flowtest> on the application.
 Eliminate each warning in one of two ways.
@@ -447,7 +360,7 @@ decide whether this is a desired information flow or not.
 You can continue to use \<ant flowshow> to visualize the annotation
 progress.
 
-\subsection{Task: run stricter tests}
+\section{Task: run stricter tests}
 Once all warnings were resolved, run \<ant -Dstricter=true flowtest> on
 the application.
 Providing the \<stricter> option enables additional checks that are

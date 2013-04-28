@@ -22,7 +22,7 @@ property).
 % \url{http://types.cs.washington.edu/checker-framework/}.  
 
 
-You can find the latest version of this manual in the sparta-code version
+You can find the latest version of this manual in the \<sparta-code> version
 control repository, in directory \<sparta-code/docs>.  Alternately, you can
 find it in a SPARTA release at
 \url{http://types.cs.washington.edu/sparta/release/}, though that may not
@@ -31,11 +31,16 @@ be as up-to-date.
 
 \section{Overview:  malware detection and prevention tools}
 
-The SPARTA toolset contains two types of tools:  tools to find potentially
-dangerous code in an Android app, and tools to statically verify
+The SPARTA toolset contains two types of tools:  reverse engineering tools to find potentially
+dangerous code in an Android app, and a tool to statically verify
 information flow properties.
 
-The tools to statically verify information flow require a person to write
+The reverse engineering tools to find potentially dangerous code can be run on
+arbitrary unannotated Android source code.  Those tools give no guarantees,
+however; they just direct the analyst's attention to suspicious locations
+in the source code.
+
+By contrast, the tools to statically verify information flow require a person to write
 the information flow properties of the program, primarily as source code
 annotations.  For instance, an array that contains data that came from the
 camera and is destined for the network would be written as 
@@ -44,38 +49,39 @@ camera and is destined for the network would be written as
 \<@FlowSources(CAMERA) @FlowSinks(NETWORK)>
 \end{Verbatim}
 
-By contrast, the tools to find potentially dangerous code can be run on
-arbitrary unannotated Android source code.  Those tools give no guarantees,
-however; they just direct the analyst's attention to suspicious locations
-in the source code.
 
 
-There are two different ways to use the tools.
+There are two different scenarios in which the SPARTA tools might be used.
 \begin{itemize}
 \item
   Ideally, the application vendor, who understands the source code,
   writes information flow annotations such as \<@FlowSources> in the source
   code, iterating until the static information flow tool issues no warnings.
 
-  In this case, the analyst first runs the static information flow tool to
-  confirm that there are no undesired information flows in the program.
-  Then, to find other vulnerabilities, the analyst runs the suspicious code
-  detection tools and manually examines those locations.
-  [To do:  explain why this additional step is required and what one might
-  learn.]
+  In this case, the analyst merely re-runs the static information flow tool
+  to confirm the vendor's work.  This shows that there are no undesired
+  information flows in the program.
+
+  \chapref{analyze-annotated-app} explains how to use the SPARTA tools for
+  this scenario.
 
 \item
   If the application vendor delivers an unannotated program, then the
   analyst must understand the program well enough to annotate it and then
   annotate it.
 
-  In this case, it is most efficient to first run the suspicious code
-  detection tools; that might reveal either malware or code that the vendor
+  In this case, it is most efficient to first run the reverse engineering
+  tools to detect suspicious code.  Those tools might reveal unacceptable
+  code: either malware or code that the vendor
   should rewrite in a clearer or safer way.  If the suspicious code
   detection tools do not reveal problems so severe that the app should be
-  rejected, then the analyst can write annotations and run the information
+  rejected, then they help to guide the next step.   The analyst writes
+  information flow annotations and runs the information
   flow tool until either the analyst has found a vulnerability or the lack
   of tool warnings indicates there is no vulnerability.
+
+  \chapref{analyze-unannotated-app} explains how to use the SPARTA tools for
+  this scenario.
 \end{itemize}
 
 
