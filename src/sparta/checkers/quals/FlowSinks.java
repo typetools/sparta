@@ -96,6 +96,7 @@ public @interface FlowSinks {
         SIP,
         SMS,
         SOCIAL_STREAM,
+        SQLITE_DATABASE,
         STATUS_BAR,
         SUBSCRIBED_FEEDS,
         SYNC_SETTINGS,

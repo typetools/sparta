@@ -9,7 +9,7 @@ class Camera {
 	@DefaultFlow @RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
 	void setParameters(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.CAMERA_SETTINGS) Parameters params);
 	void setPreviewDisplay(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) SurfaceHolder holder);
-	void takePicture(@FlowSources(FlowSource.ANY) @FlowSinks() ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks(FlowSink.ANY) PictureCallback jpeg);
+	void takePicture(@FlowSources(FlowSource.ANY) @FlowSinks({}) ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg) @FlowSources(FlowSource.ANY) @FlowSinks({});
 }
 
 interface Camera$PictureCallback {

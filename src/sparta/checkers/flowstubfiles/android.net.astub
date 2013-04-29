@@ -1,0 +1,6 @@
+package android.net;
+
+class Uri {
+//Added by Philip
+    static @PolyFlow Uri parse(String uriString);
+}
