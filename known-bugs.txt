@@ -1,3 +1,2 @@
 -The ant targets do not work if their is a space anywhere in your project path.
-- Local variable inference does not happen on element types of arrays. See tests/flow/ArrayCast.java line 26 for an example
 - String concatenation where one of the string has FlowSink.ANY gives the wrong type.  See tests/flow/StringConcat.java for an example
