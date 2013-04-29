@@ -35,8 +35,11 @@ chapters 1--2 of the Checker Framework Manual, and you should at least skim
 chapters 18--21 (generics through libraries) and 24--25 (FAQ and
 troubleshooting).
 
+After you read this chapter, see \chapref{app-annotation} for tips about
+writing information-flow annotations.
 
-\section{The flow type system\label{sec:flow-type-system}}
+
+\section{The information-flow type system\label{sec:flow-type-system}}
 
 You write the annotation \<@FlowSources> on a variable's
 type to indicate what sensitive sources can affect the variable's value.
@@ -78,7 +81,7 @@ The types of FlowSources and FlowSinks are listed in the
 \end{figure}
 
 As with standard Java types, the type annotation hierarchy indicates which
-assignments, method calls, and overriding are legal. \figref{fig:flowsources-hierarchy} 
+assignments, method calls, and overriding are legal. \figref{fig:flow-hierarchy} 
 shows part of the \<@FlowSources>
 qualifier hierarchy.  The top type is \<@FlowSources(ANY)>, which is
 shorthand for listing every source.  It would be legal to annotate every
@@ -90,7 +93,7 @@ be applied to variables whose value does not depend on any sensitive
 source.
 
 
-\figref{fig:flowsinks-hierarchy} shows part of the \<@FlowSinks>
+\figref{fig:flow-hierarchy} shows part of the \<@FlowSinks>
 qualifier hierarchy.  The top type is \<@FlowSinks(\ttcbs)> or
 \<@FlowSinks()>, which indicates
 that the value is only used locally by the application and never flows to
@@ -147,7 +150,7 @@ flow sink that does affect the output of the program comes from an
 abuse of the type system.  Most likely a variable with no source or
 sink would come from an improperly suppressed warning. Therefore it is
 necessary to not allow flows from and to nowhere.  (The flow policy
-ensures this; see section \secref{sec:flowpolicy})
+ensures this; see section \secref{sec:flow-policy})
 
 Note that this does not mean you must specify both a flow source
 annotation and a flow sink annotation as explained in
@@ -156,7 +159,7 @@ annotation and a flow sink annotation as explained in
  
 
 
-\section{Flow Policy\label{sec:flowpolicy}}
+\section{Flow Policy\label{sec:flow-policy}}
 
 A flow policy is a list of all the flows that are permitted to occur in an application.
 A flow-policy file is a list 
@@ -305,8 +308,8 @@ to generic type arguments and array elements, if any.
 The Checker Framework supports flow-sensitive type refinement.  Assignments (such as
 initializers) are used to refine the type to a more precise one.  Thus, in
 general you do not have to write type annotations on local variables.  For
-details, see section ``Automatic type refinement (flow-sensitive type
-qualifier inference)'' in the Checker Framework manual.
+details, see section ``\ahref{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#type-refinement}{Automatic type refinement (flow-sensitive type
+qualifier inference)}'' in the Checker Framework Manual.
 
 If the programmer specifies only flow sources, the flow sink is defaulted
 to be the
@@ -349,13 +352,15 @@ $\omega$. For example, using the same policy file as above, the following are eq
 
 \section{Warning Suppression\label{sec:waringsuppression}}
  
- Sometimes it might be necessary to suppress warnings or errors produced by the
-  Flow Checker.  This can be done by using the  \<@SuppressWarnings("flow")> annotation
-   on a declaration.  Because this annotation can be used to subvert the Flow Checker, its use
-   is considered suspicious.  Anytime a warning or error is suppressed, you must 
-   write a brief comment justifying the suppression.     \<@SuppressWarnings("flow")> should
-   only be used if there is no way to annotate the code so that an error or warning does not occur. 
-   Most programs should not suppress warnings. 
+Sometimes it might be necessary to suppress warnings or errors produced by
+the Flow Checker.  This can be done by using the
+\<@SuppressWarnings("flow")> annotation on a variable, method, or (rarely)
+class declaration.  Because this annotation can be used to subvert the Flow
+Checker, its use is considered suspicious.  Anytime a warning or error is
+suppressed, you must write a brief comment justifying the suppression.
+\<@SuppressWarnings("flow")> should only be used if there is no way to
+annotate the code so that an error or warning does not occur.  Most
+programs should not suppress warnings.
 
 
 \section{API specifications\label{sec:apispecs}}
@@ -365,7 +370,8 @@ annotations.  You may need to enhance them, if you find that your application
 uses APIs that are not yet annotated.  For details, see
 section~\ref{flow-task-annotate-apis} of this manual, and also 
 chapter
-``Annotating libraries'' in the Checker Framework manual.
+``\ahref{\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}}{Annotating
+  Libraries}'' in the Checker Framework Manual.
 
 
 \section{Qualifier polymorphism: @PolyFlowSources  and @PolyFlowSinks \label{sec:polyflowsources}}
@@ -377,7 +383,7 @@ To make the type system more expressive, the flow type system supports
 qualifier polymorphism, via the type qualifiers \<@PolyFlowSources> and
 \<@PolyFlowSinks>.  These are mostly used when annotating APIs when the
 specific flow sources or flow sinks are not known or can vary. 
-See section ``Qualifier polymorphism'' in the Checker Framework manual.  
+See section ``\ahref{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#qualifier-polymorphism}{Qualifier polymorphism}'' in the Checker Framework Manual.  
 
 % These range over their respective type hierarchy and can be used to
 % express type dependencies, for example, that the receiver and

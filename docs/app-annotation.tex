@@ -1,14 +1,11 @@
 \htmlhr
-\chapter{How to Annotate an Android App\label{app-annotation}}
+\chapter{Writing information flow annotations\label{app-annotation}}
 
-This chapter describes best practices for annotating an Android application.  In general, only 
-fields and methods signatures in your own code and in libraries need to be annotated. Usually method bodies do not need to be annotated.
+This chapter contains tips for annotating an Android application.
 
-\section{Flow Checker\label{flowchecker}}
-An application is fully annotated when the \<ant flowtest> returns no errors.  So the typical work flow is 
-to run \<ant flowtest>, add a few annotations to your own code or to API methods, and then run \<ant flowtest> again.  
-Repeat this until there are no more errors.
-
+In general, only fields and methods signatures in your own code and in
+libraries need to be annotated. Usually method bodies do not need to be
+annotated.
 
 
 \section{Annotating Application Methods\label{sec:annomethods}}
@@ -20,23 +17,6 @@ Typically, return types should be annotated with just FlowSources so that the Fl
     must be annotated with  FlowSinks or FlowSources, or sometimes both. The guidelines for annotating 
     API methods described in the next sections also apply to annotating methods in your application. 
 
-
-\section{Annotating APIs\label{sec:annotatedAPI}}
-
-Stub files in  \<sparta-code/src/sparta/checkers/flowstubfiles> provide Android and Java
-library annotations.  You may need to enhance it, if you find that your application
-uses APIs that are not yet annotated.  After changing a stub file, remember
-to run \<ant jar> to rebuild \<sparta.jar>.
-Also, the Checker Framework manual has more information on stub files. 
-\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}
-
-For every API method used by this app (i.e., those output by \<ant
-reportapiusage>) that does \emph{not} already appear in a stub file, read the Javadoc and decide what flow properties the method
-has.  Use this information to annotate the method.  The next few sections have guidelines on
-how to annotate certain kinds of methods. 
-
-To speed up annotating an entire API class, copy the output from Checker Framework's StubGenerator to 
-the correct stub file and then annotate the methods.  See \url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#stub} for more details. 
 
 \subsection{Methods with Sources}
 If you read the Javadoc and the method returns an object from a certain source, then you should annotate
@@ -54,12 +34,15 @@ class Camera {
 }
 \end{Verbatim}
 
+[TODO: should the above drop the \<ANY> annotations, and let those parts of
+the annotations be defaulted?  If not, explain why not.]
+
 \begin{Verbatim}
 Camera.Parameters parameters
      = mCamera.getParameters();
-//Change some parameters
-//If the policy file contains: CAMERA_SETTINGS->CAMERA_SETTINGS
-//Then the following statement will not give an error
+// Change some parameters
+// If the policy file contains: CAMERA_SETTINGS->CAMERA_SETTINGS
+// Then the following statement will not give an error:
 mCamera.setParameters(parameters);
 \end{Verbatim}
 
@@ -138,7 +121,18 @@ Example use of \<@PolyFlow>.
 
 \section{Common Errors\label{errors}}
 
-This section explains four of the errors you are likely to see when annotated your application.  This section also gives advice about how you might correct the error.   
+This section explains some common errors issued by the Flow Checker, and
+gives advice about correcting the errors.   
+
+Also see the Checker Framework Manual
+(\ifhevea\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html}\else\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.pdf}\fi),
+which contains information about pluggable type-checking in general.  Many
+of your errors may not be specific to the Flow Checker and are likely to be
+answered in the Checker Framework Manual.
+
+If you encounter a problem you cannot solve, contact the SPARTA developers (\secref{sec:incaseoftrouble}).
+
+
 
 \subsection{Forbidden Flow}  
 Every source-sink pair in your code must be listed in the flow policy or else a \emph{forbidden flow} error will occur.
@@ -161,7 +155,7 @@ The most common errors are \emph{incompatible types}.  They can be in arguments,
 
 APIs that have not been annotated have been typed so conservatively that they will always produce incompatible types errors where the required is \<@FlowSinks(ANY) @FlowSources({})> or 
 \<@FlowSinks({}) @FlowSources(ANY)>.  These errors can be fixed by annotating the API method; 
-Section \ref{sec:annotatedAPI} gives guidelines for annotating APIs. 
+Section \ref{flow-task-annotate-apis} explains how to annotate APIs. 
 Below is an example of this sort of error.
 
 \begin{Verbatim}
@@ -196,25 +190,13 @@ HelloWorld.java:48: error: Conditions are not allowed to depend on flow informat
             ^
 \end{Verbatim}
 
-\subsection{StubParser}
 
-APIs are annotated in stub files.  If a stub has a typo or the API method does not exist in the version of Android 
-used. 
 
-For example, the error below can be fixed by removing the extra L in the method name.
-
-\begin{Verbatim}
-StubParser: Method isLLowerCase(char) not found in type java.lang.Character
-\end{Verbatim}
-This error can be corrected by removing the extra L in the method name.
-
-The method \<enableForgroundNdefPush(...)> is not defined in android.nfc.NfcAdapter, so to fix the error below, this
- method should be removed from the stub file.
-\begin{Verbatim}
-StubParser: Method enableForegroundNdefPush(Activity,NdefPushCallback) 
-      not found in type android.nfc.NfcAdapter
-\end{Verbatim}
-
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "manual"
+%%% TeX-command-default: "PDF"
+%%% End: 
 
 %  LocalWords:  App flowtest FlowSinks FlowSources sparta app FlowSink
 %  LocalWords:  reportapiusage StubGenerator getParameters PolyFlowSources

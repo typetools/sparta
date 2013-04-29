@@ -1,131 +1,136 @@
 \htmlhr
 \chapter{How to Analyze an Unannotated App\label{analyze-unannotated-app}}
 
-\section{Description of tools, to work in}
-
-These three tools are used to find potentially malicious code
- locations in an Android app.
-
-
-\subsection{Suspicious API Tool\label{sec:suspicioustool}}
-
-This tool reports uses of potentially dangerous APIs. These include uses of reflection, randomness, thread spawning, the ACTION VIEW intent, hard-coded strings such as URIs, and so forth. These APIs may be innocuous, but a human should examine their use.  The file \<src/sparta/checkers/suspicious.astub> contains the classes and methods that are considered suspicious.
- 
-\begin{alltt}
-ant reportsuspicious
-\end{alltt}
-
-\subsection{Permission Tool\label{sec:permtool}}
-  
-This tool indicates every API call in the Android app that might require a permission.  The file src/sparta/checkers/permission.astub contains the Android API that has been annotated with \<@RequiredPermissions> and is used by this tool.
-
- \begin{alltt}
-ant reqperms
-\end{alltt}
+If you are presented with an unannotated app and wish to confirm that it
+contains no malware, then you need to perform three tasks:
+\begin{itemize}
+\item
+  Look for obvious malware.
+\item
+  Run reverse-engineering tools to understand the application.
+\item
+  Write and check information-flow type qualifiers to ensure that the
+  program has no undesired information flow.
+\end{itemize}
 
 
-\subsection{Android API Tool\label{sec:generaltool}}
-
-This tool reports uses of Android and other APIs. These APIs are not suspicious in general. However, they do help the analyst to better understand the structure of the code not just with respect to its standard module structure, but in terms of how it interacts with Android interfaces. 
-
-
-\begin{alltt}
-ant reportapiusage
-\end{alltt}
-
-
-\section{Summary}
-
-The recommended work flow is:  
+More specifically, the recommended workflow is:
 
 \begin{enumerate}
 \item Set up the app for analysis by the SPARTA tools; see \secref{sec:antsetup}
-\item Read Description
-\item Check Permissions in \<AndroidManifest.xml>
-\item Write Flow Policy
-\item Run Tools
-\item Annotate Relevant APIs
-\item After all errors are gone, run \<ant -Dstrict flowtest>
+\item Write the flow policy; see \secref{sec:write-flow-policy}
+\item Run reverse-engineering tools; see \secref{sec:reverse-engineering}
+\item Write and check information flow type qualifiers; see \secref{verify-information-flow-security}
 \end{enumerate}
 
-\noindent 
-The tools should be run in the following order. 
-
-\begin{enumerate}
-\item ant reportsuspicious (also runs sparta-code/suspicious.pl)
-\item ant reqperms
-\item ant reportapiusage
-\item ant flowtest
-\end{enumerate}
-
-\noindent 
-The rest of this chapter gives more details about each step in the analysis process.
-
-
+% \noindent 
+% The tools should be run in the following order. 
+% 
+% \begin{enumerate}
+% \item ant reportsuspicious (also runs sparta-code/suspicious.pl)
+% \item ant reqperms
+% \item ant reportapiusage
+% \item ant flowtest
+% \end{enumerate}
+% 
+% \noindent 
+% The rest of this chapter gives more details about each step in the analysis process.
 
 
-\section{Task: get a basic understanding of the application}
-Read the description of the application.  
-Look at the AndroidManifest.xml file and:
+
+
+\section{Task: write a flow-policy file\label{sec:write-flow-policy}}
+
+Write a flow-policy file.  \secref{sec:flow-policy} describes flow policies.
+
+\subsection{Read the app description}
+\label{sec:read-the-app-description}
+
+Read the App description and user documentation, looking for clues about
+the permissions (sensitive sources and sinks from the enums
+\<FlowSources.FlowSource> and \<FlowSinks.FlowSink>) and how information
+flows between them.  For example,
+if this is a map app, does the description say anything about sending your location data over the
+ network?  If so, then you should add \<LOCATION -> NETWORK> to the flow-policy file.  Where
+else does the description say LOCATION data can go?   
+
+Theoretically, you should be able to write a complete Flow Policy from the
+description if the description is well-written and the app does not contain
+malware.  In practice, you will have to add flows to the policy file as you
+more fully annotate the app, but you should ensure that they are reasonable
+and make note of what additional flows you had to add.
+ 
+
+\subsection{Read the manifest file}
+
+Look at the \<AndroidManifest.xml> file and:
 \begin{itemize}
-\item Determine which permissions the app uses.
-  Look for ``uses-permission'' entries to understand the used
-  permissions.
+\item Determine which permissions the app uses --- the ``uses-permission''
+  entries in the manifest file.
+
+  (If you are short on time, you could start with reading the manifest file
+  rather than first reading the app description as recommended in
+  \secref{sec:read-the-app-description}.  But determining the permissions
+  from the documentation will be more effective in finding problems in
+  either the documentation or the code.)
 \item Compare the used permissions with the description of the
   application and determine whether or not they are well justified.
   If an application uses certain permissions that are not justified
   in the description, this indicates suspicious code. 
   (To determine where these permissions are used in the application,
    see \ref{sec:appanalysis/reqperms})
-\item Determine the entry points into the source code. (This may also give
-  a hint about the architecture or overall modular structure of the
-  application.)
-  Look for ``activity'', ``intent-filter'', ``service'', ``receiver'', and
-  ``provider'' to see the entry points, intent messages it responds to,
-  etc.
-\end{itemize}
 
-\section{Task: write a flow-policy file}
-
-Use your understanding of the App to write a flow-policy file.  A full description of Flow Policies can be 
-found in \secref{sec:flowpolicy}.   You should also familiarize yourself with all the possible sources and sinks; 
- all FlowSources  are
-members of the enum \<sparta.checkers.quals.FlowSources.FlowSource> and all FlowSinks are
-members of the enum \<sparta.checkers.quals.FlowSinks.FlowSink>.
-
-To begin, read the App description, looking for clues about the information flow.  For example,
-if this is a map app, does the description say anything about sending your location data over the
- network?  If so, then you should add LOCATION \flowsto{} NETWORK to the flow-policy file.  Where
-else does the description say LOCATION data can go?   
-
-Theoretically you should be able to write a complete Flow Policy from the description 
-if the App does not contain malware.  In practice, you will have to add flows to the policy file as you
- more fully annotate the app, but you should make note of what additional flows you had to add.
- 
- After you have written the flows that are apparent from the description, you may want to see if the App
-  has any ``use permissions'' in the AndroidManifest.xml file that are not listed in the flow policy. 
   (Permissions are not one-to-one with sinks and sources, but the name of the permission should give 
   a clue about which sources and sinks are involved.)  For example, if the SEND\_SMS permission is 
   requested, then SMS should be listed as a flow sink somewhere in the policy file.  If this is not the 
   case, do not add it to the policy file, but pay close attention to how this permission is used in the 
   code.
 
-\section{Task: check for the most suspicious code locations and API uses}
+\item Determine the entry points into the source code. (This may also give
+  a hint about the architecture or overall modular structure of the
+  application.)
+  Look for ``activity'', ``intent-filter'', ``service'', ``receiver'', and
+  ``provider'' to see the entry points, intent messages it responds to,
+  etc.
+
+  TODO:  What is the point of this step?  Does it inform the creation of
+  the flow policy?  Or should it be moved later into the reverse
+  engineering steps of \secref{sec:reverse-engineering}?
+\end{itemize}
+
+
+
+\section{Run reverse-engineering tools\label{sec:reverse-engineering}}
+
+
+
+\subsection{Task: check for the most suspicious code locations and API uses}
 \label{sec:appanalysis/suspicious}
-Run \<ant reportsuspicious> to get a list of the most suspicious code
+
+Run
+
+\begin{Verbatim}
+  ant reportsuspicious
+\end{Verbatim}
+
+\noindent
+to get a list of the most suspicious code
 locations. 
-This target only reports about suspicious APIs that appear 
-in the file:
-\<sparta-code/src/sparta/checkers/suspicious.astub>. This report
-provides the most suspicious code locations and is intended to help
-localizing malware in an unannotated application.
+The code may be innocuous, but a human should examine it.
+
+This target reports
+\begin{itemize}
+\item
+  uses of potentially dangerous APIs, including reflection, randomness,
+  thread spawning, and the ACTION VIEW intent.
+
+  The file \<sparta-code/src/sparta/checkers/suspicious.astub> contains the classes and methods that are considered suspicious.
 
 The following example from the \<suspicious.astub> file reports all calls
 of the \verb|invoke| method and, additionally, all constructor calls 
 of the class \verb|java.util.Random|:
 
 \begin{Verbatim}
-
 package java.lang.reflect;                                             
 class Method {                                                         
     @ReportCall                                                        
@@ -135,49 +140,76 @@ class Method {
 package java.util;                                                     
 @ReportCreation                                                        
 class Random {}
-
 \end{Verbatim}
 
-In addition to running the report checker based on the 
-\<suspicious.astub> file, the \<reportsuspicious> target executes
-the script \<sparta-code/suspicious.pl>, which recursively searches for 
-suspicious String patterns (i.e., URIs, or IP and MAC addresses) 
-in \verb|.java| and \verb|strings.xml| files.
-Generally, the \<sparta-code/suspicious.pl> script takes two arguments:
-\begin{enumerate}
- \item root-dir: The directory in which the script recursively 
-       searches for the given patterns (built-in or argument\#2)
- \item pattern (optional): Search pattern to use instead of the
-built-in ones. 
-\end{enumerate}
-For each match, the script reports the file name, line
-number, and the found pattern.
+\item
+  suspicious String patterns (e.g., hard-coded URIs and IP and MAC addresses) 
+  in \verb|.java| and \verb|strings.xml| files.  The searched-for patterns
+  appear in the script \<sparta-code/suspicious.pl>.
 
-The \<suspicious.astub> and \<suspicious.pl> files should be enhanced
-with additional API uses and String patterns that turn out to be 
-malicious for every analyzed application. 
+%% This level of implementation detail is not appropriate for this manual.
+%% It should appear in the documentation of the script itself.
+% Generally, the \<sparta-code/suspicious.pl> script takes two arguments:
+% \begin{enumerate}
+%  \item root-dir: The directory in which the script recursively 
+%        searches for the given patterns (built-in or argument\#2)
+%  \item pattern (optional): Search pattern to use instead of the
+% built-in ones. 
+% \end{enumerate}
+
+\end{itemize}
+
+If you learn of additional suspicious API uses or String patterns, please
+inform the SPARTA developers so they can add them to the
+\<suspicious.astub> or \<suspicious.pl> file.
 
 
-\section{Task: see where permissions are used in the application}
+\subsection{Task: see where permissions are used in the application}
 \label{sec:appanalysis/reqperms}
 
-Run \<ant reqperms>  to see a list of the app's methods
-that use calls that require certain Android permissions. You can use
-this to gain an understanding of where sensitive information may come
-from/go to in the application. This command produces errors like the following:
+[TODO: what does \<@RequiredPermissions> mean?  That should appear both in
+its Javadoc (which is currently missing) and here.  Why do we care?  What
+benefits do \<@RequiredPermissions> bring to the analyst?  Given
+\<@RequiredPermissions> annotations in Android libraries, could they be
+automatically inferred in other libraries and in the app itself, rather
+than requiring a human to write them all?]
+
+Run
+
+\begin{Verbatim}
+  ant reqperms
+\end{Verbatim}
+
+\noindent
+to see a list of the app's methods
+that require an Android permissions, typically because the method
+directly or indirectly calls an Android API that requires the permission.
+The permissions required by the Android API appear in file
+\<src/sparta/checkers/permission.astub>, expressed as
+\<@RequiredPermissions> annotations.
+
+The \<ant reqperms> tool will help you gain an understanding of how your
+app first obtains information from a sensitive source, or how your app
+finally sends information to a sensitive sink.  This may help you decide
+what parts of the app to further investigate, or where to start your
+annotation work.
+
+The command produces output like the following:
 \begin{alltt}
 error: Call additionally requires permissions [android.permission.INTERNET], 
    but caller only provides []!
 \end{alltt}
-You can remove the error by writing
-\<@RequiredPermissions({android.Manifest.permission.\emph{PERMISSION}})> in front of the method header in the source code.
+You can eliminate the error by writing
+\<@RequiredPermissions({android.Manifest.permission.\emph{PERMISSION}})> in
+front of the method header in the source code.
 
-Once all methods in the subject application are correctly annotated,
-\<ant reqperms> will not issue any warnings.
-Search for \<@RequiredPermissions> to find the required permissions
-in the application.
+Once all methods in the subject application are correctly annotated with
+\<@RequiredPermissions>, then \<ant reqperms> will not produce any output.
+Then, you can search for \<@RequiredPermissions> to find the required
+permissions in the application.
 
-Any permission that is required should already be listed in the AndroidManifest.xml file. 
+Any permission that is required should already be listed in the
+\<AndroidManifest.xml> file.
 
 
 
@@ -187,20 +219,30 @@ Any permission that is required should already be listed in the AndroidManifest.
 % possible paths into an API.
 
 
-\section{Task: see what precise APIs are used where in the application}
+\subsection{Task: see what APIs are used where in the application}
 
-Run \<ant reportapiusage> to get a report of the used APIs. The
-\<reportapiusage> target only reports about APIs that appear in the file:
-\<sparta-code/src/sparta/checkers/apiusage.astub>. This report is useful
-for program comprehension but not intended to provide suspicious code
-locations. For suspicious API use, see
-\ref{sec:appanalysis/suspicious}.
-%TODO: I think this belongs in the next section
-%Additional \<.astub> files can be passed as \<-Astubs=...> argument in the
-%build file.
+Run
 
-The following example from \<apiusage.astub> causes the corresponding 
-checker to report the use of all entities in the package 
+\begin{alltt}
+  ant reportapiusage
+\end{alltt}
+
+\noindent
+to get a report of Android and other APIs used in the application.
+These APIs are not
+suspicious in general (see \ref{sec:appanalysis/suspicious} for reports
+about suspicious API use). However, they do help the analyst to better
+understand the structure of the code not just with respect to its standard
+module structure, but in terms of how it interacts with Android interfaces.
+
+The
+\<ant reportapiusage> target only reports about APIs that appear in the file:
+\<sparta-code/src/sparta/checkers/apiusage.astub>.
+Additional \<.astub> files can be passed using the \<-Astubs=...> argument in the
+build file.
+
+The following example from \<apiusage.astub> causes \<ant reportapiusage>
+to report the use of all entities in the package 
 \verb|com.android|:
 
 \begin{Verbatim}
@@ -208,31 +250,80 @@ checker to report the use of all entities in the package
 package com.android;
 \end{Verbatim}
 
-The \<apiusage.astub> file should be enhanced during and after the 
-analysis of an application --- add the entities that are most crucial to
-understand the behavior of an application.
+As you work, enhance the \<apiusage.astub> to add the entities that are
+most crucial to understand the behavior of an application.  Contact the
+SPARTA developers to tell them of additions that should appear in the file.
+
+
+\section{Verify information flow security\label{verify-information-flow-security}}
+
+It is most effective to write information flow annotations from the bottom
+up:  first annotate libraries your code uses, then your packages and
+classes that use those libraries, and so forth up to the entry points of
+your application.
+\secref{flow-task-annotate-apis} describes how to annotate libraries, and
+the remainder of this section describes how to annotate your own code.
+
+
+\subsection{Task: write information flow types for library APIs\label{flow-task-annotate-apis}}
+
+When the Flow Checker type-checks your code that calls a library API, the
+Flow Checker needs to know the effect of that call.  
+Stub files in \<sparta-code/src/sparta/checkers/flowstubfiles/> provide
+that information.  You may need to enhance those stub files, if they do not
+yet contain information about the library APIs that your application uses.
+(Over time, the stub files will become more complete, and you will have to
+do less work in this step for each new app.)
+
+For every API method used by this app (including all those output by \<ant
+reportapiusage>), do the following:
+\begin{itemize}
+\item
+If the API method already appears in some stub file, there is nothing to
+do; continue to the next API method.
+
+[TODO:  Have an ant target or other tool that reports only
+\emph{un-annotated} APIs, so that the user has a list of APIs to annotate
+without having to search through all the stub files.]
+\item
+Read the Javadoc.
+\item
+Decide what flow properties the method has.  Take care with this step,
+because your decision will be trusted, not checked.  If you make a mistake,
+the Flow Checker's results will not be sound.
+\item
+Add the method to the stub file that corresponds to the class package, with
+appropriate flow properties expressed as \<@FlowSources(...)> and
+\<@FlowSinks(...)> annotations.
+It would be unusual for an API method to contain both a \<@FlowSources>
+and a \<@FlowSinks> annotation.
+
+If the method does is not directly related to information flow (its inputs
+and outputs could be anything and are not required to have a specific
+\<@FlowSources> annotation), then annotate its parameters and return type
+with \<@PolyFlowSources @PloyFlowSinks>, which essentially says that the
+output can have all the flow sources and sinks of the inputs.
+[TODO: There is some more concise way to specify this, without having to
+annotate each parameter and return type individually.]
+\end{itemize}
+
+\noindent
+\textbf{Important:}
+After changing or adding stub files, run \<ant jar> to rebuild \<sparta.jar>.
 
 
 
-\section{Task: ensure that the used APIs are annotated with flow information\label{flow-task-annotate-apis}}
-
-Stub files in  \<sparta-code/src/sparta/checkers/flowstubfiles> provides Android and Java
-library annotations.  You may need to enhance it, if you find that your application
-uses APIs that are not yet annotated.
-(The  more APIs get annotated, the less work you will have to do in this
-step for each new app.) You should not annotate libraries that are unique to your application in \<flowstubfiles>;
-instead, annotated them in a new *.astub file. You can pass this file to be used with 
-\emph{flowtest} or any of the other ant targets.
+The stub files can include any third-party library that is not compiled
+along with your application.  You can add a new \<.astub> file to the
+\<flowstubfiles/> directory.
+Alternately, you can put a new \<.astub> file elsewhere and then pass this
+file to the \<ant flowtest> target:
 
 \begin{alltt}
 ant -Dstubs=\emph{path/myAnnoLib.astub} flowtest
 \end{alltt}
 
-%Note that the \emph{fully qualified name} is required for \<FlowSources> and 
-%\<FlowSinks> annotations in the \<> file.
-
-
-An example:
+Here is an example from a stub file:
 
 \begin{Verbatim}
 package android.telephony;
@@ -245,37 +336,37 @@ class TelephonyManager {
 
 \noindent
 The above annotates two methods in class \<TelephonyManager>.
-It indicates that the \<getLine1Number> function returns a String which is a
+It indicates that the \<getLine1Number> function returns a String that is a
 phone number.  For more examples, look into the stub files. Also, see 
-the manual \url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}
-
-For every API method used by this app (i.e., those output by \<ant
-reportapiusage>) that does \emph{not} already appear a stub file do the following.
-\begin{itemize}
-\item
-Read the Javadoc
-\item
-Decide what flow properties the method has.
-\item
-Add the method to the stub file that corresponds to the class package, with
-appropriate flow properties expressed as \<@FlowSinks(...)> and
-\<@FlowSources(...)> annotations.
-It would be unusual for an API method to contain both a \<@FlowSources>
-and a \<@FlowSinks> annotation.
-\end{itemize}
-
-If according to the description, the method has no flow, then the parameters and return type
- should be annotated with \<@PolyFlowSources @PloyFlowSinks>
-  to preserve the flow information.
+the
+``\ahref{\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}}{Annotating
+  Libraries}'' chapter in the Checker Framework Manual\ifhevea\else\ (\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.pdf})\fi.
 
 
-Note: you have not yet added any annotations to the app itself.
+When creating a new stub file, see the section
+``\ahref{\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#stub-creating}}{Creating
+  a stub file}'' in the Checker Framework Manual to learn how to create an
+initial file and prevent a great deal of repetitive cut-and-paste editing.
 
 
-\section{Task: visualize the existing flow in the application}
+It is usually a good idea to annotate an entire API class at a time, rather
+than to just annotate the specific methods that your app uses.  Annotating
+an entire class lets you think about it once, which takes less time in the
+long run.  It also reduces confusion for people who will later wonder
+whether a particular method was intended to be unannotated or had not yet
+been annotated.
+
+
+Note: at the end of this step, you have not yet added any annotations to
+the app itself, only to libraries.
+
+
+\subsection{Task: visualize the existing flow in the application}
 
 You do not have to run this step --- you can skip it if you
 prefer.
+
+[TODO:  Why would I want to perform this step?  What would be the benefits?]
 
 Run \<ant flowshow> to get a report of the
 existing flow.
@@ -300,32 +391,22 @@ more annotations to the application. So, you can periodically rerun
 this step. 
 
 
-\section{Task: check the flow in the application}
+\subsection{Task: write information flow types for the app\label{flow-task-annotate-app}}
 
-Run \<ant flowtest> on the application.
-Eliminate each warning in one of two ways.
-\begin{enumerate}
-\item Add annotations to method signatures and fields in the application, as
-required by the type-checker. This essentially propagates the flow
-information required by the APIs through the application.
+Write information flow annotations for your application, in the same way as
+you did for the libraries.  Read the documentation, decide on the types,
+and write those.  A fast and effective way to do this is to grep the source
+code for words related to information flow properties, such as ``camera''
+or ``network''.  These words might appear in documentation or in source
+code.  Wherever the words appear, you may be able to write information flow
+type qualifiers.  This approach is both faster and less error-prone than
+iteratively running the type-checker and fixing the errors that it reports
+one-by-one.
 
-\item Use \<@SuppressWarnings> to indicate safe uses that are safe for reasons
-that are beyond the capabilities of the type system. Always write a
-comment that justifies that it is safe.
-\end{enumerate}
-A prime example is a String literal that should be allowed to be sent
-over the network. By default, every literal has \<@FlowSinks()>
-(i.e., nothing) and \<@FlowSources()>.
+[TODO: provide a tool that does this grepping.  Also tell the user how to
+take advantage of the \<@RequiredPermissions> annotations and other tool
+output.]
 
-\begin{alltt}
-    @SuppressWarnings("flow") // manually verified to not contain secret data
-    @FlowSinks(FlowSink.NETWORK) String url = "http://bazinga.com/";
-\end{alltt}
-
-\noindent
-Without suppression the assignment raises an error, because string literals
-are assumed to be annotated with \<FlowSources(FlowSource.LITERAL)>. By adding the suppression, you
-assert that it's OK to send this string to the network. 
 
 Focus on the most interesting flow sources and try to connect the flow
 sources and sinks in the application. Instead of trying to completely
@@ -357,12 +438,63 @@ decide whether this is a desired information flow or not.
   you have found a security flaw.
 \end{itemize}
 
-You can continue to use \<ant flowshow> to visualize the annotation
-progress.
 
-\section{Task: run stricter tests}
-Once all warnings were resolved, run \<ant -Dstricter=true flowtest> on
-the application.
+Once you have written as many type qualifiers as possible, proceed to
+type-checking (\secref{sec:run-type-checker}).
+
+
+
+\subsection{Task: type-check the information flow types in the application\label{sec:run-type-checker}}
+
+Run
+
+\begin{Verbatim}
+  ant flowtest
+\end{Verbatim}
+
+Eliminate each warning in one of two ways.
+\begin{enumerate}
+\item Add annotations to method signatures and fields in the application, as
+required by the type-checker. This essentially propagates the flow
+information required by the APIs through the application.
+
+\item Use \<@SuppressWarnings> to indicate safe uses that are safe for reasons
+that are beyond the capabilities of the type system. Always write a
+comment that justifies that the code is safe, and why the type system
+cannot recognize that fact.
+
+An example is a String literal that should be allowed to be sent
+over the network. By default, every literal has \<@FlowSinks()>
+(i.e., nothing) and \<@FlowSources()>.
+
+\begin{alltt}
+    @SuppressWarnings("flow") // manually verified to not contain secret data
+    @FlowSinks(FlowSink.NETWORK) String url = "http://bazinga.com/";
+\end{alltt}
+
+Without warning suppression the assignment raises an error, because string literals
+are assumed to be annotated with \<FlowSources(FlowSource.LITERAL)>. By adding the suppression, you
+assert that it's OK to send this string to the network. 
+
+\end{enumerate}
+
+After you have corrected some of the errors, re-run \<ant flowtest>.
+Repeat the process until there are no more errors, or until you find bad
+code (malicious, or buggy and prone to abuse).
+
+You can continue to use \<ant flowshow> to visualize the annotation
+progress.  [TODO:  Why?  How does this help you?]
+
+
+\subsection{Task: type-check with stricter checking}
+
+Once all warnings were resolved, run 
+
+\begin{Verbatim}
+  ant -Dstricter=true flowtest
+\end{Verbatim}
+
+\noindent
 Providing the \<stricter> option enables additional checks that are
 required for soundness, but would be disruptive to enable initially.
 In particular, the tests for casts and array subtyping are stricter.
