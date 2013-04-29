@@ -1,0 +1,187 @@
+import sparta.checkers.quals.*;
+import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.FlowSinks.FlowSink;
+
+/*
+This file is generate by ant merge-stubfiles.
+Please put annotations in the correct stub file in flowstubfiles.
+*/
+
+@ConservativeFlow
+package android;
+
+@ConservativeFlow
+package com.android;
+
+@ConservativeFlow
+package org.apache.http;
+
+@ConservativeFlow
+package java;
+
+package android.content;
+
+class Context{
+
+	@FlowSources(FlowSource.FILESYSTEM) @FlowSinks(FlowSink.ANY) File getDir(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM) String name, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.CONDITIONAL) int mode);
+}
+
+class UriMatcher {
+    //@PolyFlow int match(Uri uri);
+}package android.database.sqlite;
+
+class SQLiteDatabase {
+//Added by Philip
+    void execSQL(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.SQLITE_DATABASE) String sql) @FlowSources(FlowSource.ANY) @FlowSinks({});
+}
+package android.graphics;
+
+class BitmapFactory {
+//Added by SOM
+	@PolyFlowSources @PolyFlowSinks Bitmap decodeByteArray(
+	                                @PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] data, 
+	                                @FlowSources(FlowSource.ANY) @FlowSinks({}) int offset,  
+	                                @FlowSources(FlowSource.ANY) @FlowSinks({}) int length);
+}
+
+class Bitmap {
+//Added by SOM
+//The CompressFormat is any enum value
+	@FlowSources({}) @FlowSinks(FlowSink.ANY) boolean compress(
+	          @FlowSources(FlowSource.ANY) @FlowSinks({}) CompressFormat format, @FlowSources(FlowSource.ANY) @FlowSinks({}) int quality, 
+	          @PolyFlowSinks @PolyFlowSources OutputStream stream) @PolyFlowSinks @PolyFlowSources;
+}package android.hardware;
+
+class Camera {
+//Annotations by Philip 
+//All for these need to be reviewed
+//Every parameter and return must be annotated with both a Source and a Sink
+	@FlowSources(FlowSource.CAMERA_SETTINGS) @FlowSinks(FlowSink.ANY) Parameters getParameters();
+	//@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
+	@DefaultFlow @RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
+	void setParameters(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.CAMERA_SETTINGS) Parameters params);
+	void setPreviewDisplay(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) SurfaceHolder holder);
+	void takePicture(@FlowSources(FlowSource.ANY) @FlowSinks({}) ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg) @FlowSources(FlowSource.ANY) @FlowSinks({});
+}
+
+interface Camera$PictureCallback {
+//Annotations by Philip 
+//Can't override this method, so annotate it for the CameraTest app. 
+	void onPictureTaken(@FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY}) byte @FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY}) [] data,
+	           @FlowSources(FlowSource.CAMERA) @FlowSinks({FlowSink.CONDITIONAL, FlowSink.FILESYSTEM,FlowSink.DISPLAY})  Camera camera);
+}
+package android.location;
+
+ interface LocationListener {
+//Added by SOM
+        void onLocationChanged(@FlowSources(FlowSource.LOCATION) Location location);
+ }
+package android.net;
+
+class Uri {
+//Added by Philip
+    static @PolyFlow Uri parse(String uriString);
+}
+package android.util;
+
+class FloatMath {
+//Added by SOM
+   static @PolyFlowSources @PolyFlowSinks float ceil(@PolyFlowSources @PolyFlowSinks float value);
+   static @PolyFlowSources @PolyFlowSinks float cos(@PolyFlowSources @PolyFlowSinks float angle);
+   static @PolyFlowSources @PolyFlowSinks float floor(@PolyFlowSources @PolyFlowSinks float value);
+   static @PolyFlowSources @PolyFlowSinks float sin(@PolyFlowSources @PolyFlowSinks float angle);
+   static @PolyFlowSources @PolyFlowSinks float sqrt(@PolyFlowSources @PolyFlowSinks float value);
+}
+
+
+class Log {
+//Added by SOM
+
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY) int	 d(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 d(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 e(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 e(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 i(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 i(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 v(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 v(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG)  @FlowSinks(FlowSink.ANY) int	 w(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 w(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) String msg, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 w(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 wtf(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+static @FlowSources(FlowSource.LOG) @FlowSinks(FlowSink.ANY)  int	 wtf(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg);
+static @FlowSources(FlowSource.LOG)  @FlowSinks(FlowSink.ANY) int	 wtf(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String tag, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.LOG) String msg,@FlowSources(FlowSource.ANY)  @FlowSinks(FlowSink.LOG) Throwable tr);
+}
+
+package android.widget;
+
+class ImageView {
+//Added by Philip
+	void setImageBitmap(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) Bitmap bm);
+	void setImageDrawable(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.DISPLAY) Drawable drawable);
+	void setImageResource(@PolyFlowSources @PolyFlowSinks int i) @PolyFlowSources @PolyFlowSinks;
+}
+package java.io;
+
+class FileOutputStream {
+//Added by SOM
+
+ @FlowSources(FlowSource.FILESYSTEM) @FlowSinks(FlowSink.ANY)  FileOutputStream(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM)  File file);
+ void write(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM) byte @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM)  [] bytes);
+}
+
+class File {
+//Added by SOM
+
+	@FlowSources(FlowSource.FILESYSTEM) @FlowSinks(FlowSink.ANY) File( @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM) String path);
+}
+
+class ByteArrayOutputStream{
+//Added by SOM
+   @FlowSources({}) @FlowSinks(FlowSink.ANY) ByteArrayOutputStream();
+   @PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] toByteArray() @PolyFlowSources @PolyFlowSinks;
+   void close() @FlowSources(FlowSource.ANY) @FlowSinks({});
+}
+package java.lang;
+
+class ByteArrayOutputStream {
+     @PolyFlowSources @PolyFlowSinks byte @PolyFlowSources @PolyFlowSinks [] toByteArray() @PolyFlowSources @PolyFlowSinks;
+}
+
+class String {
+//Added for Misc. Test SOM
+   @PolyFlowSources @PolyFlowSinks char charAt(@PolyFlowSources @PolyFlowSinks int index) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks boolean contains(@PolyFlowSources @PolyFlowSinks CharSequence cs) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object object) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks boolean equalsIgnoreCase(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
+   static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
+   static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
+   @PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) char target, @PolyFlowSources @PolyFlowSinks char replacement) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) CharSequence target,
+   @PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @PolyFlowSources @PolyFlowSinks;
+   @PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
+
+}
+
+
+package java.util;
+
+ //Added by SOM
+ class ArrayList<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
+         @PolyFlowSources @PolyFlowSinks T get(int index) @PolyFlowSources @PolyFlowSinks;
+ }
+
+class List<T extends @FlowSinks({}) @FlowSources(FlowSource.ANY) Object> {
+//Copied from Orig. flow.astub file
+//Need for list test SOM
+   @NoFlow boolean add(T object) @FlowSources(FlowSource.ANY);
+   T get(@FlowSinks({}) int index);
+   @NoFlow int size() @FlowSources(FlowSource.ANY);
+  //How to annotate this: Object[] toArray();
+}
+
