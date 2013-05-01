@@ -1,7 +1,10 @@
-
 package android.content;
 
 class Context{
 
 	@FlowSources(FlowSource.FILESYSTEM) @FlowSinks(FlowSink.ANY) File getDir(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM) String name, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.CONDITIONAL) int mode);
+}
+
+class UriMatcher {
+    //@PolyFlow int match(Uri uri);
 }
