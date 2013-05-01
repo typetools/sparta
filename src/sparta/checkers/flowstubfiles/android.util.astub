@@ -14,18 +14,18 @@ class FloatMath {
 class Log {
 //Added by SOM
 
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY) int	 d(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag,@Sources(FlowSource.ANY)  @Sinks(FlowSink.LOG) String msg);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 d(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag,@Sources(FlowSource.ANY)  @Sinks(FlowSink.LOG) String msg, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) Throwable tr);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 e(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag,@Sources(FlowSource.ANY)  @Sinks(FlowSink.LOG) String msg);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 e(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String msg, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) Throwable tr);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 i(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String msg);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 i(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String msg, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) Throwable tr);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 v(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag,@Sources(FlowSource.ANY)  @Sinks(FlowSink.LOG) String msg);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 v(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String msg,@Sources(FlowSource.ANY)  @Sinks(FlowSink.LOG) Throwable tr);
-static @Sources(FlowSource.LOG)  @Sinks(FlowSink.ANY) int	 w(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag,@Sources(FlowSource.ANY)  @Sinks(FlowSink.LOG) Throwable tr);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 w(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag,@Sources(FlowSource.ANY)  @Sinks(FlowSink.LOG) String msg, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) Throwable tr);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 w(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String msg);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 wtf(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag,@Sources(FlowSource.ANY)  @Sinks(FlowSink.LOG) Throwable tr);
-static @Sources(FlowSource.LOG) @Sinks(FlowSink.ANY)  int	 wtf(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String msg);
-static @Sources(FlowSource.LOG)  @Sinks(FlowSink.ANY) int	 wtf(@Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String tag, @Sources(FlowSource.ANY) @Sinks(FlowSink.LOG) String msg,@Sources(FlowSource.ANY)  @Sinks(FlowSink.LOG) Throwable tr);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY) int	 d(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag,@Sources(SPARTA_Permission.ANY)  @Sinks(SPARTA_Permission.LOG) String msg);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 d(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag,@Sources(SPARTA_Permission.ANY)  @Sinks(SPARTA_Permission.LOG) String msg, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) Throwable tr);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 e(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag,@Sources(SPARTA_Permission.ANY)  @Sinks(SPARTA_Permission.LOG) String msg);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 e(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String msg, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) Throwable tr);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 i(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String msg);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 i(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String msg, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) Throwable tr);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 v(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag,@Sources(SPARTA_Permission.ANY)  @Sinks(SPARTA_Permission.LOG) String msg);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 v(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String msg,@Sources(SPARTA_Permission.ANY)  @Sinks(SPARTA_Permission.LOG) Throwable tr);
+static @Sources(SPARTA_Permission.LOG)  @Sinks(SPARTA_Permission.ANY) int	 w(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag,@Sources(SPARTA_Permission.ANY)  @Sinks(SPARTA_Permission.LOG) Throwable tr);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 w(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag,@Sources(SPARTA_Permission.ANY)  @Sinks(SPARTA_Permission.LOG) String msg, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) Throwable tr);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 w(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String msg);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 wtf(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag,@Sources(SPARTA_Permission.ANY)  @Sinks(SPARTA_Permission.LOG) Throwable tr);
+static @Sources(SPARTA_Permission.LOG) @Sinks(SPARTA_Permission.ANY)  int	 wtf(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String msg);
+static @Sources(SPARTA_Permission.LOG)  @Sinks(SPARTA_Permission.ANY) int	 wtf(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String tag, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.LOG) String msg,@Sources(SPARTA_Permission.ANY)  @Sinks(SPARTA_Permission.LOG) Throwable tr);
 }

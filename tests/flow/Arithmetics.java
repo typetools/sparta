@@ -1,15 +1,15 @@
 import sparta.checkers.quals.Sources;
-import static sparta.checkers.quals.Sources.FlowSource;
+import static sparta.checkers.quals.Sources.SPARTA_Permission;
 
 import sparta.checkers.quals.Sinks;
-import static sparta.checkers.quals.Sinks.FlowSink;
+import static sparta.checkers.quals.Sinks.SPARTA_Permission;
 
 class Arithmetics {
-    @Sources({FlowSource.ACCELEROMETER}) @Sinks({FlowSink.FILESYSTEM, FlowSink.CONDITIONAL}) int accel;
+    @Sources({SPARTA_Permission.ACCELEROMETER}) @Sinks({SPARTA_Permission.FILESYSTEM, SPARTA_Permission.CONDITIONAL}) int accel;
 
     int clean;
 
-    public void saveAccelData(final @Sources({FlowSource.ACCELEROMETER}) int accelFs) {
+    public void saveAccelData(final @Sources({SPARTA_Permission.ACCELEROMETER}) int accelFs) {
 
     }
 
@@ -31,7 +31,7 @@ class Arithmetics {
         int j = accel + 2;
 
         //Tests LUB
-        @Sources({FlowSource.ACCELEROMETER, FlowSource.LITERAL}) @Sinks({FlowSink.FILESYSTEM, FlowSink.CONDITIONAL})
+        @Sources({SPARTA_Permission.ACCELEROMETER, SPARTA_Permission.LITERAL}) @Sinks({SPARTA_Permission.FILESYSTEM, SPARTA_Permission.CONDITIONAL})
         int x = j;
         x += 3;
 

@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sinks.FlowSink;
-import sparta.checkers.quals.Sources.FlowSource;
+import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.Sources.SPARTA_Permission;
 import sparta.checkers.quals.Sinks;
 import sparta.checkers.quals.PolySinks;
 import sparta.checkers.quals.PolySources;
@@ -9,7 +9,7 @@ class ArrayCast {
 
     void foo() {
         //:: error: (assignment.type.incompatible)
-        @Sinks(FlowSink.NETWORK) Object @Sources(FlowSource.ACCELEROMETER) [] params = new /*@Sinks(FlowSink.NETWORK)*/ Object[1];
+        @Sinks(SPARTA_Permission.NETWORK) Object @Sources(SPARTA_Permission.ACCELEROMETER) [] params = new /*@Sinks(SPARTA_Permission.NETWORK)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
 
         //strict:: warning: (cast.unsafe)
@@ -21,20 +21,20 @@ class ArrayCast {
         callStart(result);
         callFinished(result);
 
-        @Sinks(FlowSink.NETWORK) Object [] otherOne = getObjs();
+        @Sinks(SPARTA_Permission.NETWORK) Object [] otherOne = getObjs();
         callStart(getObjs());
     }
 
-    @Sources(FlowSource.NETWORK) @Sinks(FlowSink.NETWORK) Object call(
-            @Sources(FlowSource.LITERAL) String method, @Sinks(FlowSink.NETWORK) Object[] params) {
-        @Sources(FlowSource.NETWORK) @Sinks(FlowSink.NETWORK) Object a = params[0];
+    @Sources(SPARTA_Permission.NETWORK) @Sinks(SPARTA_Permission.NETWORK) Object call(
+            @Sources(SPARTA_Permission.LITERAL) String method, @Sinks(SPARTA_Permission.NETWORK) Object[] params) {
+        @Sources(SPARTA_Permission.NETWORK) @Sinks(SPARTA_Permission.NETWORK) Object a = params[0];
         return a;
     }
 
-    void callStart(@Sources(FlowSource.NETWORK) @Sinks(FlowSink.NETWORK) Object []  result) {}
-    void callFinished(Object @Sources(FlowSource.NETWORK) @Sinks(FlowSink.NETWORK) [] result) {}
+    void callStart(@Sources(SPARTA_Permission.NETWORK) @Sinks(SPARTA_Permission.NETWORK) Object []  result) {}
+    void callFinished(Object @Sources(SPARTA_Permission.NETWORK) @Sinks(SPARTA_Permission.NETWORK) [] result) {}
 
-    @Sinks(FlowSink.NETWORK) Object [] getObjs() {
+    @Sinks(SPARTA_Permission.NETWORK) Object [] getObjs() {
         return null;
     }
 }

@@ -6,7 +6,7 @@ import checkers.quals.*;
 
 /**
  * List of data flow sinks that are attached to a certain piece of data.
- * FlowSink.ANY is the bottom type.
+ * SPARTA_Permission.ANY is the bottom type.
  * The empty set is the top type.
  */
 @Documented

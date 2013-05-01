@@ -1,18 +1,18 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.FlowSource;
-import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources.SPARTA_Permission;
+import sparta.checkers.quals.Sinks.SPARTA_Permission;
 
 class Conditions {
     void good(int p) {
         if (p < 11) {}
 
-        @Sinks({FlowSink.CONDITIONAL}) boolean someBool = true;
+        @Sinks({SPARTA_Permission.CONDITIONAL}) boolean someBool = true;
         if(someBool) {
             // good
         }
     }
 
-    void bad(@Sinks(FlowSink.ACCOUNTS) int p) {
+    void bad(@Sinks(SPARTA_Permission.ACCOUNTS) int p) {
         //:: error: (condition.flow)
         if (p > 9) {
             // boom.
@@ -27,7 +27,7 @@ class Conditions {
         int answer = b ? 42 : 33;
     }
 
-    void bad(@Sinks(FlowSink.ACCOUNTS) boolean p) {
+    void bad(@Sinks(SPARTA_Permission.ACCOUNTS) boolean p) {
         //:: error: (condition.flow)
         if(p) {
             // bad.

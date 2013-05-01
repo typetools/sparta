@@ -29,7 +29,7 @@ Policy Files
   permitted flows. 
 
 Default Types
-  Literals are now typed with @Sources(FlowSource.LITERAL)
+  Literals are now typed with @Sources(SPARTA_Permission.LITERAL)
   Other changes to defaulting to reduce annotation burden
 
 Documentation

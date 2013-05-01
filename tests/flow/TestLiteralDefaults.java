@@ -2,8 +2,8 @@ import sparta.checkers.quals.Sinks;
 import sparta.checkers.quals.Sources;
 import sparta.checkers.quals.PolySinks;
 import sparta.checkers.quals.PolySources;
-import sparta.checkers.quals.Sinks.FlowSink;
-import sparta.checkers.quals.Sources.FlowSource;
+import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.Sources.SPARTA_Permission;
 
 /**
  * Test the defaults for numeric and string literals, and
@@ -14,11 +14,11 @@ import sparta.checkers.quals.Sources.FlowSource;
  */
 class TestLiteralDefaults {
     //:: error: (forbidden.flow)
-    @Sinks({}) @Sources({FlowSource.ANY}) float ntop;
+    @Sinks({}) @Sources({SPARTA_Permission.ANY}) float ntop;
     @PolySources @PolySinks float npoly;
 
     //:: error: (forbidden.flow)
-   @Sinks({FlowSink.ANY}) @Sources({}) float nbot;
+   @Sinks({SPARTA_Permission.ANY}) @Sources({}) float nbot;
     float nunqual;
 
     void testNumeric() {
@@ -31,11 +31,11 @@ class TestLiteralDefaults {
     }
 
     //:: error: (forbidden.flow)
-    @Sinks({}) @Sources({FlowSource.ANY}) Object rtop;
+    @Sinks({}) @Sources({SPARTA_Permission.ANY}) Object rtop;
     @PolySources @PolySinks Object rpoly;
 
     //:: error: (forbidden.flow)
-    @Sinks({FlowSink.ANY}) @Sources({}) Object rbot;
+    @Sinks({SPARTA_Permission.ANY}) @Sources({}) Object rbot;
     Object runqual;
 
     void testReference() {
@@ -55,10 +55,10 @@ class TestLiteralDefaults {
     }
 
     //:: error: (forbidden.flow)
-    @Sinks({}) @Sources({FlowSource.ANY}) char ctop;
+    @Sinks({}) @Sources({SPARTA_Permission.ANY}) char ctop;
     @PolySources @PolySinks char cpoly;
     //:: error: (forbidden.flow)
-    @Sinks({FlowSink.ANY}) @Sources({}) char cbot;
+    @Sinks({SPARTA_Permission.ANY}) @Sources({}) char cbot;
     char cunqual;
 
     void testChar() {

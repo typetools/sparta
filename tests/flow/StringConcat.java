@@ -9,7 +9,7 @@ import sparta.checkers.quals.Sinks.*;
 class Use {
 
     void demo() {
-       @Sources(FlowSource.LITERAL) Context ctx = null;
+       @Sources(SPARTA_Permission.LITERAL) Context ctx = null;
     	//:: error: (forbidden.flow)
        File file = ctx.getDir("log", 0);
       // String fileString = file.toString();

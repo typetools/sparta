@@ -3,7 +3,7 @@ package android.widget;
 
 class ImageView {
 //Added by Philip
-	void setImageBitmap(@Sources(FlowSource.ANY) @Sinks(FlowSink.DISPLAY) Bitmap bm);
-	void setImageDrawable(@Sources(FlowSource.ANY) @Sinks(FlowSink.DISPLAY) Drawable drawable);
+	void setImageBitmap(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.DISPLAY) Bitmap bm);
+	void setImageDrawable(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.DISPLAY) Drawable drawable);
 	void setImageResource(@PolySources @PolySinks int i) @PolySources @PolySinks;
 }

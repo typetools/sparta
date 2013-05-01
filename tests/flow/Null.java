@@ -1,7 +1,7 @@
 import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.Sources.FlowSource;
+import sparta.checkers.quals.Sources.SPARTA_Permission;
 
 class Null {
   // null can be assigned to any source.
-  @Sources(FlowSource.USER_INPUT) Object o = null;
+  @Sources(SPARTA_Permission.USER_INPUT) Object o = null;
 }

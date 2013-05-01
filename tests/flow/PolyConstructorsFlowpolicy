@@ -1,2 +1,2 @@
-  #@Sources(FlowSource.LOCATION) @Sinks(FlowSink.NETWORK)
+  #@Sources(SPARTA_Permission.LOCATION) @Sinks(SPARTA_Permission.NETWORK)
 LOCATION->NETWORK

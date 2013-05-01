@@ -329,8 +329,8 @@ Here is an example from a stub file:
 package android.telephony;
 
 class TelephonyManager {
-    public @Sources(FlowSource.PHONE_NUMBER) String getLine1Number();
-    public @Sources(FlowSource.IMEI) String getDeviceId();
+    public @Sources(SPARTA_Permission.PHONE_NUMBER) String getLine1Number();
+    public @Sources(SPARTA_Permission.IMEI) String getDeviceId();
 }
 \end{Verbatim}
 
@@ -422,8 +422,8 @@ express that information that comes from the camera may go to the
 network:
 
 \begin{alltt}
-    @Sources(FlowSource.CAMERA)
-    @Sinks(FlowSink.NETWORK) Picture data;
+    @Sources(SPARTA_Permission.CAMERA)
+    @Sinks(SPARTA_Permission.NETWORK) Picture data;
 \end{alltt}
 
 Such a type connects sources and sinks and one needs to carefully
@@ -469,11 +469,11 @@ over the network. By default, every literal has \<@Sinks()>
 
 \begin{alltt}
     @SuppressWarnings("flow") // manually verified to not contain secret data
-    @Sinks(FlowSink.NETWORK) String url = "http://bazinga.com/";
+    @Sinks(SPARTA_Permission.NETWORK) String url = "http://bazinga.com/";
 \end{alltt}
 
 Without warning suppression the assignment raises an error, because string literals
-are assumed to be annotated with \<Sources(FlowSource.LITERAL)>. By adding the suppression, you
+are assumed to be annotated with \<Sources(SPARTA_Permission.LITERAL)>. By adding the suppression, you
 assert that it's OK to send this string to the network. 
 
 \end{enumerate}
@@ -515,5 +515,5 @@ This option will also use the stricter conditional rule. (LITERAL
 %  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
 %  LocalWords:  RequiredPermissions Sources Sinks apiusage Dstubs
 %  LocalWords:  flowstubfiles TelephonyManager getLine1Number flowshow url
-%  LocalWords:  PolySources PloySinks FlowSink FlowSource grep
+%  LocalWords:  PolySources PloySinks SPARTA_Permission SPARTA_Permission grep
 %  LocalWords:  Dstricter

@@ -239,16 +239,16 @@ public class FlowPolicy {
     }
 
     /**
-     * Read the given file return a one to many Map of FlowSource -> Sinks where
+     * Read the given file return a one to many Map of SPARTA_Permission -> Sinks where
      * each entry indicates what sinks a source is given blanket access to reach
      *
      *
      * Format:
      *   A flow policy file is read line by line where each line has the following format
-     *   FlowSourceName -> FlowSinkName, FlowSinkName, FlowSinkName
+     *   SPARTA_PermissionName -> SPARTA_PermissionName, SPARTA_PermissionName, SPARTA_PermissionName
      *
-     *   FlowSourceName  = One of the names of the enums in FlowSource
-     *   FlowSinkName<x> = One of the names of the enums in FlowSink
+     *   SPARTA_PermissionName  = One of the names of the enums in SPARTA_Permission
+     *   SPARTA_PermissionName<x> = One of the names of the enums in SPARTA_Permission
      *
      *   A source can appear twice, the output Sinks for that given source will contain
      *   the union of the two entries.

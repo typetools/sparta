@@ -123,8 +123,8 @@ public class FlowChecker extends BaseTypeChecker {
         AnnotationMirror anno = atm.getAnnotationInHierarchy(ANYFLOWSOURCES);
         AnnotationValue sourcesValue = AnnotationUtils.getElementValuesWithDefaults(anno).get(sourceValue);
         // TODO: Should we add NONE as an enum constant?
-        if (sourcesValue == null) { // || ((List<FlowSource>)sourcesValue.getValue()).isEmpty()) {
-            return Collections.emptyList(); // singletonList(FlowSink.NONE);
+        if (sourcesValue == null) { // || ((List<SPARTA_Permission>)sourcesValue.getValue()).isEmpty()) {
+            return Collections.emptyList(); // singletonList(SPARTA_Permission.NONE);
         } else {
             return (List<SPARTA_Permission>) sourcesValue.getValue();
         }
@@ -279,13 +279,13 @@ public class FlowChecker extends BaseTypeChecker {
 		List<SPARTA_Permission> sources = FlowUtil.getSources(anm);
 		if (sources.contains(SPARTA_Permission.ANY) && sources.size() > 1) {
 		    throw new Exception(
-			    "Found FlowSource.ANY and something else");
+			    "Found SPARTA_Permission.ANY and something else");
 		}
 	    }
 	    if (!isPolySink && isSinkQualifier(anm)) {
 		List<SPARTA_Permission> sinks = FlowUtil.getSinks(anm);
 		if (sinks.contains(SPARTA_Permission.ANY) && sinks.size() > 1) {
-		    throw new Exception("Found FlowSink.ANY and something else");
+		    throw new Exception("Found SPARTA_Permission.ANY and something else");
 		}
 	    }
 

@@ -84,11 +84,11 @@ class FlowData extends Data {
     // The kind of Tree at which the flow occurred.
     String kind;
     // The flow sources. Either "NONE" or an array of
-    // Sources.FlowSource enum constants, e.g.
-    // [[sparta.checkers.quals.Sources.FlowSource.ANY]
+    // Sources.SPARTA_Permission enum constants, e.g.
+    // [[sparta.checkers.quals.Sources.SPARTA_Permission.ANY]
     String sources;
     // The flow sinks. Either "NONE" or an array of
-    // Sinks.FlowSink enum constants.
+    // Sinks.SPARTA_Permission enum constants.
     String sinks;
 }
 

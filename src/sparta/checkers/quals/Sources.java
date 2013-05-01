@@ -6,7 +6,7 @@ import checkers.quals.*;
 
 /**
  * List of data flow sources that are attached to a certain piece of data.
- * FlowSource.ANY is the top type.
+ * SPARTA_Permission.ANY is the top type.
  * The empty set is the bottom type.
  */
 @Documented

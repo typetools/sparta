@@ -21,16 +21,16 @@ Typically, return types should be annotated with just Sources so that the Sinks 
 
 \subsection{Methods with Sources}
 If you read the Javadoc and the method returns an object from a certain source, then you should annotate
-the return type with that flow source and with \<@Sinks(FlowSink.ANY)>.  (If \<@Sinks> is omitted, then it is assumed to be empty
+the return type with that flow source and with \<@Sinks(SPARTA_Permission.ANY)>.  (If \<@Sinks> is omitted, then it is assumed to be empty
  which means that the object returned cannot be assigned to a variable with a sink.)
 
 The \<getParameters> method is an example of a method that returns an object with a source.
 \begin{Verbatim}
 package android.hardware;
 class Camera {
-    @Sources(FlowSource.CAMERA_SETTINGS) @Sinks(FlowSink.ANY)
+    @Sources(SPARTA_Permission.CAMERA_SETTINGS) @Sinks(SPARTA_Permission.ANY)
         Camera.Parameters getParameters ();
-    void setParameters (@Sources(FlowSource.ANY) @Sinks(CAMERA_SETTINGS) 
+    void setParameters (@Sources(SPARTA_Permission.ANY) @Sinks(CAMERA_SETTINGS) 
          Camera.Parameters params);
 }
 \end{Verbatim}
@@ -49,14 +49,14 @@ mCamera.setParameters(parameters);
 
 
 \subsection{Methods with Sinks}
-If you read the Javadoc for an API method an it sends some parameters to a FlowSink, then the parameters
+If you read the Javadoc for an API method an it sends some parameters to a SPARTA_Permission, then the parameters
 should be annotated with that flow sink and ANY flow source.  
 
 Example annotation
 \begin{Verbatim}
 package android.database.sqlite;
 class SQLiteDatabase{
-  public void execSQL (@Sinks(FlowSink.DATABASE) @FlowSource(FlowSource.ANY) String sql);
+  public void execSQL (@Sinks(SPARTA_Permission.DATABASE) @SPARTA_Permission(SPARTA_Permission.ANY) String sql);
 }
 \end{Verbatim}
 Use of the API
@@ -71,7 +71,7 @@ db.execSQL(mes);
 \subsection{Callbacks}
 The Android API frequently uses callbacks.  These are methods that the developer must 
 implement and register.  In stub files, these callbacks should be annotated
-with source information and FlowSink.ANY.  
+with source information and SPARTA_Permission.ANY.  
 
 An example annotation of a callback method
 \begin{Verbatim}
@@ -79,15 +79,15 @@ package android.hardware;
 class Camera$PictureCallback{
   //data: a byte array of the picture data
    void onPictureTaken 
-      (@FlowSource(CAMERA) @Sinks(FlowSink.ANY) byte[] data, 
-             @FlowSource(CAMERA) @Sinks(FlowSink.ANY)  Camera camera);
+      (@SPARTA_Permission(CAMERA) @Sinks(SPARTA_Permission.ANY) byte[] data, 
+             @SPARTA_Permission(CAMERA) @Sinks(SPARTA_Permission.ANY)  Camera camera);
 }
 \end{Verbatim}
 
 An example implementation of a callback
 \begin{Verbatim}
 public void onPictureTaken
-(@FlowSource(CAMERA) byte[] data, @FlowSource(CAMERA) Camera camera){
+(@SPARTA_Permission(CAMERA) byte[] data, @SPARTA_Permission(CAMERA) Camera camera){
    //If CAMERA->FILE_SYSTEM is in policy file
    //Then the following statement will not give an error
     writeToFile(data);
@@ -114,9 +114,9 @@ class Math{
 
 Example use of \<@PolyFlow>.
 \begin{Verbatim}
-@Sources(FlowSource.LOCATION) int i1 = getLocation();
-@Sources(FlowSource.NETWORK) int i2 = getLocationForNetwork();
-@Sources({FlowSource.LOCATION,FlowSource.NETWORK)}) int min = Math.min(i1,i2);
+@Sources(SPARTA_Permission.LOCATION) int i1 = getLocation();
+@Sources(SPARTA_Permission.NETWORK) int i2 = getLocationForNetwork();
+@Sources({SPARTA_Permission.LOCATION,SPARTA_Permission.NETWORK)}) int min = Math.min(i1,i2);
  \end{Verbatim}
 
 \section{Common Errors\label{errors}}
@@ -141,9 +141,9 @@ To correct a forbidden flow error, add the forbidden flow to the policy file.
 For example, fix the error below by adding \code{LITERAL -> FILESYSTEM} to the policy file.
 \begin{Verbatim}
 NewTest.java:43: error: flow forbidden by flow-policy  
-        test = new @Sinks(FlowSink.FILESYSTEM)@Sources(FlowSource.LITERAL) TestClass2(fs);
+        test = new @Sinks(SPARTA_Permission.FILESYSTEM)@Sources(SPARTA_Permission.LITERAL) TestClass2(fs);
                   ^
-  found: @Sinks(FlowSink.FILESYSTEM) @Sources(FlowSource.LITERAL) TestClass2 
+  found: @Sinks(SPARTA_Permission.FILESYSTEM) @Sources(SPARTA_Permission.LITERAL) TestClass2 
   forbidden flows:
     LITERAL -> FILESYSTEM
 \end{Verbatim}
@@ -169,7 +169,7 @@ HelloWorld.java:84: error: incompatible types in argument
 \paragraph{Incompatible Types}
 
 If the incompatible types error is not from conservative defaulting, then the error must be fixed by adding or
-removing annotations in the application.  For example, the error below can be fixed by adding ACCELEROMETER to the FlowSource of the return type.  
+removing annotations in the application.  For example, the error below can be fixed by adding ACCELEROMETER to the SPARTA_Permission of the return type.  
 
 \begin{Verbatim}
 HelloWorld.java:49: error: incompatible types in return.
@@ -180,9 +180,9 @@ HelloWorld.java:49: error: incompatible types in return.
 \end{Verbatim}
 
 \subsection{Conditionals}
-As explained in Section \ref{sec:conditionals}, any item in a conditional statement must have CONDITIONAL listed as a FlowSink.  If a variable is only annotated with Sources and strict conditionals are not used, then CONDITIONAL is added as a flow sink by default. 
+As explained in Section \ref{sec:conditionals}, any item in a conditional statement must have CONDITIONAL listed as a SPARTA_Permission.  If a variable is only annotated with Sources and strict conditionals are not used, then CONDITIONAL is added as a flow sink by default. 
 
-For example, if input is a parameter in a method and is annotated with @Sinks(FlowSink.NETWORK), the following error will occur.  To fix the error, add CONDITIONAL to the flow sink annotation.  
+For example, if input is a parameter in a method and is annotated with @Sinks(SPARTA_Permission.NETWORK), the following error will occur.  To fix the error, add CONDITIONAL to the flow sink annotation.  
 
 \begin{Verbatim}
 HelloWorld.java:48: error: Conditions are not allowed to depend on flow information.
@@ -198,6 +198,6 @@ HelloWorld.java:48: error: Conditions are not allowed to depend on flow informat
 %%% TeX-command-default: "PDF"
 %%% End: 
 
-%  LocalWords:  App flowtest Sinks Sources sparta app FlowSink
+%  LocalWords:  App flowtest Sinks Sources sparta app SPARTA_Permission
 %  LocalWords:  reportapiusage StubGenerator getParameters PolySources
 %  LocalWords:  PloySinks PolyFlow FILESYSTEM

@@ -2,16 +2,16 @@
 package java.util;
 
  //Added by SOM
- class ArrayList<T extends @Sinks({}) @Sources(FlowSource.ANY) Object> {
+ class ArrayList<T extends @Sinks({}) @Sources(SPARTA_Permission.ANY) Object> {
          @PolySources @PolySinks T get(int index) @PolySources @PolySinks;
  }
 
-class List<T extends @Sinks({}) @Sources(FlowSource.ANY) Object> {
+class List<T extends @Sinks({}) @Sources(SPARTA_Permission.ANY) Object> {
 //Copied from Orig. flow.astub file
 //Need for list test SOM
-   @NoFlow boolean add(T object) @Sources(FlowSource.ANY);
+   @NoFlow boolean add(T object) @Sources(SPARTA_Permission.ANY);
    T get(@Sinks({}) int index);
-   @NoFlow int size() @Sources(FlowSource.ANY);
+   @NoFlow int size() @Sources(SPARTA_Permission.ANY);
   //How to annotate this: Object[] toArray();
 }
 
