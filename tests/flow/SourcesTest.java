@@ -1,7 +1,7 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.Sources.FlowSource;
 
-class Sources {
+class SourcesTest {
     Object nomic;
     @Sources(FlowSource.ANY) Object any;
 

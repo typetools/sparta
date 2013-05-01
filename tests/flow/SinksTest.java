@@ -1,7 +1,7 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.Sinks.FlowSink;
 
-class Sinks {
+class SinksTest {
     void sendData(@Sinks(FlowSink.NETWORK) Object p) {
         // Allowed: fewer sinks
         noComm(p);
