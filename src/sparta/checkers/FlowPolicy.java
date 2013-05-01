@@ -11,8 +11,8 @@ import sparta.checkers.quals.PolySources;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import static sparta.checkers.quals.Sinks.SPARTA_Permission;
-import static sparta.checkers.quals.Sources.SPARTA_Permission;
+import static sparta.checkers.quals.SPARTA_Permission.*;
+import  sparta.checkers.quals.SPARTA_Permission;
 
 import java.io.BufferedReader;
 import java.io.File;

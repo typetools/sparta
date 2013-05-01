@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-import sparta.checkers.quals.Sinks.SPARTA_Permission;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 public class Flow {
     Set<SPARTA_Permission> sources;

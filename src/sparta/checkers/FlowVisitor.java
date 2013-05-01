@@ -6,9 +6,9 @@ import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 import com.sun.source.tree.*;
 

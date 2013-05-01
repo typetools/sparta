@@ -5,8 +5,8 @@ import checkers.util.AnnotationBuilder;
 import checkers.util.AnnotationUtils;
 import sparta.checkers.quals.Sinks;
 import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.Sinks.SPARTA_Permission;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
@@ -117,20 +117,20 @@ public class FlowUtil {
         return builder.build();
     }
 
-    public static AnnotationMirror createAnnoFromSinks(final ProcessingEnvironment processingEnv, final Set<Sinks.SPARTA_Permission> sinks) {
+    public static AnnotationMirror createAnnoFromSinks(final ProcessingEnvironment processingEnv, final Set<SPARTA_Permission> sinks) {
 	if (sinks.contains(SPARTA_Permission.ANY) && sinks.size() > 1) {
 	    sinks.clear();
 	    sinks.add(SPARTA_Permission.ANY);
 	}
-        return createAnnoFromEnumArray(processingEnv, Sinks.class, sinks.toArray(new Sinks.SPARTA_Permission[sinks.size()]));
+        return createAnnoFromEnumArray(processingEnv, Sinks.class, sinks.toArray(new SPARTA_Permission[sinks.size()]));
     }
 
-    public static AnnotationMirror createAnnoFromSources(final ProcessingEnvironment processingEnv, Set<Sources.SPARTA_Permission> sources) {
+    public static AnnotationMirror createAnnoFromSources(final ProcessingEnvironment processingEnv, Set<SPARTA_Permission> sources) {
 	if (sources.contains(SPARTA_Permission.ANY) && sources.size() > 1) {
 	    sources.clear();
 	    sources.add(SPARTA_Permission.ANY);
 	}
-	return createAnnoFromEnumArray(processingEnv, Sources.class, sources.toArray(new Sources.SPARTA_Permission[sources.size()]));
+	return createAnnoFromEnumArray(processingEnv, Sources.class, sources.toArray(new SPARTA_Permission[sources.size()]));
     }
 
     public static Set<SPARTA_Permission> replaceAnySink(final Set<SPARTA_Permission> sinks, boolean inPlace) {

@@ -30,9 +30,10 @@ import checkers.compilermsgs.quals.CompilerMessageKey;
 */
 
 import sparta.checkers.quals.Sinks;
-import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import static sparta.checkers.quals.SPARTA_Permission.*;
+import  sparta.checkers.quals.SPARTA_Permission;
+
 import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
 import sparta.checkers.quals.PolySinks;
 import sparta.checkers.quals.PolySources;
 import static sparta.checkers.FlowUtil.*;
@@ -317,13 +318,13 @@ public class FlowChecker extends BaseTypeChecker {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    final Set<Sources.SPARTA_Permission> superset = FlowUtil.getSources(a1, true);
+                    final Set<SPARTA_Permission> superset = FlowUtil.getSources(a1, true);
                     superset.addAll(FlowUtil.getSources(a2, true));
                     FlowUtil.allToAnySource(superset, true);
                     return boundSources(superset);
 
                 } else if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-                    final Set<Sinks.SPARTA_Permission> intersection =  FlowUtil.getSinks(a1, true);
+                    final Set<SPARTA_Permission> intersection =  FlowUtil.getSinks(a1, true);
                     intersection.retainAll(FlowUtil.getSinks(a2, true));
                     FlowUtil.allToAnySink(intersection, true);
                     return boundSinks(intersection);
@@ -332,24 +333,24 @@ public class FlowChecker extends BaseTypeChecker {
                 //Poly Flows must be handled as if they are Top Type   
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS) ) {
-        	    return boundSinks(new HashSet<Sinks.SPARTA_Permission>());
+        	    return boundSinks(new HashSet<SPARTA_Permission>());
         	}
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-        	    return boundSinks(new HashSet<Sinks.SPARTA_Permission>());
+        	    return boundSinks(new HashSet<SPARTA_Permission>());
         	}
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES) ) {
-                    Set<Sources.SPARTA_Permission> top = new HashSet<Sources.SPARTA_Permission>();
-                    top.add(Sources.SPARTA_Permission.ANY);
+                    Set<SPARTA_Permission> top = new HashSet<SPARTA_Permission>();
+                    top.add(SPARTA_Permission.ANY);
                     return boundSources(top);
                 }
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    Set<Sources.SPARTA_Permission> top = new HashSet<Sources.SPARTA_Permission>();
-                    top.add(Sources.SPARTA_Permission.ANY);
+                    Set<SPARTA_Permission> top = new HashSet<SPARTA_Permission>();
+                    top.add(SPARTA_Permission.ANY);
                     return boundSources(top);
                 }
             }
@@ -366,13 +367,13 @@ public class FlowChecker extends BaseTypeChecker {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    final Set<Sources.SPARTA_Permission> intersection = FlowUtil.getSources(a1, true);
+                    final Set<SPARTA_Permission> intersection = FlowUtil.getSources(a1, true);
                     intersection.retainAll(FlowUtil.getSources(a2, true));
                     FlowUtil.allToAnySource(intersection, true);
                     return boundSources(intersection);
 
                 } else if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-                    final Set<Sinks.SPARTA_Permission> superSet =  FlowUtil.getSinks(a1, true);
+                    final Set<SPARTA_Permission> superSet =  FlowUtil.getSinks(a1, true);
                     superSet.addAll(FlowUtil.getSinks(a2, true));
                     FlowUtil.allToAnySink(superSet, true);
                     return boundSinks(superSet);
@@ -381,25 +382,25 @@ public class FlowChecker extends BaseTypeChecker {
              //Poly Flows must be handled as if they are Bottom Type   
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS) ) {
-        	    Set<Sinks.SPARTA_Permission> bottom = new HashSet<Sinks.SPARTA_Permission>();
-        	    bottom.add(Sinks.SPARTA_Permission.ANY);
+        	    Set<SPARTA_Permission> bottom = new HashSet<SPARTA_Permission>();
+        	    bottom.add(SPARTA_Permission.ANY);
         	    return boundSinks(bottom);
         	}
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-        	    Set<Sinks.SPARTA_Permission> bottom = new HashSet<Sinks.SPARTA_Permission>();
-        	    bottom.add(Sinks.SPARTA_Permission.ANY);
+        	    Set<SPARTA_Permission> bottom = new HashSet<SPARTA_Permission>();
+        	    bottom.add(SPARTA_Permission.ANY);
         	    return boundSinks(bottom);
         	}
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES) ) {
-                    return boundSources(new HashSet<Sources.SPARTA_Permission>());
+                    return boundSources(new HashSet<SPARTA_Permission>());
                 }
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    return boundSources(new HashSet<Sources.SPARTA_Permission>());
+                    return boundSources(new HashSet<SPARTA_Permission>());
                 }
             }
             return super.greatestLowerBound(a1, a2);
