@@ -29,15 +29,15 @@ import checkers.util.TreeUtils;
 import checkers.compilermsgs.quals.CompilerMessageKey;
 */
 
-import sparta.checkers.quals.FlowSinks;
-import sparta.checkers.quals.FlowSinks.FlowSink;
-import sparta.checkers.quals.FlowSources;
-import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.Sinks;
+import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources;
+import sparta.checkers.quals.Sources.FlowSource;
 import sparta.checkers.quals.PolyFlowSinks;
 import sparta.checkers.quals.PolyFlowSources;
 import static sparta.checkers.FlowUtil.*;
 
-@TypeQualifiers({FlowSources.class, FlowSinks.class,
+@TypeQualifiers({Sources.class, Sinks.class,
     PolyFlowSources.class, PolyFlowSinks.class,
     PolyAll.class})
 @StubFiles("flow.astub")
@@ -63,8 +63,8 @@ public class FlowChecker extends BaseTypeChecker {
     @Override
     public void initChecker() {
         Elements elements = processingEnv.getElementUtils();
-        NOFLOWSOURCES = AnnotationUtils.fromClass(elements, FlowSources.class);
-        NOFLOWSINKS = AnnotationUtils.fromClass(elements, FlowSinks.class);
+        NOFLOWSOURCES = AnnotationUtils.fromClass(elements, Sources.class);
+        NOFLOWSINKS = AnnotationUtils.fromClass(elements, Sinks.class);
         POLYFLOWSOURCES = AnnotationUtils.fromClass(elements, PolyFlowSources.class);
         POLYFLOWSINKS = AnnotationUtils.fromClass(elements, PolyFlowSinks.class);
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
@@ -72,8 +72,8 @@ public class FlowChecker extends BaseTypeChecker {
         ANYFLOWSOURCES = FlowUtil.createAnnoFromSources(processingEnv, new HashSet<FlowSource>(Arrays.asList(FlowSource.ANY)));
         ANYFLOWSINKS = FlowUtil.createAnnoFromSinks(processingEnv, new HashSet<FlowSink>(Arrays.asList(FlowSink.ANY)));
 
-        FLOW_SOURCES = AnnotationUtils.fromClass(elements, FlowSources.class);
-        FLOW_SINKS   = AnnotationUtils.fromClass(elements, FlowSinks.class);
+        FLOW_SOURCES = AnnotationUtils.fromClass(elements, Sources.class);
+        FLOW_SINKS   = AnnotationUtils.fromClass(elements, Sinks.class);
 
         sourceValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSources", "value", 0, processingEnv);
         sinkValue = TreeUtils.getMethod("sparta.checkers.quals.FlowSinks", "value", 0, processingEnv);
@@ -317,13 +317,13 @@ public class FlowChecker extends BaseTypeChecker {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    final Set<FlowSources.FlowSource> superset = FlowUtil.getFlowSources(a1, true);
+                    final Set<Sources.FlowSource> superset = FlowUtil.getFlowSources(a1, true);
                     superset.addAll(FlowUtil.getFlowSources(a2, true));
                     FlowUtil.allToAnySource(superset, true);
                     return boundFlowSources(superset);
 
                 } else if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-                    final Set<FlowSinks.FlowSink> intersection =  FlowUtil.getFlowSinks(a1, true);
+                    final Set<Sinks.FlowSink> intersection =  FlowUtil.getFlowSinks(a1, true);
                     intersection.retainAll(FlowUtil.getFlowSinks(a2, true));
                     FlowUtil.allToAnySink(intersection, true);
                     return boundFlowSinks(intersection);
@@ -332,24 +332,24 @@ public class FlowChecker extends BaseTypeChecker {
                 //Poly Flows must be handled as if they are Top Type   
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS) ) {
-        	    return boundFlowSinks(new HashSet<FlowSinks.FlowSink>());
+        	    return boundFlowSinks(new HashSet<Sinks.FlowSink>());
         	}
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-        	    return boundFlowSinks(new HashSet<FlowSinks.FlowSink>());
+        	    return boundFlowSinks(new HashSet<Sinks.FlowSink>());
         	}
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES) ) {
-                    Set<FlowSources.FlowSource> top = new HashSet<FlowSources.FlowSource>();
-                    top.add(FlowSources.FlowSource.ANY);
+                    Set<Sources.FlowSource> top = new HashSet<Sources.FlowSource>();
+                    top.add(Sources.FlowSource.ANY);
                     return boundFlowSources(top);
                 }
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    Set<FlowSources.FlowSource> top = new HashSet<FlowSources.FlowSource>();
-                    top.add(FlowSources.FlowSource.ANY);
+                    Set<Sources.FlowSource> top = new HashSet<Sources.FlowSource>();
+                    top.add(Sources.FlowSource.ANY);
                     return boundFlowSources(top);
                 }
             }
@@ -366,13 +366,13 @@ public class FlowChecker extends BaseTypeChecker {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    final Set<FlowSources.FlowSource> intersection = FlowUtil.getFlowSources(a1, true);
+                    final Set<Sources.FlowSource> intersection = FlowUtil.getFlowSources(a1, true);
                     intersection.retainAll(FlowUtil.getFlowSources(a2, true));
                     FlowUtil.allToAnySource(intersection, true);
                     return boundFlowSources(intersection);
 
                 } else if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-                    final Set<FlowSinks.FlowSink> superSet =  FlowUtil.getFlowSinks(a1, true);
+                    final Set<Sinks.FlowSink> superSet =  FlowUtil.getFlowSinks(a1, true);
                     superSet.addAll(FlowUtil.getFlowSinks(a2, true));
                     FlowUtil.allToAnySink(superSet, true);
                     return boundFlowSinks(superSet);
@@ -381,25 +381,25 @@ public class FlowChecker extends BaseTypeChecker {
              //Poly Flows must be handled as if they are Bottom Type   
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS) ) {
-        	    Set<FlowSinks.FlowSink> bottom = new HashSet<FlowSinks.FlowSink>();
-        	    bottom.add(FlowSinks.FlowSink.ANY);
+        	    Set<Sinks.FlowSink> bottom = new HashSet<Sinks.FlowSink>();
+        	    bottom.add(Sinks.FlowSink.ANY);
         	    return boundFlowSinks(bottom);
         	}
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-        	    Set<FlowSinks.FlowSink> bottom = new HashSet<FlowSinks.FlowSink>();
-        	    bottom.add(FlowSinks.FlowSink.ANY);
+        	    Set<Sinks.FlowSink> bottom = new HashSet<Sinks.FlowSink>();
+        	    bottom.add(Sinks.FlowSink.ANY);
         	    return boundFlowSinks(bottom);
         	}
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES) ) {
-                    return boundFlowSources(new HashSet<FlowSources.FlowSource>());
+                    return boundFlowSources(new HashSet<Sources.FlowSource>());
                 }
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    return boundFlowSources(new HashSet<FlowSources.FlowSource>());
+                    return boundFlowSources(new HashSet<Sources.FlowSource>());
                 }
             }
             return super.greatestLowerBound(a1, a2);

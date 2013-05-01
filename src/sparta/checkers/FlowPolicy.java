@@ -4,15 +4,15 @@ import checkers.quals.PolyAll;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationUtils;
 import checkers.util.Pair;
-import sparta.checkers.quals.FlowSinks;
-import sparta.checkers.quals.FlowSources;
+import sparta.checkers.quals.Sinks;
+import sparta.checkers.quals.Sources;
 import sparta.checkers.quals.PolyFlowSinks;
 import sparta.checkers.quals.PolyFlowSources;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import static sparta.checkers.quals.FlowSinks.FlowSink;
-import static sparta.checkers.quals.FlowSources.FlowSource;
+import static sparta.checkers.quals.Sinks.FlowSink;
+import static sparta.checkers.quals.Sources.FlowSource;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -102,8 +102,8 @@ public class FlowPolicy {
 
     public Pair<Set<FlowSource>, Set<FlowSink>> annotatedTypeMirrorToFlows(final AnnotatedTypeMirror atm) {
 
-        final AnnotationMirror sourceAnno = atm.getAnnotation(FlowSources.class);
-        final AnnotationMirror sinkAnno   = atm.getAnnotation(FlowSinks.class);
+        final AnnotationMirror sourceAnno = atm.getAnnotation(Sources.class);
+        final AnnotationMirror sinkAnno   = atm.getAnnotation(Sinks.class);
         
 
         final Set<FlowSource> sources = FlowUtil.getFlowSources(sourceAnno, true);

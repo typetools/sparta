@@ -13,5 +13,5 @@ import checkers.quals.*;
     /* The following only added to make Eclipse work. */
     ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE})
 @TypeQualifier
-@PolymorphicQualifier(FlowSinks.class)
+@PolymorphicQualifier(Sinks.class)
 public @interface PolyFlowSinks {}

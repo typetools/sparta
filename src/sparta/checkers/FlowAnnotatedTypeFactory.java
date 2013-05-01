@@ -11,10 +11,10 @@ import checkers.types.AnnotatedTypeFactory;
 import checkers.util.*;
 import com.sun.tools.javac.code.TypeAnnotationPosition;
 import sparta.checkers.quals.ConservativeFlow;
-import sparta.checkers.quals.FlowSinks;
-import sparta.checkers.quals.FlowSinks.FlowSink;
-import sparta.checkers.quals.FlowSources;
-import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.Sinks;
+import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources;
+import sparta.checkers.quals.Sources.FlowSource;
 import sparta.checkers.quals.DefaultFlow;
 import sparta.checkers.quals.PolyFlow;
 
@@ -131,8 +131,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
     class FlowCompletingDefaults extends QualifierDefaults {
 
         //Instantiated lazily
-        private HashSet<FlowSinks.FlowSink>     sinksFromAny = null;
-        private HashSet<FlowSources.FlowSource> sourcesToAny = null;
+        private HashSet<Sinks.FlowSink>     sinksFromAny = null;
+        private HashSet<Sources.FlowSource> sourcesToAny = null;
 
         public FlowCompletingDefaults(Elements elements, AnnotatedTypeFactory atypeFactory) {
             super(elements, atypeFactory);
@@ -221,17 +221,17 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             return Pair.of(flowSourcesQual, flowSinksQuals);
         }
 
-        protected Pair<Set<FlowSources.FlowSource>, Set<FlowSinks.FlowSink>> getNewSourcesOrSinks(final Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals) {
+        protected Pair<Set<Sources.FlowSource>, Set<Sinks.FlowSink>> getNewSourcesOrSinks(final Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals) {
             final FlowPolicy flowPolicy = checker.getFlowPolicy();
             if(AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.first, checker.POLYFLOWSOURCES)  ||
         	    AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.second, checker.POLYFLOWSINKS) ) {
         	return Pair.of(null, null);
             }
-            final Set<FlowSources.FlowSource> sources = FlowUtil.getFlowSourcesOrEmpty(sourceToSinkQuals.first, false);
-            final Set<FlowSinks.FlowSink>     sinks   = FlowUtil.getFlowSinksOrEmpty(sourceToSinkQuals.second,  false);
+            final Set<Sources.FlowSource> sources = FlowUtil.getFlowSourcesOrEmpty(sourceToSinkQuals.first, false);
+            final Set<Sinks.FlowSink>     sinks   = FlowUtil.getFlowSinksOrEmpty(sourceToSinkQuals.second,  false);
 
-            final Set<FlowSinks.FlowSink>  newSinks;
-            final Set<FlowSources.FlowSource> newSources;
+            final Set<Sinks.FlowSink>  newSinks;
+            final Set<Sources.FlowSource> newSources;
 
             if( !sources.isEmpty() && sourceToSinkQuals.second == null) {
                 newSources = null;
@@ -269,18 +269,18 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
             final FlowPolicy flowPolicy = checker.getFlowPolicy();
             if(sinksFromAny == null) {
-                sinksFromAny = new HashSet<FlowSinks.FlowSink>();
-                sinksFromAny.addAll(flowPolicy.getSinksFromSource(FlowSources.FlowSource.ANY, false));
+                sinksFromAny = new HashSet<Sinks.FlowSink>();
+                sinksFromAny.addAll(flowPolicy.getSinksFromSource(Sources.FlowSource.ANY, false));
 
-                sourcesToAny = new HashSet<FlowSources.FlowSource>();
-                sourcesToAny.addAll(flowPolicy.getSourcesFromSink(FlowSinks.FlowSink.ANY, false));
+                sourcesToAny = new HashSet<Sources.FlowSource>();
+                sourcesToAny.addAll(flowPolicy.getSourcesFromSink(Sinks.FlowSink.ANY, false));
             }
 
             //Using pairs like Either -- the rest of this method would be much shorter with Eithers
             Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals =
                     explicitAnnosToFlowQuals(explicitAnnos);
 
-            Pair<Set<FlowSources.FlowSource>, Set<FlowSinks.FlowSink>> newSourcesOrSinks =
+            Pair<Set<Sources.FlowSource>, Set<Sinks.FlowSink>> newSourcesOrSinks =
                     getNewSourcesOrSinks( sourceToSinkQuals );
 
             final AnnotationMirror newAnno;

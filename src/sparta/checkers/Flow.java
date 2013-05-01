@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-import sparta.checkers.quals.FlowSinks.FlowSink;
-import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources.FlowSource;
 
 public class Flow {
     Set<FlowSource> sources;

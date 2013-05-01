@@ -6,9 +6,9 @@ import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import sparta.checkers.quals.FlowSinks.FlowSink;
+import sparta.checkers.quals.Sinks.FlowSink;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.Sources.FlowSource;
 
 import com.sun.source.tree.*;
 
@@ -47,7 +47,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     private void ensureContionalSink(ExpressionTree tree) {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
 
-        final AnnotationMirror sinkAnno = type.getAnnotation(FlowSinks.class);
+        final AnnotationMirror sinkAnno = type.getAnnotation(Sinks.class);
         final Set<FlowSink> sinks = FlowUtil.getFlowSinks(sinkAnno, false);
         if (!sinks.contains(FlowSink.ANY) && !sinks.contains(FlowSink.CONDITIONAL)) {
             checker.report(

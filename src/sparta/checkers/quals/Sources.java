@@ -16,7 +16,7 @@ import checkers.quals.*;
     ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE})
 @TypeQualifier
 @SubtypeOf({})
-public @interface FlowSources {
+public @interface Sources {
 
     /**
      * Data flow sources.

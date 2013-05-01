@@ -19,14 +19,14 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
 import checkers.util.AnnotationUtils;
 import checkers.util.TreeUtils;
 
-import sparta.checkers.quals.FlowSinks;
-import sparta.checkers.quals.FlowSinks.FlowSink;
-import sparta.checkers.quals.FlowSources;
-import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.Sinks;
+import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources;
+import sparta.checkers.quals.Sources.FlowSource;
 import sparta.checkers.quals.PolyFlowSinks;
 import sparta.checkers.quals.PolyFlowSources;
 
-@TypeQualifiers({FlowSources.class, FlowSinks.class,
+@TypeQualifiers({Sources.class, Sinks.class,
     PolyFlowSources.class, PolyFlowSinks.class})
 @StubFiles("flow.astub")
 public class FlowShow extends FlowChecker {
