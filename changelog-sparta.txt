@@ -1,3 +1,8 @@
+Version 0.9.1 1 May 2013
+Documentation
+  Improvements to the manual 
+
+----------------------------------------------------------------------
 Version 0.9.0 22 April 2013
 
 Stub Files
