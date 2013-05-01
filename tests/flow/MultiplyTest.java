@@ -1,21 +1,21 @@
 
 import android.content.ContentValues;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.Sources.FlowSource;
 import android.util.FloatMath;
 
 class MultiplyTest {
 
-    @FlowSources(FlowSource.LOCATION) float raRadians;
-    @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float raLitLocRadians;
+    @Sources(FlowSource.LOCATION) float raRadians;
+    @Sources({FlowSource.LITERAL, FlowSource.LOCATION}) float raLitLocRadians;
 
     float x;
-    @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float y;
-    @FlowSources({FlowSource.ANY}) float z;
+    @Sources({FlowSource.LITERAL, FlowSource.LOCATION}) float y;
+    @Sources({FlowSource.ANY}) float z;
 
     void test_Multiply() {
-        @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float ra = (float) 1.0;
-        @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float dec = 2.0f;
+        @Sources({FlowSource.LITERAL, FlowSource.LOCATION}) float ra = (float) 1.0;
+        @Sources({FlowSource.LITERAL, FlowSource.LOCATION}) float dec = 2.0f;
 
         float dtr = (float) 0.5;
 
@@ -33,7 +33,7 @@ class MultiplyTest {
     }
 
     void test_Cast() {
-        @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float ra = (float) 1.0;
+        @Sources({FlowSource.LITERAL, FlowSource.LOCATION}) float ra = (float) 1.0;
 
         //:: error: (assignment.type.incompatible)
         raRadians       = (float) ra;
@@ -41,7 +41,7 @@ class MultiplyTest {
     }
 
     void test_Unary() {
-        @FlowSources({FlowSource.LITERAL, FlowSource.LOCATION}) float ra = (float) 1.0;
+        @Sources({FlowSource.LITERAL, FlowSource.LOCATION}) float ra = (float) 1.0;
 
         //:: error: (assignment.type.incompatible)
         x = -ra;

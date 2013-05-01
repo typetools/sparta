@@ -1,28 +1,28 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSinks.FlowSink;
-import sparta.checkers.quals.FlowSources.FlowSource;
-import sparta.checkers.quals.FlowSinks;
-import sparta.checkers.quals.PolyFlowSinks;
-import sparta.checkers.quals.PolyFlowSources;
+import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources.FlowSource;
+import sparta.checkers.quals.Sinks;
+import sparta.checkers.quals.PolySinks;
+import sparta.checkers.quals.PolySources;
 
 class SwitchTest {
     void foo() {
-        @FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) int info = 1;
+        @Sources({FlowSource.LOCATION, FlowSource.LITERAL}) int info = 1;
 
         //Explicitly forbid this field from having FlowSink.CONDITIONAL
         //:: error: (forbidden.flow)
-        @FlowSources({FlowSource.LOCATION}) @FlowSinks({}) int badInfo = 1;
+        @Sources({FlowSource.LOCATION}) @Sinks({}) int badInfo = 1;
 
-        @FlowSources(FlowSource.LITERAL) int noInfo = 1;
+        @Sources(FlowSource.LITERAL) int noInfo = 1;
 
         //This field gets FlowSink.CONDITIONAL added by default
-        final @FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) int caseInfo = 1;
+        final @Sources({FlowSource.LOCATION, FlowSource.LITERAL}) int caseInfo = 1;
         final int caseNoInfo = 2;
 
 
         //Explicitly forbid this field from having FlowSink.CONDITIONAL
         //:: error: (forbidden.flow)
-        final @FlowSources({FlowSource.LOCATION, FlowSource.LITERAL}) @FlowSinks({}) int badCaseInfo = 3;
+        final @Sources({FlowSource.LOCATION, FlowSource.LITERAL}) @Sinks({}) int badCaseInfo = 3;
 
         switch (info) {
 

@@ -4,7 +4,7 @@ import android.location.LocationListener;
 import sparta.checkers.quals.*;
 
 class LocationController implements LocationListener {
-    public void onLocationChanged(@FlowSources(FlowSources.FlowSource.LOCATION) Location location) {}
+    public void onLocationChanged(@Sources(Sources.FlowSource.LOCATION) Location location) {}
 
     public void onStatusChanged(String arg0, int arg1, android.os.Bundle arg2) {}
     public void onProviderEnabled(String arg0) {}

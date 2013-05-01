@@ -1,27 +1,27 @@
 //import android.util.FloatMath;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSinks.FlowSink;
-import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources.FlowSource;
 
 public class Poly {
     @PolyFlow
     Object testSinks(Object in) { return in; }
 
-    void callSinks(@FlowSinks(FlowSink.EMAIL) Object s) { 
-	@FlowSinks(FlowSink.EMAIL)  Object l = 
+    void callSinks(@Sinks(FlowSink.EMAIL) Object s) { 
+	@Sinks(FlowSink.EMAIL)  Object l = 
 		testSinks(s); 
     }
 
-    @PolyFlowSinks @FlowSources(FlowSource.CAMERA) Object
-    testComb(@PolyFlowSinks @FlowSources(FlowSource.CAMERA) Object in) { return in; }
+    @PolySinks @Sources(FlowSource.CAMERA) Object
+    testComb(@PolySinks @Sources(FlowSource.CAMERA) Object in) { return in; }
 
-    void callComb(@FlowSinks(FlowSinks.FlowSink.EMAIL) Object s) {
-        @FlowSinks(FlowSinks.FlowSink.EMAIL) @FlowSources(FlowSource.CAMERA) Object l = testComb(s);
+    void callComb(@Sinks(Sinks.FlowSink.EMAIL) Object s) {
+        @Sinks(Sinks.FlowSink.EMAIL) @Sources(FlowSource.CAMERA) Object l = testComb(s);
         //:: error: (assignment.type.incompatible)
-        @FlowSinks(FlowSinks.FlowSink.NETWORK) @FlowSources(FlowSource.CAMERA) Object l2 = testComb(s); 
+        @Sinks(Sinks.FlowSink.NETWORK) @Sources(FlowSource.CAMERA) Object l2 = testComb(s); 
     }
 
-    @FlowSources(FlowSource.LOCATION) float y;
+    @Sources(FlowSource.LOCATION) float y;
     void test_floatmath() {
 //        y = FloatMath.sin(y);
     }

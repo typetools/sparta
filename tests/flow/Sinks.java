@@ -1,20 +1,20 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSinks.FlowSink;
+import sparta.checkers.quals.Sinks.FlowSink;
 
 class Sinks {
-    void sendData(@FlowSinks(FlowSink.NETWORK) Object p) {
+    void sendData(@Sinks(FlowSink.NETWORK) Object p) {
         // Allowed: fewer sinks
         noComm(p);
     }
 
     //:: error: (forbidden.flow)
-    void noComm(@FlowSinks({}) Object p) {
+    void noComm(@Sinks({}) Object p) {
         // Forbidden: more sinks
         //:: error: (argument.type.incompatible)
         sendData(p);
     }
 
-    void two(@FlowSinks({FlowSink.NETWORK, FlowSink.SMS}) Object p) {
+    void two(@Sinks({FlowSink.NETWORK, FlowSink.SMS}) Object p) {
         // Allowed: fewer sinks
         sendData(p);
         // Forbidden: more sinks
@@ -23,7 +23,7 @@ class Sinks {
     }
 
     //:: error: (forbidden.flow)
-    void any(@FlowSinks(FlowSink.ANY) Object p) {
+    void any(@Sinks(FlowSink.ANY) Object p) {
         // Allowed: fewer sinks
         two(p);
     }

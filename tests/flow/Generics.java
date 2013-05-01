@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSinks.FlowSink;
-import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources.FlowSource;
 
 class ListTest {
     // Simple test to ensure that defaulting on java.util.List works correctly.
@@ -9,18 +9,18 @@ class ListTest {
 }
 
 
-class List<T extends @FlowSinks(FlowSink.CONDITIONAL) @FlowSources(FlowSource.ANY) Object> {
-    T get( @FlowSources(FlowSource.ANY) List<T> this, int index) { return null; }
+class List<T extends @Sinks(FlowSink.CONDITIONAL) @Sources(FlowSource.ANY) Object> {
+    T get( @Sources(FlowSource.ANY) List<T> this, int index) { return null; }
     void add(T p) {}
 }
 
 class Generics {
     List<Object> lo = new List<Object>();
-    List<@FlowSources(FlowSource.NETWORK) Object> netok = new List<@FlowSources(FlowSource.NETWORK) Object>();
+    List<@Sources(FlowSource.NETWORK) Object> netok = new List<@Sources(FlowSource.NETWORK) Object>();
     //:: error: (assignment.type.incompatible)
-    List<@FlowSources(FlowSource.NETWORK) Object> neterr = new List<Object>();
+    List<@Sources(FlowSource.NETWORK) Object> neterr = new List<Object>();
 
-    void use(Object o, @FlowSources(FlowSource.NETWORK) Object neto) {
+    void use(Object o, @Sources(FlowSource.NETWORK) Object neto) {
         netok.add(neto);
         neto = netok.get(4);
         //:: error: (assignment.type.incompatible)

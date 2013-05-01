@@ -1,9 +1,9 @@
-import sparta.checkers.quals.FlowSinks;
-import sparta.checkers.quals.FlowSources;
-import sparta.checkers.quals.PolyFlowSinks;
-import sparta.checkers.quals.PolyFlowSources;
-import sparta.checkers.quals.FlowSinks.FlowSink;
-import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.Sinks;
+import sparta.checkers.quals.Sources;
+import sparta.checkers.quals.PolySinks;
+import sparta.checkers.quals.PolySources;
+import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources.FlowSource;
 
 /**
  * Test the defaults for numeric and string literals, and
@@ -14,11 +14,11 @@ import sparta.checkers.quals.FlowSources.FlowSource;
  */
 class TestLiteralDefaults {
     //:: error: (forbidden.flow)
-    @FlowSinks({}) @FlowSources({FlowSource.ANY}) float ntop;
-    @PolyFlowSources @PolyFlowSinks float npoly;
+    @Sinks({}) @Sources({FlowSource.ANY}) float ntop;
+    @PolySources @PolySinks float npoly;
 
     //:: error: (forbidden.flow)
-   @FlowSinks({FlowSink.ANY}) @FlowSources({}) float nbot;
+   @Sinks({FlowSink.ANY}) @Sources({}) float nbot;
     float nunqual;
 
     void testNumeric() {
@@ -31,11 +31,11 @@ class TestLiteralDefaults {
     }
 
     //:: error: (forbidden.flow)
-    @FlowSinks({}) @FlowSources({FlowSource.ANY}) Object rtop;
-    @PolyFlowSources @PolyFlowSinks Object rpoly;
+    @Sinks({}) @Sources({FlowSource.ANY}) Object rtop;
+    @PolySources @PolySinks Object rpoly;
 
     //:: error: (forbidden.flow)
-    @FlowSinks({FlowSink.ANY}) @FlowSources({}) Object rbot;
+    @Sinks({FlowSink.ANY}) @Sources({}) Object rbot;
     Object runqual;
 
     void testReference() {
@@ -55,10 +55,10 @@ class TestLiteralDefaults {
     }
 
     //:: error: (forbidden.flow)
-    @FlowSinks({}) @FlowSources({FlowSource.ANY}) char ctop;
-    @PolyFlowSources @PolyFlowSinks char cpoly;
+    @Sinks({}) @Sources({FlowSource.ANY}) char ctop;
+    @PolySources @PolySinks char cpoly;
     //:: error: (forbidden.flow)
-    @FlowSinks({FlowSink.ANY}) @FlowSources({}) char cbot;
+    @Sinks({FlowSink.ANY}) @Sources({}) char cbot;
     char cunqual;
 
     void testChar() {

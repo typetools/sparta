@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSources.*;
-import sparta.checkers.quals.FlowSinks.*;
+import sparta.checkers.quals.Sources.*;
+import sparta.checkers.quals.Sinks.*;
 
 @PolyFlow
 class Cons {

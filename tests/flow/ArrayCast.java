@@ -1,15 +1,15 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSinks.FlowSink;
-import sparta.checkers.quals.FlowSources.FlowSource;
-import sparta.checkers.quals.FlowSinks;
-import sparta.checkers.quals.PolyFlowSinks;
-import sparta.checkers.quals.PolyFlowSources;
+import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources.FlowSource;
+import sparta.checkers.quals.Sinks;
+import sparta.checkers.quals.PolySinks;
+import sparta.checkers.quals.PolySources;
 
 class ArrayCast {
 
     void foo() {
         //:: error: (assignment.type.incompatible)
-        @FlowSinks(FlowSink.NETWORK) Object @FlowSources(FlowSource.ACCELEROMETER) [] params = new /*@FlowSinks(FlowSink.NETWORK)*/ Object[1];
+        @Sinks(FlowSink.NETWORK) Object @Sources(FlowSource.ACCELEROMETER) [] params = new /*@Sinks(FlowSink.NETWORK)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
 
         //strict:: warning: (cast.unsafe)
@@ -21,20 +21,20 @@ class ArrayCast {
         callStart(result);
         callFinished(result);
 
-        @FlowSinks(FlowSink.NETWORK) Object [] otherOne = getObjs();
+        @Sinks(FlowSink.NETWORK) Object [] otherOne = getObjs();
         callStart(getObjs());
     }
 
-    @FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) Object call(
-            @FlowSources(FlowSource.LITERAL) String method, @FlowSinks(FlowSink.NETWORK) Object[] params) {
-        @FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) Object a = params[0];
+    @Sources(FlowSource.NETWORK) @Sinks(FlowSink.NETWORK) Object call(
+            @Sources(FlowSource.LITERAL) String method, @Sinks(FlowSink.NETWORK) Object[] params) {
+        @Sources(FlowSource.NETWORK) @Sinks(FlowSink.NETWORK) Object a = params[0];
         return a;
     }
 
-    void callStart(@FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) Object []  result) {}
-    void callFinished(Object @FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) [] result) {}
+    void callStart(@Sources(FlowSource.NETWORK) @Sinks(FlowSink.NETWORK) Object []  result) {}
+    void callFinished(Object @Sources(FlowSource.NETWORK) @Sinks(FlowSink.NETWORK) [] result) {}
 
-    @FlowSinks(FlowSink.NETWORK) Object [] getObjs() {
+    @Sinks(FlowSink.NETWORK) Object [] getObjs() {
         return null;
     }
 }

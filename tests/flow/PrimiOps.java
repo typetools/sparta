@@ -1,17 +1,17 @@
-import sparta.checkers.quals.FlowSinks;
-import sparta.checkers.quals.FlowSources;
-import sparta.checkers.quals.PolyFlowSinks;
-import sparta.checkers.quals.PolyFlowSources;
-import sparta.checkers.quals.FlowSinks.FlowSink;
-import sparta.checkers.quals.FlowSources.FlowSource;
+import sparta.checkers.quals.Sinks;
+import sparta.checkers.quals.Sources;
+import sparta.checkers.quals.PolySinks;
+import sparta.checkers.quals.PolySources;
+import sparta.checkers.quals.Sinks.FlowSink;
+import sparta.checkers.quals.Sources.FlowSource;
 
 
 class PrimiOps {
     @SuppressWarnings("flow")
-    @FlowSinks({}) @FlowSources({FlowSource.ANY}) float top;
-    @PolyFlowSources @PolyFlowSinks float poly;
+    @Sinks({}) @Sources({FlowSource.ANY}) float top;
+    @PolySources @PolySinks float poly;
     @SuppressWarnings("flow")
-    @FlowSinks({FlowSink.ANY}) @FlowSources({}) float bot;
+    @Sinks({FlowSink.ANY}) @Sources({}) float bot;
     float unqual;
 
     void mod2pi() {

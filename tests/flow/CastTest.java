@@ -1,11 +1,11 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSources.FlowSource;
-import sparta.checkers.quals.PolyFlowSinks;
-import sparta.checkers.quals.PolyFlowSources;
+import sparta.checkers.quals.Sources.FlowSource;
+import sparta.checkers.quals.PolySinks;
+import sparta.checkers.quals.PolySources;
 
 class CastTest {
-    @FlowSources(FlowSource.LOCATION) double result;
-    @FlowSources(FlowSource.LOCATION) int x;
+    @Sources(FlowSource.LOCATION) double result;
+    @Sources(FlowSource.LOCATION) int x;
 
     void m() {
         result = bar(x);
@@ -13,29 +13,29 @@ class CastTest {
         result = foo(x);
     }
 
-    public @FlowSources(FlowSource.LOCATION) double bar(@FlowSources(FlowSource.LOCATION) int x) {
+    public @Sources(FlowSource.LOCATION) double bar(@Sources(FlowSource.LOCATION) int x) {
         return (double) x;
     }
 
     //int x will now have type LITERAL -> CONDITIONAL which is different from ANY -> CONDITIONAL
     //which cannot be coerced down to LOCATION -> CONDITIONAL
-    public @FlowSources(FlowSource.LOCATION) double foo(int x) {
+    public @Sources(FlowSource.LOCATION) double foo(int x) {
         //:: warning: (cast.unsafe)
-        return (@FlowSources(FlowSource.LOCATION) double) x;
+        return (@Sources(FlowSource.LOCATION) double) x;
     }
 
-    public @FlowSources(FlowSource.LOCATION) double foo2( @FlowSources(FlowSource.LOCATION) int x) {
-        return (@FlowSources(FlowSource.LOCATION) double) x;
+    public @Sources(FlowSource.LOCATION) double foo2( @Sources(FlowSource.LOCATION) int x) {
+        return (@Sources(FlowSource.LOCATION) double) x;
     }
 
-    public @FlowSources(FlowSource.LOCATION) double fromAny(@FlowSources(FlowSource.ANY) int x) {
+    public @Sources(FlowSource.LOCATION) double fromAny(@Sources(FlowSource.ANY) int x) {
         //:: warning: (cast.unsafe)
-        return (@FlowSources(FlowSource.LOCATION) double) x;
+        return (@Sources(FlowSource.LOCATION) double) x;
     }
 
-    public @FlowSources({FlowSource.LOCATION}) double anyToLoc(@FlowSources(FlowSource.ANY) int x) {
+    public @Sources({FlowSource.LOCATION}) double anyToLoc(@Sources(FlowSource.ANY) int x) {
         //:: warning: (cast.unsafe)
-        return (@FlowSources({FlowSource.LOCATION}) double) x;
+        return (@Sources({FlowSource.LOCATION}) double) x;
     }
 
 }

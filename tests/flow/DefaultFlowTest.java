@@ -1,18 +1,18 @@
 import checkers.quals.PolyAll;
 
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSources.FlowSource;
-import sparta.checkers.quals.FlowSinks.FlowSink;
+import sparta.checkers.quals.Sources.FlowSource;
+import sparta.checkers.quals.Sinks.FlowSink;
 
 class DefaultFlowTest {
-	@FlowSources({FlowSource.NETWORK,FlowSource.LITERAL}) int source = 1;
-        @FlowSinks(FlowSink.NETWORK) int sink = 2;
-	@FlowSources({FlowSource.NETWORK,FlowSource.LITERAL}) @FlowSinks(FlowSink.NETWORK) int sourceSink = 3;
+	@Sources({FlowSource.NETWORK,FlowSource.LITERAL}) int source = 1;
+        @Sinks(FlowSink.NETWORK) int sink = 2;
+	@Sources({FlowSource.NETWORK,FlowSource.LITERAL}) @Sinks(FlowSink.NETWORK) int sourceSink = 3;
 	int none = 4;
 	
-	@FlowSources(FlowSource.NETWORK) TestClass classSource;
-	@FlowSinks(FlowSink.NETWORK) TestClass classSink;
-	@FlowSources(FlowSource.NETWORK) @FlowSinks(FlowSink.NETWORK) TestClass classSourceSink;
+	@Sources(FlowSource.NETWORK) TestClass classSource;
+	@Sinks(FlowSink.NETWORK) TestClass classSink;
+	@Sources(FlowSource.NETWORK) @Sinks(FlowSink.NETWORK) TestClass classSourceSink;
 	TestClass classNone;
 	
 	@DefaultFlow
@@ -79,7 +79,7 @@ class DefaultFlowTest {
 
 @DefaultFlow
 class TestClass {
-	int testClassMethod(@PolyFlowSources @PolyFlowSinks TestClass this, int input) {
+	int testClassMethod(@PolySources @PolySinks TestClass this, int input) {
 		return 0;
 	}
 }

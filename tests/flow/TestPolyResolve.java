@@ -6,20 +6,20 @@ import java.io.*;
 
 
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowSources.FlowSource;
-import sparta.checkers.quals.FlowSinks.FlowSink;
+import sparta.checkers.quals.Sources.FlowSource;
+import sparta.checkers.quals.Sinks.FlowSink;
 
 //@skip-test
 // TODO: method HttpClient.execute is no longer annotated as polymorphic.
 // Therefore, that method invocation fails.
 // Write your own little test classes to illustrate the point.
 class TestPolyConstructors {
-    @FlowSources(FlowSource.LOCATION) HttpResponse response;
-    @FlowSources(FlowSource.LOCATION) HttpEntity entity;
-    @FlowSources(FlowSource.LOCATION) InputStream tempStream;
+    @Sources(FlowSource.LOCATION) HttpResponse response;
+    @Sources(FlowSource.LOCATION) HttpEntity entity;
+    @Sources(FlowSource.LOCATION) InputStream tempStream;
     Reader responseReader;
 
-    void sdf(@FlowSinks(FlowSink.NETWORK) @FlowSources(FlowSource.LOCATION) HttpGet request) {
+    void sdf(@Sinks(FlowSink.NETWORK) @Sources(FlowSource.LOCATION) HttpGet request) {
         try {
             HttpClient client = new DefaultHttpClient();
             response = client.execute(request);
