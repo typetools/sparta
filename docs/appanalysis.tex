@@ -93,9 +93,9 @@ Look at the \<AndroidManifest.xml> file and:
   ``provider'' to see the entry points, intent messages it responds to,
   etc.
 
-  TODO:  What is the point of this step?  Does it inform the creation of
+  \todo{What is the point of this step?  Does it inform the creation of
   the flow policy?  Or should it be moved later into the reverse
-  engineering steps of \secref{sec:reverse-engineering}?
+  engineering steps of \secref{sec:reverse-engineering}? }
 \end{itemize}
 
 
@@ -167,12 +167,12 @@ inform the SPARTA developers so they can add them to the
 \subsection{Task: see where permissions are used in the application}
 \label{sec:appanalysis/reqperms}
 
-[TODO: what does \<@RequiredPermissions> mean?  That should appear both in
+\todo{:what does \<@RequiredPermissions> mean?  That should appear both in
 its Javadoc (which is currently missing) and here.  Why do we care?  What
 benefits do \<@RequiredPermissions> bring to the analyst?  Given
 \<@RequiredPermissions> annotations in Android libraries, could they be
 automatically inferred in other libraries and in the app itself, rather
-than requiring a human to write them all?]
+than requiring a human to write them all?}
 
 Run
 
@@ -213,10 +213,10 @@ Any permission that is required should already be listed in the
 
 
 
-% TODO: The required permission information is based on Android 2.2
-% information. Explain the caveat of Android 4.0 changes and the issue
-% with "entry-method" checks versus correct checking on all
-% possible paths into an API.
+\todo{ The required permission information is based on Android 2.2
+ information. Explain the caveat of Android 4.0 changes and the issue
+ with "entry-method" checks versus correct checking on all
+ possible paths into an API.}
 
 
 \subsection{Task: see what APIs are used where in the application}
@@ -282,9 +282,9 @@ reportapiusage>), do the following:
 If the API method already appears in some stub file, there is nothing to
 do; continue to the next API method.
 
-[TODO:  Have an ant target or other tool that reports only
+\todo{  Have an ant target or other tool that reports only
 \emph{un-annotated} APIs, so that the user has a list of APIs to annotate
-without having to search through all the stub files.]
+without having to search through all the stub files.}
 \item
 Read the Javadoc.
 \item
@@ -303,8 +303,8 @@ and outputs could be anything and are not required to have a specific
 \<@FlowSources> annotation), then annotate its parameters and return type
 with \<@PolyFlowSources @PloyFlowSinks>, which essentially says that the
 output can have all the flow sources and sinks of the inputs.
-[TODO: There is some more concise way to specify this, without having to
-annotate each parameter and return type individually.]
+\todo{There is some more concise way to specify this, without having to
+annotate each parameter and return type individually.}
 \end{itemize}
 
 \noindent
@@ -366,7 +366,7 @@ the app itself, only to libraries.
 You do not have to run this step --- you can skip it if you
 prefer.
 
-[TODO:  Why would I want to perform this step?  What would be the benefits?]
+\todo{Why would I want to perform this step?  What would be the benefits?}
 
 Run \<ant flowshow> to get a report of the
 existing flow.
@@ -403,9 +403,9 @@ type qualifiers.  This approach is both faster and less error-prone than
 iteratively running the type-checker and fixing the errors that it reports
 one-by-one.
 
-[TODO: provide a tool that does this grepping.  Also tell the user how to
+\todo{provide a tool that does this grepping.  Also tell the user how to
 take advantage of the \<@RequiredPermissions> annotations and other tool
-output.]
+output.}
 
 
 Focus on the most interesting flow sources and try to connect the flow
@@ -483,7 +483,7 @@ Repeat the process until there are no more errors, or until you find bad
 code (malicious, or buggy and prone to abuse).
 
 You can continue to use \<ant flowshow> to visualize the annotation
-progress.  [TODO:  Why?  How does this help you?]
+progress.  \todo{Why?  How does this help you?}
 
 
 \subsection{Task: type-check with stricter checking}

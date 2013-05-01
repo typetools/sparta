@@ -4,23 +4,25 @@
 This chapter describes the Flow Checker, a type-checker that 
 tracks information flow through your program.
 
-To use the Flow Checker, a programmer must supply two typeos of
+To use the Flow Checker, a programmer must supply two types of
 information:
+
 \begin{itemize}
 \item
 A flow policy that expresses what information flows the program is allowed
-to have.  For example, a program might be allowed to send location
+to have. \todo{Why do we need an example here?}  For example, a program might be allowed to send location
 information to the network, but not allowed to access contacts nor to send
 SMS messages.  The flow policy is primarily derived from the program's user
 documentation.  \secref{sec:flow-policy} describes how to write a flow
 policy.
 \item
+\todo{The user doesn't know what a type qualifier is yet, we called them annotations in the overview}
 Type qualifiers written on (some of) the variables in the program.  The
 type qualifiers indicate where the variable's value came from and where it
 might go to.
 \end{itemize}
 
-When you run the Flow Checker, it verifies that the annotations in the
+When you run the Flow Checker, \todo{ add reference to section that explains how to run Flow Checker}it verifies that the annotations in the
 program are consistent with what the program's code does, and that the
 annotations are consistent with the flow policy.  This gives a guarantee
 that the program has no information flow beyond what is expressed in the
@@ -33,7 +35,7 @@ Checker Framework Manual (\ifhevea\url{http://types.cs.washington.edu/checker-fr
 Therefore, in order to understand this chapter, you should first read
 chapters 1--2 of the Checker Framework Manual, and you should at least skim
 chapters 18--21 (generics through libraries) and 24--25 (FAQ and
-troubleshooting).
+troubleshooting). \todo{Shouldn't this be moved closer to the top of the section?}
 
 After you read this chapter, see \chapref{app-annotation} for tips about
 writing information-flow annotations.
@@ -136,8 +138,8 @@ To catch this sort of information leak, pass
 
 \subsection{Empty Flow Sinks or Flow Sources\label{sec:emptyflow}}
 
-Programmers should not use @FlowSources(\{\}) and @FlowSinks(\{\}) for
-any types.
+Programmers should not use @FlowSources(\{\}) or @FlowSinks(\{\}) for
+any types except in stub files.
 These types are only needed for top/bottom types which are used in the
 default types: the \<null> literal uses the bottom type in order for
 it to be assignable everywhere; local variables use the top type which
@@ -256,7 +258,7 @@ ant -DflowPolicy=\emph{mypolicyfile} flowtest
 
 Remember, not specifying a flow policy file is equivalent to not
 allowing any flows.
-% TODO: is this right? What about relaxed vs. strict?
+\todo{is this right? What about relaxed vs. strict?}
 
 
 
@@ -394,8 +396,7 @@ See section ``\ahref{http://types.cs.washington.edu/checker-framework/current/ch
 % The invocation of a method is used to resolve polymorphic qualifiers
 % to something concrete.
 
-% TODO: these have known soundness issues and with Stuart we're
-% working on fixing them.
+\todo{these have known soundness issues and with Stuart we're working on fixing them.}
 
 
 \section{Additional Annotations\label{sec:addtionalanno}}
@@ -431,7 +432,7 @@ Annotation \<@ConservativeFlow> expresses that each contained method
 should have the most conservative possible annotations:
   \<@FlowSources({}) @FlowSinks(ANY)> on arguments, and
   \<@FlowSources(ANY) @FlowSinks({})> on return values.
-%[TODO: what for fields?]
+\todo{what for fields?}
 This is so conservative that it is sure to cause a type-checking failure
 whenever the method is used.
 When the analyst encounters such type-checking errors, the analyst can
@@ -447,7 +448,7 @@ types and all parameters.
 
 
 
-%TODO generate some more examples.
+\todo{generate some more examples.}
 %\subsection{Examples}
 %
 %Below are some examples of policy files and code examples that

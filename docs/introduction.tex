@@ -28,6 +28,7 @@ find it in a SPARTA release at
 \url{http://types.cs.washington.edu/sparta/release/}, though that may not
 be as up-to-date.
 
+\todo{  we talk about the analyst before explaining what we mean by analyst.}
 
 \section{Overview:  malware detection and prevention tools}
 
@@ -42,16 +43,18 @@ in the source code.
 
 By contrast, the tools to statically verify information flow require a person to write
 the information flow properties of the program, primarily as source code
-annotations.  For instance, an array that contains data that came from the
-camera and is destined for the network would be written as 
+annotations.  For instance, an object  that contains data that came from the
+camera and is destined for the network would be annotated with 
 
 \begin{Verbatim}
-\<@FlowSources(CAMERA) @FlowSinks(NETWORK)>
+@FlowSources(CAMERA) @FlowSinks(NETWORK)
 \end{Verbatim}
 
 
 
 There are two different scenarios in which the SPARTA tools might be used.
+\todo{This seems a little too verbose.}
+
 \begin{itemize}
 \item
   Ideally, the application vendor, who understands the source code,

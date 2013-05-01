@@ -1,0 +1,86 @@
+\usepackage{color}
+\newcommand{\tts}[1]{\texttt{\small #1}}
+
+\definecolor{Orange}{rgb}{1,0.5,0}
+\definecolor{Gray}{rgb}{0.5,0.5,0.5}
+\definecolor{LtGray}{rgb}{0.66,0.66,0.66}
+\definecolor{Red}{rgb}{0.8,0,0}
+\definecolor{Green}{rgb}{0,0.33,0}
+% \newcommand{\etal}[0]{\emph{et al.}}
+\newcommand{\etal}[0]{et al.}
+
+%\newcommand{\w}[1]{{#1}}
+
+\newcommand{\brok}[1]{\sout{#1}}
+\newcommand{\cbrok}[1]{\textcolor{Gray}{\brok{#1}}}
+\newcommand{\less}[1]{\ensuremath{\check{#1}}}
+\newcommand{\cless}[1]{\textcolor{Gray}{\less{#1}}}
+\newcommand{\ok}[1]{#1}
+\newcommand{\cok}[1]{\ok{#1}}
+
+\renewcommand{\b}[1]{\cbrok{#1}}
+\renewcommand{\l}[1]{\cless{#1}}
+\renewcommand{\o}[1]{\cok{#1}}
+
+\newcommand{\vhead}[1]{\begin{sideways}#1\end{sideways}}
+%\newcommand{\nl}[]{\\&&&}
+\newcommand{\none}{-}
+\newcommand{\broken}{\ensuremath{\otimes}}
+\newcommand{\lessfunc}{\ensuremath{\circleddash}}
+\newcommand{\phone}{Phone \#}
+\newcommand{\histbookmarks}{Bookmarks}
+\newcommand{\sms}{SMS}
+\newcommand{\imei}{Device ID}
+\newcommand{\location}{Location}
+\newcommand{\contacts}{Contacts}
+\newcommand{\calendar}{Calendar}
+\newcommand{\verify}[1]{\textcolor{Red}{#1}}
+
+\newcommand{\sur}[0]{S}
+\newcommand{\cov}[0]{C}
+\newcommand{\ove}[0]{O}
+
+\newcommand{\ooo}[0]{\o{\sur}\o{\cov}\o{\ove}}
+\newcommand{\ool}[0]{\o{\sur}\o{\cov}\l{\ove}}
+\newcommand{\oob}[0]{\o{\sur}\o{\cov}\b{\ove}}
+\newcommand{\olo}[0]{\o{\sur}\l{\cov}\o{\ove}}
+\newcommand{\oll}[0]{\o{\sur}\l{\cov}\l{\ove}}
+\newcommand{\olb}[0]{\o{\sur}\l{\cov}\b{\ove}}
+\newcommand{\obo}[0]{\o{\sur}\b{\cov}\o{\ove}}
+\newcommand{\obl}[0]{\o{\sur}\b{\cov}\l{\ove}}
+\newcommand{\obb}[0]{\o{\sur}\b{\cov}\b{\ove}}
+
+\newcommand{\loo}[0]{\l{\sur}\o{\cov}\o{\ove}}
+\newcommand{\lol}[0]{\l{\sur}\o{\cov}\l{\ove}}
+\newcommand{\lob}[0]{\l{\sur}\o{\cov}\b{\ove}}
+\newcommand{\llo}[0]{\l{\sur}\l{\cov}\o{\ove}}
+%\newcommand{\lll}[0]{\l{\sur}\l{\cov}\l{\ove}} % orange?
+\newcommand{\llll}[0]{\l{\sur}\l{\cov}\l{\ove}} % orange?
+\newcommand{\llb}[0]{\l{\sur}\l{\cov}\b{\ove}} % orange?
+\newcommand{\lbo}[0]{\l{\sur}\b{\cov}\o{\ove}}
+\newcommand{\lbl}[0]{\l{\sur}\b{\cov}\l{\ove}} % orange?
+\newcommand{\lbb}[0]{\l{\sur}\b{\cov}\b{\ove}} % orange?
+
+\newcommand{\boo}[0]{\b{\sur}\o{\cov}\o{\ove}}
+\newcommand{\bol}[0]{\b{\sur}\o{\cov}\l{\ove}}
+\newcommand{\bob}[0]{\b{\sur}\o{\cov}\b{\ove}}
+\newcommand{\blo}[0]{\b{\sur}\l{\cov}\o{\ove}}
+\newcommand{\bll}[0]{\b{\sur}\l{\cov}\l{\ove}}  % orange?
+\newcommand{\blb}[0]{\b{\sur}\l{\cov}\b{\ove}}  % orange?
+\newcommand{\bbo}[0]{\b{\sur}\b{\cov}\o{\ove}}
+\newcommand{\bbl}[0]{\b{\sur}\b{\cov}\l{\ove}}  % orange?
+\newcommand{\bbb}[0]{\textcolor{red}{\brok{\sur}\brok{\cov}\brok{\ove}}}
+
+
+\newcommand{\scomment}[2]{\textcolor{Orange}{[#1: #2]}}
+
+% To show changes in the document, comment out the \renewcommand definitions below
+%\renewcommand{\shadd}[1]{#1}
+%\renewcommand{\shremove}[1]{}
+%\renewcommand{\shreplace}[2]{#2}
+%\renewcommand{\shcomment}[1]{}
+
+
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+
