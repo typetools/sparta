@@ -5,8 +5,8 @@ import checkers.util.AnnotationBuilder;
 import checkers.util.AnnotationUtils;
 import sparta.checkers.quals.Sinks;
 import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.Sinks.FlowSink;
-import sparta.checkers.quals.Sources.FlowSource;
+import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.Sources.SPARTA_Permission;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
@@ -20,54 +20,54 @@ public class FlowUtil {
     //lazily initialize FLOW_SOURCES_NO_ANY and FLOW_SINKS_NO_ANY to avoid
     //any possible static initialization errors
     private static boolean lazyInit = true;
-    private final static Set<FlowSource> FLOW_SOURCES_NO_ANY = new HashSet<FlowSource>();
-    private final static Set<FlowSink>   FLOW_SINKS_NO_ANY   = new HashSet<FlowSink>();
+    private final static Set<SPARTA_Permission> FLOW_SOURCES_NO_ANY = new HashSet<SPARTA_Permission>();
+    private final static Set<SPARTA_Permission>   FLOW_SINKS_NO_ANY   = new HashSet<SPARTA_Permission>();
 
     private static void init() {
-        FLOW_SOURCES_NO_ANY.addAll(Arrays.asList(FlowSource.values()));
-        FLOW_SOURCES_NO_ANY.remove(FlowSource.ANY);
+        FLOW_SOURCES_NO_ANY.addAll(Arrays.asList(SPARTA_Permission.values()));
+        FLOW_SOURCES_NO_ANY.remove(SPARTA_Permission.ANY);
 
-        FLOW_SINKS_NO_ANY.addAll(Arrays.asList(FlowSink.values()));
-        FLOW_SINKS_NO_ANY.remove(FlowSink.ANY);
+        FLOW_SINKS_NO_ANY.addAll(Arrays.asList(SPARTA_Permission.values()));
+        FLOW_SINKS_NO_ANY.remove(SPARTA_Permission.ANY);
     }
 
-    public static Set<FlowSource> getSourcesNoAny() {
+    public static Set<SPARTA_Permission> getSourcesNoAny() {
         if(lazyInit) {
             init();
         }
         return FLOW_SOURCES_NO_ANY;
     }
 
-    public static Set<FlowSink> getSinksNoAny() {
+    public static Set<SPARTA_Permission> getSinksNoAny() {
         if(lazyInit) {
             init();
         }
         return FLOW_SINKS_NO_ANY;
     }
 
-    public static List<FlowSink> getSinks(final AnnotatedTypeMirror type){
+    public static List<SPARTA_Permission> getSinks(final AnnotatedTypeMirror type){
 	return getSinks(type.getAnnotation(Sinks.class));
     }
-    public static List<FlowSource> getSources(final AnnotatedTypeMirror type){
+    public static List<SPARTA_Permission> getSources(final AnnotatedTypeMirror type){
 	return getSources(type.getAnnotation(Sources.class));
     }
-    public static List<FlowSink> getSinks(final AnnotationMirror am) {
+    public static List<SPARTA_Permission> getSinks(final AnnotationMirror am) {
 	if(am == null){
-	    return new ArrayList<FlowSink>();
+	    return new ArrayList<SPARTA_Permission>();
 	}
-        return AnnotationUtils.getElementValueEnumArray(am, "value", FlowSink.class, true);
+        return AnnotationUtils.getElementValueEnumArray(am, "value", SPARTA_Permission.class, true);
     }
 
-    public static List<FlowSource> getSources(final AnnotationMirror am) {
+    public static List<SPARTA_Permission> getSources(final AnnotationMirror am) {
 	if(am == null){
-	    return new ArrayList<FlowSource>();
+	    return new ArrayList<SPARTA_Permission>();
 	}
 	
-        return AnnotationUtils.getElementValueEnumArray(am, "value", FlowSource.class, true);
+        return AnnotationUtils.getElementValueEnumArray(am, "value", SPARTA_Permission.class, true);
     }
 
-    public static Set<FlowSink> getSinks(final AnnotationMirror annotationMirror, boolean replaceAny) {
-        final Set<FlowSink> sinkSet =  new HashSet<FlowSink>(getSinks(annotationMirror));
+    public static Set<SPARTA_Permission> getSinks(final AnnotationMirror annotationMirror, boolean replaceAny) {
+        final Set<SPARTA_Permission> sinkSet =  new HashSet<SPARTA_Permission>(getSinks(annotationMirror));
         if(replaceAny) {
             replaceAnySink(sinkSet, true);
         }
@@ -80,8 +80,8 @@ public class FlowUtil {
  * @param replaceAny
  * @return
  */
-    public static Set<FlowSource> getSources(final AnnotationMirror annotationMirror, boolean replaceAny) {
-        final Set<FlowSource> sourceSet =  new HashSet<FlowSource>(getSources(annotationMirror));
+    public static Set<SPARTA_Permission> getSources(final AnnotationMirror annotationMirror, boolean replaceAny) {
+        final Set<SPARTA_Permission> sourceSet =  new HashSet<SPARTA_Permission>(getSources(annotationMirror));
         if(replaceAny) {
             replaceAnySource(sourceSet, true);
         }
@@ -95,17 +95,17 @@ public class FlowUtil {
  * @param replaceAny
  * @return
  */
-    public static Set<FlowSource> getSourcesOrEmpty(final AnnotationMirror annotationMirror, boolean replaceAny) {
+    public static Set<SPARTA_Permission> getSourcesOrEmpty(final AnnotationMirror annotationMirror, boolean replaceAny) {
         if(annotationMirror == null) {
-            return new HashSet<FlowSource>();
+            return new HashSet<SPARTA_Permission>();
         } else {
             return getSources(annotationMirror, replaceAny);
         }
     }
 
-    public static Set<FlowSink> getSinksOrEmpty(final AnnotationMirror annotationMirror, boolean replaceAny) {
+    public static Set<SPARTA_Permission> getSinksOrEmpty(final AnnotationMirror annotationMirror, boolean replaceAny) {
         if(annotationMirror == null) {
-            return new HashSet<FlowSink>();
+            return new HashSet<SPARTA_Permission>();
         } else {
             return getSinks(annotationMirror, replaceAny);
         }
@@ -117,42 +117,42 @@ public class FlowUtil {
         return builder.build();
     }
 
-    public static AnnotationMirror createAnnoFromSinks(final ProcessingEnvironment processingEnv, final Set<Sinks.FlowSink> sinks) {
-	if (sinks.contains(FlowSink.ANY) && sinks.size() > 1) {
+    public static AnnotationMirror createAnnoFromSinks(final ProcessingEnvironment processingEnv, final Set<Sinks.SPARTA_Permission> sinks) {
+	if (sinks.contains(SPARTA_Permission.ANY) && sinks.size() > 1) {
 	    sinks.clear();
-	    sinks.add(FlowSink.ANY);
+	    sinks.add(SPARTA_Permission.ANY);
 	}
-        return createAnnoFromEnumArray(processingEnv, Sinks.class, sinks.toArray(new Sinks.FlowSink[sinks.size()]));
+        return createAnnoFromEnumArray(processingEnv, Sinks.class, sinks.toArray(new Sinks.SPARTA_Permission[sinks.size()]));
     }
 
-    public static AnnotationMirror createAnnoFromSources(final ProcessingEnvironment processingEnv, Set<Sources.FlowSource> sources) {
-	if (sources.contains(FlowSource.ANY) && sources.size() > 1) {
+    public static AnnotationMirror createAnnoFromSources(final ProcessingEnvironment processingEnv, Set<Sources.SPARTA_Permission> sources) {
+	if (sources.contains(SPARTA_Permission.ANY) && sources.size() > 1) {
 	    sources.clear();
-	    sources.add(FlowSource.ANY);
+	    sources.add(SPARTA_Permission.ANY);
 	}
-	return createAnnoFromEnumArray(processingEnv, Sources.class, sources.toArray(new Sources.FlowSource[sources.size()]));
+	return createAnnoFromEnumArray(processingEnv, Sources.class, sources.toArray(new Sources.SPARTA_Permission[sources.size()]));
     }
 
-    public static Set<FlowSink> replaceAnySink(final Set<FlowSink> sinks, boolean inPlace) {
-        return replaceAny(FlowSink.class,
-                FlowSink.values(),
+    public static Set<SPARTA_Permission> replaceAnySink(final Set<SPARTA_Permission> sinks, boolean inPlace) {
+        return replaceAny(SPARTA_Permission.class,
+                SPARTA_Permission.values(),
                 sinks,
                 inPlace);
     }
 
-    public static Set<FlowSource> replaceAnySource(final Set<FlowSource> sources, boolean inPlace) {
-        return replaceAny(FlowSource.class,
-                FlowSource.values(),
+    public static Set<SPARTA_Permission> replaceAnySource(final Set<SPARTA_Permission> sources, boolean inPlace) {
+        return replaceAny(SPARTA_Permission.class,
+                SPARTA_Permission.values(),
                 sources,
                 inPlace);
     }
 
-    public static Set<FlowSource> allToAnySource(final Set<FlowSource> sources, boolean inPlace) {
-        return allToAny(FlowSource.class, FlowSource.values(), sources, inPlace);
+    public static Set<SPARTA_Permission> allToAnySource(final Set<SPARTA_Permission> sources, boolean inPlace) {
+        return allToAny(SPARTA_Permission.class, SPARTA_Permission.values(), sources, inPlace);
     }
 
-    public static Set<FlowSink> allToAnySink(final Set<FlowSink> sinks, boolean inPlace) {
-        return allToAny(FlowSink.class, FlowSink.values(), sinks, inPlace);
+    public static Set<SPARTA_Permission> allToAnySink(final Set<SPARTA_Permission> sinks, boolean inPlace) {
+        return allToAny(SPARTA_Permission.class, SPARTA_Permission.values(), sinks, inPlace);
     }
 
     private static <VALUE extends Enum<VALUE>> Set<VALUE> allToAny( final Class<VALUE> vc,

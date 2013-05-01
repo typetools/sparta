@@ -23,7 +23,7 @@ public @interface Sinks {
      * TODO: will we also use this in other annotations? Then we should refactor and
      * make this class top-level.
      */
-    public enum FlowSink {
+    public enum SPARTA_Permission {
         /**
          * This special constant is shorthand for all sinks, that is, the
          * data can go to any possible sink.
@@ -115,5 +115,5 @@ public @interface Sinks {
      * There is always a @Sinks annotation and this default
      * ensures that the annotation has no effect.
      */
-    FlowSink[] value() default {};
+    SPARTA_Permission[] value() default {};
 }

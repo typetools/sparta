@@ -23,7 +23,7 @@ public @interface Sources {
      * TODO: will we also use this in other annotations? Then we should refactor and
      * make this class top-level.
      */
-    public enum FlowSource {
+    public enum SPARTA_Permission {
         /**
          * This special constant is shorthand for all sources, that is, the
          * data can come from any possible source.
@@ -100,6 +100,47 @@ public @interface Sources {
         USER_INPUT,
         WAP_PUSH,
         WIFI_STATE, CAMERA_SETTINGS,
+        
+        CONDITIONAL,
+
+        ACTIVITY_WATCHER,
+        ALARM,
+        ALWAYS_FINISH,
+        ANIMATION_SCALE,
+        APN_SETTINGS,
+        CACHE_FILES,
+        CALL_PHONE,
+        COMPONENT_ENABLED_STATE,
+        CONFIGURATION,
+        DEBUG_APP,
+        DEVICE_POWER,
+        DISABLE_KEYGUARD,
+        DISPLAY,
+        EMAIL,
+        FLASHLIGHT,
+        GSERVICES,
+        INSTALL_LOCATION_PROVIDER,
+        INSTALL_PACKAGES,
+        KILL_BACKGROUND_PROCESSES,
+        LOCATION_UPDATES,
+        ORIENTATION,
+        POINTER_SPEED,
+        PREFERRED_APPLICATIONS,
+        PROCESS_LIMIT,
+        REBOOT,
+        REORDER_TASKS,
+        SECURE_SETTINGS,
+        SETTINGS,
+        SIGNAL_PERSISTENT_PROCESSES,
+        STATUS_BAR,
+        TIME_ZONE,
+        VIBRATE,
+        VOICEMAIL,
+        WAKE_LOCK,
+        WALLPAPER_HINTS,
+        WALLPAPER,
+        WIFI_MULTICAST_STATE,
+
 
 
     }
@@ -109,5 +150,5 @@ public @interface Sources {
      * There is always a @Sources annotation and this default
      * ensures that the annotation has no effect.
      */
-    FlowSource[] value() default {};
+    SPARTA_Permission[] value() default {};
 }

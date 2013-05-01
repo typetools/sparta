@@ -4,41 +4,41 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-import sparta.checkers.quals.Sinks.FlowSink;
-import sparta.checkers.quals.Sources.FlowSource;
+import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.Sources.SPARTA_Permission;
 
 public class Flow {
-    Set<FlowSource> sources;
-    Set<FlowSink> sinks;
+    Set<SPARTA_Permission> sources;
+    Set<SPARTA_Permission> sinks;
     
     
-    public Flow(Set<FlowSource> sources, Set<FlowSink> sinks) {
+    public Flow(Set<SPARTA_Permission> sources, Set<SPARTA_Permission> sinks) {
 	this.sources = sources;
 	this.sinks = sinks;
     }
     
-    public Flow(FlowSource source, Set<FlowSink> sinks) {
-	this.sources = new HashSet<FlowSource>();
+    public Flow(SPARTA_Permission source, Set<SPARTA_Permission> sinks) {
+	this.sources = new HashSet<SPARTA_Permission>();
 	sources.add(source);
 	this.sinks = sinks;
     }
     
-    public Flow(Set<FlowSource> sources, FlowSink sink) {
+    public Flow(Set<SPARTA_Permission> sources, SPARTA_Permission sink) {
 	this.sources = sources;
-	this.sinks = new HashSet<FlowSink>();
+	this.sinks = new HashSet<SPARTA_Permission>();
 	sinks.add(sink);
     }
-    public Flow(Set<FlowSource> sources) {
-	this.sinks = new HashSet<FlowSink>();
+    public Flow(Set<SPARTA_Permission> sources) {
+	this.sinks = new HashSet<SPARTA_Permission>();
 	this.sources = sources;
     }
     public Flow(){
-	this.sinks = new HashSet<FlowSink>();
-	this.sources = new HashSet<FlowSource>();
+	this.sinks = new HashSet<SPARTA_Permission>();
+	this.sources = new HashSet<SPARTA_Permission>();
     }
-    public Flow(FlowSource source) {
-	this.sinks = new HashSet<FlowSink>();
-	this.sources = new HashSet<FlowSource>();    
+    public Flow(SPARTA_Permission source) {
+	this.sinks = new HashSet<SPARTA_Permission>();
+	this.sources = new HashSet<SPARTA_Permission>();    
 	sources.add(source);
     }
 
@@ -60,7 +60,7 @@ public class Flow {
 	return flowstring;
     }
 
-    public void addSink(FlowSink sink) {
+    public void addSink(SPARTA_Permission sink) {
 	sinks.add(sink);
     }
 
