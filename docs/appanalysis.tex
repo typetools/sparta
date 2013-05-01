@@ -293,15 +293,15 @@ because your decision will be trusted, not checked.  If you make a mistake,
 the Flow Checker's results will not be sound.
 \item
 Add the method to the stub file that corresponds to the class package, with
-appropriate flow properties expressed as \<@FlowSources(...)> and
-\<@FlowSinks(...)> annotations.
-It would be unusual for an API method to contain both a \<@FlowSources>
-and a \<@FlowSinks> annotation.
+appropriate flow properties expressed as \<@Sources(...)> and
+\<@Sinks(...)> annotations.
+It would be unusual for an API method to contain both a \<@Sources>
+and a \<@Sinks> annotation.
 
 If the method does is not directly related to information flow (its inputs
 and outputs could be anything and are not required to have a specific
-\<@FlowSources> annotation), then annotate its parameters and return type
-with \<@PolyFlowSources @PloyFlowSinks>, which essentially says that the
+\<@Sources> annotation), then annotate its parameters and return type
+with \<@PolySources @PloySinks>, which essentially says that the
 output can have all the flow sources and sinks of the inputs.
 \todo{There is some more concise way to specify this, without having to
 annotate each parameter and return type individually.}
@@ -329,8 +329,8 @@ Here is an example from a stub file:
 package android.telephony;
 
 class TelephonyManager {
-    public @FlowSources(FlowSource.PHONE_NUMBER) String getLine1Number();
-    public @FlowSources(FlowSource.IMEI) String getDeviceId();
+    public @Sources(FlowSource.PHONE_NUMBER) String getLine1Number();
+    public @Sources(FlowSource.IMEI) String getDeviceId();
 }
 \end{Verbatim}
 
@@ -415,22 +415,22 @@ and use your intuition to decide which parts of the application to
 focus on. Try to focus on the parts with the (most) connections
 between sources and sinks.
 
-Most types will only use either a \<@FlowSources> or \<@FlowSinks>
+Most types will only use either a \<@Sources> or \<@Sinks>
 annotation.
 The goal is to find places where you need both annotations, e.g. to
 express that information that comes from the camera may go to the
 network:
 
 \begin{alltt}
-    @FlowSources(FlowSource.CAMERA)
-    @FlowSinks(FlowSink.NETWORK) Picture data;
+    @Sources(FlowSource.CAMERA)
+    @Sinks(FlowSink.NETWORK) Picture data;
 \end{alltt}
 
 Such a type connects sources and sinks and one needs to carefully
 decide whether this is a desired information flow or not.
 \begin{itemize}
-\item If this is good information flow, then write both the \<@FlowSources>
-  and the \<@FlowSinks> annotations at the same place. You will not
+\item If this is good information flow, then write both the \<@Sources>
+  and the \<@Sinks> annotations at the same place. You will not
   receive any more error messages, but you can find all these places
   with grep or (better) with \<ant flowshow>.
 \item If this is bad information flow, then either leave it unannotated,
@@ -464,16 +464,16 @@ comment that justifies that the code is safe, and why the type system
 cannot recognize that fact.
 
 An example is a String literal that should be allowed to be sent
-over the network. By default, every literal has \<@FlowSinks()>
-(i.e., nothing) and \<@FlowSources()>.
+over the network. By default, every literal has \<@Sinks()>
+(i.e., nothing) and \<@Sources()>.
 
 \begin{alltt}
     @SuppressWarnings("flow") // manually verified to not contain secret data
-    @FlowSinks(FlowSink.NETWORK) String url = "http://bazinga.com/";
+    @Sinks(FlowSink.NETWORK) String url = "http://bazinga.com/";
 \end{alltt}
 
 Without warning suppression the assignment raises an error, because string literals
-are assumed to be annotated with \<FlowSources(FlowSource.LITERAL)>. By adding the suppression, you
+are assumed to be annotated with \<Sources(FlowSource.LITERAL)>. By adding the suppression, you
 assert that it's OK to send this string to the network. 
 
 \end{enumerate}
@@ -513,7 +513,7 @@ This option will also use the stricter conditional rule. (LITERAL
 %  LocalWords:  App xml env basename sparta dir app flowtest Dstrict SDK
 %  LocalWords:  reportsuspicious reqperms reportapiusage buildfile dirname
 %  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
-%  LocalWords:  RequiredPermissions FlowSources FlowSinks apiusage Dstubs
+%  LocalWords:  RequiredPermissions Sources Sinks apiusage Dstubs
 %  LocalWords:  flowstubfiles TelephonyManager getLine1Number flowshow url
-%  LocalWords:  PolyFlowSources PloyFlowSinks FlowSink FlowSource grep
+%  LocalWords:  PolySources PloySinks FlowSink FlowSource grep
 %  LocalWords:  Dstricter

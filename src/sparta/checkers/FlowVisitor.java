@@ -48,7 +48,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
 
         final AnnotationMirror sinkAnno = type.getAnnotation(Sinks.class);
-        final Set<FlowSink> sinks = FlowUtil.getFlowSinks(sinkAnno, false);
+        final Set<FlowSink> sinks = FlowUtil.getSinks(sinkAnno, false);
         if (!sinks.contains(FlowSink.ANY) && !sinks.contains(FlowSink.CONDITIONAL)) {
             checker.report(
                     Result.failure("condition.flow", type.getAnnotations()),

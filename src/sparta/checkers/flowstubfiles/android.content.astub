@@ -3,5 +3,5 @@ package android.content;
 
 class Context{
 
-	@FlowSources(FlowSource.FILESYSTEM) @FlowSinks(FlowSink.ANY) File getDir(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.FILESYSTEM) String name, @FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.CONDITIONAL) int mode);
+	@Sources(FlowSource.FILESYSTEM) @Sinks(FlowSink.ANY) File getDir(@Sources(FlowSource.ANY) @Sinks(FlowSink.FILESYSTEM) String name, @Sources(FlowSource.ANY) @Sinks(FlowSink.CONDITIONAL) int mode);
 }

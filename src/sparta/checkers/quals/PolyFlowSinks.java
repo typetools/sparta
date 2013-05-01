@@ -14,4 +14,4 @@ import checkers.quals.*;
     ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE})
 @TypeQualifier
 @PolymorphicQualifier(Sinks.class)
-public @interface PolyFlowSinks {}
+public @interface PolySinks {}

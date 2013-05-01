@@ -227,8 +227,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         	    AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.second, checker.POLYFLOWSINKS) ) {
         	return Pair.of(null, null);
             }
-            final Set<Sources.FlowSource> sources = FlowUtil.getFlowSourcesOrEmpty(sourceToSinkQuals.first, false);
-            final Set<Sinks.FlowSink>     sinks   = FlowUtil.getFlowSinksOrEmpty(sourceToSinkQuals.second,  false);
+            final Set<Sources.FlowSource> sources = FlowUtil.getSourcesOrEmpty(sourceToSinkQuals.first, false);
+            final Set<Sinks.FlowSink>     sinks   = FlowUtil.getSinksOrEmpty(sourceToSinkQuals.second,  false);
 
             final Set<Sinks.FlowSink>  newSinks;
             final Set<Sources.FlowSource> newSources;

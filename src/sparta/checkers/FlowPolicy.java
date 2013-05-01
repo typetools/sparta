@@ -6,8 +6,8 @@ import checkers.util.AnnotationUtils;
 import checkers.util.Pair;
 import sparta.checkers.quals.Sinks;
 import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.PolyFlowSinks;
-import sparta.checkers.quals.PolyFlowSources;
+import sparta.checkers.quals.PolySinks;
+import sparta.checkers.quals.PolySources;
 
 import javax.lang.model.element.AnnotationMirror;
 
@@ -106,15 +106,15 @@ public class FlowPolicy {
         final AnnotationMirror sinkAnno   = atm.getAnnotation(Sinks.class);
         
 
-        final Set<FlowSource> sources = FlowUtil.getFlowSources(sourceAnno, true);
-        final Set<FlowSink>   sinks   = FlowUtil.getFlowSinks(sinkAnno, true); ;
+        final Set<FlowSource> sources = FlowUtil.getSources(sourceAnno, true);
+        final Set<FlowSink>   sinks   = FlowUtil.getSinks(sinkAnno, true); ;
 
         return Pair.of(sources, sinks);
     }
 
     public boolean areFlowsAllowed(final AnnotatedTypeMirror atm) {
-    	final AnnotationMirror polySourceAnno = atm.getAnnotation(PolyFlowSources.class);
-        final AnnotationMirror polySinkAnno   = atm.getAnnotation(PolyFlowSinks.class);
+    	final AnnotationMirror polySourceAnno = atm.getAnnotation(PolySources.class);
+        final AnnotationMirror polySinkAnno   = atm.getAnnotation(PolySinks.class);
         final AnnotationMirror polyAllAnno   = atm.getAnnotation(PolyAll.class);
         //If the type is marked with poly flow source or poly flow sink, 
         //Then the flow is allowed.
@@ -227,19 +227,19 @@ public class FlowPolicy {
         return out;
     }
 
-    private final List<FlowSink>   allFlowSinks   =  Collections.unmodifiableList(Arrays.asList(FlowSink.values()));
-    private final List<FlowSource> allFlowSources =  Collections.unmodifiableList(Arrays.asList(FlowSource.values()));
+    private final List<FlowSink>   allSinks   =  Collections.unmodifiableList(Arrays.asList(FlowSink.values()));
+    private final List<FlowSource> allSources =  Collections.unmodifiableList(Arrays.asList(FlowSource.values()));
 
     public Set<FlowSink> getIntersectingSinks(final Collection<FlowSource> sources) {
-        return getIntersectingValueSets(FlowSink.class, allowedFlows, allFlowSinks, sources);
+        return getIntersectingValueSets(FlowSink.class, allowedFlows, allSinks, sources);
     }
 
     public Set<FlowSource> getIntersectingSources(final Collection<FlowSink> sinks) {
-        return getIntersectingValueSets(FlowSource.class, reversedAllowedFlows, allFlowSources, sinks);
+        return getIntersectingValueSets(FlowSource.class, reversedAllowedFlows, allSources, sinks);
     }
 
     /**
-     * Read the given file return a one to many Map of FlowSource -> FlowSinks where
+     * Read the given file return a one to many Map of FlowSource -> Sinks where
      * each entry indicates what sinks a source is given blanket access to reach
      *
      *
@@ -250,7 +250,7 @@ public class FlowPolicy {
      *   FlowSourceName  = One of the names of the enums in FlowSource
      *   FlowSinkName<x> = One of the names of the enums in FlowSink
      *
-     *   A source can appear twice, the output FlowSinks for that given source will contain
+     *   A source can appear twice, the output Sinks for that given source will contain
      *   the union of the two entries.
      *
      *   E.g.

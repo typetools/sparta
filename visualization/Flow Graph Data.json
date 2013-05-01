@@ -2,8 +2,8 @@
     {
         "tree": "ALL_CODE_TYPES",
         "kind": "IDENTIFIER",
-        "sources": "[sparta.checkers.quals.FlowSources.FlowSource.ANY]",
-        "sinks": "[sparta.checkers.quals.FlowSinks.FlowSink.ANY]",
+        "sources": "[sparta.checkers.quals.Sources.FlowSource.ANY]",
+        "sinks": "[sparta.checkers.quals.Sinks.FlowSink.ANY]",
         "datakind": "sparta.checkers.FlowData",
         "filename": "/homes/gws/wmdietl/research/eclipse-workspaces/types/hack-jsr308-langtools/sparta-subjects/TextSecure/src/com/google/zxing/integration/android/IntentIntegrator.java",
         "line": 145
@@ -11,8 +11,8 @@
     {
         "tree": "ALL_CODE_TYPES",
         "kind": "IDENTIFIER",
-        "sources": "[sparta.checkers.quals.FlowSources.FlowSource.IMEI]",
-        "sinks": "[sparta.checkers.quals.FlowSinks.FlowSink.NETWORK]",
+        "sources": "[sparta.checkers.quals.Sources.FlowSource.IMEI]",
+        "sinks": "[sparta.checkers.quals.Sinks.FlowSink.NETWORK]",
         "datakind": "sparta.checkers.FlowData",
         "filename": "/homes/gws/wmdietl/research/eclipse-workspaces/types/hack-jsr308-langtools/sparta-subjects/TextSecure/src/com/google/zxing/integration/android/IntentIntegrator2.java",
         "line": 145

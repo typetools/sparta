@@ -14,4 +14,4 @@ import checkers.quals.*;
     ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE})
 @TypeQualifier
 @PolymorphicQualifier(Sources.class)
-public @interface PolyFlowSources {}
+public @interface PolySources {}

@@ -4,16 +4,16 @@ class Camera {
 //Annotations by Philip 
 //All for these need to be reviewed
 //Every parameter and return must be annotated with both a Source and a Sink
-	@FlowSources(FlowSource.CAMERA_SETTINGS) Parameters getParameters();
+	@Sources(FlowSource.CAMERA_SETTINGS) Parameters getParameters();
 	//@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
 	@DefaultFlow
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
 	//void release();
-	void setParameters(@FlowSinks(FlowSink.CAMERA_SETTINGS) Parameters params);
-	void setPreviewDisplay(@FlowSinks(FlowSink.DISPLAY) SurfaceHolder holder);
+	void setParameters(@Sinks(FlowSink.CAMERA_SETTINGS) Parameters params);
+	void setPreviewDisplay(@Sinks(FlowSink.DISPLAY) SurfaceHolder holder);
 	//void startPreview();
 	//void stopPreview();
-	void takePicture(ShutterCallback shutter, @FlowSources(FlowSource.CAMERA) PictureCallback raw, @FlowSources(FlowSource.CAMERA) @FlowSinks({}) PictureCallback jpeg);
+	void takePicture(ShutterCallback shutter, @Sources(FlowSource.CAMERA) PictureCallback raw, @Sources(FlowSource.CAMERA) @Sinks({}) PictureCallback jpeg);
 }
 
 

@@ -5,21 +5,21 @@ package java.lang;
 
 class String {
 //Added for Misc. Test SOM
-   @PolyFlowSources @PolyFlowSinks char charAt(@PolyFlowSources @PolyFlowSinks int index) @PolyFlowSources @PolyFlowSinks;
-   @PolyFlowSources @PolyFlowSinks boolean contains(@PolyFlowSources @PolyFlowSinks CharSequence cs) @PolyFlowSources @PolyFlowSinks;
-   @PolyFlowSources @PolyFlowSinks boolean equals(@PolyFlowSources @PolyFlowSinks Object object) @PolyFlowSources @PolyFlowSinks;
-   @PolyFlowSources @PolyFlowSinks boolean equalsIgnoreCase(@PolyFlowSources @PolyFlowSinks String string) @PolyFlowSources @PolyFlowSinks;
-   static @PolyFlowSources @PolyFlowSinks String format(Locale l, @PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
-   static @PolyFlowSources @PolyFlowSinks String format(@PolyFlowSources @PolyFlowSinks String format, @PolyFlowSources @PolyFlowSinks Object... args);
-   @PolyFlowSources @PolyFlowSinks byte @FlowSources({}) @FlowSinks({}) [] getBytes() @PolyFlowSources @PolyFlowSinks;
-   @PolyFlowSources @PolyFlowSinks int length() @PolyFlowSources @PolyFlowSinks;
-   @PolyFlowSources @PolyFlowSinks String trim() @PolyFlowSources @PolyFlowSinks;
-   @PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) char target, @PolyFlowSources @PolyFlowSinks char replacement) @PolyFlowSources @PolyFlowSinks;
-   @PolyFlowSources @PolyFlowSinks String replace(@FlowSinks({}) CharSequence target,
-   @PolyFlowSources @PolyFlowSinks CharSequence replacement) @PolyFlowSources @PolyFlowSinks;
-   @PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start, @PolyFlowSources @PolyFlowSinks int end) @PolyFlowSources @PolyFlowSinks;
-   @PolyFlowSources @PolyFlowSinks String substring(@PolyFlowSources @PolyFlowSinks int start) @PolyFlowSources @PolyFlowSinks;
-   @PolyFlowSources @PolyFlowSinks String toString() @PolyFlowSources @PolyFlowSinks;
+   @PolySources @PolySinks char charAt(@PolySources @PolySinks int index) @PolySources @PolySinks;
+   @PolySources @PolySinks boolean contains(@PolySources @PolySinks CharSequence cs) @PolySources @PolySinks;
+   @PolySources @PolySinks boolean equals(@PolySources @PolySinks Object object) @PolySources @PolySinks;
+   @PolySources @PolySinks boolean equalsIgnoreCase(@PolySources @PolySinks String string) @PolySources @PolySinks;
+   static @PolySources @PolySinks String format(Locale l, @PolySources @PolySinks String format, @PolySources @PolySinks Object... args);
+   static @PolySources @PolySinks String format(@PolySources @PolySinks String format, @PolySources @PolySinks Object... args);
+   @PolySources @PolySinks byte @Sources({}) @Sinks({}) [] getBytes() @PolySources @PolySinks;
+   @PolySources @PolySinks int length() @PolySources @PolySinks;
+   @PolySources @PolySinks String trim() @PolySources @PolySinks;
+   @PolySources @PolySinks String replace(@Sinks({}) char target, @PolySources @PolySinks char replacement) @PolySources @PolySinks;
+   @PolySources @PolySinks String replace(@Sinks({}) CharSequence target,
+   @PolySources @PolySinks CharSequence replacement) @PolySources @PolySinks;
+   @PolySources @PolySinks String substring(@PolySources @PolySinks int start, @PolySources @PolySinks int end) @PolySources @PolySinks;
+   @PolySources @PolySinks String substring(@PolySources @PolySinks int start) @PolySources @PolySinks;
+   @PolySources @PolySinks String toString() @PolySources @PolySinks;
 
 }
 

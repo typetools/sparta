@@ -31,34 +31,34 @@ public class FlowUtil {
         FLOW_SINKS_NO_ANY.remove(FlowSink.ANY);
     }
 
-    public static Set<FlowSource> getFlowSourcesNoAny() {
+    public static Set<FlowSource> getSourcesNoAny() {
         if(lazyInit) {
             init();
         }
         return FLOW_SOURCES_NO_ANY;
     }
 
-    public static Set<FlowSink> getFlowSinksNoAny() {
+    public static Set<FlowSink> getSinksNoAny() {
         if(lazyInit) {
             init();
         }
         return FLOW_SINKS_NO_ANY;
     }
 
-    public static List<FlowSink> getFlowSinks(final AnnotatedTypeMirror type){
-	return getFlowSinks(type.getAnnotation(Sinks.class));
+    public static List<FlowSink> getSinks(final AnnotatedTypeMirror type){
+	return getSinks(type.getAnnotation(Sinks.class));
     }
-    public static List<FlowSource> getFlowSources(final AnnotatedTypeMirror type){
-	return getFlowSources(type.getAnnotation(Sources.class));
+    public static List<FlowSource> getSources(final AnnotatedTypeMirror type){
+	return getSources(type.getAnnotation(Sources.class));
     }
-    public static List<FlowSink> getFlowSinks(final AnnotationMirror am) {
+    public static List<FlowSink> getSinks(final AnnotationMirror am) {
 	if(am == null){
 	    return new ArrayList<FlowSink>();
 	}
         return AnnotationUtils.getElementValueEnumArray(am, "value", FlowSink.class, true);
     }
 
-    public static List<FlowSource> getFlowSources(final AnnotationMirror am) {
+    public static List<FlowSource> getSources(final AnnotationMirror am) {
 	if(am == null){
 	    return new ArrayList<FlowSource>();
 	}
@@ -66,8 +66,8 @@ public class FlowUtil {
         return AnnotationUtils.getElementValueEnumArray(am, "value", FlowSource.class, true);
     }
 
-    public static Set<FlowSink> getFlowSinks(final AnnotationMirror annotationMirror, boolean replaceAny) {
-        final Set<FlowSink> sinkSet =  new HashSet<FlowSink>(getFlowSinks(annotationMirror));
+    public static Set<FlowSink> getSinks(final AnnotationMirror annotationMirror, boolean replaceAny) {
+        final Set<FlowSink> sinkSet =  new HashSet<FlowSink>(getSinks(annotationMirror));
         if(replaceAny) {
             replaceAnySink(sinkSet, true);
         }
@@ -80,8 +80,8 @@ public class FlowUtil {
  * @param replaceAny
  * @return
  */
-    public static Set<FlowSource> getFlowSources(final AnnotationMirror annotationMirror, boolean replaceAny) {
-        final Set<FlowSource> sourceSet =  new HashSet<FlowSource>(getFlowSources(annotationMirror));
+    public static Set<FlowSource> getSources(final AnnotationMirror annotationMirror, boolean replaceAny) {
+        final Set<FlowSource> sourceSet =  new HashSet<FlowSource>(getSources(annotationMirror));
         if(replaceAny) {
             replaceAnySource(sourceSet, true);
         }
@@ -95,19 +95,19 @@ public class FlowUtil {
  * @param replaceAny
  * @return
  */
-    public static Set<FlowSource> getFlowSourcesOrEmpty(final AnnotationMirror annotationMirror, boolean replaceAny) {
+    public static Set<FlowSource> getSourcesOrEmpty(final AnnotationMirror annotationMirror, boolean replaceAny) {
         if(annotationMirror == null) {
             return new HashSet<FlowSource>();
         } else {
-            return getFlowSources(annotationMirror, replaceAny);
+            return getSources(annotationMirror, replaceAny);
         }
     }
 
-    public static Set<FlowSink> getFlowSinksOrEmpty(final AnnotationMirror annotationMirror, boolean replaceAny) {
+    public static Set<FlowSink> getSinksOrEmpty(final AnnotationMirror annotationMirror, boolean replaceAny) {
         if(annotationMirror == null) {
             return new HashSet<FlowSink>();
         } else {
-            return getFlowSinks(annotationMirror, replaceAny);
+            return getSinks(annotationMirror, replaceAny);
         }
     }
 

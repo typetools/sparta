@@ -106,7 +106,7 @@ public @interface Sources {
 
     /**
      * By default we allow no sources.
-     * There is always a @FlowSources annotation and this default
+     * There is always a @Sources annotation and this default
      * ensures that the annotation has no effect.
      */
     FlowSource[] value() default {};

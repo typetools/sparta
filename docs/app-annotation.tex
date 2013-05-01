@@ -10,27 +10,27 @@ annotated.
 
 \section{Annotating Application Methods\label{sec:annomethods}}
 
-Typically, return types should be annotated with just FlowSources so that the FlowSinks can be
+Typically, return types should be annotated with just Sources so that the Sinks can be
  inferred from the policy file as explained in Section \ref{flow-defaults}. Similarly, parameters should
-  only be annotated with FlowSinks, so that the FlowSources can be inferred from  the policy file.
+  only be annotated with Sinks, so that the Sources can be inferred from  the policy file.
     Local variables should not have to be annotated, because their types can be inferred. Fields 
-    must be annotated with  FlowSinks or FlowSources, or sometimes both. 
+    must be annotated with  Sinks or Sources, or sometimes both. 
 
 \section{Annotating APIs in Stub Files\label{sec:annoAPI}}
 \todo{We are changing the defaulting for APIs, so this section will need to be completely  rewritten once that is done.}
 
 \subsection{Methods with Sources}
 If you read the Javadoc and the method returns an object from a certain source, then you should annotate
-the return type with that flow source and with \<@FlowSinks(FlowSink.ANY)>.  (If \<@FlowSinks> is omitted, then it is assumed to be empty
+the return type with that flow source and with \<@Sinks(FlowSink.ANY)>.  (If \<@Sinks> is omitted, then it is assumed to be empty
  which means that the object returned cannot be assigned to a variable with a sink.)
 
 The \<getParameters> method is an example of a method that returns an object with a source.
 \begin{Verbatim}
 package android.hardware;
 class Camera {
-    @FlowSources(FlowSource.CAMERA_SETTINGS) @FlowSinks(FlowSink.ANY)
+    @Sources(FlowSource.CAMERA_SETTINGS) @Sinks(FlowSink.ANY)
         Camera.Parameters getParameters ();
-    void setParameters (@FlowSources(FlowSource.ANY) @FlowSinks(CAMERA_SETTINGS) 
+    void setParameters (@Sources(FlowSource.ANY) @Sinks(CAMERA_SETTINGS) 
          Camera.Parameters params);
 }
 \end{Verbatim}
@@ -56,12 +56,12 @@ Example annotation
 \begin{Verbatim}
 package android.database.sqlite;
 class SQLiteDatabase{
-  public void execSQL (@FlowSinks(FlowSink.DATABASE) @FlowSource(FlowSource.ANY) String sql);
+  public void execSQL (@Sinks(FlowSink.DATABASE) @FlowSource(FlowSource.ANY) String sql);
 }
 \end{Verbatim}
 Use of the API
 \begin{Verbatim}
-@FlowSources(SMS,LITERAL)  String getSMSQuery(){..}
+@Sources(SMS,LITERAL)  String getSMSQuery(){..}
 String mes = getSMSQuery();
 //if SMS,LITERAL->DATABASE is in flow policy
 //Then the following statement will not give an error
@@ -79,8 +79,8 @@ package android.hardware;
 class Camera$PictureCallback{
   //data: a byte array of the picture data
    void onPictureTaken 
-      (@FlowSource(CAMERA) @FlowSinks(FlowSink.ANY) byte[] data, 
-             @FlowSource(CAMERA) @FlowSinks(FlowSink.ANY)  Camera camera);
+      (@FlowSource(CAMERA) @Sinks(FlowSink.ANY) byte[] data, 
+             @FlowSource(CAMERA) @Sinks(FlowSink.ANY)  Camera camera);
 }
 \end{Verbatim}
 
@@ -98,7 +98,7 @@ public void onPictureTaken
 \subsection{Methods that Transform Data}
 
 Some methods take the arguments passed, transform them, and then return them.  These sorts of 
-methods should be annotated with \<@PolyFlowSources @PloyFlowSinks>
+methods should be annotated with \<@PolySources @PloySinks>
   to preserve the flow information.  The declaration annotation \<@PolyFlow> can be used instead of
   annotating all the parameters and return types. See Section \ref{sec:polyflow} for more information 
   
@@ -114,9 +114,9 @@ class Math{
 
 Example use of \<@PolyFlow>.
 \begin{Verbatim}
-@FlowSources(FlowSource.LOCATION) int i1 = getLocation();
-@FlowSources(FlowSource.NETWORK) int i2 = getLocationForNetwork();
-@FlowSources({FlowSource.LOCATION,FlowSource.NETWORK)}) int min = Math.min(i1,i2);
+@Sources(FlowSource.LOCATION) int i1 = getLocation();
+@Sources(FlowSource.NETWORK) int i2 = getLocationForNetwork();
+@Sources({FlowSource.LOCATION,FlowSource.NETWORK)}) int min = Math.min(i1,i2);
  \end{Verbatim}
 
 \section{Common Errors\label{errors}}
@@ -141,9 +141,9 @@ To correct a forbidden flow error, add the forbidden flow to the policy file.
 For example, fix the error below by adding \code{LITERAL -> FILESYSTEM} to the policy file.
 \begin{Verbatim}
 NewTest.java:43: error: flow forbidden by flow-policy  
-        test = new @FlowSinks(FlowSink.FILESYSTEM)@FlowSources(FlowSource.LITERAL) TestClass2(fs);
+        test = new @Sinks(FlowSink.FILESYSTEM)@Sources(FlowSource.LITERAL) TestClass2(fs);
                   ^
-  found: @FlowSinks(FlowSink.FILESYSTEM) @FlowSources(FlowSource.LITERAL) TestClass2 
+  found: @Sinks(FlowSink.FILESYSTEM) @Sources(FlowSource.LITERAL) TestClass2 
   forbidden flows:
     LITERAL -> FILESYSTEM
 \end{Verbatim}
@@ -153,8 +153,8 @@ The most common errors are \emph{incompatible types}.  They can be in arguments,
 
 \paragraph{Conservative Typing}
 
-APIs that have not been annotated have been typed so conservatively that they will always produce incompatible types errors where the required is \<@FlowSinks(ANY) @FlowSources({})> or 
-\<@FlowSinks({}) @FlowSources(ANY)>.  These errors can be fixed by annotating the API method; 
+APIs that have not been annotated have been typed so conservatively that they will always produce incompatible types errors where the required is \<@Sinks(ANY) @Sources({})> or 
+\<@Sinks({}) @Sources(ANY)>.  These errors can be fixed by annotating the API method; 
 Section \ref{flow-task-annotate-apis} explains how to annotate APIs. 
 Below is an example of this sort of error.
 
@@ -162,8 +162,8 @@ Below is an example of this sort of error.
 HelloWorld.java:84: error: incompatible types in argument
                  .replace(R.id.container, fragment)
                                           ^
-   found   : @FlowSinks(CONDITIONAL) @FlowSources(LITERAL) Fragment
-   required: @FlowSinks(ANY) @FlowSources({}) Fragment
+   found   : @Sinks(CONDITIONAL) @Sources(LITERAL) Fragment
+   required: @Sinks(ANY) @Sources({}) Fragment
 \end{Verbatim}
 
 \paragraph{Incompatible Types}
@@ -175,14 +175,14 @@ removing annotations in the application.  For example, the error below can be fi
 HelloWorld.java:49: error: incompatible types in return.
        return x;
               ^
-   found   : @FlowSinks(CONDITIONAL) @FlowSources({LITERAL, ACCELEROMETER}) int
-   required: @FlowSinks(CONDITIONAL) @FlowSources(LITERAL) int
+   found   : @Sinks(CONDITIONAL) @Sources({LITERAL, ACCELEROMETER}) int
+   required: @Sinks(CONDITIONAL) @Sources(LITERAL) int
 \end{Verbatim}
 
 \subsection{Conditionals}
-As explained in Section \ref{sec:conditionals}, any item in a conditional statement must have CONDITIONAL listed as a FlowSink.  If a variable is only annotated with FlowSources and strict conditionals are not used, then CONDITIONAL is added as a flow sink by default. 
+As explained in Section \ref{sec:conditionals}, any item in a conditional statement must have CONDITIONAL listed as a FlowSink.  If a variable is only annotated with Sources and strict conditionals are not used, then CONDITIONAL is added as a flow sink by default. 
 
-For example, if input is a parameter in a method and is annotated with @FlowSinks(FlowSink.NETWORK), the following error will occur.  To fix the error, add CONDITIONAL to the flow sink annotation.  
+For example, if input is a parameter in a method and is annotated with @Sinks(FlowSink.NETWORK), the following error will occur.  To fix the error, add CONDITIONAL to the flow sink annotation.  
 
 \begin{Verbatim}
 HelloWorld.java:48: error: Conditions are not allowed to depend on flow information.
@@ -198,6 +198,6 @@ HelloWorld.java:48: error: Conditions are not allowed to depend on flow informat
 %%% TeX-command-default: "PDF"
 %%% End: 
 
-%  LocalWords:  App flowtest FlowSinks FlowSources sparta app FlowSink
-%  LocalWords:  reportapiusage StubGenerator getParameters PolyFlowSources
-%  LocalWords:  PloyFlowSinks PolyFlow FILESYSTEM
+%  LocalWords:  App flowtest Sinks Sources sparta app FlowSink
+%  LocalWords:  reportapiusage StubGenerator getParameters PolySources
+%  LocalWords:  PloySinks PolyFlow FILESYSTEM

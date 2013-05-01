@@ -112,7 +112,7 @@ public @interface Sinks {
 
     /**
      * By default we allow no sinks.
-     * There is always a @FlowSinks annotation and this default
+     * There is always a @Sinks annotation and this default
      * ensures that the annotation has no effect.
      */
     FlowSink[] value() default {};

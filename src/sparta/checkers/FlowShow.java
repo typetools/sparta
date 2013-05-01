@@ -23,11 +23,11 @@ import sparta.checkers.quals.Sinks;
 import sparta.checkers.quals.Sinks.FlowSink;
 import sparta.checkers.quals.Sources;
 import sparta.checkers.quals.Sources.FlowSource;
-import sparta.checkers.quals.PolyFlowSinks;
-import sparta.checkers.quals.PolyFlowSources;
+import sparta.checkers.quals.PolySinks;
+import sparta.checkers.quals.PolySources;
 
 @TypeQualifiers({Sources.class, Sinks.class,
-    PolyFlowSources.class, PolyFlowSinks.class})
+    PolySources.class, PolySinks.class})
 @StubFiles("flow.astub")
 public class FlowShow extends FlowChecker {
     @Override
@@ -71,9 +71,9 @@ public class FlowShow extends FlowChecker {
                     show = true;
                 }
                 if (show) {
-                    List<FlowSource> src = getFlowSources(type);
+                    List<FlowSource> src = getSources(type);
                     String stsrc = src.isEmpty() ? "NONE" : src.toString();
-                    List<FlowSink> snk = getFlowSinks(type);
+                    List<FlowSink> snk = getSinks(type);
                     String stsnk = snk.isEmpty() ? "NONE" : snk.toString();
                     String msg = "FLOW TREE " + tree +
                             " KIND " + tree.getKind() +
