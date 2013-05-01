@@ -31,6 +31,42 @@ Then, read the README.
 
 Making a release
 ================
+export RELEASE=…
+cd $RELEASE
+hg clone https://dada.cs.washington.edu/hgweb/sparta-code
+cd sparta-code
+
+//Update the version number of SPARTA and CF:
+vi build.properties 
+vi docs/manuaul.tex
+vi website/release/index.html
+
+hg commit -m "Updated to vX.X.X"
+hg tag sparta-X.X.X
+hg push
+
+//copy the GSON libs in sparta-code/lib
+ant jar 
+cd docs; make ;cd ..
+
+cp sparta.jar ../sparta-X.X.X.jar
+cp docs/manual.html ../
+cp docs/manual.pdf ../
+cp website/release/index.html ../
+cd $RELEASE
+
+ant -buildfile sparta-code/release-cleanup.xml clean -DspartaDir=sparta-code
+rm sparta-code/release-cleanup.xml
+tar -czf sparta-code-X.X.X.tgz sparta-code/
+
+//Prepare sparta-subjects
+cd $RELEASE
+hg clone https://dada.cs.washington.edu/hgweb/sparta-subjects
+
+ant -buildfile sparta-subjects/release-cleanup.xml clean -DsubjectsDir=sparta-subjects
+rm sparta-subjects/release-cleanup.xml
+tar -czf sparta-subjects-X.X.X.tgz sparta-subjects/
+
 
 To make a release:
  * update build.properties with the new version number
@@ -40,6 +76,11 @@ To make a release:
 hg tag sparta-X.X.X
  * build sparta.jar
  * build the manual 
+Move sparta.jar, manual.html, manual.pdf out of the dir
+
+Clean up the dir:
+
+
  * copy to /cse/www2/types/sparta/release/vX.X.X (renaming to add version numbers):
     docs/manual.html
     docs/manual.pdf
