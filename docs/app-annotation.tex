@@ -1,5 +1,5 @@
 \htmlhr
-\chapter{Writing information flow annotations\label{app-annotation}}
+\chapter{Tips for writing information flow annotations\label{app-annotation}}
 
 This chapter contains tips for annotating an Android application.
 
@@ -14,9 +14,10 @@ Typically, return types should be annotated with just FlowSources so that the Fl
  inferred from the policy file as explained in Section \ref{flow-defaults}. Similarly, parameters should
   only be annotated with FlowSinks, so that the FlowSources can be inferred from  the policy file.
     Local variables should not have to be annotated, because their types can be inferred. Fields 
-    must be annotated with  FlowSinks or FlowSources, or sometimes both. The guidelines for annotating 
-    API methods described in the next sections also apply to annotating methods in your application. 
+    must be annotated with  FlowSinks or FlowSources, or sometimes both. 
 
+\section{Annotating APIs in Stub Files\label{sec:annoAPI}}
+\todo{We are changing the defaulting for APIs, so this section will need to be completely  rewritten once that is done.}
 
 \subsection{Methods with Sources}
 If you read the Javadoc and the method returns an object from a certain source, then you should annotate
@@ -34,8 +35,7 @@ class Camera {
 }
 \end{Verbatim}
 
-\todo{should the above drop the \<ANY> annotations, and let those parts of
-the annotations be defaulted?  If not, explain why not.}
+
 
 \begin{Verbatim}
 Camera.Parameters parameters

@@ -146,15 +146,16 @@ class Random {}
   in \verb|.java| and \verb|strings.xml| files.  The searched-for patterns
   appear in the script \<sparta-code/suspicious.pl>.
 
-%% This level of implementation detail is not appropriate for this manual.
-%% It should appear in the documentation of the script itself.
-% Generally, the \<sparta-code/suspicious.pl> script takes two arguments:
-% \begin{enumerate}
-%  \item root-dir: The directory in which the script recursively 
-%        searches for the given patterns (built-in or argument\#2)
-%  \item pattern (optional): Search pattern to use instead of the
-% built-in ones. 
-% \end{enumerate}
+\todo{ This level of implementation detail is not appropriate for this manual.
+It should appear in the documentation of the script itself.
+Generally, the \<sparta-code/suspicious.pl> script takes two arguments:
+ \begin{enumerate}
+  \item root-dir: The directory in which the script recursively 
+        searches for the given patterns (built-in or argument\#2)
+  \item pattern (optional): Search pattern to use instead of the
+ built-in ones. 
+ \end{enumerate} 
+ }
 
 \end{itemize}
 
@@ -163,7 +164,7 @@ inform the SPARTA developers so they can add them to the
 \<suspicious.astub> or \<suspicious.pl> file.
 
 
-\subsection{Task: see where permissions are used in the application}
+\subsection{Review where permissions are used in the application}
 \label{sec:appanalysis/reqperms}
 
 \todo{:what does \<@RequiredPermissions> mean?  That should appear both in
@@ -180,12 +181,7 @@ Run
 \end{Verbatim}
 
 \noindent
-to see a list of the app's methods
-that require an Android permissions, typically because the method
-directly or indirectly calls an Android API that requires the permission.
-The permissions required by the Android API appear in file
-\<src/sparta/checkers/permission.astub>, expressed as
-\<@RequiredPermissions> annotations.
+to see where the application calls API methods that require an Android permission.  
 
 The \<ant reqperms> tool will help you gain an understanding of how your
 app first obtains information from a sensitive source, or how your app
@@ -200,7 +196,8 @@ error: Call additionally requires permissions [android.permission.INTERNET],
 \end{alltt}
 You can eliminate the error by writing
 \<@RequiredPermissions({android.Manifest.permission.\emph{PERMISSION}})> in
-front of the method header in the source code.
+front of the method header in the source code, if you would like to propagate the
+required permission up the call stack. 
 
 Once all methods in the subject application are correctly annotated with
 \<@RequiredPermissions>, then \<ant reqperms> will not produce any output.
@@ -210,6 +207,10 @@ permissions in the application.
 Any permission that is required should already be listed in the
 \<AndroidManifest.xml> file.
 
+The permissions required by the Android API appear in file
+\<src/sparta/checkers/permission.astub>, expressed as
+\<@RequiredPermissions> annotations.
+
 
 
 \todo{ The required permission information is based on Android 2.2
@@ -218,7 +219,7 @@ Any permission that is required should already be listed in the
  possible paths into an API.}
 
 
-\subsection{Task: see what APIs are used where in the application}
+\subsection{Review what APIs are used where in the application}
 
 Run
 
@@ -264,7 +265,7 @@ your application.
 the remainder of this section describes how to annotate your own code.
 
 
-\subsection{Task: write information flow types for library APIs\label{flow-task-annotate-apis}}
+\subsection{Write information flow types for library APIs\label{flow-task-annotate-apis}}
 
 When the Flow Checker type-checks your code that calls a library API, the
 Flow Checker needs to know the effect of that call.  
@@ -390,7 +391,7 @@ more annotations to the application. So, you can periodically rerun
 this step. 
 
 
-\subsection{Task: write information flow types for the app\label{flow-task-annotate-app}}
+\subsection{Write information flow types for the app\label{flow-task-annotate-app}}
 
 Write information flow annotations for your application, in the same way as
 you did for the libraries.  Read the documentation, decide on the types,
@@ -422,7 +423,7 @@ network:
 
 \begin{alltt}
     @FlowSources(FlowSource.CAMERA)
-    @FlowSinks(@FlowSink.NETWORK) Picture data;
+    @FlowSinks(FlowSink.NETWORK) Picture data;
 \end{alltt}
 
 Such a type connects sources and sinks and one needs to carefully
@@ -443,7 +444,7 @@ type-checking (\secref{sec:run-type-checker}).
 
 
 
-\subsection{Task: type-check the information flow types in the application\label{sec:run-type-checker}}
+\subsection{Type-check the information flow types in the application\label{sec:run-type-checker}}
 
 Run
 
@@ -485,7 +486,7 @@ You can continue to use \<ant flowshow> to visualize the annotation
 progress.  \todo{Why?  How does this help you?}
 
 
-\subsection{Task: type-check with stricter checking}
+\subsection{Type-check with stricter checking}
 
 Once all warnings were resolved, run 
 
