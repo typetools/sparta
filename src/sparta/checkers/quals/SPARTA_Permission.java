@@ -39,7 +39,7 @@ public enum SPARTA_Permission {
     DISPLAY (T.SINK),
     CAMERA_SETTINGS(T.BOTH),
     EMAIL (T.BOTH),
-    WRITE_LOGS (T.SINK), //READ_LOGS is an Android Permission, but not there is no WRITE_LOGS
+    WRITE_LOGS (T.SINK), //READ_LOGS is an Android Permission, but there is no WRITE_LOGS
 
     /**
      * These are old sources or sinks that may or may not be of use
