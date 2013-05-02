@@ -39,7 +39,7 @@ public enum SPARTA_Permission {
     DISPLAY (T.SINK),
     CAMERA_SETTINGS(T.BOTH),
     EMAIL (T.BOTH),
-
+    WRITE_LOGS (T.SINK), //READ_LOGS is an Android Permission, but not there is no WRITE_LOGS
 
     /**
      * These are old sources or sinks that may or may not be of use
@@ -68,7 +68,8 @@ public enum SPARTA_Permission {
           ACCESS_SURFACE_FLINGER  (T.BOTH) , 
   //Allows applications to access information about Wi-Fi networks 
           ACCESS_WIFI_STATE  (T.SOURCE) , 
-
+  //Allows applications to call into AccountAuthenticators. 
+          ACCOUNT_MANAGER  (T.SOURCE) , 
   //Allows an application to add voicemails into the system. 
           ADD_VOICEMAIL  (T.SINK) , 
   //Allows an application to act as an AccountAuthenticator for the AccountManager 
@@ -313,13 +314,6 @@ public enum SPARTA_Permission {
   //Allows an application to write to the user dictionary. 
           WRITE_USER_DICTIONARY  (T.SINK) , 
  
-
-      
-    /**
-     * System only permissions
-     */
-          //Allows applications to call into AccountAuthenticators. 
-          ACCOUNT_MANAGER  (T.SOURCE) , 
 
     
     /**
