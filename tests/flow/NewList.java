@@ -1,9 +1,9 @@
 import java.util.*;
 
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
-class MyList<T extends @Sources(sparta.checkers.quals.Sources.SPARTA_Permission.ANY) Object> {
+class MyList<T extends @Sources(sparta.checkers.quals.SPARTA_Permission.ANY) Object> {
 }
 
 class NewList {

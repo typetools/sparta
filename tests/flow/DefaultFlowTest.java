@@ -1,8 +1,8 @@
 import checkers.quals.PolyAll;
 
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
-import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 class DefaultFlowTest {
 	@Sources({SPARTA_Permission.NETWORK,SPARTA_Permission.LITERAL}) int source = 1;

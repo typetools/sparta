@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
-import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 class Conditions {
     void good(int p) {

@@ -1,7 +1,7 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.Sinks;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
-import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 import java.util.List;
 import java.io.File;

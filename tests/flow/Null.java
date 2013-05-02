@@ -1,5 +1,5 @@
 import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 class Null {
   // null can be assigned to any source.

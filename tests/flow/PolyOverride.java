@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 class PolyOverride {
 

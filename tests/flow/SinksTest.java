@@ -1,5 +1,5 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 class SinksTest {
     void sendData(@Sinks(SPARTA_Permission.NETWORK) Object p) {

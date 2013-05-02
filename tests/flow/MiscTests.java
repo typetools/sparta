@@ -1,6 +1,5 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
-import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 class MiscTests {
     double clean;
@@ -39,7 +38,7 @@ class MiscTests {
         result = String.format(WEBSERVICE_URL, lat, lon, days);
     }
 
-    void test_StringFormat_StringSPARTA_Permission() {
+    void test_StringFormat_StringSPARTA_Permission2() {
         double lat = 1.0;
         double lon = 2.0;
         int days = 3;
@@ -47,7 +46,7 @@ class MiscTests {
         result2 = String.format(WEBSERVICE_URL2, lat, lon, days);
     }
 
-    void test_StringFormat_ObjectSPARTA_Permission() {
+    void test_StringFormat_ObjectSPARTA_PermissionSink() {
         @SuppressWarnings("flow")
         @Sinks(SPARTA_Permission.NETWORK) @Sources double lat = 1.0;
         @SuppressWarnings("flow")
@@ -57,7 +56,7 @@ class MiscTests {
         result3 = String.format(WEBSERVICE_URL3, lat, lon, days);
     }
 
-    void test_StringFormat_ObjectSPARTA_Permission() {
+    void test_StringFormat_ObjectSPARTA_PermissionSource() {
         //::error: (assignment.type.incompatible)
         @Sources(SPARTA_Permission.AUDIO) double lat = 1.0;
         //::error: (assignment.type.incompatible)

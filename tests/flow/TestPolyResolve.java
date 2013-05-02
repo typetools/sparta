@@ -6,8 +6,8 @@ import java.io.*;
 
 
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
-import sparta.checkers.quals.Sinks.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 
 //@skip-test
 // TODO: method HttpClient.execute is no longer annotated as polymorphic.

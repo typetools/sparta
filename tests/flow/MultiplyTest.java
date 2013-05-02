@@ -1,7 +1,7 @@
 
 import android.content.ContentValues;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 import android.util.FloatMath;
 
 class MultiplyTest {

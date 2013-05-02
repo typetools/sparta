@@ -1,5 +1,5 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.SPARTA_Permission;
+import sparta.checkers.quals.SPARTA_Permission;
 import java.util.*;
 
 // TODO: I couldn't reproduce this issue in the PolyAll Checker.
