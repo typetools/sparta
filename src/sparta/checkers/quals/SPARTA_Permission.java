@@ -11,7 +11,7 @@ package sparta.checkers.quals;
  * 
  * Each permission is either a source of sensitive information or a sensitive sink.  
  * Some permissions are both. 
- * Tip: you can staticly import the enum constants so that you don't have to write 
+ * Tip: you can statically import the enum constants so that you don't have to write 
  * SPARTA_Permission in the annotations. 
  * (@Sinks(EMAIL) rather than @Sinks(SPARTA_Permission.EMAIL))
  * import static sparta.checkers.quals.SPARTA_Permission.*;
@@ -30,6 +30,7 @@ public enum SPARTA_Permission {
     
     /**
      * The following are special permissions added by SPARTA
+     * Make sure that whatever permission you add is not the same as any permission already added.
      */
     LITERAL(T.SOURCE),
     CONDITIONAL(T.SINK),
@@ -45,8 +46,9 @@ public enum SPARTA_Permission {
      * These are old sources or sinks that may or may not be of use
      */
     PHONE_NUMBER (T.SOURCE), 
-    SERIAL_NUMBER (T.SOURCE),
     SHARED_PREFERENCES (T.BOTH),
+    //Can't figure out when email should be used or if a permission is required instead.
+    EMAIL (T.BOTH), 
 
 
     /**
@@ -322,9 +324,9 @@ public enum SPARTA_Permission {
      * of permissions that have been truncated 
      */
          /*
-          //Can't figure out when email should be used.
-          EMAIL (T.BOTH), now 
+
           TIME (T.SOURCE), now READ_TIME or SET_TIME
+          SERIAL_NUMBER (T.SOURCE), now READ_PHONE_STATE
           IMEI (T.SOURCE), now  READ_PHONE_STATE
           MICROPHONE (T.SOURCE), now RECORD_AUDIO 
           APP_TOKENS (T.UNKNOWN), now MANAGE_APP_TOKENS

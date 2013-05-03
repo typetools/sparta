@@ -167,8 +167,7 @@ inform the SPARTA developers so they can add them to the
 \subsection{Review where permissions are used in the application}
 \label{sec:appanalysis/reqperms}
 
-\todo{:what does \<@RequiredPermissions> mean?  That should appear both in
-its Javadoc (which is currently missing) and here.  Why do we care?  What
+\todo{:what does \<@RequiredPermissions> mean?  Why do we care?  What
 benefits do \<@RequiredPermissions> bring to the analyst?  Given
 \<@RequiredPermissions> annotations in Android libraries, could they be
 automatically inferred in other libraries and in the app itself, rather
@@ -181,7 +180,8 @@ Run
 \end{Verbatim}
 
 \noindent
-to see where the application calls API methods that require an Android permission.  
+to see where the application calls API methods that may require some Android permissions.  
+The 
 
 The \<ant reqperms> tool will help you gain an understanding of how your
 app first obtains information from a sensitive source, or how your app
