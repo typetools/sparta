@@ -11,7 +11,10 @@ package sparta.checkers.quals;
  * 
  * Each permission is either a source of sensitive information or a sensitive sink.  
  * Some permissions are both. 
- * 
+ * Tip: you can staticly import the enum constants so that you don't have to write 
+ * SPARTA_Permission in the annotations. 
+ * (@Sinks(EMAIL) rather than @Sinks(SPARTA_Permission.EMAIL))
+ * import static sparta.checkers.quals.SPARTA_Permission.*;
  *
  */
 public enum SPARTA_Permission {
@@ -32,13 +35,10 @@ public enum SPARTA_Permission {
     CONDITIONAL(T.SINK),
     RANDOM(T.SOURCE),
     FILESYSTEM (T.BOTH),
-    IMEI (T.SOURCE), //Device ID
-    MICROPHONE (T.SOURCE),
-    TIME (T.SOURCE),
+    READ_TIME (T.SOURCE),
     USER_INPUT (T.SOURCE),
     DISPLAY (T.SINK),
     CAMERA_SETTINGS(T.BOTH),
-    EMAIL (T.BOTH),
     WRITE_LOGS (T.SINK), //READ_LOGS is an Android Permission, but there is no WRITE_LOGS
 
     /**
@@ -321,7 +321,13 @@ public enum SPARTA_Permission {
      * These are the names of previous sinks and sources.  They are the names
      * of permissions that have been truncated 
      */
-         /* APP_TOKENS (T.UNKNOWN), now MANAGE_APP_TOKENS
+         /*
+          //Can't figure out when email should be used.
+          EMAIL (T.BOTH), now 
+          TIME (T.SOURCE), now READ_TIME or SET_TIME
+          IMEI (T.SOURCE), now  READ_PHONE_STATE
+          MICROPHONE (T.SOURCE), now RECORD_AUDIO 
+          APP_TOKENS (T.UNKNOWN), now MANAGE_APP_TOKENS
           AUDIO_SETTINGS (T.UNKNOWN), now MODIFY_AUDIO_SETTINGS
           AUDIO (T.UNKNOWN), now RECORD_AUDIO
           BOOT_COMPLETED (T.UNKNOWN), now RECEIVE_BOOT_COMPLETED
