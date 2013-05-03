@@ -167,11 +167,6 @@ inform the SPARTA developers so they can add them to the
 \subsection{Review where permissions are used in the application}
 \label{sec:appanalysis/reqperms}
 
-\todo{:what does \<@RequiredPermissions> mean?  Why do we care?  What
-benefits do \<@RequiredPermissions> bring to the analyst?  Given
-\<@RequiredPermissions> annotations in Android libraries, could they be
-automatically inferred in other libraries and in the app itself, rather
-than requiring a human to write them all?}
 
 Run
 
@@ -181,28 +176,28 @@ Run
 
 \noindent
 to see where the application calls API methods that may require some Android permissions.  
-The 
-
 The \<ant reqperms> tool will help you gain an understanding of how your
 app first obtains information from a sensitive source, or how your app
 finally sends information to a sensitive sink.  This may help you decide
 what parts of the app to further investigate, or where to start your
 annotation work.
+For example, you will see error messages like:
 
-The command produces output like the following:
-\begin{alltt}
-error: Call additionally requires permissions [android.permission.INTERNET], 
-   but caller only provides []!
-\end{alltt}
+\begin{Verbatim}
+MainActivity.java:35: 
+error: Call could additionally require permission(s) [android.permission.SET_WALLPAPER], 
+but caller only provides []!
+			clearWallpaper();
+			              ^
+\end{Verbatim}
+
+
 You can eliminate the error by writing
 \<@RequiredPermissions({android.Manifest.permission.\emph{PERMISSION}})> in
 front of the method header in the source code, if you would like to propagate the
-required permission up the call stack. 
-
-Once all methods in the subject application are correctly annotated with
-\<@RequiredPermissions>, then \<ant reqperms> will not produce any output.
-Then, you can search for \<@RequiredPermissions> to find the required
-permissions in the application.
+required permission up the call stack.  However, it is not necessary to eliminate all the errors
+from RequiredPermissions.   The \<reqperms> tool is only a tool to guide your annotation and
+manual analysis effort. 
 
 Any permission that is required should already be listed in the
 \<AndroidManifest.xml> file.
