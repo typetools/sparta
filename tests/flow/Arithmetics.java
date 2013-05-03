@@ -1,8 +1,8 @@
 import sparta.checkers.quals.Sources;
-import  sparta.checkers.quals.SPARTA_Permission;
+import  sparta.checkers.quals.SpartaPermission;
 
 import sparta.checkers.quals.Sinks;
-import static sparta.checkers.quals.SPARTA_Permission.*;
+import static sparta.checkers.quals.SpartaPermission.*;
 
 class Arithmetics {
     @Sources({ACCELEROMETER}) @Sinks({FILESYSTEM, CONDITIONAL}) int accel;

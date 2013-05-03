@@ -1,27 +1,27 @@
 //import android.util.FloatMath;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SPARTA_Permission;
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.SpartaPermission;
 
 public class Poly {
     @PolyFlow
     Object testSinks(Object in) { return in; }
 
-    void callSinks(@Sinks(SPARTA_Permission.EMAIL) Object s) { 
-	@Sinks(SPARTA_Permission.EMAIL)  Object l = 
+    void callSinks(@Sinks(SpartaPermission.EMAIL) Object s) { 
+	@Sinks(SpartaPermission.EMAIL)  Object l = 
 		testSinks(s); 
     }
 
-    @PolySinks @Sources(SPARTA_Permission.CAMERA) Object
-    testComb(@PolySinks @Sources(SPARTA_Permission.CAMERA) Object in) { return in; }
+    @PolySinks @Sources(SpartaPermission.CAMERA) Object
+    testComb(@PolySinks @Sources(SpartaPermission.CAMERA) Object in) { return in; }
 
-    void callComb(@Sinks(SPARTA_Permission.EMAIL) Object s) {
-        @Sinks(SPARTA_Permission.EMAIL) @Sources(SPARTA_Permission.CAMERA) Object l = testComb(s);
+    void callComb(@Sinks(SpartaPermission.EMAIL) Object s) {
+        @Sinks(SpartaPermission.EMAIL) @Sources(SpartaPermission.CAMERA) Object l = testComb(s);
         //:: error: (assignment.type.incompatible)
-        @Sinks(SPARTA_Permission.NETWORK) @Sources(SPARTA_Permission.CAMERA) Object l2 = testComb(s); 
+        @Sinks(SpartaPermission.INTERNET) @Sources(SpartaPermission.CAMERA) Object l2 = testComb(s); 
     }
 
-    @Sources(SPARTA_Permission.LOCATION) float y;
+    @Sources(SpartaPermission.LOCATION) float y;
     void test_floatmath() {
 //        y = FloatMath.sin(y);
     }

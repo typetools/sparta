@@ -4,41 +4,41 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-import sparta.checkers.quals.SPARTA_Permission;
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.SpartaPermission;
 
 public class Flow {
-    Set<SPARTA_Permission> sources;
-    Set<SPARTA_Permission> sinks;
+    Set<SpartaPermission> sources;
+    Set<SpartaPermission> sinks;
     
     
-    public Flow(Set<SPARTA_Permission> sources, Set<SPARTA_Permission> sinks) {
+    public Flow(Set<SpartaPermission> sources, Set<SpartaPermission> sinks) {
 	this.sources = sources;
 	this.sinks = sinks;
     }
     
-    public Flow(SPARTA_Permission source, Set<SPARTA_Permission> sinks) {
-	this.sources = new HashSet<SPARTA_Permission>();
+    public Flow(SpartaPermission source, Set<SpartaPermission> sinks) {
+	this.sources = new HashSet<SpartaPermission>();
 	sources.add(source);
 	this.sinks = sinks;
     }
     
-    public Flow(Set<SPARTA_Permission> sources, SPARTA_Permission sink) {
+    public Flow(Set<SpartaPermission> sources, SpartaPermission sink) {
 	this.sources = sources;
-	this.sinks = new HashSet<SPARTA_Permission>();
+	this.sinks = new HashSet<SpartaPermission>();
 	sinks.add(sink);
     }
-    public Flow(Set<SPARTA_Permission> sources) {
-	this.sinks = new HashSet<SPARTA_Permission>();
+    public Flow(Set<SpartaPermission> sources) {
+	this.sinks = new HashSet<SpartaPermission>();
 	this.sources = sources;
     }
     public Flow(){
-	this.sinks = new HashSet<SPARTA_Permission>();
-	this.sources = new HashSet<SPARTA_Permission>();
+	this.sinks = new HashSet<SpartaPermission>();
+	this.sources = new HashSet<SpartaPermission>();
     }
-    public Flow(SPARTA_Permission source) {
-	this.sinks = new HashSet<SPARTA_Permission>();
-	this.sources = new HashSet<SPARTA_Permission>();    
+    public Flow(SpartaPermission source) {
+	this.sinks = new HashSet<SpartaPermission>();
+	this.sources = new HashSet<SpartaPermission>();    
 	sources.add(source);
     }
 
@@ -60,7 +60,7 @@ public class Flow {
 	return flowstring;
     }
 
-    public void addSink(SPARTA_Permission sink) {
+    public void addSink(SpartaPermission sink) {
 	sinks.add(sink);
     }
 

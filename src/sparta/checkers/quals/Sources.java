@@ -6,7 +6,7 @@ import checkers.quals.*;
 
 /**
  * List of data flow sources that are attached to a certain piece of data.
- * SPARTA_Permission.ANY is the top type.
+ * SpartaPermission.ANY is the top type.
  * The empty set is the bottom type.
  */
 @Documented
@@ -23,5 +23,5 @@ public @interface Sources {
      * There is always a @Sources annotation and this default
      * ensures that the annotation has no effect.
      */
-    SPARTA_Permission[] value() default {};
+    SpartaPermission[] value() default {};
 }

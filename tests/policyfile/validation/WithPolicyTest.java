@@ -1,7 +1,7 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.Sinks;
-import sparta.checkers.quals.SPARTA_Permission;
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.SpartaPermission;
 
 import java.util.List;
 import java.io.File;
@@ -14,89 +14,89 @@ import java.io.File;
 
 
 
-@Sources({SPARTA_Permission.PHONE_NUMBER}) @Sinks({SPARTA_Permission.NETWORK})
+@Sources({SpartaPermission.PHONE_NUMBER}) @Sinks({SpartaPermission.INTERNET})
 class PolicyTest {
 
-    private @Sources({SPARTA_Permission.ANY}) Object anySource = new @Sources({SPARTA_Permission.ANY}) Object();
-    private @Sources({SPARTA_Permission.EXTERNAL_STORAGE, SPARTA_Permission.FILESYSTEM, SPARTA_Permission.LOCATION})
-    @Sinks({SPARTA_Permission.LOG})
+    private @Sources({SpartaPermission.ANY}) Object anySource = new @Sources({SpartaPermission.ANY}) Object();
+    private @Sources({SpartaPermission.EXTERNAL_STORAGE, SpartaPermission.FILESYSTEM, SpartaPermission.LOCATION})
+    @Sinks({SpartaPermission.LOG})
 //	//:: error: (forbidden.flow)
     Object esFsLocSource = null;
   //  //:: error: (forbidden.flow)
-    private @Sinks({SPARTA_Permission.LOG}) Object logcatSink = null;
+    private @Sinks({SpartaPermission.LOG}) Object logcatSink = null;
     ////:: error: (forbidden.flow)
-    private @Sources({SPARTA_Permission.ANY}) @Sinks({SPARTA_Permission.LOG}) Object fsAny() {
+    private @Sources({SpartaPermission.ANY}) @Sinks({SpartaPermission.LOG}) Object fsAny() {
         return null;
     }
     ////:: error: (forbidden.flow)
-    public void timeToLogCat(final @Sources({SPARTA_Permission.TIME}) @Sinks({SPARTA_Permission.LOG}) Object obj) {
+    public void timeToLogCat(final @Sources({SpartaPermission.TIME}) @Sinks({SpartaPermission.LOG}) Object obj) {
     }
  //   //:: error: (forbidden.flow)
-    public void micToExt(final @Sources({SPARTA_Permission.MICROPHONE}) @Sinks({SPARTA_Permission.EXTERNAL_STORAGE}) Object obj) {
+    public void micToExt(final @Sources({SpartaPermission.MICROPHONE}) @Sinks({SpartaPermission.EXTERNAL_STORAGE}) Object obj) {
     }
  //   //:: error: (forbidden.flow)
-    public @Sources({SPARTA_Permission.MICROPHONE}) @Sinks({SPARTA_Permission.EXTERNAL_STORAGE}) Object micToExt2(final @Sources({SPARTA_Permission.MICROPHONE}) @Sinks({}) Object obj) {
+    public @Sources({SpartaPermission.MICROPHONE}) @Sinks({SpartaPermission.EXTERNAL_STORAGE}) Object micToExt2(final @Sources({SpartaPermission.MICROPHONE}) @Sinks({}) Object obj) {
         return null;
     }
    //  //:: error: (forbidden.flow)
-    public @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.EXTERNAL_STORAGE) double fromAny(@Sources(SPARTA_Permission.LOCATION)  @Sinks(SPARTA_Permission.EXTERNAL_STORAGE) int x) {
+    public @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.EXTERNAL_STORAGE) double fromAny(@Sources(SpartaPermission.LOCATION)  @Sinks(SpartaPermission.EXTERNAL_STORAGE) int x) {
       //  //:: error: (forbidden.flow)
-    	return (@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.EXTERNAL_STORAGE)  double) x;
+    	return (@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.EXTERNAL_STORAGE)  double) x;
     }
 
   //  //:: error: (forbidden.flow)
-    public <T extends @Sources({SPARTA_Permission.ACCOUNTS}) @Sinks({SPARTA_Permission.NETWORK}) Object> T accToNet() { return null; }
+    public <T extends @Sources({SpartaPermission.ACCOUNTS}) @Sinks({SpartaPermission.INTERNET}) Object> T accToNet() { return null; }
     // //:: error: (forbidden.flow)
-    public List<? extends @Sources({SPARTA_Permission.ACCOUNTS}) @Sinks({SPARTA_Permission.FILESYSTEM}) File> accFileToNet() { return null; }
+    public List<? extends @Sources({SpartaPermission.ACCOUNTS}) @Sinks({SpartaPermission.FILESYSTEM}) File> accFileToNet() { return null; }
 
     void test() {
        //  //:: error: (forbidden.flow)
-        final @Sources({SPARTA_Permission.PHONE_NUMBER}) @Sinks({SPARTA_Permission.LOG}) Object obj = null;
+        final @Sources({SpartaPermission.PHONE_NUMBER}) @Sinks({SpartaPermission.LOG}) Object obj = null;
        //  //:: error: (forbidden.flow)
-        final @Sources({SPARTA_Permission.TIME}) @Sinks({SPARTA_Permission.LOG}) Object anyObj = null;
+        final @Sources({SpartaPermission.TIME}) @Sinks({SpartaPermission.LOG}) Object anyObj = null;
         // //:: error: (forbidden.flow)
-        final @Sources({SPARTA_Permission.MICROPHONE}) @Sinks({SPARTA_Permission.LOG}) Object micToLc = null;
+        final @Sources({SpartaPermission.MICROPHONE}) @Sinks({SpartaPermission.LOG}) Object micToLc = null;
 
        // //:: error: (forbidden.flow)
-        final @Sources({SPARTA_Permission.ACCOUNTS}) @Sinks({SPARTA_Permission.EMAIL}) Object accToEm = null;
+        final @Sources({SpartaPermission.ACCOUNTS}) @Sinks({SpartaPermission.EMAIL}) Object accToEm = null;
        //  //:: error: (forbidden.flow)
-        final @Sources({SPARTA_Permission.ACCOUNTS}) @Sinks({SPARTA_Permission.DISPLAY}) Object accToDi = null;
+        final @Sources({SpartaPermission.ACCOUNTS}) @Sinks({SpartaPermission.DISPLAY}) Object accToDi = null;
         // //:: error: (forbidden.flow)
-        final String [] arrayOfAccToDEm = new String @Sources({SPARTA_Permission.ACCOUNTS}) @Sinks({SPARTA_Permission.DISPLAY, SPARTA_Permission.EMAIL}) []{};
+        final String [] arrayOfAccToDEm = new String @Sources({SpartaPermission.ACCOUNTS}) @Sinks({SpartaPermission.DISPLAY, SpartaPermission.EMAIL}) []{};
 
         // //:: error: (forbidden.flow)
-        final String [] arrayOfAccToDEmFs = new String @Sources({SPARTA_Permission.ACCOUNTS}) @Sinks({SPARTA_Permission.DISPLAY, SPARTA_Permission.EMAIL, SPARTA_Permission.FILESYSTEM}) []{};
+        final String [] arrayOfAccToDEmFs = new String @Sources({SpartaPermission.ACCOUNTS}) @Sinks({SpartaPermission.DISPLAY, SpartaPermission.EMAIL, SpartaPermission.FILESYSTEM}) []{};
         // //:: error: (forbidden.flow)
-        final @Sources({SPARTA_Permission.ACCOUNTS}) @Sinks({SPARTA_Permission.FILESYSTEM}) Object accToFs = null;
+        final @Sources({SpartaPermission.ACCOUNTS}) @Sinks({SpartaPermission.FILESYSTEM}) Object accToFs = null;
         // //:: error: (forbidden.flow)
-        final @Sources({SPARTA_Permission.ACCOUNTS}) @Sinks({SPARTA_Permission.FILESYSTEM, SPARTA_Permission.DISPLAY}) Object accToFsDi = null;
+        final @Sources({SpartaPermission.ACCOUNTS}) @Sinks({SpartaPermission.FILESYSTEM, SpartaPermission.DISPLAY}) Object accToFsDi = null;
 
 
         // //:: error: (forbidden.flow)
-        List<@Sources({SPARTA_Permission.MICROPHONE, SPARTA_Permission.TIME}) @Sinks({SPARTA_Permission.EMAIL, SPARTA_Permission.FILESYSTEM}) File> maTiFile = null;
+        List<@Sources({SpartaPermission.MICROPHONE, SpartaPermission.TIME}) @Sinks({SpartaPermission.EMAIL, SpartaPermission.FILESYSTEM}) File> maTiFile = null;
         // //:: error: (forbidden.flow)
-        List<@Sources({SPARTA_Permission.MICROPHONE, SPARTA_Permission.TIME}) @Sinks({SPARTA_Permission.EMAIL, SPARTA_Permission.NETWORK}) File> maTiFile2 = null;
+        List<@Sources({SpartaPermission.MICROPHONE, SpartaPermission.TIME}) @Sinks({SpartaPermission.EMAIL, SpartaPermission.INTERNET}) File> maTiFile2 = null;
         // //:: error: (forbidden.flow)
-        List<@Sources({SPARTA_Permission.MICROPHONE}) @Sinks({SPARTA_Permission.EMAIL, SPARTA_Permission.NETWORK}) File> maFile2 = null;
+        List<@Sources({SpartaPermission.MICROPHONE}) @Sinks({SpartaPermission.EMAIL, SpartaPermission.INTERNET}) File> maFile2 = null;
 
         
-        @Sources({SPARTA_Permission.PHONE_NUMBER}) @Sinks({SPARTA_Permission.EMAIL, SPARTA_Permission.LOG})
+        @Sources({SpartaPermission.PHONE_NUMBER}) @Sinks({SpartaPermission.EMAIL, SpartaPermission.LOG})
         class Whatever {
-//:: error: receiver parameter not applicable for constructor of top-level class: @Sources(value = {SPARTA_Permission.PHONE_NUMBER}) 
-            public Whatever(@Sources({SPARTA_Permission.PHONE_NUMBER}) @Sinks({SPARTA_Permission.NETWORK}) Whatever this) {
+//:: error: receiver parameter not applicable for constructor of top-level class: @Sources(value = {SpartaPermission.PHONE_NUMBER}) 
+            public Whatever(@Sources({SpartaPermission.PHONE_NUMBER}) @Sinks({SpartaPermission.INTERNET}) Whatever this) {
 
             }
         }
 
       /// /:: error: (forbidden.flow)
-        final Object whatever = new @Sources({SPARTA_Permission.PHONE_NUMBER}) @Sinks({SPARTA_Permission.NETWORK}) Whatever();
+        final Object whatever = new @Sources({SpartaPermission.PHONE_NUMBER}) @Sinks({SpartaPermission.INTERNET}) Whatever();
       //// :: error: (forbidden.flow)
-        final @Sources({SPARTA_Permission.MICROPHONE}) @Sinks({SPARTA_Permission.RANDOM}) Object micToRandom = null;
+        final @Sources({SpartaPermission.MICROPHONE}) @Sinks({SpartaPermission.RANDOM}) Object micToRandom = null;
 
       ////:: error: (forbidden.flow)
-        final @Sources({SPARTA_Permission.MICROPHONE}) @Sinks({SPARTA_Permission.NETWORK, SPARTA_Permission.EXTERNAL_STORAGE}) Object micToNExt = null;
+        final @Sources({SpartaPermission.MICROPHONE}) @Sinks({SpartaPermission.INTERNET, SpartaPermission.EXTERNAL_STORAGE}) Object micToNExt = null;
       ////:: error: (forbidden.flow) 
-        final @Sources({SPARTA_Permission.MICROPHONE}) @Sinks({SPARTA_Permission.NETWORK, SPARTA_Permission.LOG, SPARTA_Permission.SMS}) Object micToNetLogMsg = null;
+        final @Sources({SpartaPermission.MICROPHONE}) @Sinks({SpartaPermission.INTERNET, SpartaPermission.LOG, SpartaPermission.SMS}) Object micToNetLogMsg = null;
     }
 
     public static void testInstantiate() {

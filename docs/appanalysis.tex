@@ -50,7 +50,7 @@ Read the App description and user documentation, looking for clues about
 the permissions , sensitive sources, and sinks and how information
 flows between them.  For example,
 if this is a map app, does the description say anything about sending your location data over the
- network?  If so, then you should add \<LOCATION\flowsto NETWORK> to the flow-policy file.  Where
+ network?  If so, then you should add \<LOCATION\flowsto INTERNET> to the flow-policy file.  Where
 else does the description say LOCATION data can go?   
 
 Theoretically, you should be able to write a complete Flow Policy from the
@@ -324,8 +324,8 @@ Here is an example from a stub file:
 package android.telephony;
 
 class TelephonyManager {
-    public @Sources(SPARTA\_Permission.PHONE_NUMBER) String getLine1Number();
-    public @Sources(SPARTA\_Permission.IMEI) String getDeviceId();
+    public @Sources(SpartaPermission.PHONE_NUMBER) String getLine1Number();
+    public @Sources(SpartaPermission.IMEI) String getDeviceId();
 }
 \end{Verbatim}
 
@@ -418,7 +418,7 @@ network:
 
 \begin{alltt}
     @Sources(CAMERA)
-    @Sinks(NETWORK) Picture data;
+    @Sinks(INTERNET) Picture data;
 \end{alltt}
 
 Such a type connects sources and sinks and one needs to carefully
@@ -464,7 +464,7 @@ over the network. By default, every literal has \<@Sinks()>
 
 \begin{alltt}
     @SuppressWarnings("flow") // manually verified to not contain secret data
-    @Sinks(NETWORK) String url = "http://bazinga.com/";
+    @Sinks(INTERNET) String url = "http://bazinga.com/";
 \end{alltt}
 
 Without warning suppression the assignment raises an error, because string literals
@@ -507,5 +507,5 @@ This option will also use the stricter conditional rule. (LITERAL
 %  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
 %  LocalWords:  RequiredPermissions Sources Sinks apiusage Dstubs
 %  LocalWords:  flowstubfiles TelephonyManager getLine1Number flowshow url
-%  LocalWords:  PolySources PloySinks SPARTA\_Permission SPARTA\_Permission grep
+%  LocalWords:  PolySources PloySinks SpartaPermission SpartaPermission grep
 %  LocalWords:  Dstricter

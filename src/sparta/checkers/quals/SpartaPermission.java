@@ -12,12 +12,12 @@ package sparta.checkers.quals;
  * Each permission is either a source of sensitive information or a sensitive sink.  
  * Some permissions are both. 
  * Tip: you can statically import the enum constants so that you don't have to write 
- * SPARTA_Permission in the annotations. 
- * (@Sinks(EMAIL) rather than @Sinks(SPARTA_Permission.EMAIL))
- * import static sparta.checkers.quals.SPARTA_Permission.*;
+ * SpartaPermission in the annotations. 
+ * (@Sinks(EMAIL) rather than @Sinks(SpartaPermission.EMAIL))
+ * import static sparta.checkers.quals.SpartaPermission.*;
  *
  */
-public enum SPARTA_Permission {
+public enum SpartaPermission {
 
 
 
@@ -36,7 +36,7 @@ public enum SPARTA_Permission {
     CONDITIONAL(T.SINK),
     RANDOM(T.SOURCE),
     FILESYSTEM (T.BOTH),
-    READ_TIME (T.SOURCE),
+    READ_TIME (T.SOURCE), //WRITE_TIME is an Android Permission, but read time isn't
     USER_INPUT (T.SOURCE),
     DISPLAY (T.SINK),
     CAMERA_SETTINGS(T.BOTH),
@@ -49,6 +49,7 @@ public enum SPARTA_Permission {
     SHARED_PREFERENCES (T.BOTH),
     //Can't figure out when email should be used or if a permission is required instead.
     EMAIL (T.BOTH), 
+    ACCELEROMETER(T.SOURCE),
 
 
     /**
@@ -324,7 +325,7 @@ public enum SPARTA_Permission {
      * of permissions that have been truncated 
      */
          /*
-
+          NETOWRK (T.BOTH), now INTERNET
           TIME (T.SOURCE), now READ_TIME or SET_TIME
           SERIAL_NUMBER (T.SOURCE), now READ_PHONE_STATE
           IMEI (T.SOURCE), now  READ_PHONE_STATE
@@ -397,7 +398,7 @@ public enum SPARTA_Permission {
 ;
     private final T sourceOrSink;
     
-	 SPARTA_Permission(T sourceOrSink) {
+	 SpartaPermission(T sourceOrSink) {
 		this. sourceOrSink= sourceOrSink;
 	}
 	 /**

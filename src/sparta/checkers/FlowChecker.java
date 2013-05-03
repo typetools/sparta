@@ -30,8 +30,8 @@ import checkers.compilermsgs.quals.CompilerMessageKey;
 */
 
 import sparta.checkers.quals.Sinks;
-import static sparta.checkers.quals.SPARTA_Permission.*;
-import  sparta.checkers.quals.SPARTA_Permission;
+import static sparta.checkers.quals.SpartaPermission.*;
+import  sparta.checkers.quals.SpartaPermission;
 
 import sparta.checkers.quals.Sources;
 import sparta.checkers.quals.PolySinks;
@@ -70,8 +70,8 @@ public class FlowChecker extends BaseTypeChecker {
         POLYFLOWSINKS = AnnotationUtils.fromClass(elements, PolySinks.class);
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
 
-        ANYFLOWSOURCES = FlowUtil.createAnnoFromSources(processingEnv, new HashSet<SPARTA_Permission>(Arrays.asList(SPARTA_Permission.ANY)));
-        ANYFLOWSINKS = FlowUtil.createAnnoFromSinks(processingEnv, new HashSet<SPARTA_Permission>(Arrays.asList(SPARTA_Permission.ANY)));
+        ANYFLOWSOURCES = FlowUtil.createAnnoFromSources(processingEnv, new HashSet<SpartaPermission>(Arrays.asList(SpartaPermission.ANY)));
+        ANYFLOWSINKS = FlowUtil.createAnnoFromSinks(processingEnv, new HashSet<SpartaPermission>(Arrays.asList(SpartaPermission.ANY)));
 
         FLOW_SOURCES = AnnotationUtils.fromClass(elements, Sources.class);
         FLOW_SINKS   = AnnotationUtils.fromClass(elements, Sinks.class);
@@ -91,9 +91,9 @@ public class FlowChecker extends BaseTypeChecker {
            flowPolicy = new FlowPolicy(new File(pfArg),scArg);
         }
 
-        LITERALFLOWSOURCE = FlowUtil.createAnnoFromSources(processingEnv, new HashSet<SPARTA_Permission>(Arrays.asList(SPARTA_Permission.LITERAL)));
+        LITERALFLOWSOURCE = FlowUtil.createAnnoFromSources(processingEnv, new HashSet<SpartaPermission>(Arrays.asList(SpartaPermission.LITERAL)));
 
-        final Set<SPARTA_Permission> literalSinks = new HashSet<SPARTA_Permission>(flowPolicy.getSinksFromSource(SPARTA_Permission.LITERAL, true));
+        final Set<SpartaPermission> literalSinks = new HashSet<SpartaPermission>(flowPolicy.getSinksFromSource(SpartaPermission.LITERAL, true));
         FROMLITERALFLOWSINK = FlowUtil.createAnnoFromSinks(processingEnv, literalSinks);
 
 
@@ -119,25 +119,25 @@ public class FlowChecker extends BaseTypeChecker {
     protected ExecutableElement sinkValue;
 
     @SuppressWarnings("unchecked")
-    public List<SPARTA_Permission> getSources(AnnotatedTypeMirror atm) {
+    public List<SpartaPermission> getSources(AnnotatedTypeMirror atm) {
         AnnotationMirror anno = atm.getAnnotationInHierarchy(ANYFLOWSOURCES);
         AnnotationValue sourcesValue = AnnotationUtils.getElementValuesWithDefaults(anno).get(sourceValue);
         // TODO: Should we add NONE as an enum constant?
-        if (sourcesValue == null) { // || ((List<SPARTA_Permission>)sourcesValue.getValue()).isEmpty()) {
-            return Collections.emptyList(); // singletonList(SPARTA_Permission.NONE);
+        if (sourcesValue == null) { // || ((List<SpartaPermission>)sourcesValue.getValue()).isEmpty()) {
+            return Collections.emptyList(); // singletonList(SpartaPermission.NONE);
         } else {
-            return (List<SPARTA_Permission>) sourcesValue.getValue();
+            return (List<SpartaPermission>) sourcesValue.getValue();
         }
     }
 
     @SuppressWarnings("unchecked")
-    public List<SPARTA_Permission> getSinks(AnnotatedTypeMirror atm) {
+    public List<SpartaPermission> getSinks(AnnotatedTypeMirror atm) {
         AnnotationMirror anno = atm.getAnnotationInHierarchy(ANYFLOWSINKS);
         AnnotationValue sinksValue = AnnotationUtils.getElementValuesWithDefaults(anno).get(sinkValue);
         if (sinksValue == null) {
             return Collections.emptyList();
         } else {
-            return (List<SPARTA_Permission>) sinksValue.getValue();
+            return (List<SpartaPermission>) sinksValue.getValue();
         }
     }
 
@@ -234,10 +234,10 @@ public class FlowChecker extends BaseTypeChecker {
                     if (!isSourceQualifier(lhs)) {
                         return false;
                     }
-                    List<SPARTA_Permission> lhssrc = FlowUtil.getSources(lhs);
-                    List<SPARTA_Permission> rhssrc = FlowUtil.getSources(rhs);
+                    List<SpartaPermission> lhssrc = FlowUtil.getSources(lhs);
+                    List<SpartaPermission> rhssrc = FlowUtil.getSources(rhs);
                     return  AnnotationUtils.areSame(lhs, ANYFLOWSOURCES) || //TODO: Remove the ANY below when we start warning about Sources(ANY, Something else)
-                            lhssrc.containsAll(rhssrc) || lhssrc.contains(SPARTA_Permission.ANY);
+                            lhssrc.containsAll(rhssrc) || lhssrc.contains(SpartaPermission.ANY);
                 }
             } else if (isSinkQualifier(rhs)) {
                 if (isPolySinkQualifier(lhs)) {
@@ -252,11 +252,11 @@ public class FlowChecker extends BaseTypeChecker {
                     if (!isSinkQualifier(lhs)) {
                         return false;
                     }
-                    List<SPARTA_Permission> lhssnk = FlowUtil.getSinks(lhs);
-                    List<SPARTA_Permission> rhssnk = FlowUtil.getSinks(rhs);
+                    List<SpartaPermission> lhssnk = FlowUtil.getSinks(lhs);
+                    List<SpartaPermission> rhssnk = FlowUtil.getSinks(rhs);
                     return lhssnk.isEmpty() ||
                             rhssnk.containsAll(lhssnk) ||
-                        (rhssnk.contains(SPARTA_Permission.ANY) && rhssnk.size()==1);
+                        (rhssnk.contains(SpartaPermission.ANY) && rhssnk.size()==1);
                 }
             } else if (QualifierPolymorphism.isPolyAll(rhs)) {
                 // If RHS is polyall, the LHS has to be a top qualifier or also poly.
@@ -276,16 +276,16 @@ public class FlowChecker extends BaseTypeChecker {
 	    boolean isPolySource = AnnotationUtils.areSame(anm, POLYFLOWSOURCES);
 	  
 	    if (!isPolySource && isSourceQualifier(anm)) {
-		List<SPARTA_Permission> sources = FlowUtil.getSources(anm);
-		if (sources.contains(SPARTA_Permission.ANY) && sources.size() > 1) {
+		List<SpartaPermission> sources = FlowUtil.getSources(anm);
+		if (sources.contains(SpartaPermission.ANY) && sources.size() > 1) {
 		    throw new Exception(
-			    "Found SPARTA_Permission.ANY and something else");
+			    "Found SpartaPermission.ANY and something else");
 		}
 	    }
 	    if (!isPolySink && isSinkQualifier(anm)) {
-		List<SPARTA_Permission> sinks = FlowUtil.getSinks(anm);
-		if (sinks.contains(SPARTA_Permission.ANY) && sinks.size() > 1) {
-		    throw new Exception("Found SPARTA_Permission.ANY and something else");
+		List<SpartaPermission> sinks = FlowUtil.getSinks(anm);
+		if (sinks.contains(SpartaPermission.ANY) && sinks.size() > 1) {
+		    throw new Exception("Found SpartaPermission.ANY and something else");
 		}
 	    }
 
@@ -318,13 +318,13 @@ public class FlowChecker extends BaseTypeChecker {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    final Set<SPARTA_Permission> superset = FlowUtil.getSources(a1, true);
+                    final Set<SpartaPermission> superset = FlowUtil.getSources(a1, true);
                     superset.addAll(FlowUtil.getSources(a2, true));
                     FlowUtil.allToAnySource(superset, true);
                     return boundSources(superset);
 
                 } else if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-                    final Set<SPARTA_Permission> intersection =  FlowUtil.getSinks(a1, true);
+                    final Set<SpartaPermission> intersection =  FlowUtil.getSinks(a1, true);
                     intersection.retainAll(FlowUtil.getSinks(a2, true));
                     FlowUtil.allToAnySink(intersection, true);
                     return boundSinks(intersection);
@@ -333,24 +333,24 @@ public class FlowChecker extends BaseTypeChecker {
                 //Poly Flows must be handled as if they are Top Type   
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS) ) {
-        	    return boundSinks(new HashSet<SPARTA_Permission>());
+        	    return boundSinks(new HashSet<SpartaPermission>());
         	}
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-        	    return boundSinks(new HashSet<SPARTA_Permission>());
+        	    return boundSinks(new HashSet<SpartaPermission>());
         	}
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES) ) {
-                    Set<SPARTA_Permission> top = new HashSet<SPARTA_Permission>();
-                    top.add(SPARTA_Permission.ANY);
+                    Set<SpartaPermission> top = new HashSet<SpartaPermission>();
+                    top.add(SpartaPermission.ANY);
                     return boundSources(top);
                 }
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    Set<SPARTA_Permission> top = new HashSet<SPARTA_Permission>();
-                    top.add(SPARTA_Permission.ANY);
+                    Set<SpartaPermission> top = new HashSet<SpartaPermission>();
+                    top.add(SpartaPermission.ANY);
                     return boundSources(top);
                 }
             }
@@ -367,13 +367,13 @@ public class FlowChecker extends BaseTypeChecker {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    final Set<SPARTA_Permission> intersection = FlowUtil.getSources(a1, true);
+                    final Set<SpartaPermission> intersection = FlowUtil.getSources(a1, true);
                     intersection.retainAll(FlowUtil.getSources(a2, true));
                     FlowUtil.allToAnySource(intersection, true);
                     return boundSources(intersection);
 
                 } else if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-                    final Set<SPARTA_Permission> superSet =  FlowUtil.getSinks(a1, true);
+                    final Set<SpartaPermission> superSet =  FlowUtil.getSinks(a1, true);
                     superSet.addAll(FlowUtil.getSinks(a2, true));
                     FlowUtil.allToAnySink(superSet, true);
                     return boundSinks(superSet);
@@ -382,35 +382,35 @@ public class FlowChecker extends BaseTypeChecker {
              //Poly Flows must be handled as if they are Bottom Type   
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS) ) {
-        	    Set<SPARTA_Permission> bottom = new HashSet<SPARTA_Permission>();
-        	    bottom.add(SPARTA_Permission.ANY);
+        	    Set<SpartaPermission> bottom = new HashSet<SpartaPermission>();
+        	    bottom.add(SpartaPermission.ANY);
         	    return boundSinks(bottom);
         	}
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
-        	    Set<SPARTA_Permission> bottom = new HashSet<SPARTA_Permission>();
-        	    bottom.add(SPARTA_Permission.ANY);
+        	    Set<SpartaPermission> bottom = new HashSet<SpartaPermission>();
+        	    bottom.add(SpartaPermission.ANY);
         	    return boundSinks(bottom);
         	}
             }else if(AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES) ) {
-                    return boundSources(new HashSet<SPARTA_Permission>());
+                    return boundSources(new HashSet<SpartaPermission>());
                 }
         	
             }else if(AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
         	if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
-                    return boundSources(new HashSet<SPARTA_Permission>());
+                    return boundSources(new HashSet<SpartaPermission>());
                 }
             }
             return super.greatestLowerBound(a1, a2);
         }
 
 
-        private AnnotationMirror boundSources(final Set<SPARTA_Permission> flowSources) {
+        private AnnotationMirror boundSources(final Set<SpartaPermission> flowSources) {
 
             final AnnotationMirror am;
-            if( flowSources.contains(SPARTA_Permission.ANY) ) { //contains all Sources
+            if( flowSources.contains(SpartaPermission.ANY) ) { //contains all Sources
                 am = getTopAnnotation(FLOW_SOURCES);
             } else if(flowSources.isEmpty()) {
                 am = getBottomAnnotation(FLOW_SOURCES);
@@ -420,11 +420,11 @@ public class FlowChecker extends BaseTypeChecker {
             return am;
         }
 
-        private AnnotationMirror boundSinks(final Set<SPARTA_Permission> flowSinks) {
+        private AnnotationMirror boundSinks(final Set<SpartaPermission> flowSinks) {
             final AnnotationMirror am;
             if( flowSinks.isEmpty() ) {
                 am = getTopAnnotation(FLOW_SINKS);
-            } else if( flowSinks.contains(SPARTA_Permission.ANY) ) { //contains all Sinks
+            } else if( flowSinks.contains(SpartaPermission.ANY) ) { //contains all Sinks
                 am = getBottomAnnotation(FLOW_SINKS);
             } else {
                 am = createAnnoFromSinks( processingEnv, flowSinks );

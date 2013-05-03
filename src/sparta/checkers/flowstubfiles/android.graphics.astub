@@ -5,14 +5,14 @@ class BitmapFactory {
 //Added by SOM
 	@PolySources @PolySinks Bitmap decodeByteArray(
 	                                @PolySources @PolySinks byte @PolySources @PolySinks [] data, 
-	                                @Sources(SPARTA_Permission.ANY) @Sinks({}) int offset,  
-	                                @Sources(SPARTA_Permission.ANY) @Sinks({}) int length);
+	                                @Sources(SpartaPermission.ANY) @Sinks({}) int offset,  
+	                                @Sources(SpartaPermission.ANY) @Sinks({}) int length);
 }
 
 class Bitmap {
 //Added by SOM
 //The CompressFormat is any enum value
-	@Sources({}) @Sinks(SPARTA_Permission.ANY) boolean compress(
-	          @Sources(SPARTA_Permission.ANY) @Sinks({}) CompressFormat format, @Sources(SPARTA_Permission.ANY) @Sinks({}) int quality, 
+	@Sources({}) @Sinks(SpartaPermission.ANY) boolean compress(
+	          @Sources(SpartaPermission.ANY) @Sinks({}) CompressFormat format, @Sources(SpartaPermission.ANY) @Sinks({}) int quality, 
 	          @PolySinks @PolySources OutputStream stream) @PolySinks @PolySources;
 }

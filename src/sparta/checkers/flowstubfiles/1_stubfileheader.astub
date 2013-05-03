@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SPARTA_Permission;
-import static sparta.checkers.quals.SPARTA_Permission.*;
+import sparta.checkers.quals.SpartaPermission;
+import static sparta.checkers.quals.SpartaPermission.*;
 
 /*
 This file is generate by ant merge-stubfiles.

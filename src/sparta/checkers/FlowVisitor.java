@@ -6,9 +6,9 @@ import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
 
 import com.sun.source.tree.*;
 
@@ -48,8 +48,8 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
 
         final AnnotationMirror sinkAnno = type.getAnnotation(Sinks.class);
-        final Set<SPARTA_Permission> sinks = FlowUtil.getSinks(sinkAnno, false);
-        if (!sinks.contains(SPARTA_Permission.ANY) && !sinks.contains(SPARTA_Permission.CONDITIONAL)) {
+        final Set<SpartaPermission> sinks = FlowUtil.getSinks(sinkAnno, false);
+        if (!sinks.contains(SpartaPermission.ANY) && !sinks.contains(SpartaPermission.CONDITIONAL)) {
             checker.report(
                     Result.failure("condition.flow", type.getAnnotations()),
                     tree);

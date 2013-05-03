@@ -51,9 +51,9 @@ You write the annotation \<@Sinks> to indicate where (part of) the
 value might be output.
 
 As an example
-\footnote{This example statically imports the enum to avoid writing SPARTA\_Permission before LOCATION and NETWORK. (import static sparta.checkers.quals.SPARTA\_Permission.*;)}, suppose there is a declaration
+\footnote{This example statically imports the enum to avoid writing SpartaPermission before LOCATION and INTERNET. (import static sparta.checkers.quals.SpartaPermission.*;)}, suppose there is a declaration
 \begin{Verbatim}
-  @Sources(LOCATION) @Sinks(NETWORK) double latitude;
+  @Sources(LOCATION) @Sinks(INTERNET) double latitude;
 \end{Verbatim}
 \noindent
 The \<@Sources(LOCATION)> annotation indicates that the
@@ -61,7 +61,7 @@ value of \<latitude> might have been derived from
 location information.  It does not guarantee that the value came from
 authentic GPS data, but only sets a bound on where the information might
 have come from; this assignment is legal: \<latitude = 47.6097>.
-Similarly, the annotation \<@Sinks(FlowSInk.NETWORK)> marks that
+Similarly, the annotation \<@Sinks(FlowSInk.INTERNET)> marks that
 the string \<latitude> might be output to the network.  It is also
 possible that the data has already been output.
 
@@ -185,21 +185,21 @@ even if all types in program otherwise typecheck.
 For example, this variable declaration
 
 \begin{alltt}
-@Sources(CAMERA) @Sinks(NETWORK) Video video = ...
+@Sources(CAMERA) @Sinks(INTERNET) Video video = ...
 \end{alltt}
 
 \noindent
 is illegal unless the the policy file contains:
 
 \begin{alltt}
-CAMERA -> NETWORK
+CAMERA -> INTERNET
 \end{alltt}
 
 Here is another example.
 The flow policy file contains:
 \begin{alltt}
   ACCOUNTS      -> EXTERNAL_STORAGE, FILESYSTEM
-  ACCELEROMETER -> EXTERNAL_STORAGE, FILESYSTEM, NETWORK
+  ACCELEROMETER -> EXTERNAL_STORAGE, FILESYSTEM, INTERNET
 \end{alltt}
 
 The following variable declarations are permitted:
@@ -211,9 +211,9 @@ The following variable declarations are permitted:
 
 The following definitions would generate ``forbidden flow'' errors:
 \begin{Verbatim}
-  @Sources(ACCOUNTS) @Sinks(@NETWORK) Account acc = ...
+  @Sources(ACCOUNTS) @Sinks(@INTERNET) Account acc = ...
   @Sources({ACCELEROMETER, ACCOUNTS})
-  @Sinks({EXTERNAL_STORAGE, FILESYSTEM, NETWORK})
+  @Sinks({EXTERNAL_STORAGE, FILESYSTEM, INTERNET})
 \end{Verbatim}
 
 
@@ -221,10 +221,10 @@ The following definitions would generate ``forbidden flow'' errors:
 
 Each line of a policy file specifies a permitted flow from a source to one
 or more sinks.  For example,
-\code{MICROPHONE -> NETWORK} implies that
-MICROPHONE data is always allowed to flow to NETWORK.
+\code{MICROPHONE -> INTERNET} implies that
+MICROPHONE data is always allowed to flow to INTERNET.
 The source or sink must be a member of the enum
-\<sparta.checkers.quals.SPARTA\_Permission>.  The source 
+\<sparta.checkers.quals.SpartaPermission>.  The source 
 and sink names should not be preceded by the name of the enumeration which contains them.
 ANY is allowed just as it is in @Sources and @Sinks, but empty, \ttcbs, is not allowed.
 
@@ -232,13 +232,13 @@ Multiple sources or sinks can appear on the same line if they are separated by c
 For example,
 this policy file:
 \begin{alltt}
-   MICROPHONE -> NETWORK, LOG, DISPLAY
+   MICROPHONE -> INTERNET, LOG, DISPLAY
 \end{alltt}
 is equivalent to this policy file:
 \begin{alltt}
-   MICROPHONE -> NETWORK
+   MICROPHONE -> INTERNET
    MICROPHONE -> LOG
-   MICROPHONE -> DISPLAY, NETWORK
+   MICROPHONE -> DISPLAY, INTERNET
 \end{alltt}
 
 The policy file may contain blank lines and comments that begin with 
@@ -290,12 +290,12 @@ flow checker.
 
 The defaults are not applied if the programmer uses annotations.  For
 example, the parameter below is of type
-\<@Sources(LOCATION) @Sinks(NETWORK)>
+\<@Sources(LOCATION) @Sinks(INTERNET)>
 rather than  \<@Sources({LITERAL})>.
 
 \begin{alltt}
 public void sendToInternet(
-    @Sources(LOCATION) @Sinks(NETWORK) String message)\{...\}
+    @Sources(LOCATION) @Sinks(INTERNET) String message)\{...\}
 \end{alltt} 
 
 The value \<null> has the bottom type (\<@Sinks(ANY)
@@ -437,7 +437,7 @@ program uses a previously-unannotated library.
 \subsection{@PolyFlow\label{sec:polyflow}}
 
 Annotation \<@PolyFlow> expresses that each contained method should be
-annotated as \<@PolySPARTA\_Permission @PolySPARTA\_Permission> for both the return
+annotated as \<@PolySpartaPermission @PolySpartaPermission> for both the return
 types and all parameters.
 
 
@@ -449,7 +449,7 @@ types and all parameters.
 %illustrate their effects.  Only assignment operations are used
 %but remember that the flow-policy applies to all information flows.
 %Comments in the code examples describe a direct effect of the
-%given policy file.  Fake SPARTA\_Permission and SPARTA\_Permission names are used
+%given policy file.  Fake SpartaPermission and SpartaPermission names are used
 %to aid in clarity.
 %
 %Any variable definition marked "OK" indicates that this
@@ -517,13 +517,13 @@ Most binary operations, such as string concatenation and integer addition,
 produce a result whose type is the least upper bound of the two operand types.
 
 
-%% Adding on to that, if you try to compute a @SPARTA\_Permission{something} int
+%% Adding on to that, if you try to compute a @SpartaPermission{something} int
 %%  with a int literal (0 or 100, etc) it will resolve to another
-%%  @SPARTA\_Permission{something} int. If you try the same with a
-%%  @SPARTA\_Permission{something} int with an int literal, it will result in
-%%  @SPARTA\_Permission{} int because it's not safe to add a flowsink to the int
+%%  @SpartaPermission{something} int. If you try the same with a
+%%  @SpartaPermission{something} int with an int literal, it will result in
+%%  @SpartaPermission{} int because it's not safe to add a flowsink to the int
 %%  literal. To bypass this, you must declare a local variable with
-%%  "@SuppressWarnings("flow") @SPARTA\_Permission{something} int tempZero = 0;"
+%%  "@SuppressWarnings("flow") @SpartaPermission{something} int tempZero = 0;"
 %%  and then use the local variable in the calculation.
 %%  Again document why the warning can be suppressed.
 
@@ -537,4 +537,4 @@ produce a result whose type is the least upper bound of the two operand types.
 %  LocalWords:  Sinks someData Sources enum 5cm flowsources 'c'
 %  LocalWords:  flowsinks realString asdf PolySources PolySinks
 %  LocalWords:  sparta NoFlow ConservativeFlow astub TODO jsr308
-%  LocalWords:  SPARTA\_Permission
+%  LocalWords:  SpartaPermission

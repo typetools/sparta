@@ -2,16 +2,16 @@ import sparta.checkers.quals.Sinks;
 import sparta.checkers.quals.Sources;
 import sparta.checkers.quals.PolySinks;
 import sparta.checkers.quals.PolySources;
-import sparta.checkers.quals.SPARTA_Permission;
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.SpartaPermission;
 
 
 class PrimiOps {
     @SuppressWarnings("flow")
-    @Sinks({}) @Sources({SPARTA_Permission.ANY}) float top;
+    @Sinks({}) @Sources({SpartaPermission.ANY}) float top;
     @PolySources @PolySinks float poly;
     @SuppressWarnings("flow")
-    @Sinks({SPARTA_Permission.ANY}) @Sources({}) float bot;
+    @Sinks({SpartaPermission.ANY}) @Sources({}) float bot;
     float unqual;
 
     void mod2pi() {

@@ -1,6 +1,5 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SPARTA_Permission;
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
 import sparta.checkers.quals.Sinks;
 import sparta.checkers.quals.PolySinks;
 import sparta.checkers.quals.PolySources;
@@ -9,7 +8,7 @@ class ArrayCast {
 
     void foo() {
         //:: error: (assignment.type.incompatible)
-        @Sinks(SPARTA_Permission.NETWORK) Object @Sources(SPARTA_Permission.ACCELEROMETER) [] params = new /*@Sinks(SPARTA_Permission.NETWORK)*/ Object[1];
+        @Sinks(SpartaPermission.INTERNET) Object @Sources(SpartaPermission.ACCELEROMETER) [] params = new /*@Sinks(SpartaPermission.INTERNET)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
 
         //strict:: warning: (cast.unsafe)
@@ -21,20 +20,20 @@ class ArrayCast {
         callStart(result);
         callFinished(result);
 
-        @Sinks(SPARTA_Permission.NETWORK) Object [] otherOne = getObjs();
+        @Sinks(SpartaPermission.INTERNET) Object [] otherOne = getObjs();
         callStart(getObjs());
     }
 
-    @Sources(SPARTA_Permission.NETWORK) @Sinks(SPARTA_Permission.NETWORK) Object call(
-            @Sources(SPARTA_Permission.LITERAL) String method, @Sinks(SPARTA_Permission.NETWORK) Object[] params) {
-        @Sources(SPARTA_Permission.NETWORK) @Sinks(SPARTA_Permission.NETWORK) Object a = params[0];
+    @Sources(SpartaPermission.INTERNET) @Sinks(SpartaPermission.INTERNET) Object call(
+            @Sources(SpartaPermission.LITERAL) String method, @Sinks(SpartaPermission.INTERNET) Object[] params) {
+        @Sources(SpartaPermission.INTERNET) @Sinks(SpartaPermission.INTERNET) Object a = params[0];
         return a;
     }
 
-    void callStart(@Sources(SPARTA_Permission.NETWORK) @Sinks(SPARTA_Permission.NETWORK) Object []  result) {}
-    void callFinished(Object @Sources(SPARTA_Permission.NETWORK) @Sinks(SPARTA_Permission.NETWORK) [] result) {}
+    void callStart(@Sources(SpartaPermission.INTERNET) @Sinks(SpartaPermission.INTERNET) Object []  result) {}
+    void callFinished(Object @Sources(SpartaPermission.INTERNET) @Sinks(SpartaPermission.INTERNET) [] result) {}
 
-    @Sinks(SPARTA_Permission.NETWORK) Object [] getObjs() {
+    @Sinks(SpartaPermission.INTERNET) Object [] getObjs() {
         return null;
     }
 }

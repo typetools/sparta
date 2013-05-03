@@ -1,21 +1,21 @@
 
 import android.content.ContentValues;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
 import android.util.FloatMath;
 
 class MultiplyTest {
 
-    @Sources(SPARTA_Permission.LOCATION) float raRadians;
-    @Sources({SPARTA_Permission.LITERAL, SPARTA_Permission.LOCATION}) float raLitLocRadians;
+    @Sources(SpartaPermission.LOCATION) float raRadians;
+    @Sources({SpartaPermission.LITERAL, SpartaPermission.LOCATION}) float raLitLocRadians;
 
     float x;
-    @Sources({SPARTA_Permission.LITERAL, SPARTA_Permission.LOCATION}) float y;
-    @Sources({SPARTA_Permission.ANY}) float z;
+    @Sources({SpartaPermission.LITERAL, SpartaPermission.LOCATION}) float y;
+    @Sources({SpartaPermission.ANY}) float z;
 
     void test_Multiply() {
-        @Sources({SPARTA_Permission.LITERAL, SPARTA_Permission.LOCATION}) float ra = (float) 1.0;
-        @Sources({SPARTA_Permission.LITERAL, SPARTA_Permission.LOCATION}) float dec = 2.0f;
+        @Sources({SpartaPermission.LITERAL, SpartaPermission.LOCATION}) float ra = (float) 1.0;
+        @Sources({SpartaPermission.LITERAL, SpartaPermission.LOCATION}) float dec = 2.0f;
 
         float dtr = (float) 0.5;
 
@@ -33,7 +33,7 @@ class MultiplyTest {
     }
 
     void test_Cast() {
-        @Sources({SPARTA_Permission.LITERAL, SPARTA_Permission.LOCATION}) float ra = (float) 1.0;
+        @Sources({SpartaPermission.LITERAL, SpartaPermission.LOCATION}) float ra = (float) 1.0;
 
         //:: error: (assignment.type.incompatible)
         raRadians       = (float) ra;
@@ -41,7 +41,7 @@ class MultiplyTest {
     }
 
     void test_Unary() {
-        @Sources({SPARTA_Permission.LITERAL, SPARTA_Permission.LOCATION}) float ra = (float) 1.0;
+        @Sources({SpartaPermission.LITERAL, SpartaPermission.LOCATION}) float ra = (float) 1.0;
 
         //:: error: (assignment.type.incompatible)
         x = -ra;

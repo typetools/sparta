@@ -3,5 +3,5 @@ package android.content;
 
 class Context{
 
-	@Sources(SPARTA_Permission.FILESYSTEM) @Sinks(SPARTA_Permission.ANY) File getDir(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.FILESYSTEM) String name, @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.CONDITIONAL) int mode);
+	@Sources(SpartaPermission.FILESYSTEM) @Sinks(SpartaPermission.ANY) File getDir(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM) String name, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.CONDITIONAL) int mode);
 }

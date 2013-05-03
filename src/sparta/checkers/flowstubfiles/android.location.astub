@@ -3,5 +3,5 @@ package android.location;
 
  interface LocationListener {
 //Added by SOM
-        void onLocationChanged(@Sources(SPARTA_Permission.LOCATION) Location location);
+        void onLocationChanged(@Sources(SpartaPermission.LOCATION) Location location);
  }

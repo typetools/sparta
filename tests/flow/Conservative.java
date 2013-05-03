@@ -12,11 +12,11 @@ class Cons {
 class Use {
     //:: error: (forbidden.flow)
     @Sources({}) Object nosrc;
-    @Sources(SPARTA_Permission.ANY) Object anysrc;
+    @Sources(SpartaPermission.ANY) Object anysrc;
     //:: error: (forbidden.flow)
     @Sinks({}) Object nosink;
     //:: error: (forbidden.flow)
-    @Sinks(SPARTA_Permission.ANY) Object anysink;
+    @Sinks(SpartaPermission.ANY) Object anysink;
 
     void demo(Cons c) {
         //:: error: (assignment.type.incompatible)

@@ -20,9 +20,9 @@ import checkers.util.AnnotationUtils;
 import checkers.util.TreeUtils;
 
 import sparta.checkers.quals.Sinks;
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
 import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
 import sparta.checkers.quals.PolySinks;
 import sparta.checkers.quals.PolySources;
 
@@ -71,9 +71,9 @@ public class FlowShow extends FlowChecker {
                     show = true;
                 }
                 if (show) {
-                    List<SPARTA_Permission> src = getSources(type);
+                    List<SpartaPermission> src = getSources(type);
                     String stsrc = src.isEmpty() ? "NONE" : src.toString();
-                    List<SPARTA_Permission> snk = getSinks(type);
+                    List<SpartaPermission> snk = getSinks(type);
                     String stsnk = snk.isEmpty() ? "NONE" : snk.toString();
                     String msg = "FLOW TREE " + tree +
                             " KIND " + tree.getKind() +

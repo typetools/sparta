@@ -6,7 +6,7 @@ import checkers.quals.*;
 
 /**
  * List of data flow sinks that are attached to a certain piece of data.
- * SPARTA_Permission.ANY is the bottom type.
+ * SpartaPermission.ANY is the bottom type.
  * The empty set is the top type.
  */
 @Documented
@@ -25,5 +25,5 @@ public @interface Sinks {
      * There is always a @Sinks annotation and this default
      * ensures that the annotation has no effect.
      */
-    SPARTA_Permission[] value() default {};
+    SpartaPermission[] value() default {};
 }

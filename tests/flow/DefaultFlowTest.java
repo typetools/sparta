@@ -1,18 +1,18 @@
 import checkers.quals.PolyAll;
 
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SPARTA_Permission;
-import sparta.checkers.quals.SPARTA_Permission;
+import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.SpartaPermission;
 
 class DefaultFlowTest {
-	@Sources({SPARTA_Permission.NETWORK,SPARTA_Permission.LITERAL}) int source = 1;
-        @Sinks(SPARTA_Permission.NETWORK) int sink = 2;
-	@Sources({SPARTA_Permission.NETWORK,SPARTA_Permission.LITERAL}) @Sinks(SPARTA_Permission.NETWORK) int sourceSink = 3;
+	@Sources({SpartaPermission.INTERNET,SpartaPermission.LITERAL}) int source = 1;
+        @Sinks(SpartaPermission.INTERNET) int sink = 2;
+	@Sources({SpartaPermission.INTERNET,SpartaPermission.LITERAL}) @Sinks(SpartaPermission.INTERNET) int sourceSink = 3;
 	int none = 4;
 	
-	@Sources(SPARTA_Permission.NETWORK) TestClass classSource;
-	@Sinks(SPARTA_Permission.NETWORK) TestClass classSink;
-	@Sources(SPARTA_Permission.NETWORK) @Sinks(SPARTA_Permission.NETWORK) TestClass classSourceSink;
+	@Sources(SpartaPermission.INTERNET) TestClass classSource;
+	@Sinks(SpartaPermission.INTERNET) TestClass classSink;
+	@Sources(SpartaPermission.INTERNET) @Sinks(SpartaPermission.INTERNET) TestClass classSourceSink;
 	TestClass classNone;
 	
 	@DefaultFlow

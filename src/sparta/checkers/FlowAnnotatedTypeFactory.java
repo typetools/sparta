@@ -25,7 +25,7 @@ import checkers.types.BasicAnnotatedTypeFactory;
 import checkers.util.QualifierDefaults.DefaultApplier;
 
 import java.util.*;
-import  sparta.checkers.quals.SPARTA_Permission;
+import  sparta.checkers.quals.SpartaPermission;
 
 import static checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 
@@ -131,8 +131,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
     class FlowCompletingDefaults extends QualifierDefaults {
 
         //Instantiated lazily
-        private HashSet<SPARTA_Permission>     sinksFromAny = null;
-        private HashSet<SPARTA_Permission> sourcesToAny = null;
+        private HashSet<SpartaPermission>     sinksFromAny = null;
+        private HashSet<SpartaPermission> sourcesToAny = null;
 
         public FlowCompletingDefaults(Elements elements, AnnotatedTypeFactory atypeFactory) {
             super(elements, atypeFactory);
@@ -221,37 +221,37 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             return Pair.of(flowSourcesQual, flowSinksQuals);
         }
 
-        protected Pair<Set<SPARTA_Permission>, Set<SPARTA_Permission>> getNewSourcesOrSinks(final Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals) {
+        protected Pair<Set<SpartaPermission>, Set<SpartaPermission>> getNewSourcesOrSinks(final Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals) {
             final FlowPolicy flowPolicy = checker.getFlowPolicy();
             if(AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.first, checker.POLYFLOWSOURCES)  ||
         	    AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.second, checker.POLYFLOWSINKS) ) {
         	return Pair.of(null, null);
             }
-            final Set<SPARTA_Permission> sources = FlowUtil.getSourcesOrEmpty(sourceToSinkQuals.first, false);
-            final Set<SPARTA_Permission>     sinks   = FlowUtil.getSinksOrEmpty(sourceToSinkQuals.second,  false);
+            final Set<SpartaPermission> sources = FlowUtil.getSourcesOrEmpty(sourceToSinkQuals.first, false);
+            final Set<SpartaPermission>     sinks   = FlowUtil.getSinksOrEmpty(sourceToSinkQuals.second,  false);
 
-            final Set<SPARTA_Permission>  newSinks;
-            final Set<SPARTA_Permission> newSources;
+            final Set<SpartaPermission>  newSinks;
+            final Set<SpartaPermission> newSources;
 
             if( !sources.isEmpty() && sourceToSinkQuals.second == null) {
                 newSources = null;
                 newSinks = flowPolicy.getIntersectingSinks(sources);
                 newSinks.addAll(sinksFromAny);
-		if (newSinks.contains(SPARTA_Permission.ANY) && newSinks.size() > 1) {
+		if (newSinks.contains(SpartaPermission.ANY) && newSinks.size() > 1) {
 		    System.out.println("Drop extra sinks");
 		    newSinks.clear();
-		    newSinks.add(SPARTA_Permission.ANY);
+		    newSinks.add(SpartaPermission.ANY);
 		}
 
             }  else if( sourceToSinkQuals.first == null && !sinks.isEmpty() ) {
                 newSources = checker.getFlowPolicy().getIntersectingSources(sinks);
                 newSources.addAll(sourcesToAny);
                 newSinks = null;
-		if (newSources.contains(SPARTA_Permission.ANY)
+		if (newSources.contains(SpartaPermission.ANY)
 			&& newSources.size() > 1) {
 		    System.out.println("Drop extra sources");
 		    newSources.clear();
-		    newSources.add(SPARTA_Permission.ANY);
+		    newSources.add(SpartaPermission.ANY);
 		}
 
             } else {
@@ -269,18 +269,18 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
             final FlowPolicy flowPolicy = checker.getFlowPolicy();
             if(sinksFromAny == null) {
-                sinksFromAny = new HashSet<SPARTA_Permission>();
-                sinksFromAny.addAll(flowPolicy.getSinksFromSource(SPARTA_Permission.ANY, false));
+                sinksFromAny = new HashSet<SpartaPermission>();
+                sinksFromAny.addAll(flowPolicy.getSinksFromSource(SpartaPermission.ANY, false));
 
-                sourcesToAny = new HashSet<SPARTA_Permission>();
-                sourcesToAny.addAll(flowPolicy.getSourcesFromSink(SPARTA_Permission.ANY, false));
+                sourcesToAny = new HashSet<SpartaPermission>();
+                sourcesToAny.addAll(flowPolicy.getSourcesFromSink(SpartaPermission.ANY, false));
             }
 
             //Using pairs like Either -- the rest of this method would be much shorter with Eithers
             Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals =
                     explicitAnnosToFlowQuals(explicitAnnos);
 
-            Pair<Set<SPARTA_Permission>, Set<SPARTA_Permission>> newSourcesOrSinks =
+            Pair<Set<SpartaPermission>, Set<SpartaPermission>> newSourcesOrSinks =
                     getNewSourcesOrSinks( sourceToSinkQuals );
 
             final AnnotationMirror newAnno;

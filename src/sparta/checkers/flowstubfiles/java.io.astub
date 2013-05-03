@@ -4,20 +4,20 @@ package java.io;
 class FileOutputStream {
 //Added by SOM
 
- @Sources(SPARTA_Permission.FILESYSTEM) @Sinks(SPARTA_Permission.ANY)  FileOutputStream(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.FILESYSTEM)  File file);
- void write(@Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.FILESYSTEM) byte @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.FILESYSTEM)  [] bytes);
+ @Sources(SpartaPermission.FILESYSTEM) @Sinks(SpartaPermission.ANY)  FileOutputStream(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM)  File file);
+ void write(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM) byte @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM)  [] bytes);
 }
 
 class File {
 //Added by SOM
 
-	@Sources(SPARTA_Permission.FILESYSTEM) @Sinks(SPARTA_Permission.ANY) File( @Sources(SPARTA_Permission.ANY) @Sinks(SPARTA_Permission.FILESYSTEM) String path);
+	@Sources(SpartaPermission.FILESYSTEM) @Sinks(SpartaPermission.ANY) File( @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM) String path);
 	@PolySources @PolySinks String toString() @PolySources @PolySinks;
 }
 
 class ByteArrayOutputStream{
 //Added by SOM
-   @Sources({}) @Sinks(SPARTA_Permission.ANY) ByteArrayOutputStream();
+   @Sources({}) @Sinks(SpartaPermission.ANY) ByteArrayOutputStream();
    @PolySources @PolySinks byte @PolySources @PolySinks [] toByteArray() @PolySources @PolySinks;
-   void close() @Sources(SPARTA_Permission.ANY) @Sinks({});
+   void close() @Sources(SpartaPermission.ANY) @Sinks({});
 }

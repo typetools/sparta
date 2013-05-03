@@ -133,7 +133,7 @@
 
     <target name="conditiontest"
             depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package"
-            description="Test program conditions for types that flow to conditions and do not contain the @SPARTA_Permission.CONDITIONAL flow-sink.">
+            description="Test program conditions for types that flow to conditions and do not contain the @SpartaPermission.CONDITIONAL flow-sink.">
         <property name="cfOpts" value="-AmsgFilter=condition.flow"/>
         <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
