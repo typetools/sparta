@@ -329,8 +329,8 @@ Here is an example from a stub file:
 package android.telephony;
 
 class TelephonyManager {
-    public @Sources(SPARTA_Permission.PHONE_NUMBER) String getLine1Number();
-    public @Sources(SPARTA_Permission.IMEI) String getDeviceId();
+    public @Sources(SPARTA\_Permission.PHONE_NUMBER) String getLine1Number();
+    public @Sources(SPARTA\_Permission.IMEI) String getDeviceId();
 }
 \end{Verbatim}
 
@@ -360,35 +360,35 @@ been annotated.
 Note: at the end of this step, you have not yet added any annotations to
 the app itself, only to libraries.
 
-
-\subsection{Task: visualize the existing flow in the application}
-
-You do not have to run this step --- you can skip it if you
-prefer.
-
-\todo{Why would I want to perform this step?  What would be the benefits?}
-
-Run \<ant flowshow> to get a report of the
-existing flow.
-For every type use in the application, it indicates the flow sources
-and sinks for that variable. This is exactly the annotations written
-in the program, plus possibly some additional annotations that are
-inferred by the Checker Framework.
-
-%We don't support this
-%The \<-json> version creates file flowshow.json that can be visualized
-%separately.
-
-This step does not perform type-checking; it only visualizes the flow
-information written in the program or libraries as annotations, or
-inferred from those annotations.
-
-
-For an unannotated program, the report will not be informative: it
-only contains API annotations that are propagated to local
-variables. The report will become more informative as you add more and
-more annotations to the application. So, you can periodically rerun
-this step. 
+%
+%\subsection{Task: visualize the existing flow in the application}
+%
+%You do not have to run this step --- you can skip it if you
+%prefer.
+%
+%\todo{Why would I want to perform this step?  What would be the benefits?}
+%
+%Run \<ant flowshow> to get a report of the
+%existing flow.
+%For every type use in the application, it indicates the flow sources
+%and sinks for that variable. This is exactly the annotations written
+%in the program, plus possibly some additional annotations that are
+%inferred by the Checker Framework.
+%
+%%We don't support this
+%%The \<-json> version creates file flowshow.json that can be visualized
+%%separately.
+%
+%This step does not perform type-checking; it only visualizes the flow
+%information written in the program or libraries as annotations, or
+%inferred from those annotations.
+%
+%
+%For an unannotated program, the report will not be informative: it
+%only contains API annotations that are propagated to local
+%variables. The report will become more informative as you add more and
+%more annotations to the application. So, you can periodically rerun
+%this step. 
 
 
 \subsection{Write information flow types for the app\label{flow-task-annotate-app}}
@@ -415,15 +415,15 @@ and use your intuition to decide which parts of the application to
 focus on. Try to focus on the parts with the (most) connections
 between sources and sinks.
 
-Most types will only use either a \<@Sources> or \<@Sinks>
+Most types will only use either a \srcsome or \sinksome
 annotation.
 The goal is to find places where you need both annotations, e.g. to
 express that information that comes from the camera may go to the
 network:
 
 \begin{alltt}
-    @Sources(SPARTA_Permission.CAMERA)
-    @Sinks(SPARTA_Permission.NETWORK) Picture data;
+    @Sources(CAMERA)
+    @Sinks(NETWORK) Picture data;
 \end{alltt}
 
 Such a type connects sources and sinks and one needs to carefully
@@ -469,11 +469,11 @@ over the network. By default, every literal has \<@Sinks()>
 
 \begin{alltt}
     @SuppressWarnings("flow") // manually verified to not contain secret data
-    @Sinks(SPARTA_Permission.NETWORK) String url = "http://bazinga.com/";
+    @Sinks(NETWORK) String url = "http://bazinga.com/";
 \end{alltt}
 
 Without warning suppression the assignment raises an error, because string literals
-are assumed to be annotated with \<Sources(SPARTA_Permission.LITERAL)>. By adding the suppression, you
+are assumed to be annotated with \<Sources(LITERAL)>. By adding the suppression, you
 assert that it's OK to send this string to the network. 
 
 \end{enumerate}
@@ -481,9 +481,6 @@ assert that it's OK to send this string to the network.
 After you have corrected some of the errors, re-run \<ant flowtest>.
 Repeat the process until there are no more errors, or until you find bad
 code (malicious, or buggy and prone to abuse).
-
-You can continue to use \<ant flowshow> to visualize the annotation
-progress.  \todo{Why?  How does this help you?}
 
 
 \subsection{Type-check with stricter checking}
@@ -515,5 +512,5 @@ This option will also use the stricter conditional rule. (LITERAL
 %  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
 %  LocalWords:  RequiredPermissions Sources Sinks apiusage Dstubs
 %  LocalWords:  flowstubfiles TelephonyManager getLine1Number flowshow url
-%  LocalWords:  PolySources PloySinks SPARTA_Permission SPARTA_Permission grep
+%  LocalWords:  PolySources PloySinks SPARTA\_Permission SPARTA\_Permission grep
 %  LocalWords:  Dstricter

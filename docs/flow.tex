@@ -1,8 +1,17 @@
 \htmlhr
 \chapter{Flow Checker\label{flow-checker}}
-
 This chapter describes the Flow Checker, a type-checker that 
 tracks information flow through your program.
+The Flow Checker does pluggable type-checking of an information flow type
+system.  It is implemented using the Checker Framework.  This chapter is
+logically a chapter of the 
+Checker Framework Manual (\ifhevea\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html}\else\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.pdf}\fi).
+Therefore, in order to understand this chapter, you should first read
+chapters 1--2 of the Checker Framework Manual, and you should at least skim
+chapters 18--21 (generics through libraries) and 24--25 (FAQ and
+troubleshooting). 
+
+
 
 To use the Flow Checker, a programmer must supply two types of
 information:
@@ -28,14 +37,7 @@ annotations are consistent with the flow policy.  This gives a guarantee
 that the program has no information flow beyond what is expressed in the
 flow policy and type annotations.
 
-The Flow Checker does pluggable type-checking of an information flow type
-system.  It is implemented using the Checker Framework.  This chapter is
-logically a chapter of the 
-Checker Framework Manual (\ifhevea\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html}\else\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.pdf}\fi).
-Therefore, in order to understand this chapter, you should first read
-chapters 1--2 of the Checker Framework Manual, and you should at least skim
-chapters 18--21 (generics through libraries) and 24--25 (FAQ and
-troubleshooting). \todo{Shouldn't this be moved closer to the top of the section?}
+
 
 After you read this chapter, see \chapref{app-annotation} for tips about
 writing information-flow annotations.
@@ -48,12 +50,13 @@ type to indicate what sensitive sources can affect the variable's value.
 You write the annotation \<@Sinks> to indicate where (part of) the
 value might be output.
 
-As an example, suppose there is a declaration
+As an example
+\footnote{This example statically imports the enum to avoid writing SPARTA\_Permission before LOCATION and NETWORK. (import static sparta.checkers.quals.SPARTA\_Permission.*;)}, suppose there is a declaration
 \begin{Verbatim}
-  @Sources(SPARTA_Permission.LOCATION) @Sinks(SPARTA_Permission.NETWORK) double latitude;
+  @Sources(LOCATION) @Sinks(NETWORK) double latitude;
 \end{Verbatim}
 \noindent
-The \<@Sources(SPARTA_Permission.LOCATION)> annotation indicates that the
+The \<@Sources(LOCATION)> annotation indicates that the
 value of \<latitude> might have been derived from
 location information.  It does not guarantee that the value came from
 authentic GPS data, but only sets a bound on where the information might
@@ -65,6 +68,8 @@ possible that the data has already been output.
 The argument to \<@Sources> (and \<@Sinks>) is an enum constant, or a
 set of them to indicate that a value might combine information from
 multiple sources (or might flow to multiple locations).
+\todo{Will need to rewrite this section if we agree to merge the enums.  Including explaining how an enum 
+constant is marked as Source, Sink or Both}
 Sources specifies data sources such as phone number, location, 
 etc.  Sinks specifies sinks, such as files, network, and so on.
 The types of Sources and Sinks are listed in the
@@ -92,15 +97,14 @@ qualifier hierarchy.  The top type is \<@Sources(ANY)>, which is
 shorthand for listing every source.  It would be legal to annotate every
 variable in a program with \<@Sources(ANY)>, because every variable is
 derived from some subset of all flow sources.  But, such an annotation
-would be imprecise.  \<@Sources(\ttcbs)> or \<@Sources()> is the
+would be imprecise.  \<@Sources(\ttcbs)>  is the
 bottom type, and may only
 be applied to variables whose value does not depend on any sensitive
 source.
 
 
 \figref{fig:flow-hierarchy} shows part of the \<@Sinks>
-qualifier hierarchy.  The top type is \<@Sinks(\ttcbs)> or
-\<@Sinks()>, which indicates
+qualifier hierarchy.  The top type is \<@Sinks(\ttcbs)>, which indicates
 that the value is only used locally by the application and never flows to
 any sensitive sink.  The bottom type, \<@Sinks(Sinks.ANY)>, is a
 value that might be output to any location whatsoever; it can be thought of
@@ -121,7 +125,7 @@ ANY \flowsto{} CONDITIONAL is added to the flow policy by default.
 Conditionals are treated this way because they can leak information. For example, the given a flow policy of  USER\_INPUT \flowsto{} FILESYSTEM, the following type checks.
 
 \begin{alltt}
-@Sources(SPARTA_Permission.USER_INPUT) @Sinks(SPARTA_Permission.FILESYSTEM)
+@Sources(USER_INPUT) @Sinks(FILESYSTEM)
 int creditCard = getCCNumber();
 final int MAX\_CC\_NUM = 9999999999999999;
 for (int i = 0 ; i < MAX\_CC\_NUM ; i++)\{
@@ -138,7 +142,7 @@ To catch this sort of information leak, pass
 
 \subsection{Empty Flow Sinks or Flow Sources\label{sec:emptyflow}}
 
-Programmers should not use @Sources(\{\}) or @Sinks(\{\}) for
+Programmers should not use @Sources(\ttcbs) or @Sinks(\ttcbs) for
 any types except in stub files.
 These types are only needed for top/bottom types which are used in the
 default types: the \<null> literal uses the bottom type in order for
@@ -181,7 +185,7 @@ even if all types in program otherwise typecheck.
 For example, this variable declaration
 
 \begin{alltt}
-@SPARTA_Permission(SPARTA_Permission.CAMERA) @SPARTA_Permission(NETWORK) Video video = ...
+@Sources(CAMERA) @Sinks(NETWORK) Video video = ...
 \end{alltt}
 
 \noindent
@@ -200,16 +204,16 @@ The flow policy file contains:
 
 The following variable declarations are permitted:
 \begin{alltt}
-  @Sources(SPARTA_Permission.ACCOUNTS) @Sinks(SPARTA_Permission.EXTERNAL_STORAGE) Account acc = ...
-  @Sources({SPARTA_Permission.ACCELEROMETER, SPARTA_Permission.ACCOUNTS})
-  @Sinks({SPARTA_Permission.EXTERNAL_STORAGE, SPARTA_Permission.FILE_SYSTEM}) int accel = ...
+  @Sources(ACCOUNTS) @Sinks(EXTERNAL_STORAGE) Account acc = ...
+  @Sources({ACCELEROMETER, ACCOUNTS})
+  @Sinks({EXTERNAL_STORAGE, FILE_SYSTEM}) int accel = ...
 \end{alltt}
 
 The following definitions would generate ``forbidden flow'' errors:
 \begin{Verbatim}
-  @Sources(SPARTA_Permission.ACCOUNTS) @Sinks(@SPARTA_Permission.NETWORK) Account acc = ...
-  @Sources({SPARTA_Permission.ACCELEROMETER, SPARTA_Permission.ACCOUNTS})
-  @Sinks({SPARTA_Permission.EXTERNAL_STORAGE, SPARTA_Permission.FILESYSTEM, SPARTA_Permission.NETWORK})
+  @Sources(ACCOUNTS) @Sinks(@NETWORK) Account acc = ...
+  @Sources({ACCELEROMETER, ACCOUNTS})
+  @Sinks({EXTERNAL_STORAGE, FILESYSTEM, NETWORK})
 \end{Verbatim}
 
 
@@ -219,12 +223,10 @@ Each line of a policy file specifies a permitted flow from a source to one
 or more sinks.  For example,
 \code{MICROPHONE -> NETWORK} implies that
 MICROPHONE data is always allowed to flow to NETWORK.
-The source must be a member of the enum
-\<sparta.checkers.quals.SPARTA_Permission> and the sink must be a
-member of the enum 
-\<sparta.checkers.quals.SPARTA_Permission>.  The source 
+The source or sink must be a member of the enum
+\<sparta.checkers.quals.SPARTA\_Permission>.  The source 
 and sink names should not be preceded by the name of the enumeration which contains them.
-ANY is allowed just as it is in @Sources and @Sinks, but empty, \{\}, is not allowed.
+ANY is allowed just as it is in @Sources and @Sinks, but empty, \ttcbs, is not allowed.
 
 Multiple sources or sinks can appear on the same line if they are separated by commas. 
 For example,
@@ -256,14 +258,6 @@ Or if you are using the \<flowtest> ant targets, you can pass the option to ant:
 ant -DflowPolicy=\emph{mypolicyfile} flowtest
 \end{alltt}
 
-Remember, not specifying a flow policy file is equivalent to not
-allowing any flows.
-\todo{is this right? What about relaxed vs. strict?}
-
-
-
-
-
 
 \section{Default Types\label{flow-defaults}}
 
@@ -272,12 +266,12 @@ allowing any flows.
     \toprule
 \bf{Location}&\bf{Default Flow Type}\\
 \midrule 
-    Fields &  \<@Sources(SPARTA_Permission.LITERAL)> \\ 
-    Method parameters &  \<@Sources(SPARTA_Permission.LITERAL)> \\ 
-    Return values &  \<@Sources(SPARTA_Permission.LITERAL)> \\ 
-    \<null> &  \<@Sources(\{\}) @Sinks(SPARTA_Permission.ANY)>\\ 
-    Literals & \<@Sources(SPARTA_Permission.LITERAL) @Sinks(SPARTA_Permission.CONDITIONAL)>\\ 
-   Local variables  &   \<@Sources(SPARTA_Permission.ANY) @Sinks(\{\})> \\ 
+    Fields &  \<@Sources(LITERAL)> \\ 
+    Method parameters &  \<@Sources(LITERAL)> \\ 
+    Return values &  \<@Sources(LITERAL)> \\ 
+    \<null> &  \<@Sources(\ttcbs) @Sinks(ANY)>\\ 
+    Literals & \<@Sources(LITERAL) @Sinks(CONDITIONAL)>\\ 
+   Local variables  &   \<@Sources(ANY) @Sinks(\ttcbs)> \\ 
    \<@Sources($\alpha$)>&\<@Sources($\alpha$)>
    \<@Sinks($\omega$)>,  $\omega$ is the set of  sinks allowed to flow from all sources in $\alpha$ \\ 
       \<@Sinks($\omega$)>&\<@Sources($\alpha$)>
@@ -296,16 +290,16 @@ flow checker.
 
 The defaults are not applied if the programmer uses annotations.  For
 example, the parameter below is of type
-\<@Sources(SPARTA_Permission.LOCATION) @Sinks(SPARTA_Permission.NETWORK)>
-rather than  \<@Sources({SPARTA_Permission.LITERAL})>. Note that \<@Sources>
-means \<@Sources(\{\})> and \<@Sinks>  means \<@Sinks(\{\})>.
+\<@Sources(LOCATION) @Sinks(NETWORK)>
+rather than  \<@Sources({LITERAL})>.
+
 \begin{alltt}
 public void sendToInternet(
-    @Sources(SPARTA_Permission.LOCATION) @Sinks(SPARTA_Permission.NETWORK) String message)\{...\}
+    @Sources(LOCATION) @Sinks(NETWORK) String message)\{...\}
 \end{alltt} 
 
-The value \<null> has the bottom type (\<@Sinks(SPARTA_Permission.ANY)
-@Sources>),
+The value \<null> has the bottom type (\<@Sinks(ANY)
+@Sources(\ttcbs)>),
 so that it can be assigned to any type. For local variables, the
 default applies to the top level of the local variable type, but not
 to generic type arguments and array elements, if any.
@@ -417,8 +411,8 @@ defaults.
 \subsection{@DefaultFlow}
 
 An element annotated with \<@DefaultFlow> expresses that an enclosed
-method's return type and all parameter types are \<@Sources(SPARTA_Permission.LITERAL)
-@Sinks(SPARTA_Permission.CONDITIONAL)>.  As with all 
+method's return type and all parameter types are \<@Sources(LITERAL)
+@Sinks(CONDITIONAL)>.  As with all 
 library annotations, it is trusted rather than checked.  Thus, it should be
 used only if an external analysis has determined that it is correct for the
 annotated method, class, or package.
@@ -443,7 +437,7 @@ program uses a previously-unannotated library.
 \subsection{@PolyFlow\label{sec:polyflow}}
 
 Annotation \<@PolyFlow> expresses that each contained method should be
-annotated as \<@PolySPARTA_Permission @PolySPARTA_Permission> for both the return
+annotated as \<@PolySPARTA\_Permission @PolySPARTA\_Permission> for both the return
 types and all parameters.
 
 
@@ -455,7 +449,7 @@ types and all parameters.
 %illustrate their effects.  Only assignment operations are used
 %but remember that the flow-policy applies to all information flows.
 %Comments in the code examples describe a direct effect of the
-%given policy file.  Fake SPARTA_Permission and SPARTA_Permission names are used
+%given policy file.  Fake SPARTA\_Permission and SPARTA\_Permission names are used
 %to aid in clarity.
 %
 %Any variable definition marked "OK" indicates that this
@@ -488,7 +482,7 @@ a cast \<(Object []) x>, were \<x> is of type \<Object>, will result
 in a compiler warning:
 
 \begin{alltt}
-[jsr308.javac] ... warning: "@Sinks @Sources({SPARTA_Permission.ANY}) Object"
+[jsr308.javac] ... warning: "@Sinks @Sources({ANY}) Object"
        may not be casted to the type "@Sinks @Sources Object"
 \end{alltt}
 
@@ -512,8 +506,8 @@ expressions depending on the left-hand side.
 
 Some methods that are intended to be overridden by subclasses, such as 
 \<Object>'s \<equals()> and \<toString()>, are given the most general
-possible return type, \<@Sources(SPARTA_Permission.ANY) @Sinks({})>.
-% Is this rationale correct??
+possible return type, \<@Sources(ANY) @Sinks({})>.
+\todo{ Is this rationale correct??}
 This permits overriding methods to give them a more specific return type, which
 might depend on fields of the overriding class as well as on the types of
 the arguments.  In fact, an overriding method must give a more specific
@@ -523,13 +517,13 @@ Most binary operations, such as string concatenation and integer addition,
 produce a result whose type is the least upper bound of the two operand types.
 
 
-%% Adding on to that, if you try to compute a @SPARTA_Permission{something} int
+%% Adding on to that, if you try to compute a @SPARTA\_Permission{something} int
 %%  with a int literal (0 or 100, etc) it will resolve to another
-%%  @SPARTA_Permission{something} int. If you try the same with a
-%%  @SPARTA_Permission{something} int with an int literal, it will result in
-%%  @SPARTA_Permission{} int because it's not safe to add a flowsink to the int
+%%  @SPARTA\_Permission{something} int. If you try the same with a
+%%  @SPARTA\_Permission{something} int with an int literal, it will result in
+%%  @SPARTA\_Permission{} int because it's not safe to add a flowsink to the int
 %%  literal. To bypass this, you must declare a local variable with
-%%  "@SuppressWarnings("flow") @SPARTA_Permission{something} int tempZero = 0;"
+%%  "@SuppressWarnings("flow") @SPARTA\_Permission{something} int tempZero = 0;"
 %%  and then use the local variable in the calculation.
 %%  Again document why the warning can be suppressed.
 
@@ -543,4 +537,4 @@ produce a result whose type is the least upper bound of the two operand types.
 %  LocalWords:  Sinks someData Sources enum 5cm flowsources 'c'
 %  LocalWords:  flowsinks realString asdf PolySources PolySinks
 %  LocalWords:  sparta NoFlow ConservativeFlow astub TODO jsr308
-%  LocalWords:  SPARTA_Permission
+%  LocalWords:  SPARTA\_Permission
