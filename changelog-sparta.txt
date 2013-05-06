@@ -1,3 +1,22 @@
+Version 0.9.2 1 June 2013
+
+Major Refactoring
+   We did the following renamings: 
+      @FlowSources -> @Sources
+      @FlowSinks -> @Sinks
+      @PolyFlowSinks -> @PolySinks
+      @PolyFlowSources -> @PolySources
+   Also, merged the FlowSource and FlowSink enums into SpartaPermission
+   all of the constants in the new enum are named to match Android 
+   permissions.  This means that some of the old sources and sinks no 
+   longer exist.  You can find a mapping from old to new in comments in
+   SpartaPermission.
+ 
+
+Documentation
+  Improvements to the manual 
+
+----------------------------------------------------------------------
 Version 0.9.1 1 May 2013
 Documentation
   Improvements to the manual 
