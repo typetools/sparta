@@ -14,12 +14,12 @@ import sparta.checkers.quals.SpartaPermission;
 // Therefore, that method invocation fails.
 // Write your own little test classes to illustrate the point.
 class TestPolyConstructors {
-    @Sources(SpartaPermission.LOCATION) HttpResponse response;
-    @Sources(SpartaPermission.LOCATION) HttpEntity entity;
-    @Sources(SpartaPermission.LOCATION) InputStream tempStream;
+    @Sources(SpartaPermission.ACCESS_FINE_LOCATION) HttpResponse response;
+    @Sources(SpartaPermission.ACCESS_FINE_LOCATION) HttpEntity entity;
+    @Sources(SpartaPermission.ACCESS_FINE_LOCATION) InputStream tempStream;
     Reader responseReader;
 
-    void sdf(@Sinks(SpartaPermission.INTERNET) @Sources(SpartaPermission.LOCATION) HttpGet request) {
+    void sdf(@Sinks(SpartaPermission.INTERNET) @Sources(SpartaPermission.ACCESS_FINE_LOCATION) HttpGet request) {
         try {
             HttpClient client = new DefaultHttpClient();
             response = client.execute(request);

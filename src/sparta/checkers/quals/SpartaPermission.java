@@ -235,7 +235,7 @@ public enum SpartaPermission {
   //Allows an application to monitor incoming WAP push messages. 
           RECEIVE_WAP_PUSH  (T.SOURCE) , 
   //Allows an application to record audio 
-          RECORD_AUDIO  (T.SINK) , 
+          RECORD_AUDIO  (T.BOTH) , 
   //Allows an application to change the Z-order of tasks 
           REORDER_TASKS  (T.SINK) , 
   //This constant was deprecated in API level 8. The restartPackage(String) API is no longer supported. 

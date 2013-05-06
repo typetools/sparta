@@ -12,8 +12,8 @@ class HttpGet {
 
 class PolyConstructors {
 
-    void testPolyConstructor(@Sources(SpartaPermission.LOCATION) @Sinks(SpartaPermission.INTERNET) String in) {	
-    	@Sources(SpartaPermission.LOCATION) @Sinks(SpartaPermission.INTERNET)
+    void testPolyConstructor(@Sources(SpartaPermission.ACCESS_FINE_LOCATION) @Sinks(SpartaPermission.INTERNET) String in) {	
+    	@Sources(SpartaPermission.ACCESS_FINE_LOCATION) @Sinks(SpartaPermission.INTERNET)
 //:: error: (constructor.invocation.invalid)   
     	HttpGet request = new HttpGet(in);
     }

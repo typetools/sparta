@@ -7,22 +7,22 @@ import sparta.checkers.quals.PolySources;
 
 class SwitchTest {
     void foo() {
-        @Sources({SpartaPermission.LOCATION, SpartaPermission.LITERAL}) int info = 1;
+        @Sources({SpartaPermission.ACCESS_FINE_LOCATION, SpartaPermission.LITERAL}) int info = 1;
 
         //Explicitly forbid this field from having SpartaPermission.CONDITIONAL
         //:: error: (forbidden.flow)
-        @Sources({SpartaPermission.LOCATION}) @Sinks({}) int badInfo = 1;
+        @Sources({SpartaPermission.ACCESS_FINE_LOCATION}) @Sinks({}) int badInfo = 1;
 
         @Sources(SpartaPermission.LITERAL) int noInfo = 1;
 
         //This field gets SpartaPermission.CONDITIONAL added by default
-        final @Sources({SpartaPermission.LOCATION, SpartaPermission.LITERAL}) int caseInfo = 1;
+        final @Sources({SpartaPermission.ACCESS_FINE_LOCATION, SpartaPermission.LITERAL}) int caseInfo = 1;
         final int caseNoInfo = 2;
 
 
         //Explicitly forbid this field from having SpartaPermission.CONDITIONAL
         //:: error: (forbidden.flow)
-        final @Sources({SpartaPermission.LOCATION, SpartaPermission.LITERAL}) @Sinks({}) int badCaseInfo = 3;
+        final @Sources({SpartaPermission.ACCESS_FINE_LOCATION, SpartaPermission.LITERAL}) @Sinks({}) int badCaseInfo = 3;
 
         switch (info) {
 

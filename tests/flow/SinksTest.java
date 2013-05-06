@@ -14,7 +14,7 @@ class SinksTest {
         sendData(p);
     }
 
-    void two(@Sinks({SpartaPermission.INTERNET, SpartaPermission.SMS}) Object p) {
+    void two(@Sinks({SpartaPermission.INTERNET, SpartaPermission.WRITE_SMS}) Object p) {
         // Allowed: fewer sinks
         sendData(p);
         // Forbidden: more sinks

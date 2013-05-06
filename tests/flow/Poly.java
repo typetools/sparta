@@ -21,7 +21,7 @@ public class Poly {
         @Sinks(SpartaPermission.INTERNET) @Sources(SpartaPermission.CAMERA) Object l2 = testComb(s); 
     }
 
-    @Sources(SpartaPermission.LOCATION) float y;
+    @Sources(SpartaPermission.ACCESS_FINE_LOCATION) float y;
     void test_floatmath() {
 //        y = FloatMath.sin(y);
     }

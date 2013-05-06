@@ -21,10 +21,10 @@ class MiscTests {
     @SuppressWarnings("flow")
     @Sinks({SpartaPermission.INTERNET, SpartaPermission.CONDITIONAL}) String WEBSERVICE_URL = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
 
-    @Sources({SpartaPermission.LITERAL, SpartaPermission.LOCATION}) String WEBSERVICE_URL2 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
+    @Sources({SpartaPermission.LITERAL, SpartaPermission.ACCESS_FINE_LOCATION}) String WEBSERVICE_URL2 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
 
     String WEBSERVICE_URL3 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
-    @Sources({SpartaPermission.LITERAL, SpartaPermission.LOCATION}) String result; //With FP effective Sinks(INTERNET,CONDITIONAL}
+    @Sources({SpartaPermission.LITERAL, SpartaPermission.ACCESS_FINE_LOCATION}) String result; //With FP effective Sinks(INTERNET,CONDITIONAL}
 
     @Sources({SpartaPermission.LITERAL}) @Sinks({SpartaPermission.CONDITIONAL}) String result2;
 
@@ -58,11 +58,11 @@ class MiscTests {
 
     void test_StringFormat_ObjectSpartaPermissionSource() {
         //::error: (assignment.type.incompatible)
-        @Sources(SpartaPermission.AUDIO) double lat = 1.0;
+        @Sources(SpartaPermission.READ_CALENDAR) double lat = 1.0;
         //::error: (assignment.type.incompatible)
-        @Sources(SpartaPermission.AUDIO) double lon = 2.0;
+        @Sources(SpartaPermission.READ_CALENDAR) double lon = 2.0;
         //::error: (assignment.type.incompatible)
-        @Sources(SpartaPermission.AUDIO) int days = 3;
+        @Sources(SpartaPermission.READ_CALENDAR) int days = 3;
         //::error: (assignment.type.incompatible)
         result = String.format(WEBSERVICE_URL3, lat, lon, days);
     }

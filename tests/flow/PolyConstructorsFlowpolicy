@@ -1,2 +1,2 @@
-  #@Sources(SpartaPermission.LOCATION) @Sinks(SpartaPermission.INTERNET)
-LOCATION->INTERNET
+  #@Sources(SpartaPermission.ACCESS_FINE_LOCATION) @Sinks(SpartaPermission.INTERNET)
+ACCESS_FINE_LOCATION->INTERNET

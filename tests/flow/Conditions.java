@@ -1,6 +1,5 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.SpartaPermission;
 
 class Conditions {
     void good(int p) {
@@ -12,7 +11,7 @@ class Conditions {
         }
     }
 
-    void bad(@Sinks(SpartaPermission.ACCOUNTS) int p) {
+    void bad(@Sinks(SpartaPermission.MANAGE_ACCOUNTS) int p) {
         //:: error: (condition.flow)
         if (p > 9) {
             // boom.
@@ -27,7 +26,7 @@ class Conditions {
         int answer = b ? 42 : 33;
     }
 
-    void bad(@Sinks(SpartaPermission.ACCOUNTS) boolean p) {
+    void bad(@Sinks(SpartaPermission.MANAGE_ACCOUNTS) boolean p) {
         //:: error: (condition.flow)
         if(p) {
             // bad.

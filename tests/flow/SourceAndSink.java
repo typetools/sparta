@@ -4,8 +4,8 @@ import sparta.checkers.quals.SpartaPermission;
 
 class SourceAndSink {
     //:: error: (forbidden.flow)
-    @Sources(SpartaPermission.MICROPHONE) @Sinks({}) Object getPrivateSound() { return null; }
-    @Sources(SpartaPermission.MICROPHONE) @Sinks(SpartaPermission.ANY) Object getPublicSound() { return null; }
+    @Sources(SpartaPermission.RECORD_AUDIO) @Sinks({}) Object getPrivateSound() { return null; }
+    @Sources(SpartaPermission.RECORD_AUDIO) @Sinks(SpartaPermission.ANY) Object getPublicSound() { return null; }
 
 
     //:: error: (forbidden.flow)

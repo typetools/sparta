@@ -1,18 +1,18 @@
 
 #Adding random
-ANY -> LOG  #Comments
+ANY -> WRITE_LOGS  #Comments
 
-TIME -> LOG
-TIME -> FILESYSTEM
-TIME -> EMAIL
+READ_TIME -> WRITE_LOGS
+READ_TIME -> FILESYSTEM
+READ_TIME -> EMAIL
 
 
     #<-
-ACCOUNTS -> DISPLAY, EMAIL
+MANAGE_ACCOUNTS -> DISPLAY, EMAIL
 
              #There are
-MICROPHONE -> INTERNET, FILESYSTEM
-MICROPHONE -> EMAIL      #No errors #
+RECORD_AUDIO -> INTERNET, FILESYSTEM
+RECORD_AUDIO -> EMAIL      #No errors #
 #####################################
 
 
