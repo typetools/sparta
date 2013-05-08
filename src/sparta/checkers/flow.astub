@@ -32,7 +32,7 @@ class UriMatcher {
 
 class SQLiteDatabase {
 //Added by Philip
-    void execSQL(@FlowSources(FlowSource.ANY) @FlowSinks(FlowSink.SQLITE_DATABASE) String sql) @FlowSources(FlowSource.ANY) @FlowSinks({});
+    void execSQL(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) String sql) @Sources(SpartaPermission.ANY) @Sinks({});
 }
 package android.graphics;
 
