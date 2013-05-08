@@ -56,7 +56,7 @@ public enum SpartaPermission {
      * Android Manifest.permissions (Do not add new permissions below here)
      */
   //Allows read/write access to the "properties" table in the checkin database, to change values that get uploaded. 
-    ACCESS_CHECKIN_PROPERTIES  (T.BOTH) , 
+		  ACCESS_CHECKIN_PROPERTIES  (T.BOTH) , 
   //Allows an app to access approximate location derived from network location sources such as cell towers and Wi-Fi. 
           ACCESS_COARSE_LOCATION  (T.SOURCE) , 
   //Allows an app to access precise location from location sources such as GPS, cell towers, and Wi-Fi. 
@@ -114,7 +114,7 @@ public enum SpartaPermission {
   //Allows an application to call any phone number, including emergency numbers, without going through the Dialer user interface for the user to confirm the call being placed. 
           CALL_PRIVILEGED  (T.SINK) , 
   //Required to be able to access the camera device. 
-          CAMERA  (T.SINK) , 
+          CAMERA  (T.BOTH) , 
   //Allows an application to change whether an application component (other than its own) is enabled or not. 
           CHANGE_COMPONENT_ENABLED_STATE  (T.SINK) , 
   //Allows an application to modify the current configuration, such as locale. 
@@ -325,7 +325,7 @@ public enum SpartaPermission {
      * of permissions that have been truncated 
      */
          /*
-          NETOWRK (T.BOTH), now INTERNET
+          NETWORK (T.BOTH), now INTERNET
           TIME (T.SOURCE), now READ_TIME or SET_TIME
           SERIAL_NUMBER (T.SOURCE), now READ_PHONE_STATE
           IMEI (T.SOURCE), now  READ_PHONE_STATE
