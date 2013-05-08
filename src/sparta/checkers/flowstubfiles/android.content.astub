@@ -1,7 +1,10 @@
-
 package android.content;
 
 class Context{
 
 	@Sources(SpartaPermission.FILESYSTEM) @Sinks(SpartaPermission.ANY) File getDir(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM) String name, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.CONDITIONAL) int mode);
+}
+
+class UriMatcher {
+    //@PolyFlow int match(Uri uri);
 }
