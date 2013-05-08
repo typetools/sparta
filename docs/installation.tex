@@ -77,24 +77,27 @@ and install the Android ADT Plugin (\url{https://dl-ssl.google.com/android/eclip
  create directory \<sparta-code/lib> and unzip gson there.
  \end{itemize}
 
-\item Update the Android development environment, by 
-running the following:
-
-\begin{Verbatim}
-ant -buildfile $SPARTA_CODE/build.local.xml
-\end{Verbatim}
-
-Alternatively, you can run:
-
-\begin{Verbatim}
-$ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
-\end{Verbatim}
-
-
-Rationale:  When working with Android, a developer must ``update a project'' to
-properly set the path to the Android SDK\@.  For more details about
-updating an Android project, see
-\url{http://developer.android.com/tools/projects/projects-cmdline.html#UpdatingAProject}.
+%sparta-code isn't an android project, so both of these commands fail with
+%this error:
+%sparta-code is not a valid project (AndroidManifest.xml not found).
+%\item Update the Android development environment, by 
+%running the following:
+%
+%\begin{Verbatim}
+%ant -buildfile $SPARTA_CODE/build.local.xml
+%\end{Verbatim}
+%
+%Alternatively, you can run:
+%
+%\begin{Verbatim}
+%$ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
+%\end{Verbatim}
+%
+%
+%Rationale:  When working with Android, a developer must ``update a project'' to
+%properly set the path to the Android SDK\@.  For more details about
+%updating an Android project, see
+%\url{http://developer.android.com/tools/projects/projects-cmdline.html#UpdatingAProject}.
 
 
 \item Build the SPARTA tools by compiling the source code:
