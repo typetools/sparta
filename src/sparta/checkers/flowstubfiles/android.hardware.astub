@@ -19,7 +19,8 @@ interface Camera$PictureCallback {
     
     void onPictureTaken(
          @Sources(SpartaPermission.CAMERA)  byte 
-                @Sources(SpartaPermission.CAMERA)  [] data, 
+         //This sinks annotation needs to be changed once the new defaulting for stubs is implemented SOM
+                @Sources(SpartaPermission.CAMERA) @Sinks({SpartaPermission.CONDITIONAL, SpartaPermission.FILESYSTEM,SpartaPermission.DISPLAY})  [] data, 
                 @Sources(SpartaPermission.CAMERA) Camera camera);
 }
 
