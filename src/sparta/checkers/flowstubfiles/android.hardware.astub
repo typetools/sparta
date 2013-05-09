@@ -17,11 +17,7 @@ class Camera {
 
 interface Camera$PictureCallback {
     
-    void onPictureTaken(
-         @Sources(SpartaPermission.CAMERA)  byte 
-       
-                @Sources(SpartaPermission.CAMERA)  [] data, 
-                @Sources(SpartaPermission.CAMERA) Camera camera);
+    void onPictureTaken(@Sources(SpartaPermission.CAMERA)  byte @Sources(SpartaPermission.CAMERA)  [] data, @Sources(SpartaPermission.CAMERA) Camera camera);
 }
 
 
