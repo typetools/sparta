@@ -68,6 +68,13 @@ class Camera {
 	void takePicture(ShutterCallback shutter, @Sources(SpartaPermission.CAMERA) PictureCallback raw, @Sources(SpartaPermission.CAMERA) @Sinks({}) PictureCallback jpeg);
 }
 
+interface Camera$PictureCallback {
+    
+    void onPictureTaken(
+         @Sources(SpartaPermission.CAMERA)  byte 
+                @Sources(SpartaPermission.CAMERA)  [] data, 
+                @Sources(SpartaPermission.CAMERA) Camera camera);
+}
 
 
 

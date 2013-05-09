@@ -57,6 +57,8 @@ public enum SpartaPermission {
 
     /**
      * Android Manifest.permissions (Do not add new permissions below here)
+     * I was mostly guessing whether the permissions should be source, sink or both, 
+     * so feel free to change the T of the permission. -SOM
      */
   //Allows read/write access to the "properties" table in the checkin database, to change values that get uploaded. 
 		  ACCESS_CHECKIN_PROPERTIES  (T.BOTH) , 
