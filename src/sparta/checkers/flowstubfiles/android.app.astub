@@ -1,0 +1,9 @@
+
+package android.app;
+
+class Activity{
+//Annotations by SOM
+	void onCreate(@Sources(SpartaPermission.ANY) Bundle savedInstanceState);
+	void setContentView(@Sinks(SpartaPermission.DISPLAY) int layout);
+    @Sources(SpartaPermission.LITERAL) MenuInflater getMenuInflater ();	
+}

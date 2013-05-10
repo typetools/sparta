@@ -1,0 +1,9 @@
+package android.view;
+
+class MenuInflater{
+
+//Add by SOM, once we have the new defaulting, then these annotations can be removed.
+void inflate (@Sinks(SpartaPermission.CONDITIONAL) int menuRes, @Sinks(SpartaPermission.CONDITIONAL) Menu menu);
+
+}
+

@@ -3,7 +3,7 @@ package java.util;
 
  //Added by SOM
  class ArrayList<T extends @Sinks({}) @Sources(SpartaPermission.ANY) Object> {
-         @PolySources @PolySinks T get(int index) @PolySources @PolySinks;
+         @PolySources @PolySinks T get(@Sinks(SpartaPermission.CONDITIONAL) int index) @PolySources @PolySinks;
  }
 
 class List<T extends @Sinks({}) @Sources(SpartaPermission.ANY) Object> {
