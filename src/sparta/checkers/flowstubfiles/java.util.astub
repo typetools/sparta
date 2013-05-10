@@ -9,9 +9,8 @@ package java.util;
 class List<T extends @Sinks({}) @Sources(SpartaPermission.ANY) Object> {
 //Copied from Orig. flow.astub file
 //Need for list test SOM
-   @NoFlow boolean add(T object) @Sources(SpartaPermission.ANY);
+   boolean add(T object) @Sources(SpartaPermission.ANY);
    T get(@Sinks({}) int index);
-   @NoFlow int size() @Sources(SpartaPermission.ANY);
-  //How to annotate this: Object[] toArray();
+   int size() @Sources(SpartaPermission.ANY);
 }
 

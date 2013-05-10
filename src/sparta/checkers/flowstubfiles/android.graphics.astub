@@ -12,7 +12,7 @@ class BitmapFactory {
 class Bitmap {
 //Added by SOM
 //The CompressFormat is any enum value
-	@Sources({}) @Sinks(SpartaPermission.ANY) boolean compress(
+	 boolean compress(
 	          @Sources(SpartaPermission.ANY) @Sinks({}) CompressFormat format, @Sources(SpartaPermission.ANY) @Sinks({}) int quality, 
 	          @PolySinks @PolySources OutputStream stream) @PolySinks @PolySources;
 }

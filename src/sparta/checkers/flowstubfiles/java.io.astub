@@ -4,14 +4,14 @@ package java.io;
 class FileOutputStream {
 //Added by SOM
 
- @Sources(SpartaPermission.FILESYSTEM) @Sinks(SpartaPermission.ANY)  FileOutputStream(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM)  File file);
- void write(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM) byte @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM)  [] bytes);
+ @Sources(SpartaPermission.FILESYSTEM)  FileOutputStream(@Sinks(SpartaPermission.FILESYSTEM)  File file);
+ void write(@Sinks(SpartaPermission.FILESYSTEM) byte @Sinks(SpartaPermission.FILESYSTEM)  [] bytes);
 }
 
 class File {
 //Added by SOM
 
-	@Sources(SpartaPermission.FILESYSTEM) @Sinks(SpartaPermission.ANY) File( @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM) String path);
+	@Sources(SpartaPermission.FILESYSTEM) File( @Sinks(SpartaPermission.FILESYSTEM) String path);
 	@PolySources @PolySinks String toString() @PolySources @PolySinks;
 }
 
