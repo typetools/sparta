@@ -14,18 +14,18 @@ class FloatMath {
 class Log {
 //Added by SOM
 
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY) int     d(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    d(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) String msg, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    e(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    e(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    i(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    i(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    v(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    v(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS)  @Sinks(SpartaPermission.ANY) int    w(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    w(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) String msg, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    w(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    wtf(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    wtf(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS)  @Sinks(SpartaPermission.ANY) int    wtf(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
+static @Sources(SpartaPermission.READ_LOGS)  int     d(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
+static @Sources(SpartaPermission.READ_LOGS)  int    d(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
+static @Sources(SpartaPermission.READ_LOGS)  int    e(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
+static @Sources(SpartaPermission.READ_LOGS)  int    e(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
+static @Sources(SpartaPermission.READ_LOGS)  int    i( @Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
+static @Sources(SpartaPermission.READ_LOGS)  int    i(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
+static @Sources(SpartaPermission.READ_LOGS)  int    v(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
+static @Sources(SpartaPermission.READ_LOGS)  int    v(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
+static @Sources(SpartaPermission.READ_LOGS)  int    w(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
+static @Sources(SpartaPermission.READ_LOGS)  int    w( @Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
+static @Sources(SpartaPermission.READ_LOGS)  int    w( @Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
+static @Sources(SpartaPermission.READ_LOGS)  int    wtf(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
+static @Sources(SpartaPermission.READ_LOGS)  int    wtf(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
+static @Sources(SpartaPermission.READ_LOGS)  int    wtf(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
 }

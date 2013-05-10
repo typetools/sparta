@@ -4,19 +4,15 @@ class Camera {
 //Annotations by Philip 
 
 	@Sources(SpartaPermission.CAMERA_SETTINGS) Parameters getParameters();
-	//@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
 	@DefaultFlow
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
-	//void release();
 	void setParameters(@Sinks(SpartaPermission.CAMERA_SETTINGS) Parameters params);
 	void setPreviewDisplay(@Sinks(SpartaPermission.DISPLAY) SurfaceHolder holder);
-	//void startPreview();
-	//void stopPreview();
 	void takePicture(ShutterCallback shutter, @Sources(SpartaPermission.CAMERA) PictureCallback raw, @Sources(SpartaPermission.CAMERA) @Sinks({}) PictureCallback jpeg);
 }
 
 interface Camera$PictureCallback {
-    
+    //SOM
     void onPictureTaken(@Sources(SpartaPermission.CAMERA)  byte @Sources(SpartaPermission.CAMERA)  [] data, @Sources(SpartaPermission.CAMERA) Camera camera);
 }
 
