@@ -7,3 +7,14 @@ void inflate (@Sinks(SpartaPermission.CONDITIONAL) int menuRes, @Sinks(SpartaPer
 
 }
 
+class SurfaceView{
+//SOM
+ @Sinks(SpartaPermission.DISPLAY) SurfaceHolder getHolder ();
+}        
+     
+class SurfaceHolder{
+//Add by SOM, once we have the new defaulting, then these annotations can be removed.
+   void addCallback (@Sinks(SpartaPermission.CONDITIONAL) SurfaceHolder.Callback callback) @Sinks(SpartaPermission.DISPLAY);
+   void setType (@Sinks(SpartaPermission.CONDITIONAL)  int type) @Sinks(SpartaPermission.DISPLAY);
+
+}
