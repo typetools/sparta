@@ -49,8 +49,9 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.ANYFLOWSINKS);
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.NOFLOWSOURCES);
 
-        //Literals, other than null are different too
-        // Should there be an entry for short here?
+        // Literals, other than null are different too
+        // There are no Byte or Short literal types in java (0b is treated as an int), 
+        //   so there does not need to be a mapping for them here.
         treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, checker.LITERALFLOWSOURCE);
         treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, checker.LITERALFLOWSOURCE);
         treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, checker.LITERALFLOWSOURCE);
@@ -115,7 +116,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.POLYFLOWSOURCES);
                 new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.POLYFLOWSINKS);
                 
-             // Use poly flow sources and sinks for Parameter types (This is excluding receivers) 
+                // Use poly flow sources and sinks for Parameter types (This is excluding receivers) 
                 new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.POLYFLOWSINKS);
                 new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.POLYFLOWSOURCES);
 
