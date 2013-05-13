@@ -22,7 +22,7 @@ class TestParamConstructor {
 }
 
 class TestExplicitConstructorType {
-	 /* @Source(INTERNET) */
+	 /*@Source(INTERNET)*/
 	 TestExplicitConstructorType()  { }
 }
 
@@ -44,11 +44,12 @@ class ConstructorAnnotation {
 		//:: error: (argument.type.incompatible)
 		TestParamConstructor.test("test");
 		
-		// BUG? This error should be thrown //:: error: (assignment.type.incompatible)
+		// BUG? This error should be thrown 
+		//:: error: (assignment.type.incompatible)
 		@Source(CAMERA) TestExplicitConstructorType explicit = new TestExplicitConstructorType();
 
 		// Until recently this threw an error about constructor invocation...
-		// //:: error: (constructor.invocation.invalid)
+		//:: error: (constructor.invocation.invalid)
 		@Source(INTERNET) TestExplicitConstructorType explicit2 = new TestExplicitConstructorType();
 	}
 }
