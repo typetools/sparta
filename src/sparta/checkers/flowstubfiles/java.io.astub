@@ -4,20 +4,20 @@ package java.io;
 class FileOutputStream {
 //Added by SOM
 
- @Sources(SpartaPermission.FILESYSTEM)  FileOutputStream(@Sinks(SpartaPermission.FILESYSTEM)  File file);
- void write(@Sinks(SpartaPermission.FILESYSTEM) byte @Sinks(SpartaPermission.FILESYSTEM)  [] bytes);
+ @Source(FlowPermission.FILESYSTEM)  FileOutputStream(@Sink(FlowPermission.FILESYSTEM)  File file);
+ void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM)  [] bytes);
 }
 
 class File {
 //Added by SOM
 
-	@Sources(SpartaPermission.FILESYSTEM) File( @Sinks(SpartaPermission.FILESYSTEM) String path);
-	@PolySources @PolySinks String toString() @PolySources @PolySinks;
+	@Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) String path);
+	@PolySource @PolySink String toString() @PolySource @PolySink;
 }
 
 class ByteArrayOutputStream{
 //Added by SOM
-   @Sources({}) @Sinks(SpartaPermission.ANY) ByteArrayOutputStream();
-   @PolySources @PolySinks byte @PolySources @PolySinks [] toByteArray() @PolySources @PolySinks;
-   void close() @Sources(SpartaPermission.ANY) @Sinks({});
+   @Source({}) @Sink(FlowPermission.ANY) ByteArrayOutputStream();
+   @PolySource @PolySink byte @PolySource @PolySink [] toByteArray() @PolySource @PolySink;
+   void close() @Source(FlowPermission.ANY) @Sink({});
 }

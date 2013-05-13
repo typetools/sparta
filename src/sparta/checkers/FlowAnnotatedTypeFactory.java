@@ -11,8 +11,8 @@ import checkers.types.AnnotatedTypeFactory;
 import checkers.util.*;
 import com.sun.tools.javac.code.TypeAnnotationPosition;
 import sparta.checkers.quals.ConservativeFlow;
-import sparta.checkers.quals.Sinks;
-import sparta.checkers.quals.Sources;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
 import sparta.checkers.quals.DefaultFlow;
 import sparta.checkers.quals.PolyFlow;
 
@@ -25,7 +25,7 @@ import checkers.types.BasicAnnotatedTypeFactory;
 import checkers.util.QualifierDefaults.DefaultApplier;
 
 import java.util.*;
-import  sparta.checkers.quals.SpartaPermission;
+import  sparta.checkers.quals.FlowPermission;
 
 import static checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 
@@ -134,8 +134,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
     class FlowCompletingDefaults extends QualifierDefaults {
 
         //Instantiated lazily
-        private HashSet<SpartaPermission>     sinksFromAny = null;
-        private HashSet<SpartaPermission> sourcesToAny = null;
+        private HashSet<FlowPermission>     sinksFromAny = null;
+        private HashSet<FlowPermission> sourcesToAny = null;
 
         public FlowCompletingDefaults(Elements elements, AnnotatedTypeFactory atypeFactory) {
             super(elements, atypeFactory);
@@ -203,66 +203,66 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
         //TODO: THIS SHOULD REALLY RETURN AN EITHER TYPE
         protected Pair<AnnotationMirror, AnnotationMirror> explicitAnnosToFlowQuals(final Set<AnnotationMirror> explicitAnnos) {
-            AnnotationMirror flowSourcesQual = null;
-            AnnotationMirror flowSinksQuals  = null;
+            AnnotationMirror flowSourceQual = null;
+            AnnotationMirror flowSinkQuals  = null;
             for(final AnnotationMirror am : explicitAnnos) {
-                if( flowSourcesQual == null && AnnotationUtils.areSameIgnoringValues(am, checker.FLOW_SOURCES) ) {
-                    flowSourcesQual = am;
-                }else if( flowSourcesQual == null && AnnotationUtils.areSameIgnoringValues(am, checker.POLYFLOWSOURCES) ) {
-                    flowSourcesQual = am;
-                }else if( flowSinksQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.FLOW_SINKS) ) {
-                    flowSinksQuals = am;
-                }else if( flowSinksQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.POLYFLOWSINKS) ) {
-                    flowSinksQuals = am;
+                if( flowSourceQual == null && AnnotationUtils.areSameIgnoringValues(am, checker.FLOW_SOURCES) ) {
+                    flowSourceQual = am;
+                }else if( flowSourceQual == null && AnnotationUtils.areSameIgnoringValues(am, checker.POLYFLOWSOURCES) ) {
+                    flowSourceQual = am;
+                }else if( flowSinkQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.FLOW_SINKS) ) {
+                    flowSinkQuals = am;
+                }else if( flowSinkQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.POLYFLOWSINKS) ) {
+                    flowSinkQuals = am;
                 }
 
-                if (flowSourcesQual != null && flowSinksQuals != null) {
+                if (flowSourceQual != null && flowSinkQuals != null) {
                     break;
                 }
             }
 
-            return Pair.of(flowSourcesQual, flowSinksQuals);
+            return Pair.of(flowSourceQual, flowSinkQuals);
         }
 
-        protected Pair<Set<SpartaPermission>, Set<SpartaPermission>> getNewSourcesOrSinks(final Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals) {
+        protected Pair<Set<FlowPermission>, Set<FlowPermission>> getNewSourceOrSink(final Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals) {
             final FlowPolicy flowPolicy = checker.getFlowPolicy();
             if(AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.first, checker.POLYFLOWSOURCES)  ||
         	    AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.second, checker.POLYFLOWSINKS) ) {
         	return Pair.of(null, null);
             }
-            final Set<SpartaPermission> sources = FlowUtil.getSourcesOrEmpty(sourceToSinkQuals.first, false);
-            final Set<SpartaPermission>     sinks   = FlowUtil.getSinksOrEmpty(sourceToSinkQuals.second,  false);
+            final Set<FlowPermission> sources = FlowUtil.getSourceOrEmpty(sourceToSinkQuals.first, false);
+            final Set<FlowPermission>     sinks   = FlowUtil.getSinkOrEmpty(sourceToSinkQuals.second,  false);
 
-            final Set<SpartaPermission>  newSinks;
-            final Set<SpartaPermission> newSources;
+            final Set<FlowPermission>  newSink;
+            final Set<FlowPermission> newSource;
 
             if( !sources.isEmpty() && sourceToSinkQuals.second == null) {
-                newSources = null;
-                newSinks = flowPolicy.getIntersectingSinks(sources);
-                newSinks.addAll(sinksFromAny);
-		if (newSinks.contains(SpartaPermission.ANY) && newSinks.size() > 1) {
+                newSource = null;
+                newSink = flowPolicy.getIntersectingSink(sources);
+                newSink.addAll(sinksFromAny);
+		if (newSink.contains(FlowPermission.ANY) && newSink.size() > 1) {
 		    System.out.println("Drop extra sinks");
-		    newSinks.clear();
-		    newSinks.add(SpartaPermission.ANY);
+		    newSink.clear();
+		    newSink.add(FlowPermission.ANY);
 		}
 
             }  else if( sourceToSinkQuals.first == null && !sinks.isEmpty() ) {
-                newSources = checker.getFlowPolicy().getIntersectingSources(sinks);
-                newSources.addAll(sourcesToAny);
-                newSinks = null;
-		if (newSources.contains(SpartaPermission.ANY)
-			&& newSources.size() > 1) {
+                newSource = checker.getFlowPolicy().getIntersectingSource(sinks);
+                newSource.addAll(sourcesToAny);
+                newSink = null;
+		if (newSource.contains(FlowPermission.ANY)
+			&& newSource.size() > 1) {
 		    System.out.println("Drop extra sources");
-		    newSources.clear();
-		    newSources.add(SpartaPermission.ANY);
+		    newSource.clear();
+		    newSource.add(FlowPermission.ANY);
 		}
 
             } else {
-                newSources = null;
-                newSinks   = null;
+                newSource = null;
+                newSink   = null;
             }
 
-            return Pair.of(newSources, newSinks);
+            return Pair.of(newSource, newSink);
         }
 
         protected void completePolicyFlows(final AnnotatedTypeMirror type, final Set<AnnotationMirror> explicitAnnos)  {
@@ -272,26 +272,26 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
             final FlowPolicy flowPolicy = checker.getFlowPolicy();
             if(sinksFromAny == null) {
-                sinksFromAny = new HashSet<SpartaPermission>();
-                sinksFromAny.addAll(flowPolicy.getSinksFromSource(SpartaPermission.ANY, false));
+                sinksFromAny = new HashSet<FlowPermission>();
+                sinksFromAny.addAll(flowPolicy.getSinkFromSource(FlowPermission.ANY, false));
 
-                sourcesToAny = new HashSet<SpartaPermission>();
-                sourcesToAny.addAll(flowPolicy.getSourcesFromSink(SpartaPermission.ANY, false));
+                sourcesToAny = new HashSet<FlowPermission>();
+                sourcesToAny.addAll(flowPolicy.getSourceFromSink(FlowPermission.ANY, false));
             }
 
             //Using pairs like Either -- the rest of this method would be much shorter with Eithers
             Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals =
                     explicitAnnosToFlowQuals(explicitAnnos);
 
-            Pair<Set<SpartaPermission>, Set<SpartaPermission>> newSourcesOrSinks =
-                    getNewSourcesOrSinks( sourceToSinkQuals );
+            Pair<Set<FlowPermission>, Set<FlowPermission>> newSourceOrSink =
+                    getNewSourceOrSink( sourceToSinkQuals );
 
             final AnnotationMirror newAnno;
-            if( newSourcesOrSinks.first != null) {
-                newAnno = FlowUtil.createAnnoFromSources(processingEnv, newSourcesOrSinks.first );
+            if( newSourceOrSink.first != null) {
+                newAnno = FlowUtil.createAnnoFromSource(processingEnv, newSourceOrSink.first );
 
-            } else if( newSourcesOrSinks.second != null ) {
-                newAnno = FlowUtil.createAnnoFromSinks(processingEnv, newSourcesOrSinks.second );
+            } else if( newSourceOrSink.second != null ) {
+                newAnno = FlowUtil.createAnnoFromSink(processingEnv, newSourceOrSink.second );
 
             } else {
                 newAnno  = null;

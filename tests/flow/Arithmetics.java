@@ -1,15 +1,15 @@
-import sparta.checkers.quals.Sources;
-import  sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.Source;
+import  sparta.checkers.quals.FlowPermission;
 
-import sparta.checkers.quals.Sinks;
-import static sparta.checkers.quals.SpartaPermission.*;
+import sparta.checkers.quals.Sink;
+import static sparta.checkers.quals.FlowPermission.*;
 
 class Arithmetics {
-    @Sources({ACCELEROMETER}) @Sinks({FILESYSTEM, CONDITIONAL}) int accel;
+    @Source({ACCELEROMETER}) @Sink({FILESYSTEM, CONDITIONAL}) int accel;
 
     int clean;
 
-    public void saveAccelData(final @Sources({ACCELEROMETER}) int accelFs) {
+    public void saveAccelData(final @Source({ACCELEROMETER}) int accelFs) {
 
     }
 
@@ -31,7 +31,7 @@ class Arithmetics {
         int j = accel + 2;
 
         //Tests LUB
-        @Sources({ACCELEROMETER, LITERAL}) @Sinks({FILESYSTEM, CONDITIONAL})
+        @Source({ACCELEROMETER, LITERAL}) @Sink({FILESYSTEM, CONDITIONAL})
         int x = j;
         x += 3;
 

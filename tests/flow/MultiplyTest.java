@@ -1,21 +1,21 @@
 
 import android.content.ContentValues;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.FlowPermission;
 import android.util.FloatMath;
 
 class MultiplyTest {
 
-    @Sources(SpartaPermission.ACCESS_FINE_LOCATION) float raRadians;
-    @Sources({SpartaPermission.LITERAL, SpartaPermission.ACCESS_FINE_LOCATION}) float raLitLocRadians;
+    @Source(FlowPermission.ACCESS_FINE_LOCATION) float raRadians;
+    @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float raLitLocRadians;
 
     float x;
-    @Sources({SpartaPermission.LITERAL, SpartaPermission.ACCESS_FINE_LOCATION}) float y;
-    @Sources({SpartaPermission.ANY}) float z;
+    @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float y;
+    @Source({FlowPermission.ANY}) float z;
 
     void test_Multiply() {
-        @Sources({SpartaPermission.LITERAL, SpartaPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
-        @Sources({SpartaPermission.LITERAL, SpartaPermission.ACCESS_FINE_LOCATION}) float dec = 2.0f;
+        @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
+        @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float dec = 2.0f;
 
         float dtr = (float) 0.5;
 
@@ -33,7 +33,7 @@ class MultiplyTest {
     }
 
     void test_Cast() {
-        @Sources({SpartaPermission.LITERAL, SpartaPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
+        @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
 
         //:: error: (assignment.type.incompatible)
         raRadians       = (float) ra;
@@ -41,7 +41,7 @@ class MultiplyTest {
     }
 
     void test_Unary() {
-        @Sources({SpartaPermission.LITERAL, SpartaPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
+        @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
 
         //:: error: (assignment.type.incompatible)
         x = -ra;

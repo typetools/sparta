@@ -13,5 +13,5 @@ import checkers.quals.*;
     /* The following only added to make Eclipse work. */
     ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE})
 @TypeQualifier
-@PolymorphicQualifier(Sources.class)
-public @interface PolySources {}
+@PolymorphicQualifier(Source.class)
+public @interface PolySource {}

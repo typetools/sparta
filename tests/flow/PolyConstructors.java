@@ -1,19 +1,19 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PolyFlow;
 
 @PolyFlow
 class HttpGet {
-    @Sinks(SpartaPermission.INTERNET)  HttpGet( 
-            @Sinks(SpartaPermission.INTERNET)  String uri) {
+    @Sink(FlowPermission.INTERNET)  HttpGet( 
+            @Sink(FlowPermission.INTERNET)  String uri) {
     }
 }
 
 class PolyConstructors {
 
-    void testPolyConstructor(@Sources(SpartaPermission.ACCESS_FINE_LOCATION) @Sinks(SpartaPermission.INTERNET) String in) {	
-    	@Sources(SpartaPermission.ACCESS_FINE_LOCATION) @Sinks(SpartaPermission.INTERNET)
+    void testPolyConstructor(@Source(FlowPermission.ACCESS_FINE_LOCATION) @Sink(FlowPermission.INTERNET) String in) {	
+    	@Source(FlowPermission.ACCESS_FINE_LOCATION) @Sink(FlowPermission.INTERNET)
 //:: error: (constructor.invocation.invalid)   
     	HttpGet request = new HttpGet(in);
     }

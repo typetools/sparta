@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.*;
-import sparta.checkers.quals.Sinks.*;
+import sparta.checkers.quals.Source.*;
+import sparta.checkers.quals.Sink.*;
 
 @ConservativeFlow
 class Cons {
@@ -11,12 +11,12 @@ class Cons {
 
 class Use {
     //:: error: (forbidden.flow)
-    @Sources({}) Object nosrc;
-    @Sources(SpartaPermission.ANY) Object anysrc;
+    @Source({}) Object nosrc;
+    @Source(FlowPermission.ANY) Object anysrc;
     //:: error: (forbidden.flow)
-    @Sinks({}) Object nosink;
+    @Sink({}) Object nosink;
     //:: error: (forbidden.flow)
-    @Sinks(SpartaPermission.ANY) Object anysink;
+    @Sink(FlowPermission.ANY) Object anysink;
 
     void demo(Cons c) {
         //:: error: (assignment.type.incompatible)

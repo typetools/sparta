@@ -1,18 +1,18 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.Source;
+import sparta.checkers.quals.FlowPermission;
 
 class PolyOverride {
 
-    interface Comparator<T extends @Sources(SpartaPermission.ANY) Object> {
-        @PolySources @PolySinks int compare(@PolySources @PolySinks T lhs, @PolySources @PolySinks T rhs);
+    interface Comparator<T extends @Source(FlowPermission.ANY) Object> {
+        @PolySource @PolySink int compare(@PolySource @PolySink T lhs, @PolySource @PolySink T rhs);
     }
 
-    class ObjectComparator implements Comparator<@Sources(SpartaPermission.ACCESS_FINE_LOCATION) Object> {
+    class ObjectComparator implements Comparator<@Source(FlowPermission.ACCESS_FINE_LOCATION) Object> {
         // TODO: We would want the following to be a valid override:
         @SuppressWarnings("flow")
-        public @Sources(SpartaPermission.ACCESS_FINE_LOCATION) int compare(@Sources(SpartaPermission.ACCESS_FINE_LOCATION) Object left,
-                @Sources(SpartaPermission.ACCESS_FINE_LOCATION) Object right) {
+        public @Source(FlowPermission.ACCESS_FINE_LOCATION) int compare(@Source(FlowPermission.ACCESS_FINE_LOCATION) Object left,
+                @Source(FlowPermission.ACCESS_FINE_LOCATION) Object right) {
             return 0;
         }
         // However, we only substitute the type variables, we do not bind polymorphic qualifiers.

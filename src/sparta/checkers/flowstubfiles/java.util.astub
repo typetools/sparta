@@ -2,15 +2,15 @@
 package java.util;
 
  //Added by SOM
- class ArrayList<T extends @Sinks({}) @Sources(SpartaPermission.ANY) Object> {
-         @PolySources @PolySinks T get(@Sinks(SpartaPermission.CONDITIONAL) int index) @PolySources @PolySinks;
+ class ArrayList<T extends @Sink({}) @Source(FlowPermission.ANY) Object> {
+         @PolySource @PolySink T get(@Sink(FlowPermission.CONDITIONAL) int index) @PolySource @PolySink;
  }
 
-class List<T extends @Sinks({}) @Sources(SpartaPermission.ANY) Object> {
+class List<T extends @Sink({}) @Source(FlowPermission.ANY) Object> {
 //Copied from Orig. flow.astub file
 //Need for list test SOM
-   boolean add(T object) @Sources(SpartaPermission.ANY);
-   T get(@Sinks({}) int index);
-   int size() @Sources(SpartaPermission.ANY);
+   boolean add(T object) @Source(FlowPermission.ANY);
+   T get(@Sink({}) int index);
+   int size() @Source(FlowPermission.ANY);
 }
 

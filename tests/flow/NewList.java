@@ -1,17 +1,17 @@
 import java.util.*;
 
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.FlowPermission;
 
-class MyList<T extends @Sources(sparta.checkers.quals.SpartaPermission.ANY) Object> {
+class MyList<T extends @Source(sparta.checkers.quals.FlowPermission.ANY) Object> {
 }
 
 class NewList {
-    List<@Sources(SpartaPermission.ACCESS_FINE_LOCATION) Object> good1  = new ArrayList<@Sources(SpartaPermission.ACCESS_FINE_LOCATION) Object>();
+    List<@Source(FlowPermission.ACCESS_FINE_LOCATION) Object> good1  = new ArrayList<@Source(FlowPermission.ACCESS_FINE_LOCATION) Object>();
     //:: error: (assignment.type.incompatible)
-    List<@Sources(SpartaPermission.ACCESS_FINE_LOCATION) Object> bad1 = new ArrayList<@Sources(SpartaPermission.ANY) Object>();
+    List<@Source(FlowPermission.ACCESS_FINE_LOCATION) Object> bad1 = new ArrayList<@Source(FlowPermission.ANY) Object>();
 
-    MyList</*@Sources(SpartaPermission.ACCESS_FINE_LOCATION)*/ Object> good2  = new MyList<@Sources(SpartaPermission.ACCESS_FINE_LOCATION) Object>();
+    MyList</*@Source(FlowPermission.ACCESS_FINE_LOCATION)*/ Object> good2  = new MyList<@Source(FlowPermission.ACCESS_FINE_LOCATION) Object>();
     //:: error: (assignment.type.incompatible)
-    MyList<@Sources(SpartaPermission.ACCESS_FINE_LOCATION) Object> bad2 = new MyList<@Sources(SpartaPermission.ANY) Object>();
+    MyList<@Source(FlowPermission.ACCESS_FINE_LOCATION) Object> bad2 = new MyList<@Source(FlowPermission.ANY) Object>();
 }

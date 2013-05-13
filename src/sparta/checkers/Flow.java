@@ -4,41 +4,41 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.FlowPermission;
 
 public class Flow {
-    Set<SpartaPermission> sources;
-    Set<SpartaPermission> sinks;
+    Set<FlowPermission> sources;
+    Set<FlowPermission> sinks;
     
     
-    public Flow(Set<SpartaPermission> sources, Set<SpartaPermission> sinks) {
+    public Flow(Set<FlowPermission> sources, Set<FlowPermission> sinks) {
 	this.sources = sources;
 	this.sinks = sinks;
     }
     
-    public Flow(SpartaPermission source, Set<SpartaPermission> sinks) {
-	this.sources = new HashSet<SpartaPermission>();
+    public Flow(FlowPermission source, Set<FlowPermission> sinks) {
+	this.sources = new HashSet<FlowPermission>();
 	sources.add(source);
 	this.sinks = sinks;
     }
     
-    public Flow(Set<SpartaPermission> sources, SpartaPermission sink) {
+    public Flow(Set<FlowPermission> sources, FlowPermission sink) {
 	this.sources = sources;
-	this.sinks = new HashSet<SpartaPermission>();
+	this.sinks = new HashSet<FlowPermission>();
 	sinks.add(sink);
     }
-    public Flow(Set<SpartaPermission> sources) {
-	this.sinks = new HashSet<SpartaPermission>();
+    public Flow(Set<FlowPermission> sources) {
+	this.sinks = new HashSet<FlowPermission>();
 	this.sources = sources;
     }
     public Flow(){
-	this.sinks = new HashSet<SpartaPermission>();
-	this.sources = new HashSet<SpartaPermission>();
+	this.sinks = new HashSet<FlowPermission>();
+	this.sources = new HashSet<FlowPermission>();
     }
-    public Flow(SpartaPermission source) {
-	this.sinks = new HashSet<SpartaPermission>();
-	this.sources = new HashSet<SpartaPermission>();    
+    public Flow(FlowPermission source) {
+	this.sinks = new HashSet<FlowPermission>();
+	this.sources = new HashSet<FlowPermission>();    
 	sources.add(source);
     }
 
@@ -60,11 +60,11 @@ public class Flow {
 	return flowstring;
     }
 
-    public void addSink(SpartaPermission sink) {
+    public void addSink(FlowPermission sink) {
 	sinks.add(sink);
     }
 
-    public boolean hasSinks() {
+    public boolean hasSink() {
 	return !sinks.isEmpty();
     }
    

@@ -1,9 +1,9 @@
-import sparta.checkers.quals.Sinks;
-import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.PolySinks;
-import sparta.checkers.quals.PolySources;
-import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
+import sparta.checkers.quals.PolySink;
+import sparta.checkers.quals.PolySource;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.FlowPermission;
 
 /**
  * Test the defaults for numeric and string literals, and
@@ -14,11 +14,11 @@ import sparta.checkers.quals.SpartaPermission;
  */
 class TestLiteralDefaults {
     //:: error: (forbidden.flow)
-    @Sinks({}) @Sources({SpartaPermission.ANY}) float ntop;
-    @PolySources @PolySinks float npoly;
+    @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) float ntop;
+    @PolySource @PolySink float npoly;
 
     //:: error: (forbidden.flow)
-   @Sinks({SpartaPermission.ANY}) @Sources({}) float nbot;
+   @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) float nbot;
     float nunqual;
 
     void testNumeric() {
@@ -31,11 +31,11 @@ class TestLiteralDefaults {
     }
 
     //:: error: (forbidden.flow)
-    @Sinks({}) @Sources({SpartaPermission.ANY}) Object rtop;
-    @PolySources @PolySinks Object rpoly;
+    @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) Object rtop;
+    @PolySource @PolySink Object rpoly;
 
     //:: error: (forbidden.flow)
-    @Sinks({SpartaPermission.ANY}) @Sources({}) Object rbot;
+    @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) Object rbot;
     Object runqual;
 
     void testReference() {
@@ -55,10 +55,10 @@ class TestLiteralDefaults {
     }
 
     //:: error: (forbidden.flow)
-    @Sinks({}) @Sources({SpartaPermission.ANY}) char ctop;
-    @PolySources @PolySinks char cpoly;
+    @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) char ctop;
+    @PolySource @PolySink char cpoly;
     //:: error: (forbidden.flow)
-    @Sinks({SpartaPermission.ANY}) @Sources({}) char cbot;
+    @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) char cbot;
     char cunqual;
 
     void testChar() {

@@ -1,11 +1,11 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.PolySinks;
-import sparta.checkers.quals.PolySources;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.PolySink;
+import sparta.checkers.quals.PolySource;
 
 class CastTest {
-    @Sources(SpartaPermission.ACCESS_FINE_LOCATION) double result;
-    @Sources(SpartaPermission.ACCESS_FINE_LOCATION) int x;
+    @Source(FlowPermission.ACCESS_FINE_LOCATION) double result;
+    @Source(FlowPermission.ACCESS_FINE_LOCATION) int x;
 
     void m() {
         result = bar(x);
@@ -13,29 +13,29 @@ class CastTest {
         result = foo(x);
     }
 
-    public @Sources(SpartaPermission.ACCESS_FINE_LOCATION) double bar(@Sources(SpartaPermission.ACCESS_FINE_LOCATION) int x) {
+    public @Source(FlowPermission.ACCESS_FINE_LOCATION) double bar(@Source(FlowPermission.ACCESS_FINE_LOCATION) int x) {
         return (double) x;
     }
 
     //int x will now have type LITERAL -> CONDITIONAL which is different from ANY -> CONDITIONAL
     //which cannot be coerced down to ACCESS_FINE_LOCATION -> CONDITIONAL
-    public @Sources(SpartaPermission.ACCESS_FINE_LOCATION) double foo(int x) {
+    public @Source(FlowPermission.ACCESS_FINE_LOCATION) double foo(int x) {
         //:: warning: (cast.unsafe)
-        return (@Sources(SpartaPermission.ACCESS_FINE_LOCATION) double) x;
+        return (@Source(FlowPermission.ACCESS_FINE_LOCATION) double) x;
     }
 
-    public @Sources(SpartaPermission.ACCESS_FINE_LOCATION) double foo2( @Sources(SpartaPermission.ACCESS_FINE_LOCATION) int x) {
-        return (@Sources(SpartaPermission.ACCESS_FINE_LOCATION) double) x;
+    public @Source(FlowPermission.ACCESS_FINE_LOCATION) double foo2( @Source(FlowPermission.ACCESS_FINE_LOCATION) int x) {
+        return (@Source(FlowPermission.ACCESS_FINE_LOCATION) double) x;
     }
 
-    public @Sources(SpartaPermission.ACCESS_FINE_LOCATION) double fromAny(@Sources(SpartaPermission.ANY) int x) {
+    public @Source(FlowPermission.ACCESS_FINE_LOCATION) double fromAny(@Source(FlowPermission.ANY) int x) {
         //:: warning: (cast.unsafe)
-        return (@Sources(SpartaPermission.ACCESS_FINE_LOCATION) double) x;
+        return (@Source(FlowPermission.ACCESS_FINE_LOCATION) double) x;
     }
 
-    public @Sources({SpartaPermission.ACCESS_FINE_LOCATION}) double anyToLoc(@Sources(SpartaPermission.ANY) int x) {
+    public @Source({FlowPermission.ACCESS_FINE_LOCATION}) double anyToLoc(@Source(FlowPermission.ANY) int x) {
         //:: warning: (cast.unsafe)
-        return (@Sources({SpartaPermission.ACCESS_FINE_LOCATION}) double) x;
+        return (@Source({FlowPermission.ACCESS_FINE_LOCATION}) double) x;
     }
 
 }

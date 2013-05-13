@@ -19,15 +19,15 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
 import checkers.util.AnnotationUtils;
 import checkers.util.TreeUtils;
 
-import sparta.checkers.quals.Sinks;
-import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.PolySinks;
-import sparta.checkers.quals.PolySources;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.Source;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.PolySink;
+import sparta.checkers.quals.PolySource;
 
-@TypeQualifiers({Sources.class, Sinks.class,
-    PolySources.class, PolySinks.class})
+@TypeQualifiers({Source.class, Sink.class,
+    PolySource.class, PolySink.class})
 @StubFiles("flow.astub")
 public class FlowShow extends FlowChecker {
     @Override
@@ -71,9 +71,9 @@ public class FlowShow extends FlowChecker {
                     show = true;
                 }
                 if (show) {
-                    List<SpartaPermission> src = getSources(type);
+                    List<FlowPermission> src = getSource(type);
                     String stsrc = src.isEmpty() ? "NONE" : src.toString();
-                    List<SpartaPermission> snk = getSinks(type);
+                    List<FlowPermission> snk = getSink(type);
                     String stsnk = snk.isEmpty() ? "NONE" : snk.toString();
                     String msg = "FLOW TREE " + tree +
                             " KIND " + tree.getKind() +

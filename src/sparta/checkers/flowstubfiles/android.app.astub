@@ -3,10 +3,10 @@ package android.app;
 
 class Activity{
 //Annotations by SOM
-	void onCreate(@Sources(SpartaPermission.ANY) Bundle savedInstanceState);
-	void setContentView(@Sinks(SpartaPermission.DISPLAY) int layout);
-    @Sources(SpartaPermission.LITERAL) MenuInflater getMenuInflater ();	
+	void onCreate(@Source(FlowPermission.ANY) Bundle savedInstanceState);
+	void setContentView(@Sink(FlowPermission.DISPLAY) int layout);
+    @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater ();	
     
-    void setContentView (@Sinks(SpartaPermission.DISPLAY) View view);
-    @Sinks(SpartaPermission.DISPLAY) View findViewById ( @Sinks(SpartaPermission.CONDITIONAL) int id);
+    void setContentView (@Sink(FlowPermission.DISPLAY) View view);
+    @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
 }

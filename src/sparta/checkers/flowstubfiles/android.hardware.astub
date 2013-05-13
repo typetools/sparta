@@ -3,17 +3,17 @@ package android.hardware;
 class Camera {
 //Annotations by Philip 
 
-	@Sources(SpartaPermission.CAMERA_SETTINGS) Parameters getParameters();
+	@Source(FlowPermission.CAMERA_SETTINGS) Parameters getParameters();
 	@DefaultFlow
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
-	void setParameters(@Sinks(SpartaPermission.CAMERA_SETTINGS) Parameters params);
-	void setPreviewDisplay(@Sinks(SpartaPermission.DISPLAY) SurfaceHolder holder);
-	void takePicture(ShutterCallback shutter, @Sources(SpartaPermission.CAMERA) PictureCallback raw, @Sources(SpartaPermission.CAMERA) @Sinks({}) PictureCallback jpeg);
+	void setParameters(@Sink(FlowPermission.CAMERA_SETTINGS) Parameters params);
+	void setPreviewDisplay(@Sink(FlowPermission.DISPLAY) SurfaceHolder holder);
+	void takePicture(ShutterCallback shutter, @Source(FlowPermission.CAMERA) PictureCallback raw, @Source(FlowPermission.CAMERA) @Sink({}) PictureCallback jpeg);
 }
 
 interface Camera$PictureCallback {
     //SOM
-    void onPictureTaken(@Sources(SpartaPermission.CAMERA)  byte @Sources(SpartaPermission.CAMERA)  [] data, @Sources(SpartaPermission.CAMERA) Camera camera);
+    void onPictureTaken(@Source(FlowPermission.CAMERA)  byte @Source(FlowPermission.CAMERA)  [] data, @Source(FlowPermission.CAMERA) Camera camera);
 }
 
 

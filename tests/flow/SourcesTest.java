@@ -1,11 +1,11 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.FlowPermission;
 
-class SourcesTest {
+class SourceTest {
     Object nomic;
-    @Sources(SpartaPermission.ANY) Object any;
+    @Source(FlowPermission.ANY) Object any;
 
-    @Sources(SpartaPermission.RECORD_AUDIO) Object getSound() { return null; }
+    @Source(FlowPermission.RECORD_AUDIO) Object getSound() { return null; }
 
     void test1() {
         // The type of the local variable is inferred to include RECORD_AUDIO
@@ -15,9 +15,9 @@ class SourcesTest {
         any = o;
     }
 
-    @Sources({SpartaPermission.RECORD_AUDIO, SpartaPermission.CAMERA}) Object getSoundOrCam() { return getSound(); }
+    @Source({FlowPermission.RECORD_AUDIO, FlowPermission.CAMERA}) Object getSoundOrCam() { return getSound(); }
 
-    @Sources(SpartaPermission.ANY) Object test2() {
+    @Source(FlowPermission.ANY) Object test2() {
         Object o = getSound();
         o = getSoundOrCam();
         return o;

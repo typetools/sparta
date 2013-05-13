@@ -4,15 +4,15 @@ import checkers.quals.PolyAll;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationUtils;
 import checkers.util.Pair;
-import sparta.checkers.quals.Sinks;
-import sparta.checkers.quals.Sources;
-import sparta.checkers.quals.PolySinks;
-import sparta.checkers.quals.PolySources;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
+import sparta.checkers.quals.PolySink;
+import sparta.checkers.quals.PolySource;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import static sparta.checkers.quals.SpartaPermission.*;
-import  sparta.checkers.quals.SpartaPermission;
+import static sparta.checkers.quals.FlowPermission.*;
+import  sparta.checkers.quals.FlowPermission;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,19 +39,19 @@ public class FlowPolicy {
     public static final String EMPTY = "{}";
     public static final String EMPTY_REGEX = "\\{\\}";
 
-    private final Map<SpartaPermission, Set<SpartaPermission>>   allowedFlows;
-    private final Map<SpartaPermission,   Set<SpartaPermission>> reversedAllowedFlows;
+    private final Map<FlowPermission, Set<FlowPermission>>   allowedFlows;
+    private final Map<FlowPermission,   Set<FlowPermission>> reversedAllowedFlows;
 
-    private final /*@Nullable*/ Set<SpartaPermission> sinksFromAnySource;
+    private final /*@Nullable*/ Set<FlowPermission> sinksFromAnySource;
 
     //True: LITERAL->CONDITIONAL is added,
     //False: ANY->CONDITIONAL is added
 	private final boolean strictConditionals;
 
-    public FlowPolicy( final Map<SpartaPermission, Set<SpartaPermission>> allowedFlows) {
+    public FlowPolicy( final Map<FlowPermission, Set<FlowPermission>> allowedFlows) {
         this.allowedFlows         = allowedFlows;
         this.reversedAllowedFlows = reverse(allowedFlows);
-        this.sinksFromAnySource = allowedFlows.get(SpartaPermission.ANY);
+        this.sinksFromAnySource = allowedFlows.get(FlowPermission.ANY);
         this.strictConditionals=false;
     }
 
@@ -66,7 +66,7 @@ public class FlowPolicy {
         if(flowPolicyFile != null && flowPolicyFile.exists()  ){
             readPolicyFile(flowPolicyFile);
         }
-        this.sinksFromAnySource = allowedFlows.get(SpartaPermission.ANY);
+        this.sinksFromAnySource = allowedFlows.get(FlowPermission.ANY);
         this.reversedAllowedFlows = reverse(allowedFlows);
     }
 
@@ -86,35 +86,35 @@ public class FlowPolicy {
     	this(null,strictConditionals);
     }
 
-    private  HashMap<SpartaPermission, Set<SpartaPermission>> getDefaultAllowedFlows(){
-    	HashMap<SpartaPermission, Set<SpartaPermission>> defaultAllowedFlows = new HashMap<SpartaPermission, Set<SpartaPermission>>();
-    	HashSet<SpartaPermission> sinkSet = new HashSet<SpartaPermission>(1);
-    	sinkSet.add(SpartaPermission.CONDITIONAL);
+    private  HashMap<FlowPermission, Set<FlowPermission>> getDefaultAllowedFlows(){
+    	HashMap<FlowPermission, Set<FlowPermission>> defaultAllowedFlows = new HashMap<FlowPermission, Set<FlowPermission>>();
+    	HashSet<FlowPermission> sinkSet = new HashSet<FlowPermission>(1);
+    	sinkSet.add(FlowPermission.CONDITIONAL);
 
     	if(strictConditionals){
-        	defaultAllowedFlows.put(SpartaPermission.LITERAL, sinkSet);
+        	defaultAllowedFlows.put(FlowPermission.LITERAL, sinkSet);
     	}else{
-        	defaultAllowedFlows.put(SpartaPermission.ANY, sinkSet);
+        	defaultAllowedFlows.put(FlowPermission.ANY, sinkSet);
     	}
 
     	return defaultAllowedFlows;
     }
 
-    public Pair<Set<SpartaPermission>, Set<SpartaPermission>> annotatedTypeMirrorToFlows(final AnnotatedTypeMirror atm) {
+    public Pair<Set<FlowPermission>, Set<FlowPermission>> annotatedTypeMirrorToFlows(final AnnotatedTypeMirror atm) {
 
-        final AnnotationMirror sourceAnno = atm.getAnnotation(Sources.class);
-        final AnnotationMirror sinkAnno   = atm.getAnnotation(Sinks.class);
+        final AnnotationMirror sourceAnno = atm.getAnnotation(Source.class);
+        final AnnotationMirror sinkAnno   = atm.getAnnotation(Sink.class);
         
 
-        final Set<SpartaPermission> sources = FlowUtil.getSources(sourceAnno, true);
-        final Set<SpartaPermission>   sinks   = FlowUtil.getSinks(sinkAnno, true); ;
+        final Set<FlowPermission> sources = FlowUtil.getSource(sourceAnno, true);
+        final Set<FlowPermission>   sinks   = FlowUtil.getSink(sinkAnno, true); ;
 
         return Pair.of(sources, sinks);
     }
 
     public boolean areFlowsAllowed(final AnnotatedTypeMirror atm) {
-    	final AnnotationMirror polySourceAnno = atm.getAnnotation(PolySources.class);
-        final AnnotationMirror polySinkAnno   = atm.getAnnotation(PolySinks.class);
+    	final AnnotationMirror polySourceAnno = atm.getAnnotation(PolySource.class);
+        final AnnotationMirror polySinkAnno   = atm.getAnnotation(PolySink.class);
         final AnnotationMirror polyAllAnno   = atm.getAnnotation(PolyAll.class);
         //If the type is marked with poly flow source or poly flow sink, 
         //Then the flow is allowed.
@@ -131,9 +131,9 @@ public class FlowPolicy {
     }
 
     public List<Flow> forbiddenFlows(
-	final Pair<Set<SpartaPermission>, Set<SpartaPermission>> flows) {
-	final Set<SpartaPermission> sources = flows.first;
-	final Set<SpartaPermission> sinks = flows.second;
+	final Pair<Set<FlowPermission>, Set<FlowPermission>> flows) {
+	final Set<FlowPermission> sources = flows.first;
+	final Set<FlowPermission> sinks = flows.second;
 	
 	FlowUtil.allToAnySink(sinks, true);
 	FlowUtil.allToAnySource(sources, true);
@@ -149,21 +149,21 @@ public class FlowPolicy {
 	}
 	   
 		
-	for (final SpartaPermission source : sources) {
-	    final Set<SpartaPermission> allowedSinks = allowedFlows.get(source);
+	for (final FlowPermission source : sources) {
+	    final Set<FlowPermission> allowedSink = allowedFlows.get(source);
 
-	    if (allowedSinks == null){
+	    if (allowedSink == null){
 		forflows.add(new Flow(source, sinks));
-	    }else if(allowedSinks.contains(SpartaPermission.ANY)){
+	    }else if(allowedSink.contains(FlowPermission.ANY)){
 		//Then source->ANY is allowed
-	    }else if(!(allowedSinks.containsAll(sinks))) {
+	    }else if(!(allowedSink.containsAll(sinks))) {
 		Flow flow = new Flow(source);
-		for(SpartaPermission sink : sinks){
-		    if(!allowedSinks.contains(sink)){
+		for(FlowPermission sink : sinks){
+		    if(!allowedSink.contains(sink)){
 			flow.addSink(sink);
 		    }
 		}
-		if(flow.hasSinks()){
+		if(flow.hasSink()){
 		    forflows.add(flow);
 		}
 	    }
@@ -172,9 +172,9 @@ public class FlowPolicy {
 	    return forflows;
     }
 
-    public boolean areFlowsAllowed(final Pair<Set<SpartaPermission>, Set<SpartaPermission>> flows) {
-        final Set<SpartaPermission> sources = flows.first;
-        final Set<SpartaPermission>   sinks   = flows.second;
+    public boolean areFlowsAllowed(final Pair<Set<FlowPermission>, Set<FlowPermission>> flows) {
+        final Set<FlowPermission> sources = flows.first;
+        final Set<FlowPermission>   sinks   = flows.second;
 
         if( sources.isEmpty() || sinks.isEmpty() ) {
             return false;
@@ -188,11 +188,11 @@ public class FlowPolicy {
             return true;
         }
 
-        for(final SpartaPermission source : sources) {
-            final Set<SpartaPermission> allowedSinks = allowedFlows.get(source);
+        for(final FlowPermission source : sources) {
+            final Set<FlowPermission> allowedSink = allowedFlows.get(source);
 
-            if(allowedSinks == null || !(allowedSinks.contains(SpartaPermission.ANY) ||
-                                         allowedSinks.containsAll(sinks))) {
+            if(allowedSink == null || !(allowedSink.contains(FlowPermission.ANY) ||
+                                         allowedSink.containsAll(sinks))) {
                 return false;
             }
         }
@@ -227,30 +227,30 @@ public class FlowPolicy {
         return out;
     }
 
-    private final List<SpartaPermission>   allSinks   =  Collections.unmodifiableList(Arrays.asList(SpartaPermission.values()));
-    private final List<SpartaPermission> allSources =  Collections.unmodifiableList(Arrays.asList(SpartaPermission.values()));
+    private final List<FlowPermission>   allSink   =  Collections.unmodifiableList(Arrays.asList(FlowPermission.values()));
+    private final List<FlowPermission> allSource =  Collections.unmodifiableList(Arrays.asList(FlowPermission.values()));
 
-    public Set<SpartaPermission> getIntersectingSinks(final Collection<SpartaPermission> sources) {
-        return getIntersectingValueSets(SpartaPermission.class, allowedFlows, allSinks, sources);
+    public Set<FlowPermission> getIntersectingSink(final Collection<FlowPermission> sources) {
+        return getIntersectingValueSets(FlowPermission.class, allowedFlows, allSink, sources);
     }
 
-    public Set<SpartaPermission> getIntersectingSources(final Collection<SpartaPermission> sinks) {
-        return getIntersectingValueSets(SpartaPermission.class, reversedAllowedFlows, allSources, sinks);
+    public Set<FlowPermission> getIntersectingSource(final Collection<FlowPermission> sinks) {
+        return getIntersectingValueSets(FlowPermission.class, reversedAllowedFlows, allSource, sinks);
     }
 
     /**
-     * Read the given file return a one to many Map of SpartaPermission -> Sinks where
+     * Read the given file return a one to many Map of FlowPermission -> Sink where
      * each entry indicates what sinks a source is given blanket access to reach
      *
      *
      * Format:
      *   A flow policy file is read line by line where each line has the following format
-     *   SpartaPermissionName -> SpartaPermissionName, SpartaPermissionName, SpartaPermissionName
+     *   FlowPermissionName -> FlowPermissionName, FlowPermissionName, FlowPermissionName
      *
-     *   SpartaPermissionName  = One of the names of the enums in SpartaPermission
-     *   SpartaPermissionName<x> = One of the names of the enums in SpartaPermission
+     *   FlowPermissionName  = One of the names of the enums in FlowPermission
+     *   FlowPermissionName<x> = One of the names of the enums in FlowPermission
      *
-     *   A source can appear twice, the output Sinks for that given source will contain
+     *   A source can appear twice, the output Sink for that given source will contain
      *   the union of the two entries.
      *
      *   E.g.
@@ -276,8 +276,8 @@ public class FlowPolicy {
 
         final List<String> errors = new ArrayList<String>();
 
-        final Set<SpartaPermission> allSinksButAny = new HashSet<SpartaPermission>(Arrays.asList(SpartaPermission.values()));
-        allSinksButAny.remove(SpartaPermission.ANY);
+        final Set<FlowPermission> allSinkButAny = new HashSet<FlowPermission>(Arrays.asList(FlowPermission.values()));
+        allSinkButAny.remove(FlowPermission.ANY);
 
 
         BufferedReader bufferedReader = null;
@@ -294,11 +294,11 @@ public class FlowPolicy {
                 if(!line.isEmpty() && !isWhiteSpaceLine(line)) {
                     final Matcher matcher = linePattern.matcher(line);
 
-                    Set<SpartaPermission> sinks;
+                    Set<FlowPermission> sinks;
                     if(matcher.matches()) {
                         final String sourceStr   = matcher.group(1).trim();
                         final String [] sinkStrs = matcher.group(2).split(",");
-                        SpartaPermission source = null;
+                        FlowPermission source = null;
                         boolean skip = false;
 
                         if( sourceStr.equals(EMPTY) ) {
@@ -313,11 +313,11 @@ public class FlowPolicy {
 
                         } else {
                             try {
-                                source = SpartaPermission.valueOf(sourceStr);
+                                source = FlowPermission.valueOf(sourceStr);
 
                                 sinks = allowedFlows.get(source);
                                 if(sinks == null && source != null) {
-                                    sinks = new HashSet<SpartaPermission>(sinkStrs.length);
+                                    sinks = new HashSet<FlowPermission>(sinkStrs.length);
                                     allowedFlows.put(source, sinks);
                                 }
                             } catch(final IllegalArgumentException iaExc) {
@@ -325,7 +325,7 @@ public class FlowPolicy {
                                 errors.add(
                                         formatPolicyFileError(policyFile, lineNum,
                                                 "Unrecognized source: " + sourceStr +
-                                                        " Known sources: " + enumValuesToString(SpartaPermission.values()),
+                                                        " Known sources: " + enumValuesToString(FlowPermission.values()),
                                                 originalLine)
                                 );
 
@@ -342,7 +342,7 @@ public class FlowPolicy {
 								// Read sinks even if source can't be decoded
 								// (i.e. source == null)
 								// in order to catch all errors in one pass
-								final SpartaPermission sinkEnum = SpartaPermission
+								final FlowPermission sinkEnum = FlowPermission
 										.valueOf(trimmedSink);
 
 								if (!skip) {
@@ -353,16 +353,16 @@ public class FlowPolicy {
                                 errors.add(
                                     formatPolicyFileError(policyFile, lineNum,
                                             "Unrecognized sink: " + sink +
-                                            " Known sinks: " + enumValuesToString(SpartaPermission.values()),
+                                            " Known sinks: " + enumValuesToString(FlowPermission.values()),
                                             originalLine)
                                 );
                             }
                         }
 
                         //TODO: CHECK THIS WITH SUZANNE AND THE TEAM
-                        if( !skip && sinks.containsAll( allSinksButAny ) ) {
+                        if( !skip && sinks.containsAll( allSinkButAny ) ) {
                             sinks.clear();
-                            sinks.add( SpartaPermission.ANY );
+                            sinks.add( FlowPermission.ANY );
                         }
 
                     } else {
@@ -428,12 +428,12 @@ public class FlowPolicy {
         return file.getAbsolutePath() + ":" + lineNum + ": " +  message + "\n" + line;
     }
 
-    public Set<SpartaPermission> getSinksFromSource(final SpartaPermission source, boolean includeAny) {
-        return getSet(SpartaPermission.class, source, allowedFlows, includeAny);
+    public Set<FlowPermission> getSinkFromSource(final FlowPermission source, boolean includeAny) {
+        return getSet(FlowPermission.class, source, allowedFlows, includeAny);
     }
 
-    public Set<SpartaPermission> getSourcesFromSink(final SpartaPermission sink, boolean includeAny) {
-        return getSet(SpartaPermission.class, sink, reversedAllowedFlows, includeAny);
+    public Set<FlowPermission> getSourceFromSink(final FlowPermission sink, boolean includeAny) {
+        return getSet(FlowPermission.class, sink, reversedAllowedFlows, includeAny);
     }
 
     private <KEY extends Enum<KEY>, VALUE extends Enum<VALUE>> Set<VALUE> getSet(

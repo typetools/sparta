@@ -2,7 +2,7 @@ package android.content;
 
 class Context{
 
-	@Sources(SpartaPermission.FILESYSTEM) @Sinks(SpartaPermission.ANY) File getDir(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM) String name, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.CONDITIONAL) int mode);
+	@Source(FlowPermission.FILESYSTEM) @Sink(FlowPermission.ANY) File getDir(@Source(FlowPermission.ANY) @Sink(FlowPermission.FILESYSTEM) String name, @Source(FlowPermission.ANY) @Sink(FlowPermission.CONDITIONAL) int mode);
 }
 
 class UriMatcher {

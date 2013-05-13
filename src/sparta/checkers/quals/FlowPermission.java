@@ -12,12 +12,12 @@ package sparta.checkers.quals;
  * Each permission is either a source of sensitive information or a sensitive sink.  
  * Some permissions are both. 
  * Tip: you can statically import the enum constants so that you don't have to write 
- * SpartaPermission in the annotations. 
- * (@Sinks(EMAIL) rather than @Sinks(SpartaPermission.EMAIL))
- * import static sparta.checkers.quals.SpartaPermission.*;
+ * FlowPermission in the annotations. 
+ * (@Sink(EMAIL) rather than @Sink(FlowPermission.EMAIL))
+ * import static sparta.checkers.quals.FlowPermission.*;
  *
  */
-public enum SpartaPermission {
+public enum FlowPermission {
 
 
 
@@ -325,7 +325,7 @@ public enum SpartaPermission {
 
     
     /**
-     * Old Sources or Sinks 
+     * Old Source or Sink 
      * These are the names of previous sinks and sources.  They are the names
      * of permissions that have been truncated 
      */
@@ -403,7 +403,7 @@ public enum SpartaPermission {
 ;
     private final T sourceOrSink;
     
-	 SpartaPermission(T sourceOrSink) {
+	 FlowPermission(T sourceOrSink) {
 		this. sourceOrSink= sourceOrSink;
 	}
 	 /**

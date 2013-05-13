@@ -3,29 +3,29 @@ package android.util;
 
 class FloatMath {
 //Added by SOM
-   static @PolySources @PolySinks float ceil(@PolySources @PolySinks float value);
-   static @PolySources @PolySinks float cos(@PolySources @PolySinks float angle);
-   static @PolySources @PolySinks float floor(@PolySources @PolySinks float value);
-   static @PolySources @PolySinks float sin(@PolySources @PolySinks float angle);
-   static @PolySources @PolySinks float sqrt(@PolySources @PolySinks float value);
+   static @PolySource @PolySink float ceil(@PolySource @PolySink float value);
+   static @PolySource @PolySink float cos(@PolySource @PolySink float angle);
+   static @PolySource @PolySink float floor(@PolySource @PolySink float value);
+   static @PolySource @PolySink float sin(@PolySource @PolySink float angle);
+   static @PolySource @PolySink float sqrt(@PolySource @PolySink float value);
 }
 
 
 class Log {
 //Added by SOM
 
-static @Sources(SpartaPermission.READ_LOGS)  int     d(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS)  int    d(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS)  int    e(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS)  int    e(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS)  int    i( @Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS)  int    i(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS)  int    v(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS)  int    v(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS)  int    w(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS)  int    w( @Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS)  int    w( @Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS)  int    wtf(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS)  int    wtf(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS)  int    wtf(@Sinks(SpartaPermission.WRITE_LOGS) String tag,  @Sinks(SpartaPermission.WRITE_LOGS) String msg,  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int     d(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    d(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    e(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    e(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    i( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    i(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    v(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    v(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    w(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    w( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    w( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
 }

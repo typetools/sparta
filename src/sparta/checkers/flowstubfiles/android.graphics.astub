@@ -3,16 +3,16 @@ package android.graphics;
 
 class BitmapFactory {
 //Added by SOM
-	@PolySources @PolySinks Bitmap decodeByteArray(
-	                                @PolySources @PolySinks byte @PolySources @PolySinks [] data, 
-	                                @Sources(SpartaPermission.ANY) @Sinks({}) int offset,  
-	                                @Sources(SpartaPermission.ANY) @Sinks({}) int length);
+	@PolySource @PolySink Bitmap decodeByteArray(
+	                                @PolySource @PolySink byte @PolySource @PolySink [] data, 
+	                                @Source(FlowPermission.ANY) @Sink({}) int offset,  
+	                                @Source(FlowPermission.ANY) @Sink({}) int length);
 }
 
 class Bitmap {
 //Added by SOM
 //The CompressFormat is any enum value
 	 boolean compress(
-	          @Sources(SpartaPermission.ANY) @Sinks({}) CompressFormat format, @Sources(SpartaPermission.ANY) @Sinks({}) int quality, 
-	          @PolySinks @PolySources OutputStream stream) @PolySinks @PolySources;
+	          @Source(FlowPermission.ANY) @Sink({}) CompressFormat format, @Source(FlowPermission.ANY) @Sink({}) int quality, 
+	          @PolySink @PolySource OutputStream stream) @PolySink @PolySource;
 }

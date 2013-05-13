@@ -76,10 +76,15 @@ public class AndroidTests {
             final String [] optionsWithPf;
 
             if(flowPolicyFile.exists()) {
-                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 1);
+                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 2);
                 optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy=" + flowPolicyFile.getAbsolutePath();
+                optionsWithPf[optionsWithPf.length - 2] = "-AprintErrorStack";
+
+                //AprintErrorStack
             } else {
-                optionsWithPf = checkerOptions;
+            	  optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 1);
+                  optionsWithPf[optionsWithPf.length - 1] = "-AprintErrorStack";
+
             }
 
             // System.out.println("OPTIONS:\n" + join(optionsWithPf, " "));

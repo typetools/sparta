@@ -2,5 +2,5 @@ package android.database.sqlite;
 
 class SQLiteDatabase {
 //Added by Philip
-    void execSQL(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) String sql) @Sources(SpartaPermission.ANY) @Sinks({});
+    void execSQL(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sql) @Source(FlowPermission.ANY) @Sink({});
 }

@@ -52,8 +52,8 @@ If it gives results like this, you're ready to work on annotating!
 [jsr308.javac] .../sparta-subjects/Sky/src/org/jsharkey/sky/WebserviceHelper.java:308: error: incompatible types.
 [jsr308.javac]             HttpGet request = new HttpGet(String.format(WEBSERVICE_URL, lat, lon, days));
 [jsr308.javac]                                                        ^
-[jsr308.javac]   found   : @Sinks @Sources String
-[jsr308.javac]   required: @sparta.checkers.quals.Sinks({sparta.checkers.quals.SpartaPermission.INTERNET}) @Sources String
+[jsr308.javac]   found   : @Sink @Source String
+[jsr308.javac]   required: @sparta.checkers.quals.Sink({sparta.checkers.quals.FlowPermission.INTERNET}) @Source String
 \end{alltt}
 \end{smaller}
 
@@ -80,5 +80,5 @@ to call which functions):
 %%% TeX-command-default: "PDF"
 %%% End: 
 
-%  LocalWords:  sparta apac hg jsr308 HttpGet WEBSERVICE lon Sinks
-%  LocalWords:  Sources hgrc
+%  LocalWords:  sparta apac hg jsr308 HttpGet WEBSERVICE lon Sink
+%  LocalWords:  Source hgrc

@@ -40,37 +40,37 @@ function initialize() {
 		// create a Flow object for each Source-Sink pair in the object
 		json.forEach(function (obj) {
 			var sources = obj.sources;
-			var newSources = [];
+			var newSource = [];
 			if (sources !== "NONE") {
 				sources = sources.slice(1, -1).split(",");
 				for (var i = 0; i < sources.length; i++) {
 					var source = sources[i];
 					var lastDotIndex = source.lastIndexOf(".");
 					if (lastDotIndex >= 0) {
-						newSources.push(source.slice(lastDotIndex + 1));
+						newSource.push(source.slice(lastDotIndex + 1));
 					}
 				}
 			} else {
-				newSources.push("NONE");
+				newSource.push("NONE");
 			}
 			
 			var sinks = obj.sinks;
-			var newSinks = [];
+			var newSink = [];
 			if (sinks !== "NONE") {
 				sinks = sinks.slice(1, -1).split(",");
 				for (var i = 0; i < sinks.length; i++) {
 					var sink = sinks[i];
 					var lastDotIndex = sink.lastIndexOf(".");
 					if (lastDotIndex >= 0) {
-						newSinks.push(sink.slice(lastDotIndex + 1));
+						newSink.push(sink.slice(lastDotIndex + 1));
 					}
 				}
 			} else {
-				newSinks.push("NONE");
+				newSink.push("NONE");
 			}
 			
-			newSources.forEach(function (newSource) {
-				newSinks.forEach(function (newSink) {
+			newSource.forEach(function (newSource) {
+				newSink.forEach(function (newSink) {
 					flows.push(new Flow(newSource, newSink, obj.filename));
 				});
 			});

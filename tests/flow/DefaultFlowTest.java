@@ -1,18 +1,18 @@
 import checkers.quals.PolyAll;
 
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.FlowPermission;
 
 class DefaultFlowTest {
-	@Sources({SpartaPermission.INTERNET,SpartaPermission.LITERAL}) int source = 1;
-        @Sinks(SpartaPermission.INTERNET) int sink = 2;
-	@Sources({SpartaPermission.INTERNET,SpartaPermission.LITERAL}) @Sinks(SpartaPermission.INTERNET) int sourceSink = 3;
+	@Source({FlowPermission.INTERNET,FlowPermission.LITERAL}) int source = 1;
+        @Sink(FlowPermission.INTERNET) int sink = 2;
+	@Source({FlowPermission.INTERNET,FlowPermission.LITERAL}) @Sink(FlowPermission.INTERNET) int sourceSink = 3;
 	int none = 4;
 	
-	@Sources(SpartaPermission.INTERNET) TestClass classSource;
-	@Sinks(SpartaPermission.INTERNET) TestClass classSink;
-	@Sources(SpartaPermission.INTERNET) @Sinks(SpartaPermission.INTERNET) TestClass classSourceSink;
+	@Source(FlowPermission.INTERNET) TestClass classSource;
+	@Sink(FlowPermission.INTERNET) TestClass classSink;
+	@Source(FlowPermission.INTERNET) @Sink(FlowPermission.INTERNET) TestClass classSourceSink;
 	TestClass classNone;
 	
 	@DefaultFlow
@@ -79,7 +79,7 @@ class DefaultFlowTest {
 
 @DefaultFlow
 class TestClass {
-	int testClassMethod(@PolySources @PolySinks TestClass this, int input) {
+	int testClassMethod(@PolySource @PolySink TestClass this, int input) {
 		return 0;
 	}
 }

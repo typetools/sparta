@@ -2,14 +2,14 @@ import java.io.File;
 
 import android.content.Context;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.Sources.*;
-import sparta.checkers.quals.Sinks.*;
+import sparta.checkers.quals.Source.*;
+import sparta.checkers.quals.Sink.*;
 
 
 class Use {
 
     void demo() {
-       @Sources(SpartaPermission.LITERAL) Context ctx = null;
+       @Source(FlowPermission.LITERAL) Context ctx = null;
     	//:: error: (forbidden.flow)
        File file = ctx.getDir("log", 0);
       // String fileString = file.toString();

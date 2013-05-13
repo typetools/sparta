@@ -3,18 +3,18 @@ package android.view;
 class MenuInflater{
 
 //Add by SOM, once we have the new defaulting, then these annotations can be removed.
-void inflate (@Sinks(SpartaPermission.CONDITIONAL) int menuRes, @Sinks(SpartaPermission.CONDITIONAL) Menu menu);
+void inflate (@Sink(FlowPermission.CONDITIONAL) int menuRes, @Sink(FlowPermission.CONDITIONAL) Menu menu);
 
 }
 
 class SurfaceView{
 //SOM
- @Sinks(SpartaPermission.DISPLAY) SurfaceHolder getHolder ();
+ @Sink(FlowPermission.DISPLAY) SurfaceHolder getHolder ();
 }        
      
 class SurfaceHolder{
 //Add by SOM, once we have the new defaulting, then these annotations can be removed.
-   void addCallback (@Sinks(SpartaPermission.CONDITIONAL) SurfaceHolder.Callback callback) @Sinks(SpartaPermission.DISPLAY);
-   void setType (@Sinks(SpartaPermission.CONDITIONAL)  int type) @Sinks(SpartaPermission.DISPLAY);
+   void addCallback (@Sink(FlowPermission.CONDITIONAL) SurfaceHolder.Callback callback) @Sink(FlowPermission.DISPLAY);
+   void setType (@Sink(FlowPermission.CONDITIONAL)  int type) @Sink(FlowPermission.DISPLAY);
 
 }

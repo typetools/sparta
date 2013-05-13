@@ -47,7 +47,7 @@ annotations.  For instance, an object  that contains data that came from the
 camera and is destined for the network would be annotated with 
 
 \begin{Verbatim}
-@Sources(CAMERA) @Sinks(INTERNET)
+@Source(CAMERA) @Sink(INTERNET)
 \end{Verbatim}
 
 
@@ -58,7 +58,7 @@ There are two different scenarios in which the SPARTA tools might be used.
 \begin{itemize}
 \item
   Ideally, the application vendor, who understands the source code,
-  writes information flow annotations such as \<@Sources> in the source
+  writes information flow annotations such as \<@Source> in the source
   code, iterating until the static information flow tool issues no warnings.
 
   In this case, the analyst merely re-runs the static information flow tool
@@ -107,4 +107,4 @@ mailing list) and we will try to help.
 %%% TeX-command-default: "PDF"
 %%% End: 
 
-%  LocalWords:  Cybersecurity app SPARTA's sparta Sources
+%  LocalWords:  Cybersecurity app SPARTA's sparta Source

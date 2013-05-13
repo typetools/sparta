@@ -337,8 +337,8 @@ android.app.WallpaperManager.suggestDesiredDimensions(int,int)	android.permissio
 android.appwidget.AppWidgetManager.bindAppWidgetId(int,android.content.ComponentName)	android.permission.BIND_APPWIDGET			
 android.bluetooth.BluetoothA2dp.connectSink(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH_ADMIN AND android.permission.BLUETOOTH			
 android.bluetooth.BluetoothA2dp.disconnectSink(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH_ADMIN AND android.permission.BLUETOOTH			
-android.bluetooth.BluetoothA2dp.getConnectedSinks()	android.permission.BLUETOOTH			
-android.bluetooth.BluetoothA2dp.getNonDisconnectedSinks()	android.permission.BLUETOOTH			
+android.bluetooth.BluetoothA2dp.getConnectedSink()	android.permission.BLUETOOTH			
+android.bluetooth.BluetoothA2dp.getNonDisconnectedSink()	android.permission.BLUETOOTH			
 android.bluetooth.BluetoothA2dp.getSinkPriority(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH			
 android.bluetooth.BluetoothA2dp.getSinkState(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH			
 android.bluetooth.BluetoothA2dp.isSinkConnected(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH			
@@ -428,8 +428,8 @@ android.bluetooth.IBluetooth$Stub$Proxy.setTrust(java.lang.String,boolean)	andro
 android.bluetooth.IBluetooth$Stub$Proxy.startDiscovery()	android.permission.BLUETOOTH_ADMIN			
 android.bluetooth.IBluetoothA2dp$Stub$Proxy.connectSink(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH_ADMIN AND android.permission.BLUETOOTH			
 android.bluetooth.IBluetoothA2dp$Stub$Proxy.disconnectSink(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH_ADMIN AND android.permission.BLUETOOTH			
-android.bluetooth.IBluetoothA2dp$Stub$Proxy.getConnectedSinks()	android.permission.BLUETOOTH			
-android.bluetooth.IBluetoothA2dp$Stub$Proxy.getNonDisconnectedSinks()	android.permission.BLUETOOTH			
+android.bluetooth.IBluetoothA2dp$Stub$Proxy.getConnectedSink()	android.permission.BLUETOOTH			
+android.bluetooth.IBluetoothA2dp$Stub$Proxy.getNonDisconnectedSink()	android.permission.BLUETOOTH			
 android.bluetooth.IBluetoothA2dp$Stub$Proxy.getSinkPriority(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH			
 android.bluetooth.IBluetoothA2dp$Stub$Proxy.getSinkState(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH			
 android.bluetooth.IBluetoothA2dp$Stub$Proxy.resumeSink(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH_ADMIN and android.permission.BLUETOOTH and android.permission.MODIFY_AUDIO_SETTINGS			
@@ -957,13 +957,13 @@ android.server.BluetoothA2dpService.addAudioSink(android.bluetooth.BluetoothDevi
 android.server.BluetoothA2dpService.checkSinkSuspendState(int)	android.permission.MODIFY_AUDIO_SETTINGS			
 android.server.BluetoothA2dpService.connectSink(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH_ADMIN and android.permission.BLUETOOTH	You only need android.permission.BLUETOOTH if an existing device is not available as an audio sink.		
 android.server.BluetoothA2dpService.disconnectSink(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH_ADMIN and android.permission.BLUETOOTH			
-android.server.BluetoothA2dpService.getConnectedSinks()	android.permission.BLUETOOTH			
-android.server.BluetoothA2dpService.getNonDisconnectedSinks()	android.permission.BLUETOOTH			
+android.server.BluetoothA2dpService.getConnectedSink()	android.permission.BLUETOOTH			
+android.server.BluetoothA2dpService.getNonDisconnectedSink()	android.permission.BLUETOOTH			
 android.server.BluetoothA2dpService.getSinkPriority(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH			
 android.server.BluetoothA2dpService.getSinkState(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH			
 android.server.BluetoothA2dpService.handleSinkStateChange(android.bluetooth.BluetoothDevice)	android.permission.MODIFY_AUDIO_SETTINGS and android.permission.BLUETOOTH and android.permission.BLUETOOTH_ADMIN and android.permission.WRITE_SETTINGS			
 android.server.BluetoothA2dpService.isSinkDevice(android.bluetooth.BluetoothDevice)	android.permission.BLUETOOTH			
-android.server.BluetoothA2dpService.lookupSinksMatchingStates(int[])	android.permission.BLUETOOTH			
+android.server.BluetoothA2dpService.lookupSinkMatchingStates(int[])	android.permission.BLUETOOTH			
 android.server.BluetoothA2dpService.onBluetoothDisable()	android.permission.MODIFY_AUDIO_SETTINGS and android.permission.BLUETOOTH			
 android.server.BluetoothA2dpService.onBluetoothEnable()	android.permission.MODIFY_AUDIO_SETTINGS			
 android.server.BluetoothA2dpService.onConnectSinkResult(java.lang.String,boolean)	android.permission.BLUETOOTH			

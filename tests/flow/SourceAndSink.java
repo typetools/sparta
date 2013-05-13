@@ -1,16 +1,16 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.SpartaPermission;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.FlowPermission;
 
 class SourceAndSink {
     //:: error: (forbidden.flow)
-    @Sources(SpartaPermission.RECORD_AUDIO) @Sinks({}) Object getPrivateSound() { return null; }
-    @Sources(SpartaPermission.RECORD_AUDIO) @Sinks(SpartaPermission.ANY) Object getPublicSound() { return null; }
+    @Source(FlowPermission.RECORD_AUDIO) @Sink({}) Object getPrivateSound() { return null; }
+    @Source(FlowPermission.RECORD_AUDIO) @Sink(FlowPermission.ANY) Object getPublicSound() { return null; }
 
 
     //:: error: (forbidden.flow)
-    void sendAnyData(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.INTERNET) Object p) {}
-    void sendData(@Sources(SpartaPermission.LITERAL) @Sinks(SpartaPermission.INTERNET) Object p) {}
+    void sendAnyData(@Source(FlowPermission.ANY) @Sink(FlowPermission.INTERNET) Object p) {}
+    void sendData(@Source(FlowPermission.LITERAL) @Sink(FlowPermission.INTERNET) Object p) {}
 
     void test1() {
         //:: error: (forbidden.flow)
@@ -30,6 +30,6 @@ class SourceAndSink {
 
     void test3() {
         //:: error: (assignment.type.incompatible)
-        @Sinks(SpartaPermission.INTERNET) Object x = getPrivateSound();
+        @Sink(FlowPermission.INTERNET) Object x = getPrivateSound();
     }
 }

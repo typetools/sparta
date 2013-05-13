@@ -1,28 +1,28 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.SpartaPermission;
-import sparta.checkers.quals.Sinks;
-import sparta.checkers.quals.PolySinks;
-import sparta.checkers.quals.PolySources;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.PolySink;
+import sparta.checkers.quals.PolySource;
 
 class SwitchTest {
     void foo() {
-        @Sources({SpartaPermission.ACCESS_FINE_LOCATION, SpartaPermission.LITERAL}) int info = 1;
+        @Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.LITERAL}) int info = 1;
 
-        //Explicitly forbid this field from having SpartaPermission.CONDITIONAL
+        //Explicitly forbid this field from having FlowPermission.CONDITIONAL
         //:: error: (forbidden.flow)
-        @Sources({SpartaPermission.ACCESS_FINE_LOCATION}) @Sinks({}) int badInfo = 1;
+        @Source({FlowPermission.ACCESS_FINE_LOCATION}) @Sink({}) int badInfo = 1;
 
-        @Sources(SpartaPermission.LITERAL) int noInfo = 1;
+        @Source(FlowPermission.LITERAL) int noInfo = 1;
 
-        //This field gets SpartaPermission.CONDITIONAL added by default
-        final @Sources({SpartaPermission.ACCESS_FINE_LOCATION, SpartaPermission.LITERAL}) int caseInfo = 1;
+        //This field gets FlowPermission.CONDITIONAL added by default
+        final @Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.LITERAL}) int caseInfo = 1;
         final int caseNoInfo = 2;
 
 
-        //Explicitly forbid this field from having SpartaPermission.CONDITIONAL
+        //Explicitly forbid this field from having FlowPermission.CONDITIONAL
         //:: error: (forbidden.flow)
-        final @Sources({SpartaPermission.ACCESS_FINE_LOCATION, SpartaPermission.LITERAL}) @Sinks({}) int badCaseInfo = 3;
+        final @Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.LITERAL}) @Sink({}) int badCaseInfo = 3;
 
         switch (info) {
 
