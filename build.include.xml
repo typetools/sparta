@@ -122,13 +122,13 @@
         </sequential>
     </macrodef>
 
-    <target name="-setup-flowtest">
-        <property name="build.target" value="flowtest" />
+    <target name="-setup-flowchecker">
+        <property name="build.target" value="flowchecker" />
     </target>
 
-    <target name="flowtest"
-                depends="clean,-setup-flowtest, -build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="check for flowtest.">
+    <target name="flowchecker"
+                depends="clean,-setup-flowchecker, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="check for flowchecker.">
         <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
 

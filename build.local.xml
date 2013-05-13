@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="android-setup" default="flowtest-setup">
+<project name="android-setup" default="flowchecker-setup">
     <property environment="env"/>
 
-    <target name="flowtest-setup">
+    <target name="flowchecker-setup">
         <exec executable="${env.ANDROID_HOME}/tools/android">
             <arg value="update" />
             <arg value="project" />
