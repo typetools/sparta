@@ -63,7 +63,7 @@ public class AndroidTests {
 
     public static class FlowCheckerTests extends ParameterizedCheckerTest {
         public FlowCheckerTests(File testFile) {
-            super(testFile, FlowChecker.class.getName(), "sparta.checkers", "-Anomsgtext");
+            super(testFile, FlowChecker.class.getName(), "sparta.checkers", "-Anomsgtext", "-Astubs=tests/flow/flowtests.astub");
         }
         @Parameters
         public static Collection<Object[]> data() {
