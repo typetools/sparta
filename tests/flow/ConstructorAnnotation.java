@@ -9,11 +9,9 @@ class TestNoParamConstructor {
 	@ConservativeFlow
 	TestNoParamConstructor() { }
 }
-
 @ConservativeFlow
 class TestParamConstructor {
-	
-	@ConservativeFlow
+
 	//:: error: (forbidden.flow)   
 	TestParamConstructor(String name) { }
 	
@@ -35,9 +33,11 @@ class ConstructorAnnotation {
 		@Source(LITERAL) TestImplicitConstructor imp = new TestImplicitConstructor();
 		// BUG? This should be thrown //:: error: (assignment.type.incompatible)
 		@Source(LITERAL) TestNoParamConstructor noParam = new TestNoParamConstructor();
-		// BUG? This should be thrown //:: error: (assignment.type.incompatible)
+
+		//:: error: (argument.type.incompatible)
 		@Source(LITERAL) TestParamConstructor param = new TestParamConstructor("hello");
-		// BUG? There should be an error on passing in a literal parameter
+		
+		//:: error: (argument.type.incompatible)
 		new TestParamConstructor("hello");
 		
 		// Sanity check -- OK
