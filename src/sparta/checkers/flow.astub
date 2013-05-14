@@ -32,7 +32,14 @@ class UriMatcher {
 
 class SQLiteDatabase {
 //Added by Philip
+    @Sources(SpartaPermission.SQLITE_DATABASE) @Sinks({}) int delete(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) String table, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) String whereClause, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) String @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) [] whereArgs) @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE);
     void execSQL(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) String sql) @Sources(SpartaPermission.ANY) @Sinks({});
+}
+
+
+class SQLiteOpenHelper {
+//Added by Philip
+    @Sources(SpartaPermission.SQLITE_DATABASE) @Sinks(SpartaPermission.SQLITE_DATABASE) SQLiteDatabase getWritableDatabase() @Sources(SpartaPermission.ANY) @Sinks({});
 }
 package android.graphics;
 
