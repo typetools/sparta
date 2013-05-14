@@ -107,8 +107,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.ANYFLOWSOURCES);
                 // Use the bottom types for parameter types
                 new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.ANYFLOWSINKS);
-                // Let @DefaultFlow override conservative defaults
-                new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.NOFLOWSINKS);
+
                 return;
 
             } else if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
