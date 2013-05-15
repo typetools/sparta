@@ -8,7 +8,7 @@ class Cons {
 	String get(String s){
 		return s;
 	}
-	@PolyFlowReciever
+	@PolyFlowReceiver
 	String m(String s){return s;}
 }
 

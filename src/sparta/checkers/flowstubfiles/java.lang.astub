@@ -19,7 +19,8 @@ class String {
    @PolySource @PolySink CharSequence replacement) @PolySource @PolySink;
    @PolySource @PolySink String substring(@PolySource @PolySink int start, @PolySource @PolySink int end) @PolySource @PolySink;
    @PolySource @PolySink String substring(@PolySource @PolySink int start) @PolySource @PolySink;
-   @PolySource @PolySink String toString() @PolySource @PolySink;
+   @PolyFlowReceiver
+   String toString();
 
 }
 
