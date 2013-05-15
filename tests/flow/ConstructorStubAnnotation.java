@@ -57,9 +57,10 @@ class ConstructorStubAnnotation {
 		@Source(LITERAL) TestStubImplicitConstructor imp = new TestStubImplicitConstructor();
 		// BUG? This should be thrown //:: error: (assignment.type.incompatible)
 		@Source(LITERAL) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
-		// BUG? This should be thrown //:: error: (assignment.type.incompatible)
+		
+		//:: error: (argument.type.incompatible)
 		@Source(LITERAL) TestStubParamConstructor param = new TestStubParamConstructor("hello");
-		// BUG? There should be an error on passing in a literal parameter
+		//:: error: (argument.type.incompatible)
 		new TestStubParamConstructor("hello");
 		
 		// BUG? An error should be thrown (Constructor is explicity @Source(INTERNET)) 

@@ -97,7 +97,6 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 // Use LITERAL->?  the return type.
                 new FlowDefaultApplier(element, DefaultLocation.OTHERWISE, type).scan(type, checker.LITERALFLOWSOURCE);
                 new FlowDefaultApplier(element, DefaultLocation.OTHERWISE, type).scan(type, checker.FROMLITERALFLOWSINK);
-               
 
 
                 return;
