@@ -1,7 +1,10 @@
 
 package java.lang;
 
-
+class Long {
+//Added by Philip
+    static @PolyFlow long parseLong(String string);
+}
 
 class String {
 //Added for Misc. Test SOM

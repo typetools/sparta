@@ -10,7 +10,7 @@ class List<T extends @Sink({}) @Source(FlowPermission.ANY) Object> {
 //Copied from Orig. flow.astub file
 //Need for list test SOM
    boolean add(T object) @Source(FlowPermission.ANY);
-   T get(@Sink({}) int index);
+   T get(@Sink({}) int index) @Source(FlowPermission.ANY) @Sink({});
    int size() @Source(FlowPermission.ANY);
 }
 
