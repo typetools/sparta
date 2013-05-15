@@ -395,8 +395,8 @@ See section ``\ahref{http://types.cs.washington.edu/checker-framework/current/ch
 
 \section{Additional Annotations\label{sec:addtionalanno}}
 
-Three additional declaration annotations can be used to annotate APIs:
-\<@DefaultFlow>, \<@ConservativeFlow>, and \<@PolyFlow>. 
+Four additional declaration annotations can be used to annotate APIs:
+\<@DefaultFlow>, \<@ConservativeFlow>, \<@PolyFlow>, and \<@PolyFlowReceiver>. 
 They change the default annotations (\secref{flow-defaults}).
  
 The declaration annotations can be used on any declaration: a method,
@@ -438,7 +438,14 @@ program uses a previously-unannotated library.
 
 Annotation \<@PolyFlow> expresses that each contained method should be
 annotated as \<@PolyFlowPermission @PolyFlowPermission> for both the return
-types and all parameters.
+types and all parameters.  It should be used to express a relationship between the parameters 
+and the return types.
+
+\subsection{@PolyFlowReceiver\label{sec:polyflowreceiver}}
+
+Annotation \<@PolyFlowReceiver> expresses that each contained method should be
+annotated as \<@PolyFlowPermission @PolyFlowPermission> for  the return
+type, all parameters types and the receiver type.  
 
 
 
