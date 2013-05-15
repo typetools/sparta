@@ -1,0 +1,228 @@
+import sparta.checkers.quals.*;
+import sparta.checkers.quals.FlowPermission;
+import static sparta.checkers.quals.FlowPermission.*;
+
+/*
+This file is generate by ant merge-stubfiles.
+Please put annotations in the correct stub file in flowstubfiles.
+*/
+
+@ConservativeFlow
+package android;
+
+@ConservativeFlow
+package com.android;
+
+@ConservativeFlow
+package org.apache.http;
+
+@ConservativeFlow
+package java;
+
+
+package android.app;
+
+class Activity{
+//Annotations by SOM
+	void onCreate(@Source(FlowPermission.ANY) Bundle savedInstanceState);
+	void setContentView(@Sink(FlowPermission.DISPLAY) int layout);
+    @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater ();	
+    
+    void setContentView (@Sink(FlowPermission.DISPLAY) View view);
+    @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
+}package android.content;
+
+class Context{
+
+	@Source(FlowPermission.FILESYSTEM) @Sink(FlowPermission.ANY) File getDir(@Source(FlowPermission.ANY) @Sink(FlowPermission.FILESYSTEM) String name, @Source(FlowPermission.ANY) @Sink(FlowPermission.CONDITIONAL) int mode);
+}
+
+class UriMatcher {
+    @PolyFlow int match(Uri uri);
+}
+package android.database.sqlite;
+
+class SQLiteDatabase {
+//Added by Philip
+    @Source(FlowPermission.SQLITE_DATABASE) @Sink({}) int delete(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE);
+    void execSQL(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sql) @Source(FlowPermission.ANY) @Sink({});
+}
+
+
+class SQLiteOpenHelper {
+//Added by Philip
+    @Source(FlowPermission.SQLITE_DATABASE) @Sink(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getWritableDatabase() @Source(FlowPermission.ANY) @Sink({});
+}
+package android.graphics;
+
+class BitmapFactory {
+//Added by SOM
+	@PolySource @PolySink Bitmap decodeByteArray(
+	                                @PolySource @PolySink byte @PolySource @PolySink [] data, 
+	                                @Source(FlowPermission.ANY) @Sink({}) int offset,  
+	                                @Source(FlowPermission.ANY) @Sink({}) int length);
+}
+
+class Bitmap {
+//Added by SOM
+//The CompressFormat is any enum value
+	 boolean compress(
+	          @Source(FlowPermission.ANY) @Sink({}) CompressFormat format, @Source(FlowPermission.ANY) @Sink({}) int quality, 
+	          @PolySink @PolySource OutputStream stream) @PolySink @PolySource;
+}package android.hardware;
+
+class Camera {
+//Annotations by Philip 
+
+	@Source(FlowPermission.CAMERA_SETTINGS) Parameters getParameters();
+	@DefaultFlow
+	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
+	void setParameters(@Sink(FlowPermission.CAMERA_SETTINGS) Parameters params);
+	void setPreviewDisplay(@Sink(FlowPermission.DISPLAY) SurfaceHolder holder);
+	void takePicture(ShutterCallback shutter, @Source(FlowPermission.CAMERA) PictureCallback raw, @Source(FlowPermission.CAMERA) @Sink({}) PictureCallback jpeg);
+}
+
+interface Camera$PictureCallback {
+    //SOM
+    void onPictureTaken(@Source(FlowPermission.CAMERA)  byte @Source(FlowPermission.CAMERA)  [] data, @Source(FlowPermission.CAMERA) Camera camera);
+}
+
+
+
+package android.location;
+
+ interface LocationListener {
+//Added by SOM
+        void onLocationChanged(@Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.ACCESS_COARSE_LOCATION}) Location location);
+ }
+package android.net;
+
+class Uri {
+//Added by Philip
+    @PolySource @PolySink List<@PolySource @PolySink String> getPathSegments() @PolySource @PolySink;
+    static @PolyFlow Uri parse(String uriString);
+}
+package android.util;
+
+class FloatMath {
+//Added by SOM
+   static @PolySource @PolySink float ceil(@PolySource @PolySink float value);
+   static @PolySource @PolySink float cos(@PolySource @PolySink float angle);
+   static @PolySource @PolySink float floor(@PolySource @PolySink float value);
+   static @PolySource @PolySink float sin(@PolySource @PolySink float angle);
+   static @PolySource @PolySink float sqrt(@PolySource @PolySink float value);
+}
+
+
+class Log {
+//Added by SOM
+
+static @Source(FlowPermission.READ_LOGS)  int     d(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    d(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    e(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    e(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    i( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    i(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    v(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    v(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    w(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    w( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    w( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+}
+package android.view;
+
+class MenuInflater{
+
+//Add by SOM, once we have the new defaulting, then these annotations can be removed.
+void inflate (@Sink(FlowPermission.CONDITIONAL) int menuRes, @Sink(FlowPermission.CONDITIONAL) Menu menu);
+
+}
+
+class SurfaceView{
+//SOM
+ @Sink(FlowPermission.DISPLAY) SurfaceHolder getHolder ();
+}        
+     
+class SurfaceHolder{
+//Add by SOM, once we have the new defaulting, then these annotations can be removed.
+   void addCallback (@Sink(FlowPermission.CONDITIONAL) SurfaceHolder.Callback callback) @Sink(FlowPermission.DISPLAY);
+   void setType (@Sink(FlowPermission.CONDITIONAL)  int type) @Sink(FlowPermission.DISPLAY);
+
+}
+package android.widget;
+
+class ImageView {
+//Added by Philip
+	void setImageBitmap(@Sink(FlowPermission.DISPLAY) Bitmap bm);
+	void setImageDrawable(@Sink(FlowPermission.DISPLAY) Drawable drawable);
+	void setImageResource(@PolySource @PolySink int i) @PolySource @PolySink;
+}
+package java.io;
+
+class FileOutputStream {
+//Added by SOM
+
+ @Source(FlowPermission.FILESYSTEM)  FileOutputStream(@Sink(FlowPermission.FILESYSTEM)  File file);
+ void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM)  [] bytes);
+}
+
+class File {
+//Added by SOM
+
+	@Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) String path);
+	@PolySource @PolySink String toString() @PolySource @PolySink;
+}
+
+class ByteArrayOutputStream{
+//Added by SOM
+   @Source({}) @Sink(FlowPermission.ANY) ByteArrayOutputStream();
+   @PolySource @PolySink byte @PolySource @PolySink [] toByteArray() @PolySource @PolySink;
+   void close() @Source(FlowPermission.ANY) @Sink({});
+}
+
+package java.lang;
+
+class Long {
+//Added by Philip
+    static @PolyFlow long parseLong(String string);
+}
+
+class String {
+//Added for Misc. Test SOM
+   @PolySource @PolySink char charAt(@PolySource @PolySink int index) @PolySource @PolySink;
+   @PolySource @PolySink boolean contains(@PolySource @PolySink CharSequence cs) @PolySource @PolySink;
+   @PolySource @PolySink boolean equals(@PolySource @PolySink Object object) @PolySource @PolySink;
+   @PolySource @PolySink boolean equalsIgnoreCase(@PolySource @PolySink String string) @PolySource @PolySink;
+   static @PolySource @PolySink String format(Locale l, @PolySource @PolySink String format, @PolySource @PolySink Object... args);
+   static @PolySource @PolySink String format(@PolySource @PolySink String format, @PolySource @PolySink Object... args);
+   @PolySource @PolySink byte @Source({}) @Sink({}) [] getBytes() @PolySource @PolySink;
+   @PolySource @PolySink int length() @PolySource @PolySink;
+   @PolySource @PolySink String trim() @PolySource @PolySink;
+   @PolySource @PolySink String replace(@Sink({}) char target, @PolySource @PolySink char replacement) @PolySource @PolySink;
+   @PolySource @PolySink String replace(@Sink({}) CharSequence target,
+   @PolySource @PolySink CharSequence replacement) @PolySource @PolySink;
+   @PolySource @PolySink String substring(@PolySource @PolySink int start, @PolySource @PolySink int end) @PolySource @PolySink;
+   @PolySource @PolySink String substring(@PolySource @PolySink int start) @PolySource @PolySink;
+   @PolySource @PolySink String toString() @PolySource @PolySink;
+
+}
+
+
+package java.util;
+
+ //Added by SOM
+ class ArrayList<T extends @Sink({}) @Source(FlowPermission.ANY) Object> {
+         @PolySource @PolySink T get(@Sink(FlowPermission.CONDITIONAL) int index) @PolySource @PolySink;
+ }
+
+class List<T extends @Sink({}) @Source(FlowPermission.ANY) Object> {
+//Copied from Orig. flow.astub file
+//Need for list test SOM
+   boolean add(T object) @Source(FlowPermission.ANY);
+   T get(@Sink({}) int index) @Source(FlowPermission.ANY) @Sink({});
+   int size() @Source(FlowPermission.ANY);
+}
+

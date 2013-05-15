@@ -2,5 +2,12 @@ package android.database.sqlite;
 
 class SQLiteDatabase {
 //Added by Philip
+    @Source(FlowPermission.SQLITE_DATABASE) @Sink({}) int delete(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE);
     void execSQL(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sql) @Source(FlowPermission.ANY) @Sink({});
+}
+
+
+class SQLiteOpenHelper {
+//Added by Philip
+    @Source(FlowPermission.SQLITE_DATABASE) @Sink(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getWritableDatabase() @Source(FlowPermission.ANY) @Sink({});
 }
