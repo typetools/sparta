@@ -14,4 +14,4 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.CONSTRUCTOR,
     ElementType.TYPE, ElementType.PACKAGE})
-public @interface PolyFlowReciever {}
+public @interface PolyFlowReceiver {}
