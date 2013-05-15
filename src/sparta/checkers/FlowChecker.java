@@ -54,6 +54,7 @@ public class FlowChecker extends BaseTypeChecker {
     protected AnnotationMirror POLYALL;
     protected AnnotationMirror LITERALFLOWSOURCE;
     protected AnnotationMirror FROMLITERALFLOWSINK;
+    protected AnnotationMirror NRSOURCE, NRSINK;
 
     protected AnnotationMirror FLOW_SOURCES;
     protected AnnotationMirror FLOW_SINKS;
@@ -66,9 +67,14 @@ public class FlowChecker extends BaseTypeChecker {
         Elements elements = processingEnv.getElementUtils();
         NOFLOWSOURCES = AnnotationUtils.fromClass(elements, Source.class);
         NOFLOWSINKS = AnnotationUtils.fromClass(elements, Sink.class);
+        
         POLYFLOWSOURCES = AnnotationUtils.fromClass(elements, PolySource.class);
         POLYFLOWSINKS = AnnotationUtils.fromClass(elements, PolySink.class);
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
+        
+        NRSOURCE = FlowUtil.createAnnoFromSource(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
+        NRSINK = FlowUtil.createAnnoFromSink(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
+
 
         ANYFLOWSOURCES = FlowUtil.createAnnoFromSource(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
         ANYFLOWSINKS = FlowUtil.createAnnoFromSink(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
