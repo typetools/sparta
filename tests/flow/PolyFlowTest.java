@@ -1,21 +1,37 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.Source.*;
 import sparta.checkers.quals.Sink.*;
+import static sparta.checkers.quals.FlowPermission.*; 
 
 @PolyFlow
 class Cons {
 	String get(String s){
 		return s;
 	}
+	@PolyFlowReciever
+	String m(String s){return s;}
 }
 
 class Use {
 
-	String s = "";
-	String k;
+	@Source(LITERAL) String s = "";
+	@Source(READ_SMS) String k;
+	@Source({LITERAL, READ_SMS}) String readLit;
 
-    void demo(Cons c) {
+    void demo(@Source(LITERAL) Cons c) {
+       //:: error: (assignment.type.incompatible) 
        s = c.get(k);
+       readLit = c.get(k);
+       
+       s = c.m(s);
+       readLit = c.m(s);
+       readLit = c.m(k);
+
+       //:: error: (assignment.type.incompatible) 
+       s = c.m(k);
+    
+       s = c.m(s);
+
 
     }
 }

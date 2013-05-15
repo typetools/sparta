@@ -11,6 +11,7 @@ import checkers.types.AnnotatedTypeFactory;
 import checkers.util.*;
 import com.sun.tools.javac.code.TypeAnnotationPosition;
 import sparta.checkers.quals.ConservativeFlow;
+import sparta.checkers.quals.PolyFlowReciever;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.DefaultFlow;
@@ -118,6 +119,21 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.POLYFLOWSINKS);
                 new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.POLYFLOWSOURCES);
 
+                return;
+
+            } else if (this.getDeclAnnotation(iter, PolyFlowReciever.class) != null) {
+                // Use poly flow sources and sinks for return types .
+                new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.POLYFLOWSOURCES);
+                new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.POLYFLOWSINKS);
+                
+                // Use poly flow sources and sinks for Parameter types (This is excluding receivers) 
+                new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.POLYFLOWSINKS);
+                new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.POLYFLOWSOURCES);
+
+                // Use poly flow sources and sinks for receiver types 
+                new FlowDefaultApplier(element, DefaultLocation.RECEIVERS, type).scan(type, checker.POLYFLOWSINKS);
+                new FlowDefaultApplier(element, DefaultLocation.RECEIVERS, type).scan(type, checker.POLYFLOWSOURCES);
+                
                 return;
 
             }
