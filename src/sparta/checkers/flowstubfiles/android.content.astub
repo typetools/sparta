@@ -1,5 +1,9 @@
 package android.content;
 
+class ContentUris {
+    @PolyFlow static Uri withAppendedId(Uri contentUri, long id);
+}
+
 class Context{
 
 	@Source(FlowPermission.FILESYSTEM) @Sink(FlowPermission.ANY) File getDir(@Source(FlowPermission.ANY) @Sink(FlowPermission.FILESYSTEM) String name, @Source(FlowPermission.ANY) @Sink(FlowPermission.CONDITIONAL) int mode);
