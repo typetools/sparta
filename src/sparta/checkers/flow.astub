@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.SpartaPermission;
-import static sparta.checkers.quals.SpartaPermission.*;
+import sparta.checkers.quals.FlowPermission;
+import static sparta.checkers.quals.FlowPermission.*;
 
 /*
 This file is generate by ant merge-stubfiles.
@@ -19,68 +19,72 @@ package org.apache.http;
 @ConservativeFlow
 package java;
 
-package android.content;
+
+package android.app;
+
+class Activity{
+//Annotations by SOM
+	void onCreate(@Source(FlowPermission.ANY) Bundle savedInstanceState);
+	void setContentView(@Sink(FlowPermission.DISPLAY) int layout);
+    @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater ();	
+    
+    void setContentView (@Sink(FlowPermission.DISPLAY) View view);
+    @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
+}package android.content;
 
 class Context{
 
-	@Sources(SpartaPermission.FILESYSTEM) @Sinks(SpartaPermission.ANY) File getDir(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM) String name, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.CONDITIONAL) int mode);
+	@Source(FlowPermission.FILESYSTEM) @Sink(FlowPermission.ANY) File getDir(@Source(FlowPermission.ANY) @Sink(FlowPermission.FILESYSTEM) String name, @Source(FlowPermission.ANY) @Sink(FlowPermission.CONDITIONAL) int mode);
 }
 
 class UriMatcher {
     @PolyFlow int match(Uri uri);
-}package android.database.sqlite;
+}
+package android.database.sqlite;
 
 class SQLiteDatabase {
 //Added by Philip
-    @Sources(SpartaPermission.SQLITE_DATABASE) @Sinks({}) int delete(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) String table, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) String whereClause, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) String @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) [] whereArgs) @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE);
-    void execSQL(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.SQLITE_DATABASE) String sql) @Sources(SpartaPermission.ANY) @Sinks({});
+    @Source(FlowPermission.SQLITE_DATABASE) @Sink({}) int delete(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE);
+    void execSQL(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sql) @Source(FlowPermission.ANY) @Sink({});
 }
 
 
 class SQLiteOpenHelper {
 //Added by Philip
-    @Sources(SpartaPermission.SQLITE_DATABASE) @Sinks(SpartaPermission.SQLITE_DATABASE) SQLiteDatabase getWritableDatabase() @Sources(SpartaPermission.ANY) @Sinks({});
+    @Source(FlowPermission.SQLITE_DATABASE) @Sink(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getWritableDatabase() @Source(FlowPermission.ANY) @Sink({});
 }
 package android.graphics;
 
 class BitmapFactory {
 //Added by SOM
-	@PolySources @PolySinks Bitmap decodeByteArray(
-	                                @PolySources @PolySinks byte @PolySources @PolySinks [] data, 
-	                                @Sources(SpartaPermission.ANY) @Sinks({}) int offset,  
-	                                @Sources(SpartaPermission.ANY) @Sinks({}) int length);
+	@PolySource @PolySink Bitmap decodeByteArray(
+	                                @PolySource @PolySink byte @PolySource @PolySink [] data, 
+	                                @Source(FlowPermission.ANY) @Sink({}) int offset,  
+	                                @Source(FlowPermission.ANY) @Sink({}) int length);
 }
 
 class Bitmap {
 //Added by SOM
 //The CompressFormat is any enum value
-	@Sources({}) @Sinks(SpartaPermission.ANY) boolean compress(
-	          @Sources(SpartaPermission.ANY) @Sinks({}) CompressFormat format, @Sources(SpartaPermission.ANY) @Sinks({}) int quality, 
-	          @PolySinks @PolySources OutputStream stream) @PolySinks @PolySources;
+	 boolean compress(
+	          @Source(FlowPermission.ANY) @Sink({}) CompressFormat format, @Source(FlowPermission.ANY) @Sink({}) int quality, 
+	          @PolySink @PolySource OutputStream stream) @PolySink @PolySource;
 }package android.hardware;
 
 class Camera {
 //Annotations by Philip 
 
-	@Sources(SpartaPermission.CAMERA_SETTINGS) Parameters getParameters();
-	//@RequiredPermissions(android.Manifest.permission.CAMERA) Object native_setup(java.lang.Object p0);
+	@Source(FlowPermission.CAMERA_SETTINGS) Parameters getParameters();
 	@DefaultFlow
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
-	//void release();
-	void setParameters(@Sinks(SpartaPermission.CAMERA_SETTINGS) Parameters params);
-	void setPreviewDisplay(@Sinks(SpartaPermission.DISPLAY) SurfaceHolder holder);
-	//void startPreview();
-	//void stopPreview();
-	void takePicture(ShutterCallback shutter, @Sources(SpartaPermission.CAMERA) PictureCallback raw, @Sources(SpartaPermission.CAMERA) @Sinks({}) PictureCallback jpeg);
+	void setParameters(@Sink(FlowPermission.CAMERA_SETTINGS) Parameters params);
+	void setPreviewDisplay(@Sink(FlowPermission.DISPLAY) SurfaceHolder holder);
+	void takePicture(ShutterCallback shutter, @Source(FlowPermission.CAMERA) PictureCallback raw, @Source(FlowPermission.CAMERA) @Sink({}) PictureCallback jpeg);
 }
 
 interface Camera$PictureCallback {
-    
-    void onPictureTaken(
-         @Sources(SpartaPermission.CAMERA)  byte 
-       
-                @Sources(SpartaPermission.CAMERA)  [] data, 
-                @Sources(SpartaPermission.CAMERA) Camera camera);
+    //SOM
+    void onPictureTaken(@Source(FlowPermission.CAMERA)  byte @Source(FlowPermission.CAMERA)  [] data, @Source(FlowPermission.CAMERA) Camera camera);
 }
 
 
@@ -89,96 +93,120 @@ package android.location;
 
  interface LocationListener {
 //Added by SOM
-        void onLocationChanged(@Sources({SpartaPermission.ACCESS_FINE_LOCATION, SpartaPermission.ACCESS_COARSE_LOCATION}) Location location);
+        void onLocationChanged(@Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.ACCESS_COARSE_LOCATION}) Location location);
  }
 package android.net;
 
 class Uri {
 //Added by Philip
+    @PolySource @PolySink List<@PolySource @PolySink String> getPathSegments() @PolySource @PolySink;
     static @PolyFlow Uri parse(String uriString);
 }
 package android.util;
 
 class FloatMath {
 //Added by SOM
-   static @PolySources @PolySinks float ceil(@PolySources @PolySinks float value);
-   static @PolySources @PolySinks float cos(@PolySources @PolySinks float angle);
-   static @PolySources @PolySinks float floor(@PolySources @PolySinks float value);
-   static @PolySources @PolySinks float sin(@PolySources @PolySinks float angle);
-   static @PolySources @PolySinks float sqrt(@PolySources @PolySinks float value);
+   static @PolySource @PolySink float ceil(@PolySource @PolySink float value);
+   static @PolySource @PolySink float cos(@PolySource @PolySink float angle);
+   static @PolySource @PolySink float floor(@PolySource @PolySink float value);
+   static @PolySource @PolySink float sin(@PolySource @PolySink float angle);
+   static @PolySource @PolySink float sqrt(@PolySource @PolySink float value);
 }
 
 
 class Log {
 //Added by SOM
 
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY) int     d(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    d(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) String msg, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    e(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    e(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    i(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    i(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    v(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    v(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS)  @Sinks(SpartaPermission.ANY) int    w(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    w(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) String msg, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    w(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    wtf(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
-static @Sources(SpartaPermission.READ_LOGS) @Sinks(SpartaPermission.ANY)  int    wtf(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg);
-static @Sources(SpartaPermission.READ_LOGS)  @Sinks(SpartaPermission.ANY) int    wtf(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String tag, @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.WRITE_LOGS) String msg,@Sources(SpartaPermission.ANY)  @Sinks(SpartaPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int     d(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    d(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    e(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    e(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    i( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    i(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    v(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    v(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    w(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    w( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    w( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
+static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+}
+package android.view;
+
+class MenuInflater{
+
+//Add by SOM, once we have the new defaulting, then these annotations can be removed.
+void inflate (@Sink(FlowPermission.CONDITIONAL) int menuRes, @Sink(FlowPermission.CONDITIONAL) Menu menu);
+
+}
+
+class SurfaceView{
+//SOM
+ @Sink(FlowPermission.DISPLAY) SurfaceHolder getHolder ();
+}        
+     
+class SurfaceHolder{
+//Add by SOM, once we have the new defaulting, then these annotations can be removed.
+   void addCallback (@Sink(FlowPermission.CONDITIONAL) SurfaceHolder.Callback callback) @Sink(FlowPermission.DISPLAY);
+   void setType (@Sink(FlowPermission.CONDITIONAL)  int type) @Sink(FlowPermission.DISPLAY);
+
 }
 package android.widget;
 
 class ImageView {
 //Added by Philip
-	void setImageBitmap(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.DISPLAY) Bitmap bm);
-	void setImageDrawable(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.DISPLAY) Drawable drawable);
-	void setImageResource(@PolySources @PolySinks int i) @PolySources @PolySinks;
+	void setImageBitmap(@Sink(FlowPermission.DISPLAY) Bitmap bm);
+	void setImageDrawable(@Sink(FlowPermission.DISPLAY) Drawable drawable);
+	void setImageResource(@PolySource @PolySink int i) @PolySource @PolySink;
 }
 package java.io;
 
 class FileOutputStream {
 //Added by SOM
 
- @Sources(SpartaPermission.FILESYSTEM) @Sinks(SpartaPermission.ANY)  FileOutputStream(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM)  File file);
- void write(@Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM) byte @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM)  [] bytes);
+ @Source(FlowPermission.FILESYSTEM)  FileOutputStream(@Sink(FlowPermission.FILESYSTEM)  File file);
+ void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM)  [] bytes);
 }
 
 class File {
 //Added by SOM
 
-	@Sources(SpartaPermission.FILESYSTEM) @Sinks(SpartaPermission.ANY) File( @Sources(SpartaPermission.ANY) @Sinks(SpartaPermission.FILESYSTEM) String path);
-	@PolySources @PolySinks String toString() @PolySources @PolySinks;
+	@Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) String path);
+	@PolySource @PolySink String toString() @PolySource @PolySink;
 }
 
 class ByteArrayOutputStream{
 //Added by SOM
-   @Sources({}) @Sinks(SpartaPermission.ANY) ByteArrayOutputStream();
-   @PolySources @PolySinks byte @PolySources @PolySinks [] toByteArray() @PolySources @PolySinks;
-   void close() @Sources(SpartaPermission.ANY) @Sinks({});
+   @Source({}) @Sink(FlowPermission.ANY) ByteArrayOutputStream();
+   @PolySource @PolySink byte @PolySource @PolySink [] toByteArray() @PolySource @PolySink;
+   void close() @Source(FlowPermission.ANY) @Sink({});
 }
 
 package java.lang;
 
-
+class Long {
+//Added by Philip
+    static @PolyFlow long parseLong(String string);
+}
 
 class String {
 //Added for Misc. Test SOM
-   @PolySources @PolySinks char charAt(@PolySources @PolySinks int index) @PolySources @PolySinks;
-   @PolySources @PolySinks boolean contains(@PolySources @PolySinks CharSequence cs) @PolySources @PolySinks;
-   @PolySources @PolySinks boolean equals(@PolySources @PolySinks Object object) @PolySources @PolySinks;
-   @PolySources @PolySinks boolean equalsIgnoreCase(@PolySources @PolySinks String string) @PolySources @PolySinks;
-   static @PolySources @PolySinks String format(Locale l, @PolySources @PolySinks String format, @PolySources @PolySinks Object... args);
-   static @PolySources @PolySinks String format(@PolySources @PolySinks String format, @PolySources @PolySinks Object... args);
-   @PolySources @PolySinks byte @Sources({}) @Sinks({}) [] getBytes() @PolySources @PolySinks;
-   @PolySources @PolySinks int length() @PolySources @PolySinks;
-   @PolySources @PolySinks String trim() @PolySources @PolySinks;
-   @PolySources @PolySinks String replace(@Sinks({}) char target, @PolySources @PolySinks char replacement) @PolySources @PolySinks;
-   @PolySources @PolySinks String replace(@Sinks({}) CharSequence target,
-   @PolySources @PolySinks CharSequence replacement) @PolySources @PolySinks;
-   @PolySources @PolySinks String substring(@PolySources @PolySinks int start, @PolySources @PolySinks int end) @PolySources @PolySinks;
-   @PolySources @PolySinks String substring(@PolySources @PolySinks int start) @PolySources @PolySinks;
-   @PolySources @PolySinks String toString() @PolySources @PolySinks;
+   @PolySource @PolySink char charAt(@PolySource @PolySink int index) @PolySource @PolySink;
+   @PolySource @PolySink boolean contains(@PolySource @PolySink CharSequence cs) @PolySource @PolySink;
+   @PolySource @PolySink boolean equals(@PolySource @PolySink Object object) @PolySource @PolySink;
+   @PolySource @PolySink boolean equalsIgnoreCase(@PolySource @PolySink String string) @PolySource @PolySink;
+   static @PolySource @PolySink String format(Locale l, @PolySource @PolySink String format, @PolySource @PolySink Object... args);
+   static @PolySource @PolySink String format(@PolySource @PolySink String format, @PolySource @PolySink Object... args);
+   @PolySource @PolySink byte @Source({}) @Sink({}) [] getBytes() @PolySource @PolySink;
+   @PolySource @PolySink int length() @PolySource @PolySink;
+   @PolySource @PolySink String trim() @PolySource @PolySink;
+   @PolySource @PolySink String replace(@Sink({}) char target, @PolySource @PolySink char replacement) @PolySource @PolySink;
+   @PolySource @PolySink String replace(@Sink({}) CharSequence target,
+   @PolySource @PolySink CharSequence replacement) @PolySource @PolySink;
+   @PolySource @PolySink String substring(@PolySource @PolySink int start, @PolySource @PolySink int end) @PolySource @PolySink;
+   @PolySource @PolySink String substring(@PolySource @PolySink int start) @PolySource @PolySink;
+   @PolySource @PolySink String toString() @PolySource @PolySink;
 
 }
 
@@ -186,16 +214,15 @@ class String {
 package java.util;
 
  //Added by SOM
- class ArrayList<T extends @Sinks({}) @Sources(SpartaPermission.ANY) Object> {
-         @PolySources @PolySinks T get(int index) @PolySources @PolySinks;
+ class ArrayList<T extends @Sink({}) @Source(FlowPermission.ANY) Object> {
+         @PolySource @PolySink T get(@Sink(FlowPermission.CONDITIONAL) int index) @PolySource @PolySink;
  }
 
-class List<T extends @Sinks({}) @Sources(SpartaPermission.ANY) Object> {
+class List<T extends @Sink({}) @Source(FlowPermission.ANY) Object> {
 //Copied from Orig. flow.astub file
 //Need for list test SOM
-   @NoFlow boolean add(T object) @Sources(SpartaPermission.ANY);
-   T get(@Sinks({}) int index);
-   @NoFlow int size() @Sources(SpartaPermission.ANY);
-  //How to annotate this: Object[] toArray();
+   boolean add(T object) @Source(FlowPermission.ANY);
+   T get(@Sink({}) int index) @Source(FlowPermission.ANY) @Sink({});
+   int size() @Source(FlowPermission.ANY);
 }
 
