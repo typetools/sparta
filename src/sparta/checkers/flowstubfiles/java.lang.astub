@@ -8,20 +8,35 @@ class Long {
 
 class String {
 //Added for Misc. Test SOM
-   @PolySource @PolySink char charAt(@PolySource @PolySink int index) @PolySource @PolySink;
-   @PolySource @PolySink boolean contains(@PolySource @PolySink CharSequence cs) @PolySource @PolySink;
-   @PolySource @PolySink boolean equals(@PolySource @PolySink Object object) @PolySource @PolySink;
-   @PolySource @PolySink boolean equalsIgnoreCase(@PolySource @PolySink String string) @PolySource @PolySink;
+
+   @PolyFlowReceiver
+   char charAt(int index);
+   @PolyFlowReceiver
+   boolean contains(CharSequence cs);
+   @PolyFlowReceiver
+   boolean equals(Object object);
+   @PolyFlowReceiver
+   boolean equalsIgnoreCase(String string);
+   
    static @PolySource @PolySink String format(Locale l, @PolySource @PolySink String format, @PolySource @PolySink Object... args);
+
    static @PolySource @PolySink String format(@PolySource @PolySink String format, @PolySource @PolySink Object... args);
+   
    @PolySource @PolySink byte @Source({}) @Sink({}) [] getBytes() @PolySource @PolySink;
-   @PolySource @PolySink int length() @PolySource @PolySink;
-   @PolySource @PolySink String trim() @PolySource @PolySink;
-   @PolySource @PolySink String replace(@Sink({}) char target, @PolySource @PolySink char replacement) @PolySource @PolySink;
-   @PolySource @PolySink String replace(@Sink({}) CharSequence target,
-   @PolySource @PolySink CharSequence replacement) @PolySource @PolySink;
-   @PolySource @PolySink String substring(@PolySource @PolySink int start, @PolySource @PolySink int end) @PolySource @PolySink;
-   @PolySource @PolySink String substring(@PolySource @PolySink int start) @PolySource @PolySink;
+   @PolyFlowReceiver
+   int length();
+   @PolyFlowReceiver
+   String trim();
+   
+   @PolyFlowReceiver
+   String replace(char target, char replacement);
+   
+   @PolyFlowReceiver
+   String replace(CharSequence target, CharSequence replacement);
+   @PolyFlowReceiver
+   @String substring(int start, int end);
+   @PolyFlowReceiver
+   String substring(int start);
    @PolyFlowReceiver
    String toString();
 
