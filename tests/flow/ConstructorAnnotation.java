@@ -58,7 +58,7 @@ class ConstructorAnnotation {
 		// 
 		// found   : @Sink(FlowPermission.CAMERA) @Source(FlowPermission.INTERNET) TestExplicitConstructorType
 		// required: @Sink(CONDITIONAL) @Source(LITERAL) TestExplicitConstructorType
-		// :: error: (constructor.invocation.invalid)
+		//:: error: (constructor.invocation.invalid)
 		new TestExplicitConstructorType();
 		
 		// Conservative flow return types.
