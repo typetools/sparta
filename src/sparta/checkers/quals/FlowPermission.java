@@ -44,7 +44,9 @@ public enum FlowPermission {
     SQLITE_DATABASE (T.BOTH), 
     USER_INPUT (T.SOURCE),
     WRITE_LOGS (T.SINK), //READ_LOGS is an Android Permission, but there is no WRITE_LOGS
-
+    DATABASE (T.BOTH), //This is an Android database that could be any of the Content database.
+   
+    
     /**
      * These are old sources or sinks that may or may not be of use
      */

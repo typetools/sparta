@@ -12,20 +12,55 @@ class FloatMath {
 
 
 class Log {
-//Added by SOM
+//CSH:: I have no idea why most of these methods return an int, the documentation doesn't mention any return values
 
-static @Source(FlowPermission.READ_LOGS)  int     d(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
-static @Source(FlowPermission.READ_LOGS)  int    d(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
-static @Source(FlowPermission.READ_LOGS)  int    e(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
-static @Source(FlowPermission.READ_LOGS)  int    e(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
-static @Source(FlowPermission.READ_LOGS)  int    i( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
-static @Source(FlowPermission.READ_LOGS)  int    i(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
-static @Source(FlowPermission.READ_LOGS)  int    v(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
-static @Source(FlowPermission.READ_LOGS)  int    v(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
-static @Source(FlowPermission.READ_LOGS)  int    w(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
-static @Source(FlowPermission.READ_LOGS)  int    w( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
-static @Source(FlowPermission.READ_LOGS)  int    w( @Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
-static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
-static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg);
-static @Source(FlowPermission.READ_LOGS)  int    wtf(@Sink(FlowPermission.WRITE_LOGS) String tag,  @Sink(FlowPermission.WRITE_LOGS) String msg,  @Sink(FlowPermission.WRITE_LOGS) Throwable tr);
+static int d(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg);
+//Send a DEBUG log message.
+
+static int d(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg, Throwable tr);
+//Send a DEBUG log message and log the exception.
+
+static int e(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg);
+//Send an ERROR log message.
+
+static int e(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg, Throwable tr);
+//Send a ERROR log message and log the exception.
+
+static String getStackTraceString(Throwable tr);
+//Handy function to get a loggable stack trace from a Throwable
+
+static int i(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg);
+//Send an INFO log message.
+
+static int i(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg, Throwable tr);
+//Send a INFO log message and log the exception.
+
+static boolean isLoggable(String tag, int level);
+//Checks to see whether or not a log for the specified tag is loggable at the specified level.
+
+static int v(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg);
+//Send a VERBOSE log message.
+
+static int v(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg, Throwable tr);
+//Send a VERBOSE log message and log the exception.
+
+static int w(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg, Throwable tr);
+//Send a WARN log message and log the exception.
+
+static int w(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg);
+//Send a WARN log message.
+
+static int wtf(@Sink(FlowPermission.WRITE_LOGS) String tag, Throwable tr);
+//What a Terrible Failure: Report an exception that should never happen.
+
+static int wtf(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg);
+//What a Terrible Failure: Report a condition that should never happen.
+
+static int wtf(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg, Throwable tr);
+//What a Terrible Failure: Report an exception that should never happen.
+
+// UNUSED AND UNANNOTATED
+// static int println(int priority, String tag, String msg);
 }
+
+
