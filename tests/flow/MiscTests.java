@@ -1,5 +1,6 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
+import static sparta.checkers.quals.FlowPermission.*;
 
 class MiscTests {
     double clean;
@@ -8,12 +9,10 @@ class MiscTests {
         // TODO: current flow inference stops as soon as the first qualifier hierarchy
         // has errors. Therefore, the sources are not propagated, resulting in
         // an assignment error. Let us work on this once the new flow is integrated.
-        @SuppressWarnings("flow")
         @Sink({FlowPermission.INTERNET}) double lat = 1.0;
-        //:: error: (assignment.type.incompatible)
+        //::error: (assignment.type.incompatible)
         clean = lat;
 
-        @SuppressWarnings("flow")
         @Sink({FlowPermission.INTERNET, FlowPermission.CONDITIONAL}) @Source(FlowPermission.LITERAL) double lat2 = 1.0;
         clean = lat2;
     }
@@ -47,23 +46,18 @@ class MiscTests {
     }
 
     void test_StringFormat_ObjectFlowPermissionSink() {
-        @SuppressWarnings("flow")
-        @Sink(FlowPermission.INTERNET) @Source double lat = 1.0;
-        @SuppressWarnings("flow")
-        @Sink(FlowPermission.INTERNET) @Source double lon = 2.0;
-        @SuppressWarnings("flow")
-        @Sink(FlowPermission.INTERNET) @Source int days = 3;
+        @Sink(INTERNET)  double lat = 1.0;
+        @Sink(INTERNET)  double lon = 2.0;
+        @Sink(INTERNET)  int days = 3;
+        //::error: (argument.type.incompatible)
         result3 = String.format(WEBSERVICE_URL3, lat, lon, days);
     }
 
     void test_StringFormat_ObjectFlowPermissionSource() {
-        //::error: (assignment.type.incompatible)
-        @Source(FlowPermission.READ_CALENDAR) double lat = 1.0;
-        //::error: (assignment.type.incompatible)
-        @Source(FlowPermission.READ_CALENDAR) double lon = 2.0;
-        //::error: (assignment.type.incompatible)
-        @Source(FlowPermission.READ_CALENDAR) int days = 3;
-        //::error: (assignment.type.incompatible)
+        @Source({READ_CALENDAR,LITERAL}) double lat = 1.0;
+        @Source({READ_CALENDAR,LITERAL}) double lon = 2.0;
+        @Source({READ_CALENDAR,LITERAL}) int days = 3;
+        //::error: (argument.type.incompatible)
         result = String.format(WEBSERVICE_URL3, lat, lon, days);
     }
 }
