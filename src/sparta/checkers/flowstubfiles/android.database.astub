@@ -1,3 +1,111 @@
+
+package android.database;
+
+class Cursor {
+//Added by Carl Hartung
+abstract @Source(FlowPermission.DATABASE) String getString(int columnIndex);
+//Returns the value of the requested column as a String.
+
+abstract @Source(FlowPermission.DATABASE) int getColumnIndex(String columnName);
+//Returns the zero-based index for the given column name, or -1 if the column doesn't exist.
+
+abstract void close();
+//Closes the Cursor, releasing all of its resources and making it completely invalid.
+
+abstract boolean moveToFirst();
+//Move the cursor to the first row.
+
+abstract boolean moveToNext();
+//Move the cursor to the next row.
+
+abstract @Source(FlowPermission.DATABASE) int getInt(int columnIndex);
+//Returns the value of the requested column as an int.
+
+abstract boolean isClosed();
+//return true if the cursor is closed
+
+abstract @Source(FlowPermission.DATABASE) long getLong(int columnIndex);
+//Returns the value of the requested column as a long.
+
+abstract boolean isAfterLast();
+//Returns whether the cursor is pointing to the position after the last row.
+
+abstract @Source(FlowPermission.DATABASE) int getCount();
+//Returns the numbers of rows in the cursor.
+
+abstract boolean moveToPosition(int position);
+//Move the cursor to an absolute position.
+
+abstract void registerDataSetObserver(DataSetObserver observer);
+//Register an observer that is called when changes happen to the contents of the this cursors data set, for example, when the data set is changed via requery();, deactivate();, or close();.
+
+abstract @Source(FlowPermission.DATABASE) int getColumnIndexOrThrow(String columnName);
+//Returns the zero-based index for the given column name, or throws IllegalArgumentException if the column doesn't exist.
+
+abstract @Source(FlowPermission.DATABASE) double getDouble(int columnIndex);
+//Returns the value of the requested column as a double.
+
+abstract boolean requery();
+//This method was deprecated in API level 11. Don't use this. Just request a new cursor, so you can do this asynchronously and update your list view once the new cursor comes back.
+
+abstract void unregisterDataSetObserver(DataSetObserver observer);
+//Unregister an observer that has previously been registered with this cursor via registerContentObserver(ContentObserver);.
+
+abstract boolean isLast();
+//Returns whether the cursor is pointing to the last row.
+
+abstract boolean isBeforeFirst();
+//Returns whether the cursor is pointing to the position before the first row.
+
+abstract @Source(FlowPermission.DATABASE) String[] getColumnNames();
+//Returns a string array holding the names of all of the columns in the result set in the order in which they were listed in the result.
+
+abstract void registerContentObserver(ContentObserver observer);
+//Register an observer that is called when changes happen to the content backing this cursor.
+
+abstract @Source(FlowPermission.DATABASE) float getFloat(int columnIndex);
+//Returns the value of the requested column as a float.
+
+abstract void setNotificationUri(ContentResolver cr, Uri uri);
+//Register to watch a content URI for changes.
+
+abstract boolean moveToLast();
+//Move the cursor to the last row.
+
+abstract void unregisterContentObserver(ContentObserver observer);
+//Unregister an observer that has previously been registered with this cursor via registerContentObserver(ContentObserver);.
+
+abstract @Source(FlowPermission.DATABASE) short getShort(int columnIndex);
+//Returns the value of the requested column as a short.
+
+abstract @Source(FlowPermission.DATABASE) String getColumnName(int columnIndex);
+//Returns the column name at the given zero-based column index.
+
+abstract @Source(FlowPermission.DATABASE) int getColumnCount();
+//Return total number of columns
+
+abstract @Source(FlowPermission.DATABASE) byte[] getBlob(int columnIndex);
+//Returns the value of the requested column as a byte array.
+
+
+// UNUSED AND UNANNOTATED
+// abstract void copyStringToBuffer(int columnIndex, CharArrayBuffer buffer);
+// abstract void deactivate();
+// abstract Bundle getExtras();
+// abstract int getPosition();
+// abstract int getType(int columnIndex);
+// abstract boolean getWantsAllOnMoveCalls();
+// abstract boolean isFirst();
+// abstract boolean isNull(int columnIndex);
+// abstract boolean move(int offset);
+// abstract boolean moveToFirst();
+// abstract boolean moveToNext();
+// abstract boolean moveToPrevious();
+// abstract Bundle respond(Bundle extras);
+
+}
+
+
 package android.database.sqlite;
 
 class SQLiteDatabase {

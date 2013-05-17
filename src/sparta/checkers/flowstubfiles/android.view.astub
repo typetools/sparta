@@ -18,3 +18,656 @@ class SurfaceHolder{
    void setType (@Sink(FlowPermission.CONDITIONAL)  int type) @Sink(FlowPermission.DISPLAY);
 
 }
+
+package android.view;
+
+class View {
+//Added by Carl Hartung
+final View findViewById(int id);
+//Look for a child view with the given id.
+
+void setVisibility(int visibility);
+//Set the enabled state of this view.
+
+ViewGroup.LayoutParams getLayoutParams();
+//Get the LayoutParams associated with this view.
+
+final Context getContext();
+//Returns the context the view is running in, through which it can access the current theme, resources, etc.
+
+final int getMeasuredWidth();
+//Like getMeasuredWidthAndState();, but only returns the raw width component (that is the result is masked by MEASURED_SIZE_MASK);.
+//CSH:: we decided this was information about the view, not sensitive data
+
+void setOnClickListener(View.OnClickListener l);
+//Register a callback to be invoked when this view is clicked.
+
+int getId();
+//Returns this view's identifier.
+
+int getVisibility();
+//Returns the visibility status for this view.
+
+void startAnimation(@Sink(FlowPermission.DISPLAY) Animation animation);
+//Start the specified animation now.
+
+final void measure(int widthMeasureSpec, int heightMeasureSpec);
+//This is called to find out how big a view should be.
+
+final int getMeasuredHeight();
+//Like getMeasuredHeightAndState();, but only returns the raw width component (that is the result is masked by MEASURED_SIZE_MASK);.
+
+Object getTag(int key);
+//Returns the tag associated with this view and the specified key.
+
+Object getTag();
+//Returns this view's tag.
+
+final int getLeft();
+//Left position of this view relative to its parent.
+
+final int getHeight();
+//Return the height of your view.
+
+void setTag(int key, Object tag);
+//Sets a tag associated with this view and a key.
+
+void setTag(Object tag);
+//Sets the tag associated with this view.
+
+boolean onTouchEvent(MotionEvent event);
+//Implement this method to handle touch screen motion events.
+//CSH:: MotionEvents are user input, but they're not "typing", does that count?
+
+final int getTop();
+//Top position of this view relative to its parent.
+
+void clearAnimation();
+//Cancels any animations for this view.
+
+boolean requestFocus(int direction, Rect previouslyFocusedRect);
+//Call this to try to give focus to a specific view or to one of its descendants and give it hints about the direction and a specific rectangle that the focus is coming from.
+
+final boolean requestFocus(int direction);
+//Call this to try to give focus to a specific view or to one of its descendants and give it a hint about what direction focus is heading.
+
+final boolean requestFocus();
+//Call this to try to give focus to a specific view or to one of its descendants.
+
+void setOnCreateContextMenuListener(View.OnCreateContextMenuListener l);
+//Register a callback to be invoked when the context menu for this view is being built.
+
+void setLayoutParams(ViewGroup.LayoutParams params);
+//Set the layout parameters associated with this view.
+
+void setEnabled(boolean enabled);
+//Set the enabled state of this view.
+
+void setBackgroundResource(int resid);
+//Set the background to a given resource.
+//CSH:: "resid" isn't shown on the screen, but the background resource (image/other) referenced by it is.
+
+void setBackgroundColor(int color);
+//Sets the background color for this view.
+//CSH:: the integer "color" isn't displayed on the screen, but a particular color is (defined by the number)
+
+final int getWidth();
+//Return the width of the your view.
+
+final int getRight();
+//Right position of this view relative to its parent.
+
+final ViewParent getParent();
+//Gets the parent of this view.
+
+final int getBottom();
+//Bottom position of this view relative to its parent.
+
+void setSelected(@Sink(FlowPermission.DISPLAY) boolean selected);
+//Changes the selection state of this view.
+
+void setFocusable(boolean focusable);
+//Set whether this view can receive the focus.
+
+void setBackgroundDrawable(@Sink(FlowPermission.DISPLAY) Drawable background);
+//This method was deprecated in API level 16. use setBackground(Drawable); instead
+
+boolean postDelayed(Runnable action, long delayMillis);
+//Causes the Runnable to be added to the message queue, to be run after the specified amount of time elapses.
+
+protected void onSizeChanged(int w, int h, int oldw, int oldh);
+//This is called during layout when the size of this view has changed.
+
+void layout(int l, int t, int r, int b);
+//Assign a size and position to a view and all of its descendants
+//This is the second phase of the layout mechanism.
+
+boolean isSelected();
+//Indicates the selection state of this view.
+
+boolean isEnabled();
+//Returns the enabled status for this view.
+
+IBinder getWindowToken();
+//Retrieve a unique token identifying the window this view is attached to.
+
+boolean willNotDraw();
+//Returns whether or not this View draws on its own.
+
+void setPadding(int left, int top, int right, int bottom);
+//Sets the padding.
+
+void setOverScrollMode(int overScrollMode);
+//Set the over-scroll mode for this view.
+
+void setOnTouchListener(View.OnTouchListener l);
+//Register a callback to be invoked when a touch event is sent to this view.
+
+void setOnLongClickListener(View.OnLongClickListener l);
+//Register a callback to be invoked when this view is clicked and held.
+
+void setOnKeyListener(View.OnKeyListener l);
+//Register a callback to be invoked when a hardware key is pressed in this view.
+
+void setOnFocusChangeListener(View.OnFocusChangeListener l);
+//Register a callback to be invoked when focus of this view changed.
+
+void setMinimumWidth(int minWidth);
+//Sets the minimum width of the view.
+
+void setMinimumHeight(int minHeight);
+//Sets the minimum height of the view.
+
+void setLayerType(int layerType, Paint paint);
+//Specifies the type of layer backing this view.
+
+void setLabelFor(int id);
+//Sets the id of a view for which this view serves as a label for accessibility purposes.
+
+void setImportantForAccessibility(int mode);
+//Sets how to determine whether this view is important for accessibility which is if it fires accessibility events and if it is reported to accessibility services that query the screen.
+
+void setId(int id);
+//Sets the identifier for this view.
+
+void setHasTransientState(boolean hasTransientState);
+//Set whether this view is currently tracking transient state that the framework should attempt to preserve when possible.
+
+void setClickable(boolean clickable);
+//Enables or disables click events for this view.
+
+void setAccessibilityDelegate(View.AccessibilityDelegate delegate);
+//Sets a delegate for implementing accessibility support via composition as opposed to inheritance.
+
+void saveHierarchyState(SparseArray<Parcelable> container);
+//Store this view hierarchy's frozen state into the given container.
+
+void restoreHierarchyState(SparseArray<Parcelable> container);
+//Restore this view hierarchy's frozen state from the given container.
+
+void postOnAnimationDelayed(Runnable action, long delayMillis);
+//Causes the Runnable to execute on the next animation time step, after the specified amount of time elapses.
+
+void postOnAnimation(Runnable action);
+//Causes the Runnable to execute on the next animation time step.
+
+void postInvalidateOnAnimation(int left, int top, int right, int bottom);
+//Cause an invalidate of the specified area to happen on the next animation time step, typically the next display frame.
+
+void postInvalidateOnAnimation();
+//Cause an invalidate to happen on the next animation time step, typically the next display frame.
+
+void postInvalidateDelayed(long delayMilliseconds, int left, int top, int right, int bottom);
+//Cause an invalidate of the specified area to happen on a subsequent cycle through the event loop.
+
+void postInvalidateDelayed(long delayMilliseconds);
+//Cause an invalidate to happen on a subsequent cycle through the event loop.
+
+void postInvalidate(int left, int top, int right, int bottom);
+//Cause an invalidate of the specified area to happen on a subsequent cycle through the event loop.
+
+void postInvalidate();
+//Cause an invalidate to happen on a subsequent cycle through the event loop.
+
+boolean performAccessibilityAction(int action, Bundle arguments);
+//Performs the specified accessibility action on the view.
+
+boolean onTrackballEvent(MotionEvent event);
+//Implement this method to handle trackball motion events.
+
+protected Parcelable onSaveInstanceState();
+//Hook allowing a view to generate a representation of its internal state that can later be used to create a new instance with that same state.
+
+protected void onRestoreInstanceState(Parcelable state);
+//Hook allowing a view to re-apply a representation of its internal state that had previously been generated by onSaveInstanceState();.
+
+void onPopulateAccessibilityEvent(AccessibilityEvent event);
+//Called from dispatchPopulateAccessibilityEvent(AccessibilityEvent); giving a chance to this View to populate the accessibility event with its text content.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+protected void onCreateContextMenu(@Sink(FlowPermission.DISPLAY) ContextMenu menu);
+//Views should implement this if the view itself is going to add items to the context menu.
+
+void offsetLeftAndRight(int offset);
+//Offset this view's horizontal location by the specified amount of pixels.
+
+boolean isVerticalScrollBarEnabled();
+//Indicate whether the vertical scrollbar should be drawn or not.
+
+boolean isPressed();
+//Indicates whether the view is currently in pressed state.
+
+boolean isLongClickable();
+//Indicates whether this view reacts to long click events or not.
+
+boolean isHorizontalScrollBarEnabled();
+//Indicate whether the horizontal scrollbar should be drawn or not.
+
+boolean isFocused();
+//Returns true if this view has focus
+
+final boolean isFocusable();
+//Returns whether this View is able to take focus.
+
+boolean isClickable();
+//Indicates whether this view reacts to click events or not.
+
+boolean hasTransientState();
+//Indicates whether the view is currently tracking transient state that the app should not need to concern itself with saving and restoring, but that the framework should take special note to preserve when possible.
+
+final int getScrollX();
+//Return the scrolled left position of this view.
+
+final int getScrollY();
+//Return the scrolled top position of this view.
+
+View getRootView();
+//Finds the topmost view in the current view hierarchy.
+
+Resources getResources();
+//Returns the resources associated with this view.
+
+int getOverScrollMode();
+//Returns the over-scroll mode for this view.
+
+void getLocationOnScreen(int[] location);
+//Computes the coordinates of this view on the screen.
+
+int getLayerType();
+//Indicates what type of layer is currently associated with this view.
+
+int getLabelFor();
+//Gets the id of a view for which this view serves as a label for accessibility purposes.
+
+int getImportantForAccessibility();
+//Gets the mode for determining whether this View is important for accessibility which is if it fires accessibility events and if it is reported to accessibility services that query the screen.
+
+Drawable getBackground();
+//Gets the background drawable
+
+AccessibilityNodeProvider getAccessibilityNodeProvider();
+//Gets the provider for managing a virtual view hierarchy rooted at this View and reported to AccessibilityServices that explore the window content.
+
+void draw(@Sink(FlowPermission.DISPLAY) Canvas canvas);
+//Manually render this view (and all of its children); to the given Canvas.
+
+boolean dispatchTouchEvent(MotionEvent event);
+//Pass the touch screen motion event down to the target view, or this view if it is the target.
+
+boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
+//Dispatches an AccessibilityEvent to the View first and then to its children for adding their text content to the event.
+
+boolean canScrollVertically(int direction);
+//Check if this view can be scrolled vertically in a certain direction.
+
+boolean canScrollHorizontally(int direction);
+//Check if this view can be scrolled horizontally in a certain direction.
+
+void addTouchables(ArrayList<View> views);
+//Add any touchable views that are descendants of this view (possibly including this view if it is touchable itself); to views.
+
+void addOnAttachStateChangeListener(View.OnAttachStateChangeListener listener);
+//Add a listener for attach state changes.
+
+void addFocusables(ArrayList<View> views, int direction, int focusableMode);
+//Adds any focusable views that are descendants of this view (possibly including this view if it is focusable itself); to views.
+
+void addFocusables(ArrayList<View> views, int direction);
+//Add any focusable views that are descendants of this view (possibly including this view if it is focusable itself); to views.
+
+
+
+// UNUSED AND UNANNOTATED
+
+// void addChildrenForAccessibility(ArrayList<View> children);
+// void addOnLayoutChangeListener(View.OnLayoutChangeListener listener);
+// ViewPropertyAnimator animate();
+// void announceForAccessibility(CharSequence text);
+// void bringToFront();
+// void buildDrawingCache();
+// void buildDrawingCache(boolean autoScale);
+// void buildLayer();
+// boolean callOnClick();
+// void cancelLongPress();
+// boolean checkInputConnectionProxy(View view);
+// void clearFocus();
+// static int combineMeasuredStates(int curState, int newState);
+// void computeScroll();
+// AccessibilityNodeInfo createAccessibilityNodeInfo();
+// void createContextMenu(ContextMenu menu);
+// void destroyDrawingCache();
+// void dispatchConfigurationChanged(Configuration newConfig);
+// void dispatchDisplayHint(int hint);
+// boolean dispatchDragEvent(DragEvent event);
+// boolean dispatchGenericMotionEvent(MotionEvent event);
+// boolean dispatchKeyEvent(KeyEvent event);
+// boolean dispatchKeyEventPreIme(KeyEvent event);
+// boolean dispatchKeyShortcutEvent(KeyEvent event);
+// void dispatchSystemUiVisibilityChanged(int visibility);
+// boolean dispatchTrackballEvent(MotionEvent event);
+// boolean dispatchUnhandledMove(View focused, int direction);
+// void dispatchWindowFocusChanged(boolean hasFocus);
+// void dispatchWindowSystemUiVisiblityChanged(int visible);
+// void dispatchWindowVisibilityChanged(int visibility);
+// View findFocus();
+// final View findViewWithTag(Object tag);
+// void findViewsWithText(ArrayList<View> outViews, CharSequence searched, int flags);
+// View focusSearch(int direction);
+// void forceLayout();
+// static int generateViewId();
+// float getAlpha();
+// Animation getAnimation();
+// IBinder getApplicationWindowToken();
+// int getBaseline();
+// float getCameraDistance();
+// CharSequence getContentDescription();
+// static int getDefaultSize(int size, int measureSpec);
+// Display getDisplay();
+// final int[] getDrawableState();
+// Bitmap getDrawingCache(boolean autoScale);
+// Bitmap getDrawingCache();
+// int getDrawingCacheBackgroundColor();
+// int getDrawingCacheQuality();
+// void getDrawingRect(Rect outRect);
+// long getDrawingTime();
+// boolean getFilterTouchesWhenObscured();
+// boolean getFitsSystemWindows();
+// ArrayList<View> getFocusables(int direction);
+// void getFocusedRect(Rect r);
+// boolean getGlobalVisibleRect(Rect r, Point globalOffset);
+// final boolean getGlobalVisibleRect(Rect r);
+// Handler getHandler();
+// void getHitRect(Rect outRect);
+// int getHorizontalFadingEdgeLength();
+// boolean getKeepScreenOn();
+// KeyEvent.DispatcherState getKeyDispatcherState();
+// int getLayoutDirection();
+// final boolean getLocalVisibleRect(Rect r);
+// void getLocationInWindow(int[] location);
+// Matrix getMatrix();
+// final int getMeasuredHeightAndState();
+// final int getMeasuredState();
+// final int getMeasuredWidthAndState();
+// int getMinimumHeight();
+// int getMinimumWidth();
+// int getNextFocusDownId();
+// int getNextFocusForwardId();
+// int getNextFocusLeftId();
+// int getNextFocusRightId();
+// int getNextFocusUpId();
+// View.OnFocusChangeListener getOnFocusChangeListener();
+// int getPaddingBottom();
+// int getPaddingEnd();
+// int getPaddingLeft();
+// int getPaddingRight();
+// int getPaddingStart();
+// int getPaddingTop();
+// ViewParent getParentForAccessibility();
+// float getPivotX();
+// float getPivotY();
+// float getRotation();
+// float getRotationX();
+// float getRotationY();
+// float getScaleX();
+// float getScaleY();
+// int getScrollBarDefaultDelayBeforeFade();
+// int getScrollBarFadeDuration();
+// int getScrollBarSize();
+// int getScrollBarStyle();
+// int getSolidColor();
+// int getSystemUiVisibility();
+// int getTextAlignment();
+// int getTextDirection();
+// TouchDelegate getTouchDelegate();
+// ArrayList<View> getTouchables();
+// float getTranslationX();
+// float getTranslationY();
+// int getVerticalFadingEdgeLength();
+// int getVerticalScrollbarPosition();
+// int getVerticalScrollbarWidth();
+// ViewTreeObserver getViewTreeObserver();
+// int getWindowSystemUiVisibility();
+// int getWindowVisibility();
+// void getWindowVisibleDisplayFrame(Rect outRect);
+// float getX();
+// float getY();
+// boolean hasFocus();
+// boolean hasFocusable();
+// boolean hasOnClickListeners();
+// boolean hasOverlappingRendering();
+// boolean hasWindowFocus();
+// static View inflate(Context context, int resource, ViewGroup root);
+// void invalidate(Rect dirty);
+// void invalidate(int l, int t, int r, int b);
+// void invalidate();
+// void invalidateDrawable(Drawable drawable);
+// boolean isActivated();
+// boolean isDirty();
+// boolean isDrawingCacheEnabled();
+// boolean isDuplicateParentStateEnabled();
+// final boolean isFocusableInTouchMode();
+// boolean isHapticFeedbackEnabled();
+// boolean isHardwareAccelerated();
+// boolean isHorizontalFadingEdgeEnabled();
+// boolean isHovered();
+// boolean isInEditMode();
+// boolean isInTouchMode();
+// boolean isLayoutRequested();
+// boolean isOpaque();
+// boolean isPaddingRelative();
+// boolean isSaveEnabled();
+// boolean isSaveFromParentEnabled();
+// boolean isScrollContainer();
+// boolean isScrollbarFadingEnabled();
+// boolean isShown();
+// boolean isSoundEffectsEnabled();
+// boolean isVerticalFadingEdgeEnabled();
+// void jumpDrawablesToCurrentState();
+// void offsetTopAndBottom(int offset);
+// boolean onCheckIsTextEditor();
+// InputConnection onCreateInputConnection(EditorInfo outAttrs);
+// boolean onDragEvent(DragEvent event);
+// Handles drag events sent by the system following a call to startDrag();.
+// boolean onFilterTouchEventForSecurity(MotionEvent event);
+// void onFinishTemporaryDetach();
+// boolean onGenericMotionEvent(MotionEvent event);
+// void onHoverChanged(boolean hovered);
+// boolean onHoverEvent(MotionEvent event);
+// boolean onKeyDown(int keyCode, KeyEvent event);
+// boolean onKeyLongPress(int keyCode, KeyEvent event);
+// boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event);
+// boolean onKeyPreIme(int keyCode, KeyEvent event);
+// boolean onKeyShortcut(int keyCode, KeyEvent event);
+// boolean onKeyUp(int keyCode, KeyEvent event);
+// void onRtlPropertiesChanged(int layoutDirection);
+// void onScreenStateChanged(int screenState);
+// void onStartTemporaryDetach();
+// void onWindowFocusChanged(boolean hasWindowFocus);
+// void onWindowSystemUiVisibilityChanged(int visible);
+// boolean performClick();
+// boolean performHapticFeedback(int feedbackConstant);
+// boolean performHapticFeedback(int feedbackConstant, int flags);
+// boolean performLongClick();
+// void playSoundEffect(int soundConstant);
+// boolean post(Runnable action);
+// void refreshDrawableState();
+// boolean removeCallbacks(Runnable action);
+// void removeOnAttachStateChangeListener(View.OnAttachStateChangeListener listener);
+// void removeOnLayoutChangeListener(View.OnLayoutChangeListener listener);
+// void requestFitSystemWindows();
+// final boolean requestFocusFromTouch();
+// void requestFocusFromTouch);
+// boolean requestRectangleOnScreen(Rect rectangle);
+// boolean requestRectangleOnScreen(Rect rectangle, boolean immediate);
+// static int resolveSize(int size, int measureSpec);
+// static int resolveSizeAndState(int size, int measureSpec, int childMeasuredState);
+// void scheduleDrawable(Drawable who, Runnable what, long when);
+// void scrollBy(int x, int y);
+// void scrollTo(int x, int y);
+// void sendAccessibilityEvent(int eventType);
+// void sendAccessibilityEventUnchecked(AccessibilityEvent event);
+// void setActivated(boolean activated);
+// void setAlpha(float alpha);
+// void setAnimation(Animation animation);
+// void setBackground(Drawable background);
+// final void setBottom(int bottom);
+// void setCameraDistance(float distance);
+// void setContentDescription(CharSequence contentDescription);
+// void setDrawingCacheBackgroundColor(int color);
+// void setDrawingCacheEnabled(boolean enabled);
+// void setDrawingCacheQuality(int quality);
+// void setDuplicateParentStateEnabled(boolean enabled);
+// void setFadingEdgeLength(int length);
+// void setFilterTouchesWhenObscured(boolean enabled);
+// void setFitsSystemWindows(boolean fitSystemWindows);
+// void setFocusableInTouchMode(boolean focusableInTouchMode);
+// void setHapticFeedbackEnabled(boolean hapticFeedbackEnabled);
+// void setHorizontalFadingEdgeEnabled(boolean horizontalFadingEdgeEnabled);
+// void setHorizontalScrollBarEnabled(boolean horizontalScrollBarEnabled);
+// void setHovered(boolean hovered);
+// void setKeepScreenOn(boolean keepScreenOn);
+// void setLayerPaint(Paint paint);
+// void setLayoutDirection(int layoutDirection);
+// final void setLeft(int left);
+// void setLongClickable(boolean longClickable);
+// void setNextFocusDownId(int nextFocusDownId);
+// void setNextFocusForwardId(int nextFocusForwardId);
+// void setNextFocusLeftId(int nextFocusLeftId);
+// void setNextFocusRightId(int nextFocusRightId);
+// void setNextFocusUpId(int nextFocusUpId);
+// void setOnDragListener(View.OnDragListener l);
+// void setOnGenericMotionListener(View.OnGenericMotionListener l);
+// void setOnHoverListener(View.OnHoverListener l);
+// void setOnSystemUiVisibilityChangeListener(View.OnSystemUiVisibilityChangeListener l);
+// void setPaddingRelative(int start, int top, int end, int bottom);
+// void setPivotX(float pivotX);
+// void setPivotY(float pivotY);
+// void setPressed(boolean pressed);
+// final void setRight(int right);
+// void setRotation(float rotation);
+// void setRotationX(float rotationX);
+// void setRotationY(float rotationY);
+// void setSaveEnabled(boolean enabled);
+// void setSaveFromParentEnabled(boolean enabled);
+// void setScaleX(float scaleX);
+// void setScaleY(float scaleY);
+// void setScrollBarDefaultDelayBeforeFade(int scrollBarDefaultDelayBeforeFade);
+// void setScrollBarFadeDuration(int scrollBarFadeDuration);
+// void setScrollBarSize(int scrollBarSize);
+// void setScrollBarStyle(int style);
+// void setScrollContainer(boolean isScrollContainer);
+// void setScrollX(int value);
+// void setScrollY(int value);
+// void setScrollbarFadingEnabled(boolean fadeScrollbars);
+// void setSoundEffectsEnabled(boolean soundEffectsEnabled);
+// void setSystemUiVisibility(int visibility);
+// void setTextAlignment(int textAlignment);
+// void setTextDirection(int textDirection);
+// final void setTop(int top);
+// void setTouchDelegate(TouchDelegate delegate);
+// void setTranslationX(float translationX);
+// void setTranslationY(float translationY);
+// void setVerticalFadingEdgeEnabled(boolean verticalFadingEdgeEnabled);
+// void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled);
+// void setVerticalScrollbarPosition(int position);
+// void setWillNotCacheDrawing(boolean willNotCacheDrawing);
+// void setWillNotDraw(boolean willNotDraw);
+// void setX(float x);
+// void setY(float y);
+// boolean showContextMenu();
+// ActionMode startActionMode(ActionMode.Callback callback);
+// final boolean startDrag(ClipData data, View.DragShadowBuilder shadowBuilder, Object myLocalState, int flags);
+// String toString();
+// void unscheduleDrawable(Drawable who);
+// void unscheduleDrawable(Drawable who, Runnable what);
+// boolean willNotCacheDrawing();
+// 
+// ***** Protected Methods *****
+// boolean awakenScrollBars(int startDelay);
+// boolean awakenScrollBars(int startDelay, boolean invalidate);
+// boolean awakenScrollBars();
+// int computeHorizontalScrollExtent();
+// int computeHorizontalScrollOffset();
+// int computeHorizontalScrollRange();
+// int computeVerticalScrollExtent();
+// int computeVerticalScrollOffset();
+// int computeVerticalScrollRange();
+// void dispatchDraw(Canvas canvas);
+// boolean dispatchGenericFocusedEvent(MotionEvent event);
+// boolean dispatchGenericPointerEvent(MotionEvent event);
+// boolean dispatchHoverEvent(MotionEvent event);
+// void dispatchRestoreInstanceState(SparseArray<Parcelable> container);
+// void dispatchSaveInstanceState(SparseArray<Parcelable> container);
+// void dispatchSetActivated(boolean activated);
+// void dispatchSetPressed(boolean pressed);
+// void dispatchSetSelected(boolean selected);
+// void dispatchVisibilityChanged(View changedView, int visibility);
+// void drawableStateChanged();
+// boolean fitSystemWindows(Rect insets);
+// float getBottomFadingEdgeStrength();
+// int getBottomPaddingOffset();
+// ContextMenu.ContextMenuInfo getContextMenuInfo();
+// int getHorizontalScrollbarHeight();
+// float getLeftFadingEdgeStrength();
+// int getLeftPaddingOffset();
+// float getRightFadingEdgeStrength();
+// int getRightPaddingOffset();
+// int getSuggestedMinimumHeight();
+// int getSuggestedMinimumWidth();
+// float getTopFadingEdgeStrength();
+// int getTopPaddingOffset();
+// int getWindowAttachCount();
+// void initializeFadingEdge(TypedArray a);
+// void initializeScrollbars(TypedArray a);
+// boolean isPaddingOffsetRequired();
+// static int[] mergeDrawableStates(int[] baseState, int[] additionalState);
+// void onAnimationEnd();
+// void onAnimationStart();
+// void onAttachedToWindow();
+// void onConfigurationChanged(Configuration newConfig);
+// int[] onCreateDrawableState(int extraSpace);
+// void onDetachedFromWindow();
+// void onDisplayHint(int hint);
+// void onDraw(Canvas canvas);
+// final void onDrawScrollBars(Canvas canvas);
+// void onFinishInflate();
+// void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect);
+// void onLayout(boolean changed, int left, int top, int right, int bottom);
+// void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+// void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY);
+// void onScrollChanged(int l, int t, int oldl, int oldt);
+// boolean onSetAlpha(int alpha);
+// void onVisibilityChanged(View changedView, int visibility);
+// void onWindowVisibilityChanged(int visibility);
+// boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent);
+// final void setMeasuredDimension(int measuredWidth, int measuredHeight);
+// boolean verifyDrawable(Drawable who);
+
+}
+
+
