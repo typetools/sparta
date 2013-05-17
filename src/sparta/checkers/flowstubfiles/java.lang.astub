@@ -6,7 +6,57 @@ class Long {
     static @PolyFlow long parseLong(String string);
 }
 
-class String {
+
+@PolyFlowReceiver
+class StringBuilder extends AbstractStringBuilder implements Serializable, CharSequence {
+//Added by SOM
+    @PolyFlow
+    StringBuilder();
+    @PolyFlow
+    StringBuilder(int arg0);
+    @PolyFlow
+    StringBuilder(String arg0);
+    @PolyFlow
+    StringBuilder(CharSequence arg0);
+    
+    StringBuilder append(Object arg0);
+    StringBuilder append(String arg0);
+    StringBuilder append(StringBuffer arg0);
+    StringBuilder append(CharSequence arg0);
+    StringBuilder append(CharSequence arg0, int arg1, int arg2);
+    StringBuilder append(char[] arg0);
+    StringBuilder append(char[] arg0, int arg1, int arg2);
+    StringBuilder append(boolean arg0);
+    StringBuilder append(char arg0);
+    StringBuilder append(int arg0);
+    StringBuilder append(long arg0);
+    StringBuilder append(float arg0);
+    StringBuilder append(double arg0);
+    StringBuilder appendCodePoint(int arg0);
+    StringBuilder delete(int arg0, int arg1);
+    StringBuilder deleteCharAt(int arg0);
+    StringBuilder replace(int arg0, int arg1, String arg2);
+    StringBuilder insert(int arg0, char[] arg1, int arg2, int arg3);
+    StringBuilder insert(int arg0, Object arg1);
+    StringBuilder insert(int arg0, String arg1);
+    StringBuilder insert(int arg0, char[] arg1);
+    StringBuilder insert(int arg0, CharSequence arg1);
+    StringBuilder insert(int arg0, CharSequence arg1, int arg2, int arg3);
+    StringBuilder insert(int arg0, boolean arg1);
+    StringBuilder insert(int arg0, char arg1);
+    StringBuilder insert(int arg0, int arg1);
+    StringBuilder insert(int arg0, long arg1);
+    StringBuilder insert(int arg0, float arg1);
+    StringBuilder insert(int arg0, double arg1);
+    int indexOf(String arg0);
+    int indexOf(String arg0, int arg1);
+    int lastIndexOf(String arg0);
+    int lastIndexOf(String arg0, int arg1);
+    StringBuilder reverse();
+    String toString();
+}
+
+/*class String {
 //Added for Misc. Test SOM
 
    @PolyFlowReceiver
@@ -40,5 +90,171 @@ class String {
    @PolyFlowReceiver
    String toString();
 
+}*/
+
+/*[equals, length, valueOf, trim, substring, charAt, indexOf, contains, replace, startsWith, format, split, 
+   toUpperCase, <init>, hashCode, toCharArray, getChars, replaceAll, getBytes, endsWith, equalsIgnoreCase, 
+   lastIndexOf, toLowerCase, compareTo, toString, intern, isEmpty, contentEquals, replaceFirst, concat, compareToIgnoreCase, 
+   matches, copyValueOf]*/
+   
+   class String implements Serializable, Comparable<String>, CharSequence {
+   //Added by SOM
+   //TODO: Should indexs into the char[] be PolyFlow or just LITERAL?
+    final Comparator<String> CASE_INSENSITIVE_ORDER;
+    @PolyFlow
+    String();
+    @PolyFlow
+    String(String arg0);
+    @PolyFlow
+    String(char[] arg0);
+    @PolyFlow
+    String(char[] arg0, int arg1, int arg2);
+    @PolyFlow
+    String(int[] arg0, int arg1, int arg2);
+    @PolyFlow
+    String(byte[] arg0, int arg1, int arg2, int arg3);
+    @PolyFlow
+    String(byte[] arg0, int arg1);
+    @PolyFlow
+    String(byte[] arg0, int arg1, int arg2, String arg3) throws UnsupportedEncodingException;
+    @PolyFlow
+    String(byte[] arg0, int arg1, int arg2, Charset arg3);
+    @PolyFlow
+    String(byte[] arg0, String arg1) throws UnsupportedEncodingException;
+    @PolyFlow
+    String(byte[] arg0, Charset arg1);
+    @PolyFlow
+    String(byte[] arg0, int arg1, int arg2);
+    @PolyFlow
+    String(byte[] arg0);
+    @PolyFlow
+    String(StringBuffer arg0);
+    @PolyFlow
+    String(StringBuilder arg0);
+    
+    int length();
+    boolean isEmpty();
+    @PolyFlowReceiver
+    char charAt(int arg0);
+    @PolyFlowReceiver
+    int codePointAt(int arg0);
+    @PolyFlowReceiver
+    int codePointBefore(int arg0);
+    @PolyFlowReceiver
+    int codePointCount(int arg0, int arg1);
+    @PolyFlowReceiver
+    int offsetByCodePoints(int arg0, int arg1);
+    @PolyFlowReceiver
+    void getChars(int arg0, int arg1, char[] arg2, int arg3);
+    @PolyFlowReceiver
+    void getBytes(int arg0, int arg1, byte[] arg2, int arg3);
+    @PolyFlowReceiver
+    byte[] getBytes(String arg0) throws UnsupportedEncodingException;
+    @PolyFlowReceiver
+    byte[] getBytes(Charset arg0);
+    @PolyFlowReceiver
+    byte[] getBytes();
+    @PolyFlowReceiver
+    boolean equals(Object arg0);
+    @PolyFlowReceiver
+    boolean contentEquals(StringBuffer arg0);
+    @PolyFlowReceiver
+    boolean contentEquals(CharSequence arg0);
+    @PolyFlowReceiver
+    boolean equalsIgnoreCase(String arg0);
+    @PolyFlowReceiver
+    int compareTo(String arg0);
+    @PolyFlowReceiver
+    int compareToIgnoreCase(String arg0);
+    @PolyFlowReceiver
+    boolean regionMatches(int arg0, String arg1, int arg2, int arg3);
+    @PolyFlowReceiver
+    boolean regionMatches(boolean arg0, int arg1, String arg2, int arg3, int arg4);
+    @PolyFlowReceiver
+    boolean startsWith(String arg0, int arg1);
+    @PolyFlowReceiver
+    boolean startsWith(String arg0);
+    @PolyFlowReceiver
+    boolean endsWith(String arg0);
+    @PolyFlowReceiver
+    int hashCode();
+    @PolyFlowReceiver
+    int indexOf(int arg0);
+    @PolyFlowReceiver
+    int indexOf(int arg0, int arg1);
+    @PolyFlowReceiver
+    int lastIndexOf(int arg0);
+    @PolyFlowReceiver
+    int lastIndexOf(int arg0, int arg1);
+    @PolyFlowReceiver
+    int indexOf(String arg0);
+    @PolyFlowReceiver
+    int indexOf(String arg0, int arg1);
+    @PolyFlowReceiver
+    int lastIndexOf(String arg0);
+    @PolyFlowReceiver
+    int lastIndexOf(String arg0, int arg1);
+    @PolyFlowReceiver
+    String substring(int arg0);
+    @PolyFlowReceiver
+    String substring(int arg0, int arg1);
+    @PolyFlowReceiver
+    CharSequence subSequence(int arg0, int arg1);
+    @PolyFlowReceiver
+    String concat(String arg0);
+    @PolyFlowReceiver
+    String replace(char arg0, char arg1);
+    @PolyFlowReceiver
+    boolean matches(String arg0);
+    @PolyFlowReceiver
+    boolean contains(CharSequence arg0);
+    @PolyFlowReceiver
+    String replaceFirst(String arg0, String arg1);
+    @PolyFlowReceiver
+    String replaceAll(String arg0, String arg1);
+    @PolyFlowReceiver
+    String replace(CharSequence arg0, CharSequence arg1);
+    @PolyFlowReceiver
+    String[] split(String arg0, int arg1);
+    @PolyFlowReceiver
+    String[] split(String arg0);
+    String toLowerCase(Locale arg0);
+    String toLowerCase();
+    String toUpperCase(Locale arg0);
+    String toUpperCase();
+    String trim();
+    @PolyFlowReceiver
+    String toString();
+    @PolyFlowReceiver
+    char[] toCharArray();
+    @PolyFlow
+    static String format(String arg0, Object[] arg1);
+    @PolyFlow
+    static String format(Locale arg0, String arg1, Object[] arg2);
+    @PolyFlow
+    static String valueOf(Object arg0);
+    @PolyFlow
+    static String valueOf(char[] arg0);
+    @PolyFlow
+    static String valueOf(char[] arg0, int arg1, int arg2);
+    @PolyFlow
+    static String copyValueOf(char[] arg0, int arg1, int arg2);
+    @PolyFlow
+    static String copyValueOf(char[] arg0);
+    @PolyFlow
+    static String valueOf(boolean arg0);
+    @PolyFlow
+    static String valueOf(char arg0);
+    @PolyFlow
+    static String valueOf(int arg0);
+    @PolyFlow
+    static String valueOf(long arg0);
+    @PolyFlow
+    static String valueOf(float arg0);
+    @PolyFlow
+    static String valueOf(double arg0);
+    @PolyFlowReceiver
+    String intern();
 }
+   
 
