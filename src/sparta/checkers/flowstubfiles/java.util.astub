@@ -1,16 +1,121 @@
 
 package java.util;
 
+ 
+class ArrayList<E extends @Sink({}) @Source(FlowPermission.ANY) Object> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
  //Added by SOM
- class ArrayList<T extends @Sink({}) @Source(FlowPermission.ANY) Object> {
-         @PolySource @PolySink T get(@Sink(FlowPermission.CONDITIONAL) int index) @PolySource @PolySink;
- }
-
-class List<T extends @Sink({}) @Source(FlowPermission.ANY) Object> {
-//Copied from Orig. flow.astub file
-//Need for list test SOM
-   boolean add(T object) @Source(FlowPermission.ANY);
-   T get(@Sink({}) int index) @Source(FlowPermission.ANY) @Sink({});
-   int size() @Source(FlowPermission.ANY);
+    ArrayList(int arg0);
+    ArrayList();
+    @PolyFlow
+    ArrayList(Collection<? extends E> arg0);
+ 
+    void trimToSize();
+    void ensureCapacity(int arg0);
+    int size();
+    boolean isEmpty();
+    @PolyFlowReceiver
+    boolean contains(Object arg0);
+    @PolyFlowReceiver
+    int indexOf(Object arg0);
+    @PolyFlowReceiver
+    int lastIndexOf(Object arg0);
+    @PolyFlowReceiver
+    Object clone();
+    @PolyFlowReceiver
+    Object[] toArray();
+    @PolyFlowReceiver
+    <T> T[] toArray(T[] arg0);
+    @PolyFlowReceiver
+    E get(int arg0);
+    @PolyFlowReceiver
+    E set(int arg0, E arg1);
+    @PolyFlowReceiver
+    boolean add(E arg0);
+    @PolyFlowReceiver
+    void add(int arg0, E arg1);
+    @PolyFlowReceiver
+    E remove(int arg0);
+    @PolyFlowReceiver
+    boolean remove(Object arg0);
+    void clear();
+    @PolyFlowReceiver
+    boolean addAll(Collection<? extends E> arg0);
+    @PolyFlowReceiver
+    boolean addAll(int arg0, Collection<? extends E> arg1);
+    @PolyFlowReceiver
+    protected void removeRange(int arg0, int arg1);
+    @PolyFlowReceiver
+    boolean removeAll(Collection<?> arg0);
+    @PolyFlowReceiver
+    boolean retainAll(Collection<?> arg0);
+    @PolyFlowReceiver
+    ListIterator<E> listIterator(int arg0);
+    @PolyFlowReceiver
+    ListIterator<E> listIterator();
+    @PolyFlowReceiver
+    Iterator<E> iterator();
+    @PolyFlowReceiver
+    List<E> subList(int arg0, int arg1);
 }
+         
+
+
+interface Iterator<E> {
+//Added by SOM
+    boolean hasNext();
+    @PolyFlowReceiver
+    E next();
+    void remove();
+}
+
+
+interface List<E extends @Sink({}) @Source(FlowPermission.ANY) Object> {
+    int size();
+    boolean isEmpty();
+    @PolyFlowReceiver
+    boolean contains(Object arg0);
+    @PolyFlowReceiver
+    Iterator<E> iterator();
+    @PolyFlowReceiver
+    Object[] toArray();
+    @PolyFlowReceiver
+    <T> T[] toArray(T[] arg0);
+    @PolyFlowReceiver
+    boolean add(E arg0);
+    @PolyFlowReceiver
+    boolean remove(Object arg0);
+    @PolyFlowReceiver
+    boolean containsAll(Collection<?> arg0);
+    @PolyFlowReceiver
+    boolean addAll(Collection<? extends E> arg0);
+    @PolyFlowReceiver
+    boolean addAll(int arg0, Collection<? extends E> arg1);
+    @PolyFlowReceiver    
+    boolean removeAll(Collection<?> arg0);
+    @PolyFlowReceiver
+    boolean retainAll(Collection<?> arg0);
+    void clear();
+    @PolyFlowReceiver
+    boolean equals(Object arg0);
+    @PolyFlowReceiver
+    int hashCode();
+    @PolyFlowReceiver
+    E get(int arg0);
+    @PolyFlowReceiver
+    E set(int arg0, E arg1);
+    void add(int arg0, E arg1);
+    @PolyFlowReceiver
+    E remove(int arg0);
+    @PolyFlowReceiver
+    int indexOf(Object arg0);
+    @PolyFlowReceiver
+    int lastIndexOf(Object arg0);
+    @PolyFlowReceiver
+    ListIterator<E> listIterator();
+    @PolyFlowReceiver
+    ListIterator<E> listIterator(int arg0);
+    @PolyFlowReceiver
+    List<E> subList(int arg0, int arg1);
+}
+
 
