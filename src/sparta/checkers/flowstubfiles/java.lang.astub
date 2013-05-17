@@ -7,6 +7,26 @@ class Long {
 }
 
 
+class Object {
+//Added by SOM
+    Object();
+    Class<?> getClass();
+    @PolyFlowReceiver
+    int hashCode();
+    @PolyFlowReceiver
+    boolean equals(Object arg0);
+    @PolyFlowReceiver
+    protected Object clone() throws CloneNotSupportedException;
+    @PolyFlowReceiver
+    String toString();
+    void notify();
+    void notifyAll();
+    void wait(long arg0) throws InterruptedException;
+    void wait(long arg0, int arg1) throws InterruptedException;
+    void wait() throws InterruptedException;
+    protected void finalize() throws Throwable;
+}
+
 @PolyFlowReceiver
 class StringBuilder extends AbstractStringBuilder implements Serializable, CharSequence {
 //Added by SOM
@@ -56,41 +76,6 @@ class StringBuilder extends AbstractStringBuilder implements Serializable, CharS
     String toString();
 }
 
-/*class String {
-//Added for Misc. Test SOM
-
-   @PolyFlowReceiver
-   char charAt(int index);
-   @PolyFlowReceiver
-   boolean contains(CharSequence cs);
-   @PolyFlowReceiver
-   boolean equals(Object object);
-   @PolyFlowReceiver
-   boolean equalsIgnoreCase(String string);
-   
-   static @PolySource @PolySink String format(Locale l, @PolySource @PolySink String format, @PolySource @PolySink Object... args);
-
-   static @PolySource @PolySink String format(@PolySource @PolySink String format, @PolySource @PolySink Object... args);
-   
-   @PolySource @PolySink byte @Source({}) @Sink({}) [] getBytes() @PolySource @PolySink;
-   @PolyFlowReceiver
-   int length();
-   @PolyFlowReceiver
-   String trim();
-   
-   @PolyFlowReceiver
-   String replace(char target, char replacement);
-   
-   @PolyFlowReceiver
-   String replace(CharSequence target, CharSequence replacement);
-   @PolyFlowReceiver
-   @String substring(int start, int end);
-   @PolyFlowReceiver
-   String substring(int start);
-   @PolyFlowReceiver
-   String toString();
-
-}*/
 
 /*[equals, length, valueOf, trim, substring, charAt, indexOf, contains, replace, startsWith, format, split, 
    toUpperCase, <init>, hashCode, toCharArray, getChars, replaceAll, getBytes, endsWith, equalsIgnoreCase, 
