@@ -243,3 +243,115 @@ class StringBuilder extends AbstractStringBuilder implements Serializable, CharS
 }
    
 
+class Math {
+
+    @PolyFlow
+    static double abs(double a);
+    @PolyFlow
+    static float abs(float a);
+    @PolyFlow
+    static int abs(int a);
+    @PolyFlow
+    static long abs(long a);
+    @PolyFlow
+    static double acos(double a);
+    @PolyFlow
+    static double asin(double a);
+    @PolyFlow
+    static double atan(double a);
+    @PolyFlow
+    static double atan2(double y, double x);
+    @PolyFlow
+    static double cbrt(double a);
+    @PolyFlow
+    static double ceil(double a);
+    @PolyFlow
+    static double copySign(double magnitude, double sign);
+    @PolyFlow
+    static float copySign(float magnitude, float sign);
+    @PolyFlow
+    static double cos(double a);
+    @PolyFlow
+    static double cosh(double x);
+    @PolyFlow
+    static double exp(double a);
+    @PolyFlow
+    static double expm1(double x);
+    @PolyFlow
+    static double floor(double a);
+    @PolyFlow
+    static int getExponent(double d);
+    @PolyFlow
+    static int getExponent(float f);
+    @PolyFlow
+    static double hypot(double x, double y);
+    @PolyFlow
+    static double IEEEremainder(double f1, double f2);
+    @PolyFlow
+    static double log(double a);
+    @PolyFlow
+    static double log10(double a);
+    @PolyFlow
+    static double log1p(double x);
+    @PolyFlow
+    static double max(double a, double b);
+    @PolyFlow
+    static float max(float a, float b);
+    @PolyFlow
+    static int max(int a, int b);
+    @PolyFlow
+    static long max(long a, long b);
+    @PolyFlow
+    static double min(double a, double b);
+    @PolyFlow
+    static float min(float a, float b);
+    @PolyFlow
+    static int min(int a, int b);
+    @PolyFlow
+    static long min(long a, long b);
+    @PolyFlow
+    static double nextAfter(double start, double direction);
+    @PolyFlow
+    static float nextAfter(float start, double direction);
+    @PolyFlow
+    static double nextUp(double d);
+    @PolyFlow
+    static float nextUp(float f);
+    @PolyFlow
+    static double pow(double a, double b);
+    @PolyFlow
+    static double random();
+    @PolyFlow
+    static double rint(double a);
+    @PolyFlow
+    static long round(double a);
+    @PolyFlow
+    static int round(float a);
+    @PolyFlow
+    static double scalb(double d, int scaleFactor);
+    @PolyFlow
+    static float scalb(float f, int scaleFactor);
+    @PolyFlow
+    static double signum(double d);
+    @PolyFlow
+    static float signum(float f);
+    @PolyFlow
+    static double sin(double a);
+    @PolyFlow
+    static double sinh(double x);
+    @PolyFlow
+    static double sqrt(double a);
+    @PolyFlow
+    static double tan(double a);
+    @PolyFlow
+    static double tanh(double x);
+    @PolyFlow
+    static double toDegrees(double angrad);
+    @PolyFlow
+    static double toRadians(double angdeg);
+    @PolyFlow
+    static double ulp(double d);
+    @PolyFlow
+    static float ulp(float f);
+
+}

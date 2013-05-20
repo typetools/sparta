@@ -1,0 +1,78 @@
+
+package java.util.regex;
+
+
+class Pattern { 
+    // DAM
+
+    @PolyFlowReceiver
+    Matcher matcher(CharSequence input) ;
+
+    @PolyFlow
+    static Pattern compile(String regex);
+
+    @PolyFlow
+    static Pattern compile(String regex, int flags);
+
+    // Flags have same permission as Pattern instance
+    @PolyFlowReceiver
+    int flags();
+
+    @PolyFlowReceiver
+    Pattern pattern();
+
+    @PolySource @PolySink String [] split(@PolySource @PolySink CharSequence input, @Sink(FlowPermission.CONDITIONAL) int limit);
+
+    @PolyFlow
+    static String quote(String s);
+
+    @PolyFlow
+    static boolean matches(String regex, CharSequence input);
+
+}
+
+class Matcher {
+    // DAM
+
+
+    @PolyFlowReceiver
+    String group();
+    
+    @PolySource @PolySink String group(@Sink(FlowPermission.CONDITIONAL) int group) @PolySource @PolySink;
+    
+    @PolySource @PolySink String group(@Sink(FlowPermission.CONDITIONAL) String name) @PolySource @PolySink;
+
+    @PolyFlowReceiver
+    boolean find();
+
+    @PolySource @PolySink boolean find(@Sink(FlowPermission.CONDITIONAL) int start) @PolySource @PolySink;
+
+    @PolyFlowReceiver
+    boolean matches();
+ 
+    @PolyFlowReceiver
+    int start();
+
+    @PolySource @PolySink int start(@Sink(FlowPermission.CONDITIONAL) int group) @PolySource @PolySink;
+
+    @PolyFlowReceiver
+    int end();
+
+    @PolySource @PolySink int end(@Sink(FlowPermission.CONDITIONAL) int group) @PolySource @PolySink;
+
+    // Don't think this needs one.
+    int groupCount();
+
+    @PolyFlowReceiver
+    Matcher reset();
+
+    @PolyFlowReceiver
+    Matcher reset(CharSequence input);
+
+    @PolyFlowReceiver
+    String replaceAll (String replacement);
+
+    @PolyFlowReceiver
+    String replaceFirst (String replacement);
+}
+
