@@ -1,0 +1,9 @@
+
+package android.os;
+
+class Environment {
+
+    static @Source(FlowPermission.FILESYSTEM) File 
+    getExternalStoragePublicDirectory(@Sink(FlowPermission.FILESYSTEM) String type);
+
+}

@@ -1,0 +1,9 @@
+
+package org.apache.http.client;
+
+class HttpClient {
+
+    // Added by mcarthur
+    @Source(FlowPermission.INTERNET)
+    HttpResponse execute(@Sink(FlowPermission.INTERNET) HttpUriRequest request);
+}

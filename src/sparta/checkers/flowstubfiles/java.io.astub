@@ -11,8 +11,11 @@ class FileOutputStream {
 class File {
 //Added by SOM
 
+    
 	@Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) String path);
+	@Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) File dir, @Sink(FlowPermission.FILESYSTEM) String path);
 	@PolySource @PolySink String toString() @PolySource @PolySink;
+	@PolySource @PolySink String getPath() @PolySource @PolySink;
 }
 
 class ByteArrayOutputStream{

@@ -1,0 +1,9 @@
+package android.media;
+
+class ExifInterface {
+    // Added by mcarthur
+    @Source({FlowPermission.READ_EXTERNAL_STORAGE}) 
+    String getAttribute(@Sink(FlowPermission.CONDITIONAL) String tag);
+
+    ExifInterface(@Sink(FlowPermission.FILESYSTEM) String path);
+}

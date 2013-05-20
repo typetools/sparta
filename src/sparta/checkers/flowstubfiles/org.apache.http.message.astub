@@ -1,0 +1,8 @@
+
+package org.apache.http.message;
+
+class BasicNameValuePair {
+
+    // Added by mcarthur
+    @PolySource @PolySink BasicNameValuePair(@PolySource @PolySink String name, @PolySource @PolySink String value) @Source(FlowPermission.ANY);
+}

@@ -1,0 +1,13 @@
+
+package org.apache.http.client.methods;
+
+class HttpPost {
+
+    HttpPost(@Sink(FlowPermission.INTERNET) String postUrl);
+
+    // Added by mcarthur
+    // I would like for this to actually work, but it does not.
+//    void setEntity(@PolySource @PolySink HttpEntity entity) @PolySource @PolySink;
+    void setEntity(@Sink(FlowPermission.INTERNET) HttpEntity entity) @Sink(FlowPermission.INTERNET);
+
+}
