@@ -15,8 +15,6 @@ import com.sun.tools.javac.code.TypeAnnotationPosition;
 import sparta.checkers.quals.PolyFlowReceiver;
 import sparta.checkers.quals.NotReviewed;
 
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
 import sparta.checkers.quals.Reviewed;
 import sparta.checkers.quals.PolyFlow;
 
