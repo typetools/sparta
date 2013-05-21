@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * no flow sinks for the return type and all parameter types of
  * any contained methods.
  *
- * @see ConservativeFlow
+ * @see NotReviewed
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
