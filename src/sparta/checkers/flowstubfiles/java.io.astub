@@ -14,8 +14,10 @@ class File {
     
 	@Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) String path);
 	@Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) File dir, @Sink(FlowPermission.FILESYSTEM) String path);
-	@PolySource @PolySink String toString() @PolySource @PolySink;
-	@PolySource @PolySink String getPath() @PolySource @PolySink;
+	@PolyFlowReceiver
+	String toString();
+	@PolyFlowReceiver
+	String getPath();
 }
 
 class ByteArrayOutputStream{
