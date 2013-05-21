@@ -33,6 +33,8 @@ import sparta.checkers.quals.Sink;
 import static sparta.checkers.quals.FlowPermission.*;
 import  sparta.checkers.quals.FlowPermission;
 
+import sparta.checkers.quals.NotReviewed;
+import sparta.checkers.quals.Reviewed;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
@@ -41,7 +43,7 @@ import static sparta.checkers.FlowUtil.*;
 @TypeQualifiers({Source.class, Sink.class,
     PolySource.class, PolySink.class,
     PolyAll.class})
-@StubFiles("flow.astub")
+//@StubFiles("flow.astub")
 @SupportedOptions({FlowPolicy.POLICY_FILE_OPTION, FlowChecker.MSG_FILTER_OPTION})
 @SupportedLintOptions({FlowPolicy.STRICT_CONDITIONALS_OPTION})
 
@@ -54,7 +56,7 @@ public class FlowChecker extends BaseTypeChecker {
     protected AnnotationMirror POLYALL;
     protected AnnotationMirror LITERALFLOWSOURCE;
     protected AnnotationMirror FROMLITERALFLOWSINK;
-    protected AnnotationMirror NRSOURCE, NRSINK;
+    protected AnnotationMirror NRSOURCE, NRSINK, REVIEWED;
 
     protected AnnotationMirror FLOW_SOURCES;
     protected AnnotationMirror FLOW_SINKS;
@@ -74,7 +76,7 @@ public class FlowChecker extends BaseTypeChecker {
         
         NRSOURCE = FlowUtil.createAnnoFromSource(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
         NRSINK = FlowUtil.createAnnoFromSink(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
-
+        REVIEWED = AnnotationUtils.fromClass(elements, Reviewed.class);
 
         ANYFLOWSOURCES = FlowUtil.createAnnoFromSource(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
         ANYFLOWSINKS = FlowUtil.createAnnoFromSink(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
@@ -119,6 +121,7 @@ public class FlowChecker extends BaseTypeChecker {
                 unfilteredMessages = null;
             }
         }
+        
     }
 
     protected ExecutableElement sourceValue;

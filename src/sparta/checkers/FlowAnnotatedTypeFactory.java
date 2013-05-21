@@ -36,7 +36,9 @@ import static checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 
 public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChecker> {
 
-    public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
+   
+
+	public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
         super(checker, root);
 
         // Use the bottom type as default for everything but local variables.
@@ -70,10 +72,12 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.FROMLITERALFLOWSINK);
+        declaAnnotation = checker.REVIEWED;
 
-
+     
         postInit();
     }
+
 
 	@Override
     protected QualifierDefaults createQualifierDefaults() {
@@ -103,7 +107,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             	reviewed = true;
             	//Don't return because there might be a declaration annotation on the package/class
             	//that isn't @NoReviewed and if there is, then it should be applied.
-            } else if (this.getDeclAnnotation(iter, NotReviewed.class) != null) {
+            } 
+            if (this.getDeclAnnotation(iter, NotReviewed.class) != null) {
             	//Only apply these annotations if this method has not been marked as not reviewed. 
 				if (!reviewed) {
 					//All types are @Source(NOT_REVIEWED) @Sink(NOT_REVIEWED)
