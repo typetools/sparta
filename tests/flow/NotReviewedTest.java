@@ -24,7 +24,7 @@ class Use {
         nosrc = c.get();
         //:: error: (assignment.type.incompatible)
         anysrc = c.get();
-        //:: error: (argument.type.incompatible)
+        //:: error: (argument.type.incompatible) ::error: (method.invocation.invalid)
         c.set(nosink);
      
     }
