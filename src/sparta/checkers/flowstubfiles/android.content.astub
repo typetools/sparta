@@ -1,5 +1,9 @@
 package android.content;
 
+class ContentProvider {
+    final @Source(FlowPermission.ANY) @Sink({}) Context getContext() @Source(FlowPermission.ANY) @Sink({});
+}
+
 class ContentUris {
     @PolyFlow static Uri withAppendedId(Uri contentUri, long id);
 }
