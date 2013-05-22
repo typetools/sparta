@@ -1,14 +1,11 @@
 package sparta.checkers;
 
-import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowPermission;
 
 import com.sun.source.tree.*;
 
@@ -17,8 +14,10 @@ import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
+import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
+import checkers.types.AnnotatedTypeMirror.AnnotatedNoType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
-import checkers.util.AnnotationUtils;
+
 
 public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
@@ -101,8 +100,41 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
             // Condition is null e.g. in "for (;;) {...}"
             ensureContionalSink(node.getCondition());
         }
+      
         return super.visitForLoop(node, p);
     }
+/**
+ * We need to check the return type  of an invoked method for forbidden flows in case it
+ * is from a stub file.
+ */
+	@Override
+	protected void checkMethodInvocability(AnnotatedExecutableType method,
+			MethodInvocationTree node) {
+		AnnotatedTypeMirror m = method.getReturnType();
+		if (!(m instanceof AnnotatedNoType)) {
+
+			warnForbiddenFlows(m, node);
+		}
+		super.checkMethodInvocability(method, node);
+
+	}
+
+	private boolean warnForbiddenFlows(final AnnotatedTypeMirror type,
+			final Tree tree) {
+
+		if (!areFlowsValid(type)) {
+			StringBuffer buf = new StringBuffer();
+			for (Flow flow : checker.getFlowPolicy().forbiddenFlows(type)) {
+				buf.append(flow.toString() + "\n");
+			}
+			checker.report(
+					Result.failure("forbidden.flow", type.toString(),
+							buf.toString()), tree);
+			return false;
+		}
+		return true;
+
+	}
 
     private boolean areFlowsValid(final AnnotatedTypeMirror atm) {
         final FlowPolicy flowPolicy = checker.getFlowPolicy();
