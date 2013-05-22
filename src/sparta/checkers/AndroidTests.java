@@ -114,7 +114,7 @@ public static class StubfileTests extends FlowCheckerTests{
 
 	@Parameters
       public static Collection<Object[]> data() {
-          return testFiles("lib");
+          return testFiles("stubfile");
       }
 
       @Override
