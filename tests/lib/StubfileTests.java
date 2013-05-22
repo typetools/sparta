@@ -59,12 +59,12 @@ public class StubfileTests {
 		String x = "";
 		String s = "";
 
-		
+		//::error: (method.invocation.invalid)
 		api.notReviewed();
 		//::error: (forbidden.flow)
 		x = api.notReviewed1();
 		
-		//:: error: (argument.type.incompatible)
+		//:: error: (argument.type.incompatible) ::error: (method.invocation.invalid)
 		api.notReviewed2(s);
 		//::error: (argument.type.incompatible) ::error: (forbidden.flow) 
 		x = api.notReviewed3(s);

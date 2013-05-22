@@ -116,6 +116,9 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 					
 					new FlowDefaultApplier(element, DefaultLocation.PARAMETERS,type).scan(type, checker.NRSINK);
 					new FlowDefaultApplier(element, DefaultLocation.PARAMETERS,type).scan(type, checker.NRSOURCE);
+					
+					new FlowDefaultApplier(element, DefaultLocation.RECEIVERS,type).scan(type, checker.NRSINK);
+					new FlowDefaultApplier(element, DefaultLocation.RECEIVERS,type).scan(type, checker.NRSOURCE);
 				}
 
 				return;
