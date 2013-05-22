@@ -8,16 +8,74 @@ class FileOutputStream {
  void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM)  [] bytes);
 }
 
-class File {
-//Added by SOM
+
 
     
-	@Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) String path);
-	@Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) File dir, @Sink(FlowPermission.FILESYSTEM) String path);
-	@PolyFlowReceiver
-	String toString();
-	@PolyFlowReceiver
-	String getPath();
+
+@PolyFlowReceiver	
+class File implements Serializable, Comparable<File> {
+//Added by smillst
+   @Source(FlowPermission.LITERAL) final char separatorChar;
+   @Source(FlowPermission.LITERAL)  final String separator;
+   @Source(FlowPermission.LITERAL) final char pathSeparatorChar;
+   @Source(FlowPermission.LITERAL) final String pathSeparator;
+    
+    @Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) String path);
+    File(String arg0, String arg1);
+    @Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) File dir, @Sink(FlowPermission.FILESYSTEM) String path);
+
+    File(URI arg0);
+    String getName();
+    String getParent();
+    File getParentFile();
+    String getPath();
+    boolean isAbsolute();
+    String getAbsolutePath();
+    File getAbsoluteFile();
+    String getCanonicalPath() throws IOException;
+    File getCanonicalFile() throws IOException;
+    URL toURL() throws MalformedURLException;
+    URI toURI();
+    boolean canRead();
+    boolean canWrite();
+    boolean exists();
+    boolean isDirectory();
+    boolean isFile();
+    boolean isHidden();
+    long lastModified();
+    long length();
+    boolean createNewFile() throws IOException;
+    boolean delete();
+    void deleteOnExit();
+    String[] list();
+    String[] list(FilenameFilter arg0);
+    File[] listFiles();
+    File[] listFiles(FilenameFilter arg0);
+    File[] listFiles(FileFilter arg0);
+    boolean mkdir();
+    boolean mkdirs();
+    boolean renameTo(File arg0);
+    boolean setLastModified(long arg0);
+    boolean setReadOnly();
+    boolean setWritable(boolean arg0, boolean arg1);
+    boolean setWritable(boolean arg0);
+    boolean setReadable(boolean arg0, boolean arg1);
+    boolean setReadable(boolean arg0);
+    boolean setExecutable(boolean arg0, boolean arg1);
+    boolean setExecutable(boolean arg0);
+    boolean canExecute();
+    static @Source(FlowPermission.FILESYSTEM) File @Source(FlowPermission.FILESYSTEM) [] listRoots();
+    long getTotalSpace();
+    long getFreeSpace();
+    long getUsableSpace();
+    static @Source(FlowPermission.FILESYSTEM) File createTempFile(@Sink(FlowPermission.FILESYSTEM) String arg0, @Sink(FlowPermission.FILESYSTEM) String arg1, @Sink(FlowPermission.FILESYSTEM) File arg2) throws IOException;
+    static @Source(FlowPermission.FILESYSTEM) File createTempFile(@Sink(FlowPermission.FILESYSTEM) String arg0, @Sink(FlowPermission.FILESYSTEM) String arg1) throws IOException;
+    int compareTo(File arg0);
+    boolean equals(Object arg0);
+    int hashCode();
+    String toString();
+    Path toPath();
+	
 }
 
 class ByteArrayOutputStream{

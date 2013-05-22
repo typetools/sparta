@@ -1,6 +1,79 @@
 
 package java.lang;
 
+@PolyFlowReceiver
+class Integer extends Number implements Comparable<Integer> {
+//Added by smillst
+    final @Source(FlowPermission.LITERAL) int MIN_VALUE;
+    final @Source(FlowPermission.LITERAL) int MAX_VALUE;
+    final @Source(FlowPermission.LITERAL) int SIZE;
+    @PolyFlow
+    static String toString(int arg0, int arg1);
+    @PolyFlow
+    static String toHexString(int arg0);
+    @PolyFlow
+    static String toOctalString(int arg0);
+    @PolyFlow
+    static String toBinaryString(int arg0);
+    @PolyFlow
+    static String toString(int arg0);
+    @PolyFlow
+    static int parseInt(String arg0, int arg1) throws NumberFormatException;
+    @PolyFlow
+    static int parseInt(String arg0) throws NumberFormatException;
+    @PolyFlow
+    static Integer valueOf(String arg0, int arg1) throws NumberFormatException;
+    @PolyFlow
+    static Integer valueOf(String arg0) throws NumberFormatException;
+    @PolyFlow
+    static Integer valueOf(int arg0);
+    @PolyFlow
+    Integer(int arg0);
+    @PolyFlow
+    Integer(String arg0) throws NumberFormatException;
+    byte byteValue();
+    short shortValue();
+    int intValue();
+    long longValue();
+    float floatValue();
+    double doubleValue();
+    String toString();
+    int hashCode();
+    boolean equals(Object arg0);
+    @PolyFlow
+    static Integer getInteger(String arg0);
+    @PolyFlow
+    static Integer getInteger(String arg0, int arg1);
+    @PolyFlow
+    static Integer getInteger(String arg0, Integer arg1);
+    @PolyFlow
+    static Integer decode(String arg0) throws NumberFormatException;
+    int compareTo(Integer arg0);
+    @PolyFlow
+    static int compare(int arg0, int arg1);
+    @PolyFlow
+    static int highestOneBit(int arg0);
+    @PolyFlow
+    static int lowestOneBit(int arg0);
+    @PolyFlow
+    static int numberOfLeadingZeros(int arg0);
+    @PolyFlow
+    static int numberOfTrailingZeros(int arg0);
+    @PolyFlow
+    static int bitCount(int arg0);
+    @PolyFlow
+    static int rotateLeft(int arg0, int arg1);
+    @PolyFlow
+    static int rotateRight(int arg0, int arg1);
+    @PolyFlow
+    static int reverse(int arg0);
+    @PolyFlow
+    static int signum(int arg0);
+    @PolyFlow
+    static int reverseBytes(int arg0);
+}
+
+
 class Long {
 //Added by Philip
     static @PolyFlow long parseLong(String string);
