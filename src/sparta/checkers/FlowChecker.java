@@ -43,7 +43,7 @@ import static sparta.checkers.FlowUtil.*;
 @TypeQualifiers({Source.class, Sink.class,
     PolySource.class, PolySink.class,
     PolyAll.class})
-//@StubFiles("flow.astub")
+@StubFiles("flow.astub")
 @SupportedOptions({FlowPolicy.POLICY_FILE_OPTION, FlowChecker.MSG_FILTER_OPTION})
 @SupportedLintOptions({FlowPolicy.STRICT_CONDITIONALS_OPTION})
 

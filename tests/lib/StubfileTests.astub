@@ -1,0 +1,36 @@
+import sparta.checkers.quals.*;
+import sparta.checkers.quals.FlowPermission;
+import static sparta.checkers.quals.FlowPermission.*;
+
+
+@NotReviewed
+package stubfile;
+
+ class ExampleApi {
+	
+	
+	@PolyFlow void polyFlow();
+	@PolyFlow String polyFlow1();
+	@PolyFlow void polyFlow2(String s);
+	@PolyFlow String polyFlow3(String s);
+	
+	@PolyFlowReceiver void polyFlowR();
+	@PolyFlowReceiver String polyFlowR1();
+	@PolyFlowReceiver void polyFlowR2(String s);
+	@PolyFlowReceiver String polyFlowR3(String s);
+
+	 void reviewed();
+	 String reviewed1();
+	 void reviewed2(String s);
+	 String reviewed3(String s);
+	
+	 void reviewedSomeAnnos();
+	@Source(FlowPermission.READ_SMS) String reviewedSomeAnnos1();
+	 void reviewedSomeAnnos2(@Sink(FlowPermission.INTERNET) String s);
+	 @Sink(FlowPermission.WRITE_SMS) String reviewedSomeAnnos3(@Source(FlowPermission.READ_TIME) String s);
+	
+//	 void notReviewed();
+	@Source(FlowPermission.READ_SMS) @Sink(FlowPermission.WRITE_SMS) String notReviewed1();
+//	 void notReviewed2(String s);
+//	 String notReviewed3(String s);
+}
