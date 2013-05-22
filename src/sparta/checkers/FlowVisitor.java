@@ -104,16 +104,15 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         return super.visitForLoop(node, p);
     }
 /**
- * We need to check the return type  of an invoked method for forbidden flows in case it
- * is from a stub file.
+ * Check the return type  of an invoked method for forbidden flows in case it
+ * is from a stub file.  (Methods in stub files are never validated.
  */
 	@Override
 	protected void checkMethodInvocability(AnnotatedExecutableType method,
 			MethodInvocationTree node) {
-		AnnotatedTypeMirror m = method.getReturnType();
-		if (!(m instanceof AnnotatedNoType)) {
-
-			warnForbiddenFlows(m, node);
+		AnnotatedTypeMirror returnType = method.getReturnType();
+		if (!(returnType instanceof AnnotatedNoType)) {
+			warnForbiddenFlows(returnType, node);
 		}
 		super.checkMethodInvocability(method, node);
 
@@ -133,7 +132,6 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 			return false;
 		}
 		return true;
-
 	}
 
     private boolean areFlowsValid(final AnnotatedTypeMirror atm) {

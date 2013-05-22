@@ -1,12 +1,7 @@
-import sparta.checkers.quals.ConservativeFlow;
+import sparta.checkers.quals.NotReviewed;
 import sparta.checkers.quals.Source;
 import static sparta.checkers.quals.FlowPermission.*;
 
-
-
-import sparta.checkers.quals.ConservativeFlow;
-import sparta.checkers.quals.Source;
-import static sparta.checkers.quals.FlowPermission.*;
 
 
 class TestStubImplicitConstructor { 
