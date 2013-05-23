@@ -81,7 +81,7 @@ class Long {
 
 
 class Object {
-//Added by SOM
+//Added by smillst
     Object();
     Class<?> getClass();
     @PolyFlowReceiver
@@ -102,7 +102,7 @@ class Object {
 
 @PolyFlowReceiver
 class StringBuilder extends AbstractStringBuilder implements Serializable, CharSequence {
-//Added by SOM
+//Added by smillst
     @PolyFlow
     StringBuilder();
     @PolyFlow
@@ -314,10 +314,12 @@ class StringBuilder extends AbstractStringBuilder implements Serializable, CharS
     @PolyFlowReceiver
     String intern();
 }
+
    
 
-class Math {
 
+class Math {
+//Added by smillst
     @PolyFlow
     static double abs(double a);
     @PolyFlow

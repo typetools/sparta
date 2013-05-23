@@ -84,3 +84,56 @@ class ByteArrayOutputStream{
    @PolySource @PolySink byte @PolySource @PolySink [] toByteArray() @PolySource @PolySink;
    void close() @Source(FlowPermission.ANY) @Sink({});
 }
+
+@PolyFlowReceiver
+class PrintWriter extends Writer {
+//Added by smillst
+    protected Writer out;
+    PrintWriter(Writer arg0);
+    PrintWriter(Writer arg0, boolean arg1);
+    PrintWriter(OutputStream arg0);
+    PrintWriter(OutputStream arg0, boolean arg1);
+    PrintWriter(String arg0) throws FileNotFoundException;
+    PrintWriter(String arg0, String arg1) throws FileNotFoundException,UnsupportedEncodingException;
+    PrintWriter(File arg0) throws FileNotFoundException;
+    PrintWriter(File arg0, String arg1) throws FileNotFoundException,UnsupportedEncodingException;
+    void flush();
+    void close();
+    boolean checkError();
+    protected void setError();
+    protected void clearError();
+    void write(int arg0);
+    void write(char[] arg0, int arg1, int arg2);
+    void write(char[] arg0);
+    void write(String arg0, int arg1, int arg2);
+    void write(String arg0);
+    void print(boolean arg0);
+    void print(char arg0);
+    void print(int arg0);
+    void print(long arg0);
+    void print(float arg0);
+    void print(double arg0);
+    void print(char[] arg0);
+    void print(String arg0);
+    void print(Object arg0);
+    void println();
+    void println(boolean arg0);
+    void println(char arg0);
+    void println(int arg0);
+    void println(long arg0);
+    void println(float arg0);
+    void println(double arg0);
+    void println(char[] arg0);
+    void println(String arg0);
+    void println(Object arg0);
+    PrintWriter printf(String arg0, Object[] arg1);
+    PrintWriter printf(Locale arg0, String arg1, Object[] arg2);
+    PrintWriter format(String arg0, Object[] arg1);
+    PrintWriter format(Locale arg0, String arg1, Object[] arg2);
+    PrintWriter append(CharSequence arg0);
+    PrintWriter append(CharSequence arg0, int arg1, int arg2);
+    PrintWriter append(char arg0);
+}
+
+
+
