@@ -82,7 +82,7 @@ class PolicyTest {
         
         @Source({FlowPermission.PHONE_NUMBER}) @Sink({FlowPermission.EMAIL, FlowPermission.WRITE_LOGS})
         class Whatever {
-//:: error: receiver parameter not applicable for constructor of top-level class: @Source(value = {FlowPermission.PHONE_NUMBER}) 
+//:: error: receiver parameter not applicable for constructor of top-level class 
             public Whatever(@Source({FlowPermission.PHONE_NUMBER}) @Sink({FlowPermission.INTERNET}) Whatever this) {
 
             }
