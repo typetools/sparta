@@ -58,13 +58,33 @@ class ArrayList<E extends @Sink({}) @Source(FlowPermission.ANY) Object> extends 
     List<E> subList(int arg0, int arg1);
 }
        
+@PolyFlowReceiver
+interface Collection<E> extends Iterable<E> {
+    int size();
+    boolean isEmpty();
+    boolean contains(Object arg0);
+    Iterator<E> iterator();
+    Object[] toArray();
+    <T> T[] toArray(T[] arg0);
+    boolean add(E arg0);
+    boolean remove(Object arg0);
+    boolean containsAll(Collection<?> arg0);
+    boolean addAll(Collection<? extends E> arg0);
+    boolean removeAll(Collection<?> arg0);
+    boolean retainAll(Collection<?> arg0);
+    void clear();
+    boolean equals(Object arg0);
+    int hashCode();
+}
+       
+       
 @PolyFlowReceiver  
 class HashMap<K, V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
     HashMap(int arg0, float arg1);
     HashMap(int arg0);
     HashMap();
     HashMap(Map<? extends K,? extends V> arg0);
-    int size();
+    int size() ;
     boolean isEmpty();
     V get(Object arg0);
     boolean containsKey(Object arg0);
