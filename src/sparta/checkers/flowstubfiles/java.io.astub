@@ -47,11 +47,11 @@ class File implements Serializable, Comparable<File> {
     boolean createNewFile() throws IOException;
     boolean delete();
     void deleteOnExit();
-    String[] list();
-    String[] list(FilenameFilter arg0);
-    File[] listFiles();
-    File[] listFiles(FilenameFilter arg0);
-    File[] listFiles(FileFilter arg0);
+   @PolySource @PolySink   String[] list();
+   @PolySource @PolySink   String[] list(FilenameFilter arg0);
+    @PolySource @PolySink  File[] listFiles();
+     @PolySource @PolySink File[] listFiles(FilenameFilter arg0);
+    @PolySource @PolySink  File[] listFiles(FileFilter arg0);
     boolean mkdir();
     boolean mkdirs();
     boolean renameTo(File arg0);
