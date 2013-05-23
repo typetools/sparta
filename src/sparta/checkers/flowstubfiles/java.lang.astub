@@ -2,6 +2,15 @@
 package java.lang;
 
 @PolyFlowReceiver
+interface CharSequence {
+    int length();
+    char charAt(int arg0);
+    CharSequence subSequence(int arg0, int arg1);
+    String toString();
+}
+
+
+@PolyFlowReceiver
 class Integer extends Number implements Comparable<Integer> {
 //Added by smillst
     final @Source(FlowPermission.LITERAL) int MIN_VALUE;
