@@ -199,6 +199,24 @@ interface Map$Entry<K, V> {
     @PolyFlowReceiver
     int hashCode();
 }
+@PolyFlowReceiver
+interface Set<E> extends Collection<E> {
+    int size();
+    boolean isEmpty();
+    boolean contains(Object arg0);
+    Iterator<E> iterator();
+    Object[] toArray();
+    <T> T[] toArray(T[] arg0);
+    boolean add(E arg0);
+    boolean remove(Object arg0);
+    boolean containsAll(Collection<?> arg0);
+    boolean addAll(Collection<? extends E> arg0);
+    boolean retainAll(Collection<?> arg0);
+    boolean removeAll(Collection<?> arg0);
+    void clear();
+    boolean equals(Object arg0);
+    int hashCode();
+}
 
 
 
