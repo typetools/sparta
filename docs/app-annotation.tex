@@ -56,7 +56,7 @@ Example annotation
 \begin{Verbatim}
 package android.database.sqlite;
 class SQLiteDatabase{
-  public void execSQL (@Sink(FlowPermission.DATABASE) @FlowPermission(FlowPermission.ANY) String sql);
+  public void execSQL (@Sink(FlowPermission.DATABASE) @Source(FlowPermission.ANY) String sql);
 }
 \end{Verbatim}
 Use of the API
@@ -79,15 +79,15 @@ package android.hardware;
 class Camera$PictureCallback{
   //data: a byte array of the picture data
    void onPictureTaken 
-      (@FlowPermission(CAMERA) @Sink(FlowPermission.ANY) byte[] data, 
-             @FlowPermission(CAMERA) @Sink(FlowPermission.ANY)  Camera camera);
+      (@Source(FlowPermission.CAMERA) @Sink(FlowPermission.ANY) byte[] data, 
+             @Source(FlowPermission.CAMERA) @Sink(FlowPermission.ANY)  Camera camera);
 }
 \end{Verbatim}
 
 An example implementation of a callback
 \begin{Verbatim}
 public void onPictureTaken
-(@FlowPermission(CAMERA) byte[] data, @FlowPermission(CAMERA) Camera camera){
+(@Source(FlowPermission.CAMERA) byte[] data, @Source(FlowPermission.CAMERA) Camera camera){
    //If CAMERA->FILE_SYSTEM is in policy file
    //Then the following statement will not give an error
     writeToFile(data);

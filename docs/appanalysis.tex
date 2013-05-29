@@ -459,8 +459,8 @@ comment that justifies that the code is safe, and why the type system
 cannot recognize that fact.
 
 An example is a String literal that should be allowed to be sent
-over the network. By default, every literal has \<@Sink()>
-(i.e., nothing) and \<@Source()>.
+over the network. By default, every literal has \<@Sink(CONDITIONAL)> 
+and \<@Source(LITERAL)>.
 
 \begin{alltt}
     @SuppressWarnings("flow") // manually verified to not contain secret data
@@ -468,7 +468,7 @@ over the network. By default, every literal has \<@Sink()>
 \end{alltt}
 
 Without warning suppression the assignment raises an error, because string literals
-are assumed to be annotated with \<Source(LITERAL)>. By adding the suppression, you
+have a default annotation of \<Source(LITERAL)>. By adding the suppression, you
 assert that it's OK to send this string to the network. 
 
 \end{enumerate}
@@ -483,11 +483,11 @@ code (malicious, or buggy and prone to abuse).
 Once all warnings were resolved, run 
 
 \begin{Verbatim}
-  ant -Dstricter=true flowchecker
+  ant -Dsound=true flowchecker
 \end{Verbatim}
 
 \noindent
-Providing the \<stricter> option enables additional checks that are
+Providing the \<sound> option enables additional checks that are
 required for soundness, but would be disruptive to enable initially.
 In particular, the tests for casts and array subtyping are stricter.
 See the discussion in \chapterpageref{flow-checker}.

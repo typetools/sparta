@@ -60,8 +60,8 @@ The \<@Source(LOCATION)> annotation indicates that the
 value of \<latitude> might have been derived from
 location information.  It does not guarantee that the value came from
 authentic GPS data, but only sets a bound on where the information might
-have come from; this assignment is legal: \<latitude = 47.6097>.
-Similarly, the annotation \<@Sink(FlowSInk.INTERNET)> marks that
+have come from.
+Similarly, the annotation \<@Sink(FlowPermission.INTERNET)> marks that
 the string \<latitude> might be output to the network.  It is also
 possible that the data has already been output.
 
@@ -172,9 +172,10 @@ annotation and a flow sink annotation as explained in
 
 A flow policy is a list of all the flows that are permitted to occur in an application.
 A flow-policy file is a list 
- of $\langle$flow source, flow sink$\rangle$ pairs.  If a flow is not listed in the flow policy, then 
- it is forbidden to occur.  If no flow policy is specified, then no flows are permitted. 
- 
+ of $\langle$flow source, flow sink$\rangle$ pairs.  If a flow is not listed in the flow policy
+ or no flow policy is specified, no flows are allowed except for the conditional 
+ flows discussed in section \secref{sec:conditionals}.
+
 \subsection{Semantics of a Flow Policy}
 \label{sec:undsiredflows}
 The Flow Checker guarantees that there is no information
@@ -266,17 +267,17 @@ ant -DflowPolicy=\emph{mypolicyfile} flowchecker
     \toprule
 \bf{Location}&\bf{Default Flow Type}\\
 \midrule 
+   \<@Source($\alpha$)>&\<@Source($\alpha$)>
+   \<@Sink($\omega$)>,  $\omega$ is the set of  sinks allowed to flow from all sources in $\alpha$ \\ 
+      \<@Sink($\omega$)>&\<@Source($\alpha$)>
+      \<@Sink($\omega$)>, $\alpha$ is the set of  sources allowed to flow to all sinks in $\omega$ \\ 
     Fields &  \<@Source(LITERAL)> \\ 
     Method parameters &  \<@Source(LITERAL)> \\ 
     Return values &  \<@Source(LITERAL)> \\ 
     \<null> &  \<@Source(\ttcbs) @Sink(ANY)>\\ 
     Literals & \<@Source(LITERAL) @Sink(CONDITIONAL)>\\ 
    Local variables  &   \<@Source(ANY) @Sink(\ttcbs)> \\ 
-   \<@Source($\alpha$)>&\<@Source($\alpha$)>
-   \<@Sink($\omega$)>,  $\omega$ is the set of  sinks allowed to flow from all sources in $\alpha$ \\ 
-      \<@Sink($\omega$)>&\<@Source($\alpha$)>
-      \<@Sink($\omega$)>, $\alpha$ is the set of  sources allowed to flow to all sinks in $\omega$ \\ 
-      
+     
       \bottomrule
     \end{tabular}
     \caption{Default types}\label{table:defaults}
@@ -437,7 +438,7 @@ program uses a previously-unannotated library.
 \subsection{@PolyFlow\label{sec:polyflow}}
 
 Annotation \<@PolyFlow> expresses that each contained method should be
-annotated as \<@PolyFlowPermission @PolyFlowPermission> for both the return
+annotated as \<@PolySource @PolySink> for both the return
 types and all parameters.  It should be used to express a relationship between the parameters 
 and the return types.
 
@@ -508,6 +509,11 @@ Stricter checking also enforces invariant array subtyping, which is
 needed for sound array behavior in the absence of runtime checks.
 Flow inference automatically refines the type of array creation
 expressions depending on the left-hand side.
+
+\medskip
+
+Enabling stricter checking will also enable the \<-Alint=strict-conditional> option to limit 
+allowed sinks to conditionals. See \secref{sec:conditionals} for more details.
 
 \section{Miscellaneous\label{sec:miscellaneous}}
 
