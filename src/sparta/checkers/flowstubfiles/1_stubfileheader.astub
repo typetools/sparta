@@ -7,15 +7,15 @@ This file is generate by ant merge-stubfiles.
 Please put annotations in the correct stub file in flowstubfiles.
 */
 
-@ConservativeFlow
+@FromBinary
 package android;
 
-@ConservativeFlow
+@FromBinary
 package com.android;
 
-@ConservativeFlow
+@FromBinary
 package org.apache.http;
 
-@ConservativeFlow
+@FromBinary
 package java;
 

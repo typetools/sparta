@@ -3,12 +3,11 @@ package sparta.checkers.quals;
 import java.lang.annotation.*;
 
 /**
- * A declaration annotation to mark that no flow happens.
- * This is shorthand for specifying no flow sources and
- * no flow sinks for the return type and all parameter types of
- * any contained methods.
+ * Annotation @PolyFlow expresses that each contained method should be annotated 
+ * as @PolySource @PolySink for both the return types and all parameters. 
+ * It should be used to express a relationship between the parameters and the return types.
  *
- * @see ConservativeFlow
+ * @see @PolyFlowReceiver
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

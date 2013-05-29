@@ -1,17 +1,17 @@
-import sparta.checkers.quals.ConservativeFlow;
+import sparta.checkers.quals.FromBinary;;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.Sink;
 
 import static sparta.checkers.quals.FlowPermission.*;
 
-@ConservativeFlow
+@FromBinary
 class TestImplicitConstructor { }
 
 class TestNoParamConstructor {
-	@ConservativeFlow
+    @FromBinary
 	TestNoParamConstructor() { }
 }
-@ConservativeFlow
+@FromBinary
 class TestParamConstructor {
 
 	//:: error: (forbidden.flow)   

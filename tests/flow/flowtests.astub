@@ -3,31 +3,21 @@ import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
-@ConservativeFlow
+@FromBinary
 class TestStubImplicitConstructor {
 }
-
+@FromBinary
 class TestStubNoParamConstructor {
-    @ConservativeFlow
-    TestStubNoParamConstructor();
-    
-    @ConservativeFlow
-    static void stubSanity(String fail);
-}
+    }
 
-@ConservativeFlow
+@FromBinary
 class TestStubParamConstructor {
     
-    TestStubParamConstructor(String name);
-    
-    static void stubSanity(String fail);
 }
 
+@FromBinary
 class TestStubExplicitConstructorType {
     @Source(FlowPermission.INTERNET)
     TestStubExplicitConstructorType();
-    
-    @ConservativeFlow
-    static void stubSanity(String fail);
     
 }
