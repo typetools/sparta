@@ -12,6 +12,7 @@ import checkers.util.*;
 
 import com.sun.tools.javac.code.TypeAnnotationPosition;
 
+import sparta.checkers.quals.FromBinary;
 import sparta.checkers.quals.PolyFlowReceiver;
 import sparta.checkers.quals.PolyFlow;
 
@@ -19,7 +20,7 @@ import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
 
 import checkers.quals.DefaultLocation;
-import checkers.quals.FromBinary;
+
 import checkers.quals.FromStubFile;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.BasicAnnotatedTypeFactory;
@@ -100,13 +101,13 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         
         while (iter != null) {
 
-            if (this.getDeclAnnotation(iter, FromStubFile.class) != null) {
+            if (this.getDeclAnnotation(iter, FromStubFile.class) != null ) {
             	//If a method is from a stub file, it is considered reviewed.
             	reviewed = true;
             	//Don't return because there might be a declaration annotation on the package/class
             	// if there is, then it should be applied.
             } 
-            if (this.getDeclAnnotation(iter, FromBinary.class) != null) {
+            if (this.getDeclAnnotation(iter,FromBinary.class) != null) {
             	//Only apply these annotations if this method has not been marked as not reviewed. 
 				if (!reviewed) {
 					//All types are @Source(NOT_REVIEWED) @Sink(NOT_REVIEWED)

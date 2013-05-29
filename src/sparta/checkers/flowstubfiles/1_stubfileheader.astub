@@ -7,4 +7,15 @@ This file is generate by ant merge-stubfiles.
 Please put annotations in the correct stub file in flowstubfiles.
 */
 
+@FromBinary
+package android;
+
+@FromBinary
+package com.android;
+
+@FromBinary
+package org.apache.http;
+
+@FromBinary
+package java;
 
