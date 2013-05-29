@@ -1,6 +1,9 @@
 package stubfile;
 
 public class ExampleApi {
+    public ExampleApi(){}
+    public ExampleApi(String s){}
+    public ExampleApi(int i){}
 	
 	public void polyFlow(){}
 	public String polyFlow1(){return "";}

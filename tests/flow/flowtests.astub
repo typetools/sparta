@@ -3,19 +3,19 @@ import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
-@NotReviewed
+@FromBinary
 class TestStubImplicitConstructor {
 }
-@NotReviewed
+@FromBinary
 class TestStubNoParamConstructor {
     }
 
-@NotReviewed
+@FromBinary
 class TestStubParamConstructor {
     
 }
 
-@NotReviewed
+@FromBinary
 class TestStubExplicitConstructorType {
     @Source(FlowPermission.INTERNET)
     TestStubExplicitConstructorType();

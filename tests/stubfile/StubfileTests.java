@@ -3,6 +3,12 @@ import stubfile.*;
 import static sparta.checkers.quals.FlowPermission.*;
 
 public class StubfileTests {
+    void constructorTest(){
+        ExampleApi api = new ExampleApi();
+        ExampleApi api1 = new ExampleApi("hello");
+      //:: error: (argument.type.incompatible)
+        ExampleApi api2 = new ExampleApi(2);
+    }
 
 	void polyFlow() {
 		ExampleApi api = new ExampleApi();

@@ -3,11 +3,13 @@ import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
 
-@NotReviewed
+@FromBinary
 package stubfile;
 
  class ExampleApi {
-	
+	public ExampleApi();
+    public ExampleApi(String s);
+    //public ExampleApi(int i);
 	
 	@PolyFlow void polyFlow();
 	@PolyFlow String polyFlow1();
