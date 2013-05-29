@@ -1,4 +1,3 @@
-import sparta.checkers.quals.NotReviewed;
 import sparta.checkers.quals.Source;
 import static sparta.checkers.quals.FlowPermission.*;
 

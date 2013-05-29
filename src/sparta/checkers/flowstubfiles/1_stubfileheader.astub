@@ -7,15 +7,4 @@ This file is generate by ant merge-stubfiles.
 Please put annotations in the correct stub file in flowstubfiles.
 */
 
-@NotReviewed
-package android;
-
-@NotReviewed
-package com.android;
-
-@NotReviewed
-package org.apache.http;
-
-@NotReviewed
-package java;
 

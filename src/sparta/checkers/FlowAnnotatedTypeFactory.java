@@ -13,15 +13,14 @@ import checkers.util.*;
 import com.sun.tools.javac.code.TypeAnnotationPosition;
 
 import sparta.checkers.quals.PolyFlowReceiver;
-import sparta.checkers.quals.NotReviewed;
-
-import sparta.checkers.quals.Reviewed;
 import sparta.checkers.quals.PolyFlow;
 
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
 
 import checkers.quals.DefaultLocation;
+import checkers.quals.FromBinary;
+import checkers.quals.FromStubFile;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.BasicAnnotatedTypeFactory;
 import checkers.util.QualifierDefaults.DefaultApplier;
@@ -72,7 +71,6 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.FROMLITERALFLOWSINK);
-        declaAnnotation = checker.REVIEWED;
      
         postInit();
     }
@@ -99,15 +97,16 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
     protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
         Element iter = element;
         boolean reviewed = false;
+        
         while (iter != null) {
 
-            if (this.getDeclAnnotation(iter, Reviewed.class) != null) {
-            	//This means that the method appears in the stub file
+            if (this.getDeclAnnotation(iter, FromStubFile.class) != null) {
+            	//If a method is from a stub file, it is considered reviewed.
             	reviewed = true;
             	//Don't return because there might be a declaration annotation on the package/class
-            	//that isn't @NoReviewed and if there is, then it should be applied.
+            	// if there is, then it should be applied.
             } 
-            if (this.getDeclAnnotation(iter, NotReviewed.class) != null) {
+            if (this.getDeclAnnotation(iter, FromBinary.class) != null) {
             	//Only apply these annotations if this method has not been marked as not reviewed. 
 				if (!reviewed) {
 					//All types are @Source(NOT_REVIEWED) @Sink(NOT_REVIEWED)

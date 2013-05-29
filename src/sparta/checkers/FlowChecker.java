@@ -18,7 +18,6 @@ import checkers.source.SourceChecker;
 import checkers.source.SupportedLintOptions;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.QualifierHierarchy;
-import checkers.util.AnnotationBuilder;
 import checkers.util.AnnotationUtils;
 import checkers.util.MultiGraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
@@ -30,11 +29,8 @@ import checkers.compilermsgs.quals.CompilerMessageKey;
 */
 
 import sparta.checkers.quals.Sink;
-import static sparta.checkers.quals.FlowPermission.*;
 import  sparta.checkers.quals.FlowPermission;
 
-import sparta.checkers.quals.NotReviewed;
-import sparta.checkers.quals.Reviewed;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
@@ -56,7 +52,7 @@ public class FlowChecker extends BaseTypeChecker {
     protected AnnotationMirror POLYALL;
     protected AnnotationMirror LITERALFLOWSOURCE;
     protected AnnotationMirror FROMLITERALFLOWSINK;
-    protected AnnotationMirror NRSOURCE, NRSINK, REVIEWED;
+    protected AnnotationMirror NRSOURCE, NRSINK;
 
     protected AnnotationMirror FLOW_SOURCES;
     protected AnnotationMirror FLOW_SINKS;
@@ -76,7 +72,6 @@ public class FlowChecker extends BaseTypeChecker {
         
         NRSOURCE = FlowUtil.createAnnoFromSource(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
         NRSINK = FlowUtil.createAnnoFromSink(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
-        REVIEWED = AnnotationUtils.fromClass(elements, Reviewed.class);
 
         ANYFLOWSOURCES = FlowUtil.createAnnoFromSource(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
         ANYFLOWSINKS = FlowUtil.createAnnoFromSink(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
