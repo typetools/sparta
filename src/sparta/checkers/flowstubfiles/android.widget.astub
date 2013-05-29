@@ -7,3 +7,107 @@ class ImageView {
 	void setImageDrawable(@Sink(FlowPermission.DISPLAY) Drawable drawable);
 	void setImageResource(@PolySource @PolySink int i) @PolySource @PolySink;
 }
+
+class TextView {
+//Added by Carl Hartung
+final void setText(int resid);
+//Sets the TextView to display the specified slice of the specified char array.
+
+final void setText(@Sink(FlowPermission.DISPLAY) char[] text, int start, int len);
+
+final void setText(int resid, TextView.BufferType type);
+
+final void setText(@Sink(FlowPermission.DISPLAY) CharSequence text);
+//Sets the string value of the TextView.
+
+void setText(@Sink(FlowPermission.DISPLAY) CharSequence text, TextView.BufferType type);
+//Sets the text that this TextView is to display (see setText(CharSequence);); and also sets whether it is stored in a styleable/spannable buffer and whether it is editable.
+
+void setTextColor(ColorStateList colors);
+//Sets the text color.
+
+void setTextColor(int color);
+//Sets the text color for all the states (normal, selected, focused); to be this color.
+
+void setWidth(int pixels);
+//Makes the TextView exactly this many pixels wide.    
+
+void setPadding(int left, int top, int right, int bottom);
+//Sets the padding. 
+
+Drawable[] getCompoundDrawables();
+//Returns drawables for the left, top, right, and bottom borders.
+
+void setGravity(int gravity);
+//Sets the horizontal alignment of the text and the vertical gravity that will be used when there is extra space in the TextView beyond what is required for the text itself.
+
+CharSequence getText();
+//Return the text the TextView is displaying.
+
+void setTextSize(float size);
+//Set the default text size to the given value, interpreted as "scaled pixel" units.
+
+void setTextSize(int unit, float size);
+//Set the default text size to a given unit and value.
+
+void setSingleLine();
+//Sets the properties of this field (lines, horizontally scrolling, transformation method); to be for a single-line input.
+
+void setSingleLine(boolean singleLine);
+//If true, sets the properties of this field (number of lines, horizontally scrolling, transformation method); to be for a single-line input; if false, restores these to the default conditions.
+
+void setEnabled(boolean enabled);
+//Set the enabled state of this view.
+
+void setCompoundDrawablesWithIntrinsicBounds(Drawable left, Drawable top, Drawable right, Drawable bottom);
+//Sets the Drawables (if any); to appear to the left of, above, to the right of, and below the text.
+
+void setCompoundDrawablesWithIntrinsicBounds(int left, int top, int right, int bottom);
+//Sets the Drawables (if any); to appear to the left of, above, to the right of, and below the text.
+
+void setTextAppearance(Context context, int resid);
+//Sets the text color, size, style, hint color, and highlight color from the specified TextAppearance resource.
+
+void setEllipsize(TextUtils.TruncateAt where);
+//Causes words in the text that are longer than the view is wide to be ellipsized instead of broken in the middle.
+
+void setMaxLines(int maxlines);
+//Makes the TextView at most this many lines tall.
+
+final ColorStateList getTextColors();
+//Gets the text colors for the different states (normal, selected, focused); of the TextView.
+
+static ColorStateList getTextColors(Context context, TypedArray attrs);
+//Returns the TextView_textColor attribute from the Resources.StyledAttributes, if set, or the TextAppearance_textColor from the TextView_textAppearance attribute, if TextView_textColor was not set directly.
+
+final void setTransformationMethod(TransformationMethod method);
+//Sets the transformation that is applied to the text that this TextView is displaying.
+
+final void setTextKeepState(@Sink(FlowPermission.DISPLAY) CharSequence text);
+//Like setText(CharSequence);, except that the cursor position (if any); is retained in the new text.
+
+final void setTextKeepState(@Sink(FlowPermission.DISPLAY) CharSequence text, TextView.BufferType type);
+//Like setText(CharSequence, android.widget.TextView.BufferType);, except that the cursor position (if any); is retained in the new text.
+
+final void setMovementMethod(MovementMethod movement);
+//Sets the movement method (arrow key handler); to be used for this TextView.
+
+void setMinLines(int minlines);
+//Makes the TextView at least this many lines tall.
+
+void setKeyListener(KeyListener input);
+//Sets the key listener to be used with this TextView.
+
+final void setAutoLinkMask(int mask);
+//Sets the autolink mask of the text.
+
+Typeface getTypeface();
+
+float getTextSize();
+
+final KeyListener getKeyListener();
+
+void addTextChangedListener(TextWatcher watcher);
+//Adds a TextWatcher to the list of those whose methods are called whenever this TextView's text changes.
+
+}

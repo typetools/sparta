@@ -1,0 +1,87 @@
+
+package android.support.v4.view;
+
+class ViewPager {
+ //Added by Carl Hartung
+int getCurrentItem(); 
+
+void setCurrentItem(int item, boolean smoothScroll);
+//Set the currently selected page.
+
+boolean arrowScroll(int direction);
+
+PagerAdapter getAdapter();
+//Retrieve the current adapter supplying pages.
+
+void onPageScrolled(int position, float offset, int offsetPixels);
+//This method will be invoked when the current page is scrolled, either as part of a programmatically initiated smooth scroll or a user initiated touch scroll.
+
+void setAdapter(PagerAdapter adapter);
+//Set a PagerAdapter that will supply views for this pager as needed.
+
+void addView(@Sink(FlowPermission.DISPLAY) View child, int index, ViewGroup.LayoutParams params);
+//Adds a child view with the specified layout parameters.
+
+void setPageMarginDrawable(int resId);
+//Set a drawable that will be used to fill the margin between pages.
+
+void setPageMarginDrawable(Drawable d);
+//Set a drawable that will be used to fill the margin between pages.
+
+void setOnPageChangeListener(ViewPager.OnPageChangeListener listener);
+//Set a listener that will be invoked whenever the page changes or is incrementally scrolled.
+
+void removeView(View view);
+//Note: do not invoke this method from draw(android.graphics.Canvas);, onDraw(android.graphics.Canvas);, dispatchDraw(android.graphics.Canvas); or any related method.
+
+ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs);
+//Returns a new set of layout parameters based on the supplied attributes set.
+
+protected ViewGroup.LayoutParams generateDefaultLayoutParams();
+// Returns a set of default layout parameters.
+
+boolean executeKeyEvent(@Source(FlowPermission.USER_INPUT) KeyEvent event);
+//You can call this function yourself to have the scroll view perform scrolling from a key event, just as if the event had been dispatched to it by the view hierarchy.
+
+protected boolean checkLayoutParams(ViewGroup.LayoutParams p);
+
+
+ 
+//UNUSED and UNANNOTATED 
+// void addFocusables(ArrayList<View> views, int direction, int focusableMode);
+// void addTouchables(ArrayList<View> views);
+// boolean beginFakeDrag();
+// void computeScroll();
+// boolean dispatchKeyEvent(KeyEvent event);
+// boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
+// void draw(Canvas canvas);
+// void endFakeDrag();
+// void fakeDragBy(float xOffset);
+// int getOffscreenPageLimit();
+// int getPageMargin();
+// boolean isFakeDragging();
+// boolean onInterceptTouchEvent(MotionEvent ev);
+// void onRestoreInstanceState(Parcelable state);
+// Parcelable onSaveInstanceState();
+// boolean onTouchEvent(MotionEvent ev);
+// void setCurrentItem(int item);
+// void setOffscreenPageLimit(int limit);
+// void setPageMargin(int marginPixels);
+// void setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer);
+
+//PROTECTED (and unused)
+// boolean canScroll(View v, boolean checkV, int dx, int x, int y);
+// void drawableStateChanged();
+// ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
+// int getChildDrawingOrder(int childCount, int i);
+// void onAttachedToWindow();
+// void onDetachedFromWindow();
+// void onDraw(Canvas canvas);
+// void onLayout(boolean changed, int l, int t, int r, int b);
+// void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+// boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect);
+// void onSizeChanged(int w, int h, int oldw, int oldh);
+// boolean verifyDrawable(Drawable who);
+}
+
+

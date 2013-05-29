@@ -10,3 +10,96 @@ class Activity{
     void setContentView (@Sink(FlowPermission.DISPLAY) View view);
     @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
 }
+
+class AlertDialog$Builder {
+  //Added by Carl Hartung
+AlertDialog.Builder setTitle(@Sink(FlowPermission.DISPLAY) CharSequence title);
+//Set the title displayed in the Dialog.
+
+AlertDialog.Builder setTitle(int titleId);
+//Set the title using the given resource id.
+
+AlertDialog.Builder setPositiveButton(int textId, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the positive button of the dialog is pressed.
+
+AlertDialog.Builder setPositiveButton(@Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the positive button of the dialog is pressed.
+
+AlertDialog create();
+//Creates a AlertDialog with the arguments supplied to this builder.
+
+AlertDialog.Builder setMessage(@Sink(FlowPermission.DISPLAY) CharSequence message);
+//Set the message to display.
+
+AlertDialog.Builder setMessage(int messageId);
+//Set the message to display using the given resource id.
+
+AlertDialog.Builder setNegativeButton(@Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the negative button of the dialog is pressed.
+
+AlertDialog.Builder setNegativeButton(int textId, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the negative button of the dialog is pressed.
+
+AlertDialog show();
+//Creates a AlertDialog with the arguments supplied to this builder and show();'s the dialog.
+//CSH: this actually shows the dialog on the screen, but if we've properly annotated the rest of the methods here, we shouldn't need to annotate this receiver?
+
+AlertDialog.Builder setView(@Sink(FlowPermission.DISPLAY) View view);
+//Set a custom view to be the contents of the Dialog.
+
+AlertDialog.Builder setIcon(@Sink(FlowPermission.DISPLAY) Drawable icon);
+//Set the Drawable to be used in the title.
+
+AlertDialog.Builder setIcon(int iconId);
+//Set the resource id of the Drawable to be used in the title.
+
+AlertDialog.Builder setCancelable(boolean cancelable);
+//Sets whether the dialog is cancelable or not.
+
+AlertDialog.Builder setNeutralButton(int textId, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the neutral button of the dialog is pressed.
+
+AlertDialog.Builder setNeutralButton(@Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the neutral button of the dialog is pressed.
+
+AlertDialog.Builder setItems(int itemsId, DialogInterface.OnClickListener listener);
+//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+
+AlertDialog.Builder setItems(@Sink(FlowPermission.DISPLAY) CharSequence[] items, DialogInterface.OnClickListener listener);
+//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+
+AlertDialog.Builder setSingleChoiceItems(@Sink(FlowPermission.DISPLAY) CharSequence[] items, int checkedItem, DialogInterface.OnClickListener listener);
+//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+
+AlertDialog.Builder setSingleChoiceItems(ListAdapter adapter, int checkedItem, DialogInterface.OnClickListener listener);
+//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+//CSH: checkedItem is tricky.  The number isn't actually displayed, but it determines which item in the list is 'checked'.  could you leak information by repeatedly loading the dialog with different items checked?
+
+AlertDialog.Builder setSingleChoiceItems(int itemsId, int checkedItem, DialogInterface.OnClickListener listener);
+//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+
+AlertDialog.Builder setSingleChoiceItems(Cursor cursor, int checkedItem, String labelColumn, DialogInterface.OnClickListener listener);
+//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+
+AlertDialog.Builder setOnCancelListener(DialogInterface.OnCancelListener onCancelListener);
+//Sets the callback that will be called if the dialog is canceled.
+
+AlertDialog.Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener);
+//Sets the callback that will be called if a key is dispatched to the dialog.
+
+
+
+  
+//UNUSED and UNANNOTATED  
+// Context getContext();
+// AlertDialog.Builder setAdapter(ListAdapter adapter, DialogInterface.OnClickListener listener);
+// AlertDialog.Builder setCursor(Cursor cursor, DialogInterface.OnClickListener listener, String labelColumn);
+// AlertDialog.Builder setCustomTitle(View customTitleView);
+// AlertDialog.Builder setIconAttribute(int attrId);
+// AlertDialog.Builder setInverseBackgroundForced(boolean useInverseBackground);
+// AlertDialog.Builder setMultiChoiceItems(CharSequence[] items, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener);
+// AlertDialog.Builder setMultiChoiceItems(Cursor cursor, String isCheckedColumn, String labelColumn, DialogInterface.OnMultiChoiceClickListener listener);
+// AlertDialog.Builder setMultiChoiceItems(int itemsId, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener);
+// AlertDialog.Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener);
+// AlertDialog.Builder setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
+}

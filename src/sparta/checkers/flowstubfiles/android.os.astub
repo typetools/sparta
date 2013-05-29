@@ -7,3 +7,23 @@ class Environment {
     getExternalStoragePublicDirectory(@Sink(FlowPermission.FILESYSTEM) String type);
 
 }
+
+class IBinder {
+//Added by Carl Hartung
+abstract boolean transact(int code, Parcel data, Parcel reply, int flags);
+//Perform a generic operation with the object.
+
+abstract IInterface queryLocalInterface(String descriptor);
+//Attempt to retrieve a local implementation of an interface for this Binder object.
+
+abstract String getInterfaceDescriptor();
+//Get the canonical name of the interface supported by this binder.
+ 
+//UNUSED and UNANNOTATED 
+// abstract void dump(FileDescriptor fd, String[] args);
+// abstract void dumpAsync(FileDescriptor fd, String[] args);
+// abstract boolean isBinderAlive();
+// abstract void linkToDeath(IBinder.DeathRecipient recipient, int flags);
+// abstract boolean pingBinder();
+// abstract boolean unlinkToDeath(IBinder.DeathRecipient recipient, int flags);
+}

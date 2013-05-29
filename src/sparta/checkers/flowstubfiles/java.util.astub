@@ -3,7 +3,7 @@ package java.util;
 
  
 class ArrayList<E extends @Sink({}) @Source(FlowPermission.ANY) Object> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
- //Added by SOM
+//Added by smillst
     ArrayList(int arg0);
     ArrayList();
     @PolyFlow
@@ -57,11 +57,51 @@ class ArrayList<E extends @Sink({}) @Source(FlowPermission.ANY) Object> extends 
     @PolyFlowReceiver
     List<E> subList(int arg0, int arg1);
 }
-         
+       
+@PolyFlowReceiver
+interface Collection<E> extends Iterable<E> {
+    int size();
+    boolean isEmpty();
+    boolean contains(Object arg0);
+    Iterator<E> iterator();
+    Object[] toArray();
+    <T> T[] toArray(T[] arg0);
+    boolean add(E arg0);
+    boolean remove(Object arg0);
+    boolean containsAll(Collection<?> arg0);
+    boolean addAll(Collection<? extends E> arg0);
+    boolean removeAll(Collection<?> arg0);
+    boolean retainAll(Collection<?> arg0);
+    void clear();
+    boolean equals(Object arg0);
+    int hashCode();
+}
+       
+       
+@PolyFlowReceiver  
+class HashMap<K, V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
+    HashMap(int arg0, float arg1);
+    HashMap(int arg0);
+    HashMap();
+    HashMap(Map<? extends K,? extends V> arg0);
+    int size() ;
+    boolean isEmpty();
+    V get(Object arg0);
+    boolean containsKey(Object arg0);
+    V put(K arg0, V arg1);
+    void putAll(Map<? extends K,? extends V> arg0);
+    V remove(Object arg0);
+    void clear();
+    boolean containsValue(Object arg0);
+    Object clone();
+    Set<K> keySet();
+    Collection<V> values();
+    Set<Entry<K,V>> entrySet();
+}
 
 
 interface Iterator<E> {
-//Added by SOM
+//Added by smillst
     boolean hasNext();
     @PolyFlowReceiver
     E next();
@@ -117,5 +157,66 @@ interface List<E extends @Sink({}) @Source(FlowPermission.ANY) Object> {
     @PolyFlowReceiver
     List<E> subList(int arg0, int arg1);
 }
+
+interface Map<K, V> {
+//Added by smillst
+    int size();
+    boolean isEmpty();
+    @PolyFlowReceiver
+    boolean containsKey(Object arg0);
+    @PolyFlowReceiver
+    boolean containsValue(Object arg0);
+    @PolyFlowReceiver
+    V get(Object arg0);
+    @PolyFlowReceiver
+    V put(K arg0, V arg1);
+    @PolyFlowReceiver
+    V remove(Object arg0);
+    @PolyFlowReceiver
+    void putAll(Map<? extends K,? extends V> arg0);
+    void clear();
+    @PolyFlowReceiver
+    Set<K> keySet();
+    @PolyFlowReceiver
+    Collection<V> values();
+    @PolyFlowReceiver
+    Set<Entry<K,V>> entrySet();
+    @PolyFlowReceiver
+    boolean equals(Object arg0);
+    @PolyFlowReceiver
+    int hashCode();
+}
+interface Map$Entry<K, V> {
+//Added by smillst
+@PolyFlowReceiver
+    K getKey();
+    @PolyFlowReceiver
+    V getValue();
+    @PolyFlowReceiver
+    V setValue(V arg0);
+    @PolyFlowReceiver
+    boolean equals(Object arg0);
+    @PolyFlowReceiver
+    int hashCode();
+}
+@PolyFlowReceiver
+interface Set<E> extends Collection<E> {
+    int size();
+    boolean isEmpty();
+    boolean contains(Object arg0);
+    Iterator<E> iterator();
+    Object[] toArray();
+    <T> T[] toArray(T[] arg0);
+    boolean add(E arg0);
+    boolean remove(Object arg0);
+    boolean containsAll(Collection<?> arg0);
+    boolean addAll(Collection<? extends E> arg0);
+    boolean retainAll(Collection<?> arg0);
+    boolean removeAll(Collection<?> arg0);
+    void clear();
+    boolean equals(Object arg0);
+    int hashCode();
+}
+
 
 
