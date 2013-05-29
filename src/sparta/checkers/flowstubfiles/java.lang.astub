@@ -439,3 +439,110 @@ class Math {
     static float ulp(float f);
 
 }
+
+
+// [append, toString, <init>, length, insert, indexOf, substring, setCharAt, setLength]
+class StringBuffer implements Serializable, Appendable, CharSequence {
+    // DAM
+    
+    @PolyFlowReceiver
+    StringBuffer    append(boolean b);
+    @PolyFlowReceiver
+    StringBuffer    append(char c);
+    @PolyFlowReceiver
+    StringBuffer    append(char[] str);
+    @PolyFlowReceiver
+    StringBuffer    append(char[] str, int offset, int len);
+    @PolyFlowReceiver
+    StringBuffer    append(CharSequence s);
+    @PolyFlowReceiver
+    StringBuffer    append(CharSequence s, int start, int end);
+    @PolyFlowReceiver
+    StringBuffer    append(double d);
+    @PolyFlowReceiver
+    StringBuffer    append(float f);
+    @PolyFlowReceiver
+    StringBuffer    append(int i);
+    @PolyFlowReceiver
+    StringBuffer    append(long lng);
+    @PolyFlowReceiver
+    StringBuffer    append(Object obj);
+    @PolyFlowReceiver
+    StringBuffer    append(String str);
+    @PolyFlowReceiver
+    StringBuffer    append(StringBuffer sb);
+    @PolyFlowReceiver
+    StringBuffer    appendCodePoint(int codePoint);
+    @PolyFlowReceiver
+    int capacity();
+    @PolyFlowReceiver
+    char    charAt(int index);
+    @PolyFlowReceiver
+    int codePointAt(int index);
+    @PolyFlowReceiver
+    int codePointBefore(int index);
+    @PolyFlowReceiver
+    int codePointCount(int beginIndex, int endIndex);
+    @PolyFlowReceiver
+    StringBuffer    delete(int start, int end);
+    @PolyFlowReceiver
+    StringBuffer    deleteCharAt(int index);
+    // TODO: Need polyflow on receiver and params with no return type.
+    void    ensureCapacity(int minimumCapacity);
+    // TODO: Need polyflow on receiver and params with no return type.
+    // Especially here since the data is being set in an out param.
+    void    getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin);
+    @PolyFlowReceiver
+    int indexOf(String str);
+    @PolyFlowReceiver
+    int indexOf(String str, int fromIndex);
+    @PolyFlowReceiver
+    StringBuffer    insert(int offset, boolean b);
+    @PolyFlowReceiver
+    StringBuffer    insert(int offset, char c);
+    @PolyFlowReceiver
+    StringBuffer    insert(int offset, char[] str);
+    @PolyFlowReceiver
+    StringBuffer    insert(int index, char[] str, int offset, int len);
+    @PolyFlowReceiver
+    StringBuffer    insert(int dstOffset, CharSequence s);
+    @PolyFlowReceiver
+    StringBuffer    insert(int dstOffset, CharSequence s, int start, int end);
+    @PolyFlowReceiver
+    StringBuffer    insert(int offset, double d);
+    @PolyFlowReceiver
+    StringBuffer    insert(int offset, float f);
+    @PolyFlowReceiver
+    StringBuffer    insert(int offset, int i);
+    @PolyFlowReceiver
+    StringBuffer    insert(int offset, long l);
+    @PolyFlowReceiver
+    StringBuffer    insert(int offset, Object obj);
+    @PolyFlowReceiver
+    StringBuffer    insert(int offset, String str);
+    @PolyFlowReceiver
+    int lastIndexOf(String str);
+    @PolyFlowReceiver
+    int lastIndexOf(String str, int fromIndex);
+    @PolyFlowReceiver
+    int length();
+    @PolyFlowReceiver
+    int offsetByCodePoints(int index, int codePointOffset);
+    @PolyFlowReceiver
+    StringBuffer    replace(int start, int end, String str);
+    @PolyFlowReceiver
+    StringBuffer    reverse();
+    // TODO: Need polyflow on receiver and params with no return type.
+    void    setCharAt(int index, char ch);
+    // TODO: Need polyflow on receiver and params with no return type.
+    void    setLength(int newLength);
+    @PolyFlowReceiver
+    CharSequence    subSequence(int start, int end);
+    @PolyFlowReceiver
+    String  substring(int start);
+    @PolyFlowReceiver
+    String  substring(int start, int end);
+    @PolyFlowReceiver
+    String  toString();
+    void    trimToSize();
+}
