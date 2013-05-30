@@ -13,6 +13,6 @@ class Bitmap {
 //Added by SOM
 //The CompressFormat is any enum value
 	 boolean compress(
-	          @Source(FlowPermission.ANY) @Sink({}) CompressFormat format, @Source(FlowPermission.ANY) @Sink({}) int quality, 
+	          CompressFormat format, int quality, 
 	          @PolySink @PolySource OutputStream stream) @PolySink @PolySource;
 }

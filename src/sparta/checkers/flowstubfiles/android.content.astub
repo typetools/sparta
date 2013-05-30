@@ -10,7 +10,7 @@ class ContentValues {
 
 
 class Context {
-	@Source(FlowPermission.FILESYSTEM) @Sink(FlowPermission.ANY) File getDir(@Source(FlowPermission.ANY) @Sink(FlowPermission.FILESYSTEM) String name, @Source(FlowPermission.ANY) @Sink(FlowPermission.CONDITIONAL) int mode);
+	@Source(FlowPermission.FILESYSTEM) File getDir( @Sink(FlowPermission.FILESYSTEM) String name,  @Sink(FlowPermission.CONDITIONAL) int mode);
 
 
  //Added by Carl Hartung
