@@ -110,23 +110,24 @@ package android.database.sqlite;
 
 class SQLiteDatabase {
 //Added by Philip
-    @Source(FlowPermission.SQLITE_DATABASE) @Sink(FlowPermission.ANY) int delete(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE);
+    @Source(FlowPermission.SQLITE_DATABASE) int delete(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY);
     void execSQL(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sql) @Source(FlowPermission.ANY) @Sink({});
-    @Source(FlowPermission.SQLITE_DATABASE) @Sink(FlowPermission.ANY) long insert(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String nullColumnHack, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values) @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE);
+    @Source(FlowPermission.SQLITE_DATABASE) long insert(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String nullColumnHack, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values) @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE);
+    @Source(FlowPermission.SQLITE_DATABASE) int update(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY);
 }
 
 
 class SQLiteOpenHelper {
 //Added by Philip
-    @Source(FlowPermission.SQLITE_DATABASE) @Sink(FlowPermission.ANY) SQLiteDatabase getReadableDatabase() @Source(FlowPermission.ANY) @Sink({});
-    @Source(FlowPermission.SQLITE_DATABASE) @Sink(FlowPermission.ANY) SQLiteDatabase getWritableDatabase() @Source(FlowPermission.ANY) @Sink({});
+    @Source(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getReadableDatabase() @Source(FlowPermission.ANY) @Sink({});
+    @Source(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getWritableDatabase() @Source(FlowPermission.ANY) @Sink({});
     @Source(FlowPermission.ANY) @Sink({}) SQLiteOpenHelper(@Source(FlowPermission.ANY) @Sink({}) Context context, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String name, @Source(FlowPermission.ANY) @Sink({}) CursorFactory factory, @Source(FlowPermission.ANY) @Sink({}) int version);
 }
 
 class SQLiteQueryBuilder {
 //Added by Philip
     void appendWhere(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) CharSequence inWhere) @Source(FlowPermission.ANY) @Sink({});
-    @Source(FlowPermission.SQLITE_DATABASE) @Sink({}) Cursor query(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) SQLiteDatabase db, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] projectionIn, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String selection, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] selectionArgs, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String groupBy, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String having, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sortOrder, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String limit) @Source(FlowPermission.ANY) @Sink({});
+    @Source(FlowPermission.SQLITE_DATABASE) Cursor query(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) SQLiteDatabase db, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] projectionIn, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String selection, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] selectionArgs, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String groupBy, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String having, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sortOrder, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String limit) @Source(FlowPermission.ANY) @Sink({});
     void setTables(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String inTables) @Source(FlowPermission.ANY) @Sink({});
-    @Source(FlowPermission.SQLITE_DATABASE) @Sink({}) SQLiteQueryBuilder();
+    @Source(FlowPermission.SQLITE_DATABASE) SQLiteQueryBuilder();
 }

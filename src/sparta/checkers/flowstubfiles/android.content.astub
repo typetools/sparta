@@ -1,7 +1,7 @@
 package android.content;
 
 class ContentProvider {
-    final @Source(FlowPermission.ANY) @Sink({}) Context getContext() @Source(FlowPermission.ANY) @Sink({});
+    final @Source(FlowPermission.ANY) Context getContext() @Source(FlowPermission.ANY);
 }
 
 class ContentUris {
@@ -127,7 +127,9 @@ abstract @Source(FlowPermission.FILESYSTEM) File getFileStreamPath(String name);
 }
 
 class UriMatcher {
+    void addURI(@PolySource @PolySink String authority, @PolySource @PolySink String path, @PolySource @PolySink int code) @PolySource @PolySink;
     @PolyFlow int match(Uri uri);
+    @Source(FlowPermission.ANY) UriMatcher(@Source(FlowPermission.LITERAL) @Sink({}) int code);
 }
 
 package android.content.res;
