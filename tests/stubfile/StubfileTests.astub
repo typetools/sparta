@@ -3,7 +3,6 @@ import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
 
-@FromBinary
 package stubfile;
 
  class ExampleApi {

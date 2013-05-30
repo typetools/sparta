@@ -1,21 +1,23 @@
 
 import sparta.checkers.quals.*;
+import checkers.quals.*;
+
 import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
-@FromBinary
+@FromByteCode
 class TestStubImplicitConstructor {
 }
-@FromBinary
+@FromByteCode
 class TestStubNoParamConstructor {
     }
 
-@FromBinary
+@FromByteCode
 class TestStubParamConstructor {
     
 }
 
-@FromBinary
+@FromByteCode
 class TestStubExplicitConstructorType {
     @Source(FlowPermission.INTERNET)
     TestStubExplicitConstructorType();
