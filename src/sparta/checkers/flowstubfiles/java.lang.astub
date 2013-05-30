@@ -442,7 +442,7 @@ class Math {
 
 
 // [append, toString, <init>, length, insert, indexOf, substring, setCharAt, setLength]
-class StringBuffer implements Serializable, Appendable, CharSequence {
+class StringBuffer implements Serializable, CharSequence {
     // DAM
    
     StringBuffer();
