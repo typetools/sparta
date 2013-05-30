@@ -9,6 +9,9 @@ class Camera {
 	void setParameters(@Sink(FlowPermission.CAMERA_SETTINGS) Parameters params);
 	void setPreviewDisplay(@Sink(FlowPermission.DISPLAY) SurfaceHolder holder);
 	void takePicture(ShutterCallback shutter, @Source(FlowPermission.CAMERA) PictureCallback raw, @Source(FlowPermission.CAMERA) @Sink({}) PictureCallback jpeg);
+    void startPreview();
+    void release();
+    void stopPreview();
 }
 
 interface Camera$PictureCallback {
