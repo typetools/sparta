@@ -12,7 +12,6 @@ import checkers.util.*;
 
 import com.sun.tools.javac.code.TypeAnnotationPosition;
 
-import sparta.checkers.quals.FromBinary;
 import sparta.checkers.quals.PolyFlowReceiver;
 import sparta.checkers.quals.PolyFlow;
 
@@ -20,6 +19,7 @@ import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
 
 import checkers.quals.DefaultLocation;
+import checkers.quals.FromByteCode;
 
 import checkers.quals.FromStubFile;
 import checkers.types.AnnotatedTypeMirror;
@@ -107,10 +107,10 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             	//Don't return because there might be a declaration annotation on the package/class
             	// if there is, then it should be applied.
             } 
-            if (this.getDeclAnnotation(iter,FromBinary.class) != null) {
+            if (this.getDeclAnnotation(iter,FromByteCode.class) != null) {
             	//Only apply these annotations if this method has not been marked as not reviewed. 
 				if (!reviewed) {
-					//All types are @Source(NOT_REVIEWED) @Sink(NOT_REVIEWED)
+//					//All types are @Source(NOT_REVIEWED) @Sink(NOT_REVIEWED)
 					new FlowDefaultApplier(element, DefaultLocation.RETURNS,type).scan(type, checker.NRSINK);
 					new FlowDefaultApplier(element, DefaultLocation.RETURNS,type).scan(type, checker.NRSOURCE);
 					
