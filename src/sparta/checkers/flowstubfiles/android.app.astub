@@ -103,3 +103,36 @@ AlertDialog.Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener
 // AlertDialog.Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener);
 // AlertDialog.Builder setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
 }
+
+class ProgressDialog {
+
+static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message);
+static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message, boolean indeterminate, boolean cancelable);
+static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message, boolean indeterminate, boolean cancelable, DialogInterface.OnCancelListener cancelListener);
+static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message, boolean indeterminate);
+void setMessage(@Sink(FlowPermission.DISPLAY) CharSequence message);
+void setProgress(@Sink(FlowPermission.DISPLAY) int value);
+void setMax(@Sink(FlowPermission.DISPLAY) int max);
+void setProgressStyle(int style);
+
+
+// UNUSED AND UNANNOTATED
+// int getMax();
+// int getProgress();
+// int getSecondaryProgress();
+// void incrementProgressBy(int diff);
+// void incrementSecondaryProgressBy(int diff);
+// boolean isIndeterminate();
+// void onStart();
+// Called when the dialog is starting.
+// void setIndeterminate(boolean indeterminate);
+// void setIndeterminateDrawable(Drawable d);
+// void setProgressDrawable(Drawable d);
+// void setProgressNumberFormat(String format);
+// Change the format of the small text showing current and maximum units of progress.
+// void setProgressPercentFormat(NumberFormat format);
+// Change the format of the small text showing the percentage of progress.
+// void setSecondaryProgress(int secondaryProgress);
+
+}
+
