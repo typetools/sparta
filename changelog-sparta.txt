@@ -2,6 +2,7 @@ Version 0.9.2 1 June 2013
 
 Major Refactoring
    We did the following renamings: 
+      ant target flow-test is now check-flow
       @FlowSources -> @Sources
       @FlowSinks -> @Sinks
       @PolyFlowSinks -> @PolySinks

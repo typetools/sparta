@@ -24,7 +24,7 @@ Machine Name:sparta-VirtualBox
     Note: The process applied to sparta-subjects is the same process outlined in the manual.pdf section 3.  You can descend into the individual projects and use the commands outlined in section 3.
     E.g.:
         cd ~/Document/sparta/sparta-subjects/Sky
-        ant flowchecker
+        ant check-flow
     
     or
     

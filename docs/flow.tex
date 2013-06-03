@@ -254,9 +254,9 @@ command line pass it the option:
 -AflowPolicy=\emph{mypolicyfile}
 \end{alltt}
 
-Or if you are using the \<flowchecker> ant targets, you can pass the option to ant:
+Or if you are using the \<check-flow> ant targets, you can pass the option to ant:
 \begin{alltt}
-ant -DflowPolicy=\emph{mypolicyfile} flowchecker
+ant -DflowPolicy=\emph{mypolicyfile} check-flow
 \end{alltt}
 
 
@@ -477,7 +477,7 @@ type, all parameters types and the receiver type.
 \section{Stricter tests\label{sec:stricter}}
 
 By default, the flow checker is unsound.  After getting the basic checks to pass, the
- stricter checks should be enabled, by running \<ant -Dsound=true flowchecker>.
+ stricter checks should be enabled, by running \<ant -Dsound=true check-flow>.
 This two-phase approach was chosen to reduce
 the annotation effortand to give two separate phases of
 the annotation effort.

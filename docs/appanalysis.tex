@@ -30,7 +30,7 @@ More specifically, the recommended workflow is:
 % \item ant reportsuspicious (also runs sparta-code/suspicious.pl)
 % \item ant reqperms
 % \item ant reportapiusage
-% \item ant flowchecker
+% \item ant check-flow
 % \end{enumerate}
 % 
 % \noindent 
@@ -312,10 +312,10 @@ The stub files can include any third-party library that is not compiled
 along with your application.  You can add a new \<.astub> file to the
 \<flowstubfiles/> directory.
 Alternately, you can put a new \<.astub> file elsewhere and then pass this
-file to the \<ant flowchecker> target:
+file to the \<ant check-flow> target:
 
 \begin{alltt}
-ant -Dstubs=\emph{path/myAnnoLib.astub} flowchecker
+ant -Dstubs=\emph{path/myAnnoLib.astub} check-flow
 \end{alltt}
 
 Here is an example from a stub file:
@@ -444,7 +444,7 @@ type-checking (\secref{sec:run-type-checker}).
 Run
 
 \begin{Verbatim}
-  ant flowchecker
+  ant check-flow
 \end{Verbatim}
 
 Eliminate each warning in one of two ways.
@@ -473,7 +473,7 @@ assert that it's OK to send this string to the network.
 
 \end{enumerate}
 
-After you have corrected some of the errors, re-run \<ant flowchecker>.
+After you have corrected some of the errors, re-run \<ant check-flow>.
 Repeat the process until there are no more errors, or until you find bad
 code (malicious, or buggy and prone to abuse).
 
@@ -483,7 +483,7 @@ code (malicious, or buggy and prone to abuse).
 Once all warnings were resolved, run 
 
 \begin{Verbatim}
-  ant -Dsound=true flowchecker
+  ant -Dsound=true check-flow
 \end{Verbatim}
 
 \noindent
@@ -502,7 +502,7 @@ This option will also use the stricter conditional rule. (LITERAL
 %%% TeX-command-default: "PDF"
 %%% End: 
 
-%  LocalWords:  App xml env basename sparta dir app flowchecker Dstrict SDK
+%  LocalWords:  App xml env basename sparta dir app check-flow Dstrict SDK
 %  LocalWords:  reportsuspicious reqperms reportapiusage buildfile dirname
 %  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
 %  LocalWords:  RequiredPermissions Source Sink apiusage Dstubs
