@@ -19,7 +19,7 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 
 
 /* Data classes that contain the information that will
@@ -278,8 +278,8 @@ public abstract class JsonJavac {
 
     public static abstract class JsonPrint extends JsonJavac {
         protected void print(List<Data> datas) {
-            Gson gson = new Gson();
-            String json = gson.toJson(datas);
+            //Gson gson = new Gson();
+            String json = datas.toString();
             System.out.println(json);
         }
     }
