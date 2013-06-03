@@ -154,12 +154,17 @@ Add the SPARTA build targets to the end of the \<build.xml>
 
 
 \begin{Verbatim}
-<property environment="env"/>
-<dirname property="checkers_dir" file="\$\{env.CHECKERS\}"/>
-<basename property="checkers_base" file="\$\{env.CHECKERS\}"/>
-<dirname property="sparta-code_dir" file="\$\{env.SPARTA_CODE\}"/>
-<basename property="sparta-code_base" file="\$\{env.SPARTA_CODE\}"/>
-<import file="\$\{sparta-code_dir\}/\$\{sparta-code_base\}/build.include.xml" optional="true"/>
+<property name="checkers" value="${env.CHECKERS}"/>
+<property name="sparta-code" value="${env.SPARTA_CODE}"/>
+	
+ <dirname property="checkers_dir" file="${checkers}" />
+<basename property="checkers_base" file="${checkers}" />
+<dirname property="sparta-code_dir" file="${sparta-code}" />
+<basename property="sparta-code_base" file="${sparta-code}" />
+<import file="${sparta-code_dir}/${sparta-code_base}/build.include.xml" />
+<property name="flowPolicy" value="flow-policy"/>
+<target name="all-tests" depends="check-flow,flowshow,reqperms" description="Run check-flow, flowshow, and reqperms"/>
+
 \end{Verbatim}
 
 \end{enumerate}
