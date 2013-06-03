@@ -56,7 +56,10 @@ cp website/release/index.html ../
 cd $RELEASE
 
 ant -buildfile sparta-code/release-cleanup.xml clean -DspartaDir=sparta-code
+# Verify required directory to run the build script from
 rm sparta-code/release-cleanup.xml
+rm sparta-code/developer-docs
+# Had to remove this manually (does the cleanup need to be done from the sparta-code directory?) ./sparta-code2/docs/bib/.hg
 tar -czf sparta-code-X.X.X.tgz sparta-code/
 
 //Prepare sparta-subjects
@@ -64,10 +67,11 @@ cd $RELEASE
 hg clone https://dada.cs.washington.edu/hgweb/sparta-subjects
 
 ant -buildfile sparta-subjects/release-cleanup.xml clean -DsubjectsDir=sparta-subjects
+# Verify required directory to run the build script from
 rm sparta-subjects/release-cleanup.xml
 tar -czf sparta-subjects-X.X.X.tgz sparta-subjects/
 
-
+# Old instructions (but some still used..)
 To make a release:
  * update build.properties with the new version number
    and the version number of the Checker Framework
@@ -79,7 +83,6 @@ hg tag sparta-X.X.X
 Move sparta.jar, manual.html, manual.pdf out of the dir
 
 Clean up the dir:
-
 
  * copy to /cse/www2/types/sparta/release/vX.X.X (renaming to add version numbers):
     docs/manual.html
