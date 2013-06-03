@@ -3,11 +3,11 @@ Version 0.9.2 1 June 2013
 Major Refactoring
    We did the following renamings: 
       ant target flow-test is now check-flow
-      @FlowSources -> @Sources
-      @FlowSinks -> @Sinks
-      @PolyFlowSinks -> @PolySinks
-      @PolyFlowSources -> @PolySources
-   Also, merged the FlowSource and FlowSink enums into SpartaPermission
+      @FlowSources -> @Source
+      @FlowSinks -> @Sink
+      @PolyFlowSinks -> @PolySink
+      @PolyFlowSources -> @PolySource
+   Also, merged the FlowSource and FlowSink enums into FlowPermission
    all of the constants in the new enum are named to match Android 
    permissions.  This means that some of the old sources and sinks no 
    longer exist.  You can find a mapping from old to new in comments in
