@@ -108,6 +108,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
       
         return super.visitForLoop(node, p);
     }
+    
     @Override
     public Void visitAnnotation(AnnotationTree node, Void p) {
         List<? extends ExpressionTree> args = node.getArguments();
@@ -125,36 +126,37 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         }
         return super.visitAnnotation(node, p);
     }
-/**
- * Check the return type  of an invoked method for forbidden flows in case it
- * is from a stub file.  (Methods in stub files are never validated.
- */
-	@Override
-	protected void checkMethodInvocability(AnnotatedExecutableType method,
-			MethodInvocationTree node) {
-		AnnotatedTypeMirror returnType = method.getReturnType();
-		if (!(returnType instanceof AnnotatedNoType)) {
-			warnForbiddenFlows(returnType, node);
-		}
-		super.checkMethodInvocability(method, node);
+    
+    /**
+     * Check the return type of an invoked method for forbidden 
+     * flows in case the method was annotated in a stub file. 
+     */
+    @Override
+    protected void checkMethodInvocability(AnnotatedExecutableType method,
+            MethodInvocationTree node) {
+        AnnotatedTypeMirror returnType = method.getReturnType();
+        if (!(returnType instanceof AnnotatedNoType)) {
+            warnForbiddenFlows(returnType, node);
+        }
+        super.checkMethodInvocability(method, node);
 
-	}
+    }
 
-	private boolean warnForbiddenFlows(final AnnotatedTypeMirror type,
-			final Tree tree) {
+    private boolean warnForbiddenFlows(final AnnotatedTypeMirror type,
+            final Tree tree) {
 
-		if (!areFlowsValid(type)) {
-			StringBuffer buf = new StringBuffer();
-			for (Flow flow : checker.getFlowPolicy().forbiddenFlows(type)) {
-				buf.append(flow.toString() + "\n");
-			}
-			checker.report(
-					Result.failure("forbidden.flow", type.toString(),
-							buf.toString()), tree);
-			return false;
-		}
-		return true;
-	}
+        if (!areFlowsValid(type)) {
+            StringBuffer buf = new StringBuffer();
+            for (Flow flow : checker.getFlowPolicy().forbiddenFlows(type)) {
+                buf.append(flow.toString() + "\n");
+            }
+            checker.report(
+                    Result.failure("forbidden.flow", type.toString(),
+                            buf.toString()), tree);
+            return false;
+        }
+        return true;
+    }
 
     private boolean areFlowsValid(final AnnotatedTypeMirror atm) {
         final FlowPolicy flowPolicy = checker.getFlowPolicy();
