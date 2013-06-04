@@ -148,12 +148,25 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- This creates sparta.jar -->
-    <target name="jar" depends="build"
+    <target name="jar" depends="build,validate-stubfiles"
             description="Create jar file">
         <delete dir="${build.reports}"/>
         <jar destfile="${sparta.jar.file}" basedir="${build}"/>
     </target>
 
+    <target name="validate-stubfiles" depends="build" description="Show stubfile errors">
+        <java fork="true"
+            jar="${checkers.lib}"
+            failonerror="true" >
+            <arg line="-cp ${build}:${android.jar}" />
+            <arg value="-g"/>
+            <arg line="-d ${build}"/>
+            <arg line="-AstubWarnIfNotFound"/>
+            <arg line="-processor sparta.checkers.FlowChecker" /> 
+            <!-- Arbitrary file to compile. -->
+            <arg line="${src}/sparta/checkers/quals/ConservativeFlow.java" />
+        </java>
+    </target>
 
     <target name="build-tests" depends="prep" description="Compile tests">
         <fail unless="compiler.exists"
