@@ -8,15 +8,14 @@ class Camera {
 	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
 	void setParameters(@Sink(FlowPermission.CAMERA_SETTINGS) Parameters params);
 	void setPreviewDisplay(@Sink(FlowPermission.DISPLAY) SurfaceHolder holder);
-	void takePicture(ShutterCallback shutter, @Source(FlowPermission.CAMERA) PictureCallback raw, @Source(FlowPermission.CAMERA) @Sink({}) PictureCallback jpeg);
+	void takePicture(ShutterCallback shutter, @Source(FlowPermission.CAMERA) PictureCallback raw, @Source(FlowPermission.CAMERA) PictureCallback jpeg);
     void startPreview();
     void release();
     void stopPreview();
 }
-
 interface Camera$PictureCallback {
-    //SOM
-    void onPictureTaken(@Source(FlowPermission.CAMERA)  byte @Source(FlowPermission.CAMERA)  [] data, @Source(FlowPermission.CAMERA) Camera camera);
+    void onPictureTaken(@Source(FlowPermission.CAMERA) byte @Source(FlowPermission.CAMERA) [] arg0, @Source(FlowPermission.CAMERA) Camera arg1);
 }
+
 
 

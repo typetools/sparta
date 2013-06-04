@@ -5,8 +5,8 @@ class BitmapFactory {
 //Added by SOM
 	@PolySource @PolySink Bitmap decodeByteArray(
 	                                @PolySource @PolySink byte @PolySource @PolySink [] data, 
-	                                @Source(FlowPermission.ANY) @Sink({}) int offset,  
-	                                @Source(FlowPermission.ANY) @Sink({}) int length);
+	                                 int offset,  
+	                                 int length);
 }
 
 class Bitmap {
