@@ -363,22 +363,22 @@ annotate the code so that an error or warning does not occur.  Most
 programs should not suppress warnings.
 
 
-\section{Annotating Java and Android API methods in stub files\label{sec:apispecs}}
+\section{Annotating methods in stub files\label{sec:apispecs}}
 
-Annotations for both Java and Android API methods are found in the stub files in sparta-code/src/sparta/
-checkers/flowstubfiles. 
+Annotations for API methods are found in the stub files in sparta-code/src/sparta/checkers/flowstubfiles.
 For details, see section~\ref{flow-task-annotate-apis} of this manual, and also 
 chapter
 ``\ahref{\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}}{Annotating
   Libraries}'' in the Checker Framework Manual.  
  The methods that are annotated in stub files are defaulted the same way as methods written in apps, including flow policy inference.  (See the defaulting section, section ~\ref{flow-defaults}.) 
 
-Return, receiver, and parameter types of API methods not written in the stub file are defaulted to \<@Sources(NOT\_REVIEWED) @Sinks(NOT\_REVIEWED)>.  This way if one of theses methods is used, a type error will occur and alert the user to review and annotate the method.  (The FlowPermission \<NOT\_REVIEWED> is not allowed in a policy files.)
-
-If a class is annotated with a declaration annotation other than \<@NotReviewed>  then all methods in that class including those not written in the stub file are considered reviewed and to have that declaration annotation.  
-
-Note, if you would like similar behavior for APIs other than Java and Android, then you should annotate the top level package(s) with \<@NotReviewed>  in the stub file(s) for those APIs.
-
+Any method not written in the stub files or found in source code is not defaulted normally. 
+ Instead, their return, receiver, and parameter types are annotated with \<@Sources(NOT\_REVIEWED)> 
+ \<@Sinks(NOT\_REVIEWED)>.  The FlowPermission \<NOT\_REVIEWED> is not allowed 
+ in a policy file and in no subtype relation.  This way, if such an API method is used, a type error
+  will occur and alert the user to review and annotate the method.  (Note, \<@Sources(NOT\_REVIEWED)> 
+  \<@Sinks(NOT\_REVIEWED)> is only added to the top-level return, parameter, or receiver type and does not
+   include type parameters, element array types, etc.)
 
 \section{Qualifier polymorphism: @PolySource  and @PolySink \label{sec:polyflowsources}}
 
@@ -400,34 +400,33 @@ See section ``\ahref{http://types.cs.washington.edu/checker-framework/current/ch
 \todo{these have known soundness issues and with Stuart we're working on fixing them.}
 
 
-\section{Additional Annotations\label{sec:addtionalanno}}
+\section{Declaration Annotations to Specify Defaulting\label{sec:addtionalanno}}
 
-Three additional declaration annotations can be used to annotate APIs:
-\<@PolyFlow>,  \<@PolyFlowReceiver>, and \<@NotReviewed>. 
-They change the default annotations (\secref{flow-defaults}). The declaration annotations can 
-be used on any declaration: a method, a class, or even a whole package.
+The Flow Checker has additional declaration annotations that are shorthand for common 
+annotation patterns on method signatures.   They override the usual defaulting of method declarations.
 
 \subsection{@PolyFlow\label{sec:polyflow}}
 
-Annotation \<@PolyFlow> expresses that each contained method should be
-annotated as \<@PolySource @PolySink> for both the return
-types and all parameters.  It should be used to express a relationship between the parameters 
-and the return types.
+Annotation \<@PolyFlow> expresses that each contained method should be annotated as \<@PolySource> 
+\<@PolySink> for both the return types and all parameters. It should be used to express a relationship 
+between the parameters and the return types.
+
 
 \subsection{@PolyFlowReceiver\label{sec:polyflowreceiver}}
 
-Annotation \<@PolyFlowReceiver> expresses that each contained method should be
-annotated as \<@PolySource @PolySink> for  the return
-type, all parameters types and the receiver type.  
+Annotation \<@PolyFlowReceiver> expresses that each contained method should be annotated as \<@PolySource> \<@PolySink> for the return type, all parameters types and the receiver type.
 
-\subsection{@NotReviewed\label{sec:notreviewed}}
+\subsection{Declaration Annotations in Stub Files\label{sec:declannosstubfiles}}
+If \<@PolyFlow> or \<@PolyFlowReceiver> is written on a class or package, then the annotation applies
+ to all contained methods or classes unless those classes or methods are annotated with another 
+ declaration annotation.   
 
-\<@NotReviewed> is a declaration annotation used in stub files on classes or packages. It means that  if
- a method is not written in a stub file and it is in a class or package annotated with \<@NotReviewed>, then 
- use of that method should cause a type error.  If a method is written in a stub file and it is in a class or 
- package annotated with \<@NotReviewed>, then that method will be defaulted as usual.   This annotation
-  is the same as annotating the return, parameter and receiver types of a method with 
-  \<@Source(NOT\_REVIEWED) @Sink(NOT\_REVIEWED)>.
+This change of defaulting happens to library methods that are not written in stub files.  For example, the class
+ Integer as been annotated with  \<@PolyFlowReceiver>, but the toString method is not listed in the stub file.  
+ This method is inferred to be annotated with  \<@PolyFlowReceiver> and therefore its use will not result in a 
+ type error  involving the \<NOT\_REVIEWED> FlowPermission. 
+ 
+
 
 
 
