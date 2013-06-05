@@ -113,35 +113,35 @@ class SQLiteDatabase {
     @Source(FlowPermission.SQLITE_DATABASE) int delete(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY);
     void execSQL(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sql) @Source(FlowPermission.ANY) @Sink({});
     @Source(FlowPermission.SQLITE_DATABASE) long insert(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String nullColumnHack, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values) @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE);
-    @Source(FlowPermission.SQLITE_DATABASE) int update(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY);
+    @Source(FlowPermission.SQLITE_DATABASE) int update(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.SQLITE_DATABASE);
 
 
-void endTransaction();
-//End a transaction.
-
-@Source(FlowPermission.SQLITE_DATABASE) int update(@Sink(FlowPermission.SQLITE_DATABASE) String table, @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values, @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Sink(FlowPermission.SQLITE_DATABASE) String[] whereArgs);
-//Convenience method for updating rows in the database.
-
-void setTransactionSuccessful();
-//Marks the current transaction as successful.
-
-void beginTransaction();
-//Begins a transaction in EXCLUSIVE mode.
-
-@Source(FlowPermission.SQLITE_DATABASE) Cursor rawQuery(@Sink(FlowPermission.SQLITE_DATABASE) String sql, @Sink(FlowPermission.SQLITE_DATABASE) String[] selectionArgs, @Sink(FlowPermission.SQLITE_DATABASE) CancellationSignal cancellationSignal);
-//Runs the provided SQL and returns a Cursor over the result set.
-
-SQLiteStatement compileStatement(@Sink(FlowPermission.SQLITE_DATABASE) String sql);
-//Compiles an SQL statement into a reusable pre-compiled statement object.
-
-boolean isOpen();
-//Returns true if the database is currently open.
-
-static SQLiteDatabase openDatabase(String path, SQLiteDatabase.CursorFactory factory, int flags, DatabaseErrorHandler errorHandler);
-//Open the database according to the flags OPEN_READWRITE OPEN_READONLY CREATE_IF_NECESSARY and/or NO_LOCALIZED_COLLATORS.
-
-static SQLiteDatabase openDatabase(String path, SQLiteDatabase.CursorFactory factory, int flags);
-//Open the database according to the flags OPEN_READWRITE OPEN_READONLY CREATE_IF_NECESSARY and/or NO_LOCALIZED_COLLATORS.
+    void endTransaction();
+    //End a transaction.
+    
+    //@Source(FlowPermission.SQLITE_DATABASE) int update(@Sink(FlowPermission.SQLITE_DATABASE) String table, @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values, @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Sink(FlowPermission.SQLITE_DATABASE) String[] whereArgs);
+    //Convenience method for updating rows in the database.
+    
+    void setTransactionSuccessful();
+    //Marks the current transaction as successful.
+    
+    void beginTransaction();
+    //Begins a transaction in EXCLUSIVE mode.
+    
+    @Source(FlowPermission.SQLITE_DATABASE) Cursor rawQuery(@Sink(FlowPermission.SQLITE_DATABASE) String sql, @Sink(FlowPermission.SQLITE_DATABASE) String[] selectionArgs, @Sink(FlowPermission.SQLITE_DATABASE) CancellationSignal cancellationSignal);
+    //Runs the provided SQL and returns a Cursor over the result set.
+    
+    SQLiteStatement compileStatement(@Sink(FlowPermission.SQLITE_DATABASE) String sql);
+    //Compiles an SQL statement into a reusable pre-compiled statement object.
+    
+    boolean isOpen();
+    //Returns true if the database is currently open.
+    
+    static SQLiteDatabase openDatabase(String path, SQLiteDatabase.CursorFactory factory, int flags, DatabaseErrorHandler errorHandler);
+    //Open the database according to the flags OPEN_READWRITE OPEN_READONLY CREATE_IF_NECESSARY and/or NO_LOCALIZED_COLLATORS.
+    
+    static SQLiteDatabase openDatabase(String path, SQLiteDatabase.CursorFactory factory, int flags);
+    //Open the database according to the flags OPEN_READWRITE OPEN_READONLY CREATE_IF_NECESSARY and/or NO_LOCALIZED_COLLATORS.
 
 }
 

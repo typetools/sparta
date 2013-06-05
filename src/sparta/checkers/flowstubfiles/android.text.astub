@@ -1,0 +1,5 @@
+package android.text;
+
+class TextUtils {
+    @PolyFlow boolean isEmpty(CharSequence str);
+}

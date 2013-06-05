@@ -110,6 +110,7 @@ interface Iterator<E> {
 
 
 interface List<E extends @Sink({}) @Source(FlowPermission.ANY) Object> {
+    @PolyFlowReceiver
     int size();
     boolean isEmpty();
     @PolyFlowReceiver
