@@ -2,11 +2,13 @@
 <classpath>
 	<classpathentry combineaccessrules="false" kind="src" path="/jsr308-langtools"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tests/stubfile"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/checkers"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="/checkers/tests/junit-4.7.jar"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="tests/stubfile/stub.jar"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="lib/google-gson-2.2.2/gson-2.2.2-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/google-gson-2.2.2/gson-2.2.2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/google-gson-2.2.2/gson-2.2.2.jar"/>
