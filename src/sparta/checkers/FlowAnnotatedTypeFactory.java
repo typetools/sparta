@@ -22,6 +22,7 @@ import com.sun.source.tree.Tree;
 
 import checkers.quals.DefaultLocation;
 import checkers.types.AnnotatedTypeMirror;
+import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.types.BasicAnnotatedTypeFactory;
 import checkers.util.QualifierDefaults.DefaultApplier;
 
@@ -164,7 +165,6 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
             boolean isLocal = (element == null || element.getKind() == ElementKind.LOCAL_VARIABLE );
 
-
             if( !isLocal /*&& element != null*/ &&
                 (element.getKind() == ElementKind.METHOD || element.getKind() == ElementKind.CONSTRUCTOR) &&
                 type.getKind() == TypeKind.EXECUTABLE ) {
@@ -176,7 +176,16 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 completePolicyFlows( false, exeType.getReturnType()   );
                 completePolicyFlows(false,  exeType.getReceiverType() );
 
-            } else {
+            
+            }else {
+            	if(type instanceof AnnotatedTypeMirror.AnnotatedDeclaredType){
+            		AnnotatedDeclaredType dec = ((AnnotatedTypeMirror.AnnotatedDeclaredType)type);
+            		if(dec.isGeneric()){
+            			for ( final AnnotatedTypeMirror atm :dec.getTypeArguments()) {
+                            completePolicyFlows(false, atm);
+                        }
+            		}
+            	}
                 completePolicyFlows(isLocal, type);
             }
         }
