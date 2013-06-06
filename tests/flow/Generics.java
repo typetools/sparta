@@ -17,6 +17,8 @@ class List<T extends @Sink(FlowPermission.CONDITIONAL) @Source(FlowPermission.AN
 class Generics {
     List<Object> lo = new List<Object>();
     List<@Source(FlowPermission.INTERNET) Object> netok = new List<@Source(FlowPermission.INTERNET) Object>();
+    List<@Source(FlowPermission.INTERNET) Object> netok2 = foo();
+    
     //:: error: (assignment.type.incompatible)
     List<@Source(FlowPermission.INTERNET) Object> neterr = new List<Object>();
 
@@ -25,5 +27,9 @@ class Generics {
         neto = netok.get(4);
         //:: error: (assignment.type.incompatible)
         o = netok.get(4);
+    }
+    
+    List<@Source(FlowPermission.INTERNET) Object> foo() {
+    	return new List<@Source(FlowPermission.INTERNET) Object>();
     }
 }
