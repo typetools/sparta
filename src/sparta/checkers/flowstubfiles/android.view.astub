@@ -19,12 +19,6 @@ class SurfaceHolder{
 
 }
 
-interface SurfaceHolder$Callback {
-    void surfaceCreated(SurfaceHolder arg0);
-    void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3);
-    void surfaceDestroyed(SurfaceHolder arg0);
-}
-
 package android.view;
 
 class View {

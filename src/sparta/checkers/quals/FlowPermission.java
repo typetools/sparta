@@ -19,12 +19,8 @@ package sparta.checkers.quals;
  */
 public enum FlowPermission {
 
-/**
- * This is a special constant used to force a type error
- * for API methods that have not been reviewed.  It should
- * not appear in policy files
- */
-	NOT_REVIEWED(T.BOTH),
+
+
     /**
      * This special constant is shorthand for all sources, that is, the
      * data can come from any possible source.

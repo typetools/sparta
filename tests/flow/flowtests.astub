@@ -1,25 +1,33 @@
 
 import sparta.checkers.quals.*;
-import checkers.quals.*;
-
 import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
-@FromByteCode
+@ConservativeFlow
 class TestStubImplicitConstructor {
 }
-@FromByteCode
-class TestStubNoParamConstructor {
-    }
 
-@FromByteCode
-class TestStubParamConstructor {
+class TestStubNoParamConstructor {
+    @ConservativeFlow
+    TestStubNoParamConstructor();
     
+    @ConservativeFlow
+    static void stubSanity(String fail);
 }
 
-@FromByteCode
+@ConservativeFlow
+class TestStubParamConstructor {
+    
+    TestStubParamConstructor(String name);
+    
+    static void stubSanity(String fail);
+}
+
 class TestStubExplicitConstructorType {
     @Source(FlowPermission.INTERNET)
     TestStubExplicitConstructorType();
+    
+    @ConservativeFlow
+    static void stubSanity(String fail);
     
 }

@@ -1,5 +1,6 @@
 import sparta.checkers.quals.*;
-import static sparta.checkers.quals.FlowPermission.*;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.FlowPermission;
 
 class ListTest {
     // Simple test to ensure that defaulting on java.util.List works correctly.
@@ -8,24 +9,21 @@ class ListTest {
 }
 
 
-class FlowList<T extends @Sink(CONDITIONAL) @Source(ANY) Object> {
-    
-    T getF( @Source(ANY) FlowList<T> this, int index) { return null; }
-    void addF(T p) {}
+class List<T extends @Sink(FlowPermission.CONDITIONAL) @Source(FlowPermission.ANY) Object> {
+    T get( @Source(FlowPermission.ANY) List<T> this, int index) { return null; }
+    void add(T p) {}
 }
 
 class Generics {
-    FlowList<Object> lo = new FlowList<Object>();
-    FlowList<@Source(INTERNET) Object> netok = new FlowList<@Source(INTERNET) Object>();
+    List<Object> lo = new List<Object>();
+    List<@Source(FlowPermission.INTERNET) Object> netok = new List<@Source(FlowPermission.INTERNET) Object>();
     //:: error: (assignment.type.incompatible)
-    FlowList<@Source(INTERNET) Object> neterr = new FlowList<Object>();
-    void use(Object o, @Source(INTERNET) Object neto) {
+    List<@Source(FlowPermission.INTERNET) Object> neterr = new List<Object>();
 
-        netok.addF(neto);
-        neto = netok.getF(4);
+    void use(Object o, @Source(FlowPermission.INTERNET) Object neto) {
+        netok.add(neto);
+        neto = netok.get(4);
         //:: error: (assignment.type.incompatible)
-        o = netok.getF(4);
+        o = netok.get(4);
     }
-    
- 
 }

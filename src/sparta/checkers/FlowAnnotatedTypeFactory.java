@@ -9,26 +9,24 @@ import javax.lang.model.util.Elements;
 
 import checkers.types.AnnotatedTypeFactory;
 import checkers.util.*;
-
 import com.sun.tools.javac.code.TypeAnnotationPosition;
-
+import sparta.checkers.quals.ConservativeFlow;
 import sparta.checkers.quals.PolyFlowReceiver;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
+import sparta.checkers.quals.DefaultFlow;
 import sparta.checkers.quals.PolyFlow;
 
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
 
 import checkers.quals.DefaultLocation;
-import checkers.quals.FromByteCode;
-
-import checkers.quals.FromStubFile;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.types.BasicAnnotatedTypeFactory;
 import checkers.util.QualifierDefaults.DefaultApplier;
 
 import java.util.*;
-
 import  sparta.checkers.quals.FlowPermission;
 
 import static checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
@@ -37,9 +35,7 @@ import static checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 
 public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChecker> {
 
-   
-
-	public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
+    public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
         super(checker, root);
 
         // Use the bottom type as default for everything but local variables.
@@ -73,12 +69,12 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.FROMLITERALFLOWSINK);
-     
+
+
         postInit();
     }
 
-
-	@Override
+    @Override
     protected QualifierDefaults createQualifierDefaults() {
         return new FlowCompletingDefaults(elements, this);
     }
@@ -98,31 +94,22 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
     protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
         Element iter = element;
-        boolean reviewed = false;
-        
         while (iter != null) {
+            if (this.getDeclAnnotation(iter, DefaultFlow.class) != null) {
+                // Use LITERAL->?  the return type.
+                new FlowDefaultApplier(element, DefaultLocation.OTHERWISE, type).scan(type, checker.LITERALFLOWSOURCE);
+                new FlowDefaultApplier(element, DefaultLocation.OTHERWISE, type).scan(type, checker.FROMLITERALFLOWSINK);
 
-            if (this.getDeclAnnotation(iter, FromStubFile.class) != null ) {
-            	//If a method is from a stub file, it is considered reviewed.
-            	reviewed = true;
-            	//Don't return because there might be a declaration annotation on the package/class
-            	// if there is, then it should be applied.
-            } 
-            if (this.getDeclAnnotation(iter,FromByteCode.class) != null) {
-            	//Only apply these annotations if this method has not been marked as not reviewed. 
-				if (!reviewed) {
-//					//All types are @Source(NOT_REVIEWED) @Sink(NOT_REVIEWED)
-					new FlowDefaultApplier(element, DefaultLocation.RETURNS,type).scan(type, checker.NRSINK);
-					new FlowDefaultApplier(element, DefaultLocation.RETURNS,type).scan(type, checker.NRSOURCE);
-					
-					new FlowDefaultApplier(element, DefaultLocation.PARAMETERS,type).scan(type, checker.NRSINK);
-					new FlowDefaultApplier(element, DefaultLocation.PARAMETERS,type).scan(type, checker.NRSOURCE);
-					
-					new FlowDefaultApplier(element, DefaultLocation.RECEIVERS,type).scan(type, checker.NRSINK);
-					new FlowDefaultApplier(element, DefaultLocation.RECEIVERS,type).scan(type, checker.NRSOURCE);
-				}
 
-				return;
+                return;
+
+            } else if (this.getDeclAnnotation(iter, ConservativeFlow.class) != null) {
+                // Use the top types for return types
+                new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.ANYFLOWSOURCES);
+                // Use the bottom types for parameter types
+                new FlowDefaultApplier(element, DefaultLocation.PARAMETERS, type).scan(type, checker.ANYFLOWSINKS);
+
+                return;
 
             } else if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
                 // Use poly flow sources and sinks for return types .

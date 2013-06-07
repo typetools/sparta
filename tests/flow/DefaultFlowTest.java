@@ -2,20 +2,20 @@ import checkers.quals.PolyAll;
 
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import sparta.checkers.quals.FlowPermission;
 
 class DefaultFlowTest {
-	@Source({INTERNET,LITERAL}) int source = 1;
-        @Sink(INTERNET) int sink = 2;
-	@Source({INTERNET,LITERAL}) @Sink(INTERNET) int sourceSink = 3;
+	@Source({FlowPermission.INTERNET,FlowPermission.LITERAL}) int source = 1;
+        @Sink(FlowPermission.INTERNET) int sink = 2;
+	@Source({FlowPermission.INTERNET,FlowPermission.LITERAL}) @Sink(FlowPermission.INTERNET) int sourceSink = 3;
 	int none = 4;
 	
-	@Source(INTERNET) TestClass classSource;
-	@Sink(INTERNET) TestClass classSink;
-	@Source(INTERNET) @Sink(INTERNET) TestClass classSourceSink;
+	@Source(FlowPermission.INTERNET) TestClass classSource;
+	@Sink(FlowPermission.INTERNET) TestClass classSink;
+	@Source(FlowPermission.INTERNET) @Sink(FlowPermission.INTERNET) TestClass classSourceSink;
 	TestClass classNone;
 	
-	
+	@DefaultFlow
 	int testMethod(int input) {
 		return 0;
 	}
@@ -77,7 +77,7 @@ class DefaultFlowTest {
 
 }
 
-
+@DefaultFlow
 class TestClass {
 	int testClassMethod(@PolySource @PolySink TestClass this, int input) {
 		return 0;

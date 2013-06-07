@@ -301,11 +301,11 @@ public class FlowPolicy {
                         FlowPermission source = null;
                         boolean skip = false;
 
-                        if( sourceStr.equals(EMPTY) || sourceStr.equals(NOT_REVIEWED.toString()) ) {
+                        if( sourceStr.equals(EMPTY) ) {
                             errors.add(
                                     formatPolicyFileError(policyFile, lineNum,
-                                            "FlowPermission " + sourceStr +
-                                                    " is not allowed in policy files",
+                                            "Unrecognized source: " + EMPTY +
+                                                    " is no longer allowed in policy files",
                                             originalLine)
                             );
                             sinks = null;
@@ -336,15 +336,6 @@ public class FlowPolicy {
                         }
 
                         for(final String sink : sinkStrs) {
-                        	if( sink.equals(EMPTY) || sink.equals(NOT_REVIEWED.toString()) ) {
-                                errors.add(
-                                        formatPolicyFileError(policyFile, lineNum,
-                                                "FlowPermission " + sourceStr +
-                                                        " is not allowed in policy files",
-                                                originalLine)
-                                );
-                                continue;
-                        	}
                             try {
 								final String trimmedSink = sink.trim();
 
@@ -368,6 +359,7 @@ public class FlowPolicy {
                             }
                         }
 
+                        //TODO: CHECK THIS WITH SUZANNE AND THE TEAM
                         if( !skip && sinks.containsAll( allSinkButAny ) ) {
                             sinks.clear();
                             sinks.add( FlowPermission.ANY );

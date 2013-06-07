@@ -363,22 +363,16 @@ annotate the code so that an error or warning does not occur.  Most
 programs should not suppress warnings.
 
 
-\section{Annotating methods in stub files\label{sec:apispecs}}
+\section{API specifications\label{sec:apispecs}}
 
-Annotations for API methods are found in the stub files in sparta-code/src/sparta/checkers/flowstubfiles.
-For details, see section~\ref{flow-task-annotate-apis} of this manual, and also 
+Files in  \<sparta-code/src/sparta/checkers/flowstubfiles> provides library
+annotations.  You may need to enhance them, if you find that your application
+uses APIs that are not yet annotated.  For details, see
+section~\ref{flow-task-annotate-apis} of this manual, and also 
 chapter
 ``\ahref{\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}}{Annotating
-  Libraries}'' in the Checker Framework Manual.  
- The methods that are annotated in stub files are defaulted the same way as methods written in apps, including flow policy inference.  (See the defaulting section, section ~\ref{flow-defaults}.) 
+  Libraries}'' in the Checker Framework Manual.
 
-Any method not written in the stub files or found in source code is not defaulted normally. 
- Instead, their return, receiver, and parameter types are annotated with \<@Sources(NOT\_REVIEWED)> 
- \<@Sinks(NOT\_REVIEWED)>.  The FlowPermission \<NOT\_REVIEWED> is not allowed 
- in a policy file and in no subtype relation.  This way, if such an API method is used, a type error
-  will occur and alert the user to review and annotate the method.  (Note, \<@Sources(NOT\_REVIEWED)> 
-  \<@Sinks(NOT\_REVIEWED)> is only added to the top-level return, parameter, or receiver type and does not
-   include type parameters, element array types, etc.)
 
 \section{Qualifier polymorphism: @PolySource  and @PolySink \label{sec:polyflowsources}}
 
@@ -400,33 +394,59 @@ See section ``\ahref{http://types.cs.washington.edu/checker-framework/current/ch
 \todo{these have known soundness issues and with Stuart we're working on fixing them.}
 
 
-\section{Declaration Annotations to Specify Defaulting\label{sec:addtionalanno}}
+\section{Additional Annotations\label{sec:addtionalanno}}
 
-The Flow Checker has additional declaration annotations that are shorthand for common 
-annotation patterns on method signatures.   They override the usual defaulting of method declarations.
+Four additional declaration annotations can be used to annotate APIs:
+\<@DefaultFlow>, \<@ConservativeFlow>, \<@PolyFlow>, and \<@PolyFlowReceiver>. 
+They change the default annotations (\secref{flow-defaults}).
+ 
+The declaration annotations can be used on any declaration: a method,
+a class, or even a whole package.
+For example, the
+whole \<android> package should use conservative defaults.
+More specific annotations given in the rest of the file override these
+defaults.
+
+% Do these apply to the receiver type?
+
+\subsection{@DefaultFlow}
+
+An element annotated with \<@DefaultFlow> expresses that an enclosed
+method's return type and all parameter types are \<@Source(LITERAL)
+@Sink(CONDITIONAL)>.  As with all 
+library annotations, it is trusted rather than checked.  Thus, it should be
+used only if an external analysis has determined that it is correct for the
+annotated method, class, or package.
+
+
+
+
+\subsection{@ConservativeFlow}
+
+Annotation \<@ConservativeFlow> expresses that each contained method
+should have the most conservative possible annotations:
+  \<@Source({}) @Sink(ANY)> on arguments, and
+  \<@Source(ANY) @Sink({})> on return values.
+\todo{what for fields?}
+This is so conservative that it is sure to cause a type-checking failure
+whenever the method is used.
+When the analyst encounters such type-checking errors, the analyst can
+annotate the methods more appropriately.  This is a way of knowing when a
+program uses a previously-unannotated library.
+
 
 \subsection{@PolyFlow\label{sec:polyflow}}
 
-Annotation \<@PolyFlow> expresses that each contained method should be annotated as \<@PolySource> 
-\<@PolySink> for both the return types and all parameters. It should be used to express a relationship 
-between the parameters and the return types.
-
+Annotation \<@PolyFlow> expresses that each contained method should be
+annotated as \<@PolySource @PolySink> for both the return
+types and all parameters.  It should be used to express a relationship between the parameters 
+and the return types.
 
 \subsection{@PolyFlowReceiver\label{sec:polyflowreceiver}}
 
-Annotation \<@PolyFlowReceiver> expresses that each contained method should be annotated as \<@PolySource> \<@PolySink> for the return type, all parameters types and the receiver type.
-
-\subsection{Declaration Annotations in Stub Files\label{sec:declannosstubfiles}}
-If \<@PolyFlow> or \<@PolyFlowReceiver> is written on a class or package, then the annotation applies
- to all contained methods or classes unless those classes or methods are annotated with another 
- declaration annotation.   
-
-This change of defaulting happens to library methods that are not written in stub files.  For example, the class
- Integer as been annotated with  \<@PolyFlowReceiver>, but the toString method is not listed in the stub file.  
- This method is inferred to be annotated with  \<@PolyFlowReceiver> and therefore its use will not result in a 
- type error  involving the \<NOT\_REVIEWED> FlowPermission. 
- 
-
+Annotation \<@PolyFlowReceiver> expresses that each contained method should be
+annotated as \<@PolyFlowPermission @PolyFlowPermission> for  the return
+type, all parameters types and the receiver type.  
 
 
 

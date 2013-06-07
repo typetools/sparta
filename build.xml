@@ -22,7 +22,6 @@
     <property name="flow.astub" value="src/sparta/checkers/flow.astub"/>
 
     <property name="tests" value="tests"/>
-    <property name="stub.jar" value="tests/stubfile/stub.jar"/>
 
     <property name="build" value="build"/>
     <property name="build.tests" value="tests/build"/>
@@ -214,7 +213,6 @@ ${build.version} of the 'javac.jar' library."/>
                 <pathelement path="${build.tests}"/>
                 <pathelement path="${build}"/>
                 <pathelement path="${android.jar}"/>
-                <pathelement path="${stub.jar}"/>
             </classpath>
 
             <formatter type="xml"/>
@@ -225,7 +223,7 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- Make sure to add all individual tests as dependency. -->
-    <target name="all-tests" depends="jar,build-tests,reqperms-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests"
+    <target name="all-tests" depends="jar,build-tests,reqperms-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests"
       description="Run tests for all checkers"/>
 
     <target name="reqperms-tests" depends="jar,build-tests"
@@ -263,12 +261,6 @@ ${build.version} of the 'javac.jar' library."/>
         </antcall>
     </target>
 
-    <target name="stubfile-tests" depends="jar,build-tests"
-      description="Run tests for the Flow Checker">
-        <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$StubfileTests"/>
-        </antcall>
-    </target>
     <target name="tags" depends="prep" description="Create Emacs TAGS table">
         <exec executable="/bin/sh" failonerror="true">
             <arg value="-c"/>

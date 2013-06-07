@@ -9,7 +9,4 @@ class Geocoder {
  interface LocationListener {
 //Added by SOM
         void onLocationChanged(@Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.ACCESS_COARSE_LOCATION}) Location location);
-        void onStatusChanged(String arg0, int arg1, @Source(FlowPermission.ANY) Bundle arg2);
-        void onProviderEnabled(String arg0);
-        void onProviderDisabled(String arg0);
  }

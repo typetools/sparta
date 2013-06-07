@@ -1,28 +1,24 @@
 package sparta.checkers;
 
-
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.Element;
 
+import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.*;
+import sparta.checkers.quals.FlowPermission;
 
 import com.sun.source.tree.*;
-import com.sun.tools.javac.tree.JCTree;
-import com.sun.tools.javac.tree.TreeInfo;
 
 import checkers.basetype.BaseTypeVisitor;
-import checkers.quals.DefaultQualifier;
 import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedNoType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
-
+import checkers.util.AnnotationUtils;
 
 public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
@@ -105,57 +101,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
             // Condition is null e.g. in "for (;;) {...}"
             ensureContionalSink(node.getCondition());
         }
-      
         return super.visitForLoop(node, p);
-    }
-    
-    @Override
-    public Void visitAnnotation(AnnotationTree node, Void p) {
-        List<? extends ExpressionTree> args = node.getArguments();
-        if (args.isEmpty()) {
-            // Nothing to do if there are no annotation arguments.
-            return null;
-        }
-
-        Element anno = TreeInfo.symbol((JCTree) node.getAnnotationType());
-        if (anno.toString().equals(Sink.class.getName()) ||
-                anno.toString().equals(Source.class.getName())) {
-            // Skip these two annotations, as we don't care about the
-            // arguments to them.
-            return null;
-        }
-        return super.visitAnnotation(node, p);
-    }
-    
-    /**
-     * Check the return type of an invoked method for forbidden 
-     * flows in case the method was annotated in a stub file. 
-     */
-    @Override
-    protected void checkMethodInvocability(AnnotatedExecutableType method,
-            MethodInvocationTree node) {
-        AnnotatedTypeMirror returnType = method.getReturnType();
-        if (!(returnType instanceof AnnotatedNoType)) {
-            warnForbiddenFlows(returnType, node);
-        }
-        super.checkMethodInvocability(method, node);
-
-    }
-
-    private boolean warnForbiddenFlows(final AnnotatedTypeMirror type,
-            final Tree tree) {
-
-        if (!areFlowsValid(type)) {
-            StringBuffer buf = new StringBuffer();
-            for (Flow flow : checker.getFlowPolicy().forbiddenFlows(type)) {
-                buf.append(flow.toString() + "\n");
-            }
-            checker.report(
-                    Result.failure("forbidden.flow", type.toString(),
-                            buf.toString()), tree);
-            return false;
-        }
-        return true;
     }
 
     private boolean areFlowsValid(final AnnotatedTypeMirror atm) {
