@@ -1,6 +1,11 @@
 
 package android.location;
 
+class Geocoder {
+    @Source(FlowPermission.ANY) @Sink({}) Geocoder(@Source(FlowPermission.ANY) @Sink({}) Context context);
+    @Source(FlowPermission.ACCESS_FINE_LOCATION) List<@Source(FlowPermission.ACCESS_FINE_LOCATION) Address> getFromLocationName(@Source(FlowPermission.ANY) @Sink({}) String locationName, @Source(FlowPermission.ANY) @Sink({}) int maxResults);
+}
+
  interface LocationListener {
 //Added by SOM
         void onLocationChanged(@Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.ACCESS_COARSE_LOCATION}) Location location);
