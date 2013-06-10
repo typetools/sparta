@@ -165,7 +165,7 @@ ${build.version} of the 'javac.jar' library."/>
             <arg line="-AstubWarnIfNotFound"/>
             <arg line="-processor sparta.checkers.FlowChecker" /> 
             <!-- Arbitrary file to compile. -->
-            <arg line="${src}/sparta/checkers/quals/ConservativeFlow.java" />
+            <arg line="${tests}/Test.java" />
         </java>
     </target>
 
