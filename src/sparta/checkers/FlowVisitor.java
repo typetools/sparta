@@ -124,7 +124,8 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
         Element anno = TreeInfo.symbol((JCTree) node.getAnnotationType());
         if (anno.toString().equals(Sink.class.getName()) ||
-                anno.toString().equals(Source.class.getName())) {
+                anno.toString().equals(Source.class.getName()) || 
+                anno.toString().equals(RequiredPermissions.class.getName())) {
             // Skip these two annotations, as we don't care about the
             // arguments to them.
             return null;
