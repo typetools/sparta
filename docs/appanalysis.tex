@@ -270,16 +270,10 @@ yet contain information about the library APIs that your application uses.
 (Over time, the stub files will become more complete, and you will have to
 do less work in this step for each new app.)
 
-For every API method used by this app (including all those output by \<ant
-reportapiusage>), do the following:
-\begin{itemize}
-\item
-If the API method already appears in some stub file, there is nothing to
-do; continue to the next API method.
 
-\todo{  Have an ant target or other tool that reports only
-\emph{un-annotated} APIs, so that the user has a list of APIs to annotate
-without having to search through all the stub files.}
+Run \<ant check-flow> to create the missingAPI.astub file. For each method in the 
+file do the following.  
+\begin{itemize}
 \item
 Read the Javadoc.
 \item
@@ -295,11 +289,13 @@ and a \<@Sink> annotation.
 
 If the method does is not directly related to information flow (its inputs
 and outputs could be anything and are not required to have a specific
-\<@Source> annotation), then annotate its parameters and return type
-with \<@PolySource @PloySink>, which essentially says that the
-output can have all the flow sources and sinks of the inputs.
-\todo{There is some more concise way to specify this, without having to
-annotate each parameter and return type individually.}
+\<@Source> annotation), then either added the method to the stub file with no 
+annotations, which is the same as annotating the returns and parameters with 
+\<@Source(LITERAL)> or to annotate it with @PolyFlow or @PolyFlowReceiver, 
+which essentially says that the
+output can have all the flow sources and sinks of the inputs..
+(See Section \secref{sec:addtionalanno} for more details.)
+
 \end{itemize}
 
 \noindent
