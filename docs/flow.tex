@@ -376,9 +376,7 @@ Any method not written in the stub files or found in source code is not defaulte
  Instead, their return, receiver, and parameter types are annotated with \<@Sources(NOT\_REVIEWED)> 
  \<@Sinks(NOT\_REVIEWED)>.  The FlowPermission \<NOT\_REVIEWED> is not allowed 
  in a policy file and in no subtype relation.  This way, if such an API method is used, a type error
-  will occur and alert the user to review and annotate the method.  (Note, \<@Sources(NOT\_REVIEWED)> 
-  \<@Sinks(NOT\_REVIEWED)> is only added to the top-level return, parameter, or receiver type and does not
-   include type parameters, element array types, etc.)
+  will occur and alert the user to review and annotate the method.  
 
 \section{Qualifier polymorphism: @PolySource  and @PolySink \label{sec:polyflowsources}}
 
