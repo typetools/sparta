@@ -108,7 +108,12 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
       
         return super.visitForLoop(node, p);
     }
-    
+    /**
+     * For some reason, the FlowPermission[] passed to @Source or @Sink
+     * is annotated and causes a type error.
+     * TODO: we should figure out why this is happening in the first place
+     * and try to fix it.
+     */
     @Override
     public Void visitAnnotation(AnnotationTree node, Void p) {
         List<? extends ExpressionTree> args = node.getArguments();
@@ -130,6 +135,10 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     /**
      * Check the return type of an invoked method for forbidden 
      * flows in case the method was annotated in a stub file. 
+     * (Parameters are checked during the pseudo assignment of the
+     * arguments to the parameters.)
+     * TODO: It would be better to to check this in 
+     * checkers.types.AnnotatedTypeFactory.methodFromUse(MethodInvocationTree)
      */
     @Override
     protected void checkMethodInvocability(AnnotatedExecutableType method,

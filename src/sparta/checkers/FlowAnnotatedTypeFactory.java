@@ -4,6 +4,7 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.PackageElement;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.util.Elements;
 
@@ -20,14 +21,12 @@ import com.sun.source.tree.Tree;
 
 import checkers.quals.DefaultLocation;
 import checkers.quals.FromByteCode;
-
 import checkers.quals.FromStubFile;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.BasicAnnotatedTypeFactory;
 import checkers.util.QualifierDefaults.DefaultApplier;
 
 import java.util.*;
-
 import  sparta.checkers.quals.FlowPermission;
 
 import static checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
@@ -36,10 +35,11 @@ import static checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 
 public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChecker> {
 
-   
-
-	public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
+    private final Map<String, Map<String, List<Element>>> notInStubFile; //List of methods that are not in a stub file 
+    
+    public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
         super(checker, root);
+        this.notInStubFile = checker.notInStubFile;
 
         // Use the bottom type as default for everything but local variables.
         defaults.addAbsoluteDefault(checker.LITERALFLOWSOURCE, DefaultLocation.OTHERWISE);
@@ -72,12 +72,12 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.FROMLITERALFLOWSINK);
-     
+
+
         postInit();
     }
 
-
-	@Override
+    @Override
     protected QualifierDefaults createQualifierDefaults() {
         return new FlowCompletingDefaults(elements, this);
     }
@@ -98,31 +98,23 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
     protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
         Element iter = element;
         boolean reviewed = false;
-        
         while (iter != null) {
+            // If a method is from a stub file, it is considered reviewed.
+            reviewed = this.isFromStubFile(iter);
 
-            if (this.getDeclAnnotation(iter, FromStubFile.class) != null ) {
-            	//If a method is from a stub file, it is considered reviewed.
-            	reviewed = true;
-            	//Don't return because there might be a declaration annotation on the package/class
-            	// if there is, then it should be applied.
-            } 
-            if (this.getDeclAnnotation(iter,FromByteCode.class) != null) {
+            if (this.isFromByteCode(iter)) {
             	//Only apply these annotations if this method has not been marked as not reviewed. 
 				if (!reviewed) {
+                    notAnnotated(element);
 //					//All types are @Source(NOT_REVIEWED) @Sink(NOT_REVIEWED)
-					new FlowDefaultApplier(element, DefaultLocation.RETURNS,type).scan(type, checker.NRSINK);
-					new FlowDefaultApplier(element, DefaultLocation.RETURNS,type).scan(type, checker.NRSOURCE);
-					
-					new FlowDefaultApplier(element, DefaultLocation.PARAMETERS,type).scan(type, checker.NRSINK);
-					new FlowDefaultApplier(element, DefaultLocation.PARAMETERS,type).scan(type, checker.NRSOURCE);
-					
-					new FlowDefaultApplier(element, DefaultLocation.RECEIVERS,type).scan(type, checker.NRSINK);
-					new FlowDefaultApplier(element, DefaultLocation.RECEIVERS,type).scan(type, checker.NRSOURCE);
+                    //TODO:instead of not reviewed we could issue a new error
+                    //Something like Error: ByteCode method, method, has not been reviewed
+					new FlowDefaultApplier(element, DefaultLocation.OTHERWISE,type).scan(type, checker.NRSINK);
+					new FlowDefaultApplier(element, DefaultLocation.OTHERWISE,type).scan(type, checker.NRSOURCE);
 				}
-
+				
 				return;
-
+				
             } else if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
                 // Use poly flow sources and sinks for return types .
                 new FlowDefaultApplier(element, DefaultLocation.RETURNS, type).scan(type, checker.POLYFLOWSOURCES);
@@ -158,6 +150,39 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             }
         }
     }
+    /**
+     * Adds the element to list of methods that need to be added 
+     * to the stub file and reviewed
+     * @param element element that needs to be reviewed
+     */
+    private void notAnnotated(final Element element) {
+        TypeElement clssEle = (TypeElement) element.getEnclosingElement();
+        String fullClassName = clssEle.getQualifiedName().toString();
+        String pkg = "";
+        String clss = "";
+        if (fullClassName.indexOf('.') != -1) {
+            int index = fullClassName.lastIndexOf('.');
+             pkg = fullClassName.substring(0, index);
+             clss = fullClassName.substring(index+1);
+        }
+        Map<String, List<Element>> pkgmap = this.notInStubFile.get(pkg);
+        if(pkgmap == null){
+            pkgmap = new HashMap<String, List<Element>>();
+            List<Element> elelist = new ArrayList<>();
+            pkgmap.put(clss, elelist );
+            this.notInStubFile.put(pkg, pkgmap);
+        }
+        List<Element> elelist = pkgmap.get(clss);
+        if(elelist == null){
+            elelist = new ArrayList<Element>();
+            pkgmap.put(clss, elelist );
+        }
+        
+        if(!elelist.contains(element)){
+            elelist.add(element);
+        }
+    }
+
 
     class FlowCompletingDefaults extends QualifierDefaults {
 

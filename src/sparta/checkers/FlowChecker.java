@@ -1,11 +1,13 @@
 package sparta.checkers;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.util.*;
 
 import javax.annotation.processing.SupportedOptions;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
@@ -21,6 +23,7 @@ import checkers.types.QualifierHierarchy;
 import checkers.util.AnnotationUtils;
 import checkers.util.MultiGraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
+import checkers.util.stub.StubGenerator;
 import checkers.util.QualifierPolymorphism;
 import checkers.util.TreeUtils;
 
@@ -59,9 +62,14 @@ public class FlowChecker extends BaseTypeChecker {
 
     protected FlowPolicy flowPolicy;
     protected Set<String> unfilteredMessages;
+    //Methods that are not in a stub file
+    protected Map<String, Map<String, List<Element>>> notInStubFile;
+
 
     @Override
     public void initChecker() {
+        this.notInStubFile = new HashMap<>();
+
         Elements elements = processingEnv.getElementUtils();
         NOFLOWSOURCES = AnnotationUtils.fromClass(elements, Source.class);
         NOFLOWSINKS = AnnotationUtils.fromClass(elements, Sink.class);
@@ -72,6 +80,7 @@ public class FlowChecker extends BaseTypeChecker {
         
         NRSOURCE = FlowUtil.createAnnoFromSource(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
         NRSINK = FlowUtil.createAnnoFromSink(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
+
 
         ANYFLOWSOURCES = FlowUtil.createAnnoFromSource(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
         ANYFLOWSINKS = FlowUtil.createAnnoFromSink(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
@@ -116,7 +125,6 @@ public class FlowChecker extends BaseTypeChecker {
                 unfilteredMessages = null;
             }
         }
-        
     }
 
     protected ExecutableElement sourceValue;
