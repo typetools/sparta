@@ -9,9 +9,6 @@
 	<classpathentry kind="lib" path="/checkers/tests/junit-4.7.jar"/>
 	<classpathentry kind="lib" path="tests/stubfile/stub.jar"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="lib/google-gson-2.2.2/gson-2.2.2-javadoc.jar"/>
-	<classpathentry kind="lib" path="lib/google-gson-2.2.2/gson-2.2.2-sources.jar"/>
-	<classpathentry kind="lib" path="lib/google-gson-2.2.2/gson-2.2.2.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
