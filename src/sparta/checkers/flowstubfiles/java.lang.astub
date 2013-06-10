@@ -9,6 +9,9 @@ interface CharSequence {
     String toString();
 }
 
+class Double {
+    
+}
 
 @PolyFlowReceiver
 class Integer extends Number implements Comparable<Integer> {

@@ -15,8 +15,11 @@ class FlowList<T extends @Sink(CONDITIONAL) @Source(ANY) Object> {
 }
 
 class Generics {
-    FlowList<Object> lo = new FlowList<Object>();
-    FlowList<@Source(INTERNET) Object> netok = new FlowList<@Source(INTERNET) Object>();
+
+    List<Object> lo = new List<Object>();
+    List<@Source(FlowPermission.INTERNET) Object> netok = new List<@Source(FlowPermission.INTERNET) Object>();
+    List<@Source(FlowPermission.INTERNET) Object> netok2 = foo();
+    
     //:: error: (assignment.type.incompatible)
     FlowList<@Source(INTERNET) Object> neterr = new FlowList<Object>();
     void use(Object o, @Source(INTERNET) Object neto) {
@@ -27,5 +30,8 @@ class Generics {
         o = netok.getF(4);
     }
     
- 
+    List<@Source(FlowPermission.INTERNET) Object> foo() {
+    	return new List<@Source(FlowPermission.INTERNET) Object>();
+    }
+
 }

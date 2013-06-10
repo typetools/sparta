@@ -3,12 +3,14 @@ package android.app;
 
 class Activity{
 //Annotations by SOM
+    @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
+    @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater ();    
 	void onCreate(@Source(FlowPermission.ANY) Bundle savedInstanceState);
 	void setContentView(@Sink(FlowPermission.DISPLAY) int layout);
-    @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater ();	
-    
     void setContentView (@Sink(FlowPermission.DISPLAY) View view);
-    @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
+    void setProgressBarIndeterminateVisibility(@Source(FlowPermission.LITERAL) @Sink(FlowPermission.DISPLAY) boolean visible);
+    
+    
 }
 
 class AlertDialog$Builder {

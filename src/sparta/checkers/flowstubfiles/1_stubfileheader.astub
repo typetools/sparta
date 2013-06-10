@@ -7,11 +7,3 @@ This file is generate by ant merge-stubfiles.
 Please put annotations in the correct stub file in flowstubfiles.
 */
 
-package android;
-
-package com.android;
-
-package org.apache.http;
-
-package java;
-
