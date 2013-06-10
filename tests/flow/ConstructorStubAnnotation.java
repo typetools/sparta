@@ -47,18 +47,21 @@ class ConstructorStubAnnotation {
 		//:: error: (argument.type.incompatible)
 		TestStubExplicitConstructorType.stubSanity("test");
 		
-		// BUG? This should be thrown //:: error: (assignment.type.incompatible) 
+		// BUG? This should be thrown 
+		//:: error: (assignment.type.incompatible) 
 		@Source(LITERAL) TestStubImplicitConstructor imp = new TestStubImplicitConstructor();
-		// BUG? This should be thrown //:: error: (assignment.type.incompatible)
+		// BUG? This should be thrown 
+		//:: error: (assignment.type.incompatible)
 		@Source(LITERAL) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
 		
-		//:: error: (argument.type.incompatible)
+		//:: error: (argument.type.incompatible) :: error: (assignment.type.incompatible)
 		@Source(LITERAL) TestStubParamConstructor param = new TestStubParamConstructor("hello");
-		//:: error: (argument.type.incompatible)
+		//:: error: (argument.type.incompatible) :: error: (forbidden.flow)
 		new TestStubParamConstructor("hello");
 		
 		// BUG? An error should be thrown (Constructor is explicity @Source(INTERNET)) 
-		// //:: error: (assignment.type.incompatible)
+		//This is still a bug.
+		//:: error: (assignment.type.incompatible)
 		@Source(LITERAL) TestStubExplicitConstructorType explicit = new TestStubExplicitConstructorType();
 
 		// This has different behaviour than the ConstructorAnnotation test...

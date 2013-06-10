@@ -12,7 +12,6 @@ class Use {
     void demo() {
        @Source(FlowPermission.LITERAL) Context ctx = null;
        
-       //::error: (forbidden.flow)
        @Sink(FILESYSTEM) File file = ctx.getDir("log", 0);
        String fileString = file.toString();
        String s = fileString.toString();

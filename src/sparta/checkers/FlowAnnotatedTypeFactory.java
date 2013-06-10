@@ -156,6 +156,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
      * @param element element that needs to be reviewed
      */
     private void notAnnotated(final Element element) {
+        if(!(element.getEnclosingElement() instanceof TypeElement)) return;
+    
         TypeElement clssEle = (TypeElement) element.getEnclosingElement();
         String fullClassName = clssEle.getQualifiedName().toString();
         String pkg = "";
