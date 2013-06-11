@@ -145,3 +145,99 @@ class IBinder {
     Object clone();
     //Clones the current Bundle .
 }
+
+class Handler {
+    
+final Looper getLooper();
+void handleMessage(Message msg);
+//Subclasses must implement this to receive messages .
+
+final boolean hasMessages(int what, Object object);
+//Check if there are any pending posts of messages with code 'what' and whose obj is 'object' in the message queue .
+
+final boolean hasMessages(int what);
+//Check if there are any pending posts of messages with code 'what' in the message queue .
+
+final Message obtainMessage(int what, int arg1, int arg2);
+//Same as obtainMessage();, except that it also sets the what, arg1 and arg2 members of the returned Message .
+
+final Message obtainMessage();
+//Returns a new Message from the global message pool .
+
+final Message obtainMessage(int what, int arg1, int arg2, Object obj);
+//Same as obtainMessage();, except that it also sets the what, obj, arg1,and arg2 values on the returned Message .
+
+final Message obtainMessage(int what);
+//Same as obtainMessage();, except that it also sets the what member of the returned Message .
+
+final Message obtainMessage(int what, Object obj);
+//Same as obtainMessage();, except that it also sets the what and obj members of the returned Message .
+
+final boolean post(Runnable r);
+//Causes the Runnable r to be added to the message queue .
+
+final boolean postAtTime(Runnable r, Object token, long uptimeMillis);
+//Causes the Runnable r to be added to the message queue, to be run at a specific time given by uptimeMillis .
+
+final boolean postAtTime(Runnable r, long uptimeMillis);
+//Causes the Runnable r to be added to the message queue, to be run at a specific time given by uptimeMillis .
+
+final boolean postDelayed(Runnable r, long delayMillis);
+//Causes the Runnable r to be added to the message queue, to be run after the specified amount of time elapses .
+
+final void removeCallbacks(Runnable r);
+//Remove any pending posts of Runnable r that are in the message queue .
+
+final void removeCallbacks(Runnable r, Object token);
+//Remove any pending posts of Runnable r with Object token that are in the message queue .
+
+final void removeMessages(int what);
+//Remove any pending posts of messages with code 'what' that are in the message queue .
+
+final void removeMessages(int what, Object object);
+//Remove any pending posts of messages with code 'what' and whose obj is 'object' that are in the message queue .
+
+final boolean sendEmptyMessage(int what);
+//Sends a Message containing only the what value .
+
+final boolean sendEmptyMessageDelayed(int what, long delayMillis);
+//Sends a Message containing only the what value, to be delivered after the specified amount of time elapses .
+
+final boolean sendMessage(Message msg);
+//Pushes a message onto the end of the message queue after all pending messages before the current time .
+
+
+//UNUSED AND UNANNOTATED    
+// void dispatchMessage(Message msg);
+// final void dump(Printer pw, String prefix);
+// String getMessageName(Message message);
+// final boolean postAtFrontOfQueue(Runnable r);
+// final void removeCallbacksAndMessages(Object token);
+// final boolean sendEmptyMessageAtTime(int what, long uptimeMillis);
+// final boolean sendMessageAtFrontOfQueue(Message msg);
+// boolean sendMessageAtTime(Message msg, long uptimeMillis);
+// final boolean sendMessageDelayed(Message msg, long delayMillis);
+// String toString();
+}
+
+class SystemClock {
+//static long currentThreadTimeMillis();
+//Returns milliseconds running in the current thread.
+
+static @Source(FlowPermission.READ_TIME) long elapsedRealtime();
+//Returns milliseconds since boot, including time spent in sleep.
+
+//static long elapsedRealtimeNanos();
+//Returns nanoseconds since boot, including time spent in sleep.
+
+//static boolean setCurrentTimeMillis(long millis);
+//Sets the current wall time, in milliseconds.
+
+static void sleep(long ms);
+//Waits a given number of milliseconds (of uptimeMillis); before returning.
+
+static @Source(FlowPermission.READ_TIME) long uptimeMillis();
+//Returns milliseconds since boot, not counting time spent in deep sleep.
+
+
+}

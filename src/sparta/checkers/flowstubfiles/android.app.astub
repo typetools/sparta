@@ -3,6 +3,8 @@ package android.app;
 
 class Activity{
 //Annotations by SOM
+    Activity();
+
     @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
     @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater ();    
 	void onCreate(@Source(FlowPermission.ANY) Bundle savedInstanceState);
@@ -10,6 +12,8 @@ class Activity{
     void setContentView (@Sink(FlowPermission.DISPLAY) View view);
     void setProgressBarIndeterminateVisibility(@Source(FlowPermission.LITERAL) @Sink(FlowPermission.DISPLAY) boolean visible);
     
+    void startActivityForResult(@Sink(FlowPermission.ANY) Intent intent, int requestCode);
+    protected void onActivityResult(int requestCode, int resultCode, @Sink(FlowPermission.ANY) Intent data);
     
 }
 
@@ -105,6 +109,260 @@ AlertDialog.Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener
 // AlertDialog.Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener);
 // AlertDialog.Builder setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
 }
+
+class Fragment {
+void dump(@Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String prefix, FileDescriptor fd, PrintWriter writer, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String[] args);
+//Print the Fragments's state into the given stream.
+//CSH: FileDescriptors are a... "structure representing an open file, an open socket, or another source or sink of bytes"
+// vague.  So it seems this would have to support at least writing to disk and sending over network?
+//FILESYSTEM INTERNET WRITE_EXTERNAL_STORAGE
+
+
+final FragmentActivity getActivity();
+//Return the Activity this fragment is currently associated with.
+
+final Bundle getArguments();
+//Return the arguments supplied when the fragment was instantiated, if any.
+
+final Resources getResources();
+//Return getActivity();.getResources();.
+
+View getView();
+//Get the root view for the fragment's layout (the one returned by onCreateView(LayoutInflater, ViewGroup, Bundle););, if provided.
+
+static Fragment instantiate(Context context, String fname);
+//Like instantiate(Context, String, Bundle); but with a null argument Bundle.
+
+static Fragment instantiate(Context context, String fname, Bundle args);
+//Create a new instance of a Fragment with the given class name.
+
+final boolean isAdded();
+//Return true if the fragment is currently added to its activity.
+
+final boolean isDetached();
+//Return true if the fragment has been explicitly detached from the UI.
+
+final boolean isHidden();
+//Return true if the fragment has been hidden.
+
+void onActivityCreated(Bundle savedInstanceState);
+//Called when the fragment's activity has been created and this fragment's view hierarchy instantiated.
+
+void onActivityResult(int requestCode, int resultCode, Intent data);
+//Receive the result from a previous call to startActivityForResult(Intent, int);.
+
+void onAttach(Activity activity);
+//Called when a fragment is first attached to its activity.
+
+void onConfigurationChanged(Configuration newConfig);
+//Called by the system when the device configuration changes while your component is running.
+
+boolean onContextItemSelected(MenuItem item);
+//This hook is Called whenever an item in a context menu is selected.
+
+void onCreate(Bundle savedInstanceState);
+//Called to do initial creation of a fragment.
+
+Animation onCreateAnimation(int transit, boolean enter, int nextAnim);
+//Called when a fragment loads an animation.
+
+void onCreateOptionsMenu(Menu menu, MenuInflater inflater);
+//Initialize the contents of the Activity's standard options menu.
+
+View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+//Called to have the fragment instantiate its user interface view.
+
+void onDestroy();
+//Called when the fragment is no longer in use.
+
+void onDestroyOptionsMenu();
+//Called when this fragment's option menu items are no longer being included in the overall options menu.
+
+void onDestroyView();
+//Called when the view previously created by onCreateView(LayoutInflater, ViewGroup, Bundle); has been detached from the fragment.
+
+void onDetach();
+//Called when the fragment is no longer attached to its activity.
+
+void onHiddenChanged(boolean hidden);
+//Called when the hidden state (as returned by isHidden(); of the fragment has changed.
+
+void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState);
+//Called when a fragment is being created as part of a view layout inflation, typically from setting the content view of an activity.
+
+void onLowMemory();
+//This is Called when the overall system is running low on memory, and would like actively running process to try to tighten their belt.
+
+boolean onOptionsItemSelected(MenuItem item);
+//This hook is Called whenever an item in your options menu is selected.
+
+void onOptionsMenuClosed(Menu menu);
+//This hook is Called whenever the options menu is being closed (either by the user canceling the menu with the back/menu button, or when an item is selected);.
+
+void onPause();
+//Called when the Fragment is no longer resumed.
+
+void onPrepareOptionsMenu(Menu menu);
+//Prepare the Screen's standard options menu to be displayed.
+
+void onResume();
+//Called when the fragment is visible to the user and actively running.
+
+void onSaveInstanceState(Bundle outState);
+//Called to ask the fragment to save its current dynamic state, so it can later be reconstructed in a new instance of its process is restarted.
+
+void onStart();
+//Called when the Fragment is visible to the user.
+
+void onStop();
+//Called when the Fragment is no longer started.
+
+void onViewCreated(View view, Bundle savedInstanceState);
+//Called immediately after onCreateView(LayoutInflater, ViewGroup, Bundle); has returned, but before any saved state has been restored in to the view.
+
+void onViewStateRestored(Bundle savedInstanceState);
+//Called when all saved state has been restored into the view hierarchy of the fragment.
+
+void setArguments(Bundle args);
+//Supply the construction arguments for this fragment.
+
+void setInitialSavedState(Fragment.SavedState state);
+//Set the initial saved state that this Fragment should restore itself from when first being constructed, as returned by FragmentManager.saveFragmentInstanceState.
+
+void setMenuVisibility(boolean menuVisible);
+//Set a hint for whether this fragment's menu should be visible.
+
+void setUserVisibleHint(boolean isVisibleToUser);
+//Set a hint to the system about whether this fragment's UI is currently visible to the user.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+   
+
+//UNUSED AND UNANNOTATED
+// final boolean equals(Object o);
+// final FragmentManager getChildFragmentManager();
+// final FragmentManager getFragmentManager();
+// final int getId();
+// LoaderManager getLoaderManager();
+// final Fragment getParentFragment();
+// final boolean getRetainInstance();
+// final String getString(int resId);
+// final String getString(int resId, Object... formatArgs);
+// final String getTag();
+// final Fragment getTargetFragment();
+// final int getTargetRequestCode();
+// final CharSequence getText(int resId);
+// boolean getUserVisibleHint();
+// void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo);
+// void registerForContextMenu(View view);
+// void setHasOptionsMenu(boolean hasMenu);
+// void setRetainInstance(boolean retain);
+// void setTargetFragment(Fragment fragment, int requestCode);
+// void startActivity(Intent intent);
+// void startActivityForResult(Intent intent, int requestCode);
+// void unregisterForContextMenu(View view);
+}
+
+class Notification$Builder {
+
+Notification.Builder addAction(@Sink(FlowPermission.DISPLAY) int icon, @Sink(FlowPermission.DISPLAY) CharSequence title, PendingIntent intent);
+//Add an action to this notification.
+
+Notification build();
+//Combine all of the options that have been set and return a new Notification object.
+
+Notification getNotification();
+//This method was deprecated in API level 16. Use build(); instead.
+
+Notification.Builder setAutoCancel(boolean autoCancel);
+//Make this notification automatically dismissed when the user touches it.
+
+Notification.Builder setContent(@Sink(FlowPermission.DISPLAY) RemoteViews views);
+//Supply a custom RemoteViews to use instead of the platform template.
+
+Notification.Builder setContentInfo(@Sink(FlowPermission.DISPLAY) CharSequence info);
+//A small piece of additional information pertaining to this notification.
+
+Notification.Builder setContentIntent(PendingIntent intent);
+//Supply a PendingIntent to be sent when the notification is clicked.
+
+Notification.Builder setContentText(@Sink(FlowPermission.DISPLAY) CharSequence text);
+//Set the second line of text in the platform notification template.
+
+Notification.Builder setContentTitle(@Sink(FlowPermission.DISPLAY) CharSequence title);
+//Set the first line of text in the platform notification template.
+
+Notification.Builder setDefaults(int defaults);
+//Set which notification properties will be inherited from system defaults.
+
+Notification.Builder setDeleteIntent(PendingIntent intent);
+//Supply a PendingIntent to send when the notification is cleared explicitly by the user.
+
+Notification.Builder setFullScreenIntent(PendingIntent intent, boolean highPriority);
+//An intent to launch instead of posting the notification to the status bar.
+
+Notification.Builder setLargeIcon(@Sink(FlowPermission.DISPLAY) Bitmap icon);
+//Add a large icon to the notification (and the ticker on some devices);.
+
+Notification.Builder setLights(int argb, int onMs, int offMs);
+//Set the desired color for the indicator LED on the device, as well as the blink duty cycle (specified in milliseconds);.
+
+Notification.Builder setNumber(int number);
+//Set the large number at the right-hand side of the notification.
+
+Notification.Builder setOngoing(boolean ongoing);
+//Set whether this is an "ongoing" notification.
+
+Notification.Builder setOnlyAlertOnce(boolean onlyAlertOnce);
+//Set this flag if you would only like the sound, vibrate and ticker to be played if the notification is not already showing.
+
+Notification.Builder setPriority(int pri);
+//Set the priority of this notification.
+
+Notification.Builder setProgress(@Sink(FlowPermission.DISPLAY) int max, @Sink(FlowPermission.DISPLAY) int progress, boolean indeterminate);
+//Set the progress this notification represents.
+
+//Notification.Builder setShowWhen(boolean show);
+//Control whether the timestamp set with setWhen is shown in the content view.
+
+Notification.Builder setSmallIcon(@Sink(FlowPermission.DISPLAY) int icon, int level);
+//A variant of setSmallIcon(int); that takes an additional level parameter for when the icon is a LevelListDrawable.
+
+Notification.Builder setSmallIcon(@Sink(FlowPermission.DISPLAY) int icon);
+//Set the small icon resource, which will be used to represent the notification in the status bar.
+
+Notification.Builder setSound(Uri sound);
+//Set the sound to play.
+//CSH: Do we need an AUDIO sink?
+
+Notification.Builder setSound(Uri sound, int streamType);
+//Set the sound to play, along with a specific stream on which to play it.
+//CSH: Audio sink?
+
+//Notification.Builder setStyle(Notification.Style style);
+//Add a rich notification style to be applied at build time.
+
+Notification.Builder setSubText(@Sink(FlowPermission.DISPLAY) CharSequence text);
+//Set the third line of text in the platform notification template.
+
+Notification.Builder setTicker(@Sink(FlowPermission.DISPLAY) CharSequence tickerText, @Sink(FlowPermission.DISPLAY) RemoteViews views);
+//Set the text that is displayed in the status bar when the notification first arrives, and also a RemoteViews object that may be displayed instead on some devices.
+
+Notification.Builder setTicker(@Sink(FlowPermission.DISPLAY) CharSequence tickerText);
+//Set the "ticker" text which is displayed in the status bar when the notification first arrives.
+
+Notification.Builder setUsesChronometer(boolean b);
+//Show the when field as a stopwatch.
+
+Notification.Builder setVibrate(@Sink(FlowPermission.VIBRATE) long[] pattern);
+//Set the vibration pattern to use.
+
+Notification.Builder setWhen(long when);
+//Add a timestamp pertaining to the notification (usually the time the event occurred);.
+
+}
+
 
 class ProgressDialog {
 

@@ -2,6 +2,407 @@
 package java.lang;
 
 @PolyFlowReceiver
+class Boolean implements Serializable, Comparable<Boolean> {
+    final Boolean TRUE;
+    final Boolean FALSE;
+    final Class<Boolean> TYPE;
+    Boolean(boolean arg0);
+    Boolean(String arg0);
+    static boolean parseBoolean(String arg0);
+    boolean booleanValue();
+    static Boolean valueOf(boolean arg0);
+    static Boolean valueOf(String arg0);
+    static String toString(boolean arg0);
+    String toString();
+    int hashCode();
+    boolean equals(Object arg0);
+    static boolean getBoolean(String arg0);
+    int compareTo(Boolean arg0);
+    static int compare(boolean arg0, boolean arg1);
+}
+
+@PolyFlowReceiver
+class Character implements Serializable, Comparable<Character> {
+    final @Source(FlowPermission.LITERAL) int MIN_RADIX;
+    final @Source(FlowPermission.LITERAL) int MAX_RADIX;
+    final @Source(FlowPermission.LITERAL) char MIN_VALUE;
+    final @Source(FlowPermission.LITERAL) char MAX_VALUE;
+    final Class<Character> TYPE;
+    final @Source(FlowPermission.LITERAL) byte UNASSIGNED;
+    final @Source(FlowPermission.LITERAL) byte UPPERCASE_LETTER;
+    final @Source(FlowPermission.LITERAL) byte LOWERCASE_LETTER;
+    final @Source(FlowPermission.LITERAL) byte TITLECASE_LETTER;
+    final @Source(FlowPermission.LITERAL) byte MODIFIER_LETTER;
+    final @Source(FlowPermission.LITERAL) byte OTHER_LETTER;
+    final @Source(FlowPermission.LITERAL) byte NON_SPACING_MARK;
+    final @Source(FlowPermission.LITERAL) byte ENCLOSING_MARK;
+    final @Source(FlowPermission.LITERAL) byte COMBINING_SPACING_MARK;
+    final @Source(FlowPermission.LITERAL) byte DECIMAL_DIGIT_NUMBER;
+    final @Source(FlowPermission.LITERAL) byte LETTER_NUMBER;
+    final @Source(FlowPermission.LITERAL) byte OTHER_NUMBER;
+    final @Source(FlowPermission.LITERAL) byte SPACE_SEPARATOR;
+    final @Source(FlowPermission.LITERAL) byte LINE_SEPARATOR;
+    final @Source(FlowPermission.LITERAL) byte PARAGRAPH_SEPARATOR;
+    final @Source(FlowPermission.LITERAL) byte CONTROL;
+    final @Source(FlowPermission.LITERAL) byte FORMAT;
+    final @Source(FlowPermission.LITERAL) byte PRIVATE_USE;
+    final @Source(FlowPermission.LITERAL) byte SURROGATE;
+    final @Source(FlowPermission.LITERAL) byte DASH_PUNCTUATION;
+    final @Source(FlowPermission.LITERAL) byte START_PUNCTUATION;
+    final @Source(FlowPermission.LITERAL) byte END_PUNCTUATION;
+    final @Source(FlowPermission.LITERAL) byte CONNECTOR_PUNCTUATION;
+    final @Source(FlowPermission.LITERAL) byte OTHER_PUNCTUATION;
+    final @Source(FlowPermission.LITERAL) byte MATH_SYMBOL;
+    final @Source(FlowPermission.LITERAL) byte CURRENCY_SYMBOL;
+    final @Source(FlowPermission.LITERAL) byte MODIFIER_SYMBOL;
+    final @Source(FlowPermission.LITERAL) byte OTHER_SYMBOL;
+    final @Source(FlowPermission.LITERAL) byte INITIAL_QUOTE_PUNCTUATION;
+    final @Source(FlowPermission.LITERAL) byte FINAL_QUOTE_PUNCTUATION;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_UNDEFINED;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_LEFT_TO_RIGHT;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_RIGHT_TO_LEFT;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_EUROPEAN_NUMBER;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_EUROPEAN_NUMBER_SEPARATOR;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_ARABIC_NUMBER;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_COMMON_NUMBER_SEPARATOR;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_NONSPACING_MARK;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_BOUNDARY_NEUTRAL;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_PARAGRAPH_SEPARATOR;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_SEGMENT_SEPARATOR;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_WHITESPACE;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_OTHER_NEUTRALS;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE;
+    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_POP_DIRECTIONAL_FORMAT;
+    final @Source(FlowPermission.LITERAL) char MIN_HIGH_SURROGATE;
+    final @Source(FlowPermission.LITERAL) char MAX_HIGH_SURROGATE;
+    final @Source(FlowPermission.LITERAL) char MIN_LOW_SURROGATE;
+    final @Source(FlowPermission.LITERAL) char MAX_LOW_SURROGATE;
+    final @Source(FlowPermission.LITERAL) char MIN_SURROGATE;
+    final @Source(FlowPermission.LITERAL) char MAX_SURROGATE;
+    final @Source(FlowPermission.LITERAL) int MIN_SUPPLEMENTARY_CODE_POINT;
+    final @Source(FlowPermission.LITERAL) int MIN_CODE_POINT;
+    final @Source(FlowPermission.LITERAL) int MAX_CODE_POINT;
+    final @Source(FlowPermission.LITERAL) int SIZE;
+    Character(char arg0);
+    static Character valueOf(char arg0);
+    char charValue();
+    int hashCode();
+    boolean equals(Object arg0);
+    String toString();
+    static String toString(char arg0);
+    static boolean isValidCodePoint(int arg0);
+    static boolean isBmpCodePoint(int arg0);
+    static boolean isSupplementaryCodePoint(int arg0);
+    static boolean isHighSurrogate(char arg0);
+    static boolean isLowSurrogate(char arg0);
+    static boolean isSurrogate(char arg0);
+    static boolean isSurrogatePair(char arg0, char arg1);
+    static int charCount(int arg0);
+    static int toCodePoint(char arg0, char arg1);
+    static int codePointAt(CharSequence arg0, int arg1);
+    static int codePointAt(char[] arg0, int arg1);
+    static int codePointAt(char[] arg0, int arg1, int arg2);
+    static int codePointBefore(CharSequence arg0, int arg1);
+    static int codePointBefore(char[] arg0, int arg1);
+    static int codePointBefore(char[] arg0, int arg1, int arg2);
+    static char highSurrogate(int arg0);
+    static char lowSurrogate(int arg0);
+    static int toChars(int arg0, char[] arg1, int arg2);
+    static char[] toChars(int arg0);
+    static int codePointCount(CharSequence arg0, int arg1, int arg2);
+    static int codePointCount(char[] arg0, int arg1, int arg2);
+    static int offsetByCodePoints(CharSequence arg0, int arg1, int arg2);
+    static int offsetByCodePoints(char[] arg0, int arg1, int arg2, int arg3, int arg4);
+    static boolean isLowerCase(char arg0);
+    static boolean isLowerCase(int arg0);
+    static boolean isUpperCase(char arg0);
+    static boolean isUpperCase(int arg0);
+    static boolean isTitleCase(char arg0);
+    static boolean isTitleCase(int arg0);
+    static boolean isDigit(char arg0);
+    static boolean isDigit(int arg0);
+    static boolean isDefined(char arg0);
+    static boolean isDefined(int arg0);
+    static boolean isLetter(char arg0);
+    static boolean isLetter(int arg0);
+    static boolean isLetterOrDigit(char arg0);
+    static boolean isLetterOrDigit(int arg0);
+    static boolean isJavaLetter(char arg0);
+    static boolean isJavaLetterOrDigit(char arg0);
+    static boolean isAlphabetic(int arg0);
+    static boolean isIdeographic(int arg0);
+    static boolean isJavaIdentifierStart(char arg0);
+    static boolean isJavaIdentifierStart(int arg0);
+    static boolean isJavaIdentifierPart(char arg0);
+    static boolean isJavaIdentifierPart(int arg0);
+    static boolean isUnicodeIdentifierStart(char arg0);
+    static boolean isUnicodeIdentifierStart(int arg0);
+    static boolean isUnicodeIdentifierPart(char arg0);
+    static boolean isUnicodeIdentifierPart(int arg0);
+    static boolean isIdentifierIgnorable(char arg0);
+    static boolean isIdentifierIgnorable(int arg0);
+    static char toLowerCase(char arg0);
+    static int toLowerCase(int arg0);
+    static char toUpperCase(char arg0);
+    static int toUpperCase(int arg0);
+    static char toTitleCase(char arg0);
+    static int toTitleCase(int arg0);
+    static int digit(char arg0, int arg1);
+    static int digit(int arg0, int arg1);
+    static int getNumericValue(char arg0);
+    static int getNumericValue(int arg0);
+    static boolean isSpace(char arg0);
+    static boolean isSpaceChar(char arg0);
+    static boolean isSpaceChar(int arg0);
+    static boolean isWhitespace(char arg0);
+    static boolean isWhitespace(int arg0);
+    static boolean isISOControl(char arg0);
+    static boolean isISOControl(int arg0);
+    static int getType(char arg0);
+    static int getType(int arg0);
+    static char forDigit(int arg0, int arg1);
+    static byte getDirectionality(char arg0);
+    static byte getDirectionality(int arg0);
+    static boolean isMirrored(char arg0);
+    static boolean isMirrored(int arg0);
+    int compareTo(Character arg0);
+    static int compare(char arg0, char arg1);
+    static char reverseBytes(char arg0);
+    static String getName(int arg0);
+}
+
+@PolyFlowReceiver
+class Character$UnicodeBlock extends Subset {
+    final UnicodeBlock BASIC_LATIN;
+    final UnicodeBlock LATIN_1_SUPPLEMENT;
+    final UnicodeBlock LATIN_EXTENDED_A;
+    final UnicodeBlock LATIN_EXTENDED_B;
+    final UnicodeBlock IPA_EXTENSIONS;
+    final UnicodeBlock SPACING_MODIFIER_LETTERS;
+    final UnicodeBlock COMBINING_DIACRITICAL_MARKS;
+    final UnicodeBlock GREEK;
+    final UnicodeBlock CYRILLIC;
+    final UnicodeBlock ARMENIAN;
+    final UnicodeBlock HEBREW;
+    final UnicodeBlock ARABIC;
+    final UnicodeBlock DEVANAGARI;
+    final UnicodeBlock BENGALI;
+    final UnicodeBlock GURMUKHI;
+    final UnicodeBlock GUJARATI;
+    final UnicodeBlock ORIYA;
+    final UnicodeBlock TAMIL;
+    final UnicodeBlock TELUGU;
+    final UnicodeBlock KANNADA;
+    final UnicodeBlock MALAYALAM;
+    final UnicodeBlock THAI;
+    final UnicodeBlock LAO;
+    final UnicodeBlock TIBETAN;
+    final UnicodeBlock GEORGIAN;
+    final UnicodeBlock HANGUL_JAMO;
+    final UnicodeBlock LATIN_EXTENDED_ADDITIONAL;
+    final UnicodeBlock GREEK_EXTENDED;
+    final UnicodeBlock GENERAL_PUNCTUATION;
+    final UnicodeBlock SUPERSCRIPTS_AND_SUBSCRIPTS;
+    final UnicodeBlock CURRENCY_SYMBOLS;
+    final UnicodeBlock COMBINING_MARKS_FOR_SYMBOLS;
+    final UnicodeBlock LETTERLIKE_SYMBOLS;
+    final UnicodeBlock NUMBER_FORMS;
+    final UnicodeBlock ARROWS;
+    final UnicodeBlock MATHEMATICAL_OPERATORS;
+    final UnicodeBlock MISCELLANEOUS_TECHNICAL;
+    final UnicodeBlock CONTROL_PICTURES;
+    final UnicodeBlock OPTICAL_CHARACTER_RECOGNITION;
+    final UnicodeBlock ENCLOSED_ALPHANUMERICS;
+    final UnicodeBlock BOX_DRAWING;
+    final UnicodeBlock BLOCK_ELEMENTS;
+    final UnicodeBlock GEOMETRIC_SHAPES;
+    final UnicodeBlock MISCELLANEOUS_SYMBOLS;
+    final UnicodeBlock DINGBATS;
+    final UnicodeBlock CJK_SYMBOLS_AND_PUNCTUATION;
+    final UnicodeBlock HIRAGANA;
+    final UnicodeBlock KATAKANA;
+    final UnicodeBlock BOPOMOFO;
+    final UnicodeBlock HANGUL_COMPATIBILITY_JAMO;
+    final UnicodeBlock KANBUN;
+    final UnicodeBlock ENCLOSED_CJK_LETTERS_AND_MONTHS;
+    final UnicodeBlock CJK_COMPATIBILITY;
+    final UnicodeBlock CJK_UNIFIED_IDEOGRAPHS;
+    final UnicodeBlock HANGUL_SYLLABLES;
+    final UnicodeBlock PRIVATE_USE_AREA;
+    final UnicodeBlock CJK_COMPATIBILITY_IDEOGRAPHS;
+    final UnicodeBlock ALPHABETIC_PRESENTATION_FORMS;
+    final UnicodeBlock ARABIC_PRESENTATION_FORMS_A;
+    final UnicodeBlock COMBINING_HALF_MARKS;
+    final UnicodeBlock CJK_COMPATIBILITY_FORMS;
+    final UnicodeBlock SMALL_FORM_VARIANTS;
+    final UnicodeBlock ARABIC_PRESENTATION_FORMS_B;
+    final UnicodeBlock HALFWIDTH_AND_FULLWIDTH_FORMS;
+    final UnicodeBlock SPECIALS;
+    final UnicodeBlock SURROGATES_AREA;
+    final UnicodeBlock SYRIAC;
+    final UnicodeBlock THAANA;
+    final UnicodeBlock SINHALA;
+    final UnicodeBlock MYANMAR;
+    final UnicodeBlock ETHIOPIC;
+    final UnicodeBlock CHEROKEE;
+    final UnicodeBlock UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS;
+    final UnicodeBlock OGHAM;
+    final UnicodeBlock RUNIC;
+    final UnicodeBlock KHMER;
+    final UnicodeBlock MONGOLIAN;
+    final UnicodeBlock BRAILLE_PATTERNS;
+    final UnicodeBlock CJK_RADICALS_SUPPLEMENT;
+    final UnicodeBlock KANGXI_RADICALS;
+    final UnicodeBlock IDEOGRAPHIC_DESCRIPTION_CHARACTERS;
+    final UnicodeBlock BOPOMOFO_EXTENDED;
+    final UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A;
+    final UnicodeBlock YI_SYLLABLES;
+    final UnicodeBlock YI_RADICALS;
+    final UnicodeBlock CYRILLIC_SUPPLEMENTARY;
+    final UnicodeBlock TAGALOG;
+    final UnicodeBlock HANUNOO;
+    final UnicodeBlock BUHID;
+    final UnicodeBlock TAGBANWA;
+    final UnicodeBlock LIMBU;
+    final UnicodeBlock TAI_LE;
+    final UnicodeBlock KHMER_SYMBOLS;
+    final UnicodeBlock PHONETIC_EXTENSIONS;
+    final UnicodeBlock MISCELLANEOUS_MATHEMATICAL_SYMBOLS_A;
+    final UnicodeBlock SUPPLEMENTAL_ARROWS_A;
+    final UnicodeBlock SUPPLEMENTAL_ARROWS_B;
+    final UnicodeBlock MISCELLANEOUS_MATHEMATICAL_SYMBOLS_B;
+    final UnicodeBlock SUPPLEMENTAL_MATHEMATICAL_OPERATORS;
+    final UnicodeBlock MISCELLANEOUS_SYMBOLS_AND_ARROWS;
+    final UnicodeBlock KATAKANA_PHONETIC_EXTENSIONS;
+    final UnicodeBlock YIJING_HEXAGRAM_SYMBOLS;
+    final UnicodeBlock VARIATION_SELECTORS;
+    final UnicodeBlock LINEAR_B_SYLLABARY;
+    final UnicodeBlock LINEAR_B_IDEOGRAMS;
+    final UnicodeBlock AEGEAN_NUMBERS;
+    final UnicodeBlock OLD_ITALIC;
+    final UnicodeBlock GOTHIC;
+    final UnicodeBlock UGARITIC;
+    final UnicodeBlock DESERET;
+    final UnicodeBlock SHAVIAN;
+    final UnicodeBlock OSMANYA;
+    final UnicodeBlock CYPRIOT_SYLLABARY;
+    final UnicodeBlock BYZANTINE_MUSICAL_SYMBOLS;
+    final UnicodeBlock MUSICAL_SYMBOLS;
+    final UnicodeBlock TAI_XUAN_JING_SYMBOLS;
+    final UnicodeBlock MATHEMATICAL_ALPHANUMERIC_SYMBOLS;
+    final UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B;
+    final UnicodeBlock CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT;
+    final UnicodeBlock TAGS;
+    final UnicodeBlock VARIATION_SELECTORS_SUPPLEMENT;
+    final UnicodeBlock SUPPLEMENTARY_PRIVATE_USE_AREA_A;
+    final UnicodeBlock SUPPLEMENTARY_PRIVATE_USE_AREA_B;
+    final UnicodeBlock HIGH_SURROGATES;
+    final UnicodeBlock HIGH_PRIVATE_USE_SURROGATES;
+    final UnicodeBlock LOW_SURROGATES;
+    final UnicodeBlock ARABIC_SUPPLEMENT;
+    final UnicodeBlock NKO;
+    final UnicodeBlock SAMARITAN;
+    final UnicodeBlock MANDAIC;
+    final UnicodeBlock ETHIOPIC_SUPPLEMENT;
+    final UnicodeBlock UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED;
+    final UnicodeBlock NEW_TAI_LUE;
+    final UnicodeBlock BUGINESE;
+    final UnicodeBlock TAI_THAM;
+    final UnicodeBlock BALINESE;
+    final UnicodeBlock SUNDANESE;
+    final UnicodeBlock BATAK;
+    final UnicodeBlock LEPCHA;
+    final UnicodeBlock OL_CHIKI;
+    final UnicodeBlock VEDIC_EXTENSIONS;
+    final UnicodeBlock PHONETIC_EXTENSIONS_SUPPLEMENT;
+    final UnicodeBlock COMBINING_DIACRITICAL_MARKS_SUPPLEMENT;
+    final UnicodeBlock GLAGOLITIC;
+    final UnicodeBlock LATIN_EXTENDED_C;
+    final UnicodeBlock COPTIC;
+    final UnicodeBlock GEORGIAN_SUPPLEMENT;
+    final UnicodeBlock TIFINAGH;
+    final UnicodeBlock ETHIOPIC_EXTENDED;
+    final UnicodeBlock CYRILLIC_EXTENDED_A;
+    final UnicodeBlock SUPPLEMENTAL_PUNCTUATION;
+    final UnicodeBlock CJK_STROKES;
+    final UnicodeBlock LISU;
+    final UnicodeBlock VAI;
+    final UnicodeBlock CYRILLIC_EXTENDED_B;
+    final UnicodeBlock BAMUM;
+    final UnicodeBlock MODIFIER_TONE_LETTERS;
+    final UnicodeBlock LATIN_EXTENDED_D;
+    final UnicodeBlock SYLOTI_NAGRI;
+    final UnicodeBlock COMMON_INDIC_NUMBER_FORMS;
+    final UnicodeBlock PHAGS_PA;
+    final UnicodeBlock SAURASHTRA;
+    final UnicodeBlock DEVANAGARI_EXTENDED;
+    final UnicodeBlock KAYAH_LI;
+    final UnicodeBlock REJANG;
+    final UnicodeBlock HANGUL_JAMO_EXTENDED_A;
+    final UnicodeBlock JAVANESE;
+    final UnicodeBlock CHAM;
+    final UnicodeBlock MYANMAR_EXTENDED_A;
+    final UnicodeBlock TAI_VIET;
+    final UnicodeBlock ETHIOPIC_EXTENDED_A;
+    final UnicodeBlock MEETEI_MAYEK;
+    final UnicodeBlock HANGUL_JAMO_EXTENDED_B;
+    final UnicodeBlock VERTICAL_FORMS;
+    final UnicodeBlock ANCIENT_GREEK_NUMBERS;
+    final UnicodeBlock ANCIENT_SYMBOLS;
+    final UnicodeBlock PHAISTOS_DISC;
+    final UnicodeBlock LYCIAN;
+    final UnicodeBlock CARIAN;
+    final UnicodeBlock OLD_PERSIAN;
+    final UnicodeBlock IMPERIAL_ARAMAIC;
+    final UnicodeBlock PHOENICIAN;
+    final UnicodeBlock LYDIAN;
+    final UnicodeBlock KHAROSHTHI;
+    final UnicodeBlock OLD_SOUTH_ARABIAN;
+    final UnicodeBlock AVESTAN;
+    final UnicodeBlock INSCRIPTIONAL_PARTHIAN;
+    final UnicodeBlock INSCRIPTIONAL_PAHLAVI;
+    final UnicodeBlock OLD_TURKIC;
+    final UnicodeBlock RUMI_NUMERAL_SYMBOLS;
+    final UnicodeBlock BRAHMI;
+    final UnicodeBlock KAITHI;
+    final UnicodeBlock CUNEIFORM;
+    final UnicodeBlock CUNEIFORM_NUMBERS_AND_PUNCTUATION;
+    final UnicodeBlock EGYPTIAN_HIEROGLYPHS;
+    final UnicodeBlock BAMUM_SUPPLEMENT;
+    final UnicodeBlock KANA_SUPPLEMENT;
+    final UnicodeBlock ANCIENT_GREEK_MUSICAL_NOTATION;
+    final UnicodeBlock COUNTING_ROD_NUMERALS;
+    final UnicodeBlock MAHJONG_TILES;
+    final UnicodeBlock DOMINO_TILES;
+    final UnicodeBlock PLAYING_CARDS;
+    final UnicodeBlock ENCLOSED_ALPHANUMERIC_SUPPLEMENT;
+    final UnicodeBlock ENCLOSED_IDEOGRAPHIC_SUPPLEMENT;
+    final UnicodeBlock MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS;
+    final UnicodeBlock EMOTICONS;
+    final UnicodeBlock TRANSPORT_AND_MAP_SYMBOLS;
+    final UnicodeBlock ALCHEMICAL_SYMBOLS;
+    final UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C;
+    final UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D;
+    static UnicodeBlock of(char arg0);
+    static UnicodeBlock of(int arg0);
+    static UnicodeBlock forName(String arg0);
+}
+
+@PolyFlowReceiver
+class Character$Subset {
+    protected Subset(String arg0);
+    boolean equals(Object arg0);
+    int hashCode();
+    String toString();
+}
+
+
+@PolyFlowReceiver
 interface CharSequence {
     int length();
     char charAt(int arg0);
@@ -9,9 +410,71 @@ interface CharSequence {
     String toString();
 }
 
-class Double {
-    
+@PolyFlowReceiver
+class Double extends Number implements Comparable<Double> {
+//Added by pbsf
+    final double POSITIVE_INFINITY;
+    final double NEGATIVE_INFINITY;
+    final double NaN;
+    final double MAX_VALUE;
+    final double MIN_NORMAL;
+    final double MIN_VALUE;
+    final int MAX_EXPONENT;
+    final int MIN_EXPONENT;
+    final int SIZE;
+    final Class<Double> TYPE;
+    static String toString(double arg0);
+    static String toHexString(double arg0);
+    static Double valueOf(String arg0) throws NumberFormatException;
+    static Double valueOf(double arg0);
+    static double parseDouble(String arg0) throws NumberFormatException;
+    static boolean isNaN(double arg0);
+    static boolean isInfinite(double arg0);
+    Double(double arg0);
+    Double(String arg0) throws NumberFormatException;
+    boolean isNaN();
+    boolean isInfinite();
+    String toString();
+    byte byteValue();
+    short shortValue();
+    int intValue();
+    long longValue();
+    float floatValue();
+    double doubleValue();
+    int hashCode();
+    boolean equals(Object arg0);
+    static long doubleToLongBits(double arg0);
+    static long doubleToRawLongBits(double arg0);
+    static double longBitsToDouble(long arg0);
+    int compareTo(Double arg0);
+    static int compare(double arg0, double arg1);
 }
+
+@PolyFlowReceiver
+class IllegalStateException extends RuntimeException {
+//Added by pbsf
+    IllegalStateException();
+    IllegalStateException(String arg0);
+    IllegalStateException(String arg0, Throwable arg1);
+    IllegalStateException(Throwable arg0);
+}
+
+@PolyFlowReceiver
+class Enum<E> implements Comparable<E>, Serializable {
+    String name();
+    int ordinal();
+    protected Enum(String arg0, int arg1);
+    String toString();
+    boolean equals(Object arg0);
+    int hashCode();
+    protected Object clone() throws CloneNotSupportedException;
+    int compareTo(E arg0);
+    Class<E> getDeclaringClass();
+    static <T> T valueOf(Class<T> arg0, String arg1);
+    protected void finalize();
+}
+
+
 
 @PolyFlowReceiver
 class Integer extends Number implements Comparable<Integer> {
@@ -19,30 +482,70 @@ class Integer extends Number implements Comparable<Integer> {
     final @Source(FlowPermission.LITERAL) int MIN_VALUE;
     final @Source(FlowPermission.LITERAL) int MAX_VALUE;
     final @Source(FlowPermission.LITERAL) int SIZE;
-    @PolyFlow
-    static String toString(int arg0, int arg1);
-    @PolyFlow
-    static String toHexString(int arg0);
-    @PolyFlow
-    static String toOctalString(int arg0);
-    @PolyFlow
-    static String toBinaryString(int arg0);
-    @PolyFlow
-    static String toString(int arg0);
-    @PolyFlow
-    static int parseInt(String arg0, int arg1) throws NumberFormatException;
-    @PolyFlow
-    static int parseInt(String arg0) throws NumberFormatException;
-    @PolyFlow
-    static Integer valueOf(String arg0, int arg1) throws NumberFormatException;
-    @PolyFlow
-    static Integer valueOf(String arg0) throws NumberFormatException;
-    @PolyFlow
-    static Integer valueOf(int arg0);
-    @PolyFlow
+    static @PolyFlow String toString(int arg0, int arg1);
+    static @PolyFlow String toHexString(int arg0);
+    static @PolyFlow String toOctalString(int arg0);
+    static @PolyFlow String toBinaryString(int arg0);
+    static @PolyFlow String toString(int arg0);
+    static @PolyFlow int parseInt(String arg0, int arg1) throws NumberFormatException;
+    static @PolyFlow int parseInt(String arg0) throws NumberFormatException;
+    static @PolyFlow Integer valueOf(String arg0, int arg1) throws NumberFormatException;
+    static @PolyFlow Integer valueOf(String arg0) throws NumberFormatException;
+    static @PolyFlow Integer valueOf(int arg0);
     Integer(int arg0);
-    @PolyFlow
-    Integer(String arg0) throws NumberFormatException;
+    @PolyFlow Integer(String arg0) throws NumberFormatException;
+    @PolyFlow byte byteValue();
+    @PolyFlow short shortValue();
+    @PolyFlow int intValue();
+    @PolyFlow long longValue();
+    @PolyFlow float floatValue();
+    @PolyFlow double doubleValue();
+    @PolyFlow String toString();
+    @PolyFlow int hashCode();
+    @PolyFlow boolean equals(Object arg0);
+    static @PolyFlow Integer getInteger(String arg0);
+    static @PolyFlow Integer getInteger(String arg0, int arg1);
+    static @PolyFlow Integer getInteger(String arg0, Integer arg1);
+    static @PolyFlow Integer decode(String arg0) throws NumberFormatException;
+    @PolyFlow int compareTo(Integer arg0);
+    static @PolyFlow int compare(int arg0, int arg1);
+    static @PolyFlow int highestOneBit(int arg0);
+    static @PolyFlow int lowestOneBit(int arg0);
+    static @PolyFlow int numberOfLeadingZeros(int arg0);
+    static @PolyFlow int numberOfTrailingZeros(int arg0);
+    static @PolyFlow int bitCount(int arg0);
+    static @PolyFlow int rotateLeft(int arg0, int arg1);
+    static @PolyFlow int rotateRight(int arg0, int arg1);    
+    static @PolyFlow int reverse(int arg0);    
+    static @PolyFlow int signum(int arg0);    
+    static @PolyFlow int reverseBytes(int arg0);
+}
+
+@PolyFlowReceiver
+interface Iterable<T> {
+    Iterator<T> iterator();
+}
+
+@PolyFlowReceiver
+class Long extends Number implements Comparable<Long> {
+//Added by pbsf
+    final long MIN_VALUE;
+    final long MAX_VALUE;
+    final Class<Long> TYPE;
+    final int SIZE;
+    static String toString(long arg0, int arg1);
+    static String toHexString(long arg0);
+    static String toOctalString(long arg0);
+    static String toBinaryString(long arg0);
+    static String toString(long arg0);
+    static long parseLong(String arg0, int arg1) throws NumberFormatException;
+    static long parseLong(String arg0) throws NumberFormatException;
+    static Long valueOf(String arg0, int arg1) throws NumberFormatException;
+    static Long valueOf(String arg0) throws NumberFormatException;
+    static Long valueOf(long arg0);
+    static Long decode(String arg0) throws NumberFormatException;
+    Long(long arg0);
+    Long(String arg0) throws NumberFormatException;
     byte byteValue();
     short shortValue();
     int intValue();
@@ -52,45 +555,135 @@ class Integer extends Number implements Comparable<Integer> {
     String toString();
     int hashCode();
     boolean equals(Object arg0);
-    @PolyFlow
-    static Integer getInteger(String arg0);
-    @PolyFlow
-    static Integer getInteger(String arg0, int arg1);
-    @PolyFlow
-    static Integer getInteger(String arg0, Integer arg1);
-    @PolyFlow
-    static Integer decode(String arg0) throws NumberFormatException;
-    int compareTo(Integer arg0);
-    @PolyFlow
-    static int compare(int arg0, int arg1);
-    @PolyFlow
-    static int highestOneBit(int arg0);
-    @PolyFlow
-    static int lowestOneBit(int arg0);
-    @PolyFlow
-    static int numberOfLeadingZeros(int arg0);
-    @PolyFlow
-    static int numberOfTrailingZeros(int arg0);
-    @PolyFlow
-    static int bitCount(int arg0);
-    @PolyFlow
-    static int rotateLeft(int arg0, int arg1);
-    @PolyFlow
-    static int rotateRight(int arg0, int arg1);
-    @PolyFlow
-    static int reverse(int arg0);
-    @PolyFlow
-    static int signum(int arg0);
-    @PolyFlow
-    static int reverseBytes(int arg0);
+    static Long getLong(String arg0);
+    static Long getLong(String arg0, long arg1);
+    static Long getLong(String arg0, Long arg1);
+    int compareTo(Long arg0);
+    static int compare(long arg0, long arg1);
+    static long highestOneBit(long arg0);
+    static long lowestOneBit(long arg0);
+    static int numberOfLeadingZeros(long arg0);
+    static int numberOfTrailingZeros(long arg0);
+    static int bitCount(long arg0);
+    static long rotateLeft(long arg0, int arg1);
+    static long rotateRight(long arg0, int arg1);
+    static long reverse(long arg0);
+    static int signum(long arg0);
+    static long reverseBytes(long arg0);
 }
 
+class Math {
+//Added by smillst
+    @PolyFlow
+    static double abs(double a);
+    @PolyFlow
+    static float abs(float a);
+    @PolyFlow
+    static int abs(int a);
+    @PolyFlow
+    static long abs(long a);
+    @PolyFlow
+    static double acos(double a);
+    @PolyFlow
+    static double asin(double a);
+    @PolyFlow
+    static double atan(double a);
+    @PolyFlow
+    static double atan2(double y, double x);
+    @PolyFlow
+    static double cbrt(double a);
+    @PolyFlow
+    static double ceil(double a);
+    @PolyFlow
+    static double copySign(double magnitude, double sign);
+    @PolyFlow
+    static float copySign(float magnitude, float sign);
+    @PolyFlow
+    static double cos(double a);
+    @PolyFlow
+    static double cosh(double x);
+    @PolyFlow
+    static double exp(double a);
+    @PolyFlow
+    static double expm1(double x);
+    @PolyFlow
+    static double floor(double a);
+    @PolyFlow
+    static int getExponent(double d);
+    @PolyFlow
+    static int getExponent(float f);
+    @PolyFlow
+    static double hypot(double x, double y);
+    @PolyFlow
+    static double IEEEremainder(double f1, double f2);
+    @PolyFlow
+    static double log(double a);
+    @PolyFlow
+    static double log10(double a);
+    @PolyFlow
+    static double log1p(double x);
+    @PolyFlow
+    static double max(double a, double b);
+    @PolyFlow
+    static float max(float a, float b);
+    @PolyFlow
+    static int max(int a, int b);
+    @PolyFlow
+    static long max(long a, long b);
+    @PolyFlow
+    static double min(double a, double b);
+    @PolyFlow
+    static float min(float a, float b);
+    @PolyFlow
+    static int min(int a, int b);
+    @PolyFlow
+    static long min(long a, long b);
+    @PolyFlow
+    static double nextAfter(double start, double direction);
+    @PolyFlow
+    static float nextAfter(float start, double direction);
+    @PolyFlow
+    static double nextUp(double d);
+    @PolyFlow
+    static float nextUp(float f);
+    @PolyFlow
+    static double pow(double a, double b);
+    @PolyFlow
+    static double random();
+    @PolyFlow
+    static double rint(double a);
+    @PolyFlow
+    static long round(double a);
+    @PolyFlow
+    static int round(float a);
+    @PolyFlow
+    static double scalb(double d, int scaleFactor);
+    @PolyFlow
+    static float scalb(float f, int scaleFactor);
+    @PolyFlow
+    static double signum(double d);
+    @PolyFlow
+    static float signum(float f);
+    @PolyFlow
+    static double sin(double a);
+    @PolyFlow
+    static double sinh(double x);
+    @PolyFlow
+    static double sqrt(double a);
+    @PolyFlow
+    static double tan(double a);
+    @PolyFlow
+    static double tanh(double x);
+    @PolyFlow
+    static double toDegrees(double angrad);
+    @PolyFlow
+    static double toRadians(double angdeg);
+    @PolyFlow
+    static double ulp(double d);
+    @PolyFlow
+    static float ulp(float f);
 
-class Long {
-//Added by Philip
-    static @PolyFlow long parseLong(String string);
 }
-
 
 class Object {
 //Added by smillst
@@ -327,123 +920,6 @@ class StringBuilder extends AbstractStringBuilder implements Serializable, CharS
     String intern();
 }
 
-   
-
-
-class Math {
-//Added by smillst
-    @PolyFlow
-    static double abs(double a);
-    @PolyFlow
-    static float abs(float a);
-    @PolyFlow
-    static int abs(int a);
-    @PolyFlow
-    static long abs(long a);
-    @PolyFlow
-    static double acos(double a);
-    @PolyFlow
-    static double asin(double a);
-    @PolyFlow
-    static double atan(double a);
-    @PolyFlow
-    static double atan2(double y, double x);
-    @PolyFlow
-    static double cbrt(double a);
-    @PolyFlow
-    static double ceil(double a);
-    @PolyFlow
-    static double copySign(double magnitude, double sign);
-    @PolyFlow
-    static float copySign(float magnitude, float sign);
-    @PolyFlow
-    static double cos(double a);
-    @PolyFlow
-    static double cosh(double x);
-    @PolyFlow
-    static double exp(double a);
-    @PolyFlow
-    static double expm1(double x);
-    @PolyFlow
-    static double floor(double a);
-    @PolyFlow
-    static int getExponent(double d);
-    @PolyFlow
-    static int getExponent(float f);
-    @PolyFlow
-    static double hypot(double x, double y);
-    @PolyFlow
-    static double IEEEremainder(double f1, double f2);
-    @PolyFlow
-    static double log(double a);
-    @PolyFlow
-    static double log10(double a);
-    @PolyFlow
-    static double log1p(double x);
-    @PolyFlow
-    static double max(double a, double b);
-    @PolyFlow
-    static float max(float a, float b);
-    @PolyFlow
-    static int max(int a, int b);
-    @PolyFlow
-    static long max(long a, long b);
-    @PolyFlow
-    static double min(double a, double b);
-    @PolyFlow
-    static float min(float a, float b);
-    @PolyFlow
-    static int min(int a, int b);
-    @PolyFlow
-    static long min(long a, long b);
-    @PolyFlow
-    static double nextAfter(double start, double direction);
-    @PolyFlow
-    static float nextAfter(float start, double direction);
-    @PolyFlow
-    static double nextUp(double d);
-    @PolyFlow
-    static float nextUp(float f);
-    @PolyFlow
-    static double pow(double a, double b);
-    @PolyFlow
-    static double random();
-    @PolyFlow
-    static double rint(double a);
-    @PolyFlow
-    static long round(double a);
-    @PolyFlow
-    static int round(float a);
-    @PolyFlow
-    static double scalb(double d, int scaleFactor);
-    @PolyFlow
-    static float scalb(float f, int scaleFactor);
-    @PolyFlow
-    static double signum(double d);
-    @PolyFlow
-    static float signum(float f);
-    @PolyFlow
-    static double sin(double a);
-    @PolyFlow
-    static double sinh(double x);
-    @PolyFlow
-    static double sqrt(double a);
-    @PolyFlow
-    static double tan(double a);
-    @PolyFlow
-    static double tanh(double x);
-    @PolyFlow
-    static double toDegrees(double angrad);
-    @PolyFlow
-    static double toRadians(double angdeg);
-    @PolyFlow
-    static double ulp(double d);
-    @PolyFlow
-    static float ulp(float f);
-
-}
-
-
 // [append, toString, <init>, length, insert, indexOf, substring, setCharAt, setLength]
 class StringBuffer implements Serializable, CharSequence {
     // DAM
@@ -560,3 +1036,91 @@ class StringBuffer implements Serializable, CharSequence {
     String  toString();
     void    trimToSize();
 }
+
+@PolyFlowReceiver
+class Thread implements Runnable {
+    final @Source(FlowPermission.LITERAL) int MIN_PRIORITY;
+    final @Source(FlowPermission.LITERAL) int NORM_PRIORITY;
+    final @Source(FlowPermission.LITERAL) int MAX_PRIORITY;
+    static Thread currentThread();
+    static void yield();
+    static void sleep(long arg0) throws InterruptedException;
+    static void sleep(long arg0, int arg1) throws InterruptedException;
+    protected Object clone() throws CloneNotSupportedException;
+    Thread();
+    Thread(Runnable arg0);
+    Thread(ThreadGroup arg0, Runnable arg1);
+    Thread(String arg0);
+    Thread(ThreadGroup arg0, String arg1);
+    Thread(Runnable arg0, String arg1);
+    Thread(ThreadGroup arg0, Runnable arg1, String arg2);
+    Thread(ThreadGroup arg0, Runnable arg1, String arg2, long arg3);
+    void start();
+    void run();
+    void stop();
+    void stop(Throwable arg0);
+    void interrupt();
+    static boolean interrupted();
+    boolean isInterrupted();
+    void destroy();
+    boolean isAlive();
+    void suspend();
+    void resume();
+    void setPriority(int arg0);
+    int getPriority();
+    void setName(String arg0);
+    String getName();
+    ThreadGroup getThreadGroup();
+    static int activeCount();
+    static int enumerate(Thread[] arg0);
+    int countStackFrames();
+    void join(long arg0) throws InterruptedException;
+    void join(long arg0, int arg1) throws InterruptedException;
+    void join() throws InterruptedException;
+    static void dumpStack();
+    void setDaemon(boolean arg0);
+    boolean isDaemon();
+    void checkAccess();
+    String toString();
+    ClassLoader getContextClassLoader();
+    void setContextClassLoader(ClassLoader arg0);
+    static boolean holdsLock(Object arg0);
+    StackTraceElement[] getStackTrace();
+    static Map<Thread,StackTraceElement[]> getAllStackTraces();
+    long getId();
+    State getState();
+    static void setDefaultUncaughtExceptionHandler(UncaughtExceptionHandler arg0);
+    static UncaughtExceptionHandler getDefaultUncaughtExceptionHandler();
+    UncaughtExceptionHandler getUncaughtExceptionHandler();
+    void setUncaughtExceptionHandler(UncaughtExceptionHandler arg0);
+}
+
+@PolyFlowReceiver
+interface Thread$UncaughtExceptionHandler {
+    void uncaughtException(Thread arg0, Throwable arg1);
+}
+
+
+
+class Throwable implements Serializable {
+//SOM
+    Throwable();
+    Throwable(String arg0);
+    Throwable(String arg0, Throwable arg1);
+    Throwable(Throwable arg0);
+    protected Throwable(String arg0, Throwable arg1, boolean arg2, boolean arg3);
+    String getMessage();
+    String getLocalizedMessage();
+    Throwable getCause();
+    Throwable initCause(Throwable arg0);
+    String toString();
+    void printStackTrace();
+    void printStackTrace(PrintStream arg0);
+    void printStackTrace(PrintWriter arg0);
+    Throwable fillInStackTrace();
+    StackTraceElement[] getStackTrace();
+    void setStackTrace(StackTraceElement[] arg0);
+    void addSuppressed(Throwable arg0);
+    Throwable[] getSuppressed();
+}
+

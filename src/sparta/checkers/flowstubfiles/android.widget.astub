@@ -1,12 +1,294 @@
 
 package android.widget;
 
+class Button {
+//CSH: all of the methods used are inhereited
+
+//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+}
+
+class EditText {
+    
+//void extendSelection(int index);
+//Convenience for extendSelection(Spannable, int);.
+
+@Source(FlowPermission.USER_INPUT) Editable getText();
+//Return the text the TextView is displaying.
+
+//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+//void selectAll();
+//Convenience for selectAll(Spannable);.
+
+//void setEllipsize(TextUtils.TruncateAt ellipsis);
+//Causes words in the text that are longer than the view is wide to be ellipsized instead of broken in the middle.
+
+//void setSelection(int index);
+//Convenience for setSelection(Spannable, int);.
+
+//void setSelection(int start, int stop);
+//Convenience for setSelection(Spannable, int, int);.
+
+void setText(@Sink(FlowPermission.DISPLAY )CharSequence text, TextView.BufferType type);
+//Sets the text that this TextView is to display (see setText(CharSequence);); and also sets whether it is stored in a styleable/spannable buffer and whether it is editable.
+
+}
+
+
 class ImageView {
 //Added by Philip
 	void setImageBitmap(@Sink(FlowPermission.DISPLAY) Bitmap bm);
 	void setImageDrawable(@Sink(FlowPermission.DISPLAY) Drawable drawable);
 	void setImageResource(@PolySource @PolySink int i) @PolySource @PolySink;
 }
+
+class LinearLayout {
+//CSH: Another class where almost all of the methods used are inherited
+
+
+//LinearLayout.LayoutParams generateLayoutParams(AttributeSet attrs);
+//Returns a new set of layout parameters based on the supplied attributes set.
+
+//int getBaseline();
+//Return the offset of the widget's text baseline from the widget's top boundary.
+
+//int getBaselineAlignedChildIndex();
+//Drawable getDividerDrawable();
+
+//int getDividerPadding();
+//Get the padding size used to inset dividers in pixels
+
+//int getOrientation();
+//Returns the current orientation.
+
+//int getShowDividers();
+
+//float getWeightSum();
+//Returns the desired weights sum.
+
+//boolean isBaselineAligned();
+//Indicates whether widgets contained within this layout are aligned on their baseline or not.
+
+//boolean isMeasureWithLargestChildEnabled();
+//When true, all children with a weight will be considered having the minimum size of the largest child.
+
+//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+//void setBaselineAligned(boolean baselineAligned);
+//Defines whether widgets contained in this layout are baseline-aligned or not.
+
+//void setBaselineAlignedChildIndex(int i);
+
+//void setDividerDrawable(Drawable divider);
+//Set a drawable to be used as a divider between items.
+
+//void setDividerPadding(int padding);
+//Set padding displayed on both ends of dividers.
+
+void setGravity(int gravity);
+//Describes how the child views are positioned.
+
+//void setHorizontalGravity(int horizontalGravity);
+
+//void setMeasureWithLargestChildEnabled(boolean enabled);
+//When set to true, all children with a weight will be considered having the minimum size of the largest child.
+
+//void setOrientation(int orientation);
+//Should the layout be a column or a row.
+
+//void setShowDividers(int showDividers);
+//Set how dividers should be shown between items in this layout
+
+//void setVerticalGravity(int verticalGravity);
+
+//void setWeightSum(float weightSum);
+//Defines the desired weights sum.
+
+//boolean shouldDelayChildPressedState();
+//Return true if the pressed state should be delayed for children or descendants of this ViewGroup.
+
+
+//Protected
+//boolean checkLayoutParams(ViewGroup.LayoutParams p);
+
+//LinearLayout.LayoutParams generateDefaultLayoutParams();
+//Returns a set of layout parameters with a width of MATCH_PARENT and a height of WRAP_CONTENT when the layout's orientation is VERTICAL.
+
+//LinearLayout.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
+//Returns a safe set of layout parameters based on the supplied layout params.
+
+void onDraw(Canvas canvas);
+//Implement this to do your drawing.
+
+//void onLayout(boolean changed, int l, int t, int r, int b);
+//Called from layout when this view should assign a size and position to each of its children.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+}
+
+class ListView {
+
+//void addFooterView(View v);
+//Add a fixed view to appear at the bottom of the list.
+
+//void addFooterView(View v, Object data, boolean isSelectable);
+//Add a fixed view to appear at the bottom of the list.
+
+//void addHeaderView(View v, Object data, boolean isSelectable);
+//Add a fixed view to appear at the top of the list.
+
+//void addHeaderView(View v);
+//Add a fixed view to appear at the top of the list.
+
+//boolean dispatchKeyEvent(KeyEvent event);
+//Dispatch a key event to the next view on the focus path.
+
+//ListAdapter getAdapter();
+//Returns the adapter currently in use in this ListView.
+
+//long[] getCheckItemIds();
+//This method was deprecated in API level 8. Use getCheckedItemIds(); instead.
+
+//Drawable getDivider();
+//Returns the drawable that will be drawn between each item in the list.
+
+//int getDividerHeight();
+
+//int getFooterViewsCount();
+//Returns the number of footer views in the list.
+
+//int getHeaderViewsCount();
+//Returns the number of header views in the list.
+
+//boolean getItemsCanFocus();
+
+//int getMaxScrollAmount();
+
+//Drawable getOverscrollFooter();
+
+//Drawable getOverscrollHeader();
+
+//boolean isOpaque();
+//Indicates whether this View is opaque.
+
+//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+//boolean onKeyDown(int keyCode, KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyDown();: perform press of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released, if the view is enabled and clickable.
+
+//boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyMultiple();: always returns false (doesn't handle the event);.
+
+//boolean onKeyUp(int keyCode, KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyUp();: perform clicking of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released.
+
+//boolean removeFooterView(View v);
+//Removes a previously-added footer view.
+
+//boolean removeHeaderView(View v);
+//Removes a previously-added header view.
+
+//boolean requestChildRectangleOnScreen(View child, Rect rect, boolean immediate);
+//Called when a child of this group wants a particular rectangle to be positioned onto the screen.
+
+void setAdapter(@Sink(FlowPermission.DISPLAY) ListAdapter adapter);
+//Sets the data behind this ListView.
+//CSH: data in list adapter has to be displayable on screen
+
+void setCacheColorHint(int color);
+//When set to a non-zero value, the cache color hint indicates that this list is always drawn on top of a solid, single-color, opaque background.
+
+void setDivider(Drawable divider);
+//Sets the drawable that will be drawn between each item in the list.
+
+void setDividerHeight(int height);
+//Sets the height of the divider that will be drawn between each item in the list.
+
+//void setFooterDividersEnabled(boolean footerDividersEnabled);
+//Enables or disables the drawing of the divider for footer views.
+
+//void setHeaderDividersEnabled(boolean headerDividersEnabled);
+//Enables or disables the drawing of the divider for header views.
+
+//void setItemsCanFocus(boolean itemsCanFocus);
+//Indicates that the views created by the ListAdapter can contain focusable items.
+
+//void setOverscrollFooter(Drawable footer);
+//Sets the drawable that will be drawn below all other list content.
+
+//void setOverscrollHeader(Drawable header);
+//Sets the drawable that will be drawn above all other list content.
+
+//void setRemoteViewsAdapter(Intent intent);
+//Sets up this AbsListView to use a remote views adapter which connects to a RemoteViewsService through the specified intent.
+
+void setSelection(@Sink(FlowPermission.DISPLAY) int position);
+//Sets the currently selected item.
+
+//void setSelectionAfterHeaderView();
+//setSelectionAfterHeaderView set the selection to be the first list item after the header views.
+
+//void setSelectionFromTop(int position, int y);
+//Sets the selected item and positions the selection y pixels from the top edge of the ListView.
+
+//void smoothScrollByOffset(int offset);
+//Smoothly scroll to the specified adapter position offset.
+
+//void smoothScrollToPosition(int position);
+//Smoothly scroll to the specified adapter position.
+
+
+
+//Protected
+//boolean canAnimate();
+//Indicates whether the view group has the ability to animate its children after the first layout.
+
+//void dispatchDraw(Canvas canvas);
+//Called by draw to draw the child views.
+
+//boolean drawChild(Canvas canvas, View child, long drawingTime);
+//Draw one child of this View Group.
+
+//View findViewTraversal(int id);
+
+//View findViewWithTagTraversal(Object tag);
+
+//void layoutChildren();
+//Subclasses must override this method to layout their children.
+
+//void onFinishInflate();
+//Finalize inflating a view from XML.
+
+//void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect);
+//Called by the view system when the focus state of this view changes.
+
+//void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+//void onSizeChanged(int w, int h, int oldw, int oldh);
+//This is called during layout when the size of this view has changed.
+
+}
+
 
 class TextView {
 //Added by Carl Hartung

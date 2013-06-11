@@ -1,7 +1,123 @@
 package android.net;
 
 class Uri {
-//Added by Philip
-    @PolySource @PolySink List<@PolySource @PolySink String> getPathSegments() @PolySource @PolySink;
-    static @PolyFlow Uri parse(String uriString);
+    
+    
+abstract Uri.Builder buildUpon();
+//Constructs a new builder, copying the attributes from this Uri.
+
+//int compareTo(Uri other);
+//Compares the string representation of this Uri with that of another.
+
+//static String decode(String s);
+//Decodes '%'-escaped octets in the given string using the UTF-8 scheme.
+
+static String encode(String s, String allow);
+//Encodes characters in the given string as '%'-escaped octets using the UTF-8 scheme.
+
+static String encode(String s);
+//Encodes characters in the given string as '%'-escaped octets using the UTF-8 scheme.
+
+boolean equals(Object o);
+//Compares this Uri to another object for equality.
+
+static Uri fromFile(@Source({FlowPermission.FILESYSTEM, FlowPermission.READ_EXTERNAL_STORAGE}) File file);
+//Creates a Uri from a file.
+
+static Uri fromParts(String scheme, String ssp, String fragment);
+//Creates an opaque Uri from the given components.
+
+//abstract String getAuthority();
+//Gets the decoded authority part of this URI.
+
+//boolean getBooleanQueryParameter(String key, boolean defaultValue);
+//Searches the query string for the first value with the given key and interprets it as a boolean value.
+
+//abstract String getEncodedAuthority();
+//Gets the encoded authority part of this URI.
+
+//abstract String getEncodedFragment();
+//Gets the encoded fragment part of this URI, everything after the '#'.
+
+//abstract String getEncodedPath();
+//Gets the encoded path.
+
+//abstract String getEncodedQuery();
+//Gets the encoded query component from this URI.
+
+//abstract String getEncodedSchemeSpecificPart();
+//Gets the scheme-specific part of this URI, i.e.
+
+//abstract String getEncodedUserInfo();
+//Gets the encoded user information from the authority.
+
+//abstract String getFragment();
+//Gets the decoded fragment part of this URI, everything after the '#'.
+
+//abstract String getHost();
+//Gets the encoded host from the authority for this URI.
+
+abstract String getLastPathSegment();
+//Gets the decoded last segment in the path.
+
+//abstract String getPath();
+//Gets the decoded path.
+
+@PolySource @PolySink List<@PolySource @PolySink String> getPathSegments() @PolySource @PolySink;
+//Gets the decoded path segments.
+
+//abstract int getPort();
+//Gets the port from the authority for this URI.
+
+//abstract String getQuery();
+//Gets the decoded query component from this URI.
+
+String getQueryParameter(String key);
+//Searches the query string for the first value with the given key.
+
+//Set<String> getQueryParameterNames();
+//Returns a set of the unique names of all query parameters.
+
+//List<String> getQueryParameters(String key);
+//Searches the query string for parameter values with the given key.
+
+abstract String getScheme();
+//Gets the scheme of this URI.
+
+//abstract String getSchemeSpecificPart();
+//Gets the scheme-specific part of this URI, i.e.
+
+//abstract String getUserInfo();
+//Gets the decoded user information from the authority.
+
+//int hashCode();
+//Hashes the encoded string represention of this Uri consistently with equals(Object);.
+
+//boolean isAbsolute();
+//Returns true if this URI is absolute, i.e.
+
+//abstract boolean isHierarchical();
+//Returns true if this URI is hierarchical like "http://google.com".
+
+//boolean isOpaque();
+//Returns true if this URI is opaque like "mailto:nobody@google.com".
+
+//abstract boolean isRelative();
+//Returns true if this URI is relative, i.e.
+
+//Uri normalizeScheme();
+//Return an equivalent URI with a lowercase scheme component.
+
+static @PolyFlow Uri parse(String uriString);
+//Creates a Uri which parses the given encoded URI string.
+
+abstract String toString();
+//Returns the encoded string representation of this URI.
+
+static Uri withAppendedPath(Uri baseUri, String pathSegment);
+//Creates a new Uri by appending an already-encoded path segment to a base Uri.
+
+static void writeToParcel(Parcel out, Uri uri);
+//Writes a Uri to a Parcel.
+
 }

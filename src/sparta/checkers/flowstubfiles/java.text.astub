@@ -1,0 +1,51 @@
+package java.text;
+
+@PolyFlowReceiver
+class DecimalFormat extends NumberFormat {
+//Added by pbsf
+    DecimalFormat();
+    DecimalFormat(String arg0);
+    DecimalFormat(String arg0, DecimalFormatSymbols arg1);
+    StringBuffer format(Object arg0, StringBuffer arg1, FieldPosition arg2);
+    StringBuffer format(double arg0, StringBuffer arg1, FieldPosition arg2);
+    StringBuffer format(long arg0, StringBuffer arg1, FieldPosition arg2);
+    AttributedCharacterIterator formatToCharacterIterator(Object arg0);
+    Number parse(String arg0, ParsePosition arg1);
+    DecimalFormatSymbols getDecimalFormatSymbols();
+    void setDecimalFormatSymbols(DecimalFormatSymbols arg0);
+    String getPositivePrefix();
+    void setPositivePrefix(String arg0);
+    String getNegativePrefix();
+    void setNegativePrefix(String arg0);
+    String getPositiveSuffix();
+    void setPositiveSuffix(String arg0);
+    String getNegativeSuffix();
+    void setNegativeSuffix(String arg0);
+    int getMultiplier();
+    void setMultiplier(int arg0);
+    int getGroupingSize();
+    void setGroupingSize(int arg0);
+    boolean isDecimalSeparatorAlwaysShown();
+    void setDecimalSeparatorAlwaysShown(boolean arg0);
+    boolean isParseBigDecimal();
+    void setParseBigDecimal(boolean arg0);
+    Object clone();
+    boolean equals(Object arg0);
+    int hashCode();
+    String toPattern();
+    String toLocalizedPattern();
+    void applyPattern(String arg0);
+    void applyLocalizedPattern(String arg0);
+    void setMaximumIntegerDigits(int arg0);
+    void setMinimumIntegerDigits(int arg0);
+    void setMaximumFractionDigits(int arg0);
+    void setMinimumFractionDigits(int arg0);
+    int getMaximumIntegerDigits();
+    int getMinimumIntegerDigits();
+    int getMaximumFractionDigits();
+    int getMinimumFractionDigits();
+    Currency getCurrency();
+    void setCurrency(Currency arg0);
+    RoundingMode getRoundingMode();
+    void setRoundingMode(RoundingMode arg0);
+}

@@ -7,6 +7,265 @@ void inflate (@Sink(FlowPermission.CONDITIONAL) int menuRes, @Sink(FlowPermissio
 
 }
 
+class MotionEvent {
+//final void addBatch(long eventTime, PointerCoords[] pointerCoords, int metaState);
+//Add a new movement to the batch of movements in this event.
+
+//final void addBatch(long eventTime, float x, float y, float pressure, float size, int metaState);
+//Add a new movement to the batch of movements in this event.
+
+//static int axisFromString(String symbolicName);
+//Gets an axis by its symbolic name such as "AXIS_X" or an equivalent numeric constant such as "42".
+
+//static String axisToString(int axis);
+//Returns a string that represents the symbolic name of the specified axis such as "AXIS_X" or an equivalent numeric constant such as "42" if unknown.
+
+final int findPointerIndex(int pointerId);
+//Given a pointer identifier, find the index of its data in the event.
+
+final int getAction();
+//Return the kind of action being performed.
+
+//final int getActionIndex();
+//For ACTION_POINTER_DOWN or ACTION_POINTER_UP as returned by getActionMasked();, this returns the associated pointer index.
+
+//final int getActionMasked();
+//Return the masked action being performed, without pointer index information.
+
+//final float getAxisValue(int axis);
+//getAxisValue(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getAxisValue(int axis, int pointerIndex);
+//Returns the value of the requested axis for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final int getButtonState();
+//Gets the state of all buttons that are pressed such as a mouse or stylus button.
+
+//final int getDeviceId();
+//Gets the id for the device that this event came from.
+
+//final long getDownTime();
+//Returns the time (in ms); when the user originally pressed down to start a stream of position events.
+
+//final int getEdgeFlags();
+//Returns a bitfield indicating which edges, if any, were touched by this MotionEvent.
+
+final @Source(FlowPermission.READ_TIME) long getEventTime();
+//Retrieve the time this event occurred, in the uptimeMillis(); time base.
+
+//final int getFlags();
+//Gets the motion event flags.
+
+//final float getHistoricalAxisValue(int axis, int pointerIndex, int pos);
+//Returns the historical value of the requested axis, as per getAxisValue(int, int);, occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalAxisValue(int axis, int pos);
+//getHistoricalAxisValue(int, int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final long getHistoricalEventTime(int pos);
+//Returns the time that a historical movement occurred between this event and the previous event, in the uptimeMillis(); time base.
+
+//final float getHistoricalOrientation(int pointerIndex, int pos);
+//Returns a historical orientation coordinate, as per getOrientation(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalOrientation(int pos);
+//getHistoricalOrientation(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final void getHistoricalPointerCoords(int pointerIndex, int pos, MotionEvent.PointerCoords outPointerCoords);
+//Populates a MotionEvent.PointerCoords object with historical pointer coordinate data, as per getPointerCoords(int, MotionEvent.PointerCoords);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalPressure(int pos);
+//getHistoricalPressure(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalPressure(int pointerIndex, int pos);
+//Returns a historical pressure coordinate, as per getPressure(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalSize(int pos);
+//getHistoricalSize(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalSize(int pointerIndex, int pos);
+//Returns a historical size coordinate, as per getSize(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalToolMajor(int pointerIndex, int pos);
+//Returns a historical tool major axis coordinate, as per getToolMajor(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalToolMajor(int pos);
+//getHistoricalToolMajor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalToolMinor(int pointerIndex, int pos);
+//Returns a historical tool minor axis coordinate, as per getToolMinor(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalToolMinor(int pos);
+//getHistoricalToolMinor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalTouchMajor(int pointerIndex, int pos);
+//Returns a historical touch major axis coordinate, as per getTouchMajor(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalTouchMajor(int pos);
+//getHistoricalTouchMajor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalTouchMinor(int pointerIndex, int pos);
+//Returns a historical touch minor axis coordinate, as per getTouchMinor(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalTouchMinor(int pos);
+//getHistoricalTouchMinor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalX(int pos);
+//getHistoricalX(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalX(int pointerIndex, int pos);
+//Returns a historical X coordinate, as per getX(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalY(int pos);
+//getHistoricalY(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalY(int pointerIndex, int pos);
+//Returns a historical Y coordinate, as per getY(int);, that occurred between this event and the previous event for the given pointer.
+
+//final int getHistorySize();
+//Returns the number of historical points in this event.
+
+//final int getMetaState();
+//Returns the state of any meta / modifier keys that were in effect when the event was generated.
+
+//final float getOrientation(int pointerIndex);
+//Returns the orientation of the touch area and tool area in radians clockwise from vertical for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final float getOrientation();
+//getOrientation(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final void getPointerCoords(int pointerIndex, MotionEvent.PointerCoords outPointerCoords);
+//Populates a MotionEvent.PointerCoords object with pointer coordinate data for the specified pointer index.
+
+final int getPointerCount();
+//The number of pointers of data contained in this event.
+
+final int getPointerId(int pointerIndex);
+//Return the pointer identifier associated with a particular pointer data index is this event.
+
+//final void getPointerProperties(int pointerIndex, MotionEvent.PointerProperties outPointerProperties);
+//Populates a MotionEvent.PointerProperties object with pointer properties for the specified pointer index.
+
+//final float getPressure();
+//getPressure(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getPressure(int pointerIndex);
+//Returns the current pressure of this event for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final float getRawX();
+//Returns the original raw X coordinate of this event.
+
+//final float getRawY();
+//Returns the original raw Y coordinate of this event.
+
+//final float getSize(int pointerIndex);
+//Returns a scaled value of the approximate size for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final float getSize();
+//getSize(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final int getSource();
+//Gets the source of the event.
+
+//final float getToolMajor(int pointerIndex);
+//Returns the length of the major axis of an ellipse that describes the size of the approaching tool for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final float getToolMajor();
+//getToolMajor(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getToolMinor();
+//getToolMinor(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getToolMinor(int pointerIndex);
+//Returns the length of the minor axis of an ellipse that describes the size of the approaching tool for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final int getToolType(int pointerIndex);
+//Gets the tool type of a pointer for the given pointer index.
+
+//final float getTouchMajor();
+//getTouchMajor(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getTouchMajor(int pointerIndex);
+//Returns the length of the major axis of an ellipse that describes the touch area at the point of contact for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final float getTouchMinor();
+//getTouchMinor(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getTouchMinor(int pointerIndex);
+//Returns the length of the minor axis of an ellipse that describes the touch area at the point of contact for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+final float getX(int pointerIndex);
+//Returns the X coordinate of this event for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+final float getX();
+//getX(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getXPrecision();
+//Return the precision of the X coordinates being reported.
+
+final float getY(int pointerIndex);
+//Returns the Y coordinate of this event for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+final float getY();
+//getY(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getYPrecision();
+//Return the precision of the Y coordinates being reported.
+
+//static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, PointerProperties[] pointerProperties, PointerCoords[] pointerCoords, int metaState, int buttonState, float xPrecision, float yPrecision, int deviceId, int edgeFlags, int source, int flags);
+//Create a new MotionEvent, filling in all of the basic values that define the motion.
+
+//static MotionEvent obtain(long downTime, long eventTime, int action, float x, float y, float pressure, float size, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags);
+//Create a new MotionEvent, filling in all of the basic values that define the motion.
+
+//static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, float x, float y, float pressure, float size, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags);
+//This method was deprecated in API level 9. Use obtain(long, long, int, float, float, float, float, int, float, float, int, int); instead.
+
+//static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, int[] pointerIds, PointerCoords[] pointerCoords, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags, int source, int flags);
+//This method was deprecated in API level 14. Use obtain(long, long, int, int, PointerProperties[], PointerCoords[], int, int, float, float, int, int, int, int); instead.
+
+//static MotionEvent obtain(MotionEvent other);
+//Create a new MotionEvent, copying from an existing one.
+
+//static MotionEvent obtain(long downTime, long eventTime, int action, float x, float y, int metaState);
+//Create a new MotionEvent, filling in a subset of the basic motion values.
+
+//static MotionEvent obtainNoHistory(MotionEvent other);
+//Create a new MotionEvent, copying from an existing one, but not including any historical point information.
+
+//final void offsetLocation(float deltaX, float deltaY);
+//Adjust this event's location.
+
+final void recycle();
+//Recycle the MotionEvent, to be re-used by a later caller.
+
+//final void setAction(int action);
+//Sets this event's action.
+
+//final void setEdgeFlags(int flags);
+//Sets the bitfield indicating which edges, if any, were touched by this MotionEvent.
+
+final void setLocation(float x, float y);
+//Set this event's location.
+
+//final void setSource(int source);
+//Modifies the source of the event.
+
+//String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+//final void transform(Matrix matrix);
+//Applies a transformation matrix to all of the points in the event.
+
+//void writeToParcel(Parcel out, int flags);
+//Flatten this object in to a Parcel.
+
+//Protected Methods
+//void finalize()
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+}
+
 class SurfaceView{
 //SOM
  @Sink(FlowPermission.DISPLAY) SurfaceHolder getHolder ();
@@ -25,7 +284,6 @@ interface SurfaceHolder$Callback {
     void surfaceDestroyed(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0);
 }
 
-package android.view;
 
 class View {
 //Added by Carl Hartung
@@ -346,334 +604,10 @@ void addFocusables(ArrayList<View> views, int direction, int focusableMode);
 void addFocusables(ArrayList<View> views, int direction);
 //Add any focusable views that are descendants of this view (possibly including this view if it is focusable itself); to views.
 
+}
 
-
-// UNUSED AND UNANNOTATED
-
-// void addChildrenForAccessibility(ArrayList<View> children);
-// void addOnLayoutChangeListener(View.OnLayoutChangeListener listener);
-// ViewPropertyAnimator animate();
-// void announceForAccessibility(CharSequence text);
-// void bringToFront();
-// void buildDrawingCache();
-// void buildDrawingCache(boolean autoScale);
-// void buildLayer();
-// boolean callOnClick();
-// void cancelLongPress();
-// boolean checkInputConnectionProxy(View view);
-// void clearFocus();
-// static int combineMeasuredStates(int curState, int newState);
-// void computeScroll();
-// AccessibilityNodeInfo createAccessibilityNodeInfo();
-// void createContextMenu(ContextMenu menu);
-// void destroyDrawingCache();
-// void dispatchConfigurationChanged(Configuration newConfig);
-// void dispatchDisplayHint(int hint);
-// boolean dispatchDragEvent(DragEvent event);
-// boolean dispatchGenericMotionEvent(MotionEvent event);
-// boolean dispatchKeyEvent(KeyEvent event);
-// boolean dispatchKeyEventPreIme(KeyEvent event);
-// boolean dispatchKeyShortcutEvent(KeyEvent event);
-// void dispatchSystemUiVisibilityChanged(int visibility);
-// boolean dispatchTrackballEvent(MotionEvent event);
-// boolean dispatchUnhandledMove(View focused, int direction);
-// void dispatchWindowFocusChanged(boolean hasFocus);
-// void dispatchWindowSystemUiVisiblityChanged(int visible);
-// void dispatchWindowVisibilityChanged(int visibility);
-// View findFocus();
-// final View findViewWithTag(Object tag);
-// void findViewsWithText(ArrayList<View> outViews, CharSequence searched, int flags);
-// View focusSearch(int direction);
-// void forceLayout();
-// static int generateViewId();
-// float getAlpha();
-// Animation getAnimation();
-// IBinder getApplicationWindowToken();
-// int getBaseline();
-// float getCameraDistance();
-// CharSequence getContentDescription();
-// static int getDefaultSize(int size, int measureSpec);
-// Display getDisplay();
-// final int[] getDrawableState();
-// Bitmap getDrawingCache(boolean autoScale);
-// Bitmap getDrawingCache();
-// int getDrawingCacheBackgroundColor();
-// int getDrawingCacheQuality();
-// void getDrawingRect(Rect outRect);
-// long getDrawingTime();
-// boolean getFilterTouchesWhenObscured();
-// boolean getFitsSystemWindows();
-// ArrayList<View> getFocusables(int direction);
-// void getFocusedRect(Rect r);
-// boolean getGlobalVisibleRect(Rect r, Point globalOffset);
-// final boolean getGlobalVisibleRect(Rect r);
-// Handler getHandler();
-// void getHitRect(Rect outRect);
-// int getHorizontalFadingEdgeLength();
-// boolean getKeepScreenOn();
-// KeyEvent.DispatcherState getKeyDispatcherState();
-// int getLayoutDirection();
-// final boolean getLocalVisibleRect(Rect r);
-// void getLocationInWindow(int[] location);
-// Matrix getMatrix();
-// final int getMeasuredHeightAndState();
-// final int getMeasuredState();
-// final int getMeasuredWidthAndState();
-// int getMinimumHeight();
-// int getMinimumWidth();
-// int getNextFocusDownId();
-// int getNextFocusForwardId();
-// int getNextFocusLeftId();
-// int getNextFocusRightId();
-// int getNextFocusUpId();
-// View.OnFocusChangeListener getOnFocusChangeListener();
-// int getPaddingBottom();
-// int getPaddingEnd();
-// int getPaddingLeft();
-// int getPaddingRight();
-// int getPaddingStart();
-// int getPaddingTop();
-// ViewParent getParentForAccessibility();
-// float getPivotX();
-// float getPivotY();
-// float getRotation();
-// float getRotationX();
-// float getRotationY();
-// float getScaleX();
-// float getScaleY();
-// int getScrollBarDefaultDelayBeforeFade();
-// int getScrollBarFadeDuration();
-// int getScrollBarSize();
-// int getScrollBarStyle();
-// int getSolidColor();
-// int getSystemUiVisibility();
-// int getTextAlignment();
-// int getTextDirection();
-// TouchDelegate getTouchDelegate();
-// ArrayList<View> getTouchables();
-// float getTranslationX();
-// float getTranslationY();
-// int getVerticalFadingEdgeLength();
-// int getVerticalScrollbarPosition();
-// int getVerticalScrollbarWidth();
-// ViewTreeObserver getViewTreeObserver();
-// int getWindowSystemUiVisibility();
-// int getWindowVisibility();
-// void getWindowVisibleDisplayFrame(Rect outRect);
-// float getX();
-// float getY();
-// boolean hasFocus();
-// boolean hasFocusable();
-// boolean hasOnClickListeners();
-// boolean hasOverlappingRendering();
-// boolean hasWindowFocus();
-// static View inflate(Context context, int resource, ViewGroup root);
-// void invalidate(Rect dirty);
-// void invalidate(int l, int t, int r, int b);
-// void invalidate();
-// void invalidateDrawable(Drawable drawable);
-// boolean isActivated();
-// boolean isDirty();
-// boolean isDrawingCacheEnabled();
-// boolean isDuplicateParentStateEnabled();
-// final boolean isFocusableInTouchMode();
-// boolean isHapticFeedbackEnabled();
-// boolean isHardwareAccelerated();
-// boolean isHorizontalFadingEdgeEnabled();
-// boolean isHovered();
-// boolean isInEditMode();
-// boolean isInTouchMode();
-// boolean isLayoutRequested();
-// boolean isOpaque();
-// boolean isPaddingRelative();
-// boolean isSaveEnabled();
-// boolean isSaveFromParentEnabled();
-// boolean isScrollContainer();
-// boolean isScrollbarFadingEnabled();
-// boolean isShown();
-// boolean isSoundEffectsEnabled();
-// boolean isVerticalFadingEdgeEnabled();
-// void jumpDrawablesToCurrentState();
-// void offsetTopAndBottom(int offset);
-// boolean onCheckIsTextEditor();
-// InputConnection onCreateInputConnection(EditorInfo outAttrs);
-// boolean onDragEvent(DragEvent event);
-// Handles drag events sent by the system following a call to startDrag();.
-// boolean onFilterTouchEventForSecurity(MotionEvent event);
-// void onFinishTemporaryDetach();
-// boolean onGenericMotionEvent(MotionEvent event);
-// void onHoverChanged(boolean hovered);
-// boolean onHoverEvent(MotionEvent event);
-// boolean onKeyDown(int keyCode, KeyEvent event);
-// boolean onKeyLongPress(int keyCode, KeyEvent event);
-// boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event);
-// boolean onKeyPreIme(int keyCode, KeyEvent event);
-// boolean onKeyShortcut(int keyCode, KeyEvent event);
-// boolean onKeyUp(int keyCode, KeyEvent event);
-// void onRtlPropertiesChanged(int layoutDirection);
-// void onScreenStateChanged(int screenState);
-// void onStartTemporaryDetach();
-// void onWindowFocusChanged(boolean hasWindowFocus);
-// void onWindowSystemUiVisibilityChanged(int visible);
-// boolean performClick();
-// boolean performHapticFeedback(int feedbackConstant);
-// boolean performHapticFeedback(int feedbackConstant, int flags);
-// boolean performLongClick();
-// void playSoundEffect(int soundConstant);
-// boolean post(Runnable action);
-// void refreshDrawableState();
-// boolean removeCallbacks(Runnable action);
-// void removeOnAttachStateChangeListener(View.OnAttachStateChangeListener listener);
-// void removeOnLayoutChangeListener(View.OnLayoutChangeListener listener);
-// void requestFitSystemWindows();
-// final boolean requestFocusFromTouch();
-// void requestFocusFromTouch);
-// boolean requestRectangleOnScreen(Rect rectangle);
-// boolean requestRectangleOnScreen(Rect rectangle, boolean immediate);
-// static int resolveSize(int size, int measureSpec);
-// static int resolveSizeAndState(int size, int measureSpec, int childMeasuredState);
-// void scheduleDrawable(Drawable who, Runnable what, long when);
-// void scrollBy(int x, int y);
-// void scrollTo(int x, int y);
-// void sendAccessibilityEvent(int eventType);
-// void sendAccessibilityEventUnchecked(AccessibilityEvent event);
-// void setActivated(boolean activated);
-// void setAlpha(float alpha);
-// void setAnimation(Animation animation);
-// void setBackground(Drawable background);
-// final void setBottom(int bottom);
-// void setCameraDistance(float distance);
-// void setContentDescription(CharSequence contentDescription);
-// void setDrawingCacheBackgroundColor(int color);
-// void setDrawingCacheEnabled(boolean enabled);
-// void setDrawingCacheQuality(int quality);
-// void setDuplicateParentStateEnabled(boolean enabled);
-// void setFadingEdgeLength(int length);
-// void setFilterTouchesWhenObscured(boolean enabled);
-// void setFitsSystemWindows(boolean fitSystemWindows);
-// void setFocusableInTouchMode(boolean focusableInTouchMode);
-// void setHapticFeedbackEnabled(boolean hapticFeedbackEnabled);
-// void setHorizontalFadingEdgeEnabled(boolean horizontalFadingEdgeEnabled);
-// void setHorizontalScrollBarEnabled(boolean horizontalScrollBarEnabled);
-// void setHovered(boolean hovered);
-// void setKeepScreenOn(boolean keepScreenOn);
-// void setLayerPaint(Paint paint);
-// void setLayoutDirection(int layoutDirection);
-// final void setLeft(int left);
-// void setLongClickable(boolean longClickable);
-// void setNextFocusDownId(int nextFocusDownId);
-// void setNextFocusForwardId(int nextFocusForwardId);
-// void setNextFocusLeftId(int nextFocusLeftId);
-// void setNextFocusRightId(int nextFocusRightId);
-// void setNextFocusUpId(int nextFocusUpId);
-// void setOnDragListener(View.OnDragListener l);
-// void setOnGenericMotionListener(View.OnGenericMotionListener l);
-// void setOnHoverListener(View.OnHoverListener l);
-// void setOnSystemUiVisibilityChangeListener(View.OnSystemUiVisibilityChangeListener l);
-// void setPaddingRelative(int start, int top, int end, int bottom);
-// void setPivotX(float pivotX);
-// void setPivotY(float pivotY);
-// void setPressed(boolean pressed);
-// final void setRight(int right);
-// void setRotation(float rotation);
-// void setRotationX(float rotationX);
-// void setRotationY(float rotationY);
-// void setSaveEnabled(boolean enabled);
-// void setSaveFromParentEnabled(boolean enabled);
-// void setScaleX(float scaleX);
-// void setScaleY(float scaleY);
-// void setScrollBarDefaultDelayBeforeFade(int scrollBarDefaultDelayBeforeFade);
-// void setScrollBarFadeDuration(int scrollBarFadeDuration);
-// void setScrollBarSize(int scrollBarSize);
-// void setScrollBarStyle(int style);
-// void setScrollContainer(boolean isScrollContainer);
-// void setScrollX(int value);
-// void setScrollY(int value);
-// void setScrollbarFadingEnabled(boolean fadeScrollbars);
-// void setSoundEffectsEnabled(boolean soundEffectsEnabled);
-// void setSystemUiVisibility(int visibility);
-// void setTextAlignment(int textAlignment);
-// void setTextDirection(int textDirection);
-// final void setTop(int top);
-// void setTouchDelegate(TouchDelegate delegate);
-// void setTranslationX(float translationX);
-// void setTranslationY(float translationY);
-// void setVerticalFadingEdgeEnabled(boolean verticalFadingEdgeEnabled);
-// void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled);
-// void setVerticalScrollbarPosition(int position);
-// void setWillNotCacheDrawing(boolean willNotCacheDrawing);
-// void setWillNotDraw(boolean willNotDraw);
-// void setX(float x);
-// void setY(float y);
-// boolean showContextMenu();
-// ActionMode startActionMode(ActionMode.Callback callback);
-// final boolean startDrag(ClipData data, View.DragShadowBuilder shadowBuilder, Object myLocalState, int flags);
-// String toString();
-// void unscheduleDrawable(Drawable who);
-// void unscheduleDrawable(Drawable who, Runnable what);
-// boolean willNotCacheDrawing();
-// 
-// ***** Protected Methods *****
-// boolean awakenScrollBars(int startDelay);
-// boolean awakenScrollBars(int startDelay, boolean invalidate);
-// boolean awakenScrollBars();
-// int computeHorizontalScrollExtent();
-// int computeHorizontalScrollOffset();
-// int computeHorizontalScrollRange();
-// int computeVerticalScrollExtent();
-// int computeVerticalScrollOffset();
-// int computeVerticalScrollRange();
-// void dispatchDraw(Canvas canvas);
-// boolean dispatchGenericFocusedEvent(MotionEvent event);
-// boolean dispatchGenericPointerEvent(MotionEvent event);
-// boolean dispatchHoverEvent(MotionEvent event);
-// void dispatchRestoreInstanceState(SparseArray<Parcelable> container);
-// void dispatchSaveInstanceState(SparseArray<Parcelable> container);
-// void dispatchSetActivated(boolean activated);
-// void dispatchSetPressed(boolean pressed);
-// void dispatchSetSelected(boolean selected);
-// void dispatchVisibilityChanged(View changedView, int visibility);
-// void drawableStateChanged();
-// boolean fitSystemWindows(Rect insets);
-// float getBottomFadingEdgeStrength();
-// int getBottomPaddingOffset();
-// ContextMenu.ContextMenuInfo getContextMenuInfo();
-// int getHorizontalScrollbarHeight();
-// float getLeftFadingEdgeStrength();
-// int getLeftPaddingOffset();
-// float getRightFadingEdgeStrength();
-// int getRightPaddingOffset();
-// int getSuggestedMinimumHeight();
-// int getSuggestedMinimumWidth();
-// float getTopFadingEdgeStrength();
-// int getTopPaddingOffset();
-// int getWindowAttachCount();
-// void initializeFadingEdge(TypedArray a);
-// void initializeScrollbars(TypedArray a);
-// boolean isPaddingOffsetRequired();
-// static int[] mergeDrawableStates(int[] baseState, int[] additionalState);
-// void onAnimationEnd();
-// void onAnimationStart();
-// void onAttachedToWindow();
-// void onConfigurationChanged(Configuration newConfig);
-// int[] onCreateDrawableState(int extraSpace);
-// void onDetachedFromWindow();
-// void onDisplayHint(int hint);
-// void onDraw(Canvas canvas);
-// final void onDrawScrollBars(Canvas canvas);
-// void onFinishInflate();
-// void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect);
-// void onLayout(boolean changed, int left, int top, int right, int bottom);
-// void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
-// void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY);
-// void onScrollChanged(int l, int t, int oldl, int oldt);
-// boolean onSetAlpha(int alpha);
-// void onVisibilityChanged(View changedView, int visibility);
-// void onWindowVisibilityChanged(int visibility);
-// boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent);
-// final void setMeasuredDimension(int measuredWidth, int measuredHeight);
-// boolean verifyDrawable(Drawable who);
-
+class View$OnClickListener{
+        void onClick(View arg0);
 }
 
 

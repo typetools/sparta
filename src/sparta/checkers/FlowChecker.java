@@ -1,6 +1,7 @@
 package sparta.checkers;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.*;
 
@@ -63,12 +64,16 @@ public class FlowChecker extends BaseTypeChecker {
     protected FlowPolicy flowPolicy;
     protected Set<String> unfilteredMessages;
     //Methods that are not in a stub file
-    protected Map<String, Map<String, List<Element>>> notInStubFile;
+    protected final Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
 
 
-    @Override
-    public void initChecker() {
+    public FlowChecker() {
+		super();
         this.notInStubFile = new HashMap<>();
+	}
+
+	@Override
+    public void initChecker() {
 
         Elements elements = processingEnv.getElementUtils();
         NOFLOWSOURCES = AnnotationUtils.fromClass(elements, Source.class);
@@ -152,6 +157,47 @@ public class FlowChecker extends BaseTypeChecker {
             return (List<FlowPermission>) sinksValue.getValue();
         }
     }
+    public void typeProcessingOver() {
+        printMethods();
+        super.typeProcessingOver();
+    }
+    
+    //TODO: would be nice if you could pass a file name
+    private final String printMissMethod = "missingAPI.astub";
+    //TODO: would be nice if there was a command line argument to turn this on and off
+	private boolean printFrequency = true;
+
+    private void printMethods() {
+    	if (notInStubFile.isEmpty()) return;
+        PrintStream out;
+        int methodCount = 0;
+		try {
+			out = new PrintStream(new File(printMissMethod));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+        for (String pack : notInStubFile.keySet()) {
+            out.println("package " + pack + ";");
+            for (String clss : notInStubFile.get(pack).keySet()) {
+                out.println("class " + clss + "{");
+                Map<Element, Integer> map = notInStubFile.get(pack).get(clss);
+                for (Element element : map.keySet()) {
+                    StubGenerator stubGen = new StubGenerator(out);
+                    if(printFrequency )
+                    out.println("    //" + map.get(element)+" ("+element.getSimpleName()+")");
+                    stubGen.skeletonFromMethod(element);
+                    methodCount++;
+                }
+                out.println("}");
+            }
+        }
+        System.err.println(methodCount+" methods to annotate.");
+    }
+    
+   
+
 
     @Override
     protected MultiGraphQualifierHierarchy.MultiGraphFactory createQualifierHierarchyFactory() {

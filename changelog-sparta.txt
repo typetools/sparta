@@ -1,3 +1,16 @@
+Version 0.9.3 1 July 2013
+
+Flow Checker Changes
+   Flow Checker now writes a file called missingAPI.astub that list all
+   the methods that need to be annotated in a stub file.
+   Stub file defaulting has changed.  See Section 3.5 Annotating methods in stub
+   files in the manual for more details
+RequiredPermission Changes
+    A new annotation, @MayRequiredPermission, was added.  It is used to indicate 
+    that a method method require a permission.  The notes field discribes when the
+    permission may be required.
+
+----------------------------------------------------------------------
 Version 0.9.2 1 June 2013
 
 Major Refactoring

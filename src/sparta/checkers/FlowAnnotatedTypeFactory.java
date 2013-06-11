@@ -28,6 +28,7 @@ import checkers.types.BasicAnnotatedTypeFactory;
 import checkers.util.QualifierDefaults.DefaultApplier;
 
 import java.util.*;
+
 import  sparta.checkers.quals.FlowPermission;
 
 import static checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
@@ -36,11 +37,10 @@ import static checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 
 public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChecker> {
 
-    private final Map<String, Map<String, List<Element>>> notInStubFile; //List of methods that are not in a stub file 
+    private final Map<String, Map<String, Map<Element, Integer>>> notInStubFile; //List of methods that are not in a stub file 
     
     public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
         super(checker, root);
-        this.notInStubFile = checker.notInStubFile;
 
         // Use the bottom type as default for everything but local variables.
         defaults.addAbsoluteDefault(checker.LITERALFLOWSOURCE, DefaultLocation.OTHERWISE);
@@ -74,8 +74,10 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, checker.FROMLITERALFLOWSINK);
         treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.FROMLITERALFLOWSINK);
 
+        this.notInStubFile = checker.notInStubFile;
 
         postInit();
+
     }
 
     @Override
@@ -168,21 +170,26 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
              pkg = fullClassName.substring(0, index);
              clss = fullClassName.substring(index+1);
         }
-        Map<String, List<Element>> pkgmap = this.notInStubFile.get(pkg);
-        if(pkgmap == null){
-            pkgmap = new HashMap<String, List<Element>>();
-            List<Element> elelist = new ArrayList<>();
-            pkgmap.put(clss, elelist );
-            this.notInStubFile.put(pkg, pkgmap);
+        Map<String, Map<Element, Integer>> classmap = this.notInStubFile.get(pkg);
+        if(classmap == null){
+            classmap = new HashMap<>();
+            Map<Element, Integer> elelist = new HashMap<Element, Integer>();
+            classmap.put(clss, elelist );
+            this.notInStubFile.put(pkg, classmap);
         }
-        List<Element> elelist = pkgmap.get(clss);
-        if(elelist == null){
-            elelist = new ArrayList<Element>();
-            pkgmap.put(clss, elelist );
+        Map<Element, Integer>  elementmap = classmap.get(clss);
+        if(elementmap == null){
+            elementmap = new HashMap<Element, Integer>();
+            classmap.put(clss, elementmap );
         }
         
-        if(!elelist.contains(element)){
-            elelist.add(element);
+        if(elementmap.containsKey(element)){
+        	Integer i = elementmap.get(element);
+        	i++;
+        	elementmap.put(element, i);
+            
+        }else{
+        	elementmap.put(element,1);
         }
     }
 

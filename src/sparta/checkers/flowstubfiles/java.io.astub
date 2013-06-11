@@ -1,13 +1,37 @@
 
 package java.io;
 
-class FileOutputStream {
-//Added by SOM
-
- @Source(FlowPermission.FILESYSTEM)  FileOutputStream(@Sink(FlowPermission.FILESYSTEM)  File file);
- void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM)  [] bytes);
+@PolyFlowReceiver
+class BufferedReader extends Reader {
+//Added by pbsf
+    BufferedReader(Reader arg0, int arg1);
+    BufferedReader(Reader arg0);
+    int read() throws IOException;
+    int read(char[] arg0, int arg1, int arg2) throws IOException;
+    String readLine() throws IOException;
+    long skip(long arg0) throws IOException;
+    boolean ready() throws IOException;
+    boolean markSupported();
+    void mark(int arg0) throws IOException;
+    void reset() throws IOException;
+    void close() throws IOException;
 }
 
+class FileOutputStream extends OutputStream {
+//Added by SOM
+    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) String arg0) throws FileNotFoundException;
+    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) String arg0, boolean arg1) throws FileNotFoundException;
+    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) File arg0) throws FileNotFoundException;
+    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) File arg0, boolean arg1) throws FileNotFoundException;
+    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) FileDescriptor arg0);
+    void write(@Sink(FlowPermission.FILESYSTEM) int arg0) @Sink(FlowPermission.FILESYSTEM);
+    void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM) [] arg0) @Sink(FlowPermission.FILESYSTEM);
+    void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM) [] arg0, int arg1, int arg2) @Sink(FlowPermission.FILESYSTEM);
+    void close() @Sink(FlowPermission.FILESYSTEM);
+    @Sink(FlowPermission.FILESYSTEM) FileDescriptor getFD() @Sink(FlowPermission.FILESYSTEM);
+    @Sink(FlowPermission.FILESYSTEM) FileChannel getChannel() @Sink(FlowPermission.FILESYSTEM);
+    protected void finalize() @Sink(FlowPermission.FILESYSTEM);
+}
 
 
     
@@ -86,6 +110,183 @@ class ByteArrayOutputStream{
 }
 
 @PolyFlowReceiver
+class InputStream implements Closeable {
+//Added by pbsf
+    InputStream();
+    int read() throws IOException;
+    int read(byte[] arg0) throws IOException;
+    int read(byte[] arg0, int arg1, int arg2) throws IOException;
+    long skip(long arg0) throws IOException;
+    int available() throws IOException;
+    void close() throws IOException;
+    void mark(int arg0);
+    void reset() throws IOException;
+    boolean markSupported();
+}
+
+@PolyFlowReceiver
+class ObjectInputStream extends InputStream implements ObjectInput, ObjectStreamConstants {
+    ObjectInputStream(InputStream arg0) throws IOException;
+    protected ObjectInputStream() throws IOException,SecurityException;
+    Object readObject() throws IOException,ClassNotFoundException;
+    protected Object readObjectOverride() throws IOException,ClassNotFoundException;
+    Object readUnshared() throws IOException,ClassNotFoundException;
+    void defaultReadObject() throws IOException,ClassNotFoundException;
+    GetField readFields() throws IOException,ClassNotFoundException;
+    void registerValidation(ObjectInputValidation arg0, int arg1) throws NotActiveException,InvalidObjectException;
+    protected Class<?> resolveClass(ObjectStreamClass arg0) throws IOException,ClassNotFoundException;
+    protected Class<?> resolveProxyClass(String[] arg0) throws IOException,ClassNotFoundException;
+    protected Object resolveObject(Object arg0) throws IOException;
+    protected boolean enableResolveObject(boolean arg0) throws SecurityException;
+    protected void readStreamHeader() throws IOException,StreamCorruptedException;
+    protected ObjectStreamClass readClassDescriptor() throws IOException,ClassNotFoundException;
+    int read() throws IOException;
+    int read(byte[] arg0, int arg1, int arg2) throws IOException;
+    int available() throws IOException;
+    void close() throws IOException;
+    boolean readBoolean() throws IOException;
+    byte readByte() throws IOException;
+    int readUnsignedByte() throws IOException;
+    char readChar() throws IOException;
+    short readShort() throws IOException;
+    int readUnsignedShort() throws IOException;
+    int readInt() throws IOException;
+    long readLong() throws IOException;
+    float readFloat() throws IOException;
+    double readDouble() throws IOException;
+    void readFully(byte[] arg0) throws IOException;
+    void readFully(byte[] arg0, int arg1, int arg2) throws IOException;
+    int skipBytes(int arg0) throws IOException;
+    String readLine() throws IOException;
+    String readUTF() throws IOException;
+}
+
+@PolyFlowReceiver
+class ObjectInputStream$GetField {
+    GetField();
+    ObjectStreamClass getObjectStreamClass();
+    boolean defaulted(String arg0) throws IOException;
+    boolean get(String arg0, boolean arg1) throws IOException;
+    byte get(String arg0, byte arg1) throws IOException;
+    char get(String arg0, char arg1) throws IOException;
+    short get(String arg0, short arg1) throws IOException;
+    int get(String arg0, int arg1) throws IOException;
+    long get(String arg0, long arg1) throws IOException;
+    float get(String arg0, float arg1) throws IOException;
+    double get(String arg0, double arg1) throws IOException;
+    Object get(String arg0, Object arg1) throws IOException;
+}
+
+@PolyFlowReceiver
+class ObjectOutputStream extends OutputStream implements ObjectOutput, ObjectStreamConstants {
+//Added by pbsf
+    ObjectOutputStream(OutputStream arg0) throws IOException;
+    protected ObjectOutputStream() throws IOException,SecurityException;
+    void useProtocolVersion(int arg0) throws IOException;
+    void writeObject(Object arg0) throws IOException;
+    protected void writeObjectOverride(Object arg0) throws IOException;
+    void writeUnshared(Object arg0) throws IOException;
+    void defaultWriteObject() throws IOException;
+    PutField putFields() throws IOException;
+    void writeFields() throws IOException;
+    void reset() throws IOException;
+    protected void annotateClass(Class<?> arg0) throws IOException;
+    protected void annotateProxyClass(Class<?> arg0) throws IOException;
+    protected Object replaceObject(Object arg0) throws IOException;
+    protected boolean enableReplaceObject(boolean arg0) throws SecurityException;
+    protected void writeStreamHeader() throws IOException;
+    protected void writeClassDescriptor(ObjectStreamClass arg0) throws IOException;
+    void write(int arg0) throws IOException;
+    void write(byte[] arg0) throws IOException;
+    void write(byte[] arg0, int arg1, int arg2) throws IOException;
+    void flush() throws IOException;
+    protected void drain() throws IOException;
+    void close() throws IOException;
+    void writeBoolean(boolean arg0) throws IOException;
+    void writeByte(int arg0) throws IOException;
+    void writeShort(int arg0) throws IOException;
+    void writeChar(int arg0) throws IOException;
+    void writeInt(int arg0) throws IOException;
+    void writeLong(long arg0) throws IOException;
+    void writeFloat(float arg0) throws IOException;
+    void writeDouble(double arg0) throws IOException;
+    void writeBytes(String arg0) throws IOException;
+    void writeChars(String arg0) throws IOException;
+    void writeUTF(String arg0) throws IOException;
+}
+
+@PolyFlowReceiver
+class ObjectOutputStream$PutField {
+    PutField();
+    void put(String arg0, boolean arg1);
+    void put(String arg0, byte arg1);
+    void put(String arg0, char arg1);
+    void put(String arg0, short arg1);
+    void put(String arg0, int arg1);
+    void put(String arg0, long arg1);
+    void put(String arg0, float arg1);
+    void put(String arg0, double arg1);
+    void put(String arg0, Object arg1);
+    void write(ObjectOutput arg0) throws IOException;
+}
+
+@PolyFlowReceiver
+class OutputStream implements Closeable, Flushable {
+//Added by pbsf
+    OutputStream();
+    void write(int arg0) throws IOException;
+    void write(byte[] arg0) throws IOException;
+    void write(byte[] arg0, int arg1, int arg2) throws IOException;
+    void flush() throws IOException;
+    void close() throws IOException;
+}
+
+@PolyFlowReceiver
+class PrintStream extends FilterOutputStream implements Appendable, Closeable {
+//Added by pbsf
+    PrintStream(OutputStream arg0);
+    PrintStream(OutputStream arg0, boolean arg1);
+    PrintStream(OutputStream arg0, boolean arg1, String arg2) throws UnsupportedEncodingException;
+    PrintStream(String arg0) throws FileNotFoundException;
+    PrintStream(String arg0, String arg1) throws FileNotFoundException,UnsupportedEncodingException;
+    PrintStream(File arg0) throws FileNotFoundException;
+    PrintStream(File arg0, String arg1) throws FileNotFoundException,UnsupportedEncodingException;
+    void flush();
+    void close();
+    boolean checkError();
+    protected void setError();
+    protected void clearError();
+    void write(int arg0);
+    void write(byte[] arg0, int arg1, int arg2);
+    void print(boolean arg0);
+    void print(char arg0);
+    void print(int arg0);
+    void print(long arg0);
+    void print(float arg0);
+    void print(double arg0);
+    void print(char[] arg0);
+    void print(String arg0);
+    void print(Object arg0);
+    void println();
+    void println(boolean arg0);
+    void println(char arg0);
+    void println(int arg0);
+    void println(long arg0);
+    void println(float arg0);
+    void println(double arg0);
+    void println(char[] arg0);
+    void println(String arg0);
+    void println(Object arg0);
+    PrintStream printf(String arg0, Object[] arg1);
+    PrintStream printf(Locale arg0, String arg1, Object[] arg2);
+    PrintStream format(String arg0, Object[] arg1);
+    PrintStream format(Locale arg0, String arg1, Object[] arg2);
+    PrintStream append(CharSequence arg0);
+    PrintStream append(CharSequence arg0, int arg1, int arg2);
+    PrintStream append(char arg0);
+}
+
+@PolyFlowReceiver
 class PrintWriter extends Writer {
 //Added by smillst
     protected Writer out;
@@ -134,6 +335,24 @@ class PrintWriter extends Writer {
     PrintWriter append(CharSequence arg0, int arg1, int arg2);
     PrintWriter append(char arg0);
 }
+
+@PolyFlowReceiver
+class Writer implements Appendable, Closeable, Flushable {
+    protected Object lock;
+    protected Writer();
+    protected Writer(Object arg0);
+    void write(int arg0) throws IOException;
+    void write(char[] arg0) throws IOException;
+    void write(char[] arg0, int arg1, int arg2) throws IOException;
+    void write(String arg0) throws IOException;
+    void write(String arg0, int arg1, int arg2) throws IOException;
+    Writer append(CharSequence arg0) throws IOException;
+    Writer append(CharSequence arg0, int arg1, int arg2) throws IOException;
+    Writer append(char arg0) throws IOException;
+    void flush() throws IOException;
+    void close() throws IOException;
+}
+
 
 
 
