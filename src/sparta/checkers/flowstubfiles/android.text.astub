@@ -1,5 +1,40 @@
 package android.text;
 
+class Html {
+static String escapeHtml(CharSequence text);
+//Returns an HTML escaped representation of the given plain text.
+
+static Spanned fromHtml(String source);
+//Returns displayable styled text from the provided HTML string.
+
+static Spanned fromHtml(String source, Html.ImageGetter imageGetter, Html.TagHandler tagHandler);
+//Returns displayable styled text from the provided HTML string.
+
+static String toHtml(Spanned text);
+//Returns an HTML representation of the provided Spanned text.
+
+}
+
+class Spanned {
+// CSH: only calls toString().  So I'm assuming we'll ahve to annotate the parent's toString()?
+
+//abstract int getSpanEnd(Object tag);
+//Return the end of the range of text to which the specified markup object is attached, or -1 if the object is not attached.
+
+//abstract int getSpanFlags(Object tag);
+//Return the flags that were specified when setSpan(Object, int, int, int); was used to attach the specified markup object, or 0 if the specified object has not been attached.
+
+//abstract int getSpanStart(Object tag);
+//Return the beginning of the range of text to which the specified markup object is attached, or -1 if the object is not attached.
+
+//abstract <T> T[] getSpans(int start, int end, Class<T> type);
+//Return an array of the markup objects attached to the specified slice of this CharSequence and whose type is the specified type or a subclass of it.
+
+//abstract int nextSpanTransition(int start, int limit, Class type);
+//Return the first offset greater than or equal to start where a markup object of class type begins or ends, or limit if there are no starts or ends greater than or equal to start but less than limit.
+
+}
+
 class TextUtils {
     @PolyFlow boolean isEmpty(CharSequence str);
 }

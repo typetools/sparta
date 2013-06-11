@@ -57,6 +57,222 @@ class ArrayList<E extends @Sink({}) @Source(FlowPermission.ANY) Object> extends 
     @PolyFlowReceiver
     List<E> subList(int arg0, int arg1);
 }
+
+@PolyFlowReceiver
+class Arrays {
+    static void sort(int[] arg0);
+    static void sort(int[] arg0, int arg1, int arg2);
+    static void sort(long[] arg0);
+    static void sort(long[] arg0, int arg1, int arg2);
+    static void sort(short[] arg0);
+    static void sort(short[] arg0, int arg1, int arg2);
+    static void sort(char[] arg0);
+    static void sort(char[] arg0, int arg1, int arg2);
+    static void sort(byte[] arg0);
+    static void sort(byte[] arg0, int arg1, int arg2);
+    static void sort(float[] arg0);
+    static void sort(float[] arg0, int arg1, int arg2);
+    static void sort(double[] arg0);
+    static void sort(double[] arg0, int arg1, int arg2);
+    static void sort(Object[] arg0);
+    static void sort(Object[] arg0, int arg1, int arg2);
+    static <T> void sort(T[] arg0, Comparator<? super T> arg1);
+    static <T> void sort(T[] arg0, int arg1, int arg2, Comparator<? super T> arg3);
+    static int binarySearch(long[] arg0, long arg1);
+    static int binarySearch(long[] arg0, int arg1, int arg2, long arg3);
+    static int binarySearch(int[] arg0, int arg1);
+    static int binarySearch(int[] arg0, int arg1, int arg2, int arg3);
+    static int binarySearch(short[] arg0, short arg1);
+    static int binarySearch(short[] arg0, int arg1, int arg2, short arg3);
+    static int binarySearch(char[] arg0, char arg1);
+    static int binarySearch(char[] arg0, int arg1, int arg2, char arg3);
+    static int binarySearch(byte[] arg0, byte arg1);
+    static int binarySearch(byte[] arg0, int arg1, int arg2, byte arg3);
+    static int binarySearch(double[] arg0, double arg1);
+    static int binarySearch(double[] arg0, int arg1, int arg2, double arg3);
+    static int binarySearch(float[] arg0, float arg1);
+    static int binarySearch(float[] arg0, int arg1, int arg2, float arg3);
+    static int binarySearch(Object[] arg0, Object arg1);
+    static int binarySearch(Object[] arg0, int arg1, int arg2, Object arg3);
+    static <T> int binarySearch(T[] arg0, T arg1, Comparator<? super T> arg2);
+    static <T> int binarySearch(T[] arg0, int arg1, int arg2, T arg3, Comparator<? super T> arg4);
+    static boolean equals(long[] arg0, long[] arg1);
+    static boolean equals(int[] arg0, int[] arg1);
+    static boolean equals(short[] arg0, short[] arg1);
+    static boolean equals(char[] arg0, char[] arg1);
+    static boolean equals(byte[] arg0, byte[] arg1);
+    static boolean equals(boolean[] arg0, boolean[] arg1);
+    static boolean equals(double[] arg0, double[] arg1);
+    static boolean equals(float[] arg0, float[] arg1);
+    static boolean equals(Object[] arg0, Object[] arg1);
+    static void fill(long[] arg0, long arg1);
+    static void fill(long[] arg0, int arg1, int arg2, long arg3);
+    static void fill(int[] arg0, int arg1);
+    static void fill(int[] arg0, int arg1, int arg2, int arg3);
+    static void fill(short[] arg0, short arg1);
+    static void fill(short[] arg0, int arg1, int arg2, short arg3);
+    static void fill(char[] arg0, char arg1);
+    static void fill(char[] arg0, int arg1, int arg2, char arg3);
+    static void fill(byte[] arg0, byte arg1);
+    static void fill(byte[] arg0, int arg1, int arg2, byte arg3);
+    static void fill(boolean[] arg0, boolean arg1);
+    static void fill(boolean[] arg0, int arg1, int arg2, boolean arg3);
+    static void fill(double[] arg0, double arg1);
+    static void fill(double[] arg0, int arg1, int arg2, double arg3);
+    static void fill(float[] arg0, float arg1);
+    static void fill(float[] arg0, int arg1, int arg2, float arg3);
+    static void fill(Object[] arg0, Object arg1);
+    static void fill(Object[] arg0, int arg1, int arg2, Object arg3);
+    static <T> T[] copyOf(T[] arg0, int arg1);
+    static <T, U> T[] copyOf(U[] arg0, int arg1, Class<? extends T[]> arg2);
+    static byte[] copyOf(byte[] arg0, int arg1);
+    static short[] copyOf(short[] arg0, int arg1);
+    static int[] copyOf(int[] arg0, int arg1);
+    static long[] copyOf(long[] arg0, int arg1);
+    static char[] copyOf(char[] arg0, int arg1);
+    static float[] copyOf(float[] arg0, int arg1);
+    static double[] copyOf(double[] arg0, int arg1);
+    static boolean[] copyOf(boolean[] arg0, int arg1);
+    static <T> T[] copyOfRange(T[] arg0, int arg1, int arg2);
+    static <T, U> T[] copyOfRange(U[] arg0, int arg1, int arg2, Class<? extends T[]> arg3);
+    static byte[] copyOfRange(byte[] arg0, int arg1, int arg2);
+    static short[] copyOfRange(short[] arg0, int arg1, int arg2);
+    static int[] copyOfRange(int[] arg0, int arg1, int arg2);
+    static long[] copyOfRange(long[] arg0, int arg1, int arg2);
+    static char[] copyOfRange(char[] arg0, int arg1, int arg2);
+    static float[] copyOfRange(float[] arg0, int arg1, int arg2);
+    static double[] copyOfRange(double[] arg0, int arg1, int arg2);
+    static boolean[] copyOfRange(boolean[] arg0, int arg1, int arg2);
+    static <T> List<T> asList(T[] arg0);
+    static int hashCode(long[] arg0);
+    static int hashCode(int[] arg0);
+    static int hashCode(short[] arg0);
+    static int hashCode(char[] arg0);
+    static int hashCode(byte[] arg0);
+    static int hashCode(boolean[] arg0);
+    static int hashCode(float[] arg0);
+    static int hashCode(double[] arg0);
+    static int hashCode(Object[] arg0);
+    static int deepHashCode(Object[] arg0);
+    static boolean deepEquals(Object[] arg0, Object[] arg1);
+    static String toString(long[] arg0);
+    static String toString(int[] arg0);
+    static String toString(short[] arg0);
+    static String toString(char[] arg0);
+    static String toString(byte[] arg0);
+    static String toString(boolean[] arg0);
+    static String toString(float[] arg0);
+    static String toString(double[] arg0);
+    static String toString(Object[] arg0);
+    static String deepToString(Object[] arg0);
+}
+
+@PolyFlowReceiver
+class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
+//Added by pbsf
+    final @Source(FlowPermission.LITERAL) int ERA;
+    final @Source(FlowPermission.LITERAL) int YEAR;
+    final @Source(FlowPermission.LITERAL) int MONTH;
+    final @Source(FlowPermission.LITERAL) int WEEK_OF_YEAR;
+    final @Source(FlowPermission.LITERAL) int WEEK_OF_MONTH;
+    final @Source(FlowPermission.LITERAL) int DATE;
+    final @Source(FlowPermission.LITERAL) int DAY_OF_MONTH;
+    final @Source(FlowPermission.LITERAL) int DAY_OF_YEAR;
+    final @Source(FlowPermission.LITERAL) int DAY_OF_WEEK;
+    final @Source(FlowPermission.LITERAL) int DAY_OF_WEEK_IN_MONTH;
+    final @Source(FlowPermission.LITERAL) int AM_PM;
+    final @Source(FlowPermission.LITERAL) int HOUR;
+    final @Source(FlowPermission.LITERAL) int HOUR_OF_DAY;
+    final @Source(FlowPermission.LITERAL) int MINUTE;
+    final @Source(FlowPermission.LITERAL) int SECOND;
+    final @Source(FlowPermission.LITERAL) int MILLISECOND;
+    final @Source(FlowPermission.LITERAL) int ZONE_OFFSET;
+    final @Source(FlowPermission.LITERAL) int DST_OFFSET;
+    final @Source(FlowPermission.LITERAL) int FIELD_COUNT;
+    final @Source(FlowPermission.LITERAL) int SUNDAY;
+    final @Source(FlowPermission.LITERAL) int MONDAY;
+    final @Source(FlowPermission.LITERAL) int TUESDAY;
+    final @Source(FlowPermission.LITERAL) int WEDNESDAY;
+    final @Source(FlowPermission.LITERAL) int THURSDAY;
+    final @Source(FlowPermission.LITERAL) int FRIDAY;
+    final @Source(FlowPermission.LITERAL) int SATURDAY;
+    final @Source(FlowPermission.LITERAL) int JANUARY;
+    final @Source(FlowPermission.LITERAL) int FEBRUARY;
+    final @Source(FlowPermission.LITERAL) int MARCH;
+    final @Source(FlowPermission.LITERAL) int APRIL;
+    final @Source(FlowPermission.LITERAL) int MAY;
+    final @Source(FlowPermission.LITERAL) int JUNE;
+    final @Source(FlowPermission.LITERAL) int JULY;
+    final @Source(FlowPermission.LITERAL) int AUGUST;
+    final @Source(FlowPermission.LITERAL) int SEPTEMBER;
+    final @Source(FlowPermission.LITERAL) int OCTOBER;
+    final @Source(FlowPermission.LITERAL) int NOVEMBER;
+    final @Source(FlowPermission.LITERAL) int DECEMBER;
+    final @Source(FlowPermission.LITERAL) int UNDECIMBER;
+    final @Source(FlowPermission.LITERAL) int AM;
+    final @Source(FlowPermission.LITERAL) int PM;
+    final @Source(FlowPermission.LITERAL) int ALL_STYLES;
+    final @Source(FlowPermission.LITERAL) int SHORT;
+    final @Source(FlowPermission.LITERAL) int LONG;
+    protected int[] fields;
+    protected boolean[] isSet;
+    protected long time;
+    protected boolean isTimeSet;
+    protected boolean areFieldsSet;
+    protected Calendar();
+    protected Calendar(TimeZone arg0, Locale arg1);
+    static Calendar getInstance();
+    static Calendar getInstance(TimeZone arg0);
+    static Calendar getInstance(Locale arg0);
+    static Calendar getInstance(TimeZone arg0, Locale arg1);
+    static Locale[] getAvailableLocales();
+    protected void computeTime();
+    protected void computeFields();
+    Date getTime();
+    void setTime(Date arg0);
+    long getTimeInMillis();
+    void setTimeInMillis(long arg0);
+    int get(int arg0);
+    protected int internalGet(int arg0);
+    void set(int arg0, int arg1);
+    void set(int arg0, int arg1, int arg2);
+    void set(int arg0, int arg1, int arg2, int arg3, int arg4);
+    void set(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
+    void clear();
+    void clear(int arg0);
+    boolean isSet(int arg0);
+    String getDisplayName(int arg0, int arg1, Locale arg2);
+    Map<String,Integer> getDisplayNames(int arg0, int arg1, Locale arg2);
+    protected void complete();
+    boolean equals(Object arg0);
+    int hashCode();
+    boolean before(Object arg0);
+    boolean after(Object arg0);
+    int compareTo(Calendar arg0);
+    void add(int arg0, int arg1);
+    void roll(int arg0, boolean arg1);
+    void roll(int arg0, int arg1);
+    void setTimeZone(TimeZone arg0);
+    TimeZone getTimeZone();
+    void setLenient(boolean arg0);
+    boolean isLenient();
+    void setFirstDayOfWeek(int arg0);
+    int getFirstDayOfWeek();
+    void setMinimalDaysInFirstWeek(int arg0);
+    int getMinimalDaysInFirstWeek();
+    boolean isWeekDateSupported();
+    int getWeekYear();
+    void setWeekDate(int arg0, int arg1, int arg2);
+    int getWeeksInWeekYear();
+    int getMinimum(int arg0);
+    int getMaximum(int arg0);
+    int getGreatestMinimum(int arg0);
+    int getLeastMaximum(int arg0);
+    int getActualMinimum(int arg0);
+    int getActualMaximum(int arg0);
+    Object clone();
+    String toString();
+}
        
 @PolyFlowReceiver
 interface Collection<E> extends Iterable<E> {
@@ -76,7 +292,107 @@ interface Collection<E> extends Iterable<E> {
     boolean equals(Object arg0);
     int hashCode();
 }
-       
+
+@PolyFlowReceiver
+class Collections {
+//Added by pbsf
+    final Set EMPTY_SET;
+    final List EMPTY_LIST;
+    final Map EMPTY_MAP;
+    static <T> void sort(List<T> arg0);
+    static <T> void sort(List<T> arg0, Comparator<? super T> arg1);
+    static <T> int binarySearch(List<? extends Comparable<? super T>> arg0, T arg1);
+    static <T> int binarySearch(List<? extends T> arg0, T arg1, Comparator<? super T> arg2);
+    static void reverse(List<?> arg0);
+    static void shuffle(List<?> arg0);
+    static void shuffle(List<?> arg0, Random arg1);
+    static void swap(List<?> arg0, int arg1, int arg2);
+    static <T> void fill(List<? super T> arg0, T arg1);
+    static <T> void copy(List<? super T> arg0, List<? extends T> arg1);
+    static <T> T min(Collection<? extends T> arg0);
+    static <T> T min(Collection<? extends T> arg0, Comparator<? super T> arg1);
+    static <T> T max(Collection<? extends T> arg0);
+    static <T> T max(Collection<? extends T> arg0, Comparator<? super T> arg1);
+    static void rotate(List<?> arg0, int arg1);
+    static <T> boolean replaceAll(List<T> arg0, T arg1, T arg2);
+    static int indexOfSubList(List<?> arg0, List<?> arg1);
+    static int lastIndexOfSubList(List<?> arg0, List<?> arg1);
+    static <T> Collection<T> unmodifiableCollection(Collection<? extends T> arg0);
+    static <T> Set<T> unmodifiableSet(Set<? extends T> arg0);
+    static <T> SortedSet<T> unmodifiableSortedSet(SortedSet<T> arg0);
+    static <T> List<T> unmodifiableList(List<? extends T> arg0);
+    static <K, V> Map<K,V> unmodifiableMap(Map<? extends K,? extends V> arg0);
+    static <K, V> SortedMap<K,V> unmodifiableSortedMap(SortedMap<K,? extends V> arg0);
+    static <T> Collection<T> synchronizedCollection(Collection<T> arg0);
+    static <T> Set<T> synchronizedSet(Set<T> arg0);
+    static <T> SortedSet<T> synchronizedSortedSet(SortedSet<T> arg0);
+    static <T> List<T> synchronizedList(List<T> arg0);
+    static <K, V> Map<K,V> synchronizedMap(Map<K,V> arg0);
+    static <K, V> SortedMap<K,V> synchronizedSortedMap(SortedMap<K,V> arg0);
+    static <E> Collection<E> checkedCollection(Collection<E> arg0, Class<E> arg1);
+    static <E> Set<E> checkedSet(Set<E> arg0, Class<E> arg1);
+    static <E> SortedSet<E> checkedSortedSet(SortedSet<E> arg0, Class<E> arg1);
+    static <E> List<E> checkedList(List<E> arg0, Class<E> arg1);
+    static <K, V> Map<K,V> checkedMap(Map<K,V> arg0, Class<K> arg1, Class<V> arg2);
+    static <K, V> SortedMap<K,V> checkedSortedMap(SortedMap<K,V> arg0, Class<K> arg1, Class<V> arg2);
+    static <T> Iterator<T> emptyIterator();
+    static <T> ListIterator<T> emptyListIterator();
+    static <T> Enumeration<T> emptyEnumeration();
+    static <T> Set<T> emptySet();
+    static <T> List<T> emptyList();
+    static <K, V> Map<K,V> emptyMap();
+    static <T> Set<T> singleton(T arg0);
+    static <T> List<T> singletonList(T arg0);
+    static <K, V> Map<K,V> singletonMap(K arg0, V arg1);
+    static <T> List<T> nCopies(int arg0, T arg1);
+    static <T> Comparator<T> reverseOrder();
+    static <T> Comparator<T> reverseOrder(Comparator<T> arg0);
+    static <T> Enumeration<T> enumeration(Collection<T> arg0);
+    static <T> ArrayList<T> list(Enumeration<T> arg0);
+    static int frequency(Collection<?> arg0, Object arg1);
+    static boolean disjoint(Collection<?> arg0, Collection<?> arg1);
+    static <T> boolean addAll(Collection<? super T> arg0, T[] arg1);
+    static <E> Set<E> newSetFromMap(Map<E,Boolean> arg0);
+    static <T> Queue<T> asLifoQueue(Deque<T> arg0);
+}
+
+@PolyFlowReceiver       
+class Date implements Serializable, Cloneable, Comparable<Date> {
+    Date();
+    Date(long arg0);
+    Date(int arg0, int arg1, int arg2);
+    Date(int arg0, int arg1, int arg2, int arg3, int arg4);
+    Date(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
+    Date(String arg0);
+    Object clone();
+    static long UTC(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
+    static long parse(String arg0);
+    int getYear();
+    void setYear(int arg0);
+    int getMonth();
+    void setMonth(int arg0);
+    int getDate();
+    void setDate(int arg0);
+    int getDay();
+    int getHours();
+    void setHours(int arg0);
+    int getMinutes();
+    void setMinutes(int arg0);
+    int getSeconds();
+    void setSeconds(int arg0);
+    long getTime();
+    void setTime(long arg0);
+    boolean before(Date arg0);
+    boolean after(Date arg0);
+    boolean equals(Object arg0);
+    int compareTo(Date arg0);
+    int hashCode();
+    String toString();
+    String toLocaleString();
+    String toGMTString();
+    int getTimezoneOffset();
+}
+
        
 @PolyFlowReceiver  
 class HashMap<K, V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
@@ -99,6 +415,22 @@ class HashMap<K, V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Ser
     Set<Entry<K,V>> entrySet();
 }
 
+@PolyFlowReceiver
+class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Serializable {
+    HashSet();
+    HashSet(Collection<? extends E> arg0);
+    HashSet(int arg0, float arg1);
+    HashSet(int arg0);
+    Iterator<E> iterator();
+    int size();
+    boolean isEmpty();
+    boolean contains(Object arg0);
+    boolean add(E arg0);
+    boolean remove(Object arg0);
+    void clear();
+    Object clone();
+}
+
 
 interface Iterator<E> {
 //Added by smillst
@@ -108,6 +440,19 @@ interface Iterator<E> {
     void remove();
 }
 
+@PolyFlowReceiver  
+class LinkedHashMap<K, V> extends HashMap<K,V> implements Map<K,V> {
+//Added by pbsf
+    LinkedHashMap(int arg0, float arg1);
+    LinkedHashMap(int arg0);
+    LinkedHashMap();
+    LinkedHashMap(Map<? extends K,? extends V> arg0);
+    LinkedHashMap(int arg0, float arg1, boolean arg2);
+    boolean containsValue(Object arg0);
+    V get(Object arg0);
+    void clear();
+    protected boolean removeEldestEntry(Entry<K,V> arg0);
+}
 
 interface List<E extends @Sink({}) @Source(FlowPermission.ANY) Object> {
     @PolyFlowReceiver
@@ -200,6 +545,84 @@ interface Map$Entry<K, V> {
     @PolyFlowReceiver
     int hashCode();
 }
+
+
+interface NavigableMap<K, V> extends SortedMap<K,V> {
+//Added by pbsf
+@PolyFlowReceiver
+    Entry<K,V> lowerEntry(K arg0);
+    @PolyFlowReceiver
+    K lowerKey(K arg0);
+    @PolyFlowReceiver
+    Entry<K,V> floorEntry(K arg0);
+    @PolyFlowReceiver
+    K floorKey(K arg0);
+    @PolyFlowReceiver
+    Entry<K,V> ceilingEntry(K arg0);
+    @PolyFlowReceiver
+    K ceilingKey(K arg0);
+    @PolyFlowReceiver
+    Entry<K,V> higherEntry(K arg0);
+    @PolyFlowReceiver
+    K higherKey(K arg0);
+    @PolyFlowReceiver
+    Entry<K,V> firstEntry();
+    @PolyFlowReceiver
+    Entry<K,V> lastEntry();
+    @PolyFlowReceiver
+    Entry<K,V> pollFirstEntry();
+    @PolyFlowReceiver
+    Entry<K,V> pollLastEntry();
+    @PolyFlowReceiver
+    NavigableMap<K,V> descendingMap();
+    @PolyFlowReceiver
+    NavigableSet<K> navigableKeySet();
+    @PolyFlowReceiver
+    NavigableSet<K> descendingKeySet();
+    @PolyFlowReceiver
+    NavigableMap<K,V> subMap(K arg0, boolean arg1, K arg2, boolean arg3);
+    @PolyFlowReceiver
+    NavigableMap<K,V> headMap(K arg0, boolean arg1);
+    @PolyFlowReceiver
+    NavigableMap<K,V> tailMap(K arg0, boolean arg1);
+    @PolyFlowReceiver
+    SortedMap<K,V> subMap(K arg0, K arg1);
+    @PolyFlowReceiver
+    SortedMap<K,V> headMap(K arg0);
+    @PolyFlowReceiver
+    SortedMap<K,V> tailMap(K arg0);
+}
+
+@PolyFlowReceiver
+interface NavigableSet<E> extends SortedSet<E> {
+    E lower(E arg0);
+    E floor(E arg0);
+    E ceiling(E arg0);
+    E higher(E arg0);
+    E pollFirst();
+    E pollLast();
+    Iterator<E> iterator();
+    NavigableSet<E> descendingSet();
+    Iterator<E> descendingIterator();
+    NavigableSet<E> subSet(E arg0, boolean arg1, E arg2, boolean arg3);
+    NavigableSet<E> headSet(E arg0, boolean arg1);
+    NavigableSet<E> tailSet(E arg0, boolean arg1);
+    SortedSet<E> subSet(E arg0, E arg1);
+    SortedSet<E> headSet(E arg0);
+    SortedSet<E> tailSet(E arg0);
+}
+
+@PolyFlowReceiver
+interface Queue<E> extends Collection<E> {
+    boolean add(E arg0);
+    boolean offer(E arg0);
+    E remove();
+    E poll();
+    E element();
+    E peek();
+}
+
+
 @PolyFlowReceiver
 interface Set<E> extends Collection<E> {
     int size();
@@ -219,5 +642,90 @@ interface Set<E> extends Collection<E> {
     int hashCode();
 }
 
+@PolyFlowReceiver
+interface SortedMap<K, V> extends Map<K,V> {
+    Comparator<? super K> comparator();
+    SortedMap<K,V> subMap(K arg0, K arg1);
+    SortedMap<K,V> headMap(K arg0);
+    SortedMap<K,V> tailMap(K arg0);
+    K firstKey();
+    K lastKey();
+    Set<K> keySet();
+    Collection<V> values();
+    Set<Entry<K,V>> entrySet();
+}
+
+@PolyFlowReceiver
+class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
+    protected Object[] elementData;
+    protected int elementCount;
+    protected int capacityIncrement;
+    Vector(int arg0, int arg1);
+    Vector(int arg0);
+    Vector();
+    Vector(Collection<? extends E> arg0);
+    void copyInto(Object[] arg0);
+    void trimToSize();
+    void ensureCapacity(int arg0);
+    void setSize(int arg0);
+    int capacity();
+    int size();
+    boolean isEmpty();
+    Enumeration<E> elements();
+    boolean contains(Object arg0);
+    int indexOf(Object arg0);
+    int indexOf(Object arg0, int arg1);
+    int lastIndexOf(Object arg0);
+    int lastIndexOf(Object arg0, int arg1);
+    E elementAt(int arg0);
+    E firstElement();
+    E lastElement();
+    void setElementAt(E arg0, int arg1);
+    void removeElementAt(int arg0);
+    void insertElementAt(E arg0, int arg1);
+    void addElement(E arg0);
+    boolean removeElement(Object arg0);
+    void removeAllElements();
+    Object clone();
+    Object[] toArray();
+    <T> T[] toArray(T[] arg0);
+    E get(int arg0);
+    E set(int arg0, E arg1);
+    boolean add(E arg0);
+    boolean remove(Object arg0);
+    void add(int arg0, E arg1);
+    E remove(int arg0);
+    void clear();
+    boolean containsAll(Collection<?> arg0);
+    boolean addAll(Collection<? extends E> arg0);
+    boolean removeAll(Collection<?> arg0);
+    boolean retainAll(Collection<?> arg0);
+    boolean addAll(int arg0, Collection<? extends E> arg1);
+    boolean equals(Object arg0);
+    int hashCode();
+    String toString();
+    List<E> subList(int arg0, int arg1);
+    protected void removeRange(int arg0, int arg1);
+    ListIterator<E> listIterator(int arg0);
+    ListIterator<E> listIterator();
+    Iterator<E> iterator();
+}
+
+
+package java.util.concurrent.atomic;
+
+@PolyFlowReceiver
+class AtomicReferenceArray<E> implements Serializable {
+    AtomicReferenceArray(int arg0);
+    AtomicReferenceArray(E[] arg0);
+    int length();
+    E get(int arg0);
+    void set(int arg0, E arg1);
+    void lazySet(int arg0, E arg1);
+    E getAndSet(int arg0, E arg1);
+    boolean compareAndSet(int arg0, E arg1, E arg2);
+    boolean weakCompareAndSet(int arg0, E arg1, E arg2);
+    String toString();
+}
 
 

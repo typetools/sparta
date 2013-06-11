@@ -7,6 +7,265 @@ void inflate (@Sink(FlowPermission.CONDITIONAL) int menuRes, @Sink(FlowPermissio
 
 }
 
+class MotionEvent {
+//final void addBatch(long eventTime, PointerCoords[] pointerCoords, int metaState);
+//Add a new movement to the batch of movements in this event.
+
+//final void addBatch(long eventTime, float x, float y, float pressure, float size, int metaState);
+//Add a new movement to the batch of movements in this event.
+
+//static int axisFromString(String symbolicName);
+//Gets an axis by its symbolic name such as "AXIS_X" or an equivalent numeric constant such as "42".
+
+//static String axisToString(int axis);
+//Returns a string that represents the symbolic name of the specified axis such as "AXIS_X" or an equivalent numeric constant such as "42" if unknown.
+
+final int findPointerIndex(int pointerId);
+//Given a pointer identifier, find the index of its data in the event.
+
+final int getAction();
+//Return the kind of action being performed.
+
+//final int getActionIndex();
+//For ACTION_POINTER_DOWN or ACTION_POINTER_UP as returned by getActionMasked();, this returns the associated pointer index.
+
+//final int getActionMasked();
+//Return the masked action being performed, without pointer index information.
+
+//final float getAxisValue(int axis);
+//getAxisValue(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getAxisValue(int axis, int pointerIndex);
+//Returns the value of the requested axis for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final int getButtonState();
+//Gets the state of all buttons that are pressed such as a mouse or stylus button.
+
+//final int getDeviceId();
+//Gets the id for the device that this event came from.
+
+//final long getDownTime();
+//Returns the time (in ms); when the user originally pressed down to start a stream of position events.
+
+//final int getEdgeFlags();
+//Returns a bitfield indicating which edges, if any, were touched by this MotionEvent.
+
+final @Source(FlowPermission.READ_TIME) long getEventTime();
+//Retrieve the time this event occurred, in the uptimeMillis(); time base.
+
+//final int getFlags();
+//Gets the motion event flags.
+
+//final float getHistoricalAxisValue(int axis, int pointerIndex, int pos);
+//Returns the historical value of the requested axis, as per getAxisValue(int, int);, occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalAxisValue(int axis, int pos);
+//getHistoricalAxisValue(int, int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final long getHistoricalEventTime(int pos);
+//Returns the time that a historical movement occurred between this event and the previous event, in the uptimeMillis(); time base.
+
+//final float getHistoricalOrientation(int pointerIndex, int pos);
+//Returns a historical orientation coordinate, as per getOrientation(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalOrientation(int pos);
+//getHistoricalOrientation(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final void getHistoricalPointerCoords(int pointerIndex, int pos, MotionEvent.PointerCoords outPointerCoords);
+//Populates a MotionEvent.PointerCoords object with historical pointer coordinate data, as per getPointerCoords(int, MotionEvent.PointerCoords);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalPressure(int pos);
+//getHistoricalPressure(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalPressure(int pointerIndex, int pos);
+//Returns a historical pressure coordinate, as per getPressure(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalSize(int pos);
+//getHistoricalSize(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalSize(int pointerIndex, int pos);
+//Returns a historical size coordinate, as per getSize(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalToolMajor(int pointerIndex, int pos);
+//Returns a historical tool major axis coordinate, as per getToolMajor(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalToolMajor(int pos);
+//getHistoricalToolMajor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalToolMinor(int pointerIndex, int pos);
+//Returns a historical tool minor axis coordinate, as per getToolMinor(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalToolMinor(int pos);
+//getHistoricalToolMinor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalTouchMajor(int pointerIndex, int pos);
+//Returns a historical touch major axis coordinate, as per getTouchMajor(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalTouchMajor(int pos);
+//getHistoricalTouchMajor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalTouchMinor(int pointerIndex, int pos);
+//Returns a historical touch minor axis coordinate, as per getTouchMinor(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalTouchMinor(int pos);
+//getHistoricalTouchMinor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalX(int pos);
+//getHistoricalX(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalX(int pointerIndex, int pos);
+//Returns a historical X coordinate, as per getX(int);, that occurred between this event and the previous event for the given pointer.
+
+//final float getHistoricalY(int pos);
+//getHistoricalY(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getHistoricalY(int pointerIndex, int pos);
+//Returns a historical Y coordinate, as per getY(int);, that occurred between this event and the previous event for the given pointer.
+
+//final int getHistorySize();
+//Returns the number of historical points in this event.
+
+//final int getMetaState();
+//Returns the state of any meta / modifier keys that were in effect when the event was generated.
+
+//final float getOrientation(int pointerIndex);
+//Returns the orientation of the touch area and tool area in radians clockwise from vertical for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final float getOrientation();
+//getOrientation(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final void getPointerCoords(int pointerIndex, MotionEvent.PointerCoords outPointerCoords);
+//Populates a MotionEvent.PointerCoords object with pointer coordinate data for the specified pointer index.
+
+final int getPointerCount();
+//The number of pointers of data contained in this event.
+
+final int getPointerId(int pointerIndex);
+//Return the pointer identifier associated with a particular pointer data index is this event.
+
+//final void getPointerProperties(int pointerIndex, MotionEvent.PointerProperties outPointerProperties);
+//Populates a MotionEvent.PointerProperties object with pointer properties for the specified pointer index.
+
+//final float getPressure();
+//getPressure(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getPressure(int pointerIndex);
+//Returns the current pressure of this event for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final float getRawX();
+//Returns the original raw X coordinate of this event.
+
+//final float getRawY();
+//Returns the original raw Y coordinate of this event.
+
+//final float getSize(int pointerIndex);
+//Returns a scaled value of the approximate size for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final float getSize();
+//getSize(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final int getSource();
+//Gets the source of the event.
+
+//final float getToolMajor(int pointerIndex);
+//Returns the length of the major axis of an ellipse that describes the size of the approaching tool for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final float getToolMajor();
+//getToolMajor(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getToolMinor();
+//getToolMinor(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getToolMinor(int pointerIndex);
+//Returns the length of the minor axis of an ellipse that describes the size of the approaching tool for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final int getToolType(int pointerIndex);
+//Gets the tool type of a pointer for the given pointer index.
+
+//final float getTouchMajor();
+//getTouchMajor(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getTouchMajor(int pointerIndex);
+//Returns the length of the major axis of an ellipse that describes the touch area at the point of contact for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+//final float getTouchMinor();
+//getTouchMinor(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getTouchMinor(int pointerIndex);
+//Returns the length of the minor axis of an ellipse that describes the touch area at the point of contact for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+final float getX(int pointerIndex);
+//Returns the X coordinate of this event for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+final float getX();
+//getX(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getXPrecision();
+//Return the precision of the X coordinates being reported.
+
+final float getY(int pointerIndex);
+//Returns the Y coordinate of this event for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
+
+final float getY();
+//getY(int); for the first pointer index (may be an arbitrary pointer identifier);.
+
+//final float getYPrecision();
+//Return the precision of the Y coordinates being reported.
+
+//static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, PointerProperties[] pointerProperties, PointerCoords[] pointerCoords, int metaState, int buttonState, float xPrecision, float yPrecision, int deviceId, int edgeFlags, int source, int flags);
+//Create a new MotionEvent, filling in all of the basic values that define the motion.
+
+//static MotionEvent obtain(long downTime, long eventTime, int action, float x, float y, float pressure, float size, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags);
+//Create a new MotionEvent, filling in all of the basic values that define the motion.
+
+//static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, float x, float y, float pressure, float size, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags);
+//This method was deprecated in API level 9. Use obtain(long, long, int, float, float, float, float, int, float, float, int, int); instead.
+
+//static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, int[] pointerIds, PointerCoords[] pointerCoords, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags, int source, int flags);
+//This method was deprecated in API level 14. Use obtain(long, long, int, int, PointerProperties[], PointerCoords[], int, int, float, float, int, int, int, int); instead.
+
+//static MotionEvent obtain(MotionEvent other);
+//Create a new MotionEvent, copying from an existing one.
+
+//static MotionEvent obtain(long downTime, long eventTime, int action, float x, float y, int metaState);
+//Create a new MotionEvent, filling in a subset of the basic motion values.
+
+//static MotionEvent obtainNoHistory(MotionEvent other);
+//Create a new MotionEvent, copying from an existing one, but not including any historical point information.
+
+//final void offsetLocation(float deltaX, float deltaY);
+//Adjust this event's location.
+
+final void recycle();
+//Recycle the MotionEvent, to be re-used by a later caller.
+
+//final void setAction(int action);
+//Sets this event's action.
+
+//final void setEdgeFlags(int flags);
+//Sets the bitfield indicating which edges, if any, were touched by this MotionEvent.
+
+final void setLocation(float x, float y);
+//Set this event's location.
+
+//final void setSource(int source);
+//Modifies the source of the event.
+
+//String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+//final void transform(Matrix matrix);
+//Applies a transformation matrix to all of the points in the event.
+
+//void writeToParcel(Parcel out, int flags);
+//Flatten this object in to a Parcel.
+
+//Protected Methods
+//void finalize()
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+}
+
 class SurfaceView{
 //SOM
  @Sink(FlowPermission.DISPLAY) SurfaceHolder getHolder ();
@@ -25,7 +284,6 @@ interface SurfaceHolder$Callback {
     void surfaceDestroyed(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0);
 }
 
-package android.view;
 
 class View {
 //Added by Carl Hartung
