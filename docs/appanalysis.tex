@@ -192,19 +192,47 @@ but caller only provides []!
 \end{Verbatim}
 
 
+There are two types of errors you will see. The first error:
+
+\begin{Verbatim}
+MainActivity.java:35: 
+error: Call require permission(s) [android.permission.SET_WALLPAPER], 
+but caller only provides []!
+			clearWallpaper();
+			              ^
+\end{Verbatim}
+This error means the method requires one or more permissions which the caller does not have.
+The second error:
+
+\begin{Verbatim}
+MediaPlayerActivity.java:218:
+error: Call may additionally require permission(s) 
+[android.Manifest.permission.WAKE_LOCK], but caller only provides []! 
+Notes: WAKE_LOCK is required if MediaPlayer.setWakeMode has been called first.
+			          stop();
+			              ^
+\end{Verbatim}
+This error means the method may or may not require one or more permissions which the caller
+does not have. An explanation for the current error can be seen on the \<Notes>. 
+
 You can eliminate the error by writing
-\<@RequiredPermissions({android.Manifest.permission.\emph{PERMISSION}})> in
+\<@RequiredPermissions({android.Manifest.permission.\emph{PERMISSION}})> or
+\<@MayRequiredPermissions({android.Manifest.permission.\emph{WAKE\_LOCK}})> in
 front of the method header in the source code, if you would like to propagate the
-required permission up the call stack.  However, it is not necessary to eliminate all the errors
-from RequiredPermissions.   The \<reqperms> tool is only a tool to guide your annotation and
-manual analysis effort. 
+required permission up the call stack. 
+You should use 
+\<@MayRequiredPermissions( value={android.Manifest.permission.\emph{PERMISSION}},
+notes=java.lang.String)> in case the permission may be required and you should 
+explain the reason on the \<notes> argument.
+However, it is not necessary to eliminate all the errors from RequiredPermissions.   
+The \<reqperms> tool is only a tool to guide your annotation and manual analysis effort. 
 
 Any permission that is required should already be listed in the
 \<AndroidManifest.xml> file.
 
 The permissions required by the Android API appear in file
 \<src/sparta/checkers/permission.astub>, expressed as
-\<@RequiredPermissions> annotations.
+\<@RequiredPermissions> and \<@MayRequiredPermissions> annotations.
 
 
 

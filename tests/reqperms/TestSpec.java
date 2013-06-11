@@ -32,7 +32,7 @@ class TestSpec {
 
     @RequiredPermissions(permission.INTERNET)
     void baz(LocationManager locationManager) {
-        //:: error: (unsatisfied.permissions)
+        //:: error: (may.required.permissions)
         String provider = locationManager.getBestProvider(null, true);
     }
 }
