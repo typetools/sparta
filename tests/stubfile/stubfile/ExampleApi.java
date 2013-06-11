@@ -29,4 +29,10 @@ public class ExampleApi {
 	public String notReviewed1(){return "";}
 	public void notReviewed2(String s){}
 	public String notReviewed3(String s){return "";}
+	
+	public void staticImport(String s) { }
+	@interface MyAnnotation {
+		String[] value();
+	}
+	public final String STATIC_FIELD = "Value";
 }

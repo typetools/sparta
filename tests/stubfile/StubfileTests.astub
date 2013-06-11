@@ -1,37 +1,54 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
+import static stubfile.ExampleApi.MyAnnotation;
+import static stubfile.ExampleApi.INET_FIELD;
+import static stubfile.ExampleApi.STATIC_FIELD;
 import static sparta.checkers.quals.FlowPermission.*;
 
+// These should all issue warnings
+// TODO: Programmatic testing for warnings
+import fakepackage.*;
+import fakepackage.Test;
+import static fakeclass.*;
+import static fakeclass.Test;
+import static stubfile.ExampleApiNotExist.fakenestedfield;
 
 package stubfile;
 
- class ExampleApi {
-	public ExampleApi();
+class ExampleApi {
+    public ExampleApi();
     public ExampleApi(String s);
     //public ExampleApi(int i);
 	
-	@PolyFlow void polyFlow();
-	@PolyFlow String polyFlow1();
-	@PolyFlow void polyFlow2(String s);
-	@PolyFlow String polyFlow3(String s);
+    @PolyFlow void polyFlow();
+    @PolyFlow String polyFlow1();
+    @PolyFlow void polyFlow2(String s);
+    @PolyFlow String polyFlow3(String s);
 	
-	@PolyFlowReceiver void polyFlowR();
-	@PolyFlowReceiver String polyFlowR1();
-	@PolyFlowReceiver void polyFlowR2(String s);
-	@PolyFlowReceiver String polyFlowR3(String s);
+    @PolyFlowReceiver void polyFlowR();
+    @PolyFlowReceiver String polyFlowR1();
+    @PolyFlowReceiver void polyFlowR2(String s);
+    @PolyFlowReceiver String polyFlowR3(String s);
 
-	 void reviewed();
-	 String reviewed1();
-	 void reviewed2(String s);
-	 String reviewed3(String s);
+    void reviewed();
+    String reviewed1();
+    void reviewed2(String s);
+    String reviewed3(String s);
 	
-	 void reviewedSomeAnnos();
-	@Source(FlowPermission.READ_SMS) String reviewedSomeAnnos1();
-	 void reviewedSomeAnnos2(@Sink(FlowPermission.INTERNET) String s);
-	 @Sink(FlowPermission.WRITE_SMS) String reviewedSomeAnnos3(@Source(FlowPermission.READ_TIME) String s);
+    void reviewedSomeAnnos();
+    @Source(FlowPermission.READ_SMS) String reviewedSomeAnnos1();
+    void reviewedSomeAnnos2(@Sink(INTERNET) String s);
+    @Sink(WRITE_SMS) String reviewedSomeAnnos3(@Source(READ_TIME) String s);
 	
 //	 void notReviewed();
-	@Source(FlowPermission.READ_SMS) @Sink(FlowPermission.WRITE_SMS) String notReviewed1();
+    @Source(READ_SMS) @Sink(WRITE_SMS) String notReviewed1();
 //	 void notReviewed2(String s);
 //	 String notReviewed3(String s);
+
+    // Nested annotation
+    // Nested compile time constant
+    @MyAnnotation({STATIC_FIELD, MISSING_FIELD})
+    @MyAnnotation(FlowPermission.MISSING_MEMEBER)
+    @MyAnnotation(MissingClass.Member)
+    void staticImport(String s) { }
 }

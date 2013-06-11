@@ -75,5 +75,10 @@ public class StubfileTests {
 		//::error: (argument.type.incompatible) ::error: (forbidden.flow) 
 		x = api.notReviewed3(s);
 	}
+	
+	void staticImports() {
+		ExampleApi api = new ExampleApi();
+		api.staticImport("");
+	}
 
 }
