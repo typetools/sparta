@@ -3,6 +3,8 @@ package android.app;
 
 class Activity{
 //Annotations by SOM
+    Activity();
+
     @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
     @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater ();    
 	void onCreate(@Source(FlowPermission.ANY) Bundle savedInstanceState);
@@ -10,6 +12,8 @@ class Activity{
     void setContentView (@Sink(FlowPermission.DISPLAY) View view);
     void setProgressBarIndeterminateVisibility(@Source(FlowPermission.LITERAL) @Sink(FlowPermission.DISPLAY) boolean visible);
     
+    void startActivityForResult(@Sink(FlowPermission.ANY) Intent intent, int requestCode);
+    protected void onActivityResult(int requestCode, int resultCode, @Sink(FlowPermission.ANY) Intent data);
     
 }
 

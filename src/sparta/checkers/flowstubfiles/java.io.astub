@@ -1,13 +1,21 @@
 
 package java.io;
 
-class FileOutputStream {
+class FileOutputStream extends OutputStream {
 //Added by SOM
-
- @Source(FlowPermission.FILESYSTEM)  FileOutputStream(@Sink(FlowPermission.FILESYSTEM)  File file);
- void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM)  [] bytes);
+    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) String arg0) throws FileNotFoundException;
+    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) String arg0, boolean arg1) throws FileNotFoundException;
+    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) File arg0) throws FileNotFoundException;
+    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) File arg0, boolean arg1) throws FileNotFoundException;
+    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) FileDescriptor arg0);
+    void write(@Sink(FlowPermission.FILESYSTEM) int arg0) @Sink(FlowPermission.FILESYSTEM);
+    void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM) [] arg0) @Sink(FlowPermission.FILESYSTEM);
+    void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM) [] arg0, int arg1, int arg2) @Sink(FlowPermission.FILESYSTEM);
+    void close() @Sink(FlowPermission.FILESYSTEM);
+    @Sink(FlowPermission.FILESYSTEM) FileDescriptor getFD() @Sink(FlowPermission.FILESYSTEM);
+    @Sink(FlowPermission.FILESYSTEM) FileChannel getChannel() @Sink(FlowPermission.FILESYSTEM);
+    protected void finalize() @Sink(FlowPermission.FILESYSTEM);
 }
-
 
 
     

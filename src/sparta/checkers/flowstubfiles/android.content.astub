@@ -129,6 +129,11 @@ abstract @Source(FlowPermission.FILESYSTEM) File getFileStreamPath(String name);
 //Returns the absolute path on the filesystem where a file created with openFileOutput(String, int); is stored.
 
 }
+class Intent{
+        Intent putExtra(@Sink(FlowPermission.ANY) String name, @Sink(FlowPermission.ANY) Serializable value);
+        Intent(@Sink(FlowPermission.ANY) String action);
+        @Source(FlowPermission.ANY) String getDataString();
+}
 
 class UriMatcher {
     void addURI(@PolySource @PolySink String authority, @PolySource @PolySink String path, @PolySource @PolySink int code) @PolySource @PolySink;
@@ -237,6 +242,7 @@ int getColor(int id);
 // void parseBundleExtras(XmlResourceParser parser, Bundle outBundle);
 // void updateConfiguration(Configuration config, DisplayMetrics metrics);
 }
+
 
 
 class SharedPreferences {

@@ -7,3 +7,29 @@ class HttpClient {
     @Source(FlowPermission.INTERNET)
     HttpResponse execute(@Sink(FlowPermission.INTERNET) HttpUriRequest request);
 }
+
+package org.apache.http.impl.client;
+
+class DefaultHttpClient extends AbstractHttpClient {
+    DefaultHttpClient(ClientConnectionManager arg0, HttpParams arg1);
+    DefaultHttpClient(HttpParams arg0);
+    DefaultHttpClient();
+    
+    protected HttpParams createHttpParams();
+    protected HttpRequestExecutor createRequestExecutor();
+    protected ClientConnectionManager createClientConnectionManager();
+    protected HttpContext createHttpContext();
+    protected ConnectionReuseStrategy createConnectionReuseStrategy();
+    protected ConnectionKeepAliveStrategy createConnectionKeepAliveStrategy();
+    protected AuthSchemeRegistry createAuthSchemeRegistry();
+    protected CookieSpecRegistry createCookieSpecRegistry();
+    protected BasicHttpProcessor createHttpProcessor();
+    protected HttpRequestRetryHandler createHttpRequestRetryHandler();
+    protected RedirectHandler createRedirectHandler();
+    protected AuthenticationHandler createTargetAuthenticationHandler();
+    protected AuthenticationHandler createProxyAuthenticationHandler();
+    protected CookieStore createCookieStore();
+    protected CredentialsProvider createCredentialsProvider();
+    protected HttpRoutePlanner createHttpRoutePlanner();
+    protected UserTokenHandler createUserTokenHandler();
+}

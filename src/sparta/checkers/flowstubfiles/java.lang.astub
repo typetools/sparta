@@ -560,3 +560,27 @@ class StringBuffer implements Serializable, CharSequence {
     String  toString();
     void    trimToSize();
 }
+
+
+class Throwable implements Serializable {
+//SOM
+    Throwable();
+    Throwable(String arg0);
+    Throwable(String arg0, Throwable arg1);
+    Throwable(Throwable arg0);
+    protected Throwable(String arg0, Throwable arg1, boolean arg2, boolean arg3);
+    String getMessage();
+    String getLocalizedMessage();
+    Throwable getCause();
+    Throwable initCause(Throwable arg0);
+    String toString();
+    void printStackTrace();
+    void printStackTrace(PrintStream arg0);
+    void printStackTrace(PrintWriter arg0);
+    Throwable fillInStackTrace();
+    StackTraceElement[] getStackTrace();
+    void setStackTrace(StackTraceElement[] arg0);
+    void addSuppressed(Throwable arg0);
+    Throwable[] getSuppressed();
+}
+
