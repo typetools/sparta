@@ -181,16 +181,6 @@ app first obtains information from a sensitive source, or how your app
 finally sends information to a sensitive sink.  This may help you decide
 what parts of the app to further investigate, or where to start your
 annotation work.
-For example, you will see error messages like:
-
-\begin{Verbatim}
-MainActivity.java:35: 
-error: Call could additionally require permission(s) [android.permission.SET_WALLPAPER], 
-but caller only provides []!
-			clearWallpaper();
-			              ^
-\end{Verbatim}
-
 
 There are two types of errors you will see. The first error:
 
