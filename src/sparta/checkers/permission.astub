@@ -40,7 +40,7 @@ class AccountManager{
 @RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.Account[] getAccounts();
 @RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture hasFeatures(android.accounts.Account arg0, java.lang.String[] arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
 @RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  java.lang.String blockingGetAuthToken(android.accounts.Account arg0, java.lang.String arg1, boolean arg2);
-@RequiredPermissions({android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  void invalidateAuthToken(java.lang.String arg0, java.lang.String arg1);
+@MayRequiredPermissions(value={android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS}, notes="")  void invalidateAuthToken(java.lang.String arg0, java.lang.String arg1);
 @RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS})  void clearPassword(android.accounts.Account arg0);
 }
 package android.app;
@@ -51,6 +51,7 @@ class Activity{
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@MayRequiredPermissions(value={android.Manifest.permission.INTERNET}, notes="The INTERNET permission is required when setting a content view with a WebView.") void setContentView(int arg1);
 }
 class ActivityGroup{
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
@@ -63,8 +64,8 @@ class ActivityGroup{
 class ActivityManager{
 @RequiredPermissions({android.Manifest.permission.GET_TASKS})  java.util.List getRecentTasks(int arg0, int arg1);
 @RequiredPermissions({android.Manifest.permission.GET_TASKS})  java.util.List getRunningTasks(int arg0);
-@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES})  void restartPackage(java.lang.String arg0);
-@RequiredPermissions({android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES})  void killBackgroundProcesses(java.lang.String arg0);
+@MayRequiredPermissions(value={android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}, notes="")  void restartPackage(java.lang.String arg0);
+@MayRequiredPermissions(value={android.Manifest.permission.RESTART_PACKAGES, android.Manifest.permission.KILL_BACKGROUND_PROCESSES}, notes="")  void killBackgroundProcesses(java.lang.String arg0);
 @RequiredPermissions({android.Manifest.permission.REORDER_TASKS})  void moveTaskToFront(int arg0, int arg1);
 }
 class AlarmManager{
@@ -139,8 +140,8 @@ class NativeActivity{
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 }
 class NotificationManager{
-@RequiredPermissions({android.Manifest.permission.VIBRATE})  void notify(int arg0, android.app.Notification arg1);
-@RequiredPermissions({android.Manifest.permission.VIBRATE})  void notify(java.lang.String arg0, int arg1, android.app.Notification arg2);
+@MayRequiredPermissions(value = {android.Manifest.permission.VIBRATE}, notes = "Permission only required if you've set the Notification.vibrate field for the Notification parameter.")  void notify(int arg0, android.app.Notification arg1);
+@MayRequiredPermissions(value = {android.Manifest.permission.VIBRATE}, notes = "Permission only required if you've set the Notification.vibrate field for the Notification parameter.")  void notify(java.lang.String arg0, int arg1, android.app.Notification arg2);
 }
 class Service{
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
@@ -182,6 +183,8 @@ class BackupAgentHelper{
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
+
+
 package android.bluetooth;
 class BluetoothA2dp{
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.BLUETOOTH})  boolean isA2dpPlaying(android.bluetooth.BluetoothDevice arg0);
@@ -314,22 +317,22 @@ class LocationManager{
 @RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void clearTestProviderStatus(java.lang.String arg0);
 @RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void setTestProviderStatus(java.lang.String arg0, int arg1, android.os.Bundle arg2, long arg3);
 @RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(long arg0, float arg1, android.location.Criteria arg2, android.location.LocationListener arg3, android.os.Looper arg4);
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  java.util.List getProviders(android.location.Criteria arg0, boolean arg1);
+@MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="This method will only return the providers your permissions give you access to (FINE for GPS; either FINE or COARSE for network).")  java.util.List getProviders(android.location.Criteria arg0, boolean arg1);
 @RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestSingleUpdate(android.location.Criteria arg0, android.app.PendingIntent arg1);
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  android.location.LocationProvider getProvider(java.lang.String arg0);
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  android.location.Location getLastKnownLocation(java.lang.String arg0);
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  boolean isProviderEnabled(java.lang.String arg0);
+@MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="ACCESS_FINE_LOCATION for gps; either permission is acceptable for network.")  android.location.LocationProvider getProvider(java.lang.String arg0);
+@MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="ACCESS_FINE_LOCATION for gps; either permission is acceptable for network.")  android.location.Location getLastKnownLocation(java.lang.String arg0);
+@MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="ACCESS_FINE_LOCATION for gps; either permission is acceptable for network.")  boolean isProviderEnabled(java.lang.String arg0);
 @RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void addProximityAlert(double arg0, double arg1, float arg2, long arg3, android.app.PendingIntent arg4);
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.location.LocationListener arg3);
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  java.lang.String getBestProvider(android.location.Criteria arg0, boolean arg1);
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  java.util.List getProviders(boolean arg0);
+@MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="ACCESS_FINE_LOCATION for gps; either permission is acceptable for network.")  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.location.LocationListener arg3);
+@MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="This method will only return the providers your permissions give you access to (FINE for GPS; either FINE or COARSE for network).")  java.lang.String getBestProvider(android.location.Criteria arg0, boolean arg1);
+@MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="This method will only return the providers your permissions give you access to (FINE for GPS; either FINE or COARSE for network).")  java.util.List getProviders(boolean arg0);
 @RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(long arg0, float arg1, android.location.Criteria arg2, android.app.PendingIntent arg3);
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS})  boolean sendExtraCommand(java.lang.String arg0, java.lang.String arg1, android.os.Bundle arg2);
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.app.PendingIntent arg3);
+@RequiredPermissions({android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS}) @MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="ACCESS_FINE_LOCATION for gps; either permission is acceptable for network. Then regardless of FINE vs COARSE, you also must supply ACCESS_LOCATION_EXTRA_COMMANDS") boolean sendExtraCommand(java.lang.String arg0, java.lang.String arg1, android.os.Bundle arg2);
+@MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="ACCESS_FINE_LOCATION for gps; either permission is acceptable for network.")  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.app.PendingIntent arg3);
 @RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestSingleUpdate(java.lang.String arg0, android.location.LocationListener arg1, android.os.Looper arg2);
 @RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestSingleUpdate(android.location.Criteria arg0, android.location.LocationListener arg1, android.os.Looper arg2);
 @RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestSingleUpdate(java.lang.String arg0, android.app.PendingIntent arg1);
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.location.LocationListener arg3, android.os.Looper arg4);
+@MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="ACCESS_FINE_LOCATION for gps; either permission is acceptable for network.")  void requestLocationUpdates(java.lang.String arg0, long arg1, float arg2, android.location.LocationListener arg3, android.os.Looper arg4);
 @RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION})  boolean addNmeaListener(NmeaListener arg0);
 @RequiredPermissions({android.Manifest.permission.ACCESS_FINE_LOCATION})  boolean addGpsStatusListener(Listener arg0);
 }
@@ -353,8 +356,8 @@ class AudioRecord{
 @RequiredPermissions({android.Manifest.permission.RECORD_AUDIO})  AudioRecord(int arg0, int arg1, int arg2, int arg3, int arg4);
 }
 class MediaPlayer{
-@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void stop();
-@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void start();
+@MayRequiredPermissions(value={android.Manifest.permission.WAKE_LOCK}, notes="WAKE_LOCK is required if MediaPlayer.setWakeMode has been called first.")  void stop();
+@MayRequiredPermissions(value={android.Manifest.permission.WAKE_LOCK}, notes="WAKE_LOCK is required if MediaPlayer.setWakeMode has been called first.")  void start();
 @RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void setWakeMode(android.content.Context arg0, int arg1);
 @RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void pause();
 @RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void reset();
@@ -445,10 +448,10 @@ class WifiManager{
 class WifiManager$MulticastLock{
 @RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_MULTICAST_STATE})  void release();
 @RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_MULTICAST_STATE})  void acquire();
-@RequiredPermissions({android.Manifest.permission.CHANGE_WIFI_MULTICAST_STATE})  void finalize();
+@MayRequiredPermissions(value={android.Manifest.permission.CHANGE_WIFI_MULTICAST_STATE}, notes="")  void finalize();
 }
 class WifiManager$WifiLock{
-@RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void finalize();
+@MayRequiredPermissions(value={android.Manifest.permission.WAKE_LOCK}, notes="")  void finalize();
 @RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void release();
 @RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void acquire();
 }
@@ -725,13 +728,13 @@ class SmsManager{
 class TelephonyManager{
 @RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getSubscriberId();
 @RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getDeviceSoftwareVersion();
-@RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.ACCESS_COARSE_LOCATION})  void listen(android.telephony.PhoneStateListener arg0, int arg1);
+@MayRequiredPermissions(value={android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.ACCESS_COARSE_LOCATION}, notes="")  void listen(android.telephony.PhoneStateListener arg0, int arg1);
 @RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getLine1Number();
 @RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getSimSerialNumber();
 @RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getVoiceMailAlphaTag();
 @RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getVoiceMailNumber();
 @RequiredPermissions({android.Manifest.permission.READ_PHONE_STATE})  java.lang.String getDeviceId();
-@RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  java.util.List getNeighboringCellInfo();
+@MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="Require at least one of these 2 permissions: ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION ")  java.util.List getNeighboringCellInfo();
 @RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  android.telephony.CellLocation getCellLocation();
 }
 package android.telephony.gsm;
