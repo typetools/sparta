@@ -1,0 +1,129 @@
+package java.net;
+
+@PolyFlowReceiver
+class InetAddress implements Serializable {
+//Added by pbsf
+    boolean isMulticastAddress();
+    boolean isAnyLocalAddress();
+    boolean isLoopbackAddress();
+    boolean isLinkLocalAddress();
+    boolean isSiteLocalAddress();
+    boolean isMCGlobal();
+    boolean isMCNodeLocal();
+    boolean isMCLinkLocal();
+    boolean isMCSiteLocal();
+    boolean isMCOrgLocal();
+    boolean isReachable(int arg0) throws IOException;
+    boolean isReachable(NetworkInterface arg0, int arg1, int arg2) throws IOException;
+    String getHostName();
+    String getCanonicalHostName();
+    byte[] getAddress();
+    String getHostAddress();
+    int hashCode();
+    boolean equals(Object arg0);
+    String toString();
+    static InetAddress getByAddress(String arg0, byte[] arg1) throws UnknownHostException;
+    static InetAddress getByName(String arg0) throws UnknownHostException;
+    static InetAddress[] getAllByName(String arg0) throws UnknownHostException;
+    static InetAddress getLoopbackAddress();
+    static InetAddress getByAddress(byte[] arg0) throws UnknownHostException;
+    static InetAddress getLocalHost() throws UnknownHostException;
+}
+
+@PolyFlowReceiver
+class URL implements Serializable {
+//Added by pbsf
+    URL(String arg0, String arg1, int arg2, String arg3) throws MalformedURLException;
+    URL(String arg0, String arg1, String arg2) throws MalformedURLException;
+    URL(String arg0, String arg1, int arg2, String arg3, URLStreamHandler arg4) throws MalformedURLException;
+    URL(String arg0) throws MalformedURLException;
+    URL(URL arg0, String arg1) throws MalformedURLException;
+    URL(URL arg0, String arg1, URLStreamHandler arg2) throws MalformedURLException;
+    protected void set(String arg0, String arg1, int arg2, String arg3, String arg4);
+    protected void set(String arg0, String arg1, int arg2, String arg3, String arg4, String arg5, String arg6, String arg7);
+    String getQuery();
+    String getPath();
+    String getUserInfo();
+    String getAuthority();
+    int getPort();
+    int getDefaultPort();
+    String getProtocol();
+    String getHost();
+    String getFile();
+    String getRef();
+    boolean equals(Object arg0);
+    int hashCode();
+    boolean sameFile(URL arg0);
+    String toString();
+    String toExternalForm();
+    URI toURI() throws URISyntaxException;
+    URLConnection openConnection() throws IOException;
+    URLConnection openConnection(Proxy arg0) throws IOException;
+    InputStream openStream() throws IOException;
+    Object getContent() throws IOException;
+    Object getContent(Class[] arg0) throws IOException;
+    static void setURLStreamHandlerFactory(URLStreamHandlerFactory arg0);
+}
+
+@PolyFlowReceiver
+class URLConnection {
+    protected URL url;
+    protected boolean doInput;
+    protected boolean doOutput;
+    protected boolean allowUserInteraction;
+    protected boolean useCaches;
+    protected long ifModifiedSince;
+    protected boolean connected;
+    static FileNameMap getFileNameMap();
+    static void setFileNameMap(FileNameMap arg0);
+    void connect() throws IOException;
+    void setConnectTimeout(int arg0);
+    int getConnectTimeout();
+    void setReadTimeout(int arg0);
+    int getReadTimeout();
+    protected URLConnection(URL arg0);
+    URL getURL();
+    int getContentLength();
+    long getContentLengthLong();
+    String getContentType();
+    String getContentEncoding();
+    long getExpiration();
+    long getDate();
+    long getLastModified();
+    String getHeaderField(String arg0);
+    Map<String,List<String>> getHeaderFields();
+    int getHeaderFieldInt(String arg0, int arg1);
+    long getHeaderFieldLong(String arg0, long arg1);
+    long getHeaderFieldDate(String arg0, long arg1);
+    String getHeaderFieldKey(int arg0);
+    String getHeaderField(int arg0);
+    Object getContent() throws IOException;
+    Object getContent(Class[] arg0) throws IOException;
+    Permission getPermission() throws IOException;
+    InputStream getInputStream() throws IOException;
+    OutputStream getOutputStream() throws IOException;
+    String toString();
+    void setDoInput(boolean arg0);
+    boolean getDoInput();
+    void setDoOutput(boolean arg0);
+    boolean getDoOutput();
+    void setAllowUserInteraction(boolean arg0);
+    boolean getAllowUserInteraction();
+    static void setDefaultAllowUserInteraction(boolean arg0);
+    static boolean getDefaultAllowUserInteraction();
+    void setUseCaches(boolean arg0);
+    boolean getUseCaches();
+    void setIfModifiedSince(long arg0);
+    long getIfModifiedSince();
+    boolean getDefaultUseCaches();
+    void setDefaultUseCaches(boolean arg0);
+    void setRequestProperty(String arg0, String arg1);
+    void addRequestProperty(String arg0, String arg1);
+    String getRequestProperty(String arg0);
+    Map<String,List<String>> getRequestProperties();
+    static void setDefaultRequestProperty(String arg0, String arg1);
+    static String getDefaultRequestProperty(String arg0);
+    static void setContentHandlerFactory(ContentHandlerFactory arg0);
+    static String guessContentTypeFromName(String arg0);
+    static String guessContentTypeFromStream(InputStream arg0) throws IOException;
+}

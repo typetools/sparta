@@ -1,6 +1,91 @@
 package java.text;
 
 @PolyFlowReceiver
+class DateFormat extends Format {
+    protected Calendar calendar;
+    protected NumberFormat numberFormat;
+    final int ERA_FIELD;
+    final int YEAR_FIELD;
+    final int MONTH_FIELD;
+    final int DATE_FIELD;
+    final int HOUR_OF_DAY1_FIELD;
+    final int HOUR_OF_DAY0_FIELD;
+    final int MINUTE_FIELD;
+    final int SECOND_FIELD;
+    final int MILLISECOND_FIELD;
+    final int DAY_OF_WEEK_FIELD;
+    final int DAY_OF_YEAR_FIELD;
+    final int DAY_OF_WEEK_IN_MONTH_FIELD;
+    final int WEEK_OF_YEAR_FIELD;
+    final int WEEK_OF_MONTH_FIELD;
+    final int AM_PM_FIELD;
+    final int HOUR1_FIELD;
+    final int HOUR0_FIELD;
+    final int TIMEZONE_FIELD;
+    final int FULL;
+    final int LONG;
+    final int MEDIUM;
+    final int SHORT;
+    final int DEFAULT;
+    StringBuffer format(Object arg0, StringBuffer arg1, FieldPosition arg2);
+    StringBuffer format(Date arg0, StringBuffer arg1, FieldPosition arg2);
+    String format(Date arg0);
+    Date parse(String arg0) throws ParseException;
+    Date parse(String arg0, ParsePosition arg1);
+    Object parseObject(String arg0, ParsePosition arg1);
+    static DateFormat getTimeInstance();
+    static DateFormat getTimeInstance(int arg0);
+    static DateFormat getTimeInstance(int arg0, Locale arg1);
+    static DateFormat getDateInstance();
+    static DateFormat getDateInstance(int arg0);
+    static DateFormat getDateInstance(int arg0, Locale arg1);
+    static DateFormat getDateTimeInstance();
+    static DateFormat getDateTimeInstance(int arg0, int arg1);
+    static DateFormat getDateTimeInstance(int arg0, int arg1, Locale arg2);
+    static DateFormat getInstance();
+    static Locale[] getAvailableLocales();
+    void setCalendar(Calendar arg0);
+    Calendar getCalendar();
+    void setNumberFormat(NumberFormat arg0);
+    NumberFormat getNumberFormat();
+    void setTimeZone(TimeZone arg0);
+    TimeZone getTimeZone();
+    void setLenient(boolean arg0);
+    boolean isLenient();
+    int hashCode();
+    boolean equals(Object arg0);
+    Object clone();
+    protected DateFormat();
+}
+
+@PolyFlowReceiver
+class DateFormat$Field extends Field {
+    final Field ERA;
+    final Field YEAR;
+    final Field MONTH;
+    final Field DAY_OF_MONTH;
+    final Field HOUR_OF_DAY1;
+    final Field HOUR_OF_DAY0;
+    final Field MINUTE;
+    final Field SECOND;
+    final Field MILLISECOND;
+    final Field DAY_OF_WEEK;
+    final Field DAY_OF_YEAR;
+    final Field DAY_OF_WEEK_IN_MONTH;
+    final Field WEEK_OF_YEAR;
+    final Field WEEK_OF_MONTH;
+    final Field AM_PM;
+    final Field HOUR1;
+    final Field HOUR0;
+    final Field TIME_ZONE;
+    static Field ofCalendarField(int arg0);
+    protected Field(String arg0, int arg1);
+    int getCalendarField();
+    protected Object readResolve() throws InvalidObjectException;
+}
+
+
+@PolyFlowReceiver
 class DecimalFormat extends NumberFormat {
 //Added by pbsf
     DecimalFormat();
@@ -48,4 +133,26 @@ class DecimalFormat extends NumberFormat {
     void setCurrency(Currency arg0);
     RoundingMode getRoundingMode();
     void setRoundingMode(RoundingMode arg0);
+}
+
+@PolyFlowReceiver
+class SimpleDateFormat extends DateFormat {
+    SimpleDateFormat();
+    SimpleDateFormat(String arg0);
+    SimpleDateFormat(String arg0, Locale arg1);
+    SimpleDateFormat(String arg0, DateFormatSymbols arg1);
+    void set2DigitYearStart(Date arg0);
+    Date get2DigitYearStart();
+    StringBuffer format(Date arg0, StringBuffer arg1, FieldPosition arg2);
+    AttributedCharacterIterator formatToCharacterIterator(Object arg0);
+    Date parse(String arg0, ParsePosition arg1);
+    String toPattern();
+    String toLocalizedPattern();
+    void applyPattern(String arg0);
+    void applyLocalizedPattern(String arg0);
+    DateFormatSymbols getDateFormatSymbols();
+    void setDateFormatSymbols(DateFormatSymbols arg0);
+    Object clone();
+    int hashCode();
+    boolean equals(Object arg0);
 }

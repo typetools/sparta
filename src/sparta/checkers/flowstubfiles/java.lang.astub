@@ -2,6 +2,14 @@
 package java.lang;
 
 @PolyFlowReceiver
+interface Appendable {
+//Added by pbsf
+    Appendable append(CharSequence arg0) throws IOException;
+    Appendable append(CharSequence arg0, int arg1, int arg2) throws IOException;
+    Appendable append(char arg0) throws IOException;
+}
+
+@PolyFlowReceiver
 class Boolean implements Serializable, Comparable<Boolean> {
     final Boolean TRUE;
     final Boolean FALSE;
@@ -19,6 +27,35 @@ class Boolean implements Serializable, Comparable<Boolean> {
     static boolean getBoolean(String arg0);
     int compareTo(Boolean arg0);
     static int compare(boolean arg0, boolean arg1);
+}
+
+@PolyFlowReceiver
+class Byte extends Number implements Comparable<Byte> {
+//Added by pbsf
+    final byte MIN_VALUE;
+    final byte MAX_VALUE;
+    final Class<Byte> TYPE;
+    final int SIZE;
+    static String toString(byte arg0);
+    static Byte valueOf(byte arg0);
+    static byte parseByte(String arg0, int arg1) throws NumberFormatException;
+    static byte parseByte(String arg0) throws NumberFormatException;
+    static Byte valueOf(String arg0, int arg1) throws NumberFormatException;
+    static Byte valueOf(String arg0) throws NumberFormatException;
+    static Byte decode(String arg0) throws NumberFormatException;
+    Byte(byte arg0);
+    Byte(String arg0) throws NumberFormatException;
+    byte byteValue();
+    short shortValue();
+    int intValue();
+    long longValue();
+    float floatValue();
+    double doubleValue();
+    String toString();
+    int hashCode();
+    boolean equals(Object arg0);
+    int compareTo(Byte arg0);
+    static int compare(byte arg0, byte arg1);
 }
 
 @PolyFlowReceiver
@@ -411,6 +448,48 @@ interface CharSequence {
 }
 
 @PolyFlowReceiver
+class ClassLoader {
+    protected ClassLoader(ClassLoader arg0);
+    protected ClassLoader();
+    Class<?> loadClass(String arg0) throws ClassNotFoundException;
+    protected Class<?> loadClass(String arg0, boolean arg1) throws ClassNotFoundException;
+    protected Object getClassLoadingLock(String arg0);
+    protected Class<?> findClass(String arg0) throws ClassNotFoundException;
+    protected Class<?> defineClass(byte[] arg0, int arg1, int arg2) throws ClassFormatError;
+    protected Class<?> defineClass(String arg0, byte[] arg1, int arg2, int arg3) throws ClassFormatError;
+    protected Class<?> defineClass(String arg0, byte[] arg1, int arg2, int arg3, ProtectionDomain arg4) throws ClassFormatError;
+    protected Class<?> defineClass(String arg0, ByteBuffer arg1, ProtectionDomain arg2) throws ClassFormatError;
+    protected void resolveClass(Class<?> arg0);
+    protected Class<?> findSystemClass(String arg0) throws ClassNotFoundException;
+    protected Class<?> findLoadedClass(String arg0);
+    protected void setSigners(Class<?> arg0, Object[] arg1);
+    URL getResource(String arg0);
+    Enumeration<URL> getResources(String arg0) throws IOException;
+    protected URL findResource(String arg0);
+    protected Enumeration<URL> findResources(String arg0) throws IOException;
+    protected static boolean registerAsParallelCapable();
+    static URL getSystemResource(String arg0);
+    static Enumeration<URL> getSystemResources(String arg0) throws IOException;
+    InputStream getResourceAsStream(String arg0);
+    static InputStream getSystemResourceAsStream(String arg0);
+    ClassLoader getParent();
+    static ClassLoader getSystemClassLoader();
+    protected Package definePackage(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, String arg6, URL arg7) throws IllegalArgumentException;
+    protected Package getPackage(String arg0);
+    protected Package[] getPackages();
+    protected String findLibrary(String arg0);
+    void setDefaultAssertionStatus(boolean arg0);
+    void setPackageAssertionStatus(String arg0, boolean arg1);
+    void setClassAssertionStatus(String arg0, boolean arg1);
+    void clearAssertionStatus();
+}
+
+@PolyFlowReceiver
+interface Comparable<T> {
+    int compareTo(T arg0);
+}
+
+@PolyFlowReceiver
 class Double extends Number implements Comparable<Double> {
 //Added by pbsf
     final double POSITIVE_INFINITY;
@@ -474,7 +553,46 @@ class Enum<E> implements Comparable<E>, Serializable {
     protected void finalize();
 }
 
-
+@PolyFlowReceiver
+class Float extends Number implements Comparable<Float> {
+//Added by pbsf
+    final float POSITIVE_INFINITY;
+    final float NEGATIVE_INFINITY;
+    final float NaN;
+    final float MAX_VALUE;
+    final float MIN_NORMAL;
+    final float MIN_VALUE;
+    final int MAX_EXPONENT;
+    final int MIN_EXPONENT;
+    final int SIZE;
+    final Class<Float> TYPE;
+    static String toString(float arg0);
+    static String toHexString(float arg0);
+    static Float valueOf(String arg0) throws NumberFormatException;
+    static Float valueOf(float arg0);
+    static float parseFloat(String arg0) throws NumberFormatException;
+    static boolean isNaN(float arg0);
+    static boolean isInfinite(float arg0);
+    Float(float arg0);
+    Float(double arg0);
+    Float(String arg0) throws NumberFormatException;
+    boolean isNaN();
+    boolean isInfinite();
+    String toString();
+    byte byteValue();
+    short shortValue();
+    int intValue();
+    long longValue();
+    float floatValue();
+    double doubleValue();
+    int hashCode();
+    boolean equals(Object arg0);
+    static int floatToIntBits(float arg0);
+    static int floatToRawIntBits(float arg0);
+    static float intBitsToFloat(int arg0);
+    int compareTo(Float arg0);
+    static int compare(float arg0, float arg1);
+}
 
 @PolyFlowReceiver
 class Integer extends Number implements Comparable<Integer> {
@@ -685,6 +803,17 @@ class Math {
 
 }
 
+@PolyFlowReceiver
+class Number implements Serializable {
+    Number();
+    int intValue();
+    long longValue();
+    float floatValue();
+    double doubleValue();
+    byte byteValue();
+    short shortValue();
+}
+
 class Object {
 //Added by smillst
     Object();
@@ -703,6 +832,75 @@ class Object {
     void wait(long arg0, int arg1) throws InterruptedException;
     void wait() throws InterruptedException;
     protected void finalize() throws Throwable;
+}
+
+@PolyFlowReceiver
+class Process {
+    Process();
+    OutputStream getOutputStream();
+    InputStream getInputStream();
+    InputStream getErrorStream();
+    int waitFor() throws InterruptedException;
+    int exitValue();
+    void destroy();
+}
+
+@PolyFlowReceiver
+class Runtime {
+    static Runtime getRuntime();
+    void exit(int arg0);
+    void addShutdownHook(Thread arg0);
+    boolean removeShutdownHook(Thread arg0);
+    void halt(int arg0);
+    static void runFinalizersOnExit(boolean arg0);
+    Process exec(String arg0) throws IOException;
+    Process exec(String arg0, String[] arg1) throws IOException;
+    Process exec(String arg0, String[] arg1, File arg2) throws IOException;
+    Process exec(String[] arg0) throws IOException;
+    Process exec(String[] arg0, String[] arg1) throws IOException;
+    Process exec(String[] arg0, String[] arg1, File arg2) throws IOException;
+    int availableProcessors();
+    long freeMemory();
+    long totalMemory();
+    long maxMemory();
+    void gc();
+    void runFinalization();
+    void traceInstructions(boolean arg0);
+    void traceMethodCalls(boolean arg0);
+    void load(String arg0);
+    void loadLibrary(String arg0);
+    InputStream getLocalizedInputStream(InputStream arg0);
+    OutputStream getLocalizedOutputStream(OutputStream arg0);
+}
+
+@PolyFlowReceiver
+class Short extends Number implements Comparable<Short> {
+//Added by pbsf
+    final short MIN_VALUE;
+    final short MAX_VALUE;
+    final Class<Short> TYPE;
+    final int SIZE;
+    static String toString(short arg0);
+    static short parseShort(String arg0, int arg1) throws NumberFormatException;
+    static short parseShort(String arg0) throws NumberFormatException;
+    static Short valueOf(String arg0, int arg1) throws NumberFormatException;
+    static Short valueOf(String arg0) throws NumberFormatException;
+    static Short valueOf(short arg0);
+    static Short decode(String arg0) throws NumberFormatException;
+    Short(short arg0);
+    Short(String arg0) throws NumberFormatException;
+    byte byteValue();
+    short shortValue();
+    int intValue();
+    long longValue();
+    float floatValue();
+    double doubleValue();
+    String toString();
+    int hashCode();
+    boolean equals(Object arg0);
+    int compareTo(Short arg0);
+    static int compare(short arg0, short arg1);
+    static short reverseBytes(short arg0);
 }
 
 @PolyFlowReceiver
@@ -1100,6 +1298,15 @@ interface Thread$UncaughtExceptionHandler {
     void uncaughtException(Thread arg0, Throwable arg1);
 }
 
+@PolyFlowReceiver
+class ThreadLocal<T> {
+//Added by pbsf
+    protected T initialValue();
+    ThreadLocal();
+    T get();
+    void set(T arg0);
+    void remove();
+}
 
 
 class Throwable implements Serializable {
@@ -1122,5 +1329,24 @@ class Throwable implements Serializable {
     void setStackTrace(StackTraceElement[] arg0);
     void addSuppressed(Throwable arg0);
     Throwable[] getSuppressed();
+}
+
+package java.lang.ref;
+
+@PolyFlowReceiver
+class ReferenceQueue<T> {
+//Added by pbsf
+    ReferenceQueue();
+    Reference<? extends T> poll();
+    Reference<? extends T> remove(long arg0) throws IllegalArgumentException,InterruptedException;
+    Reference<? extends T> remove() throws InterruptedException;
+}
+
+
+@PolyFlowReceiver
+class WeakReference<T> extends Reference<T> {
+//Added by pbsf
+    WeakReference(T arg0);
+    WeakReference(T arg0, ReferenceQueue<? super T> arg1);
 }
 

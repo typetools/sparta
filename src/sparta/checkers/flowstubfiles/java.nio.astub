@@ -60,3 +60,70 @@ class ByteBuffer extends Buffer implements Comparable<ByteBuffer> {
     ByteBuffer putDouble(int arg0, double arg1);
     DoubleBuffer asDoubleBuffer();
 }
+
+@PolyFlowReceiver
+class CharBuffer extends Buffer implements Comparable<CharBuffer>, Appendable, CharSequence, Readable {
+    static CharBuffer allocate(int arg0);
+    static CharBuffer wrap(char[] arg0, int arg1, int arg2);
+    static CharBuffer wrap(char[] arg0);
+    int read(CharBuffer arg0) throws IOException;
+    static CharBuffer wrap(CharSequence arg0, int arg1, int arg2);
+    static CharBuffer wrap(CharSequence arg0);
+    CharBuffer slice();
+    CharBuffer duplicate();
+    CharBuffer asReadOnlyBuffer();
+    char get();
+    CharBuffer put(char arg0);
+    char get(int arg0);
+    CharBuffer put(int arg0, char arg1);
+    CharBuffer get(char[] arg0, int arg1, int arg2);
+    CharBuffer get(char[] arg0);
+    CharBuffer put(CharBuffer arg0);
+    CharBuffer put(char[] arg0, int arg1, int arg2);
+    CharBuffer put(char[] arg0);
+    CharBuffer put(String arg0, int arg1, int arg2);
+    CharBuffer put(String arg0);
+    boolean hasArray();
+    char[] array();
+    int arrayOffset();
+    CharBuffer compact();
+    boolean isDirect();
+    int hashCode();
+    boolean equals(Object arg0);
+    int compareTo(CharBuffer arg0);
+    String toString();
+    int length();
+    char charAt(int arg0);
+    CharBuffer subSequence(int arg0, int arg1);
+    CharBuffer append(CharSequence arg0);
+    CharBuffer append(CharSequence arg0, int arg1, int arg2);
+    CharBuffer append(char arg0);
+    ByteOrder order();
+}
+
+package java.nio.charset;
+
+@PolyFlowReceiver
+class Charset implements Comparable<Charset> {
+    static boolean isSupported(String arg0);
+    static Charset forName(String arg0);
+    static SortedMap<String,Charset> availableCharsets();
+    static Charset defaultCharset();
+    protected Charset(String arg0, String[] arg1);
+    String name();
+    Set<String> aliases();
+    String displayName();
+    boolean isRegistered();
+    String displayName(Locale arg0);
+    boolean contains(Charset arg0);
+    CharsetDecoder newDecoder();
+    CharsetEncoder newEncoder();
+    boolean canEncode();
+    CharBuffer decode(ByteBuffer arg0);
+    ByteBuffer encode(CharBuffer arg0);
+    ByteBuffer encode(String arg0);
+    int compareTo(Charset arg0);
+    int hashCode();
+    boolean equals(Object arg0);
+    String toString();
+}

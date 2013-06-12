@@ -1,6 +1,86 @@
 
 package java.util;
 
+@PolyFlowReceiver
+class AbstractCollection<E> implements Collection<E> {
+    protected AbstractCollection();
+    Iterator<E> iterator();
+    int size();
+    boolean isEmpty();
+    boolean contains(Object arg0);
+    Object[] toArray();
+    <T> T[] toArray(T[] arg0);
+    boolean add(E arg0);
+    boolean remove(Object arg0);
+    boolean containsAll(Collection<?> arg0);
+    boolean addAll(Collection<? extends E> arg0);
+    boolean removeAll(Collection<?> arg0);
+    boolean retainAll(Collection<?> arg0);
+    void clear();
+    String toString();
+}
+
+@PolyFlowReceiver
+class AbstractList<E> extends AbstractCollection<E> implements List<E> {
+    protected int modCount;
+    protected AbstractList();
+    boolean add(E arg0);
+    E get(int arg0);
+    E set(int arg0, E arg1);
+    void add(int arg0, E arg1);
+    E remove(int arg0);
+    int indexOf(Object arg0);
+    int lastIndexOf(Object arg0);
+    void clear();
+    boolean addAll(int arg0, Collection<? extends E> arg1);
+    Iterator<E> iterator();
+    ListIterator<E> listIterator();
+    ListIterator<E> listIterator(int arg0);
+    List<E> subList(int arg0, int arg1);
+    boolean equals(Object arg0);
+    int hashCode();
+    protected void removeRange(int arg0, int arg1);
+}
+ 
+@PolyFlowReceiver
+class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cloneable, Serializable {
+//Added by pbsf
+    ArrayDeque();
+    ArrayDeque(int arg0);
+    ArrayDeque(Collection<? extends E> arg0);
+    void addFirst(E arg0);
+    void addLast(E arg0);
+    boolean offerFirst(E arg0);
+    boolean offerLast(E arg0);
+    E removeFirst();
+    E removeLast();
+    E pollFirst();
+    E pollLast();
+    E getFirst();
+    E getLast();
+    E peekFirst();
+    E peekLast();
+    boolean removeFirstOccurrence(Object arg0);
+    boolean removeLastOccurrence(Object arg0);
+    boolean add(E arg0);
+    boolean offer(E arg0);
+    E remove();
+    E poll();
+    E element();
+    E peek();
+    void push(E arg0);
+    E pop();
+    int size();
+    boolean isEmpty();
+    Iterator<E> iterator();
+    Iterator<E> descendingIterator();
+    boolean contains(Object arg0);
+    boolean remove(Object arg0);
+    void clear();
+    Object[] toArray();
+    <T> T[] toArray(T[] arg0);
+    ArrayDeque<E> clone();
+} 
  
 class ArrayList<E extends @Sink({}) @Source(FlowPermission.ANY) Object> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
 //Added by smillst
@@ -165,6 +245,46 @@ class Arrays {
     static String toString(double[] arg0);
     static String toString(Object[] arg0);
     static String deepToString(Object[] arg0);
+}
+
+@PolyFlowReceiver
+class BitSet implements Cloneable, Serializable {
+    BitSet();
+    BitSet(int arg0);
+    static BitSet valueOf(long[] arg0);
+    static BitSet valueOf(LongBuffer arg0);
+    static BitSet valueOf(byte[] arg0);
+    static BitSet valueOf(ByteBuffer arg0);
+    byte[] toByteArray();
+    long[] toLongArray();
+    void flip(int arg0);
+    void flip(int arg0, int arg1);
+    void set(int arg0);
+    void set(int arg0, boolean arg1);
+    void set(int arg0, int arg1);
+    void set(int arg0, int arg1, boolean arg2);
+    void clear(int arg0);
+    void clear(int arg0, int arg1);
+    void clear();
+    boolean get(int arg0);
+    BitSet get(int arg0, int arg1);
+    int nextSetBit(int arg0);
+    int nextClearBit(int arg0);
+    int previousSetBit(int arg0);
+    int previousClearBit(int arg0);
+    int length();
+    boolean isEmpty();
+    boolean intersects(BitSet arg0);
+    int cardinality();
+    void and(BitSet arg0);
+    void or(BitSet arg0);
+    void xor(BitSet arg0);
+    void andNot(BitSet arg0);
+    int hashCode();
+    int size();
+    boolean equals(Object arg0);
+    Object clone();
+    String toString();
 }
 
 @PolyFlowReceiver
@@ -356,6 +476,12 @@ class Collections {
     static <T> Queue<T> asLifoQueue(Deque<T> arg0);
 }
 
+@PolyFlowReceiver
+interface Comparator<T> {
+    int compare(T arg0, T arg1);
+    boolean equals(Object arg0);
+}
+
 @PolyFlowReceiver       
 class Date implements Serializable, Cloneable, Comparable<Date> {
     Date();
@@ -393,6 +519,117 @@ class Date implements Serializable, Cloneable, Comparable<Date> {
     int getTimezoneOffset();
 }
 
+@PolyFlowReceiver
+interface Deque<E> extends Queue<E> {
+    void addFirst(E arg0);
+    void addLast(E arg0);
+    boolean offerFirst(E arg0);
+    boolean offerLast(E arg0);
+    E removeFirst();
+    E removeLast();
+    E pollFirst();
+    E pollLast();
+    E getFirst();
+    E getLast();
+    E peekFirst();
+    E peekLast();
+    boolean removeFirstOccurrence(Object arg0);
+    boolean removeLastOccurrence(Object arg0);
+    boolean add(E arg0);
+    boolean offer(E arg0);
+    E remove();
+    E poll();
+    E element();
+    E peek();
+    void push(E arg0);
+    E pop();
+    boolean remove(Object arg0);
+    boolean contains(Object arg0);
+    int size();
+    Iterator<E> iterator();
+    Iterator<E> descendingIterator();
+}
+
+@PolyFlowReceiver
+interface Enumeration<E> {
+    boolean hasMoreElements();
+    E nextElement();
+}
+
+
+@PolyFlowReceiver
+class EnumMap<K, V> extends AbstractMap<K,V> implements Serializable, Cloneable {
+    EnumMap(Class<K> arg0);
+    EnumMap(EnumMap<K,? extends V> arg0);
+    EnumMap(Map<K,? extends V> arg0);
+    int size();
+    boolean containsValue(Object arg0);
+    boolean containsKey(Object arg0);
+    V get(Object arg0);
+    V put(K arg0, V arg1);
+    V remove(Object arg0);
+    void putAll(Map<? extends K,? extends V> arg0);
+    void clear();
+    Set<K> keySet();
+    Collection<V> values();
+    Set<Entry<K,V>> entrySet();
+    boolean equals(Object arg0);
+    int hashCode();
+    EnumMap<K,V> clone();
+}
+
+@PolyFlowReceiver
+class EnumSet<E> extends AbstractSet<E> implements Cloneable, Serializable {
+    static <E> EnumSet<E> noneOf(Class<E> arg0);
+    static <E> EnumSet<E> allOf(Class<E> arg0);
+    static <E> EnumSet<E> copyOf(EnumSet<E> arg0);
+    static <E> EnumSet<E> copyOf(Collection<E> arg0);
+    static <E> EnumSet<E> complementOf(EnumSet<E> arg0);
+    static <E> EnumSet<E> of(E arg0);
+    static <E> EnumSet<E> of(E arg0, E arg1);
+    static <E> EnumSet<E> of(E arg0, E arg1, E arg2);
+    static <E> EnumSet<E> of(E arg0, E arg1, E arg2, E arg3);
+    static <E> EnumSet<E> of(E arg0, E arg1, E arg2, E arg3, E arg4);
+    static <E> EnumSet<E> of(E arg0, E[] arg1);
+    static <E> EnumSet<E> range(E arg0, E arg1);
+    EnumSet<E> clone();
+}
+
+@PolyFlowReceiver
+class GregorianCalendar extends Calendar {
+    final int BC;
+    final int AD;
+    GregorianCalendar();
+    GregorianCalendar(TimeZone arg0);
+    GregorianCalendar(Locale arg0);
+    GregorianCalendar(TimeZone arg0, Locale arg1);
+    GregorianCalendar(int arg0, int arg1, int arg2);
+    GregorianCalendar(int arg0, int arg1, int arg2, int arg3, int arg4);
+    GregorianCalendar(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
+    void setGregorianChange(Date arg0);
+    Date getGregorianChange();
+    boolean isLeapYear(int arg0);
+    boolean equals(Object arg0);
+    int hashCode();
+    void add(int arg0, int arg1);
+    void roll(int arg0, boolean arg1);
+    void roll(int arg0, int arg1);
+    int getMinimum(int arg0);
+    int getMaximum(int arg0);
+    int getGreatestMinimum(int arg0);
+    int getLeastMaximum(int arg0);
+    int getActualMinimum(int arg0);
+    int getActualMaximum(int arg0);
+    Object clone();
+    TimeZone getTimeZone();
+    void setTimeZone(TimeZone arg0);
+    boolean isWeekDateSupported();
+    int getWeekYear();
+    void setWeekDate(int arg0, int arg1, int arg2);
+    int getWeeksInWeekYear();
+    protected void computeFields();
+    protected void computeTime();
+}
        
 @PolyFlowReceiver  
 class HashMap<K, V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
@@ -431,6 +668,34 @@ class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Serializab
     Object clone();
 }
 
+@PolyFlowReceiver
+class Hashtable<K, V> extends Dictionary<K,V> implements Map<K,V>, Cloneable, Serializable {
+    Hashtable(int arg0, float arg1);
+    Hashtable(int arg0);
+    Hashtable();
+    Hashtable(Map<? extends K,? extends V> arg0);
+    int size();
+    boolean isEmpty();
+    Enumeration<K> keys();
+    Enumeration<V> elements();
+    boolean contains(Object arg0);
+    boolean containsValue(Object arg0);
+    boolean containsKey(Object arg0);
+    V get(Object arg0);
+    protected void rehash();
+    V put(K arg0, V arg1);
+    V remove(Object arg0);
+    void putAll(Map<? extends K,? extends V> arg0);
+    void clear();
+    Object clone();
+    String toString();
+    Set<K> keySet();
+    Set<Entry<K,V>> entrySet();
+    Collection<V> values();
+    boolean equals(Object arg0);
+    int hashCode();
+}
+
 
 interface Iterator<E> {
 //Added by smillst
@@ -452,6 +717,59 @@ class LinkedHashMap<K, V> extends HashMap<K,V> implements Map<K,V> {
     V get(Object arg0);
     void clear();
     protected boolean removeEldestEntry(Entry<K,V> arg0);
+}
+
+@PolyFlowReceiver
+class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable, Serializable {
+    LinkedHashSet(int arg0, float arg1);
+    LinkedHashSet(int arg0);
+    LinkedHashSet();
+    LinkedHashSet(Collection<? extends E> arg0);
+}
+
+@PolyFlowReceiver
+class LinkedList<E> extends AbstractSequentialList<E> implements List<E>, Deque<E>, Cloneable, Serializable {
+    LinkedList();
+    LinkedList(Collection<? extends E> arg0);
+    E getFirst();
+    E getLast();
+    E removeFirst();
+    E removeLast();
+    void addFirst(E arg0);
+    void addLast(E arg0);
+    boolean contains(Object arg0);
+    int size();
+    boolean add(E arg0);
+    boolean remove(Object arg0);
+    boolean addAll(Collection<? extends E> arg0);
+    boolean addAll(int arg0, Collection<? extends E> arg1);
+    void clear();
+    E get(int arg0);
+    E set(int arg0, E arg1);
+    void add(int arg0, E arg1);
+    E remove(int arg0);
+    int indexOf(Object arg0);
+    int lastIndexOf(Object arg0);
+    E peek();
+    E element();
+    E poll();
+    E remove();
+    boolean offer(E arg0);
+    boolean offerFirst(E arg0);
+    boolean offerLast(E arg0);
+    E peekFirst();
+    E peekLast();
+    E pollFirst();
+    E pollLast();
+    void push(E arg0);
+    E pop();
+    boolean removeFirstOccurrence(Object arg0);
+    boolean removeLastOccurrence(Object arg0);
+    ListIterator<E> listIterator(int arg0);
+    Iterator<E> descendingIterator();
+    Object clone();
+    Object[] toArray();
+    <T> T[] toArray(T[] arg0);
 }
 
 interface List<E extends @Sink({}) @Source(FlowPermission.ANY) Object> {
@@ -502,6 +820,104 @@ interface List<E extends @Sink({}) @Source(FlowPermission.ANY) Object> {
     ListIterator<E> listIterator(int arg0);
     @PolyFlowReceiver
     List<E> subList(int arg0, int arg1);
+}
+
+@PolyFlowReceiver
+interface ListIterator<E> extends Iterator<E> {
+    boolean hasNext();
+    E next();
+    boolean hasPrevious();
+    E previous();
+    int nextIndex();
+    int previousIndex();
+    void remove();
+    void set(E arg0);
+    void add(E arg0);
+}
+
+@PolyFlowReceiver
+class Locale implements Cloneable, Serializable {
+//Added by pbsf
+    final Locale ENGLISH;
+    final Locale FRENCH;
+    final Locale GERMAN;
+    final Locale ITALIAN;
+    final Locale JAPANESE;
+    final Locale KOREAN;
+    final Locale CHINESE;
+    final Locale SIMPLIFIED_CHINESE;
+    final Locale TRADITIONAL_CHINESE;
+    final Locale FRANCE;
+    final Locale GERMANY;
+    final Locale ITALY;
+    final Locale JAPAN;
+    final Locale KOREA;
+    final Locale CHINA;
+    final Locale PRC;
+    final Locale TAIWAN;
+    final Locale UK;
+    final Locale US;
+    final Locale CANADA;
+    final Locale CANADA_FRENCH;
+    final Locale ROOT;
+    final char PRIVATE_USE_EXTENSION;
+    final char UNICODE_LOCALE_EXTENSION;
+    Locale(String arg0, String arg1, String arg2);
+    Locale(String arg0, String arg1);
+    Locale(String arg0);
+    static Locale getDefault();
+    static Locale getDefault(Category arg0);
+    static void setDefault(Locale arg0);
+    static void setDefault(Category arg0, Locale arg1);
+    static Locale[] getAvailableLocales();
+    static String[] getISOCountries();
+    static String[] getISOLanguages();
+    String getLanguage();
+    String getScript();
+    String getCountry();
+    String getVariant();
+    String getExtension(char arg0);
+    Set<Character> getExtensionKeys();
+    Set<String> getUnicodeLocaleAttributes();
+    String getUnicodeLocaleType(String arg0);
+    Set<String> getUnicodeLocaleKeys();
+    String toString();
+    String toLanguageTag();
+    static Locale forLanguageTag(String arg0);
+    String getISO3Language() throws MissingResourceException;
+    String getISO3Country() throws MissingResourceException;
+    String getDisplayLanguage();
+    String getDisplayLanguage(Locale arg0);
+    String getDisplayScript();
+    String getDisplayScript(Locale arg0);
+    String getDisplayCountry();
+    String getDisplayCountry(Locale arg0);
+    String getDisplayVariant();
+    String getDisplayVariant(Locale arg0);
+    String getDisplayName();
+    String getDisplayName(Locale arg0);
+    Object clone();
+    int hashCode();
+    boolean equals(Object arg0);
+}
+
+@PolyFlowReceiver
+class Locale$Builder {
+//Added by pbsf
+    Builder();
+    Builder setLocale(Locale arg0);
+    Builder setLanguageTag(String arg0);
+    Builder setLanguage(String arg0);
+    Builder setScript(String arg0);
+    Builder setRegion(String arg0);
+    Builder setVariant(String arg0);
+    Builder setExtension(char arg0, String arg1);
+    Builder setUnicodeLocaleKeyword(String arg0, String arg1);
+    Builder addUnicodeLocaleAttribute(String arg0);
+    Builder removeUnicodeLocaleAttribute(String arg0);
+    Builder clear();
+    Builder clearExtensions();
+    Locale build();
 }
 
 interface Map<K, V> {
@@ -622,6 +1038,133 @@ interface Queue<E> extends Collection<E> {
     E peek();
 }
 
+class Random implements Serializable {
+    Random();
+    Random(long arg0);
+    void setSeed(long arg0);
+    protected int next(int arg0);
+    void nextBytes(byte[] arg0);
+    int nextInt() @Source(FlowPermission.RANDOM);
+    int nextInt(int arg0) @Source(FlowPermission.RANDOM);
+    long nextLong() @Source(FlowPermission.RANDOM);
+    boolean nextBoolean() @Source(FlowPermission.RANDOM);
+    float nextFloat() @Source(FlowPermission.RANDOM);
+    double nextDouble() @Source(FlowPermission.RANDOM);
+    double nextGaussian() @Source(FlowPermission.RANDOM);
+}
+
+@PolyFlowReceiver
+class ResourceBundle {
+    protected ResourceBundle parent;
+    ResourceBundle();
+    String getString(String arg0);
+    String[] getStringArray(String arg0);
+    Object getObject(String arg0);
+    Locale getLocale();
+    protected void setParent(ResourceBundle arg0);
+    static ResourceBundle getBundle(String arg0);
+    static ResourceBundle getBundle(String arg0, Control arg1);
+    static ResourceBundle getBundle(String arg0, Locale arg1);
+    static ResourceBundle getBundle(String arg0, Locale arg1, Control arg2);
+    static ResourceBundle getBundle(String arg0, Locale arg1, ClassLoader arg2);
+    static ResourceBundle getBundle(String arg0, Locale arg1, ClassLoader arg2, Control arg3);
+    static void clearCache();
+    static void clearCache(ClassLoader arg0);
+    protected Object handleGetObject(String arg0);
+    Enumeration<String> getKeys();
+    boolean containsKey(String arg0);
+    Set<String> keySet();
+    protected Set<String> handleKeySet();
+}
+
+@PolyFlowReceiver
+class ResourceBundle$Control {
+    final List<String> FORMAT_DEFAULT;
+    final List<String> FORMAT_CLASS;
+    final List<String> FORMAT_PROPERTIES;
+    final long TTL_DONT_CACHE;
+    final long TTL_NO_EXPIRATION_CONTROL;
+    protected Control();
+    static Control getControl(List<String> arg0);
+    static Control getNoFallbackControl(List<String> arg0);
+    List<String> getFormats(String arg0);
+    List<Locale> getCandidateLocales(String arg0, Locale arg1);
+    Locale getFallbackLocale(String arg0, Locale arg1);
+    ResourceBundle newBundle(String arg0, Locale arg1, String arg2, ClassLoader arg3, boolean arg4) throws IllegalAccessException,InstantiationException,IOException;
+    long getTimeToLive(String arg0, Locale arg1);
+    boolean needsReload(String arg0, Locale arg1, String arg2, ClassLoader arg3, ResourceBundle arg4, long arg5);
+    String toBundleName(String arg0, Locale arg1);
+    String toResourceName(String arg0, String arg1);
+}
+
+@PolyFlowReceiver
+class Scanner implements Iterator<String>, Closeable {
+    Scanner(Readable arg0);
+    Scanner(InputStream arg0);
+    Scanner(InputStream arg0, String arg1);
+    Scanner(File arg0) throws FileNotFoundException;
+    Scanner(File arg0, String arg1) throws FileNotFoundException;
+    Scanner(Path arg0) throws IOException;
+    Scanner(Path arg0, String arg1) throws IOException;
+    Scanner(String arg0);
+    Scanner(ReadableByteChannel arg0);
+    Scanner(ReadableByteChannel arg0, String arg1);
+    void close();
+    IOException ioException();
+    Pattern delimiter();
+    Scanner useDelimiter(Pattern arg0);
+    Scanner useDelimiter(String arg0);
+    Locale locale();
+    Scanner useLocale(Locale arg0);
+    int radix();
+    Scanner useRadix(int arg0);
+    MatchResult match();
+    String toString();
+    boolean hasNext();
+    String next();
+    void remove();
+    boolean hasNext(String arg0);
+    String next(String arg0);
+    boolean hasNext(Pattern arg0);
+    String next(Pattern arg0);
+    boolean hasNextLine();
+    String nextLine();
+    String findInLine(String arg0);
+    String findInLine(Pattern arg0);
+    String findWithinHorizon(String arg0, int arg1);
+    String findWithinHorizon(Pattern arg0, int arg1);
+    Scanner skip(Pattern arg0);
+    Scanner skip(String arg0);
+    boolean hasNextBoolean();
+    boolean nextBoolean();
+    boolean hasNextByte();
+    boolean hasNextByte(int arg0);
+    byte nextByte();
+    byte nextByte(int arg0);
+    boolean hasNextShort();
+    boolean hasNextShort(int arg0);
+    short nextShort();
+    short nextShort(int arg0);
+    boolean hasNextInt();
+    boolean hasNextInt(int arg0);
+    int nextInt();
+    int nextInt(int arg0);
+    boolean hasNextLong();
+    boolean hasNextLong(int arg0);
+    long nextLong();
+    long nextLong(int arg0);
+    boolean hasNextFloat();
+    float nextFloat();
+    boolean hasNextDouble();
+    double nextDouble();
+    boolean hasNextBigInteger();
+    boolean hasNextBigInteger(int arg0);
+    BigInteger nextBigInteger();
+    BigInteger nextBigInteger(int arg0);
+    boolean hasNextBigDecimal();
+    BigDecimal nextBigDecimal();
+    Scanner reset();
+}
 
 @PolyFlowReceiver
 interface Set<E> extends Collection<E> {
@@ -654,6 +1197,113 @@ interface SortedMap<K, V> extends Map<K,V> {
     Collection<V> values();
     Set<Entry<K,V>> entrySet();
 }
+
+@PolyFlowReceiver
+interface SortedSet<E> extends Set<E> {
+    Comparator<? super E> comparator();
+    SortedSet<E> subSet(E arg0, E arg1);
+    SortedSet<E> headSet(E arg0);
+    SortedSet<E> tailSet(E arg0);
+    E first();
+    E last();
+}
+
+@PolyFlowReceiver
+class Stack<E> extends Vector<E> {
+    Stack();
+    E push(E arg0);
+    E pop();
+    E peek();
+    boolean empty();
+    int search(Object arg0);
+}
+
+@PolyFlowReceiver
+class StringTokenizer implements Enumeration<Object> {
+//Added by pbsf
+    StringTokenizer(String arg0, String arg1, boolean arg2);
+    StringTokenizer(String arg0, String arg1);
+    StringTokenizer(String arg0);
+    boolean hasMoreTokens();
+    String nextToken();
+    String nextToken(String arg0);
+    boolean hasMoreElements();
+    Object nextElement();
+    int countTokens();
+}
+
+@PolyFlowReceiver
+class TimeZone implements Serializable, Cloneable {
+    final int SHORT;
+    final int LONG;
+    TimeZone();
+    int getOffset(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
+    int getOffset(long arg0);
+    void setRawOffset(int arg0);
+    int getRawOffset();
+    String getID();
+    void setID(String arg0);
+    String getDisplayName();
+    String getDisplayName(Locale arg0);
+    String getDisplayName(boolean arg0, int arg1);
+    String getDisplayName(boolean arg0, int arg1, Locale arg2);
+    int getDSTSavings();
+    boolean useDaylightTime();
+    boolean observesDaylightTime();
+    boolean inDaylightTime(Date arg0);
+    static TimeZone getTimeZone(String arg0);
+    static String[] getAvailableIDs(int arg0);
+    static String[] getAvailableIDs();
+    static TimeZone getDefault();
+    static void setDefault(TimeZone arg0);
+    boolean hasSameRules(TimeZone arg0);
+    Object clone();
+}
+
+@PolyFlowReceiver
+class TreeMap<K, V> extends AbstractMap<K,V> implements NavigableMap<K,V>, Cloneable, Serializable {
+    TreeMap();
+    TreeMap(Comparator<? super K> arg0);
+    TreeMap(Map<? extends K,? extends V> arg0);
+    TreeMap(SortedMap<K,? extends V> arg0);
+    int size();
+    boolean containsKey(Object arg0);
+    boolean containsValue(Object arg0);
+    V get(Object arg0);
+    Comparator<? super K> comparator();
+    K firstKey();
+    K lastKey();
+    void putAll(Map<? extends K,? extends V> arg0);
+    V put(K arg0, V arg1);
+    V remove(Object arg0);
+    void clear();
+    Object clone();
+    Entry<K,V> firstEntry();
+    Entry<K,V> lastEntry();
+    Entry<K,V> pollFirstEntry();
+    Entry<K,V> pollLastEntry();
+    Entry<K,V> lowerEntry(K arg0);
+    K lowerKey(K arg0);
+    Entry<K,V> floorEntry(K arg0);
+    K floorKey(K arg0);
+    Entry<K,V> ceilingEntry(K arg0);
+    K ceilingKey(K arg0);
+    Entry<K,V> higherEntry(K arg0);
+    K higherKey(K arg0);
+    Set<K> keySet();
+    NavigableSet<K> navigableKeySet();
+    NavigableSet<K> descendingKeySet();
+    Collection<V> values();
+    Set<Entry<K,V>> entrySet();
+    NavigableMap<K,V> descendingMap();
+    NavigableMap<K,V> subMap(K arg0, boolean arg1, K arg2, boolean arg3);
+    NavigableMap<K,V> headMap(K arg0, boolean arg1);
+    NavigableMap<K,V> tailMap(K arg0, boolean arg1);
+    SortedMap<K,V> subMap(K arg0, K arg1);
+    SortedMap<K,V> headMap(K arg0);
+    SortedMap<K,V> tailMap(K arg0);
+}
+
 
 @PolyFlowReceiver
 class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
@@ -711,11 +1361,184 @@ class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess, Clonea
     Iterator<E> iterator();
 }
 
+package java.util.concurrent;
+
+@PolyFlowReceiver
+interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
+    void addFirst(E arg0);
+    void addLast(E arg0);
+    boolean offerFirst(E arg0);
+    boolean offerLast(E arg0);
+    void putFirst(E arg0) throws InterruptedException;
+    void putLast(E arg0) throws InterruptedException;
+    boolean offerFirst(E arg0, long arg1, TimeUnit arg2) throws InterruptedException;
+    boolean offerLast(E arg0, long arg1, TimeUnit arg2) throws InterruptedException;
+    E takeFirst() throws InterruptedException;
+    E takeLast() throws InterruptedException;
+    E pollFirst(long arg0, TimeUnit arg1) throws InterruptedException;
+    E pollLast(long arg0, TimeUnit arg1) throws InterruptedException;
+    boolean removeFirstOccurrence(Object arg0);
+    boolean removeLastOccurrence(Object arg0);
+    boolean add(E arg0);
+    boolean offer(E arg0);
+    void put(E arg0) throws InterruptedException;
+    boolean offer(E arg0, long arg1, TimeUnit arg2) throws InterruptedException;
+    E remove();
+    E poll();
+    E take() throws InterruptedException;
+    E poll(long arg0, TimeUnit arg1) throws InterruptedException;
+    E element();
+    E peek();
+    boolean remove(Object arg0);
+    boolean contains(Object arg0);
+    int size();
+    Iterator<E> iterator();
+    void push(E arg0);
+}
+
+@PolyFlowReceiver
+class ConcurrentHashMap<K, V> extends AbstractMap<K,V> implements ConcurrentMap<K,V>, Serializable {
+//Added by pbsf
+    ConcurrentHashMap(int arg0, float arg1, int arg2);
+    ConcurrentHashMap(int arg0, float arg1);
+    ConcurrentHashMap(int arg0);
+    ConcurrentHashMap();
+    ConcurrentHashMap(Map<? extends K,? extends V> arg0);
+    boolean isEmpty();
+    int size();
+    V get(Object arg0);
+    boolean containsKey(Object arg0);
+    boolean containsValue(Object arg0);
+    boolean contains(Object arg0);
+    V put(K arg0, V arg1);
+    V putIfAbsent(K arg0, V arg1);
+    void putAll(Map<? extends K,? extends V> arg0);
+    V remove(Object arg0);
+    boolean remove(Object arg0, Object arg1);
+    boolean replace(K arg0, V arg1, V arg2);
+    V replace(K arg0, V arg1);
+    void clear();
+    Set<K> keySet();
+    Collection<V> values();
+    Set<Entry<K,V>> entrySet();
+    Enumeration<K> keys();
+    Enumeration<V> elements();
+}
+
+@PolyFlowReceiver
+interface ConcurrentMap<K, V> extends Map<K,V> {
+//Added by pbsf
+    V putIfAbsent(K arg0, V arg1);
+    boolean remove(Object arg0, Object arg1);
+    boolean replace(K arg0, V arg1, V arg2);
+    V replace(K arg0, V arg1);
+}
+
+@PolyFlowReceiver
+class CountDownLatch {
+//Added by pbsf
+    CountDownLatch(int arg0);
+    void await() throws InterruptedException;
+    boolean await(long arg0, TimeUnit arg1) throws InterruptedException;
+    void countDown();
+    long getCount();
+    String toString();
+}
+
+@PolyFlowReceiver
+interface Future<V> {
+//Added by pbsf
+    boolean cancel(boolean arg0);
+    boolean isCancelled();
+    boolean isDone();
+    V get() throws InterruptedException,ExecutionException;
+    V get(long arg0, TimeUnit arg1) throws InterruptedException,ExecutionException,TimeoutException;
+}
+
+@PolyFlowReceiver
+interface ExecutorService extends Executor {
+    void shutdown();
+    List<Runnable> shutdownNow();
+    boolean isShutdown();
+    boolean isTerminated();
+    boolean awaitTermination(long arg0, TimeUnit arg1) throws InterruptedException;
+    <T> Future<T> submit(Callable<T> arg0);
+    <T> Future<T> submit(Runnable arg0, T arg1);
+    Future<?> submit(Runnable arg0);
+    <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> arg0) throws InterruptedException;
+    <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> arg0, long arg1, TimeUnit arg2) throws InterruptedException;
+    <T> T invokeAny(Collection<? extends Callable<T>> arg0) throws InterruptedException,ExecutionException;
+    <T> T invokeAny(Collection<? extends Callable<T>> arg0, long arg1, TimeUnit arg2) throws InterruptedException,ExecutionException,TimeoutException;
+}
+
 
 package java.util.concurrent.atomic;
 
 @PolyFlowReceiver
+class AtomicInteger extends Number implements Serializable {
+//Added by pbsf
+    AtomicInteger(int arg0);
+    AtomicInteger();
+    int get();
+    void set(int arg0);
+    void lazySet(int arg0);
+    int getAndSet(int arg0);
+    boolean compareAndSet(int arg0, int arg1);
+    boolean weakCompareAndSet(int arg0, int arg1);
+    int getAndIncrement();
+    int getAndDecrement();
+    int getAndAdd(int arg0);
+    int incrementAndGet();
+    int decrementAndGet();
+    int addAndGet(int arg0);
+    String toString();
+    int intValue();
+    long longValue();
+    float floatValue();
+    double doubleValue();
+}
+
+@PolyFlowReceiver
+class AtomicLong extends Number implements Serializable {
+//Added by pbsf
+    AtomicLong(long arg0);
+    AtomicLong();
+    long get();
+    void set(long arg0);
+    void lazySet(long arg0);
+    long getAndSet(long arg0);
+    boolean compareAndSet(long arg0, long arg1);
+    boolean weakCompareAndSet(long arg0, long arg1);
+    long getAndIncrement();
+    long getAndDecrement();
+    long getAndAdd(long arg0);
+    long incrementAndGet();
+    long decrementAndGet();
+    long addAndGet(long arg0);
+    String toString();
+    int intValue();
+    long longValue();
+    float floatValue();
+    double doubleValue();
+}
+
+@PolyFlowReceiver
+class AtomicReference<V> implements Serializable {
+//Added by pbsf
+    AtomicReference(V arg0);
+    AtomicReference();
+    V get();
+    void set(V arg0);
+    void lazySet(V arg0);
+    boolean compareAndSet(V arg0, V arg1);
+    boolean weakCompareAndSet(V arg0, V arg1);
+    V getAndSet(V arg0);
+    String toString();
+}
+
+@PolyFlowReceiver
 class AtomicReferenceArray<E> implements Serializable {
+//Added by pbsf
     AtomicReferenceArray(int arg0);
     AtomicReferenceArray(E[] arg0);
     int length();
@@ -726,6 +1549,75 @@ class AtomicReferenceArray<E> implements Serializable {
     boolean compareAndSet(int arg0, E arg1, E arg2);
     boolean weakCompareAndSet(int arg0, E arg1, E arg2);
     String toString();
+}
+
+package java.util.concurrent.locks;
+
+@PolyFlowReceiver
+interface Lock {
+//Added by pbsf
+    void lock();
+    void lockInterruptibly() throws InterruptedException;
+    boolean tryLock();
+    boolean tryLock(long arg0, TimeUnit arg1) throws InterruptedException;
+    void unlock();
+    Condition newCondition();
+}
+
+package java.util.logging;
+
+@PolyFlowReceiver
+class Logger {
+//Added by pbsf
+    final String GLOBAL_LOGGER_NAME;
+    final Logger global;
+    static Logger getGlobal();
+    protected Logger(String arg0, String arg1);
+    static Logger getLogger(String arg0);
+    static Logger getLogger(String arg0, String arg1);
+    static Logger getAnonymousLogger();
+    static Logger getAnonymousLogger(String arg0);
+    ResourceBundle getResourceBundle();
+    String getResourceBundleName();
+    void setFilter(Filter arg0) throws SecurityException;
+    Filter getFilter();
+    void log(LogRecord arg0);
+    void log(Level arg0, String arg1);
+    void log(Level arg0, String arg1, Object arg2);
+    void log(Level arg0, String arg1, Object[] arg2);
+    void log(Level arg0, String arg1, Throwable arg2);
+    void logp(Level arg0, String arg1, String arg2, String arg3);
+    void logp(Level arg0, String arg1, String arg2, String arg3, Object arg4);
+    void logp(Level arg0, String arg1, String arg2, String arg3, Object[] arg4);
+    void logp(Level arg0, String arg1, String arg2, String arg3, Throwable arg4);
+    void logrb(Level arg0, String arg1, String arg2, String arg3, String arg4);
+    void logrb(Level arg0, String arg1, String arg2, String arg3, String arg4, Object arg5);
+    void logrb(Level arg0, String arg1, String arg2, String arg3, String arg4, Object[] arg5);
+    void logrb(Level arg0, String arg1, String arg2, String arg3, String arg4, Throwable arg5);
+    void entering(String arg0, String arg1);
+    void entering(String arg0, String arg1, Object arg2);
+    void entering(String arg0, String arg1, Object[] arg2);
+    void exiting(String arg0, String arg1);
+    void exiting(String arg0, String arg1, Object arg2);
+    void throwing(String arg0, String arg1, Throwable arg2);
+    void severe(String arg0);
+    void warning(String arg0);
+    void info(String arg0);
+    void config(String arg0);
+    void fine(String arg0);
+    void finer(String arg0);
+    void finest(String arg0);
+    void setLevel(Level arg0) throws SecurityException;
+    Level getLevel();
+    boolean isLoggable(Level arg0);
+    String getName();
+    void addHandler(Handler arg0) throws SecurityException;
+    void removeHandler(Handler arg0) throws SecurityException;
+    Handler[] getHandlers();
+    void setUseParentHandlers(boolean arg0);
+    boolean getUseParentHandlers();
+    Logger getParent();
+    void setParent(Logger arg0);
 }
 
 
