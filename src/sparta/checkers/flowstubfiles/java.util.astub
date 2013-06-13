@@ -1397,6 +1397,22 @@ interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
 }
 
 @PolyFlowReceiver
+interface BlockingQueue<E> extends Queue<E> {
+//Added by pbsf
+    boolean add(E arg0);
+    boolean offer(E arg0);
+    void put(E arg0) throws InterruptedException;
+    boolean offer(E arg0, long arg1, TimeUnit arg2) throws InterruptedException;
+    E take() throws InterruptedException;
+    E poll(long arg0, TimeUnit arg1) throws InterruptedException;
+    int remainingCapacity();
+    boolean remove(Object arg0);
+    boolean contains(Object arg0);
+    int drainTo(Collection<? super E> arg0);
+    int drainTo(Collection<? super E> arg0, int arg1);
+}
+
+@PolyFlowReceiver
 class ConcurrentHashMap<K, V> extends AbstractMap<K,V> implements ConcurrentMap<K,V>, Serializable {
 //Added by pbsf
     ConcurrentHashMap(int arg0, float arg1, int arg2);
@@ -1423,6 +1439,25 @@ class ConcurrentHashMap<K, V> extends AbstractMap<K,V> implements ConcurrentMap<
     Set<Entry<K,V>> entrySet();
     Enumeration<K> keys();
     Enumeration<V> elements();
+}
+
+@PolyFlowReceiver
+class ConcurrentLinkedQueue<E> extends AbstractQueue<E> implements Queue<E>, Serializable {
+//Added by pbsf
+    ConcurrentLinkedQueue();
+    ConcurrentLinkedQueue(Collection<? extends E> arg0);
+    boolean add(E arg0);
+    boolean offer(E arg0);
+    E poll();
+    E peek();
+    boolean isEmpty();
+    int size();
+    boolean contains(Object arg0);
+    boolean remove(Object arg0);
+    boolean addAll(Collection<? extends E> arg0);
+    Object[] toArray();
+    <T> T[] toArray(T[] arg0);
+    Iterator<E> iterator();
 }
 
 @PolyFlowReceiver
@@ -1471,6 +1506,39 @@ interface ExecutorService extends Executor {
     <T> T invokeAny(Collection<? extends Callable<T>> arg0, long arg1, TimeUnit arg2) throws InterruptedException,ExecutionException,TimeoutException;
 }
 
+@PolyFlowReceiver
+class LinkedBlockingQueue<E> extends AbstractQueue<E> implements BlockingQueue<E>, Serializable {
+//Added by pbsf
+    LinkedBlockingQueue();
+    LinkedBlockingQueue(int arg0);
+    LinkedBlockingQueue(Collection<? extends E> arg0);
+    int size();
+    int remainingCapacity();
+    void put(E arg0) throws InterruptedException;
+    boolean offer(E arg0, long arg1, TimeUnit arg2) throws InterruptedException;
+    boolean offer(E arg0);
+    E take() throws InterruptedException;
+    E poll(long arg0, TimeUnit arg1) throws InterruptedException;
+    E poll();
+    E peek();
+    boolean remove(Object arg0);
+    boolean contains(Object arg0);
+    Object[] toArray();
+    <T> T[] toArray(T[] arg0);
+    String toString();
+    void clear();
+    int drainTo(Collection<? super E> arg0);
+    int drainTo(Collection<? super E> arg0, int arg1);
+    Iterator<E> iterator();
+}
+
+@PolyFlowReceiver
+interface ScheduledExecutorService extends ExecutorService {
+    ScheduledFuture<?> schedule(Runnable arg0, long arg1, TimeUnit arg2);
+    <V> ScheduledFuture<V> schedule(Callable<V> arg0, long arg1, TimeUnit arg2);
+    ScheduledFuture<?> scheduleAtFixedRate(Runnable arg0, long arg1, long arg2, TimeUnit arg3);
+    ScheduledFuture<?> scheduleWithFixedDelay(Runnable arg0, long arg1, long arg2, TimeUnit arg3);
+}
 
 package java.util.concurrent.atomic;
 
@@ -1520,6 +1588,27 @@ class AtomicLong extends Number implements Serializable {
     long longValue();
     float floatValue();
     double doubleValue();
+}
+
+@PolyFlowReceiver
+class AtomicLongArray implements Serializable {
+//Added by pbsf
+    AtomicLongArray(int arg0);
+    AtomicLongArray(long[] arg0);
+    int length();
+    long get(int arg0);
+    void set(int arg0, long arg1);
+    void lazySet(int arg0, long arg1);
+    long getAndSet(int arg0, long arg1);
+    boolean compareAndSet(int arg0, long arg1, long arg2);
+    boolean weakCompareAndSet(int arg0, long arg1, long arg2);
+    long getAndIncrement(int arg0);
+    long getAndDecrement(int arg0);
+    long getAndAdd(int arg0, long arg1);
+    long incrementAndGet(int arg0);
+    long decrementAndGet(int arg0);
+    long addAndGet(int arg0, long arg1);
+    String toString();
 }
 
 @PolyFlowReceiver

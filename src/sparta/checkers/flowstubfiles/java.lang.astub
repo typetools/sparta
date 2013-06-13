@@ -10,6 +10,20 @@ interface Appendable {
 }
 
 @PolyFlowReceiver
+class AssertionError extends Error {
+//Added by pbsf
+    AssertionError();
+    AssertionError(Object arg0);
+    AssertionError(boolean arg0);
+    AssertionError(char arg0);
+    AssertionError(int arg0);
+    AssertionError(long arg0);
+    AssertionError(float arg0);
+    AssertionError(double arg0);
+    AssertionError(String arg0, Throwable arg1);
+}
+
+@PolyFlowReceiver
 class Boolean implements Serializable, Comparable<Boolean> {
     final Boolean TRUE;
     final Boolean FALSE;
@@ -1342,11 +1356,174 @@ class ReferenceQueue<T> {
     Reference<? extends T> remove() throws InterruptedException;
 }
 
+@PolyFlowReceiver
+class SoftReference<T> extends Reference<T> {
+//Added by pbsf
+    SoftReference(T arg0);
+    SoftReference(T arg0, ReferenceQueue<? super T> arg1);
+    T get();
+}
+
 
 @PolyFlowReceiver
 class WeakReference<T> extends Reference<T> {
 //Added by pbsf
     WeakReference(T arg0);
     WeakReference(T arg0, ReferenceQueue<? super T> arg1);
+}
+
+
+package java.lang.reflect;
+
+@PolyFlowReceiver
+class Array {
+//Added by pbsf
+    static Object newInstance(Class<?> arg0, int arg1) throws NegativeArraySizeException;
+    static Object newInstance(Class<?> arg0, int[] arg1) throws IllegalArgumentException,NegativeArraySizeException;
+    static int getLength(Object arg0) throws IllegalArgumentException;
+    static Object get(Object arg0, int arg1) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static boolean getBoolean(Object arg0, int arg1) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static byte getByte(Object arg0, int arg1) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static char getChar(Object arg0, int arg1) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static short getShort(Object arg0, int arg1) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static int getInt(Object arg0, int arg1) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static long getLong(Object arg0, int arg1) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static float getFloat(Object arg0, int arg1) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static double getDouble(Object arg0, int arg1) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static void set(Object arg0, int arg1, Object arg2) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static void setBoolean(Object arg0, int arg1, boolean arg2) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static void setByte(Object arg0, int arg1, byte arg2) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static void setChar(Object arg0, int arg1, char arg2) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static void setShort(Object arg0, int arg1, short arg2) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static void setInt(Object arg0, int arg1, int arg2) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static void setLong(Object arg0, int arg1, long arg2) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static void setFloat(Object arg0, int arg1, float arg2) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+    static void setDouble(Object arg0, int arg1, double arg2) throws IllegalArgumentException,ArrayIndexOutOfBoundsException;
+}
+
+@PolyFlowReceiver
+class Constructor<T> extends Executable {
+//Added by pbsf
+    Class<T> getDeclaringClass();
+    String getName();
+    int getModifiers();
+    TypeVariable<Constructor<T>>[] getTypeParameters();
+    Class<?>[] getParameterTypes();
+    Type[] getGenericParameterTypes();
+    Class<?>[] getExceptionTypes();
+    Type[] getGenericExceptionTypes();
+    boolean equals(Object arg0);
+    int hashCode();
+    String toString();
+    String toGenericString();
+    T newInstance(Object[] arg0) throws InstantiationException,IllegalAccessException,IllegalArgumentException,InvocationTargetException;
+    boolean isVarArgs();
+    boolean isSynthetic();
+    <T> T getAnnotation(Class<T> arg0);
+    Annotation[] getDeclaredAnnotations();
+    Annotation[][] getParameterAnnotations();
+}
+
+@PolyFlowReceiver
+class Field extends AccessibleObject implements Member {
+//Added by pbsf
+    Class<?> getDeclaringClass();
+    String getName();
+    int getModifiers();
+    boolean isEnumConstant();
+    boolean isSynthetic();
+    Class<?> getType();
+    Type getGenericType();
+    boolean equals(Object arg0);
+    int hashCode();
+    String toString();
+    String toGenericString();
+    Object get(Object arg0) throws IllegalArgumentException,IllegalAccessException;
+    boolean getBoolean(Object arg0) throws IllegalArgumentException,IllegalAccessException;
+    byte getByte(Object arg0) throws IllegalArgumentException,IllegalAccessException;
+    char getChar(Object arg0) throws IllegalArgumentException,IllegalAccessException;
+    short getShort(Object arg0) throws IllegalArgumentException,IllegalAccessException;
+    int getInt(Object arg0) throws IllegalArgumentException,IllegalAccessException;
+    long getLong(Object arg0) throws IllegalArgumentException,IllegalAccessException;
+    float getFloat(Object arg0) throws IllegalArgumentException,IllegalAccessException;
+    double getDouble(Object arg0) throws IllegalArgumentException,IllegalAccessException;
+    void set(Object arg0, Object arg1) throws IllegalArgumentException,IllegalAccessException;
+    void setBoolean(Object arg0, boolean arg1) throws IllegalArgumentException,IllegalAccessException;
+    void setByte(Object arg0, byte arg1) throws IllegalArgumentException,IllegalAccessException;
+    void setChar(Object arg0, char arg1) throws IllegalArgumentException,IllegalAccessException;
+    void setShort(Object arg0, short arg1) throws IllegalArgumentException,IllegalAccessException;
+    void setInt(Object arg0, int arg1) throws IllegalArgumentException,IllegalAccessException;
+    void setLong(Object arg0, long arg1) throws IllegalArgumentException,IllegalAccessException;
+    void setFloat(Object arg0, float arg1) throws IllegalArgumentException,IllegalAccessException;
+    void setDouble(Object arg0, double arg1) throws IllegalArgumentException,IllegalAccessException;
+    <T> T getAnnotation(Class<T> arg0);
+    Annotation[] getDeclaredAnnotations();
+}
+
+@PolyFlowReceiver
+interface GenericArrayType extends Type {
+    Type getGenericComponentType();
+}
+
+@PolyFlowReceiver
+class Method extends Executable {
+//Added by pbsf
+    Class<?> getDeclaringClass();
+    String getName();
+    int getModifiers();
+    TypeVariable<Method>[] getTypeParameters();
+    Class<?> getReturnType();
+    Type getGenericReturnType();
+    Class<?>[] getParameterTypes();
+    Type[] getGenericParameterTypes();
+    Class<?>[] getExceptionTypes();
+    Type[] getGenericExceptionTypes();
+    boolean equals(Object arg0);
+    int hashCode();
+    String toString();
+    String toGenericString();
+    Object invoke(Object arg0, Object[] arg1) throws IllegalAccessException,IllegalArgumentException,InvocationTargetException;
+    boolean isBridge();
+    boolean isVarArgs();
+    boolean isSynthetic();
+    Object getDefaultValue();
+    <T> T getAnnotation(Class<T> arg0);
+    Annotation[] getDeclaredAnnotations();
+    Annotation[][] getParameterAnnotations();
+}
+
+@PolyFlowReceiver
+class Modifier {
+    final @Source(FlowPermission.LITERAL) int PUBLIC;
+    final @Source(FlowPermission.LITERAL) int PRIVATE;
+    final @Source(FlowPermission.LITERAL) int PROTECTED;
+    final @Source(FlowPermission.LITERAL) int STATIC;
+    final @Source(FlowPermission.LITERAL) int FINAL;
+    final @Source(FlowPermission.LITERAL) int SYNCHRONIZED;
+    final @Source(FlowPermission.LITERAL) int VOLATILE;
+    final @Source(FlowPermission.LITERAL) int TRANSIENT;
+    final @Source(FlowPermission.LITERAL) int NATIVE;
+    final @Source(FlowPermission.LITERAL) int INTERFACE;
+    final @Source(FlowPermission.LITERAL) int ABSTRACT;
+    final @Source(FlowPermission.LITERAL) int STRICT;
+    Modifier();
+    static boolean isPublic(int arg0);
+    static boolean isPrivate(int arg0);
+    static boolean isProtected(int arg0);
+    static boolean isStatic(int arg0);
+    static boolean isFinal(int arg0);
+    static boolean isSynchronized(int arg0);
+    static boolean isVolatile(int arg0);
+    static boolean isTransient(int arg0);
+    static boolean isNative(int arg0);
+    static boolean isInterface(int arg0);
+    static boolean isAbstract(int arg0);
+    static boolean isStrict(int arg0);
+    static String toString(int arg0);
+    static int classModifiers();
+    static int interfaceModifiers();
+    static int constructorModifiers();
+    static int methodModifiers();
+    static int fieldModifiers();
 }
 
