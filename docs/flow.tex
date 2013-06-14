@@ -376,8 +376,7 @@ Any method not written in the stub files or found in source code is not defaulte
  Instead, their return, receiver, and parameter types are annotated with \<@Sources(NOT\_REVIEWED)> 
  \<@Sinks(NOT\_REVIEWED)>.  The FlowPermission \<NOT\_REVIEWED> is not allowed 
  in a policy file and in no subtype relation.  This way, if such an API method is used, a type error
-  will occur and alert the user to review and annotate the method.  
-  
+  will occur and alert the user to review and annotate the method. Althought it is possible to ignore these kind of warnings as explained in section \secref{sec:run-type-checker}.
   The Flow Checker also outputs all of the methods missing from the stub files in
   a file called \<missingAPI.astub> in the current working directory. It also 
   contains a comment the number of times an API method is used by the app.

@@ -44,12 +44,14 @@ import static sparta.checkers.FlowUtil.*;
     PolySource.class, PolySink.class,
     PolyAll.class})
 @StubFiles("flow.astub")
-@SupportedOptions({FlowPolicy.POLICY_FILE_OPTION, FlowChecker.MSG_FILTER_OPTION})
+@SupportedOptions({FlowPolicy.POLICY_FILE_OPTION, FlowChecker.MSG_FILTER_OPTION, FlowChecker.IGNORE_NOT_REVIEWED})
 @SupportedLintOptions({FlowPolicy.STRICT_CONDITIONALS_OPTION})
 
 
 public class FlowChecker extends BaseTypeChecker {
     public static final String MSG_FILTER_OPTION = "msgFilter";
+    public static final String IGNORE_NOT_REVIEWED = "ignorenr";
+    public boolean IGNORENR = false;
 
 	protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES, POLYFLOWSOURCES;
     protected AnnotationMirror NOFLOWSINKS, ANYFLOWSINKS, POLYFLOWSINKS;
@@ -100,12 +102,15 @@ public class FlowChecker extends BaseTypeChecker {
         //Must call super.initChecker before the lint option can be checked.
         final boolean scArg = getLintOption(FlowPolicy.STRICT_CONDITIONALS_OPTION, false);
         final String pfArg = processingEnv.getOptions().get(FlowPolicy.POLICY_FILE_OPTION);
-
-
         if (pfArg == null || pfArg.trim().isEmpty()) {
            flowPolicy = new FlowPolicy(scArg);
         } else {
            flowPolicy = new FlowPolicy(new File(pfArg),scArg);
+        }
+        
+        final String ignoreArg = processingEnv.getOptions().get(FlowChecker.IGNORE_NOT_REVIEWED);
+        if(ignoreArg != null && ignoreArg.trim().equals("on")) {
+        	IGNORENR = true;
         }
 
         LITERALFLOWSOURCE = FlowUtil.createAnnoFromSource(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.LITERAL)));

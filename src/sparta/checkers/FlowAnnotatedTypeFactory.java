@@ -108,12 +108,14 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             if (this.isFromByteCode(iter)) {
             	//Only apply these annotations if this method has not been marked as not reviewed. 
 				if (!reviewed) {
-                    notAnnotated(element);
-//					//All types are @Source(NOT_REVIEWED) @Sink(NOT_REVIEWED)
-                    //TODO:instead of not reviewed we could issue a new error
-                    //Something like Error: ByteCode method, method, has not been reviewed
-					new FlowDefaultApplier(element, DefaultLocation.OTHERWISE,type).scan(type, checker.NRSINK);
-					new FlowDefaultApplier(element, DefaultLocation.OTHERWISE,type).scan(type, checker.NRSOURCE);
+					notAnnotated(element); 
+					// Checking if ignoring NOT_REVIEWED warnings 
+					if(!checker.IGNORENR) {
+	                    //TODO:instead of not reviewed we could issue a new error
+	                    //Something like Error: ByteCode method, method, has not been reviewed
+						new FlowDefaultApplier(element, DefaultLocation.OTHERWISE,type).scan(type, checker.NRSINK);
+						new FlowDefaultApplier(element, DefaultLocation.OTHERWISE,type).scan(type, checker.NRSOURCE);
+					}
 				}
 				
 				return;

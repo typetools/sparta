@@ -28,6 +28,7 @@
         <attribute name="processor"/>
         <attribute name="stub" default="${stubs}"/>
          <attribute name="flowPolicy" default="${flowPolicy}"/>
+         <attribute name="ignorenr" default="${ignorenr}"/>
         <!-- Optional additional tasks to perform at the end. -->
         <element name="more-tasks" optional="yes"/>
         <sequential>
@@ -70,7 +71,7 @@
                     <pathelement location="${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
-                <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} ${checkerFrameworkOpts}"/>
+                <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} -Aignorenr=@{ignorenr} ${checkerFrameworkOpts}"/>
                 <compilerarg line="-encoding ISO8859-1 -AprintErrorStack -AstubWarnIfNotFound" />
             </jsr308.javac>
             <more-tasks/>
@@ -130,6 +131,12 @@
                 depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for check-flow.">
         <process-proj processor="sparta.checkers.FlowChecker"/>
+    </target>
+    
+    <target name="check-flow-ignorenr"
+                depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="runs the flow checker but ignores NOT_REVIEWED warnings from methods that are not annotated in the stubfiles.">
+        <process-proj ignorenr="on" processor="sparta.checkers.FlowChecker"/>
     </target>
 
     <target name="conditiontest"

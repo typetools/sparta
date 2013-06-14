@@ -491,6 +491,16 @@ After you have corrected some of the errors, re-run \<ant check-flow>.
 Repeat the process until there are no more errors, or until you find bad
 code (malicious, or buggy and prone to abuse).
 
+Note: If you want to suppress the \<NOT\_REVIEWED> warnings you can run the check-flow
+in the following way:
+
+\begin{alltt}
+    ant check-flow-ignorenr
+\end{alltt}
+or
+\begin{alltt}
+    ant -Dignorenr=on check-flow
+\end{alltt}
 
 \subsection{Type-check with stricter checking}
 
