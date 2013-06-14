@@ -37,6 +37,29 @@ class Runtime{
 class System{
     @ReportCall
     public static long currentTimeMillis();
+    static void setIn(@Sink(WRITE_LOGS) InputStream arg0);
+    static void setOut(@Sink(WRITE_LOGS) PrintStream arg0);
+    static void setErr(@Sink(WRITE_LOGS) PrintStream arg0);
+    
+    static SecurityManager getSecurityManager();
+    static long currentTimeMillis();
+    static long nanoTime();
+    static void arraycopy(Object arg0, int arg1, Object arg2, int arg3, int arg4);
+    static int identityHashCode(Object arg0);
+    static Properties getProperties();
+    static String lineSeparator();
+    static void setProperties(Properties arg0);
+    static String setProperty(String arg0, String arg1);
+    static String clearProperty(String arg0);
+    static String getenv(String arg0);
+    static Map<String,String> getenv();
+    static void exit(int arg0);
+    static void gc();
+    static void load(String arg0);
+    static void loadLibrary(String arg0);
+    static String mapLibraryName(String arg0);
+}
+    
 }
 class Thread{
     @ReportCall

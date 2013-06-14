@@ -1249,6 +1249,38 @@ class StringBuffer implements Serializable, CharSequence {
     void    trimToSize();
 }
 
+
+class System {
+//SOM: Android it writes in, out, err, either to /dev/null or the log 
+    final @Source(READ_LOGS) InputStream in;
+    final @Sink(WRITE_LOGS) PrintStream out;
+    final @Sink(WRITE_LOGS) PrintStream err;
+    static void setIn(@Source(WRITE_LOGS) InputStream arg0);
+    static void setOut(@Sink(WRITE_LOGS) PrintStream arg0);
+    static void setErr(@Sink(WRITE_LOGS) PrintStream arg0);
+    
+    static SecurityManager getSecurityManager();
+    static @Source(READ_TIME) long currentTimeMillis();
+    static @Source(READ_TIME) long nanoTime();
+    
+    static void arraycopy(@PolySource @PolySink Object src, int srcPos, @PolySource @PolySink Object dest, int destPos, int length) ;
+    @PolyFlow
+    static int identityHashCode(Object arg0);
+    static @Source(SYSTEM_PROPERTIES) Properties getProperties();
+    static String lineSeparator();
+    static void setProperties(@Sink(SYSTEM_PROPERTIES) Properties arg0);
+    static @Source(SYSTEM_PROPERTIES) String getProperty(@Sink(SYSTEM_PROPERTIES) String arg0);
+    static @Source(SYSTEM_PROPERTIES) String getProperty(@Sink(SYSTEM_PROPERTIES) String arg0, String arg1);
+    static @Source(SYSTEM_PROPERTIES) String setProperty(@Sink(SYSTEM_PROPERTIES) String arg0, String arg1);
+    static @Source(SYSTEM_PROPERTIES) String clearProperty(@Sink(SYSTEM_PROPERTIES) String arg0);
+
+    static void exit(int arg0);
+
+    static @Source(SYSTEM_PROPERTIES) String mapLibraryName(String arg0);
+    
+    //[ getSecurityManager, loadLibrary]
+}
+
 @PolyFlowReceiver
 class Thread implements Runnable {
     final @Source(FlowPermission.LITERAL) int MIN_PRIORITY;
