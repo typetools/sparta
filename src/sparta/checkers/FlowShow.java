@@ -16,8 +16,8 @@ import checkers.types.AnnotatedTypeFactory;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
-import checkers.util.AnnotationUtils;
-import checkers.util.TreeUtils;
+import javacutils.AnnotationUtils;
+import javacutils.TreeUtils;
 
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.FlowPermission;

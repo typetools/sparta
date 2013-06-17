@@ -3,8 +3,8 @@ package sparta.checkers;
 import checkers.source.Result;
 import checkers.source.SourceChecker;
 import checkers.source.SourceVisitor;
-import checkers.util.ElementUtils;
-import checkers.util.TreeUtils;
+import javacutils.ElementUtils;
+import javacutils.TreeUtils;
 
 import com.sun.source.tree.*;
 import javax.lang.model.element.Element;

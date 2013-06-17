@@ -2,7 +2,7 @@ package sparta.checkers;
 
 import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationBuilder;
-import checkers.util.AnnotationUtils;
+import javacutils.AnnotationUtils;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.FlowPermission;

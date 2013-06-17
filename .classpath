@@ -9,5 +9,8 @@
 	<classpathentry kind="lib" path="tests/stubfile/stub.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dataflow"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/javacutils"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/javaparser"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

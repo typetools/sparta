@@ -9,7 +9,12 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.util.Elements;
 
 import checkers.types.AnnotatedTypeFactory;
-import checkers.util.*;
+import checkers.util.QualifierDefaults;
+
+import javacutils.AnnotationUtils;
+import javacutils.ElementUtils;
+import javacutils.InternalUtils;
+import javacutils.Pair;
 
 import com.sun.tools.javac.code.TypeAnnotationPosition;
 

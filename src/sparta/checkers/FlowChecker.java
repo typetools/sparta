@@ -21,12 +21,14 @@ import checkers.source.SourceChecker;
 import checkers.source.SupportedLintOptions;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.QualifierHierarchy;
-import checkers.util.AnnotationUtils;
+import javacutils.AnnotationUtils;
+import javacutils.ErrorReporter;
+
 import checkers.util.MultiGraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import checkers.util.stub.StubGenerator;
 import checkers.util.QualifierPolymorphism;
-import checkers.util.TreeUtils;
+import javacutils.TreeUtils;
 
 /*>>>
 import checkers.compilermsgs.quals.CompilerMessageKey;
@@ -265,7 +267,8 @@ public class FlowChecker extends BaseTypeChecker {
             } else if (QualifierPolymorphism.isPolyAll(start)) {
                 return POLYALL;
             } else {
-                SourceChecker.errorAbort("FlowChecker: unexpected AnnotationMirror: " + start);
+            	
+                errorAbort("FlowChecker: unexpected AnnotationMirror: " + start);
                 return null; // dead code
             }
         }
@@ -329,7 +332,7 @@ public class FlowChecker extends BaseTypeChecker {
                         AnnotationUtils.areSame(lhs, POLYFLOWSOURCES);
 
             } else {
-                SourceChecker.errorAbort("FlowChecker: unexpected AnnotationMirrors: " + rhs + " and " + lhs);
+                errorAbort("FlowChecker: unexpected AnnotationMirrors: " + rhs + " and " + lhs);
                 return false; // dead code
             }
         }

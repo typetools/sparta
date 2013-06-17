@@ -10,8 +10,8 @@ import sparta.checkers.quals.MayRequiredPermissions;
 import sparta.checkers.quals.RequiredPermissions;
 import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
-import checkers.util.AnnotationUtils;
-import checkers.util.TreeUtils;
+import javacutils.AnnotationUtils;
+import javacutils.TreeUtils;
 
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.MethodInvocationTree;

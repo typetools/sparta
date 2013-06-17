@@ -2,8 +2,8 @@ package sparta.checkers;
 
 import checkers.quals.PolyAll;
 import checkers.types.AnnotatedTypeMirror;
-import checkers.util.AnnotationUtils;
-import checkers.util.Pair;
+import javacutils.AnnotationUtils;
+import javacutils.Pair;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.PolySink;
