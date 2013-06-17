@@ -27,7 +27,7 @@ class Arithmetics {
         }
 
         clean = i;
-
+        
         int j = accel + 2;
 
         //Tests LUB

@@ -43,7 +43,6 @@ class MultiplyTest {
     void test_Unary() {
         @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
 
-        //:: error: (assignment.type.incompatible)
         x = -ra;
 
         //:: error: (assignment.type.incompatible)

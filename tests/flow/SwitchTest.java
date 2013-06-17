@@ -1,17 +1,14 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.FlowPermission;
+import static sparta.checkers.quals.FlowPermission.*;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 
 class SwitchTest {
-    void foo() {
+    void foo(@Sink(INTERNET) int badInfo) {
         @Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.LITERAL}) int info = 1;
 
-        //Explicitly forbid this field from having FlowPermission.CONDITIONAL
-        //:: error: (forbidden.flow)
-        @Source({FlowPermission.ACCESS_FINE_LOCATION}) @Sink({}) int badInfo = 1;
 
         @Source(FlowPermission.LITERAL) int noInfo = 1;
 
@@ -36,7 +33,7 @@ class SwitchTest {
 
         //:: error: (condition.flow)
         switch (badInfo) {
-            //:: error: (condition.flow)
+        //This works because the inferred type is @Source(LITERAL)
             case badCaseInfo: {
                 info++;
             }
@@ -46,7 +43,7 @@ class SwitchTest {
         }
 
         switch (noInfo) {
-            //:: error: (condition.flow)
+            //This works because the inferred type is @Source(LITERAL)
             case badCaseInfo: {
                 info++;
             }
