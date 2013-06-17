@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 
 import sparta.checkers.quals.*;
 
@@ -169,7 +170,14 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     }
 
     private boolean areFlowsValid(final AnnotatedTypeMirror atm) {
-        final FlowPolicy flowPolicy = checker.getFlowPolicy();
+        if(atm.getElement() != null && atm.getElement().getKind() == ElementKind.LOCAL_VARIABLE
+        		&& FlowUtil.isTop(atm)){
+        	//Local varibles are allowed to be top type so a more specific type can
+        	//be inferred.
+        	return true;
+        }
+    	final FlowPolicy flowPolicy = checker.getFlowPolicy();
+        
 
         if( flowPolicy != null ) {
             return checker.getFlowPolicy().areFlowsAllowed(atm);
