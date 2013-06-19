@@ -1,3 +1,4 @@
+
 import sparta.checkers.quals.*;
 import static sparta.checkers.quals.FlowPermission.*;
 
@@ -41,3 +42,34 @@ class Generics {
     }
 
 }
+
+class UpperObject<T extends @Source(ANY) @Sink({}) Object>{
+	public void testWildCard(java.util.List<? extends @Source(ANY) @Sink({}) Number> list) {
+	}   
+	void callWildCard(java.util.List<Integer> list){
+		testWildCard(list);
+	}
+}
+
+class GenObject<@Source(ANY) @Sink({}) Object>{
+}
+class GenObjectLit<Object>{
+}
+
+class TestUpperObject{
+    void test(){
+        UpperObject<Object> lit;
+        UpperObject<@Source(LITERAL) @Sink(CONDITIONAL) Object> lit2;
+        //:: error: (forbidden.flow)
+        UpperObject<@Source(ANY) @Sink({}) Object> lit3;
+        //:: error: (type.argument.type.incompatible)
+        GenObject<Object> gen;
+      //:: error: (forbidden.flow)
+        GenObject<@Source(ANY) @Sink({}) Object> gen2;
+        GenObjectLit<String> o;
+    }
+    
+}
+
+
+
