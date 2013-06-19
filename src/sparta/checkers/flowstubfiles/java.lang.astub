@@ -859,6 +859,49 @@ class Process {
     void destroy();
 }
 
+class ProcessBuilder {
+//Added by pbsf
+    ProcessBuilder(List<String> arg0);
+    ProcessBuilder(String[] arg0);
+    @PolyFlowReceiver
+    ProcessBuilder command(List<String> arg0);
+    @PolyFlowReceiver
+    ProcessBuilder command(String[] arg0);
+    @PolyFlowReceiver
+    List<String> command();
+    @PolyFlowReceiver
+    Map<String,String> environment();
+    File directory();
+    ProcessBuilder directory(File arg0);
+    ProcessBuilder redirectInput(Redirect arg0);
+    ProcessBuilder redirectOutput(Redirect arg0);
+    ProcessBuilder redirectError(Redirect arg0);
+    ProcessBuilder redirectInput(File arg0);
+    ProcessBuilder redirectOutput(File arg0);
+    ProcessBuilder redirectError(File arg0);
+    Redirect redirectInput();
+    Redirect redirectOutput();
+    Redirect redirectError();
+    ProcessBuilder inheritIO();
+    boolean redirectErrorStream();
+    ProcessBuilder redirectErrorStream(boolean arg0);
+    @Source(PROCESS_BUILDER) Process start() throws IOException;
+}
+
+@PolyFlowReceiver
+class ProcessBuilder$Redirect {
+//Added by pbsf
+    final Redirect PIPE;
+    final Redirect INHERIT;
+    Type type();
+    File file();
+    static Redirect from(File arg0);
+    static Redirect to(File arg0);
+    static Redirect appendTo(File arg0);
+    boolean equals(Object arg0);
+    int hashCode();
+}
+
 @PolyFlowReceiver
 class Runtime {
     static Runtime getRuntime();
@@ -1514,7 +1557,7 @@ class Method extends Executable {
     int hashCode();
     String toString();
     String toGenericString();
-    Object invoke(Object arg0, Object[] arg1) throws IllegalAccessException,IllegalArgumentException,InvocationTargetException;
+    @Source(FlowPermission.REFLECTION) Object invoke(Object arg0, Object[] arg1) throws IllegalAccessException,IllegalArgumentException,InvocationTargetException;
     boolean isBridge();
     boolean isVarArgs();
     boolean isSynthetic();

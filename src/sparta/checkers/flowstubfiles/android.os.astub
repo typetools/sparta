@@ -37,100 +37,101 @@ class IBinder {
         //Added by Carl Hartung
         //This class will need a qualifier  parameter
         
-    void writeToParcel(Parcel parcel, int flags);
+    void writeToParcel(@Source(FlowPermission.PARCEL) Parcel parcel, int flags);
     //Writes the Bundle contents to a Parcel, typically in order for it to be passed through an IBinder connection .
     
-    String getString(String key, String defaultValue);
+    @Source(BUNDLE) String getString(String key, String defaultValue);
     //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
     
-    String getString(String key);
+    @Source(BUNDLE) String getString(String key);
     //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
     
     <T extends Parcelable> T getParcelable(String key);
     //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
     
-    int getInt(String key, int defaultValue);
+    @Source(BUNDLE) int getInt(String key, int defaultValue);
     //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
     
-    int getInt(String key);
+    @Source(BUNDLE) int getInt(String key);
     //Returns the value associated with the given key, or 0 if no mapping of the desired type exists for the given key .
     
-    void putInt(String key, int value);
+    void putInt(String key, @Source(BUNDLE) int value);
     //Inserts an int value into the mapping of this Bundle, replacing any existing value for the given key .
     
-    Object get(String key);
+    @PolyFlow Object get(String key);
     //Returns the entry with the given key as an object .
     
-    void putParcelable(String key, Parcelable value);
+    void putParcelable(String key, @Source(PARCEL) Parcelable value);
     //Inserts a Parcelable value into the mapping of this Bundle, replacing any existing value for the given key .
     
-    void putBoolean(String key, boolean value);
+    void putBoolean(String key, @Source(BUNDLE) boolean value);
     //Inserts a Boolean value into the mapping of this Bundle, replacing any existing value for the given key .
     
-    long getLong(String key);
+    @Source(BUNDLE) long getLong(String key);
     //Returns the value associated with the given key, or 0L if no mapping of the desired type exists for the given key .
     
-    long getLong(String key, long defaultValue);
+    @Source(BUNDLE) long getLong(String key, long defaultValue);
     //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
     
     void setClassLoader(ClassLoader loader);
     //Changes the ClassLoader this Bundle uses when instantiating objects .
     
-    void putString(String key, String value);
+    void putString(String key, @Source(BUNDLE) String value);
     //Inserts a String value into the mapping of this Bundle, replacing any existing value for the given key .
     
-    boolean getBoolean(String key);
+    @Source(BUNDLE) boolean getBoolean(String key);
     //Returns the value associated with the given key, or false if no mapping of the desired type exists for the given key .
     
-    boolean getBoolean(String key, boolean defaultValue);
+    @Source(BUNDLE) boolean getBoolean(String key, boolean defaultValue);
     //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
     
-    double getDouble(String key);
+    @Source(BUNDLE) double getDouble(String key);
     //Returns the value associated with the given key, or 0.0 if no mapping of the desired type exists for the given key .
     
-    double getDouble(String key, double defaultValue);
+    @Source(BUNDLE) double getDouble(String key, double defaultValue);
     //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
     
     boolean containsKey(String key);
     //Returns true if the given key is contained in the mapping of this Bundle .
     
-    void putDouble(String key, double value);
+    void putDouble(String key, @Source(BUNDLE) double value);
     //Inserts a double value into the mapping of this Bundle, replacing any existing value for the given key .
     
-    void putLong(String key, long value);
+    void putLong(String key, @Source(BUNDLE) long value);
     //Inserts a long value into the mapping of this Bundle, replacing any existing value for the given key .
     
-    void putBundle(String key, Bundle value);
+    void putBundle(String key, @Source(BUNDLE) Bundle value);
     //Inserts a Bundle value into the mapping of this Bundle, replacing any existing value for the given key .
     
-    void readFromParcel(Parcel parcel);
+    void readFromParcel(@Source(PARCEL) Parcel parcel);
     //Reads the Parcel contents into this Bundle, typically in order for it to be passed through an IBinder connection .
     
-    void putAll(Bundle map);
+    void putAll(@Source(BUNDLE) Bundle map);
     //Inserts all mappings from the given Bundle into this Bundle .
     
+    //TODO: annotate getSparseParcelableArray
     <T extends Parcelable> SparseArray<T> getSparseParcelableArray(String key);
     //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
     
-    Parcelable[] getParcelableArray(String key);
+     Parcelable @Source(PARCEL)[] getParcelableArray(String key);
     //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
     
-    Bundle getBundle(String key);
+    @Source(BUNDLE) Bundle getBundle(String key);
     //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
     
     void putSparseParcelableArray(String key, SparseArray<? extends Parcelable> value);
     //Inserts a SparceArray of Parcelable values into the mapping of this Bundle, replacing any existing value for the given key .
     
-    void putShort(String key, short value);
+    void putShort(String key, @Source(BUNDLE) short value);
     //Inserts a short value into the mapping of this Bundle, replacing any existing value for the given key .
     
-    void putParcelableArray(String key, Parcelable[] value);
+    void putParcelableArray(String key, Parcelable @Source(PARCEL) [] value);
     //Inserts an array of Parcelable values into the mapping of this Bundle, replacing any existing value for the given key .
     
-    void putFloat(String key, float value);
+    void putFloat(String key, @Source(BUNDLE) float value);
     //Inserts a float value into the mapping of this Bundle, replacing any existing value for the given key .
     
-    void putCharSequence(String key, CharSequence value);
+    void putCharSequence(String key, @Source(BUNDLE) CharSequence value);
     //Inserts a CharSequence value into the mapping of this Bundle, replacing any existing value for the given key .
     
     Set<String> keySet();
@@ -139,7 +140,7 @@ class IBinder {
     boolean isEmpty();
     //Returns true if the mapping of this Bundle is empty, false otherwise .
     
-    String[] getStringArray(String key);
+    String @Source(BUNDLE) [] getStringArray(String key);
     //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
     
     Object clone();
