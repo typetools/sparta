@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 
 import sparta.checkers.quals.*;
 
@@ -22,18 +23,24 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedNoType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
+import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
+import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
 
 
 public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
-    public FlowVisitor(FlowChecker checker, CompilationUnitTree root) {
+    private boolean topAllowed = false;
+
+	public FlowVisitor(FlowChecker checker, CompilationUnitTree root) {
        super(checker, root);
     }
+
 
 
     @Override
     public boolean isValidUse(AnnotatedDeclaredType declarationType,
                                            AnnotatedDeclaredType useType) {
+    	
        return areFlowsValid(useType) ;
                //&& areFlowsValid(declarationType);
     }
@@ -169,6 +176,14 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     }
 
     private boolean areFlowsValid(final AnnotatedTypeMirror atm) {
+
+    	boolean isLocal = atm.getElement() != null && atm.getElement().getKind() == ElementKind.LOCAL_VARIABLE;
+        if((isLocal || this.topAllowed)  && FlowUtil.isTop(atm)){
+        	//Local variables are allowed to be top type so a more specific type can
+        	//be inferred.
+        	return true;
+        }
+
         final FlowPolicy flowPolicy = checker.getFlowPolicy();
 
         if( flowPolicy != null ) {
@@ -181,10 +196,46 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
     @Override
     protected BaseTypeVisitor<FlowChecker>.TypeValidator createTypeValidator() {
-        return new FlowTypeValidator();
+        return new FlowTypeValidator(this);
     }
 
     protected class FlowTypeValidator extends BaseTypeVisitor<FlowChecker>.TypeValidator {
+
+		private FlowVisitor flowVisitor;
+
+		public FlowTypeValidator(FlowVisitor flowVisitor) {
+			this.flowVisitor = flowVisitor;
+		}
+
+		@Override
+		public Void visitTypeVariable(AnnotatedTypeVariable type, Tree tree) {
+			// Keep in sync with visitWildcard
+			AnnotatedTypeMirror upperbound = type.getUpperBound();
+			if (upperbound != null) {
+				//Allow top on upper bounds
+				flowVisitor.setAllowTop(true);
+			}
+			Void tmpReturn = super.visitTypeVariable(type, tree);
+			//Disallow top, done processing type variable
+			flowVisitor.setAllowTop(false);
+			return tmpReturn;
+		}
+
+		@Override
+		public Void visitWildcard(AnnotatedWildcardType type, Tree tree) {
+			// Keep in sync with visitTypeVariable
+			AnnotatedTypeMirror upperbound = type.getExtendsBound();
+			if (upperbound != null) {
+				//Allow top on upper bounds
+				flowVisitor.setAllowTop(true);
+			}
+			Void tmpReturn = super.visitWildcard(type, tree);
+			//Disallow top, done processing wildcard
+			flowVisitor.setAllowTop(false);
+			return tmpReturn;
+		}
+        	   
+    	
         @Override
         protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
             StringBuffer buf = new StringBuffer();
@@ -208,4 +259,14 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         }
 
     }
+/**
+ * Do not warn if any type is ANY->{}
+ * 
+ * This turned on when visiting type parameters or wildcards with upper bounds.
+ * @param topAllowed
+ */
+	public void setAllowTop(boolean topAllowed) {
+		this.topAllowed  = topAllowed;
+		
+	}
 }

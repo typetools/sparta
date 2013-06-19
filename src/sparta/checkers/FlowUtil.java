@@ -181,4 +181,10 @@ public class FlowUtil {
         return retSet;
     }
 
+	public static boolean isTop(AnnotatedTypeMirror atm) {
+		List<FlowPermission> sources = getSource(atm);
+		List<FlowPermission> sinks = getSink(atm);
+		return sources.contains(FlowPermission.ANY) && sinks.isEmpty();		
+	}
+
 }
