@@ -110,12 +110,279 @@ AlertDialog.Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener
 // AlertDialog.Builder setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
 }
 
+class Dialog {
+//void addContentView(View view, ViewGroup.LayoutParams params);
+//Add an additional content view to the screen.
+
+void cancel();
+//Cancel the dialog.
+
+//void closeOptionsMenu();
+
+void dismiss();
+//Dismiss this dialog, removing it from the screen.
+
+//boolean dispatchGenericMotionEvent(MotionEvent ev);
+//Called to process generic motion events.
+
+//boolean dispatchKeyEvent(KeyEvent event);
+//Called to process key events.
+
+//boolean dispatchKeyShortcutEvent(KeyEvent event);
+//Called to process a key shortcut event.
+
+//boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
+//Called to process population of AccessibilityEvents.
+
+//boolean dispatchTouchEvent(MotionEvent ev);
+//Called to process touch screen events.
+
+//boolean dispatchTrackballEvent(MotionEvent ev);
+//Called to process trackball events.
+
+View findViewById(int id);
+//Finds a view that was identified by the id attribute from the XML that was processed in onStart();.
+
+//ActionBar getActionBar();
+//Retrieve the ActionBar attached to this dialog, if present.
+
+final Context getContext();
+//Retrieve the Context this Dialog is running in.
+
+//View getCurrentFocus();
+//Call getCurrentFocus(); on the Window if this Activity to return the currently focused view.
+
+//LayoutInflater getLayoutInflater();
+
+//final Activity getOwnerActivity();
+//Returns the Activity that owns this Dialog.
+
+//final int getVolumeControlStream();
+
+Window getWindow();
+//Retrieve the current Window for the activity.
+
+void hide();
+//Hide the dialog, but do not dismiss it.
+
+//void invalidateOptionsMenu();
+
+boolean isShowing();
+
+//void onActionModeFinished(ActionMode mode);
+//Called when an action mode has been finished. Note that if you override this method you should always call through to the superclass implementation by calling super.onActionModeFinished(mode);.
+
+//void onActionModeStarted(ActionMode mode);
+//Called when an action mode has been started. Note that if you override this method you should always call through to the superclass implementation by calling super.onActionModeStarted(mode);.
+
+//void onAttachedToWindow();
+//Called when the window has been attached to the window manager.
+
+//void onBackPressed();
+//Called when the dialog has detected the user's press of the back key.
+
+//void onContentChanged();
+//This hook is called whenever the content view of the screen changes (due to a call to Window.setContentView or Window.addContentView);.
+
+//boolean onContextItemSelected(MenuItem item);
+
+//void onContextMenuClosed(Menu menu);
+
+//void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo);
+//Called when the context menu for this view is being built.
+
+//boolean onCreateOptionsMenu(Menu menu);
+//It is usually safe to proxy this call to the owner activity's onCreateOptionsMenu(Menu); if the client desires the same menu for this Dialog.
+
+//boolean onCreatePanelMenu(int featureId, Menu menu);
+//Initialize the contents of the menu for panel 'featureId'.
+
+//View onCreatePanelView(int featureId);
+//Instantiate the view to display in the panel for 'featureId'.
+
+//void onDetachedFromWindow();
+//Called when the window has been attached to the window manager.
+
+//boolean onGenericMotionEvent(MotionEvent event);
+//Called when a generic motion event was not handled by any of the views inside of the dialog.
+
+//boolean onKeyDown(int keyCode, KeyEvent event);
+//A key was pressed down.
+
+//boolean onKeyLongPress(int keyCode, KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyLongPress();: always returns false (doesn't handle the event);.
+
+//boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyMultiple();: always returns false (doesn't handle the event);.
+
+//boolean onKeyShortcut(int keyCode, KeyEvent event);
+//Called when a key shortcut event is not handled by any of the views in the Dialog.
+
+//boolean onKeyUp(int keyCode, KeyEvent event);
+//A key was released.
+
+//boolean onMenuItemSelected(int featureId, MenuItem item);
+//Called when a panel's menu item has been selected by the user.
+
+//boolean onMenuOpened(int featureId, Menu menu);
+//Called when a panel's menu is opened by the user.
+
+//boolean onOptionsItemSelected(MenuItem item);
+
+//void onOptionsMenuClosed(Menu menu);
+
+//void onPanelClosed(int featureId, Menu menu);
+//Called when a panel is being closed.
+
+//boolean onPrepareOptionsMenu(Menu menu);
+//It is usually safe to proxy this call to the owner activity's onPrepareOptionsMenu(Menu); if the client desires the same menu for this Dialog.
+
+//boolean onPreparePanel(int featureId, View view, Menu menu);
+//Prepare a panel to be displayed.
+
+void onRestoreInstanceState(Bundle savedInstanceState);
+//Restore the state of the dialog from a previously saved bundle.
+
+Bundle onSaveInstanceState();
+//Saves the state of the dialog into a bundle.
+
+//boolean onSearchRequested();
+//This hook is called when the user signals the desire to start a search.
+
+//boolean onTouchEvent(MotionEvent event);
+//Called when a touch screen event was not handled by any of the views under it.
+
+//boolean onTrackballEvent(MotionEvent event);
+//Called when the trackball was moved and not handled by any of the views inside of the activity.
+
+//void onWindowAttributesChanged(WindowManager.LayoutParams params);
+//This is called whenever the current window attributes change.
+
+//void onWindowFocusChanged(boolean hasFocus);
+//This hook is called whenever the window focus changes.
+
+//ActionMode onWindowStartingActionMode(ActionMode.Callback callback);
+//Called when an action mode is being started for this window.
+
+//void openContextMenu(View view);
+
+//void openOptionsMenu();
+
+//void registerForContextMenu(View view);
+
+final boolean requestWindowFeature(int featureId);
+//Enable extended window features.
+
+//void setCancelMessage(Message msg);
+//Set a message to be sent when the dialog is canceled.
+
+void setCancelable(boolean flag);
+//Sets whether this dialog is cancelable with the BACK key.
+
+//void setCanceledOnTouchOutside(boolean cancel);
+//Sets whether this dialog is canceled when touched outside the window's bounds.
+
+void setContentView(@Sink(FlowPermission.DISPLAY) View view);
+//Set the screen content to an explicit view.
+
+//void setContentView(int layoutResID);
+//Set the screen content from a layout resource.
+
+//void setContentView(View view, ViewGroup.LayoutParams params);
+//Set the screen content to an explicit view.
+
+//void setDismissMessage(Message msg);
+//Set a message to be sent when the dialog is dismissed.
+
+//final void setFeatureDrawable(int featureId, Drawable drawable);
+//Convenience for calling setFeatureDrawable(int, Drawable);.
+
+//final void setFeatureDrawableAlpha(int featureId, int alpha);
+//Convenience for calling setFeatureDrawableAlpha(int, int);.
+
+//final void setFeatureDrawableResource(int featureId, int resId);
+//Convenience for calling setFeatureDrawableResource(int, int);.
+
+//final void setFeatureDrawableUri(int featureId, Uri uri);
+//Convenience for calling setFeatureDrawableUri(int, Uri);.
+
+void setOnCancelListener(DialogInterface.OnCancelListener listener);
+//Set a listener to be invoked when the dialog is canceled.
+
+void setOnDismissListener(DialogInterface.OnDismissListener listener);
+//Set a listener to be invoked when the dialog is dismissed.
+
+void setOnKeyListener(DialogInterface.OnKeyListener onKeyListener);
+//Sets the callback that will be called if a key is dispatched to the dialog.
+
+//void setOnShowListener(DialogInterface.OnShowListener listener);
+//Sets a listener to be invoked when the dialog is shown.
+
+final void setOwnerActivity(Activity activity);
+//Sets the Activity that owns this dialog.
+
+void setTitle(int titleId);
+//Set the title text for this dialog's window.
+
+void setTitle(@Sink(FlowPermission.DISPLAY) CharSequence title);
+//Set the title text for this dialog's window.
+
+//final void setVolumeControlStream(int streamType);
+//By default, this will use the owner Activity's suggested stream type.
+
+void show();
+//Start the dialog and display it on screen.
+
+//void takeKeyEvents(boolean get);
+//Request that key events come to this dialog.
+
+//void unregisterForContextMenu(View view);
+
+//PROTECTED
+//void onCreate(Bundle savedInstanceState);
+//Similar to onCreate(Bundle);, you should initialize your dialog in this method, including calling setContentView(View);.
+
+//void onStart();
+//Called when the dialog is starting.
+
+//void onStop();
+//Called to tell you that you're stopping.
+}
+
 class Fragment {
 void dump(@Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String prefix, FileDescriptor fd, PrintWriter writer, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String[] args);
 //Print the Fragments's state into the given stream.
 //CSH: FileDescriptors are a... "structure representing an open file, an open socket, or another source or sink of bytes"
 // vague.  So it seems this would have to support at least writing to disk and sending over network?
 //FILESYSTEM INTERNET WRITE_EXTERNAL_STORAGE
+
+//Methods in spreadsheet not found in Fragment or parent classes:
+// findFragmentByWho
+// getLayoutInflater
+// initState
+// instantiateChildFragmentManager
+// isInBackStack
+// performActivityCreated
+// performConfigurationChanged
+// performContextItemSelected
+// performCreate
+// performCreateOptionsMenu
+// performCreateView
+// performDestroy
+// performDestroyView
+// performLowMemory
+// performOptionsItemSelected
+// performOptionsMenuClosed
+// performPause
+// performPrepareOptionsMenu
+// performReallyStop
+// performResume
+// performSaveInstanceState
+// performStart
+// performStop
+// restoreViewState
+// setIndex
+
 
 
 final FragmentActivity getActivity();
@@ -237,7 +504,12 @@ void setUserVisibleHint(boolean isVisibleToUser);
 
 String toString();
 //Returns a string containing a concise, human-readable description of this object.
-   
+
+
+
+
+
+    
 
 //UNUSED AND UNANNOTATED
 // final boolean equals(Object o);
@@ -262,6 +534,66 @@ String toString();
 // void startActivity(Intent intent);
 // void startActivityForResult(Intent intent, int requestCode);
 // void unregisterForContextMenu(View view);
+}
+
+class FragmentManager {
+//abstract void addOnBackStackChangedListener(FragmentManager.OnBackStackChangedListener listener);
+//Add a new listener for changes to the fragment back stack.
+
+abstract FragmentTransaction beginTransaction();
+//Start a series of edit operations on the Fragments associated with this FragmentManager.
+
+//abstract void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args);
+//Print the FragmentManager's state into the given stream.
+
+//static void enableDebugLogging(boolean enabled);
+//Control whether the framework's internal fragment manager debugging logs are turned on.
+
+abstract boolean executePendingTransactions();
+//After a FragmentTransaction is committed with FragmentTransaction.commit();, it is scheduled to be executed asynchronously on the process's main thread.
+
+//abstract Fragment findFragmentById(int id);
+//Finds a fragment that was identified by the given id either when inflated from XML or as the container ID when added in a transaction.
+
+abstract Fragment findFragmentByTag(String tag);
+//Finds a fragment that was identified by the given tag either when inflated from XML or as supplied when added in a transaction.
+
+//abstract FragmentManager.BackStackEntry getBackStackEntryAt(int index);
+//Return the BackStackEntry at index index in the back stack; entries start index 0 being the bottom of the stack.
+
+//abstract int getBackStackEntryCount();
+//Return the number of entries currently in the back stack.
+
+abstract Fragment getFragment(Bundle bundle, String key);
+//Retrieve the current Fragment instance for a reference previously placed with putFragment(Bundle, String, Fragment);.
+
+abstract void popBackStack();
+//Pop the top state off the back stack.
+
+abstract void popBackStack(String name, int flags);
+//Pop the last fragment transition from the manager's fragment back stack.
+
+abstract void popBackStack(int id, int flags);
+//Pop all back stack states up to the one with the given identifier.
+
+//abstract boolean popBackStackImmediate(int id, int flags);
+//Like popBackStack(int, int);, but performs the operation immediately inside of the call.
+
+//abstract boolean popBackStackImmediate(String name, int flags);
+//Like popBackStack(String, int);, but performs the operation immediately inside of the call.
+
+//abstract boolean popBackStackImmediate();
+//Like popBackStack();, but performs the operation immediately inside of the call.
+
+abstract void putFragment(Bundle bundle, String key, Fragment fragment);
+//Put a reference to a fragment in a Bundle.
+
+//abstract void removeOnBackStackChangedListener(FragmentManager.OnBackStackChangedListener listener);
+//Remove a listener that was previously added with addOnBackStackChangedListener(OnBackStackChangedListener);.
+
+abstract Fragment.SavedState saveFragmentInstanceState(Fragment f);
+//Save the current instance state of the given Fragment.
+
 }
 
 class Notification$Builder {

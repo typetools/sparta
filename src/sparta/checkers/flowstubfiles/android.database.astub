@@ -108,6 +108,29 @@ abstract @Source(FlowPermission.DATABASE) byte[] getBlob(int columnIndex);
 
 package android.database.sqlite;
 
+class SQLiteClosable {
+//void acquireReference();
+//Acquires a reference to the object.
+
+void close();
+//Releases a reference to the object, closing the object if the last reference was released.
+
+//void releaseReference();
+//Releases a reference to the object, closing the object if the last reference was released.
+
+//void releaseReferenceFromContainer();
+//This method was deprecated in API level 16. Do not use.
+
+
+//PROTECTED
+//abstract void onAllReferencesReleased();
+//Called when the last reference to the object was released by a call to releaseReference(); or close();.
+
+//void onAllReferencesReleasedFromContainer();
+//This method was deprecated in API level 16. Do not use.
+
+}
+
 class SQLiteDatabase {
 //Added by Philip
     @Source(FlowPermission.SQLITE_DATABASE) int delete(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY);

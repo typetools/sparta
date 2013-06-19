@@ -1,9 +1,189 @@
 package android.view;
 
+class LayoutInflater {
+
+abstract LayoutInflater cloneInContext(Context newContext);
+//Create a copy of the existing LayoutInflater object, with the copy pointing to a different Context than the original.
+
+final View createView(String name, String prefix, AttributeSet attrs);
+//Low-level function for instantiating a view by name.
+
+static LayoutInflater from(Context context);
+//Obtains the LayoutInflater from the given context.
+
+Context getContext();
+//Return the context we are running in, for access to resources, class loader, etc.
+
+final LayoutInflater.Factory getFactory();
+//Return the current LayoutInflater.Factory (or null);.
+
+//final LayoutInflater.Factory2 getFactory2();
+//Return the current LayoutInflater.Factory2.
+
+//LayoutInflater.Filter getFilter();
+//View inflate(int resource, ViewGroup root);
+//Inflate a new view hierarchy from the specified xml resource.
+
+View inflate(XmlPullParser parser, ViewGroup root);
+//Inflate a new view hierarchy from the specified xml node.
+
+View inflate(XmlPullParser parser, ViewGroup root, boolean attachToRoot);
+//Inflate a new view hierarchy from the specified XML node.
+
+View inflate(int resource, ViewGroup root, boolean attachToRoot);
+//Inflate a new view hierarchy from the specified xml resource.
+
+void setFactory(LayoutInflater.Factory factory);
+//Attach a custom Factory interface for creating views while using this LayoutInflater.
+
+void setFactory2(LayoutInflater.Factory2 factory);
+//Like setFactory(LayoutInflater.Factory);, but allows you to set a LayoutInflater.Factory2 interface.
+
+//void setFilter(LayoutInflater.Filter filter);
+//Sets the LayoutInflater.Filter to by this LayoutInflater.
+
+//Protected Methods
+//View onCreateView(String name, AttributeSet attrs);
+//This routine is responsible for creating the correct subclass of View given the xml element name.
+
+//View onCreateView(View parent, String name, AttributeSet attrs);
+//Version of onCreateView(String, AttributeSet); that also takes the future parent of the view being constructure.
+
+}
+
+
 class MenuInflater{
 
 //Add by SOM, once we have the new defaulting, then these annotations can be removed.
 void inflate (@Sink(FlowPermission.CONDITIONAL) int menuRes, @Sink(FlowPermission.CONDITIONAL) Menu menu);
+
+}
+
+class MenuItem {
+
+//abstract boolean collapseActionView();
+//Collapse the action view associated with this menu item.
+
+//abstract boolean expandActionView();
+//Expand the action view associated with this menu item.
+
+abstract ActionProvider getActionProvider();
+//Gets the ActionProvider.
+
+//abstract View getActionView();
+//Returns the currently set action view for this menu item.
+
+//abstract char getAlphabeticShortcut();
+//Return the char for this menu item's alphabetic shortcut.
+
+//abstract int getGroupId();
+//Return the group identifier that this menu item is part of.
+
+//abstract Drawable getIcon();
+//Returns the icon for this item as a Drawable (getting it from resources if it hasn't been loaded before);.
+
+//abstract Intent getIntent();
+//Return the Intent associated with this item.
+
+abstract int getItemId();
+//Return the identifier for this menu item.
+
+abstract ContextMenu.ContextMenuInfo getMenuInfo();
+//Gets the extra information linked to this menu item.
+
+//abstract char getNumericShortcut();
+//Return the char for this menu item's numeric (12-key); shortcut.
+
+//abstract int getOrder();
+//Return the category and order within the category of this item.
+
+//abstract SubMenu getSubMenu();
+//Get the sub-menu to be invoked when this item is selected, if it has one.
+
+//abstract CharSequence getTitle();
+//Retrieve the current title of the item.
+
+//abstract CharSequence getTitleCondensed();
+//Retrieve the current condensed title of the item.
+
+abstract boolean hasSubMenu();
+//Check whether this item has an associated sub-menu.
+
+abstract boolean isActionViewExpanded();
+//Returns true if this menu item's action view has been expanded.
+
+abstract boolean isCheckable();
+//Return whether the item can currently display a check mark.
+
+abstract boolean isChecked();
+//Return whether the item is currently displaying a check mark.
+
+//abstract boolean isEnabled();
+//Return the enabled state of the menu item.
+
+//abstract boolean isVisible();
+//Return the visibility of the menu item.
+
+abstract MenuItem setActionProvider(ActionProvider actionProvider);
+//Sets the ActionProvider responsible for creating an action view if the item is placed on the action bar.
+
+abstract MenuItem setActionView(int resId);
+//Set an action view for this menu item.
+
+abstract MenuItem setActionView(View view);
+//Set an action view for this menu item.
+
+//abstract MenuItem setAlphabeticShortcut(char alphaChar);
+//Change the alphabetic shortcut associated with this item.
+
+//abstract MenuItem setCheckable(boolean checkable);
+//Control whether this item can display a check mark.
+
+abstract MenuItem setChecked(@Sink(FlowPermissions.DISPLAY) boolean checked);
+//Control whether this item is shown with a check mark.
+
+abstract MenuItem setEnabled(@Sink(FlowPermissions.DISPLAY) boolean enabled);
+//Sets whether the menu item is enabled.
+// setting to false greys out the View
+
+abstract MenuItem setIcon(@Sink(FlowPermissions.DISPLAY) Drawable icon);
+//Change the icon associated with this item.
+
+abstract MenuItem setIcon(int iconRes);
+//Change the icon associated with this item.
+
+abstract MenuItem setIntent(Intent intent);
+//Change the Intent associated with this item.
+
+//abstract MenuItem setNumericShortcut(char numericChar);
+//Change the numeric shortcut associated with this item.
+
+//abstract MenuItem setOnActionExpandListener(MenuItem.OnActionExpandListener listener);
+//Set an MenuItem.OnActionExpandListener on this menu item to be notified when the associated action view is expanded or collapsed.
+
+abstract MenuItem setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener menuItemClickListener);
+//Set a custom listener for invocation of this menu item.
+
+abstract MenuItem setShortcut(char numericChar, char alphaChar);
+//Change both the numeric and alphabetic shortcut associated with this item.
+
+abstract void setShowAsAction(int actionEnum);
+//Sets how this item should display in the presence of an Action Bar.
+
+//abstract MenuItem setShowAsActionFlags(int actionEnum);
+//Sets how this item should display in the presence of an Action Bar.
+
+abstract MenuItem setTitle(@Sink(FlowPermissions.DISPLAY) CharSequence title);
+//Change the title associated with this item.
+
+abstract MenuItem setTitle(int title);
+//Change the title associated with this item.
+
+//abstract MenuItem setTitleCondensed(CharSequence title);
+//Change the condensed title associated with this item.
+
+abstract MenuItem setVisible(@Sink(FlowPermissions.DISPLAY) boolean visible);
+//Sets the visibility of the menu item.
 
 }
 
@@ -286,7 +466,7 @@ interface SurfaceHolder$Callback {
 
 
 class View {
-//Added by Carl Hartung
+
 final View findViewById(int id);
 //Look for a child view with the given id.
 
@@ -604,10 +784,883 @@ void addFocusables(ArrayList<View> views, int direction, int focusableMode);
 void addFocusables(ArrayList<View> views, int direction);
 //Add any focusable views that are descendants of this view (possibly including this view if it is focusable itself); to views.
 
+void scrollTo(int x, int y);
+//Set the scrolled position of your view.
+
+final void setMeasuredDimension(int measuredWidth, int measuredHeight);
+//This mehod must be called by onMeasure(int, int) to store the measured width and measured height.
+
+int getPaddingTop();
+//Returns the top padding of this view.
+
+void setWillNotDraw(boolean willNotDraw);
+//If this view doesn't do any drawing on its own, set this flag to allow further optimizations.
+
+static int getDefaultSize(int size, int measureSpec);
+//Utility to return a default size.
+
+boolean removeCallbacks(Runnable action);
+//Removes the specified Runnable from the message queue.
+
+void refreshDrawableState();
+//Call this to force a view to update its drawable state.
+
+void playSoundEffect(int soundConstant);
+//Play a sound effect for this view.
+//CSH: Need a PLAY_AUDIO permission?
+
+boolean isInTouchMode();
+//Returns whether the device is currently in touch mode.
+
+final boolean isFocusableInTouchMode();
+//When a view is focusable, it may not want to take focus when in touch mode.
+
+void invalidate(Rect dirty);
+//Mark the area defined by dirty as needing to be drawn.
+
+void invalidate(int l, int t, int r, int b);
+//Mark the area defined by the rect (l,t,r,b) as needing to be drawn.
+
+void invalidate();
+//Invalidate the whole view.
+
+final int[] getDrawableState();
+//Return an array of resource IDs of the drawable states representing the current state of the view.
+
+View findFocus();
+//Find the view in the hierarchy rooted at this view that currently has focus.
+
+int getPaddingBottom();
+//Returns the bottom padding of this view.
+
+final View findViewWithTag(Object tag);
+//Look for a child view with the given tag.
+
+int getPaddingLeft();
+//Returns the left padding of this view.
+
+void onAttachedToWindow();
+//This is called when the view is attached to a window.
+
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+int getPaddingRight();
+//Returns the right padding of this view.
+
+void onDraw(Canvas canvas);
+//Implement this to do your drawing.
+
+int getMinimumHeight();
+//Returns the minimum height of the view.
+
+void dispatchDraw(Canvas canvas);
+//Called by draw to draw the child views.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+void requestLayout();
+//Call this when something has changed which has invalidated the layout of this view.
+
+
+
+
+
+
+
+// UNUSED AND UNANNOTATED
+
+// void addChildrenForAccessibility(ArrayList<View> children);
+// void addOnLayoutChangeListener(View.OnLayoutChangeListener listener);
+// ViewPropertyAnimator animate();
+// void announceForAccessibility(CharSequence text);
+// void bringToFront();
+// void buildDrawingCache();
+// void buildDrawingCache(boolean autoScale);
+// void buildLayer();
+// boolean callOnClick();
+// void cancelLongPress();
+// boolean checkInputConnectionProxy(View view);
+// void clearFocus();
+// static int combineMeasuredStates(int curState, int newState);
+// void computeScroll();
+// AccessibilityNodeInfo createAccessibilityNodeInfo();
+// void createContextMenu(ContextMenu menu);
+// void destroyDrawingCache();
+// void dispatchConfigurationChanged(Configuration newConfig);
+// void dispatchDisplayHint(int hint);
+// boolean dispatchDragEvent(DragEvent event);
+// boolean dispatchGenericMotionEvent(MotionEvent event);
+// boolean dispatchKeyEvent(KeyEvent event);
+// boolean dispatchKeyEventPreIme(KeyEvent event);
+// boolean dispatchKeyShortcutEvent(KeyEvent event);
+// void dispatchSystemUiVisibilityChanged(int visibility);
+// boolean dispatchTrackballEvent(MotionEvent event);
+// boolean dispatchUnhandledMove(View focused, int direction);
+// void dispatchWindowFocusChanged(boolean hasFocus);
+// void dispatchWindowSystemUiVisiblityChanged(int visible);
+// void dispatchWindowVisibilityChanged(int visibility);
+// void findViewsWithText(ArrayList<View> outViews, CharSequence searched, int flags);
+// View focusSearch(int direction);
+// void forceLayout();
+// static int generateViewId();
+// float getAlpha();
+// Animation getAnimation();
+// IBinder getApplicationWindowToken();
+// int getBaseline();
+// float getCameraDistance();
+// CharSequence getContentDescription();
+// Display getDisplay();
+// Bitmap getDrawingCache(boolean autoScale);
+// Bitmap getDrawingCache();
+// int getDrawingCacheBackgroundColor();
+// int getDrawingCacheQuality();
+// void getDrawingRect(Rect outRect);
+// long getDrawingTime();
+// boolean getFilterTouchesWhenObscured();
+// boolean getFitsSystemWindows();
+// ArrayList<View> getFocusables(int direction);
+// void getFocusedRect(Rect r);
+// boolean getGlobalVisibleRect(Rect r, Point globalOffset);
+// final boolean getGlobalVisibleRect(Rect r);
+// Handler getHandler();
+// void getHitRect(Rect outRect);
+// int getHorizontalFadingEdgeLength();
+// boolean getKeepScreenOn();
+// KeyEvent.DispatcherState getKeyDispatcherState();
+// int getLayoutDirection();
+// final boolean getLocalVisibleRect(Rect r);
+// void getLocationInWindow(int[] location);
+// Matrix getMatrix();
+// final int getMeasuredHeightAndState();
+// final int getMeasuredState();
+// final int getMeasuredWidthAndState();
+// int getMinimumWidth();
+// int getNextFocusDownId();
+// int getNextFocusForwardId();
+// int getNextFocusLeftId();
+// int getNextFocusRightId();
+// int getNextFocusUpId();
+// View.OnFocusChangeListener getOnFocusChangeListener();
+// int getPaddingEnd();
+// int getPaddingStart();
+// ViewParent getParentForAccessibility();
+// float getPivotX();
+// float getPivotY();
+// float getRotation();
+// float getRotationX();
+// float getRotationY();
+// float getScaleX();
+// float getScaleY();
+// int getScrollBarDefaultDelayBeforeFade();
+// int getScrollBarFadeDuration();
+// int getScrollBarSize();
+// int getScrollBarStyle();
+// int getSolidColor();
+// int getSystemUiVisibility();
+// int getTextAlignment();
+// int getTextDirection();
+// TouchDelegate getTouchDelegate();
+// ArrayList<View> getTouchables();
+// float getTranslationX();
+// float getTranslationY();
+// int getVerticalFadingEdgeLength();
+// int getVerticalScrollbarPosition();
+// int getVerticalScrollbarWidth();
+// ViewTreeObserver getViewTreeObserver();
+// int getWindowSystemUiVisibility();
+// int getWindowVisibility();
+// void getWindowVisibleDisplayFrame(Rect outRect);
+// float getX();
+// float getY();
+// boolean hasFocus();
+// boolean hasFocusable();
+// boolean hasOnClickListeners();
+// boolean hasOverlappingRendering();
+// boolean hasWindowFocus();
+// static View inflate(Context context, int resource, ViewGroup root);
+// void invalidateDrawable(Drawable drawable);
+// boolean isActivated();
+// boolean isDirty();
+// boolean isDrawingCacheEnabled();
+// boolean isDuplicateParentStateEnabled();
+// boolean isHapticFeedbackEnabled();
+// boolean isHardwareAccelerated();
+// boolean isHorizontalFadingEdgeEnabled();
+// boolean isHovered();
+// boolean isInEditMode();
+// boolean isLayoutRequested();
+// boolean isOpaque();
+// boolean isPaddingRelative();
+// boolean isSaveEnabled();
+// boolean isSaveFromParentEnabled();
+// boolean isScrollContainer();
+// boolean isScrollbarFadingEnabled();
+// boolean isShown();
+// boolean isSoundEffectsEnabled();
+// boolean isVerticalFadingEdgeEnabled();
+// void jumpDrawablesToCurrentState();
+// void offsetTopAndBottom(int offset);
+// boolean onCheckIsTextEditor();
+// InputConnection onCreateInputConnection(EditorInfo outAttrs);
+// boolean onDragEvent(DragEvent event);
+// Handles drag events sent by the system following a call to startDrag();.
+// boolean onFilterTouchEventForSecurity(MotionEvent event);
+// void onFinishTemporaryDetach();
+// boolean onGenericMotionEvent(MotionEvent event);
+// void onHoverChanged(boolean hovered);
+// boolean onHoverEvent(MotionEvent event);
+// boolean onKeyDown(int keyCode, KeyEvent event);
+// boolean onKeyLongPress(int keyCode, KeyEvent event);
+// boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event);
+// boolean onKeyPreIme(int keyCode, KeyEvent event);
+// boolean onKeyShortcut(int keyCode, KeyEvent event);
+// boolean onKeyUp(int keyCode, KeyEvent event);
+// void onRtlPropertiesChanged(int layoutDirection);
+// void onScreenStateChanged(int screenState);
+// void onStartTemporaryDetach();
+// void onWindowFocusChanged(boolean hasWindowFocus);
+// void onWindowSystemUiVisibilityChanged(int visible);
+// boolean performClick();
+// boolean performHapticFeedback(int feedbackConstant);
+// boolean performHapticFeedback(int feedbackConstant, int flags);
+// boolean performLongClick();
+// boolean post(Runnable action);
+// void removeOnAttachStateChangeListener(View.OnAttachStateChangeListener listener);
+// void removeOnLayoutChangeListener(View.OnLayoutChangeListener listener);
+// void requestFitSystemWindows();
+// final boolean requestFocusFromTouch();
+// void requestFocusFromTouch);
+// boolean requestRectangleOnScreen(Rect rectangle);
+// boolean requestRectangleOnScreen(Rect rectangle, boolean immediate);
+// static int resolveSize(int size, int measureSpec);
+// static int resolveSizeAndState(int size, int measureSpec, int childMeasuredState);
+// void scheduleDrawable(Drawable who, Runnable what, long when);
+// void scrollBy(int x, int y);
+// void sendAccessibilityEvent(int eventType);
+// void sendAccessibilityEventUnchecked(AccessibilityEvent event);
+// void setActivated(boolean activated);
+// void setAlpha(float alpha);
+// void setAnimation(Animation animation);
+// void setBackground(Drawable background);
+// final void setBottom(int bottom);
+// void setCameraDistance(float distance);
+// void setContentDescription(CharSequence contentDescription);
+// void setDrawingCacheBackgroundColor(int color);
+// void setDrawingCacheEnabled(boolean enabled);
+// void setDrawingCacheQuality(int quality);
+// void setDuplicateParentStateEnabled(boolean enabled);
+// void setFadingEdgeLength(int length);
+// void setFilterTouchesWhenObscured(boolean enabled);
+// void setFitsSystemWindows(boolean fitSystemWindows);
+// void setFocusableInTouchMode(boolean focusableInTouchMode);
+// void setHapticFeedbackEnabled(boolean hapticFeedbackEnabled);
+// void setHorizontalFadingEdgeEnabled(boolean horizontalFadingEdgeEnabled);
+// void setHorizontalScrollBarEnabled(boolean horizontalScrollBarEnabled);
+// void setHovered(boolean hovered);
+// void setKeepScreenOn(boolean keepScreenOn);
+// void setLayerPaint(Paint paint);
+// void setLayoutDirection(int layoutDirection);
+// final void setLeft(int left);
+// void setLongClickable(boolean longClickable);
+// void setNextFocusDownId(int nextFocusDownId);
+// void setNextFocusForwardId(int nextFocusForwardId);
+// void setNextFocusLeftId(int nextFocusLeftId);
+// void setNextFocusRightId(int nextFocusRightId);
+// void setNextFocusUpId(int nextFocusUpId);
+// void setOnDragListener(View.OnDragListener l);
+// void setOnGenericMotionListener(View.OnGenericMotionListener l);
+// void setOnHoverListener(View.OnHoverListener l);
+// void setOnSystemUiVisibilityChangeListener(View.OnSystemUiVisibilityChangeListener l);
+// void setPaddingRelative(int start, int top, int end, int bottom);
+// void setPivotX(float pivotX);
+// void setPivotY(float pivotY);
+// void setPressed(boolean pressed);
+// final void setRight(int right);
+// void setRotation(float rotation);
+// void setRotationX(float rotationX);
+// void setRotationY(float rotationY);
+// void setSaveEnabled(boolean enabled);
+// void setSaveFromParentEnabled(boolean enabled);
+// void setScaleX(float scaleX);
+// void setScaleY(float scaleY);
+// void setScrollBarDefaultDelayBeforeFade(int scrollBarDefaultDelayBeforeFade);
+// void setScrollBarFadeDuration(int scrollBarFadeDuration);
+// void setScrollBarSize(int scrollBarSize);
+// void setScrollBarStyle(int style);
+// void setScrollContainer(boolean isScrollContainer);
+// void setScrollX(int value);
+// void setScrollY(int value);
+// void setScrollbarFadingEnabled(boolean fadeScrollbars);
+// void setSoundEffectsEnabled(boolean soundEffectsEnabled);
+// void setSystemUiVisibility(int visibility);
+// void setTextAlignment(int textAlignment);
+// void setTextDirection(int textDirection);
+// final void setTop(int top);
+// void setTouchDelegate(TouchDelegate delegate);
+// void setTranslationX(float translationX);
+// void setTranslationY(float translationY);
+// void setVerticalFadingEdgeEnabled(boolean verticalFadingEdgeEnabled);
+// void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled);
+// void setVerticalScrollbarPosition(int position);
+// void setWillNotCacheDrawing(boolean willNotCacheDrawing);
+// void setX(float x);
+// void setY(float y);
+// boolean showContextMenu();
+// ActionMode startActionMode(ActionMode.Callback callback);
+// final boolean startDrag(ClipData data, View.DragShadowBuilder shadowBuilder, Object myLocalState, int flags);
+// String toString();
+// void unscheduleDrawable(Drawable who);
+// void unscheduleDrawable(Drawable who, Runnable what);
+// boolean willNotCacheDrawing();
+// 
+// ***** Protected Methods *****
+// boolean awakenScrollBars(int startDelay);
+// boolean awakenScrollBars(int startDelay, boolean invalidate);
+// boolean awakenScrollBars();
+// int computeHorizontalScrollExtent();
+// int computeHorizontalScrollOffset();
+// int computeHorizontalScrollRange();
+// int computeVerticalScrollExtent();
+// int computeVerticalScrollOffset();
+// int computeVerticalScrollRange();
+// boolean dispatchGenericFocusedEvent(MotionEvent event);
+// boolean dispatchGenericPointerEvent(MotionEvent event);
+// boolean dispatchHoverEvent(MotionEvent event);
+// void dispatchRestoreInstanceState(SparseArray<Parcelable> container);
+// void dispatchSaveInstanceState(SparseArray<Parcelable> container);
+// void dispatchSetActivated(boolean activated);
+// void dispatchSetPressed(boolean pressed);
+// void dispatchSetSelected(boolean selected);
+// void dispatchVisibilityChanged(View changedView, int visibility);
+// void drawableStateChanged();
+// boolean fitSystemWindows(Rect insets);
+// float getBottomFadingEdgeStrength();
+// int getBottomPaddingOffset();
+// ContextMenu.ContextMenuInfo getContextMenuInfo();
+// int getHorizontalScrollbarHeight();
+// float getLeftFadingEdgeStrength();
+// int getLeftPaddingOffset();
+// float getRightFadingEdgeStrength();
+// int getRightPaddingOffset();
+// int getSuggestedMinimumHeight();
+// int getSuggestedMinimumWidth();
+// float getTopFadingEdgeStrength();
+// int getTopPaddingOffset();
+// int getWindowAttachCount();
+// void initializeFadingEdge(TypedArray a);
+// void initializeScrollbars(TypedArray a);
+// boolean isPaddingOffsetRequired();
+// static int[] mergeDrawableStates(int[] baseState, int[] additionalState);
+// void onAnimationEnd();
+// void onAnimationStart();
+// void onConfigurationChanged(Configuration newConfig);
+// int[] onCreateDrawableState(int extraSpace);
+// void onDisplayHint(int hint);
+// final void onDrawScrollBars(Canvas canvas);
+// void onFinishInflate();
+// void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect);
+// void onLayout(boolean changed, int left, int top, int right, int bottom);
+// void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY);
+// void onScrollChanged(int l, int t, int oldl, int oldt);
+// boolean onSetAlpha(int alpha);
+// void onVisibilityChanged(View changedView, int visibility);
+// void onWindowVisibilityChanged(int visibility);
+// boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent);
+// boolean verifyDrawable(Drawable who);
+
 }
 
 class View$OnClickListener{
         void onClick(View arg0);
+}
+
+class ViewGroup {
+
+//addChildrenForAccessibility(ArrayList<View> childrenForAccessibility);
+//Adds the children of a given View for accessibility.
+
+//void addFocusables(ArrayList<View> views, int direction, int focusableMode);
+//Adds any focusable views that are descendants of this view (possibly including this view if it is focusable itself); to views.
+
+//boolean addStatesFromChildren();
+//Returns whether this ViewGroup's drawable states also include its children's drawable states.
+
+//void addTouchables(ArrayList<View> views);
+//Add any touchable views that are descendants of this view (possibly including this view if it is touchable itself); to views.
+
+void addView(@Sink(FlowPermission.DISPLAY) View child, int index, ViewGroup.LayoutParams params);
+//Adds a child view with the specified layout parameters.
+
+void addView(@Sink(FlowPermission.DISPLAY) View child, ViewGroup.LayoutParams params);
+//Adds a child view with the specified layout parameters.
+
+void addView(@Sink(FlowPermission.DISPLAY) View child, int index);
+//Adds a child view.
+
+void addView(@Sink(FlowPermission.DISPLAY) View child);
+//Adds a child view.
+
+void addView(@Sink(FlowPermission.DISPLAY) View child, int width, int height);
+//Adds a child view with this ViewGroup's default layout parameters and the specified width and height.
+
+//void bringChildToFront(View child);
+//Change the z order of the child so it's on top of all other children
+
+//void childDrawableStateChanged(View child);
+//If addStatesFromChildren(); is true, refreshes this group's drawable state (to include the states from its children);.
+
+//void clearChildFocus(View child);
+//Called when a child of this parent is giving up focus
+
+void clearDisappearingChildren();
+//Removes any pending animations for views that have been removed.
+
+//void clearFocus();
+//Called when this view wants to give up focus.
+
+//void dispatchConfigurationChanged(Configuration newConfig);
+//Dispatch a notification about a resource configuration change down the view hierarchy.
+
+//void dispatchDisplayHint(int hint);
+//Dispatch a hint about whether this view is displayed.
+
+//boolean dispatchDragEvent(DragEvent event);
+//Detects if this View is enabled and has a drag event listener.
+
+//boolean dispatchKeyEvent(KeyEvent event);
+//Dispatch a key event to the next view on the focus path.
+
+//boolean dispatchKeyEventPreIme(KeyEvent event);
+//Dispatch a key event before it is processed by any input method associated with the view hierarchy.
+
+//boolean dispatchKeyShortcutEvent(KeyEvent event);
+//Dispatches a key shortcut event.
+
+//void dispatchSetActivated(boolean activated);
+//Dispatch setActivated to all of this View's children.
+
+//void dispatchSetSelected(boolean selected);
+//Dispatch setSelected to all of this View's children.
+
+//void dispatchSystemUiVisibilityChanged(int visible);
+//Dispatch callbacks to setOnSystemUiVisibilityChangeListener(View.OnSystemUiVisibilityChangeListener); down the view hierarchy.
+
+boolean dispatchTouchEvent(MotionEvent ev);
+//Pass the touch screen motion event down to the target view, or this view if it is the target.
+
+//boolean dispatchTrackballEvent(MotionEvent event);
+//Pass a trackball motion event down to the focused view.
+
+//boolean dispatchUnhandledMove(View focused, int direction);
+//This method is the last chance for the focused view and its ancestors to respond to an arrow key.
+
+//void dispatchWindowFocusChanged(boolean hasFocus);
+//Called when the window containing this view gains or loses window focus.
+
+//void dispatchWindowSystemUiVisiblityChanged(int visible);
+//Dispatch callbacks to onWindowSystemUiVisibilityChanged(int); down the view hierarchy.
+
+//void dispatchWindowVisibilityChanged(int visibility);
+//Dispatch a window visibility change down the view hierarchy.
+
+//void endViewTransition(View view);
+//This method should always be called following an earlier call to startViewTransition(View);.
+
+View findFocus();
+//Find the view in the hierarchy rooted at this view that currently has focus.
+
+//void findViewsWithText(ArrayList<View> outViews, CharSequence text, int flags);
+//Finds the Views that contain given text.
+
+//View focusSearch(View focused, int direction);
+//Find the nearest view in the specified direction that wants to take focus.
+
+void focusableViewAvailable(View v);
+//Tells the parent that a new focusable view has become available.
+
+//boolean gatherTransparentRegion(Region region);
+//This is used by the RootView to perform an optimization when the view hierarchy contains one or several SurfaceView.
+
+//ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs);
+//Returns a new set of layout parameters based on the supplied attributes set.
+
+View getChildAt(int index);
+//Returns the view at the specified position in the group.
+
+int getChildCount();
+//Returns the number of children in the group.
+
+//static int getChildMeasureSpec(int spec, int padding, int childDimension);
+//Does the hard part of measureChildren: figuring out the MeasureSpec to pass to a particular child.
+
+//boolean getChildVisibleRect(View child, Rect r, Point offset);
+//Compute the visible part of a rectangular region defined in terms of a child view's coordinates.
+
+int getDescendantFocusability();
+//Gets the descendant focusability of this view group.
+
+//View getFocusedChild();
+//Returns the focused child of this view, if any.
+
+//LayoutAnimationController getLayoutAnimation();
+//Returns the layout animation controller used to animate the group's children.
+
+//Animation.AnimationListener getLayoutAnimationListener();
+//Returns the animation listener to which layout animation events are sent.
+
+//LayoutTransition getLayoutTransition();
+//Gets the LayoutTransition object for this ViewGroup.
+
+//int getPersistentDrawingCache();
+//Returns an integer indicating what types of drawing caches are kept in memory.
+
+//boolean hasFocus();
+//Returns true if this view has or contains focus
+
+//boolean hasFocusable();
+//Returns true if this view is focusable or if it contains a reachable View for which hasFocusable(); returns true.
+
+//int indexOfChild(View child);
+//Returns the position in the group of the specified child view.
+
+//final void invalidateChild(View child, Rect dirty);
+//Don't call or override this method.
+
+//ViewParent invalidateChildInParent(int[] location, Rect dirty);
+//Don't call or override this method.
+
+//boolean isAlwaysDrawnWithCacheEnabled();
+//Indicates whether this ViewGroup will always try to draw its children using their drawing cache.
+
+//boolean isAnimationCacheEnabled();
+//Indicates whether the children's drawing cache is used during a layout animation.
+
+//boolean isMotionEventSplittingEnabled();
+//Returns true if MotionEvents dispatched to this ViewGroup can be split to multiple children.
+
+//void jumpDrawablesToCurrentState();
+//Call Drawable.jumpToCurrentState(); on all Drawable objects associated with this view.
+
+//final void layout(int l, int t, int r, int b);
+//Assign a size and position to a view and all of its descendants
+//This is the second phase of the layout mechanism.
+
+//final void offsetDescendantRectToMyCoords(View descendant, Rect rect);
+//Offset a rectangle that is in a descendant's coordinate space into our coordinate space.
+
+//final void offsetRectIntoDescendantCoords(View descendant, Rect rect);
+//Offset a rectangle that is in our coordinate space into an ancestor's coordinate space.
+
+//boolean onInterceptHoverEvent(MotionEvent event);
+//Implement this method to intercept hover events before they are handled by child views.
+
+//boolean onInterceptTouchEvent(MotionEvent ev);
+//Implement this method to intercept all touch screen motion events.
+
+//boolean onRequestSendAccessibilityEvent(View child, AccessibilityEvent event);
+//Called when a child has requested sending an AccessibilityEvent and gives an opportunity to its parent to augment the event.
+
+//void recomputeViewAttributes(View child);
+//Tell view hierarchy that the global view attributes need to be re-evaluated.
+
+void removeAllViews();
+//Call this method to remove all child views from the ViewGroup.
+
+//void removeAllViewsInLayout();
+//Called by a ViewGroup subclass to remove child views from itself, when it must first know its size on screen before it can calculate how many child views it will render.
+
+//void removeView(View view);
+//Note: do not invoke this method from draw(android.graphics.Canvas);, onDraw(android.graphics.Canvas);, dispatchDraw(android.graphics.Canvas); or any related method.
+
+void removeViewAt(int index);
+//Removes the view at the specified position in the group.
+
+//void removeViewInLayout(View view);
+//Removes a view during layout.
+
+//void removeViews(int start, int count);
+//Removes the specified range of views from the group.
+
+//void removeViewsInLayout(int start, int count);
+//Removes a range of views during layout.
+
+//void requestChildFocus(View child, View focused);
+//Called when a child of this parent wants focus
+
+//boolean requestChildRectangleOnScreen(View child, Rect rectangle, boolean immediate);
+//Called when a child of this group wants a particular rectangle to be positioned onto the screen.
+
+//void requestDisallowInterceptTouchEvent(boolean disallowIntercept);
+//Called when a child does not want this parent and its ancestors to intercept touch events with onInterceptTouchEvent(MotionEvent);.
+
+//boolean requestFocus(int direction, Rect previouslyFocusedRect);
+//Call this to try to give focus to a specific view or to one of its descendants and give it hints about the direction and a specific rectangle that the focus is coming from. Looks for a view to give focus to respecting the setting specified by getDescendantFocusability();.
+
+//boolean requestSendAccessibilityEvent(View child, AccessibilityEvent event);
+//Called by a child to request from its parent to send an AccessibilityEvent.
+
+//void requestTransparentRegion(View child);
+//Called when a child wants the view hierarchy to gather and report transparent regions to the window compositor.
+
+//void scheduleLayoutAnimation();
+//Schedules the layout animation to be played after the next layout pass of this view group.
+
+//void setAddStatesFromChildren(boolean addsStates);
+//Sets whether this ViewGroup's drawable states also include its children's drawable states.
+
+//void setAlwaysDrawnWithCacheEnabled(boolean always);
+//Indicates whether this ViewGroup will always try to draw its children using their drawing cache.
+
+//void setAnimationCacheEnabled(boolean enabled);
+//Enables or disables the children's drawing cache during a layout animation.
+
+//void setClipChildren(boolean clipChildren);
+//By default, children are clipped to their bounds before drawing.
+
+//void setClipToPadding(boolean clipToPadding);
+//By default, children are clipped to the padding of the ViewGroup.
+
+void setDescendantFocusability(int focusability);
+//Set the descendant focusability of this view group.
+
+//void setLayoutAnimation(LayoutAnimationController controller);
+//Sets the layout animation controller used to animate the group's children after the first layout.
+
+//void setLayoutAnimationListener(Animation.AnimationListener animationListener);
+//Specifies the animation listener to which layout animation events must be sent.
+
+void setLayoutTransition(LayoutTransition transition);
+//Sets the LayoutTransition object for this ViewGroup.
+
+//void setMotionEventSplittingEnabled(boolean split);
+//Enable or disable the splitting of MotionEvents to multiple children during touch event dispatch.
+
+//void setOnHierarchyChangeListener(ViewGroup.OnHierarchyChangeListener listener);
+//Register a callback to be invoked when a child is added to or removed from this view.
+
+//void setPersistentDrawingCache(int drawingCacheToKeep);
+//Indicates what types of drawing caches should be kept in memory after they have been created.
+
+//boolean shouldDelayChildPressedState();
+//Return true if the pressed state should be delayed for children or descendants of this ViewGroup.
+
+//boolean showContextMenuForChild(View originalView);
+//Bring up a context menu for the specified view or its ancestors.
+
+//ActionMode startActionModeForChild(View originalView, ActionMode.Callback callback);
+//Start an action mode for the specified view.
+
+//void startLayoutAnimation();
+//Runs the layout animation.
+
+//void startViewTransition(View view);
+//This method tells the ViewGroup that the given View object, which should have this ViewGroup as its parent, should be kept around (re-displayed when the ViewGroup draws its children); even if it is removed from its parent.
+
+//void updateViewLayout(View view, ViewGroup.LayoutParams params);
+//Protected Methods
+
+boolean addViewInLayout(View child, int index, ViewGroup.LayoutParams params, boolean preventRequestLayout);
+//Adds a view during layout.
+
+boolean addViewInLayout(View child, int index, ViewGroup.LayoutParams params);
+//Adds a view during layout.
+
+//void attachLayoutAnimationParameters(View child, ViewGroup.LayoutParams params, int index, int count);
+//Subclasses should override this method to set layout animation parameters on the supplied child.
+
+//void attachViewToParent(View child, int index, ViewGroup.LayoutParams params);
+//Attaches a view to this view group.
+
+//boolean canAnimate();
+//Indicates whether the view group has the ability to animate its children after the first layout.
+
+//boolean checkLayoutParams(ViewGroup.LayoutParams p);
+
+//void cleanupLayoutState(View child);
+//Prevents the specified child to be laid out during the next layout pass.
+
+//void debug(int depth);
+//Prints information about this view in the log output, with the tag VIEW_LOG_TAG.
+
+//void detachAllViewsFromParent();
+//Detaches all views from the parent.
+
+//void detachViewFromParent(View child);
+//Detaches a view from its parent.
+
+//void detachViewFromParent(int index);
+//Detaches a view from its parent.
+
+//void detachViewsFromParent(int start, int count);
+//Detaches a range of views from their parents.
+
+void dispatchDraw(Canvas canvas);
+//Called by draw to draw the child views.
+
+//void dispatchFreezeSelfOnly(SparseArray<Parcelable> container);
+//Perform dispatching of a saveHierarchyState(android.util.SparseArray); freeze();} to only this view, not to its children.
+
+//boolean dispatchGenericFocusedEvent(MotionEvent event);
+//Dispatch a generic motion event to the currently focused view.
+
+//boolean dispatchGenericPointerEvent(MotionEvent event);
+//Dispatch a generic motion event to the view under the first pointer.
+
+//boolean dispatchHoverEvent(MotionEvent event);
+//Dispatch a hover event.
+
+//void dispatchRestoreInstanceState(SparseArray<Parcelable> container);
+//Called by restoreHierarchyState(android.util.SparseArray); to retrieve the state for this view and its children.
+
+//void dispatchSaveInstanceState(SparseArray<Parcelable> container);
+//Called by saveHierarchyState(android.util.SparseArray); to store the state for this view and its children.
+
+//void dispatchSetPressed(boolean pressed);
+//Dispatch setPressed to all of this View's children.
+
+//void dispatchThawSelfOnly(SparseArray<Parcelable> container);
+//Perform dispatching of a restoreHierarchyState(android.util.SparseArray); to only this view, not to its children.
+
+//void dispatchVisibilityChanged(View changedView, int visibility);
+//Dispatch a view visibility change down the view hierarchy.
+
+//boolean drawChild(Canvas canvas, View child, long drawingTime);
+//Draw one child of this View Group.
+
+//void drawableStateChanged();
+//This function is called whenever the state of the view changes in such a way that it impacts the state of drawables being shown.
+
+//boolean fitSystemWindows(Rect insets);
+//Called by the view hierarchy when the content insets for a window have changed, to allow it to adjust its content to fit within those windows.
+
+//ViewGroup.LayoutParams generateDefaultLayoutParams();
+//Returns a set of default layout parameters.
+
+//ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
+//Returns a safe set of layout parameters based on the supplied layout params.
+
+//int getChildDrawingOrder(int childCount, int i);
+//Returns the index of the child to draw for this iteration.
+
+//boolean getChildStaticTransformation(View child, Transformation t);
+//Sets t to be the static transformation of the child, if set, returning a boolean to indicate whether a static transform was set.
+
+//boolean isChildrenDrawingOrderEnabled();
+//Indicates whether the ViewGroup is drawing its children in the order defined by getChildDrawingOrder(int, int);.
+
+//boolean isChildrenDrawnWithCacheEnabled();
+//Indicates whether the ViewGroup is currently drawing its children using their drawing cache.
+
+//void measureChild(View child, int parentWidthMeasureSpec, int parentHeightMeasureSpec);
+//Ask one of the children of this view to measure itself, taking into account both the MeasureSpec requirements for this view and its padding.
+
+//void measureChildWithMargins(View child, int parentWidthMeasureSpec, int widthUsed, int parentHeightMeasureSpec, int heightUsed);
+//Ask one of the children of this view to measure itself, taking into account both the MeasureSpec requirements for this view and its padding and margins.
+
+//void measureChildren(int widthMeasureSpec, int heightMeasureSpec);
+//Ask all of the children of this view to measure themselves, taking into account both the MeasureSpec requirements for this view and its padding.
+
+//void onAnimationEnd();
+//Invoked by a parent ViewGroup to notify the end of the animation currently associated with this view.
+
+//void onAnimationStart();
+//Invoked by a parent ViewGroup to notify the start of the animation currently associated with this view.
+
+//int[] onCreateDrawableState(int extraSpace);
+//Generate the new Drawable state for this view.
+
+//abstract void onLayout(boolean changed, int l, int t, int r, int b);
+//Called from layout when this view should assign a size and position to each of its children.
+
+//boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect);
+//Look for a descendant to call requestFocus(); on.
+
+//void removeDetachedView(View child, boolean animate);
+//Finishes the removal of a detached view.
+
+//void setChildrenDrawingCacheEnabled(boolean enabled);
+//Enables or disables the drawing cache for each child of this view group.
+
+//void setChildrenDrawingOrderEnabled(boolean enabled);
+//Tells the ViewGroup whether to draw its children in the order defined by the method getChildDrawingOrder(int, int);.
+
+//void setChildrenDrawnWithCacheEnabled(boolean enabled);
+//Tells the ViewGroup to draw its children using their drawing cache.
+
+//void setStaticTransformationsEnabled(boolean enabled);
+//When this property is set to true, this ViewGroup supports static transformations on children; this causes getChildStaticTransformation(View, android.view.animation.Transformation); to be invoked when a child is drawn.
+
+}
+
+class ViewParent {
+ 
+//abstract void bringChildToFront(View child);
+//Change the z order of the child so it's on top of all other children
+
+//abstract void childDrawableStateChanged(View child);
+//This method is called on the parent when a child's drawable state has changed.
+
+//abstract void clearChildFocus(View child);
+//Called when a child of this parent is giving up focus
+
+//abstract void createContextMenu(ContextMenu menu);
+//Have the parent populate the specified context menu if it has anything to add (and then recurse on its parent);.
+
+//abstract View focusSearch(View v, int direction);
+//Find the nearest view in the specified direction that wants to take focus
+
+//abstract void focusableViewAvailable(View v);
+//Tells the parent that a new focusable view has become available.
+
+//abstract boolean getChildVisibleRect(View child, Rect r, Point offset);
+//Compute the visible part of a rectangular region defined in terms of a child view's coordinates.
+
+//abstract ViewParent getParent();
+//Returns the parent if it exists, or null.
+
+//abstract ViewParent getParentForAccessibility();
+//Gets the parent of a given View for accessibility.
+
+//abstract void invalidateChild(View child, Rect r);
+//All or part of a child is dirty and needs to be redrawn.
+
+//abstract ViewParent invalidateChildInParent(int[] location, Rect r);
+//All or part of a child is dirty and needs to be redrawn.
+
+//abstract boolean isLayoutRequested();
+//Indicates whether layout was requested on this view parent.
+
+//abstract void recomputeViewAttributes(View child);
+//Tell view hierarchy that the global view attributes need to be re-evaluated.
+
+//abstract void requestChildFocus(View child, View focused);
+//Called when a child of this parent wants focus
+
+//abstract boolean requestChildRectangleOnScreen(View child, Rect rectangle, boolean immediate);
+//Called when a child of this group wants a particular rectangle to be positioned onto the screen.
+
+//abstract void requestDisallowInterceptTouchEvent(boolean disallowIntercept);
+//Called when a child does not want this parent and its ancestors to intercept touch events with onInterceptTouchEvent(MotionEvent);.
+
+//abstract void requestFitSystemWindows();
+//Ask that a new dispatch of View.fitSystemWindows(Rect); be performed.
+
+abstract void requestLayout();
+//Called when something has changed which has invalidated the layout of a child of this view parent.
+
+//abstract boolean requestSendAccessibilityEvent(View child, AccessibilityEvent event);
+//Called by a child to request from its parent to send an AccessibilityEvent.
+
+//abstract void requestTransparentRegion(View child);
+//Called when a child wants the view hierarchy to gather and report transparent regions to the window compositor.
+
+//abstract boolean showContextMenuForChild(View originalView);
+//Bring up a context menu for the specified view or its ancestors.
+
+//abstract ActionMode startActionModeForChild(View originalView, ActionMode.Callback callback);
+//Start an action mode for the specified view.
 }
 
 

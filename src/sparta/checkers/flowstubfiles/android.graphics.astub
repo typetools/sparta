@@ -481,141 +481,207 @@ Typeface setTypeface(Typeface typeface);
 
 
 //UNUSED AND UNANNOTATED
-float ascent();
+//float ascent();
 //Return the distance above (negative); the baseline (ascent); based on the current typeface and text size.
-int breakText(CharSequence text, int start, int end, boolean measureForwards, float maxWidth, float[] measuredWidth);
+
+//int breakText(CharSequence text, int start, int end, boolean measureForwards, float maxWidth, float[] measuredWidth);
 //Measure the text, stopping early if the measured width exceeds maxWidth.
-int breakText(String text, boolean measureForwards, float maxWidth, float[] measuredWidth);
+
+//int breakText(String text, boolean measureForwards, float maxWidth, float[] measuredWidth);
 //Measure the text, stopping early if the measured width exceeds maxWidth.
-int breakText(char[] text, int index, int count, float maxWidth, float[] measuredWidth);
+
+//int breakText(char[] text, int index, int count, float maxWidth, float[] measuredWidth);
 //Measure the text, stopping early if the measured width exceeds maxWidth.
-void clearShadowLayer();
+
+//void clearShadowLayer();
 //Clear the shadow layer.
-float descent();
+
+//float descent();
 //Return the distance below (positive); the baseline (descent); based on the current typeface and text size.
-int getAlpha();
+
+//int getAlpha();
 //Helper to getColor(); that just returns the color's alpha value.
-int getColor();
+
+//int getColor();
 //Return the paint's color.
-ColorFilter getColorFilter();
+
+//ColorFilter getColorFilter();
 //Get the paint's colorfilter (maybe be null);.
-boolean getFillPath(Path src, Path dst);
+
+//boolean getFillPath(Path src, Path dst);
 //Applies any/all effects (patheffect, stroking); to src, returning the result in dst.
-float getFontMetrics(Paint.FontMetrics metrics);
+
+//float getFontMetrics(Paint.FontMetrics metrics);
 //Return the font's recommended interline spacing, given the Paint's settings for typeface, textSize, etc.
-Paint.FontMetrics getFontMetrics();
+
+//Paint.FontMetrics getFontMetrics();
 //Allocates a new FontMetrics object, and then calls getFontMetrics(fm); with it, returning the object.
-Paint.FontMetricsInt getFontMetricsInt();
-int getFontMetricsInt(Paint.FontMetricsInt fmi);
+
+//Paint.FontMetricsInt getFontMetricsInt();
+
+//int getFontMetricsInt(Paint.FontMetricsInt fmi);
 //Return the font's interline spacing, given the Paint's settings for typeface, textSize, etc.
-float getFontSpacing();
+
+//float getFontSpacing();
 //Return the recommend line spacing based on the current typeface and text size.
-int getHinting();
+
+//int getHinting();
 //Return the paint's hinting mode.
-MaskFilter getMaskFilter();
+
+//MaskFilter getMaskFilter();
 //Get the paint's maskfilter object.
-PathEffect getPathEffect();
+
+//PathEffect getPathEffect();
 //Get the paint's patheffect object.
-Rasterizer getRasterizer();
+
+//Rasterizer getRasterizer();
 //Get the paint's rasterizer (or null);.
-Shader getShader();
+
+//Shader getShader();
 //Get the paint's shader object.
-Paint.Cap getStrokeCap();
+
+//Paint.Cap getStrokeCap();
 //Return the paint's Cap, controlling how the start and end of stroked lines and paths are treated.
-Paint.Join getStrokeJoin();
+
+//Paint.Join getStrokeJoin();
 //Return the paint's stroke join type.
-float getStrokeMiter();
+
+//float getStrokeMiter();
 //Return the paint's stroke miter value.
-float getStrokeWidth();
+
+//float getStrokeWidth();
 //Return the width for stroking.
-Paint.Style getStyle();
+
+//Paint.Style getStyle();
 //Return the paint's style, used for controlling how primitives' geometries are interpreted (except for drawBitmap, which always assumes FILL_STYLE);.
-Paint.Align getTextAlign();
+
+//Paint.Align getTextAlign();
 //Return the paint's Align value for drawing text.
-void getTextBounds(char[] text, int index, int count, Rect bounds);
+
+//void getTextBounds(char[] text, int index, int count, Rect bounds);
 //Return in bounds (allocated by the caller); the smallest rectangle that encloses all of the characters, with an implied origin at (0,0);.
-void getTextBounds(String text, int start, int end, Rect bounds);
+
+//void getTextBounds(String text, int start, int end, Rect bounds);
 //Return in bounds (allocated by the caller); the smallest rectangle that encloses all of the characters, with an implied origin at (0,0);.
-Locale getTextLocale();
+
+//Locale getTextLocale();
 //Get the text Locale.
-void getTextPath(String text, int start, int end, float x, float y, Path path);
+
+//void getTextPath(String text, int start, int end, float x, float y, Path path);
 //Return the path (outline); for the specified text.
-void getTextPath(char[] text, int index, int count, float x, float y, Path path);
+
+//void getTextPath(char[] text, int index, int count, float x, float y, Path path);
 //Return the path (outline); for the specified text.
-float getTextScaleX();
+
+//float getTextScaleX();
 //Return the paint's horizontal scale factor for text.
-float getTextSize();
+
+//float getTextSize();
 //Return the paint's text size.
-float getTextSkewX();
+
+//float getTextSkewX();
 //Return the paint's horizontal skew factor for text.
-int getTextWidths(String text, float[] widths);
+
+//int getTextWidths(String text, float[] widths);
 //Return the advance widths for the characters in the string.
-int getTextWidths(CharSequence text, int start, int end, float[] widths);
+
+//int getTextWidths(CharSequence text, int start, int end, float[] widths);
 //Return the advance widths for the characters in the string.
-int getTextWidths(String text, int start, int end, float[] widths);
+
+//int getTextWidths(String text, int start, int end, float[] widths);
 //Return the advance widths for the characters in the string.
-int getTextWidths(char[] text, int index, int count, float[] widths);
+
+//int getTextWidths(char[] text, int index, int count, float[] widths);
 //Return the advance widths for the characters in the string.
-Typeface getTypeface();
+
+//Typeface getTypeface();
 //Get the paint's typeface object.
-Xfermode getXfermode();
+
+//Xfermode getXfermode();
 //Get the paint's xfermode object.
-final boolean isAntiAlias();
+
+//final boolean isAntiAlias();
 //Helper for getFlags();, returning true if ANTI_ALIAS_FLAG bit is set AntiAliasing smooths out the edges of what is being drawn, but is has no impact on the interior of the shape.
-final boolean isDither();
+
+//final boolean isDither();
 //Helper for getFlags();, returning true if DITHER_FLAG bit is set Dithering affects how colors that are higher precision than the device are down-sampled.
-final boolean isFakeBoldText();
+
+//final boolean isFakeBoldText();
 //Helper for getFlags();, returning true if FAKE_BOLD_TEXT_FLAG bit is set
-final boolean isFilterBitmap();
+
+//final boolean isFilterBitmap();
 //Whether or not the bitmap filter is activated.
-final boolean isLinearText();
+
+//final boolean isLinearText();
 //Helper for getFlags();, returning true if LINEAR_TEXT_FLAG bit is set
-final boolean isStrikeThruText();
+
+//final boolean isStrikeThruText();
 //Helper for getFlags();, returning true if STRIKE_THRU_TEXT_FLAG bit is set
-final boolean isSubpixelText();
+
+//final boolean isSubpixelText();
 //Helper for getFlags();, returning true if SUBPIXEL_TEXT_FLAG bit is set
-final boolean isUnderlineText();
+
+//final boolean isUnderlineText();
 //Helper for getFlags();, returning true if UNDERLINE_TEXT_FLAG bit is set
-void reset();
+
+//void reset();
 //Restores the paint to its default settings.
-void set(Paint src);
+
+//void set(Paint src);
 //Copy the fields from src into this paint.
-void setARGB(int a, int r, int g, int b);
+
+//void setARGB(int a, int r, int g, int b);
 //Helper to setColor();, that takes a,r,g,b and constructs the color int
-ColorFilter setColorFilter(ColorFilter filter);
+
+//ColorFilter setColorFilter(ColorFilter filter);
 //Set or clear the paint's colorfilter, returning the parameter.
-void setFlags(int flags);
+
+//void setFlags(int flags);
 //Set the paint's flags.
-void setHinting(int mode);
+
+//void setHinting(int mode);
 //Set the paint's hinting mode.
-void setLinearText(boolean linearText);
+
+//void setLinearText(boolean linearText);
 //Helper for setFlags();, setting or clearing the LINEAR_TEXT_FLAG bit
-MaskFilter setMaskFilter(MaskFilter maskfilter);
+
+//MaskFilter setMaskFilter(MaskFilter maskfilter);
 //Set or clear the maskfilter object.
-PathEffect setPathEffect(PathEffect effect);
+
+//PathEffect setPathEffect(PathEffect effect);
 //Set or clear the patheffect object.
-Rasterizer setRasterizer(Rasterizer rasterizer);
+
+//Rasterizer setRasterizer(Rasterizer rasterizer);
 //Set or clear the rasterizer object.
-void setShadowLayer(float radius, float dx, float dy, int color);
+
+//void setShadowLayer(float radius, float dx, float dy, int color);
 //This draws a shadow layer below the main layer, with the specified offset and color, and blur radius.
-void setStrikeThruText(boolean strikeThruText);
+
+//void setStrikeThruText(boolean strikeThruText);
 //Helper for setFlags();, setting or clearing the STRIKE_THRU_TEXT_FLAG bit
-void setStrokeMiter(float miter);
+
+//void setStrokeMiter(float miter);
 //Set the paint's stroke miter value.
-void setSubpixelText(boolean subpixelText);
+
+//void setSubpixelText(boolean subpixelText);
 //Helper for setFlags();, setting or clearing the SUBPIXEL_TEXT_FLAG bit
-void setTextLocale(Locale locale);
+
+//void setTextLocale(Locale locale);
 //Set the text locale.
-void setTextScaleX(float scaleX);
+
+//void setTextScaleX(float scaleX);
 //Set the paint's horizontal scale factor for text.
-void setTextSkewX(float skewX);
+
+//void setTextSkewX(float skewX);
 //Set the paint's horizontal skew factor for text.
-void setUnderlineText(boolean underlineText);
+
+//void setUnderlineText(boolean underlineText);
 //Helper for setFlags();, setting or clearing the UNDERLINE_TEXT_FLAG bit
-Xfermode setXfermode(Xfermode xfermode);
+
+//Xfermode setXfermode(Xfermode xfermode);
 //Set or clear the xfermode object.
     
 //Protected methods
-void finalize();
+//void finalize();
 
 }

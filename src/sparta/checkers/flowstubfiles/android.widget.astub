@@ -1,6 +1,593 @@
 
 package android.widget;
 
+class AbsListView {
+//void addTouchables(ArrayList<View> views);
+//Add any touchable views that are descendants of this view (possibly including this view if it is touchable itself); to views.
+
+//void afterTextChanged(Editable s);
+//For our text watcher that is associated with the text filter.
+
+//void beforeTextChanged(CharSequence s, int start, int count, int after);
+//For our text watcher that is associated with the text filter.
+
+//boolean checkInputConnectionProxy(View view);
+//For filtering we proxy an input connection to an internal text editor, and this allows the proxying to happen.
+
+void clearChoices();
+//Clear any choices previously set
+
+//void clearTextFilter();
+//Clear the text filter.
+
+//void deferNotifyDataSetChanged();
+//This defers a notifyDataSetChanged on the pending RemoteViewsAdapter if it has not connected yet.
+
+//void draw(Canvas canvas);
+//Manually render this view (and all of its children); to the given Canvas.
+
+//AbsListView.LayoutParams generateLayoutParams(AttributeSet attrs);
+//Returns a new set of layout parameters based on the supplied attributes set.
+
+//int getCacheColorHint();
+//When set to a non-zero value, the cache color hint indicates that this list is always drawn on top of a solid, single-color, opaque background
+
+//int getCheckedItemCount();
+//Returns the number of items currently selected.
+
+//long[] getCheckedItemIds();
+//Returns the set of checked items ids.
+
+int getCheckedItemPosition();
+//Returns the currently checked item.
+
+SparseBooleanArray getCheckedItemPositions();
+//Returns the set of checked items in the list.
+
+int getChoiceMode();
+
+//void getFocusedRect(Rect r);
+//When a view has focus and the user navigates away from it, the next view is searched for starting from the rectangle filled in by this method.
+
+//int getListPaddingBottom();
+//List padding is the maximum of the normal view's padding and the padding of the selector.
+
+//int getListPaddingLeft();
+//List padding is the maximum of the normal view's padding and the padding of the selector.
+
+//int getListPaddingRight();
+//List padding is the maximum of the normal view's padding and the padding of the selector.
+
+//int getListPaddingTop();
+//List padding is the maximum of the normal view's padding and the padding of the selector.
+
+//View getSelectedView();
+
+//Drawable getSelector();
+//Returns the selector Drawable that is used to draw the selection in the list.
+
+//int getSolidColor();
+//Override this if your view is known to always be drawn on top of a solid color background, and needs to draw fading edges.
+
+//CharSequence getTextFilter();
+//Returns the list's text filter, if available.
+
+//int getTranscriptMode();
+//Returns the current transcript mode.
+
+//int getVerticalScrollbarWidth();
+//Returns the width of the vertical scrollbar.
+
+//boolean hasTextFilter();
+//Returns if the ListView currently has a text filter.
+
+//void invalidateViews();
+//Causes all the views to be rebuilt and redrawn.
+
+//boolean isFastScrollAlwaysVisible();
+//Returns true if the fast scroller is set to always show on this view rather than fade out when not in use.
+
+//boolean isFastScrollEnabled();
+//Returns the current state of the fast scroll feature.
+
+//boolean isItemChecked(int position);
+//Returns the checked state of the specified position.
+
+//boolean isScrollingCacheEnabled();
+//Indicates whether the children's drawing cache is used during a scroll.
+
+//boolean isSmoothScrollbarEnabled();
+//Returns the current state of the fast scroll feature.
+
+//boolean isStackFromBottom();
+//Indicates whether the content of this view is pinned to, or stacked from, the bottom edge.
+
+//boolean isTextFilterEnabled();
+//Indicates whether type filtering is enabled for this view
+
+//void jumpDrawablesToCurrentState();
+//Call Drawable.jumpToCurrentState(); on all Drawable objects associated with this view.
+
+//InputConnection onCreateInputConnection(EditorInfo outAttrs);
+//Return an InputConnection for editing of the filter text.
+
+//void onFilterComplete(int count);
+//Notifies the end of a filtering operation.
+
+//boolean onGenericMotionEvent(MotionEvent event);
+//Implement this method to handle generic motion events.
+
+//void onGlobalLayout();
+//Callback method to be invoked when the global layout state or the visibility of views within the view tree changes
+
+//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+//boolean onInterceptTouchEvent(MotionEvent ev);
+//Implement this method to intercept all touch screen motion events.
+
+//boolean onKeyDown(int keyCode, KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyDown();: perform press of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released, if the view is enabled and clickable.
+
+//boolean onKeyUp(int keyCode, KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyUp();: perform clicking of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released.
+
+//boolean onRemoteAdapterConnected();
+//Called back when the adapter connects to the RemoteViewsService.
+
+//void onRemoteAdapterDisconnected();
+//Called back when the adapter disconnects from the RemoteViewsService.
+
+//void onRestoreInstanceState(Parcelable state);
+//Hook allowing a view to re-apply a representation of its internal state that had previously been generated by onSaveInstanceState();.
+
+//Parcelable onSaveInstanceState();
+//Hook allowing a view to generate a representation of its internal state that can later be used to create a new instance with that same state.
+
+//void onTextChanged(CharSequence s, int start, int before, int count);
+//For our text watcher that is associated with the text filter.
+
+//boolean onTouchEvent(MotionEvent ev);
+//Implement this method to handle touch screen motion events.
+
+//void onTouchModeChanged(boolean isInTouchMode);
+//Callback method to be invoked when the touch mode changes.
+
+//void onWindowFocusChanged(boolean hasWindowFocus);
+//Called when the window containing this view gains or loses focus.
+
+//boolean performAccessibilityAction(int action, Bundle arguments);
+//Performs the specified accessibility action on the view.
+
+//boolean performItemClick(View view, int position, long id);
+//Call the OnItemClickListener, if it is defined.
+
+//int pointToPosition(int x, int y);
+//Maps a point to a position in the list.
+
+//long pointToRowId(int x, int y);
+//Maps a point to a the rowId of the item which intersects that point.
+
+//void reclaimViews(List<View> views);
+//Move all views (excluding headers and footers); held by this AbsListView into the supplied List.
+
+//void requestDisallowInterceptTouchEvent(boolean disallowIntercept);
+//Called when a child does not want this parent and its ancestors to intercept touch events with onInterceptTouchEvent(MotionEvent);.
+
+//void requestLayout();
+//Call this when something has changed which has invalidated the layout of this view.
+
+//void sendAccessibilityEvent(int eventType);
+//Sends an accessibility event of the given type.
+
+//void setAdapter(ListAdapter adapter);
+//Sets the adapter that provides the data and the views to represent the data in this widget.
+
+//void setCacheColorHint(int color);
+//When set to a non-zero value, the cache color hint indicates that this list is always drawn on top of a solid, single-color, opaque background.
+
+void setChoiceMode(int choiceMode);
+//Defines the choice behavior for the List.
+
+void setDrawSelectorOnTop(boolean onTop);
+//Controls whether the selection highlight drawable should be drawn on top of the item or behind it.
+
+//void setFastScrollAlwaysVisible(boolean alwaysShow);
+//Set whether or not the fast scroller should always be shown in place of the standard scrollbars.
+
+//void setFastScrollEnabled(boolean enabled);
+//Enables fast scrolling by letting the user quickly scroll through lists by dragging the fast scroll thumb.
+
+//void setFilterText(String filterText);
+//Sets the initial value for the text filter.
+
+//void setFriction(float friction);
+//The amount of friction applied to flings.
+
+void setItemChecked(int position, boolean value);
+//Sets the checked state of the specified position.
+
+//void setMultiChoiceModeListener(AbsListView.MultiChoiceModeListener listener);
+//Set a AbsListView.MultiChoiceModeListener that will manage the lifecycle of the selection ActionMode.
+
+void setOnScrollListener(AbsListView.OnScrollListener l);
+//Set the listener that will receive notifications every time the list scrolls.
+
+//void setOverScrollMode(int mode);
+//Set the over-scroll mode for this view.
+
+//void setRecyclerListener(AbsListView.RecyclerListener listener);
+//Sets the recycler listener to be notified whenever a View is set aside in the recycler for later reuse.
+
+//void setRemoteViewsAdapter(Intent intent);
+//Sets up this AbsListView to use a remote views adapter which connects to a RemoteViewsService through the specified intent.
+
+//void setScrollIndicators(View up, View down);
+
+//void setScrollingCacheEnabled(boolean enabled);
+//Enables or disables the children's drawing cache during a scroll.
+
+//void setSelector(Drawable sel);
+
+//void setSelector(int resID);
+//Set a Drawable that should be used to highlight the currently selected item.
+
+//void setSmoothScrollbarEnabled(boolean enabled);
+//When smooth scrollbar is enabled, the position and size of the scrollbar thumb is computed based on the number of visible pixels in the visible items.
+
+void setStackFromBottom(boolean stackFromBottom);
+//When stack from bottom is set to true, the list fills its content starting from the bottom of the view.
+
+void setTextFilterEnabled(boolean textFilterEnabled);
+//Enables or disables the type filter window.
+
+void setTranscriptMode(int mode);
+//Puts the list or grid into transcript mode.
+
+//void setVelocityScale(float scale);
+//Sets a scale factor for the fling velocity.
+
+//void setVerticalScrollbarPosition(int position);
+//Set the position of the vertical scroll bar.
+
+//boolean showContextMenuForChild(View originalView);
+//Bring up a context menu for the specified view or its ancestors.
+
+//void smoothScrollBy(int distance, int duration);
+//Smoothly scroll by distance pixels over duration milliseconds.
+
+//void smoothScrollToPosition(int position);
+//Smoothly scroll to the specified adapter position.
+
+//void smoothScrollToPosition(int position, int boundPosition);
+//Smoothly scroll to the specified adapter position.
+
+//void smoothScrollToPositionFromTop(int position, int offset, int duration);
+//Smoothly scroll to the specified adapter position.
+
+//void smoothScrollToPositionFromTop(int position, int offset);
+//Smoothly scroll to the specified adapter position.
+
+//boolean verifyDrawable(Drawable dr);
+//If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
+
+
+//PROTECTED
+//boolean checkLayoutParams(ViewGroup.LayoutParams p);
+
+//int computeVerticalScrollExtent();
+//Compute the vertical extent of the horizontal scrollbar's thumb within the vertical range.
+
+//int computeVerticalScrollOffset();
+//Compute the vertical offset of the vertical scrollbar's thumb within the horizontal range.
+
+//int computeVerticalScrollRange();
+//Compute the vertical range that the vertical scrollbar represents.
+
+//void dispatchDraw(Canvas canvas);
+//Called by draw to draw the child views.
+
+//void dispatchSetPressed(boolean pressed);
+//Dispatch setPressed to all of this View's children.
+
+//void drawableStateChanged();
+//This function is called whenever the state of the view changes in such a way that it impacts the state of drawables being shown.
+
+//ViewGroup.LayoutParams generateDefaultLayoutParams();
+//Returns a set of default layout parameters.
+
+//ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
+//Returns a safe set of layout parameters based on the supplied layout params.
+
+//float getBottomFadingEdgeStrength();
+//Returns the strength, or intensity, of the bottom faded edge.
+
+//int getBottomPaddingOffset();
+//Amount by which to extend the bottom fading region.
+
+//ContextMenu.ContextMenuInfo getContextMenuInfo();
+//Views should implement this if they have extra information to associate with the context menu.
+
+//int getLeftPaddingOffset();
+//Amount by which to extend the left fading region.
+
+//int getRightPaddingOffset();
+//Amount by which to extend the right fading region.
+
+//float getTopFadingEdgeStrength();
+//Returns the strength, or intensity, of the top faded edge.
+
+//int getTopPaddingOffset();
+//Amount by which to extend the top fading region.
+
+//void handleDataChanged();
+
+//boolean isInFilterMode();
+//Indicates whether this view is in filter mode.
+
+//boolean isPaddingOffsetRequired();
+//If the View draws content inside its padding and enables fading edges, it needs to support padding offsets.
+
+//void layoutChildren();
+//Subclasses must override this method to layout their children.
+
+//void onAttachedToWindow();
+//This is called when the view is attached to a window.
+
+//int[] onCreateDrawableState(int extraSpace);
+//Generate the new Drawable state for this view.
+
+//void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+//void onDisplayHint(int hint);
+//Gives this view a hint about whether is displayed or not.
+
+//void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect);
+//Called by the view system when the focus state of this view changes.
+
+//void onLayout(boolean changed, int l, int t, int r, int b);
+//Subclasses should NOT override this method but layoutChildren(); instead.
+
+//void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+//void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY);
+//Called by overScrollBy(int, int, int, int, int, int, int, int, boolean); to respond to the results of an over-scroll operation.
+
+//void onSizeChanged(int w, int h, int oldw, int oldh);
+//This is called during layout when the size of this view has changed.
+
+
+}
+
+class AdapterView {
+
+//void addView(View child);
+//This method is not supported and throws an UnsupportedOperationException when called.
+
+//void addView(View child, int index);
+//This method is not supported and throws an UnsupportedOperationException when called.
+
+//void addView(View child, int index, ViewGroup.LayoutParams params);
+//This method is not supported and throws an UnsupportedOperationException when called.
+
+//void addView(View child, ViewGroup.LayoutParams params);
+//This method is not supported and throws an UnsupportedOperationException when called.
+
+//boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
+//Dispatches an AccessibilityEvent to the View first and then to its children for adding their text content to the event.
+
+//abstract T getAdapter();
+//Returns the adapter currently associated with this widget.
+
+//int getCount();
+
+//View getEmptyView();
+//When the current adapter is empty, the AdapterView can display a special view call the empty view.
+
+//int getFirstVisiblePosition();
+//Returns the position within the adapter's data set for the first item displayed on screen.
+
+//Object getItemAtPosition(int position);
+//Gets the data associated with the specified position in the list.
+
+//long getItemIdAtPosition(int position);
+
+//int getLastVisiblePosition();
+//Returns the position within the adapter's data set for the last item displayed on screen.
+
+//final AdapterView.OnItemClickListener getOnItemClickListener();
+
+//final AdapterView.OnItemLongClickListener getOnItemLongClickListener();
+
+//final AdapterView.OnItemSelectedListener getOnItemSelectedListener();
+
+//int getPositionForView(View view);
+//Get the position within the adapter's data set for the view, where view is a an adapter item or a descendant of an adapter item.
+
+//Object getSelectedItem();
+
+long getSelectedItemId();
+
+int getSelectedItemPosition();
+//Return the position of the currently selected item within the adapter's data set
+
+//abstract View getSelectedView();
+
+//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+//boolean onRequestSendAccessibilityEvent(View child, AccessibilityEvent event);
+//Called when a child has requested sending an AccessibilityEvent and gives an opportunity to its parent to augment the event.
+
+//boolean performItemClick(View view, int position, long id);
+//Call the OnItemClickListener, if it is defined.
+
+//void removeAllViews();
+//This method is not supported and throws an UnsupportedOperationException when called.
+
+//void removeView(View child);
+//This method is not supported and throws an UnsupportedOperationException when called.
+
+//void removeViewAt(int index);
+//This method is not supported and throws an UnsupportedOperationException when called.
+
+//abstract void setAdapter(T adapter);
+//Sets the adapter that provides the data and the views to represent the data in this widget.
+
+void setEmptyView(@Sink(FlowPermission.DISPLAY) View emptyView);
+//Sets the view to show if the adapter is empty
+
+//void setFocusable(boolean focusable);
+//Set whether this view can receive the focus.
+
+//void setFocusableInTouchMode(boolean focusable);
+//Set whether this view can receive focus while in touch mode.
+
+//void setOnClickListener(View.OnClickListener l);
+//Register a callback to be invoked when this view is clicked.
+
+void setOnItemClickListener(AdapterView.OnItemClickListener listener);
+//Register a callback to be invoked when an item in this AdapterView has been clicked.
+
+void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener);
+//Register a callback to be invoked when an item in this AdapterView has been clicked and held
+
+//void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
+//Register a callback to be invoked when an item in this AdapterView has been selected.
+
+//abstract void setSelection(int position);
+//Sets the currently selected item.
+
+
+//PROTECTED
+//boolean canAnimate();
+//Indicates whether the view group has the ability to animate its children after the first layout.
+
+//void dispatchRestoreInstanceState(SparseArray<Parcelable> container);
+//Override to prevent thawing of any views created by the adapter.
+
+//void dispatchSaveInstanceState(SparseArray<Parcelable> container);
+//Override to prevent freezing of any views created by the adapter.
+
+//void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+//void onLayout(boolean changed, int left, int top, int right, int bottom);
+//Called from layout when this view should assign a size and position to each of its children.
+
+
+}
+
+class AlertDialog {
+
+Button getButton(int whichButton);
+//Gets one of the buttons used in the dialog.
+
+//ListView getListView();
+//Gets the list view used in the dialog.
+
+//boolean onKeyDown(int keyCode, KeyEvent event);
+////A key was pressed down.
+
+//boolean onKeyUp(int keyCode, KeyEvent event);
+//A key was released.
+
+void setButton(@Sink(FlowPermission.DISPLAY) CharSequence text, Message msg);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_POSITIVE.
+
+void setButton(int whichButton, @Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the positive button of the dialog is pressed.
+
+void setButton(@Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_POSITIVE
+
+void setButton(int whichButton, @Sink(FlowPermission.DISPLAY) CharSequence text, Message msg);
+//Set a message to be sent when a button is pressed.
+
+//void setButton2(CharSequence text, DialogInterface.OnClickListener listener);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_NEGATIVE
+
+//void setButton2(CharSequence text, Message msg);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_NEGATIVE.
+
+//void setButton3(CharSequence text, DialogInterface.OnClickListener listener);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_POSITIVE
+
+//void setButton3(CharSequence text, Message msg);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_NEUTRAL.
+
+//void setCustomTitle(View customTitleView);
+
+//void setIcon(Drawable icon);
+
+//void setIcon(int resId);
+//Set resId to 0 if you don't want an icon.
+
+//void setIconAttribute(int attrId);
+//Set an icon as supplied by a theme attribute.
+
+//void setInverseBackgroundForced(boolean forceInverseBackground);
+
+//void setMessage(CharSequence message);
+
+//void setTitle(CharSequence title);
+//Set the title text for this dialog's window.
+
+//void setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom);
+//Set the view to display in that dialog, specifying the spacing to appear around that view.
+
+//void setView(View view);
+//Set the view to display in that dialog.
+
+
+//PROTECTED
+void onCreate(Bundle savedInstanceState);
+//Similar to onCreate(Bundle);, you should initialize your dialog in this method, including calling setContentView(View);.
+}
+
+class BaseAdapter {
+//boolean areAllItemsEnabled();
+//Indicates whether all the items in this adapter are enabled.
+
+//View getDropDownView(int position, View convertView, ViewGroup parent);
+//Get a View that displays in the drop down popup the data at the specified position in the data set.
+
+//int getItemViewType(int position);
+//Get the type of View that will be created by getView(int, View, ViewGroup); for the specified item.
+
+//int getViewTypeCount();
+//Returns the number of types of Views that will be created by getView(int, View, ViewGroup);.
+
+//boolean hasStableIds();
+//Indicates whether the item ids are stable across changes to the underlying data.
+
+//boolean isEmpty();
+//boolean isEnabled(int position);
+//Returns true if the item at the specified position is not a separator.
+
+void notifyDataSetChanged();
+//Notifies the attached observers that the underlying data has been changed and any View reflecting the data set should refresh itself.
+
+void notifyDataSetInvalidated();
+//Notifies the attached observers that the underlying data is no longer valid or available.
+
+//void registerDataSetObserver(DataSetObserver observer);
+//Register an observer that is called when changes happen to the data used by this adapter.
+
+//void unregisterDataSetObserver(DataSetObserver observer);
+//Unregister an observer that has previously been registered with this adapter via registerDataSetObserver(DataSetObserver);.
+
+}
+
+
 class Button {
 //CSH: all of the methods used are inhereited
 
@@ -11,6 +598,74 @@ class Button {
 //Initializes an AccessibilityNodeInfo with information about this view.
 
 }
+
+class CursorAdapter {
+
+
+abstract void bindView(View view, Context context, Cursor cursor);
+//Bind an existing view to the data pointed to by cursor
+
+//void changeCursor(Cursor cursor);
+//Change the underlying cursor to a new cursor.
+
+//CharSequence convertToString(Cursor cursor);
+//Converts the cursor into a CharSequence.
+
+//int getCount();
+
+//Cursor getCursor();
+//Returns the cursor.
+
+//View getDropDownView(int position, View convertView, ViewGroup parent);
+//Get a View that displays in the drop down popup the data at the specified position in the data set.
+
+//Filter getFilter();
+//Returns a filter that can be used to constrain data with a filtering pattern.
+
+//FilterQueryProvider getFilterQueryProvider();
+//Returns the query filter provider used for filtering.
+
+//Object getItem(int position);
+
+//long getItemId(int position);
+
+//View getView(int position, View convertView, ViewGroup parent);
+
+//boolean hasStableIds();
+//Indicates whether the item ids are stable across changes to the underlying data.
+
+View newDropDownView(Context context, Cursor cursor, ViewGroup parent);
+//Makes a new drop down view to hold the data pointed to by cursor.
+//CSH: I'm not quite sure what to do with these two methods.  
+// The cursor contains data (likely from a database), that gets put into the View that gets returned.  
+// The cursor itself isn't displayed, it's a container.
+// The new View is attached to the ViewGroup parent.  
+// If parent is currently displayed, the new View will also display, if it's not displaying, the new View is not displayed.
+// My guess is it should be below, but it's not entirely clear
+// @Sink(FlowPermission.DISPLAY) View newDropDownView(Context context, @Sink(FlowPermission.DISPLAY) Cursor cursor, @Sink(FlowPermission.DISPLAY) ViewGroup parent);
+
+abstract View newView(Context context, Cursor cursor, ViewGroup parent);
+//Makes a new view to hold the data pointed to by cursor.
+
+//Cursor runQueryOnBackgroundThread(CharSequence constraint);
+//Runs a query with the specified constraint.
+
+//void setFilterQueryProvider(FilterQueryProvider filterQueryProvider);
+//Sets the query filter provider used to filter the current Cursor.
+
+Cursor swapCursor(Cursor newCursor);
+//Swap in a new Cursor, returning the old Cursor.
+
+//Protected Methods
+void init(Context context, Cursor c, boolean autoRequery);
+//This method was deprecated in API level . Don't use this, use the normal constructor. This will be removed in the future.
+
+void onContentChanged();
+//Called when the ContentObserver on the cursor receives a change notification.
+
+}
+
+
 
 class EditText {
     
@@ -40,6 +695,75 @@ class EditText {
 
 void setText(@Sink(FlowPermission.DISPLAY )CharSequence text, TextView.BufferType type);
 //Sets the text that this TextView is to display (see setText(CharSequence);); and also sets whether it is stored in a styleable/spannable buffer and whether it is editable.
+
+}
+
+class FrameLayout {
+//void draw(Canvas canvas);
+//Manually render this view (and all of its children); to the given Canvas.
+
+//boolean gatherTransparentRegion(Region region);
+//This is used by the RootView to perform an optimization when the view hierarchy contains one or several SurfaceView.
+
+//FrameLayout.LayoutParams generateLayoutParams(AttributeSet attrs);
+//Returns a new set of layout parameters based on the supplied attributes set.
+
+//boolean getConsiderGoneChildrenWhenMeasuring();
+//This method was deprecated in API level 14. This method is deprecated in favor of getMeasureAllChildren();, which was renamed for consistency with setMeasureAllChildren();.
+
+//Drawable getForeground();
+//Returns the drawable used as the foreground of this FrameLayout.
+
+//int getForegroundGravity();
+//Describes how the foreground is positioned.
+
+//boolean getMeasureAllChildren();
+//Determines whether all children, or just those in the VISIBLE or INVISIBLE state, are considered when measuring.
+
+//void jumpDrawablesToCurrentState();
+//Call Drawable.jumpToCurrentState(); on all Drawable objects associated with this view.
+
+//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+//void setForeground(Drawable drawable);
+//Supply a Drawable that is to be rendered on top of all of the child views in the frame layout.
+
+//void setForegroundGravity(int foregroundGravity);
+//Describes how the foreground is positioned.
+
+//void setMeasureAllChildren(boolean measureAll);
+//Sets whether to consider all children, or just those in the VISIBLE or INVISIBLE state, when measuring.
+
+//boolean shouldDelayChildPressedState();
+//Return true if the pressed state should be delayed for children or descendants of this ViewGroup.
+
+//Protected Methods
+//boolean checkLayoutParams(ViewGroup.LayoutParams p);
+
+//void drawableStateChanged();
+//This function is called whenever the state of the view changes in such a way that it impacts the state of drawables being shown.
+
+//FrameLayout.LayoutParams generateDefaultLayoutParams();
+//Returns a set of layout parameters with a width of MATCH_PARENT, and a height of MATCH_PARENT.
+
+//ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
+//Returns a safe set of layout parameters based on the supplied layout params.
+
+//void onLayout(boolean changed, int left, int top, int right, int bottom);
+//Called from layout when this view should assign a size and position to each of its children.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+//void onSizeChanged(int w, int h, int oldw, int oldh);
+//This is called during layout when the size of this view has changed.
+
+//boolean verifyDrawable(Drawable who);
+//If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
 
 }
 
@@ -106,7 +830,7 @@ void setGravity(int gravity);
 //void setMeasureWithLargestChildEnabled(boolean enabled);
 //When set to true, all children with a weight will be considered having the minimum size of the largest child.
 
-//void setOrientation(int orientation);
+void setOrientation(int orientation);
 //Should the layout be a column or a row.
 
 //void setShowDividers(int showDividers);
@@ -164,7 +888,7 @@ class ListView {
 //long[] getCheckItemIds();
 //This method was deprecated in API level 8. Use getCheckedItemIds(); instead.
 
-//Drawable getDivider();
+Drawable getDivider();
 //Returns the drawable that will be drawn between each item in the list.
 
 //int getDividerHeight();
@@ -287,11 +1011,12 @@ void setSelection(@Sink(FlowPermission.DISPLAY) int position);
 //void onSizeChanged(int w, int h, int oldw, int oldh);
 //This is called during layout when the size of this view has changed.
 
+
 }
 
 
 class TextView {
-//Added by Carl Hartung
+    
 final void setText(int resid);
 //Sets the TextView to display the specified slice of the specified char array.
 
@@ -376,6 +1101,7 @@ final void setMovementMethod(MovementMethod movement);
 
 void setMinLines(int minlines);
 //Makes the TextView at least this many lines tall.
+//CSH: sensitive information?  The number minlines, is not directly displayed, but if minlines==3, then 3 lines will be displayed (unless the text in the view makes it larger)
 
 void setKeyListener(KeyListener input);
 //Sets the key listener to be used with this TextView.
@@ -392,6 +1118,229 @@ final KeyListener getKeyListener();
 void addTextChangedListener(TextWatcher watcher);
 //Adds a TextWatcher to the list of those whose methods are called whenever this TextView's text changes.
 
+void setTypeface(Typeface tf, int style);
+//Sets the typeface and style in which the text should be displayed, and turns on the fake bold and italic bits in the Paint if the Typeface that you provided does not have all the bits in the style that you specified.
+
+void setTypeface(Typeface tf);
+//Sets the typeface and style in which the text should be displayed.
+
+final void setHint(@Sink(FlowPermission.DISPLAY) CharSequence hint);
+//Sets the text to be displayed when the text of the TextView is empty.
+
+final void setHint(int resid);
+//Sets the text to be displayed when the text of the TextView is empty, from a resource.
+
+final void setHintTextColor(ColorStateList colors);
+//Sets the color of the hint text.
+
+final void setHintTextColor(int color);
+//Sets the color of the hint text for all the states (disabled, focussed, selected...) of this TextView.
+
+void setInputType(int type);
+//Set the type of the content with a constant as defined for inputType.
+    
+// UNUSED AND UNANNOTATED
+// final void    append(CharSequence text);
+// void  append(CharSequence text, int start, int end);
+// void  beginBatchEdit();
+// boolean   bringPointIntoView(int offset);
+// void  cancelLongPress();
+// void  clearComposingText();
+// void  computeScroll();
+// void  debug(int depth);
+// boolean   didTouchFocusSelect();
+// void  endBatchEdit();
+// boolean   extractText(ExtractedTextRequest request, ExtractedText outText);
+// void  findViewsWithText(ArrayList<View> outViews, CharSequence searched, int flags);
+// final int     getAutoLinkMask();
+// int   getBaseline();
+// int   getCompoundDrawablePadding();
+// Drawable[]    getCompoundDrawablesRelative();
+// int   getCompoundPaddingBottom();
+// int   getCompoundPaddingEnd();
+// int   getCompoundPaddingLeft();
+// int   getCompoundPaddingRight();
+// int   getCompoundPaddingStart();
+// int   getCompoundPaddingTop();
+// final int     getCurrentHintTextColor();
+// final int     getCurrentTextColor();
+// ActionMode.Callback   getCustomSelectionActionModeCallback();
+// Editable  getEditableText();
+// TextUtils.TruncateAt  getEllipsize();
+// CharSequence  getError();
+// int   getExtendedPaddingBottom();
+// int   getExtendedPaddingTop();
+// InputFilter[]     getFilters();
+// void  getFocusedRect(Rect r);
+// boolean   getFreezesText();
+// int   getGravity();
+// int   getHighlightColor();
+// CharSequence  getHint();
+// final ColorStateList  getHintTextColors();
+// int   getImeActionId();
+// CharSequence  getImeActionLabel();
+// int   getImeOptions();
+// boolean   getIncludeFontPadding();
+// Bundle    getInputExtras(boolean create);
+// int   getInputType();
+// final Layout  getLayout();
+// int   getLineBounds(int line, Rect bounds);
+// int   getLineCount();
+// int   getLineHeight();
+// float     getLineSpacingExtra();
+// float     getLineSpacingMultiplier();
+// final ColorStateList  getLinkTextColors();
+// final boolean     getLinksClickable();
+// int   getMarqueeRepeatLimit();
+// int   getMaxEms();
+// int   getMaxHeight();
+// int   getMaxLines();
+// int   getMaxWidth();
+// int   getMinEms();
+// int   getMinHeight();
+// int   getMinLines();
+// int   getMinWidth();
+// final MovementMethod  getMovementMethod();
+// int   getOffsetForPosition(float x, float y);
+// TextPaint     getPaint();
+// int   getPaintFlags();
+// String    getPrivateImeOptions();
+// int   getSelectionEnd();
+// int   getSelectionStart();
+// int   getShadowColor();
+// float     getShadowDx();
+// float     getShadowDy();
+// float     getShadowRadius();
+// static int    getTextColor(Context context, TypedArray attrs, int def);
+// Locale    getTextLocale();
+// float     getTextScaleX();
+// int   getTotalPaddingBottom();
+// int   getTotalPaddingEnd();
+// int   getTotalPaddingLeft();
+// int   getTotalPaddingRight();
+// int   getTotalPaddingStart();
+// int   getTotalPaddingTop();
+// final TransformationMethod    getTransformationMethod();
+// URLSpan[]     getUrls();
+// boolean   hasOverlappingRendering();
+// boolean   hasSelection();
+// void  invalidateDrawable(Drawable drawable);
+// boolean   isCursorVisible();
+// boolean   isInputMethodTarget();
+// boolean   isSuggestionsEnabled();
+// boolean   isTextSelectable();
+// void  jumpDrawablesToCurrentState();
+// int   length();
+// boolean   moveCursorToVisibleOffset();
+// void  onBeginBatchEdit();
+// boolean   onCheckIsTextEditor();
+// void  onCommitCompletion(CompletionInfo text);
+// void  onCommitCorrection(CorrectionInfo info);
+// InputConnection   onCreateInputConnection(EditorInfo outAttrs);
+// boolean   onDragEvent(DragEvent event);
+// void  onEditorAction(int actionCode);
+// void  onEndBatchEdit();
+// void  onFinishTemporaryDetach();
+// boolean   onGenericMotionEvent(MotionEvent event);
+// void  onInitializeAccessibilityEvent(AccessibilityEvent event);
+// void  onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+// boolean   onKeyDown(int keyCode, KeyEvent event);
+// boolean   onKeyMultiple(int keyCode, int repeatCount, KeyEvent event);
+// boolean   onKeyPreIme(int keyCode, KeyEvent event);
+// boolean   onKeyShortcut(int keyCode, KeyEvent event);
+// boolean   onKeyUp(int keyCode, KeyEvent event);
+// void  onPopulateAccessibilityEvent(AccessibilityEvent event);
+// boolean   onPreDraw();
+// boolean   onPrivateIMECommand(String action, Bundle data);
+// void  onRestoreInstanceState(Parcelable state);
+// void  onRtlPropertiesChanged(int layoutDirection);
+// Parcelable    onSaveInstanceState();
+// void  onScreenStateChanged(int screenState);
+// void  onStartTemporaryDetach();
+// boolean   onTextContextMenuItem(int id);
+// boolean   onTouchEvent(MotionEvent event);
+// boolean   onTrackballEvent(MotionEvent event);
+// void  onWindowFocusChanged(boolean hasWindowFocus);
+// boolean   performLongClick();
+// void  removeTextChangedListener(TextWatcher watcher);
+// void  sendAccessibilityEvent(int eventType);
+// void  setAllCaps(boolean allCaps);
+// void  setCompoundDrawablePadding(int pad);
+// void  setCompoundDrawables(Drawable left, Drawable top, Drawable right, Drawable bottom);
+// void  setCompoundDrawablesRelative(Drawable start, Drawable top, Drawable end, Drawable bottom);
+// void  setCompoundDrawablesRelativeWithIntrinsicBounds(Drawable start, Drawable top, Drawable end, Drawable bottom);
+// void  setCompoundDrawablesRelativeWithIntrinsicBounds(int start, int top, int end, int bottom);
+// void  setCursorVisible(boolean visible);
+// void  setCustomSelectionActionModeCallback(ActionMode.Callback actionModeCallback);
+// final void    setEditableFactory(Editable.Factory factory);
+// void  setEms(int ems);
+// void  setError(CharSequence error);
+// void  setError(CharSequence error, Drawable icon);
+// void  setExtractedText(ExtractedText text);
+// void  setFilters(InputFilter[] filters);
+// void  setFreezesText(boolean freezesText);
+// void  setHeight(int pixels);
+// void  setHighlightColor(int color);
+// void  setHorizontallyScrolling(boolean whether);
+// void  setImeActionLabel(CharSequence label, int actionId);
+// void  setImeOptions(int imeOptions);
+// void  setIncludeFontPadding(boolean includepad);
+// void  setInputExtras(int xmlResId);
+// void  setLineSpacing(float add, float mult);
+// void  setLines(int lines);
+// final void    setLinkTextColor(ColorStateList colors);
+// final void    setLinkTextColor(int color);
+// final void    setLinksClickable(boolean whether);
+// void  setMarqueeRepeatLimit(int marqueeLimit);
+// void  setMaxEms(int maxems);
+// void  setMaxHeight(int maxHeight);
+// void  setMaxWidth(int maxpixels);
+// void  setMinEms(int minems);
+// void  setMinHeight(int minHeight);
+// void  setMinWidth(int minpixels);
+// void  setOnEditorActionListener(TextView.OnEditorActionListener l);
+// Set a special listener to be called when an action is performed on the text view.
+// void  setPaddingRelative(int start, int top, int end, int bottom);
+// void  setPaintFlags(int flags);
+// void  setPrivateImeOptions(String type);
+// void  setRawInputType(int type);
+// void  setScroller(Scroller s);
+// void  setSelectAllOnFocus(boolean selectAllOnFocus);
+// void  setSelected(boolean selected);
+// void  setShadowLayer(float radius, float dx, float dy, int color);
+// final void    setSpannableFactory(Spannable.Factory factory);
+// void  setTextIsSelectable(boolean selectable);
+// void  setTextLocale(Locale locale);
+// void  setTextScaleX(float size);
+
+//
+//PROTECTED (and unused)
+// int   computeHorizontalScrollRange();
+// int   computeVerticalScrollExtent();
+// int   computeVerticalScrollRange();
+// void  drawableStateChanged();
+// int   getBottomPaddingOffset();
+// boolean   getDefaultEditable();
+// MovementMethod    getDefaultMovementMethod();
+// float     getLeftFadingEdgeStrength();
+// int   getLeftPaddingOffset();
+// float     getRightFadingEdgeStrength();
+// int   getRightPaddingOffset();
+// int   getTopPaddingOffset();
+// boolean   isPaddingOffsetRequired();
+// void  onAttachedToWindow();
+// int[]     onCreateDrawableState(int extraSpace);
+// void  onDetachedFromWindow();
+// void  onDraw(Canvas canvas);
+// void  onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect);
+// void  onLayout(boolean changed, int left, int top, int right, int bottom);
+// void  onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+// void  onScrollChanged(int horiz, int vert, int oldHoriz, int oldVert);
+// void  onSelectionChanged(int selStart, int selEnd);
+// void  onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter);
+// void  onVisibilityChanged(View changedView, int visibility);
+// boolean   setFrame(int l, int t, int r, int b);
+// boolean   verifyDrawable(Drawable who);
 }
 
 class Toast {
@@ -422,4 +1371,3 @@ static Toast makeText(Context context, @Sink(FlowPermission.DISPLAY) CharSequenc
 // void setText(CharSequence s);
 // void setView(View view);
 }
-

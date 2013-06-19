@@ -1,5 +1,35 @@
 package android.content;
 
+class AsyncTaskLoader {
+// CSH: In spreadsheet but not in class or parents:
+//dispatchOnCancelled
+//dispatchOnLoadComplete
+//executePendingTask
+
+boolean cancelLoad();
+//Attempt to cancel the current load task.
+
+void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args);
+//Print the Loader's state into the given stream.
+//CSH: FileDescriptor
+
+abstract D loadInBackground();
+
+void onCanceled(D data);
+//Called if the task was canceled before it was completed.
+
+//void setUpdateThrottle(long delayMS);
+//Set amount to throttle updates by.
+
+//Protected Methods
+//void onForceLoad();
+//Subclasses must implement this to take care of requests to forceLoad();.
+
+D onLoadInBackground();
+//Called on a worker thread to perform the actual load.
+
+}
+
 class ContentProvider {
     final @Source(FlowPermission.ANY) Context getContext() @Source(FlowPermission.ANY);
 }
@@ -133,6 +163,82 @@ class Intent{
         Intent putExtra(@Sink(FlowPermission.ANY) String name, @Sink(FlowPermission.ANY) Serializable value);
         Intent(@Sink(FlowPermission.ANY) String action);
         @Source(FlowPermission.ANY) String getDataString();
+}
+
+class Loader {
+    
+void abandon();
+//Tell the Loader that it is being abandoned.
+
+String dataToString(D data);
+//For debugging, converts an instance of the Loader's data class to a string that can be printed.
+
+void deliverResult(D data);
+//Sends the result of the load to the registered listener.
+
+void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args);
+//Print the Loader's state into the given stream.
+//CSH: filedescriptor
+
+void forceLoad();
+//Force an asynchronous load.
+
+//Context getContext();
+
+//int getId();
+
+boolean isAbandoned();
+//Return whether this loader has been abandoned.
+
+//boolean isReset();
+//Return whether this load has been reset.
+
+//boolean isStarted();
+//Return whether this load has been started.
+
+void onContentChanged();
+//Called when Loader.ForceLoadContentObserver detects a change.
+
+void registerListener(int id, OnLoadCompleteListener<D> listener);
+//Registers a class that will receive callbacks when a load is complete.
+
+void reset();
+//Resets the state of the Loader.
+
+final void startLoading();
+//Starts an asynchronous load of the Loader's data.
+
+void stopLoading();
+//Stops delivery of updates until the next time startLoading(); is called.
+
+//boolean takeContentChanged();
+//Take the current flag indicating whether the loader's content had changed while it was stopped.
+
+//String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void unregisterListener(OnLoadCompleteListener<D> listener);
+//Remove a listener that was previously added with registerListener(int, Loader.OnLoadCompleteListener);.
+
+
+//Protected Methods
+void onAbandon();
+//Subclasses implement this to take care of being abandoned.
+
+void onForceLoad();
+//Subclasses must implement this to take care of requests to forceLoad();.
+
+void onReset();
+//Subclasses must implement this to take care of resetting their loader, as per reset();.
+
+void onStartLoading();
+//Subclasses must implement this to take care of loading their data, as per startLoading();.
+
+void onStopLoading();
+//Subclasses must implement this to take care of stopping their loader, as per stopLoading();.
+
+
+
 }
 
 class UriMatcher {
@@ -274,4 +380,94 @@ int getColor(int id);
 // void parseBundleExtra(String tagName, AttributeSet attrs, Bundle outBundle);
 // void parseBundleExtras(XmlResourceParser parser, Bundle outBundle);
 // void updateConfiguration(Configuration config, DisplayMetrics metrics);
+}
+
+class TypedArray {
+    
+boolean getBoolean(int index, boolean defValue);
+//Retrieve the boolean value for the attribute at index.
+
+int getColor(int index, int defValue);
+//Retrieve the color value for the attribute at index.
+
+//ColorStateList getColorStateList(int index);
+//Retrieve the ColorStateList for the attribute at index.
+
+//float getDimension(int index, float defValue);
+//Retrieve a dimensional unit attribute at index.
+
+//int getDimensionPixelOffset(int index, int defValue);
+//Retrieve a dimensional unit attribute at index for use as an offset in raw pixels.
+
+int getDimensionPixelSize(int index, int defValue);
+//Retrieve a dimensional unit attribute at index for use as a size in raw pixels.
+
+//Drawable getDrawable(int index);
+//Retrieve the Drawable for the attribute at index.
+
+float getFloat(int index, float defValue);
+//Retrieve the float value for the attribute at index.
+
+//float getFraction(int index, int base, int pbase, float defValue);
+//Retrieve a fractional unit attribute at index.
+
+//int getIndex(int at);
+//Return an index in the array that has data.
+
+//int getIndexCount();
+//Return the number of indices in the array that actually have data.
+
+int getInt(int index, int defValue);
+//Retrieve the integer value for the attribute at index.
+
+int getInteger(int index, int defValue);
+//Retrieve the integer value for the attribute at index.
+
+//int getLayoutDimension(int index, String name);
+//Special version of getDimensionPixelSize(int, int); for retrieving ViewGroup's layout_width and layout_height attributes.
+
+//int getLayoutDimension(int index, int defValue);
+//Special version of getDimensionPixelSize(int, int); for retrieving ViewGroup's layout_width and layout_height attributes.
+
+//String getNonResourceString(int index);
+//Retrieve the string value for the attribute at index, but only if that string comes from an immediate value in an XML file.
+
+//String getPositionDescription();
+//Returns a message about the parser state suitable for printing error messages.
+
+int getResourceId(int index, int defValue);
+//Retrieve the resource identifier for the attribute at index.
+
+//Resources getResources();
+//Return the Resources object this array was loaded from.
+
+String getString(int index);
+//Retrieve the string value for the attribute at index.
+
+//CharSequence getText(int index);
+//Retrieve the styled string value for the attribute at index.
+
+//CharSequence[] getTextArray(int index);
+//Retrieve the CharSequence[] for the attribute at index.
+
+//boolean getValue(int index, TypedValue outValue);
+//Retrieve the raw TypedValue for the attribute at index.
+
+boolean hasValue(int index);
+//Determines whether there is an attribute at index.
+
+//int length();
+//Return the number of values in this array.
+
+//TypedValue peekValue(int index);
+//Retrieve the raw TypedValue for the attribute at index and return a temporary object holding its data.
+
+void recycle();
+//Give back a previously retrieved array, for later re-use.
+
+//String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+
+
 }
