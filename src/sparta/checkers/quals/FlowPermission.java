@@ -60,7 +60,16 @@ public enum FlowPermission {
     EMAIL (T.BOTH), 
     ACCELEROMETER(T.SOURCE),
     
+    /**
+     * The following permissions are temporary and implemented 
+     * now in a simple way for an upcoming engagement. 
+     */
     
+    REFLECTION(T.SOURCE), //The caller of the invoke method should have this permission.
+    INTENT(T.BOTH), 
+    BUNDLE(T.SOURCE), 
+    PROCESS_BUILDER(T.SOURCE), //The ProcessBuilder variable should have this permission.
+    PARCEL(T.BOTH),
 
 
     /**
