@@ -20,6 +20,28 @@ import java.lang.annotation.*;
  *	com.android.internal.telephony.IWapPushManager com.android.smspush.WAPPUSH_MANAGER_BIND S OBS: IWapPushManager is a class and not a constant.
  *	com.android.mms.intent.action.SENDTO_NO_CONFIRMATION android.permission.SEND_SMS_NO_CONFIRMATION S
  *	com.android.phone.PERFORM_CDMA_PROVISIONING android.permission.PERFORM_CDMA_PROVISIONING S
+    content://ctspermissionwithsignaturegranting/foo.* grant-uri-permission pathPattern
+    content://ctspermissionwithsignaturegranting R com.android.cts.permissionWithSignature
+	content://ctspermissionwithsignaturegranting W com.android.cts.permissionWithSignature
+	content://ctspermissionwithsignaturegranting/yes.* grant-uri-permission pathPattern
+	content://ctspermissionwithsignaturepath/foo R com.android.cts.permissionWithSignature pathPrefix
+	content://ctspermissionwithsignaturepath.* grant-uri-permission pathPattern
+	content://ctspermissionwithsignaturepath R com.android.cts.permissionNotUsedWithSignature
+	content://ctspermissionwithsignaturepath W com.android.cts.permissionNotUsedWithSignature
+	content://ctspermissionwithsignaturepath/yes R com.android.cts.permissionWithSignature pathPrefix
+	content://ctspermissionwithsignature R com.android.cts.permissionWithSignature
+	content://ctspermissionwithsignature W com.android.cts.permissionWithSignature
+	content://ctsprivateprovidergranting/foo.* grant-uri-permission pathPattern
+	content://ctsprivateprovidergranting/yes.* grant-uri-permission pathPattern
+	content://icc R android.permission.READ_CONTACTS NOTE: icc Uri is a local variable/method return
+	content://icc W android.permission.WRITE_CONTACTS NOTE: icc Uri is a local variable/method return 
+	content://com.google.provider.NotePad.* grant-uri-permission pathPattern
+	content://com.android.mms.SuggestionsProvider R android.permission.READ_SMS
+	content://com.android.mms.SuggestionsProvider/search_suggest_query R android.permission.GLOBAL_SEARCH pathPrefix
+	content://com.android.mms.SuggestionsProvider/search_suggest_shortcut R android.permission.GLOBAL_SEARCH pathPrefix
+    content://com.android.contacts.* grant-uri-permission pathPattern (how to annotate this permission?)
+    content://com.android.bluetooth.opp/btopp R android.permission.ACCESS_BLUETOOTH_SHARE path
+    content://com.android.bluetooth.opp/btopp W android.permission.ACCESS_BLUETOOTH_SHARE path
  * @author pbsf
  *
  */
