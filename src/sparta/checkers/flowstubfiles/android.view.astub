@@ -1,5 +1,32 @@
 package android.view;
 
+class ContextThemeWrapper {
+
+//void applyOverrideConfiguration(Configuration overrideConfiguration);
+//Call to set an "override configuration" on this context -- this is a configuration that replies one or more values of the standard configuration that is applied to the context.
+
+Resources getResources();
+//Return a Resources instance for your application's package.
+
+Object getSystemService(String name);
+//Return the handle to a system-level service by name.
+//CSH: Should be PolyX
+
+//Resources.Theme getTheme();
+//Return the Theme object associated with this Context.
+
+//void setTheme(int resid);
+//Set the base theme for this context.
+
+//Protected Methods
+//void attachBaseContext(Context newBase);
+//Set the base context for this ContextWrapper.
+
+//void onApplyThemeResource(Resources.Theme theme, int resid, boolean first);
+//Called by setTheme(int); and getTheme(); to apply a theme resource to the current Theme object.
+
+}
+
 class LayoutInflater {
 
 abstract LayoutInflater cloneInContext(Context newContext);
@@ -48,6 +75,82 @@ void setFactory2(LayoutInflater.Factory2 factory);
 
 //View onCreateView(View parent, String name, AttributeSet attrs);
 //Version of onCreateView(String, AttributeSet); that also takes the future parent of the view being constructure.
+
+}
+
+class Menu {
+
+abstract MenuItem add(@Sink(DISPLAY) CharSequence title);
+//Add a new item to the menu.
+
+abstract MenuItem add(int groupId, int itemId, int order, int titleRes);
+//Variation on add(int, int, int, CharSequence); that takes a string resource identifier instead of the string itself.
+
+abstract MenuItem add(int titleRes);
+//Add a new item to the menu.
+
+abstract MenuItem add(int groupId, int itemId, int order, @Sink(DISPLAY) CharSequence title);
+//Add a new item to the menu.
+
+//abstract int addIntentOptions(int groupId, int itemId, int order, ComponentName caller, Intent[] specifics, Intent intent, int flags, MenuItem[] outSpecificItems);
+//Add a group of menu items corresponding to actions that can be performed for a particular Intent.
+
+//abstract SubMenu addSubMenu(int groupId, int itemId, int order, CharSequence title);
+//Add a new sub-menu to the menu.
+
+//abstract SubMenu addSubMenu(int groupId, int itemId, int order, int titleRes);
+//Variation on addSubMenu(int, int, int, CharSequence); that takes a string resource identifier for the title instead of the string itself.
+
+//abstract SubMenu addSubMenu(CharSequence title);
+//Add a new sub-menu to the menu.
+
+//abstract SubMenu addSubMenu(int titleRes);
+//Add a new sub-menu to the menu.
+
+abstract void clear();
+//Remove all existing items from the menu, leaving it empty as if it had just been created.
+
+//abstract void close();
+//Closes the menu, if open.
+
+abstract MenuItem findItem(int id);
+//Return the menu item with a particular identifier.
+
+//abstract MenuItem getItem(int index);
+//Gets the menu item at the given index.
+
+abstract boolean hasVisibleItems();
+//Return whether the menu currently has item items that are visible.
+
+//abstract boolean isShortcutKey(int keyCode, KeyEvent event);
+//Is a keypress one of the defined shortcut keys for this window.
+
+//abstract boolean performIdentifierAction(int id, int flags);
+//Execute the menu item action associated with the given menu identifier.
+
+//abstract boolean performShortcut(int keyCode, KeyEvent event, int flags);
+//Execute the menu item action associated with the given shortcut character.
+
+//abstract void removeGroup(int groupId);
+//Remove all items in the given group.
+
+//abstract void removeItem(int id);
+//Remove the item with the given identifier.
+
+//abstract void setGroupCheckable(int group, boolean checkable, boolean exclusive);
+//Control whether a particular group of items can show a check mark.
+
+//abstract void setGroupEnabled(int group, boolean enabled);
+//Enable or disable all menu items that are in the given group.
+
+abstract void setGroupVisible(int group, boolean visible);
+//Show or hide all menu items that are in the given group.
+
+//abstract void setQwertyMode(boolean isQwerty);
+//Control whether the menu should be running in qwerty mode (alphabetic shortcuts); or 12-key mode (numeric shortcuts);.
+
+//abstract int size();
+//Get the number of items in the menu.
 
 }
 
@@ -462,6 +565,52 @@ interface SurfaceHolder$Callback {
     void surfaceCreated(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0);
     void surfaceChanged(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0, int arg1, int arg2, int arg3);
     void surfaceDestroyed(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0);
+}
+
+class VelocityTracker {
+
+void addMovement(MotionEvent event);
+//Add a user's movement to the tracker.
+
+void clear();
+//Reset the velocity tracker back to its initial state.
+
+void computeCurrentVelocity(int units, float maxVelocity);
+//Compute the current velocity based on the points that have been collected.
+
+void computeCurrentVelocity(int units);
+//Equivalent to invoking computeCurrentVelocity(int, float); with a maximum velocity of Float.MAX_VALUE.
+
+//abstract T getNextPoolable();
+
+float getXVelocity();
+//Retrieve the last computed X velocity.
+
+float getXVelocity(int id);
+//Retrieve the last computed X velocity.
+
+float getYVelocity(int id);
+//Retrieve the last computed Y velocity.
+
+float getYVelocity();
+//Retrieve the last computed Y velocity.
+
+//abstract boolean isPooled();
+
+static VelocityTracker obtain();
+//Retrieve a new VelocityTracker object to watch the velocity of a motion.
+
+void recycle();
+//Return a VelocityTracker object back to be re-used by others.
+
+//abstract void setNextPoolable(T element);
+
+//abstract void setPooled(boolean isPooled);
+
+//Protected Methods
+//void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
 }
 
 
@@ -1174,6 +1323,92 @@ void requestLayout();
 
 class View$OnClickListener{
         void onClick(View arg0);
+}
+
+class ViewConfiguration {
+    
+static ViewConfiguration get(Context context);
+//Returns a configuration for the specified context.
+
+static int getDoubleTapTimeout();
+
+//static int getEdgeSlop();
+//This method was deprecated in API level 3. Use getScaledEdgeSlop(); instead.
+
+//static int getFadingEdgeLength();
+//This method was deprecated in API level 3. Use getScaledFadingEdgeLength(); instead.
+
+//static long getGlobalActionKeyTimeout();
+//The amount of time a user needs to press the relevant key to bring up the global actions dialog.
+
+//static int getJumpTapTimeout();
+
+//static int getKeyRepeatDelay();
+
+//static int getKeyRepeatTimeout();
+
+static int getLongPressTimeout();
+
+//static int getMaximumDrawingCacheSize();
+//This method was deprecated in API level 3. Use getScaledMaximumDrawingCacheSize(); instead.
+
+//static int getMaximumFlingVelocity();
+//This method was deprecated in API level 4. Use getScaledMaximumFlingVelocity(); instead.
+
+//static int getMinimumFlingVelocity();
+//This method was deprecated in API level 3. Use getScaledMinimumFlingVelocity(); instead.
+
+//static int getPressedStateDuration();
+
+int getScaledDoubleTapSlop();
+
+//int getScaledEdgeSlop();
+
+//int getScaledFadingEdgeLength();
+
+//int getScaledMaximumDrawingCacheSize();
+//The maximum drawing cache size expressed in bytes.
+
+int getScaledMaximumFlingVelocity();
+
+int getScaledMinimumFlingVelocity();
+//int getScaledOverflingDistance();
+
+//int getScaledOverscrollDistance();
+
+//int getScaledPagingTouchSlop();
+
+//int getScaledScrollBarSize();
+
+int getScaledTouchSlop();
+
+//int getScaledWindowTouchSlop();
+
+//static int getScrollBarFadeDuration();
+
+//static int getScrollBarSize();
+//This method was deprecated in API level 3. Use getScaledScrollBarSize(); instead.
+
+//static int getScrollDefaultDelay();
+
+//static float getScrollFriction();
+//The amount of friction applied to scrolls and flings.
+
+static int getTapTimeout();
+
+//static int getTouchSlop();
+//This method was deprecated in API level 3. Use getScaledTouchSlop(); instead.
+
+//static int getWindowTouchSlop();
+//This method was deprecated in API level 3. Use getScaledWindowTouchSlop(); instead.
+
+//static long getZoomControlsTimeout();
+//The amount of time that the zoom controls should be displayed on the screen expressed in milliseconds.
+
+//boolean hasPermanentMenuKey();
+//Report if the device has a permanent menu key available to the user.
+
+    
 }
 
 class ViewGroup {

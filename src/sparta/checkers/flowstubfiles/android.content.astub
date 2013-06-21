@@ -159,6 +159,326 @@ abstract @Source(FlowPermission.FILESYSTEM) File getFileStreamPath(String name);
 //Returns the absolute path on the filesystem where a file created with openFileOutput(String, int); is stored.
 
 }
+
+class ContextWrapper {
+
+//boolean bindService(Intent service, ServiceConnection conn, int flags);
+//Connect to an application service, creating it if needed.
+
+//int checkCallingOrSelfPermission(String permission);
+//Determine whether the calling process of an IPC or you have been granted a particular permission.
+
+//int checkCallingOrSelfUriPermission(Uri uri, int modeFlags);
+//Determine whether the calling process of an IPC or you has been granted permission to access a specific URI.
+
+//int checkCallingPermission(String permission);
+//Determine whether the calling process of an IPC you are handling has been granted a particular permission.
+
+//int checkCallingUriPermission(Uri uri, int modeFlags);
+//Determine whether the calling process and user ID has been granted permission to access a specific URI.
+
+//int checkPermission(String permission, int pid, int uid);
+//Determine whether the given permission is allowed for a particular process and user ID running in the system.
+
+//int checkUriPermission(Uri uri, int pid, int uid, int modeFlags);
+//Determine whether a particular process and user ID has been granted permission to access a specific URI.
+
+//int checkUriPermission(Uri uri, String readPermission, String writePermission, int pid, int uid, int modeFlags);
+//Check both a Uri and normal permission.
+
+//void clearWallpaper();
+//This method was deprecated in API level . Use WallpaperManager.clear(); instead.
+//This method requires the caller to hold the permission SET_WALLPAPER.
+
+//Context createConfigurationContext(Configuration overrideConfiguration);
+//Return a new Context object for the current Context but whose resources are adjusted to match the given Configuration.
+
+//Context createDisplayContext(Display display);
+//Return a new Context object for the current Context but whose resources are adjusted to match the metrics of the given Display.
+
+//Context createPackageContext(String packageName, int flags);
+//Return a new Context object for the given application name.
+
+//String[] databaseList();
+//Returns an array of strings naming the private databases associated with this Context's application package.
+
+//boolean deleteDatabase(String name);
+//Delete an existing private SQLiteDatabase associated with this Context's application package.
+
+//boolean deleteFile(String name);
+//Delete the given private file associated with this Context's application package.
+
+//void enforceCallingOrSelfPermission(String permission, String message);
+//If neither you nor the calling process of an IPC you are handling has been granted a particular permission, throw a SecurityException.
+
+//void enforceCallingOrSelfUriPermission(Uri uri, int modeFlags, String message);
+//If the calling process of an IPC or you has not been granted permission to access a specific URI, throw SecurityException.
+
+//void enforceCallingPermission(String permission, String message);
+//If the calling process of an IPC you are handling has not been granted a particular permission, throw a SecurityException.
+
+//void enforceCallingUriPermission(Uri uri, int modeFlags, String message);
+//If the calling process and user ID has not been granted permission to access a specific URI, throw SecurityException.
+
+//void enforcePermission(String permission, int pid, int uid, String message);
+//If the given permission is not allowed for a particular process and user ID running in the system, throw a SecurityException.
+
+//void enforceUriPermission(Uri uri, int pid, int uid, int modeFlags, String message);
+//If a particular process and user ID has not been granted permission to access a specific URI, throw SecurityException.
+
+//void enforceUriPermission(Uri uri, String readPermission, String writePermission, int pid, int uid, int modeFlags, String message);
+//Enforce both a Uri and normal permission.
+
+//String[] fileList();
+//Returns an array of strings naming the private files associated with this Context's application package.
+
+//Context getApplicationContext();
+//Return the context of the single, global Application object of the current process.
+
+//ApplicationInfo getApplicationInfo();
+//Return the full application info for this context's package.
+
+//AssetManager getAssets();
+//Return an AssetManager instance for your application's package.
+
+//Context getBaseContext();
+
+//File getCacheDir();
+//Returns the absolute path to the application specific cache directory on the filesystem.
+
+ClassLoader getClassLoader();
+//Return a class loader you can use to retrieve classes in this package.
+
+//ContentResolver getContentResolver();
+//Return a ContentResolver instance for your application's package.
+
+//File getDatabasePath(String name);
+//Returns the absolute path on the filesystem where a database created with openOrCreateDatabase(String, int, SQLiteDatabase.CursorFactory); is stored.
+
+//File getDir(String name, int mode);
+//Retrieve, creating if needed, a new directory in which the application can place its own custom data files.
+
+//File getExternalCacheDir();
+//Returns the absolute path to the directory on the external filesystem (that is somewhere on Environment.getExternalStorageDirectory(); where the application can place cache files it owns.
+
+//File getExternalFilesDir(String type);
+//Returns the absolute path to the directory on the external filesystem (that is somewhere on Environment.getExternalStorageDirectory();); where the application can place persistent files it owns.
+
+//File getFileStreamPath(String name);
+//Returns the absolute path on the filesystem where a file created with openFileOutput(String, int); is stored.
+
+//File getFilesDir();
+//Returns the absolute path to the directory on the filesystem where files created with openFileOutput(String, int); are stored.
+
+//Looper getMainLooper();
+//Return the Looper for the main thread of the current process.
+
+//File getObbDir();
+//Return the directory where this application's OBB files (if there are any); can be found.
+
+//String getPackageCodePath();
+//Return the full path to this context's primary Android package.
+
+//PackageManager getPackageManager();
+//Return PackageManager instance to find global package information.
+
+//String getPackageName();
+//Return the name of this application's package.
+
+//String getPackageResourcePath();
+//Return the full path to this context's primary Android package.
+
+Resources getResources();
+//Return a Resources instance for your application's package.
+
+//SharedPreferences getSharedPreferences(String name, int mode);
+//Retrieve and hold the contents of the preferences file 'name', returning a SharedPreferences through which you can retrieve and modify its values.
+
+Object getSystemService(String name);
+//Return the handle to a system-level service by name.
+//CSH: Should be PolyX
+
+//Resources.Theme getTheme();
+//Return the Theme object associated with this Context.
+
+//Drawable getWallpaper();
+//This method was deprecated in API level . Use WallpaperManager.get(); instead.
+
+//int getWallpaperDesiredMinimumHeight();
+//This method was deprecated in API level . Use WallpaperManager.getDesiredMinimumHeight(); instead.
+
+//int getWallpaperDesiredMinimumWidth();
+//This method was deprecated in API level . Use WallpaperManager.getDesiredMinimumWidth(); instead.
+
+//void grantUriPermission(String toPackage, Uri uri, int modeFlags);
+//Grant permission to access a specific Uri to another package, regardless of whether that package has general permission to access the Uri's content provider.
+
+//boolean isRestricted();
+//Indicates whether this Context is restricted.
+
+//FileInputStream openFileInput(String name);
+//Open a private file associated with this Context's application package for reading.
+
+//FileOutputStream openFileOutput(String name, int mode);
+//Open a private file associated with this Context's application package for writing.
+
+//SQLiteDatabase openOrCreateDatabase(String name, int mode, SQLiteDatabase.CursorFactory factory);
+//Open a new private SQLiteDatabase associated with this Context's application package.
+
+//SQLiteDatabase openOrCreateDatabase(String name, int mode, SQLiteDatabase.CursorFactory factory, DatabaseErrorHandler errorHandler);
+//Open a new private SQLiteDatabase associated with this Context's application package.
+
+//Drawable peekWallpaper();
+//This method was deprecated in API level . Use WallpaperManager.peek(); instead.
+
+//Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
+//Register a BroadcastReceiver to be run in the main activity thread.
+
+//Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter, String broadcastPermission, Handler scheduler);
+//Register to receive intent broadcasts, to run in the context of scheduler.
+
+//void removeStickyBroadcast(Intent intent);
+//Remove the data previously sent with sendStickyBroadcast(Intent);, so that it is as if the sticky broadcast had never happened.
+
+//void removeStickyBroadcastAsUser(Intent intent, UserHandle user);
+//Version of removeStickyBroadcast(Intent); that allows you to specify the user the broadcast will be sent to.
+
+//void revokeUriPermission(Uri uri, int modeFlags);
+//Remove all permissions to access a particular content provider Uri that were previously added with grantUriPermission(String, Uri, int);.
+
+//void sendBroadcast(Intent intent);
+//Broadcast the given intent to all interested BroadcastReceivers.
+
+//void sendBroadcast(Intent intent, String receiverPermission);
+//Broadcast the given intent to all interested BroadcastReceivers, allowing an optional required permission to be enforced.
+
+//void sendBroadcastAsUser(Intent intent, UserHandle user);
+//Version of sendBroadcast(Intent); that allows you to specify the user the broadcast will be sent to.
+
+//void sendBroadcastAsUser(Intent intent, UserHandle user, String receiverPermission);
+//Version of sendBroadcast(Intent, String); that allows you to specify the user the broadcast will be sent to.
+
+//void sendOrderedBroadcast(Intent intent, String receiverPermission, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
+//Version of sendBroadcast(Intent); that allows you to receive data back from the broadcast.
+
+//void sendOrderedBroadcast(Intent intent, String receiverPermission);
+//Broadcast the given intent to all interested BroadcastReceivers, delivering them one at a time to allow more preferred receivers to consume the broadcast before it is delivered to less preferred receivers.
+
+//void sendOrderedBroadcastAsUser(Intent intent, UserHandle user, String receiverPermission, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
+//Version of sendOrderedBroadcast(Intent, String, BroadcastReceiver, Handler, int, String, Bundle); that allows you to specify the user the broadcast will be sent to.
+
+//void sendStickyBroadcast(Intent intent);
+//Perform a sendBroadcast(Intent); that is "sticky," meaning the Intent you are sending stays around after the broadcast is complete, so that others can quickly retrieve that data through the return value of registerReceiver(BroadcastReceiver, IntentFilter);.
+
+//void sendStickyBroadcastAsUser(Intent intent, UserHandle user);
+//Version of sendStickyBroadcast(Intent); that allows you to specify the user the broadcast will be sent to.
+
+//void sendStickyOrderedBroadcast(Intent intent, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
+//Version of sendStickyBroadcast(Intent); that allows you to receive data back from the broadcast.
+
+//void sendStickyOrderedBroadcastAsUser(Intent intent, UserHandle user, BroadcastReceiver resultReceiver, Handler scheduler, int initialCode, String initialData, Bundle initialExtras);
+//Version of sendStickyOrderedBroadcast(Intent, BroadcastReceiver, Handler, int, String, Bundle); that allows you to specify the user the broadcast will be sent to.
+
+//void setTheme(int resid);
+//Set the base theme for this context.
+
+//void setWallpaper(Bitmap bitmap);
+//This method was deprecated in API level . Use WallpaperManager.set(); instead.
+//This method requires the caller to hold the permission SET_WALLPAPER.
+
+//void setWallpaper(InputStream data);
+//This method was deprecated in API level . Use WallpaperManager.set(); instead.
+//This method requires the caller to hold the permission SET_WALLPAPER.
+
+//void startActivities(Intent[] intents);
+//Same as startActivities(Intent[], Bundle); with no options specified.
+
+//void startActivities(Intent[] intents, Bundle options);
+//Launch multiple new activities.
+
+//void startActivity(Intent intent);
+//Same as startActivity(Intent, Bundle); with no options specified.
+
+//void startActivity(Intent intent, Bundle options);
+//Launch a new activity.
+
+//boolean startInstrumentation(ComponentName className, String profileFile, Bundle arguments);
+//Start executing an Instrumentation class.
+
+//void startIntentSender(IntentSender intent, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, Bundle options);
+//Like startActivity(Intent, Bundle);, but taking a IntentSender to start.
+
+//void startIntentSender(IntentSender intent, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
+//Same as startIntentSender(IntentSender, Intent, int, int, int, Bundle); with no options specified.
+
+//ComponentName startService(Intent service);
+//Request that a given application service be started.
+
+//boolean stopService(Intent name);
+//Request that a given application service be stopped.
+
+//void unbindService(ServiceConnection conn);
+//Disconnect from an application service.
+
+//void unregisterReceiver(BroadcastReceiver receiver);
+//Unregister a previously registered BroadcastReceiver.
+
+//Protected Methods
+//void attachBaseContext(Context base);
+//Set the base context for this ContextWrapper.
+
+}
+
+
+class CursorLoader {
+    
+//CSH: found in spreadsheet, not in API:
+//registerContentObserver
+
+
+void deliverResult(Cursor cursor);
+//Sends the result of the load to the registered listener.
+
+//void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args);
+//Print the Loader's state into the given stream.
+
+//String[] getProjection();
+
+//String getSelection();
+
+//String[] getSelectionArgs();
+
+//String getSortOrder();
+
+//Uri getUri();
+
+Cursor loadInBackground();
+
+void onCanceled(Cursor cursor);
+//Called if the task was canceled before it was completed.
+
+//void setProjection(String[] projection);
+
+//void setSelection(String selection);
+
+//void setSelectionArgs(String[] selectionArgs);
+
+//void setSortOrder(String sortOrder);
+
+//void setUri(Uri uri);
+
+//Protected Methods
+//void onReset();
+//Subclasses must implement this to take care of resetting their loader, as per reset();.
+
+//void onStartLoading();
+//Starts an asynchronous load of the contacts list data.
+
+void onStopLoading();
+//Must be called from the UI thread
+}
+
+
 class Intent{
         Intent putExtra(@Sink(FlowPermission.ANY) String name, @Sink(FlowPermission.ANY) Serializable value);
         Intent(@Sink(FlowPermission.ANY) String action);
@@ -176,24 +496,24 @@ String dataToString(D data);
 void deliverResult(D data);
 //Sends the result of the load to the registered listener.
 
-void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the Loader's state into the given stream.
 //CSH: filedescriptor
 
 void forceLoad();
 //Force an asynchronous load.
 
-//Context getContext();
+Context getContext();
 
 //int getId();
 
 boolean isAbandoned();
 //Return whether this loader has been abandoned.
 
-//boolean isReset();
+boolean isReset();
 //Return whether this load has been reset.
 
-//boolean isStarted();
+boolean isStarted();
 //Return whether this load has been started.
 
 void onContentChanged();
@@ -211,7 +531,7 @@ final void startLoading();
 void stopLoading();
 //Stops delivery of updates until the next time startLoading(); is called.
 
-//boolean takeContentChanged();
+boolean takeContentChanged();
 //Take the current flag indicating whether the loader's content had changed while it was stopped.
 
 //String toString();

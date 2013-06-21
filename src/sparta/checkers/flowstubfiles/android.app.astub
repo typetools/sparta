@@ -596,6 +596,127 @@ abstract Fragment.SavedState saveFragmentInstanceState(Fragment f);
 
 }
 
+class FragmentTransaction {
+
+abstract FragmentTransaction add(@Sink(DISPLAY) Fragment fragment, String tag);
+//Calls add(int, Fragment, String); with a 0 containerViewId.
+
+abstract FragmentTransaction add(int containerViewId, @Sink(DISPLAY) Fragment fragment);
+//Calls add(int, Fragment, String); with a null tag.
+
+abstract FragmentTransaction add(int containerViewId, @Sink(DISPLAY) Fragment fragment, String tag);
+//Add a fragment to the activity state.
+
+//abstract FragmentTransaction addToBackStack(String name);
+//Add this transaction to the back stack.
+
+abstract FragmentTransaction attach(@Sink(DISPLAY) Fragment fragment);
+//Re-attach a fragment after it had previously been deatched from the UI with detach(Fragment);.
+
+abstract int commit();
+//Schedules a commit of this transaction.
+
+abstract int commitAllowingStateLoss();
+//Like commit(); but allows the commit to be executed after an activity's state is saved.
+
+abstract FragmentTransaction detach(Fragment fragment);
+//Detach the given fragment from the UI.
+
+//abstract FragmentTransaction disallowAddToBackStack();
+//Disallow calls to addToBackStack(String);.
+
+//abstract FragmentTransaction hide(Fragment fragment);
+//Hides an existing fragment.
+
+//abstract boolean isAddToBackStackAllowed();
+//Returns true if this FragmentTransaction is allowed to be added to the back stack.
+
+//abstract boolean isEmpty();
+
+abstract FragmentTransaction remove(Fragment fragment);
+//Remove an existing fragment.
+
+//abstract FragmentTransaction replace(int containerViewId, Fragment fragment, String tag);
+//Replace an existing fragment that was added to a container.
+
+//abstract FragmentTransaction replace(int containerViewId, Fragment fragment);
+//Calls replace(int, Fragment, String); with a null tag.
+
+//abstract FragmentTransaction setBreadCrumbShortTitle(int res);
+//Set the short title to show as a bread crumb when this transaction is on the back stack.
+
+//abstract FragmentTransaction setBreadCrumbShortTitle(CharSequence text);
+//Like setBreadCrumbShortTitle(int); but taking a raw string; this method is not recommended, as the string can not be changed later if the locale changes.
+
+//abstract FragmentTransaction setBreadCrumbTitle(CharSequence text);
+//Like setBreadCrumbTitle(int); but taking a raw string; this method is not recommended, as the string can not be changed later if the locale changes.
+
+//abstract FragmentTransaction setBreadCrumbTitle(int res);
+//Set the full title to show as a bread crumb when this transaction is on the back stack.
+
+//abstract FragmentTransaction setCustomAnimations(int enter, int exit, int popEnter, int popExit);
+//Set specific animation resources to run for the fragments that are entering and exiting in this transaction.
+
+//abstract FragmentTransaction setCustomAnimations(int enter, int exit);
+//Set specific animation resources to run for the fragments that are entering and exiting in this transaction.
+
+//abstract FragmentTransaction setTransition(int transit);
+//Select a standard transition animation for this transaction.
+
+//abstract FragmentTransaction setTransitionStyle(int styleRes);
+//Set a custom style resource that will be used for resolving transit animations.
+
+//abstract FragmentTransaction show(Fragment fragment);
+//Shows a previously hidden fragment.
+
+}
+
+class ListFragment {
+//CSH: in spreadsheet, not found in API
+//ensureList
+    
+
+//ListAdapter getListAdapter();
+//Get the ListAdapter associated with this activity's ListView.
+
+//ListView getListView();
+//Get the activity's list view widget.
+
+//long getSelectedItemId();
+//Get the cursor row ID of the currently selected list item.
+
+//int getSelectedItemPosition();
+//Get the position of the currently selected list item.
+
+//View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+//Provide default implementation to return a simple list view.
+
+//void onDestroyView();
+//Detach from list view.
+
+//void onListItemClick(ListView l, View v, int position, long id);
+//This method will be called when an item in the list is selected.
+
+//void onViewCreated(View view, Bundle savedInstanceState);
+//Attach to list view once the view hierarchy has been created.
+
+//void setEmptyText(CharSequence text);
+//The default content for a ListFragment has a TextView that can be shown when the list is empty.
+
+void setListAdapter(ListAdapter adapter);
+//Provide the cursor for the list view.
+
+void setListShown(boolean shown);
+//Control whether the list is being displayed.
+
+//void setListShownNoAnimation(boolean shown);
+//Like setListShown(boolean);, but no animation is used when transitioning from the previous state.
+
+//void setSelection(int position);
+//Set the currently selected list item to the specified position with the adapter's data
+}
+
+
 class Notification$Builder {
 
 Notification.Builder addAction(@Sink(FlowPermission.DISPLAY) int icon, @Sink(FlowPermission.DISPLAY) CharSequence title, PendingIntent intent);
