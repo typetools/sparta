@@ -22,8 +22,7 @@ class Generics {
     List<Object> lo = new List<Object>();
     List<@Source(FlowPermission.INTERNET) Object> netok = new List<@Source(FlowPermission.INTERNET) Object>();
     
-    //TODO: This error is a bug
-    //:: error: (assignment.type.incompatible)
+   
     List<@Source(FlowPermission.INTERNET) Object> netok2 = foo();
  
     //:: error: (assignment.type.incompatible)
@@ -35,11 +34,9 @@ class Generics {
         //:: error: (assignment.type.incompatible)
         o = netok.getF(4);
     }
-  //TODO: This error is a bug
-    //:: error: (forbidden.flow)
+
     List<@Source(FlowPermission.INTERNET) Object> foo() {
-      //TODO: This error is a bug
-       //:: error: (return.type.incompatible)
+
     	return new List<@Source(FlowPermission.INTERNET) Object>();
     }
 
