@@ -209,22 +209,27 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
 		@Override
 		public Void visitTypeVariable(AnnotatedTypeVariable type, Tree tree) {
-			// Keep in sync with visitWildcard
-			AnnotatedTypeMirror upperbound = type.getUpperBound();
+//			// Keep in sync with visitWildcard
+			//getUpperBound() has side effects we don't want
+			//So we just get the field
+			AnnotatedTypeMirror upperbound = type.getUpperBoundField();
 			if (upperbound != null) {
 				//Allow top on upper bounds
 				flowVisitor.setAllowTop(true);
 			}
 			Void tmpReturn = super.visitTypeVariable(type, tree);
-			//Disallow top, done processing type variable
+//			//Disallow top, done processing type variable
 			flowVisitor.setAllowTop(false);
 			return tmpReturn;
+
 		}
 
 		@Override
 		public Void visitWildcard(AnnotatedWildcardType type, Tree tree) {
 			// Keep in sync with visitTypeVariable
-			AnnotatedTypeMirror upperbound = type.getExtendsBound();
+			//getExtendsBound() has side effects we don't want
+			//So we just get the field
+			AnnotatedTypeMirror upperbound = type.getExtendsBoundField();
 			if (upperbound != null) {
 				//Allow top on upper bounds
 				flowVisitor.setAllowTop(true);
@@ -240,7 +245,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
             StringBuffer buf = new StringBuffer();
             for(Flow flow: checker.getFlowPolicy().forbiddenFlows(type)){
-        	buf.append(flow.toString()+"\n");
+//        	buf.append(flow.toString()+"\n");
             }
             checker.report(Result.failure("forbidden.flow",
                     type.toString(), buf.toString()), p);
