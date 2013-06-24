@@ -269,6 +269,28 @@ public class FlowChecker extends BaseTypeChecker {
                 return null; // dead code
             }
         }
+        @Override
+        public boolean isSubtype(Collection<AnnotationMirror> rhs, Collection<AnnotationMirror> lhs) {
+        	if(rhs.isEmpty() ^ lhs.isEmpty()){
+        		//TODO: more general fix
+        		//This happens when casting:
+				/**
+				 * class TypeAsKeyHashMap<T> {
+				 *    public <S extends T> S get(T type) {
+				 *       return (S) type; 
+				 *    }
+				 * }
+				 */
+        		
+        		//super will give this error
+        		// error: MultiGraphQualifierHierarchy: empty annotations in lhs: or rhs: 
+        		
+        		return false;
+        	}
+        	return super.isSubtype(rhs, lhs);
+        }
+
+        	
 
         @Override
         public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
