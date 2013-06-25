@@ -1433,6 +1433,8 @@ final void setHintTextColor(int color);
 
 void setInputType(int type);
 //Set the type of the content with a constant as defined for inputType.
+
+Editable  getEditableText();
     
 // UNUSED AND UNANNOTATED
 // final void    append(CharSequence text);
@@ -1460,7 +1462,7 @@ void setInputType(int type);
 // final int     getCurrentHintTextColor();
 // final int     getCurrentTextColor();
 // ActionMode.Callback   getCustomSelectionActionModeCallback();
-// Editable  getEditableText();
+// 
 // TextUtils.TruncateAt  getEllipsize();
 // CharSequence  getError();
 // int   getExtendedPaddingBottom();
