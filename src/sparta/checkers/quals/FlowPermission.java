@@ -50,6 +50,7 @@ public enum FlowPermission {
     WRITE_LOGS (T.SINK), //READ_LOGS is an Android Permission, but there is no WRITE_LOGS
     DATABASE (T.BOTH), //This is an Android database that could be any of the Content database.
     SYSTEM_PROPERTIES(T.BOTH),//This is for java.lang.System
+    MEDIA(T.SOURCE),
     
     /**
      * These are old sources or sinks that may or may not be of use

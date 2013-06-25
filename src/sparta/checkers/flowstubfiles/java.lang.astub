@@ -2,6 +2,11 @@
 package java.lang;
 
 @PolyFlowReceiver
+class AbstractStringBuilder{
+        int length();
+}
+
+@PolyFlowReceiver
 interface Appendable {
 //Added by pbsf
     Appendable append(CharSequence arg0) throws IOException;
@@ -461,6 +466,11 @@ interface CharSequence {
     String toString();
 }
 
+class Class{
+        Constructor<T> getConstructor(Class<?>[] parameterTypes) throws NoSuchMethodException,SecurityException;
+        Field getDeclaredField(String name) throws NoSuchFieldException,SecurityException;
+}
+
 @PolyFlowReceiver
 class ClassLoader {
     protected ClassLoader(ClassLoader arg0);
@@ -567,6 +577,10 @@ class Enum<E> implements Comparable<E>, Serializable {
     protected void finalize();
 }
 
+class Exception{
+        Exception(String message);
+}
+
 @PolyFlowReceiver
 class Float extends Number implements Comparable<Float> {
 //Added by pbsf
@@ -606,6 +620,10 @@ class Float extends Number implements Comparable<Float> {
     static float intBitsToFloat(int arg0);
     int compareTo(Float arg0);
     static int compare(float arg0, float arg1);
+}
+
+class IllegalArgumentException{
+        IllegalArgumentException();
 }
 
 @PolyFlowReceiver

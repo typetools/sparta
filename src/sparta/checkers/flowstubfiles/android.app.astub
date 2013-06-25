@@ -14,11 +14,86 @@ class Activity{
     
     void startActivityForResult(@Sink(FlowPermission.ANY) Intent intent, int requestCode);
     protected void onActivityResult(int requestCode, int resultCode, @Sink(FlowPermission.ANY) Intent data);
+        boolean onMenuItemSelected(int featureId, MenuItem item);
+        protected Dialog onCreateDialog(int id);
+        boolean onCreateOptionsMenu(Menu menu);
+        void showDialog(int id);
+        SharedPreferences getPreferences(int mode);
+        void finish();
+        void startActivity(@Sink(FlowPermission.ANY)  Intent intent);
     
+}
+
+class AlertDialog {
+
+Button getButton(int whichButton);
+//Gets one of the buttons used in the dialog.
+
+//ListView getListView();
+//Gets the list view used in the dialog.
+
+//boolean onKeyDown(int keyCode, KeyEvent event);
+////A key was pressed down.
+
+//boolean onKeyUp(int keyCode, KeyEvent event);
+//A key was released.
+
+void setButton(@Sink(FlowPermission.DISPLAY) CharSequence text, Message msg);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_POSITIVE.
+
+void setButton(int whichButton, @Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the positive button of the dialog is pressed.
+
+void setButton(@Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_POSITIVE
+
+void setButton(int whichButton, @Sink(FlowPermission.DISPLAY) CharSequence text, Message msg);
+//Set a message to be sent when a button is pressed.
+
+//void setButton2(CharSequence text, DialogInterface.OnClickListener listener);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_NEGATIVE
+
+//void setButton2(CharSequence text, Message msg);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_NEGATIVE.
+
+//void setButton3(CharSequence text, DialogInterface.OnClickListener listener);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_POSITIVE
+
+//void setButton3(CharSequence text, Message msg);
+//This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_NEUTRAL.
+
+//void setCustomTitle(View customTitleView);
+
+//void setIcon(Drawable icon);
+
+//void setIcon(int resId);
+//Set resId to 0 if you don't want an icon.
+
+//void setIconAttribute(int attrId);
+//Set an icon as supplied by a theme attribute.
+
+//void setInverseBackgroundForced(boolean forceInverseBackground);
+
+void setMessage(CharSequence message);
+
+//void setTitle(CharSequence title);
+//Set the title text for this dialog's window.
+
+//void setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom);
+//Set the view to display in that dialog, specifying the spacing to appear around that view.
+
+//void setView(View view);
+//Set the view to display in that dialog.
+
+
+//PROTECTED
+void onCreate(Bundle savedInstanceState);
+//Similar to onCreate(Bundle);, you should initialize your dialog in this method, including calling setContentView(View);.
 }
 
 class AlertDialog$Builder {
   //Added by Carl Hartung
+  Builder(Context context);
 AlertDialog.Builder setTitle(@Sink(FlowPermission.DISPLAY) CharSequence title);
 //Set the title displayed in the Dialog.
 
@@ -347,6 +422,13 @@ void show();
 
 //void onStop();
 //Called to tell you that you're stopping.
+}
+
+class ExpandableListActivity{
+        ExpandableListActivity();
+        void setListAdapter(ExpandableListAdapter adapter);
+        boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id);
+        ExpandableListView getExpandableListView();
 }
 
 class Fragment {
@@ -818,7 +900,7 @@ Notification.Builder setWhen(long when);
 
 
 class ProgressDialog {
-
+ProgressDialog(Context context);
 static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message);
 static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message, boolean indeterminate, boolean cancelable);
 static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message, boolean indeterminate, boolean cancelable, DialogInterface.OnCancelListener cancelListener);

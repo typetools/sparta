@@ -40,17 +40,39 @@ class ContentUris {
 
 @PolyFlowReceiver
 class ContentValues {
+        ContentValues();
+        Set<String> keySet();
+        void put(String key, String value);
+        void put(String key, Integer value);
     void put(@PolySource @PolySink String key, @PolySource @PolySink Long value) @PolySource @PolySink;
 }
 
 
+class ContentProviderOperation{
+       // static Builder newUpdate(Uri uri);
+        //static Builder newInsert(Uri uri);
+}
 
+class ContentProviderOperation$Builder{
+        Builder withValues(ContentValues values);
+        Builder withSelection(String selection, String[] selectionArgs);
+        ContentProviderOperation build();
+        Builder withValue(String key, Object value);
+        Builder withValueBackReference(String key, int previousResult);
+}
 
+class ContentResolver{
+        //Uri insert(Uri url, ContentValues values);
+        //int delete(Uri url, String where, String[] selectionArgs);
+        ContentProviderResult[] applyBatch(String authority, ArrayList<ContentProviderOperation> operations) throws RemoteException,OperationApplicationException;
+        //Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
+        //int update(Uri uri, ContentValues values, String where, String[] selectionArgs);
+}
 
 class Context {
 	@Source(FlowPermission.FILESYSTEM) File getDir( @Sink(FlowPermission.FILESYSTEM) String name,  @Sink(FlowPermission.CONDITIONAL) int mode);
 
-
+String getString(int resId, Object[] formatArgs);
  //Added by Carl Hartung
 abstract ContentResolver getContentResolver();
 //Return a ContentResolver instance for your application's package.
@@ -478,11 +500,25 @@ void onStopLoading();
 //Must be called from the UI thread
 }
 
+class DialogInterface{
+        void dismiss();
+        void cancel();
+}
+
+class DialogInterface$OnClickListener{
+        void onClick(DialogInterface arg0, int arg1);
+}
+class DialogInterface$OnKeyListener{
+        boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2);
+}
+
 
 class Intent{
         Intent putExtra(@Sink(FlowPermission.ANY) String name, @Sink(FlowPermission.ANY) Serializable value);
         Intent(@Sink(FlowPermission.ANY) String action);
         @Source(FlowPermission.ANY) String getDataString();
+        Intent(Context packageContext, Class<?> cls);
+//        Intent setDataAndType(Uri data, String type);
 }
 
 class Loader {
@@ -600,7 +636,16 @@ abstract Map<String, ?> getAll();
 // abstract void unregisterOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener);
 }
 
+class SharedPreferences$Editor{
+        Editor putBoolean(String arg0, boolean arg1);
+        boolean commit();
+}
+
 package android.content.res;
+
+class ColorStateList{
+        int getDefaultColor();
+}
 
 class Resources {
 //CSH: All of the objects returned by this class are pre-defined by the developer and compiled into the.apk

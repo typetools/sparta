@@ -486,73 +486,6 @@ void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener);
 
 }
 
-class AlertDialog {
-
-Button getButton(int whichButton);
-//Gets one of the buttons used in the dialog.
-
-//ListView getListView();
-//Gets the list view used in the dialog.
-
-//boolean onKeyDown(int keyCode, KeyEvent event);
-////A key was pressed down.
-
-//boolean onKeyUp(int keyCode, KeyEvent event);
-//A key was released.
-
-void setButton(@Sink(FlowPermission.DISPLAY) CharSequence text, Message msg);
-//This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_POSITIVE.
-
-void setButton(int whichButton, @Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
-//Set a listener to be invoked when the positive button of the dialog is pressed.
-
-void setButton(@Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
-//This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_POSITIVE
-
-void setButton(int whichButton, @Sink(FlowPermission.DISPLAY) CharSequence text, Message msg);
-//Set a message to be sent when a button is pressed.
-
-//void setButton2(CharSequence text, DialogInterface.OnClickListener listener);
-//This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_NEGATIVE
-
-//void setButton2(CharSequence text, Message msg);
-//This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_NEGATIVE.
-
-//void setButton3(CharSequence text, DialogInterface.OnClickListener listener);
-//This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_POSITIVE
-
-//void setButton3(CharSequence text, Message msg);
-//This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_NEUTRAL.
-
-//void setCustomTitle(View customTitleView);
-
-//void setIcon(Drawable icon);
-
-//void setIcon(int resId);
-//Set resId to 0 if you don't want an icon.
-
-//void setIconAttribute(int attrId);
-//Set an icon as supplied by a theme attribute.
-
-//void setInverseBackgroundForced(boolean forceInverseBackground);
-
-//void setMessage(CharSequence message);
-
-//void setTitle(CharSequence title);
-//Set the title text for this dialog's window.
-
-//void setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom);
-//Set the view to display in that dialog, specifying the spacing to appear around that view.
-
-//void setView(View view);
-//Set the view to display in that dialog.
-
-
-//PROTECTED
-void onCreate(Bundle savedInstanceState);
-//Similar to onCreate(Bundle);, you should initialize your dialog in this method, including calling setContentView(View);.
-}
-
 class ArrayAdapter {
 
 void add(T object);
@@ -644,6 +577,10 @@ void notifyDataSetInvalidated();
 
 }
 
+class BaseExpandableListAdapter{
+BaseExpandableListAdapter();
+void notifyDataSetChanged();
+}
 
 class Button {
 //CSH: all of the methods used are inhereited
@@ -666,7 +603,7 @@ abstract void setChecked(boolean checked);
 //Change the checked state of the view to the inverse of its current state
 }
 
-class Checkbox {
+class CheckBox {
 
 //void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
@@ -831,6 +768,29 @@ class EditText {
 void setText(@Sink(FlowPermission.DISPLAY )CharSequence text, TextView.BufferType type);
 //Sets the text that this TextView is to display (see setText(CharSequence);); and also sets whether it is stored in a styleable/spannable buffer and whether it is editable.
 
+}
+
+class ExpandableListAdapter{
+Object getChild(int arg0, int arg1);
+boolean hasStableIds();
+long getChildId(int arg0, int arg1);
+long getGroupId(int arg0);
+int getGroupCount();
+int getChildrenCount(int arg0);
+View getGroupView(int arg0, boolean arg1, View arg2, ViewGroup arg3);
+boolean isChildSelectable(int arg0, int arg1);
+Object getGroup(int arg0);
+View getChildView(int arg0, int arg1, boolean arg2, View arg3, ViewGroup arg4);
+}
+
+class ExpandableListView{
+static int getPackedPositionChild(long packedPosition);
+static int getPackedPositionGroup(long packedPosition);
+static int getPackedPositionType(long packedPosition);
+}
+
+class ExpandableListView$OnChildClickListener{
+        boolean onChildClick(ExpandableListView arg0, View arg1, int arg2, int arg3, long arg4);
 }
 
 class FrameLayout {
@@ -1351,6 +1311,7 @@ int timePassed();
 
 class TextView {
     
+TextView(Context context);
 final void setText(int resid);
 //Sets the TextView to display the specified slice of the specified char array.
 
@@ -1675,6 +1636,11 @@ void setInputType(int type);
 // void  onVisibilityChanged(View changedView, int visibility);
 // boolean   setFrame(int l, int t, int r, int b);
 // boolean   verifyDrawable(Drawable who);
+}
+
+class ScrollView{
+void addView(View child);
+ScrollView(Context context);
 }
 
 class Toast {

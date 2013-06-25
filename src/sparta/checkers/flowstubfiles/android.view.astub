@@ -1,5 +1,9 @@
 package android.view;
 
+class ContextMenu{
+        ContextMenu setHeaderTitle(CharSequence arg0);
+}
+
 class ContextThemeWrapper {
 
 //void applyOverrideConfiguration(Configuration overrideConfiguration);
@@ -29,6 +33,7 @@ Object getSystemService(String name);
 
 class LayoutInflater {
 
+
 abstract LayoutInflater cloneInContext(Context newContext);
 //Create a copy of the existing LayoutInflater object, with the copy pointing to a different Context than the original.
 
@@ -48,7 +53,7 @@ final LayoutInflater.Factory getFactory();
 //Return the current LayoutInflater.Factory2.
 
 //LayoutInflater.Filter getFilter();
-//View inflate(int resource, ViewGroup root);
+View inflate(int resource, ViewGroup root);
 //Inflate a new view hierarchy from the specified xml resource.
 
 View inflate(XmlPullParser parser, ViewGroup root);
@@ -1012,6 +1017,7 @@ void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 void requestLayout();
 //Call this when something has changed which has invalidated the layout of this view.
 
+ void setPaddingRelative(int start, int top, int end, int bottom);
 
 
 
@@ -1222,7 +1228,6 @@ void requestLayout();
 // void setOnGenericMotionListener(View.OnGenericMotionListener l);
 // void setOnHoverListener(View.OnHoverListener l);
 // void setOnSystemUiVisibilityChangeListener(View.OnSystemUiVisibilityChangeListener l);
-// void setPaddingRelative(int start, int top, int end, int bottom);
 // void setPivotX(float pivotX);
 // void setPivotY(float pivotY);
 // void setPressed(boolean pressed);
@@ -1325,6 +1330,10 @@ class View$OnClickListener{
         void onClick(View arg0);
 }
 
+class View$OnCreateContextMenuListener{
+        void onCreateContextMenu(ContextMenu arg0, View arg1, ContextMenuInfo arg2);
+}
+
 class ViewConfiguration {
     
 static ViewConfiguration get(Context context);
@@ -1412,6 +1421,8 @@ static int getTapTimeout();
 }
 
 class ViewGroup {
+
+void setPadding(int left, int top, int right, int bottom);
 
 //addChildrenForAccessibility(ArrayList<View> childrenForAccessibility);
 //Adds the children of a given View for accessibility.
@@ -1898,4 +1909,11 @@ abstract void requestLayout();
 //Start an action mode for the specified view.
 }
 
+class Window{
+        void clearFlags(int flags);
+        void addFlags(int flags);
+}
 
+class Window$Callback{
+        boolean onMenuItemSelected(int arg0, MenuItem arg1);
+}
