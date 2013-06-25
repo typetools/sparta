@@ -1575,7 +1575,7 @@ class Method extends Executable {
     int hashCode();
     String toString();
     String toGenericString();
-    @Source(FlowPermission.REFLECTION) Object invoke(Object arg0, Object[] arg1) throws IllegalAccessException,IllegalArgumentException,InvocationTargetException;
+    @Source(FlowPermission.REFLECTION) Object invoke(@Sink(REFLECTION) Object arg0, @Sink(REFLECTION) Object @Sink(REFLECTION) [] arg1) throws IllegalAccessException,IllegalArgumentException,InvocationTargetException;
     boolean isBridge();
     boolean isVarArgs();
     boolean isSynthetic();

@@ -514,11 +514,20 @@ class DialogInterface$OnKeyListener{
 
 
 class Intent{
-        Intent putExtra(@Sink(FlowPermission.ANY) String name, @Sink(FlowPermission.ANY) Serializable value);
-        Intent(@Sink(FlowPermission.ANY) String action);
-        @Source(FlowPermission.ANY) String getDataString();
-        Intent(Context packageContext, Class<?> cls);
-//        Intent setDataAndType(Uri data, String type);
+//SOM, We have a special FlowPermission for INTENTS
+        Intent putExtra(@Sink(INTENT) String name, @Sink(INTENT)  Serializable value);
+        Intent(@Sink(INTENT)  String action);
+        @Source(INTENT) String getDataString();
+        Intent(@Sink(INTENT) Context packageContext, @Sink(INTENT) Class<?> cls);
+        @Source(INTENT) Intent setDataAndType(@Sink(INTENT) Uri data, @Sink(INTENT) String type);
+        @Source(INTENT) String getStringExtra(@Sink(INTENT)String name);
+        @Source(INTENT) Intent setAction(@Sink(INTENT) String action);
+        @Source(INTENT) Intent();
+        @Source(INTENT) Intent(@Sink(INTENT) String action, @Sink(INTENT) Uri uri);
+        @Source(INTENT) Intent addFlags(@Sink(INTENT) int flags);
+        @Source(INTENT) Intent putExtra(@Sink(INTENT) String name, @Sink(INTENT) String value);
+       @Source(INTENT) Intent addCategory(@Sink(INTENT) String category);
+       @Source(INTENT) String getAction();
 }
 
 class Loader {
