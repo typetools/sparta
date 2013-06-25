@@ -65,6 +65,14 @@ class URL implements Serializable {
     static void setURLStreamHandlerFactory(URLStreamHandlerFactory arg0);
 }
 
+class Socket{
+//Added by SOM
+       @Sink(INTERNET) Socket(@Sink(INTERNET) String host, @Sink(INTERNET) int port)  throws UnknownHostException,IOException;
+        void close() throws IOException;
+        @Sink(INTERNET) OutputStream getOutputStream() throws IOException;
+        @Source(INTERNET) InputStream getInputStream() throws IOException;
+}
+
 @PolyFlowReceiver
 class URLConnection {
     protected URL url;
