@@ -253,14 +253,14 @@ abstract MenuItem setActionView(View view);
 //abstract MenuItem setCheckable(boolean checkable);
 //Control whether this item can display a check mark.
 
-abstract MenuItem setChecked(@Sink(FlowPermissions.DISPLAY) boolean checked);
+abstract MenuItem setChecked(@Sink(FlowPermission.DISPLAY) boolean checked);
 //Control whether this item is shown with a check mark.
 
-abstract MenuItem setEnabled(@Sink(FlowPermissions.DISPLAY) boolean enabled);
+abstract MenuItem setEnabled(@Sink(FlowPermission.DISPLAY) boolean enabled);
 //Sets whether the menu item is enabled.
 // setting to false greys out the View
 
-abstract MenuItem setIcon(@Sink(FlowPermissions.DISPLAY) Drawable icon);
+abstract MenuItem setIcon(@Sink(FlowPermission.DISPLAY) Drawable icon);
 //Change the icon associated with this item.
 
 abstract MenuItem setIcon(int iconRes);
@@ -287,7 +287,7 @@ abstract void setShowAsAction(int actionEnum);
 //abstract MenuItem setShowAsActionFlags(int actionEnum);
 //Sets how this item should display in the presence of an Action Bar.
 
-abstract MenuItem setTitle(@Sink(FlowPermissions.DISPLAY) CharSequence title);
+abstract MenuItem setTitle(@Sink(FlowPermission.DISPLAY) CharSequence title);
 //Change the title associated with this item.
 
 abstract MenuItem setTitle(int title);
@@ -296,7 +296,7 @@ abstract MenuItem setTitle(int title);
 //abstract MenuItem setTitleCondensed(CharSequence title);
 //Change the condensed title associated with this item.
 
-abstract MenuItem setVisible(@Sink(FlowPermissions.DISPLAY) boolean visible);
+abstract MenuItem setVisible(@Sink(FlowPermission.DISPLAY) boolean visible);
 //Sets the visibility of the menu item.
 
 }
