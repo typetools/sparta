@@ -33,6 +33,48 @@ class BroadcastReceiver{
             BroadcastReceiver();
             void onReceive(Context arg0, Intent arg1);
 }
+class ClipData{
+        static ClipData newPlainText(CharSequence label, CharSequence text);
+}
+
+class ClipboardManager extends ClipboardManager {
+//ClipData objects not annotated, because the class itself is annoated
+//SOM
+    void setPrimaryClip(ClipData arg0);
+    ClipData getPrimaryClip();
+    ClipDescription getPrimaryClipDescription();
+    boolean hasPrimaryClip();
+    void addPrimaryClipChangedListener(OnPrimaryClipChangedListener arg0);
+    void removePrimaryClipChangedListener(OnPrimaryClipChangedListener arg0);
+    @Source(READ_CLIPBOARD) CharSequence getText();
+    void setText(@Sink(WRITE_CLIPBOARD) CharSequence arg0);
+    boolean hasText();
+}
+class ClipData implements Parcelable {
+    ClipData(@Sink(WRITE_CLIPBOARD) CharSequence arg0, @Sink(WRITE_CLIPBOARD) String @Sink(WRITE_CLIPBOARD) [] arg1, @Sink(WRITE_CLIPBOARD) Item arg2);
+    ClipData(ClipDescription arg0, @Sink(WRITE_CLIPBOARD)  Item arg1);
+    static ClipData newPlainText(@Sink(WRITE_CLIPBOARD) CharSequence arg0, @Sink(WRITE_CLIPBOARD) CharSequence arg1);
+    static ClipData newIntent(@Sink(WRITE_CLIPBOARD) CharSequence arg0, @Sink(WRITE_CLIPBOARD) Intent arg1);
+    static ClipData newUri(@Sink(WRITE_CLIPBOARD) ContentResolver arg0, @Sink(WRITE_CLIPBOARD) CharSequence arg1, @Sink(WRITE_CLIPBOARD) Uri arg2);
+    static ClipData newRawUri(@Sink(WRITE_CLIPBOARD) CharSequence arg0, @Sink(WRITE_CLIPBOARD) Uri arg1);
+    @Source(READ_CLIPBOARD) ClipDescription getDescription();
+    void addItem(@Sink(WRITE_CLIPBOARD) Item arg0);
+    int getItemCount();
+    @Source(READ_CLIPBOARD) Item getItemAt(@Sink(WRITE_CLIPBOARD) int arg0);
+    int describeContents();
+    void writeToParcel(@Source(READ_CLIPBOARD) Parcel arg0, int arg1);
+}
+class ClipData$Item {
+    Item(@Sink(WRITE_CLIPBOARD) CharSequence arg0);
+    Item(@Sink(WRITE_CLIPBOARD) Intent arg0);
+    Item(@Sink(WRITE_CLIPBOARD) Uri arg0);
+    Item(@Sink(WRITE_CLIPBOARD) CharSequence arg0, @Sink(WRITE_CLIPBOARD) Intent arg1, @Sink(WRITE_CLIPBOARD) Uri arg2);
+    @Source(READ_CLIPBOARD) CharSequence getText();
+    @Source(READ_CLIPBOARD) Intent getIntent();
+    @Source(READ_CLIPBOARD) Uri getUri();
+    @Source(READ_CLIPBOARD) CharSequence coerceToText(@Sink(WRITE_CLIPBOARD) Context arg0);
+}
+
 
 class ContentProvider {
     final @Source(FlowPermission.ANY) Context getContext() @Source(FlowPermission.ANY);

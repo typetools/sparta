@@ -53,6 +53,8 @@ public enum FlowPermission {
     MEDIA(T.SOURCE),
     READ_EMAIL (T.SOURCE),
     READ_WRITE (T.SINK),
+    WRITE_CLIPBOARD(T.SINK),
+    READ_CLIPBOARD(T.SOURCE),
     
     /**
      * These are old sources or sinks that may or may not be of use
