@@ -1,0 +1,7 @@
+package android.telephony;
+class TelephonyManager{
+            @Source(READ_PHONE_STATE) String getDeviceId();
+            @Source(READ_PHONE_STATE) String getSimSerialNumber();
+            @Source(READ_PHONE_STATE) String getNetworkOperatorName();
+            @Source(READ_PHONE_STATE) int getPhoneType();
+}

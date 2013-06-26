@@ -1,0 +1,23 @@
+package android.nfc;
+
+
+class Tag{
+            @Source(NFC) String[] getTechList();
+}
+class NfcAdapter{
+            void disableForegroundDispatch(Activity activity);
+            void enableForegroundDispatch(Activity activity, PendingIntent intent, IntentFilter[] filters, String[][] techLists);
+            static NfcAdapter getDefaultAdapter(Context context);
+}
+package android.nfc.tech;
+
+class MifareClassic{
+            boolean authenticateSectorWithKeyA(int sectorIndex, byte[] key) throws IOException;
+            static MifareClassic get(Tag tag);
+            byte[] readBlock(int blockIndex) throws IOException;
+            int getSectorCount();
+            int getBlockCountInSector(int sectorIndex);
+}
+class BasicTagTechnology{
+            void connect() throws IOException;
+}

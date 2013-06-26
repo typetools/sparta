@@ -1,0 +1,6 @@
+
+package java.security;
+class MessageDigest{
+            static MessageDigest getInstance(String arg0) throws NoSuchAlgorithmException;
+            byte[] digest(byte[] arg0);
+}

@@ -252,6 +252,27 @@ class FileInputStream extends InputStream {
     @Source(FlowPermission.FILESYSTEM) FileChannel getChannel() @Source(FlowPermission.FILESYSTEM);
     protected void finalize() @Source(FlowPermission.FILESYSTEM) throws IOException;
 }
+@PolyFlowReceiver
+class FilterInputStream{
+            protected @PolySource FilterInputStream(InputStream arg0);
+            long skip(long arg0) throws IOException;
+            int read (byte[] arg0, int arg1, int arg2) throws IOException;
+            void close() throws IOException;
+            int available() throws IOException;
+            int read() throws IOException;
+}
+class IOException{
+            IOException(String arg0);
+}
+class FileReader{
+            FileReader(@Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File arg0) throws FileNotFoundException;
+}
+@PolyFlowReceiver
+class FilterOutputStream{
+            @PolySink FilterOutputStream(OutputStream arg0);
+            void close() throws IOException;
+            void write(@PolySink byte[] arg0) throws IOException;
+}
 
 class FilenameFilter{
         boolean accept(@Source(FlowPermission.FILESYSTEM) File arg0, String arg1);

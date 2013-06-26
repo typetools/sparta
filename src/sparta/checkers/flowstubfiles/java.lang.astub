@@ -4,6 +4,7 @@ package java.lang;
 @PolyFlowReceiver
 class AbstractStringBuilder{
         int length();
+        setLength(int arg0);
 }
 
 @PolyFlowReceiver
@@ -464,6 +465,13 @@ interface CharSequence {
     char charAt(int arg0);
     CharSequence subSequence(int arg0, int arg1);
     String toString();
+                boolean isAssignableFrom(Class<?> arg0);
+            boolean isInstance(Object arg0);
+            static Class<?> forName(String arg0) throws ClassNotFoundException;
+            Method getMethod(String arg0, Class<?>[] arg1) throws NoSuchMethodException,SecurityException;
+            T cast(Object arg0);
+            String getName();
+
 }
 
 class Class{
@@ -579,6 +587,8 @@ class Enum<E> implements Comparable<E>, Serializable {
 
 class Exception{
         Exception(String message);
+        Exception(Throwable arg0);
+        Exception(String arg0, Throwable arg1);
 }
 
 @PolyFlowReceiver
@@ -624,6 +634,16 @@ class Float extends Number implements Comparable<Float> {
 
 class IllegalArgumentException{
         IllegalArgumentException();
+        IllegalArgumentException(Throwable arg0);
+        IllegalArgumentException(String arg0);
+        IllegalArgumentException(String arg0, Throwable arg1);
+}
+class UnsupportedOperationException{
+            UnsupportedOperationException(String arg0);
+            UnsupportedOperationException();
+}
+class NumberFormatException{
+            NumberFormatException(String arg0);
 }
 
 @PolyFlowReceiver
@@ -919,6 +939,9 @@ class ProcessBuilder$Redirect {
     boolean equals(Object arg0);
     int hashCode();
 }
+class Runnable{
+            void run();
+}
 
 @PolyFlowReceiver
 class Runtime {
@@ -946,6 +969,22 @@ class Runtime {
     void loadLibrary(String arg0);
     InputStream getLocalizedInputStream(InputStream arg0);
     OutputStream getLocalizedOutputStream(OutputStream arg0);
+}
+
+class RuntimeException{
+            RuntimeException(String arg0);
+            RuntimeException(String arg0, Throwable arg1);
+}
+class IndexOutOfBoundsException{
+            IndexOutOfBoundsException();
+}
+class NullPointerException{
+            NullPointerException();
+}
+
+@PolyFlowReceiver
+class Readable{
+            int read(CharBuffer arg0) throws IOException;
 }
 
 @PolyFlowReceiver
@@ -1556,6 +1595,9 @@ class Field extends AccessibleObject implements Member {
 @PolyFlowReceiver
 interface GenericArrayType extends Type {
     Type getGenericComponentType();
+}
+class InvocationTargetException{
+            Throwable getCause();
 }
 
 @PolyFlowReceiver

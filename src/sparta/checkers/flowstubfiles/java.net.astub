@@ -71,6 +71,7 @@ class Socket{
         void close() throws IOException;
         @Sink(INTERNET) OutputStream getOutputStream() throws IOException;
         @Source(INTERNET) InputStream getInputStream() throws IOException;
+         boolean isConnected();
 }
 
 @PolyFlowReceiver

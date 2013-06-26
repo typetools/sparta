@@ -1,5 +1,10 @@
 package android.net;
 
+class ConnectivityManager{
+    //CSH: this is just whether it's connected or not, so no real information flow
+            NetworkInfo getNetworkInfo(int networkType);
+}
+
 class Uri {
     
     

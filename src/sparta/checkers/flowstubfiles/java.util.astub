@@ -41,6 +41,21 @@ class AbstractList<E> extends AbstractCollection<E> implements List<E> {
     int hashCode();
     protected void removeRange(int arg0, int arg1);
 }
+@PolyFlowReceiver
+class AbstractMap{
+            V remove(Object arg0);
+            V put(K arg0, V arg1);
+            protected AbstractMap();
+            Set<Entry<K,V>> entrySet();
+            V get(Object arg0);
+            void clear();
+            boolean containsKey(Object arg0);
+            int size();
+}
+
+class AbstractSet{
+            protected AbstractSet();
+}
  
 @PolyFlowReceiver
 class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cloneable, Serializable {
@@ -1028,6 +1043,10 @@ interface NavigableSet<E> extends SortedSet<E> {
     SortedSet<E> tailSet(E arg0);
 }
 
+class NoSuchElementException{
+            NoSuchElementException();
+}
+
 @PolyFlowReceiver
 interface Queue<E> extends Collection<E> {
     boolean add(E arg0);
@@ -1707,6 +1726,15 @@ class Logger {
     boolean getUseParentHandlers();
     Logger getParent();
     void setParent(Logger arg0);
+}
+
+package java.util.regex;
+class Matcher{
+            Matcher usePattern(Pattern arg0);
+            boolean lookingAt();
+            int regionStart();
+            Matcher region(int arg0, int arg1);
+            int regionEnd();
 }
 
 

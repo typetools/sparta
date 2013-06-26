@@ -21,6 +21,12 @@ class Activity{
         SharedPreferences getPreferences(int mode);
         void finish();
         void startActivity(@Sink(FlowPermission.ANY)  Intent intent);
+        
+         protected void onNewIntent(Intent intent);
+            protected void onResume();
+            Intent getIntent();
+            protected void onPause();
+            void runOnUiThread(Runnable action);
     
 }
 
@@ -432,6 +438,7 @@ class ExpandableListActivity{
 }
 
 class Fragment {
+     Fragment();
 void dump(@Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String prefix, FileDescriptor fd, PrintWriter writer, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String[] args);
 //Print the Fragments's state into the given stream.
 //CSH: FileDescriptors are a... "structure representing an open file, an open socket, or another source or sink of bytes"
@@ -897,7 +904,9 @@ Notification.Builder setWhen(long when);
 //Add a timestamp pertaining to the notification (usually the time the event occurred);.
 
 }
-
+class PendingIntent{
+            static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags);
+}
 
 class ProgressDialog {
 ProgressDialog(Context context);
@@ -929,5 +938,13 @@ void setProgressStyle(int style);
 // Change the format of the small text showing the percentage of progress.
 // void setSecondaryProgress(int secondaryProgress);
 
+}
+
+class Service{
+            IBinder onBind(Intent arg0);
+            void onStart(Intent intent, int startId);
+            Service();
+            void onDestroy();
+            void onCreate();
 }
 

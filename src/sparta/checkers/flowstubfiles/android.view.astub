@@ -31,6 +31,12 @@ Object getSystemService(String name);
 
 }
 
+class Display{
+            int getPixelFormat();
+            int getWidth();
+            int getHeight();
+}
+
 class LayoutInflater {
 
 
@@ -1916,4 +1922,7 @@ class Window{
 
 class Window$Callback{
         boolean onMenuItemSelected(int arg0, MenuItem arg1);
+}
+class WindowManager{
+            Display getDefaultDisplay();
 }

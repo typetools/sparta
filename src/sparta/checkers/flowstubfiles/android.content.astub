@@ -29,6 +29,10 @@ D onLoadInBackground();
 //Called on a worker thread to perform the actual load.
 
 }
+class BroadcastReceiver{
+            BroadcastReceiver();
+            void onReceive(Context arg0, Intent arg1);
+}
 
 class ContentProvider {
     final @Source(FlowPermission.ANY) Context getContext() @Source(FlowPermission.ANY);
@@ -183,6 +187,9 @@ abstract @Source(FlowPermission.FILESYSTEM) File getFileStreamPath(String name);
 }
 
 class ContextWrapper {
+            File getDir(String name, int mode);
+            ContextWrapper(Context base);
+
 
 //boolean bindService(Intent service, ServiceConnection conn, int flags);
 //Connect to an application service, creating it if needed.
@@ -510,6 +517,9 @@ class DialogInterface$OnClickListener{
 }
 class DialogInterface$OnKeyListener{
         boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2);
+}
+class IntentFilter{
+            IntentFilter(String action);
 }
 
 
