@@ -52,7 +52,7 @@ public enum FlowPermission {
     SYSTEM_PROPERTIES(T.BOTH),//This is for java.lang.System
     MEDIA(T.SOURCE),
     READ_EMAIL (T.SOURCE),
-    READ_WRITE (T.SINK),
+    WRITE_EMAIL (T.SINK),
     WRITE_CLIPBOARD(T.SINK),
     READ_CLIPBOARD(T.SOURCE),
     

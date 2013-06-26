@@ -4,15 +4,15 @@ ANY -> WRITE_LOGS  #Comments
 
 READ_TIME -> WRITE_LOGS
 READ_TIME -> FILESYSTEM
-READ_TIME -> EMAIL
+READ_TIME -> WRITE_EMAIL
 
 
     #<-
-MANAGE_ACCOUNTS -> DISPLAY, EMAIL
+MANAGE_ACCOUNTS -> DISPLAY, WRITE_EMAIL
 
              #There are
 RECORD_AUDIO -> INTERNET, FILESYSTEM
-RECORD_AUDIO -> EMAIL      #No errors #
+RECORD_AUDIO -> WRITE_EMAIL      #No errors #
 #####################################
 
 

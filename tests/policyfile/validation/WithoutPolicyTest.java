@@ -58,14 +58,14 @@ class PolicyTest {
         final @Source({FlowPermission.RECORD_AUDIO}) @Sink({FlowPermission.WRITE_LOGS}) Object micToLc = null;
 
        // //:: error: (forbidden.flow)
-        final @Source({FlowPermission.MANAGE_ACCOUNTS}) @Sink({FlowPermission.EMAIL}) Object accToEm = null;
+        final @Source({FlowPermission.MANAGE_ACCOUNTS}) @Sink({FlowPermission.WRITE_EMAIL}) Object accToEm = null;
        //  //:: error: (forbidden.flow)
         final @Source({FlowPermission.MANAGE_ACCOUNTS}) @Sink({FlowPermission.DISPLAY}) Object accToDi = null;
         // //:: error: (forbidden.flow)
-        final String [] arrayOfAccToDEm = new String @Source({FlowPermission.MANAGE_ACCOUNTS}) @Sink({FlowPermission.DISPLAY, FlowPermission.EMAIL}) []{};
+        final String [] arrayOfAccToDEm = new String @Source({FlowPermission.MANAGE_ACCOUNTS}) @Sink({FlowPermission.DISPLAY, FlowPermission.WRITE_EMAIL}) []{};
 
         // //:: error: (forbidden.flow)
-        final String [] arrayOfAccToDEmFs = new String @Source({FlowPermission.MANAGE_ACCOUNTS}) @Sink({FlowPermission.DISPLAY, FlowPermission.EMAIL, FlowPermission.FILESYSTEM}) []{};
+        final String [] arrayOfAccToDEmFs = new String @Source({FlowPermission.MANAGE_ACCOUNTS}) @Sink({FlowPermission.DISPLAY, FlowPermission.WRITE_EMAIL, FlowPermission.FILESYSTEM}) []{};
         // //:: error: (forbidden.flow)
         final @Source({FlowPermission.MANAGE_ACCOUNTS}) @Sink({FlowPermission.FILESYSTEM}) Object accToFs = null;
         // //:: error: (forbidden.flow)
@@ -73,14 +73,14 @@ class PolicyTest {
 
 
         // //:: error: (forbidden.flow)
-        List<@Source({FlowPermission.RECORD_AUDIO, FlowPermission.READ_TIME}) @Sink({FlowPermission.EMAIL, FlowPermission.FILESYSTEM}) File> maTiFile = null;
+        List<@Source({FlowPermission.RECORD_AUDIO, FlowPermission.READ_TIME}) @Sink({FlowPermission.WRITE_EMAIL, FlowPermission.FILESYSTEM}) File> maTiFile = null;
         // //:: error: (forbidden.flow)
-        List<@Source({FlowPermission.RECORD_AUDIO, FlowPermission.READ_TIME}) @Sink({FlowPermission.EMAIL, FlowPermission.INTERNET}) File> maTiFile2 = null;
+        List<@Source({FlowPermission.RECORD_AUDIO, FlowPermission.READ_TIME}) @Sink({FlowPermission.WRITE_EMAIL, FlowPermission.INTERNET}) File> maTiFile2 = null;
         // //:: error: (forbidden.flow)
-        List<@Source({FlowPermission.RECORD_AUDIO}) @Sink({FlowPermission.EMAIL, FlowPermission.INTERNET}) File> maFile2 = null;
+        List<@Source({FlowPermission.RECORD_AUDIO}) @Sink({FlowPermission.WRITE_EMAIL, FlowPermission.INTERNET}) File> maFile2 = null;
 
         
-        @Source({FlowPermission.PHONE_NUMBER}) @Sink({FlowPermission.EMAIL, FlowPermission.WRITE_LOGS})
+        @Source({FlowPermission.PHONE_NUMBER}) @Sink({FlowPermission.WRITE_EMAIL, FlowPermission.WRITE_LOGS})
         class Whatever {
 //:: error: receiver parameter not applicable for constructor of top-level class
             public Whatever(@Source({FlowPermission.PHONE_NUMBER}) @Sink({FlowPermission.INTERNET}) Whatever this) {
