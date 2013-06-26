@@ -703,7 +703,7 @@ String dataToString(D data);
 void deliverResult(D data);
 //Sends the result of the load to the registered listener.
 
-void dump(String prefix, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the Loader's state into the given stream.
 //CSH: filedescriptor
 
