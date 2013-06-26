@@ -51,14 +51,14 @@ public enum FlowPermission {
     DATABASE (T.BOTH), //This is an Android database that could be any of the Content database.
     SYSTEM_PROPERTIES(T.BOTH),//This is for java.lang.System
     MEDIA(T.SOURCE),
+    READ_EMAIL (T.SOURCE),
+    READ_WRITE (T.SINK),
     
     /**
      * These are old sources or sinks that may or may not be of use
      */
     PHONE_NUMBER (T.SOURCE), 
     SHARED_PREFERENCES (T.BOTH),
-    //Can't figure out when email should be used or if a permission is required instead.
-    EMAIL (T.BOTH), 
     ACCELEROMETER(T.SOURCE),
     
     /**
