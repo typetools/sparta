@@ -6,8 +6,11 @@ class Activity{
     Activity();
 
     @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
-    @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater ();    
-	void onCreate(@Source(FlowPermission.ANY) Bundle savedInstanceState);
+    @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater (); 
+    //The getter and setters on Bundle are marked with source/sink Bundle
+    //So although this bundle can be from anywhere, the data pulled from it
+    //will be from BUNDLE
+	void onCreate(Bundle savedInstanceState);
 	void setContentView(@Sink(FlowPermission.DISPLAY) int layout);
     void setContentView (@Sink(FlowPermission.DISPLAY) View view);
     void setProgressBarIndeterminateVisibility(@Source(FlowPermission.LITERAL) @Sink(FlowPermission.DISPLAY) boolean visible);
@@ -20,7 +23,10 @@ class Activity{
         void showDialog(int id);
         SharedPreferences getPreferences(int mode);
         void finish();
-        void startActivity(@Sink(FlowPermission.ANY)  Intent intent);
+          //The getter and setters on Intents are marked with source/sink INTENT
+    //So although this intent can be from anywhere, the data pulled from it
+    //will be from INTENT
+        void startActivity(Intent intent);
         
          protected void onNewIntent(Intent intent);
             protected void onResume();
