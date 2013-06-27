@@ -376,6 +376,8 @@ class Adapter{
     Object getItem(int arg0);
     @PolyFlowReceiver
     View getView(int arg0, View arg1, ViewGroup arg2);
+    Object getSelectedItem();
+
 }
 
 class AdapterView {
@@ -506,6 +508,8 @@ class AdapterView$OnItemSelectedListener{
 		void onItemClick(@Source(FlowPermission.USER_INPUT)AdapterView<?> arg0,
    	 	@Source(FlowPermission.USER_INPUT)View arg1, @Source(FlowPermission.USER_INPUT)int arg2,
    		@Source(FlowPermission.USER_INPUT)long arg3);
+                    void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
+
 }
 
 class ArrayAdapter {
@@ -569,6 +573,8 @@ void setDropDownViewResource(int resource);
 }
 
 class BaseAdapter {
+            BaseAdapter();
+
 //boolean areAllItemsEnabled();
 //Indicates whether all the items in this adapter are enabled.
 
@@ -701,6 +707,9 @@ void setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener listener)
 
 class CursorAdapter {
 
+ FilterQueryProvider getFilterQueryProvider();
+ Cursor runQueryOnBackgroundThread(CharSequence constraint);
+
 
 abstract void bindView(View view, Context context, Cursor cursor);
 //Bind an existing view to the data pointed to by cursor
@@ -819,6 +828,9 @@ static int getPackedPositionType(long packedPosition);
 
 class ExpandableListView$OnChildClickListener{
         boolean onChildClick(ExpandableListView arg0, View arg1, int arg2, int arg3, long arg4);
+}
+class FilterQueryProvider{
+            Cursor runQuery(CharSequence arg0);
 }
 
 class FrameLayout {
@@ -1344,6 +1356,17 @@ int timePassed();
 
 }
 
+class TabHost{
+            void addTab(@Sink(DISPLAY) TabSpec tabSpec);
+            void setCurrentTab(int index);
+            TabSpec newTabSpec(String tag);
+}
+
+class TabHost$TabSpec{
+            TabSpec setIndicator(@Sink(DISPLAY) CharSequence label);
+            TabSpec setContent(Intent intent);
+}
+
 
 class TextView {
     
@@ -1694,6 +1717,14 @@ class SeekBar$OnSeekBarChangeListener{
         void onStopTrackingTouch(SeekBar arg0);
         void onStartTrackingTouch(SeekBar arg0);
         void onProgressChanged(SeekBar arg0, int arg1, boolean arg2);
+}
+
+class Spinner{
+            void setAdapter(SpinnerAdapter adapter);
+}
+class SimpleCursorAdapter{
+            SimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to);
+            void bindView(View view, Context context, Cursor cursor);
 }
 
 class Toast {

@@ -48,6 +48,8 @@ class IBinder {
     class Bundle {
         //Added by Carl Hartung
         //This class will need a qualifier  parameter
+        //TODO:  Bundles are often from intents, so all of these receivers
+        //should be of type @Source({LITERAL,INTENT})
                     Bundle();
 
     void writeToParcel(@Source(FlowPermission.PARCEL) Parcel parcel, int flags);
@@ -56,7 +58,7 @@ class IBinder {
     @Source(BUNDLE) String getString(String key, String defaultValue);
     //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
     
-    @Source(BUNDLE) String getString(String key);
+    @Source(BUNDLE) String getString(String key)@Source({LITERAL,INTENT});
     //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
     
     <T extends Parcelable> T getParcelable(String key);
@@ -158,6 +160,10 @@ class IBinder {
     
     Object clone();
     //Clones the current Bundle .
+}
+
+class Message{
+            static Message obtain(Handler h, int what);
 }
 
 class Looper{

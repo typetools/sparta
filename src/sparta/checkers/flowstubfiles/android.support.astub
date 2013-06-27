@@ -139,6 +139,20 @@ void addTab(@Sink(DISPLAY) TabHost.TabSpec tabSpec, Class<?> clss, Bundle args);
 
 }
 
+class Fragment{
+        void setHasOptionsMenu(boolean hasMenu);
+        void startActivity(Intent intent);
+        void onCreate(Bundle savedInstanceState);
+        Fragment();
+        boolean onOptionsItemSelected(MenuItem item);
+        void onActivityCreated( Bundle savedInstanceState);
+        LoaderManager getLoaderManager();
+        void setArguments(@Source({INTENT,LITERAL}) Bundle args);
+        Bundle getArguments();
+        boolean isResumed();
+        FragmentActivity getActivity();
+}
+
 
 package android.support.v4.util;
 

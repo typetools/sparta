@@ -1,6 +1,10 @@
 
 package android.app;
 
+class ActivityGroup{
+            protected void onCreate(Bundle savedInstanceState);
+}
+
 class Activity{
 //Annotations by SOM
     Activity();
@@ -45,6 +49,13 @@ class Activity{
             void onBackPressed();
             protected void onSaveInstanceState(Bundle outState);
             Window getWindow();
+              Activity getParent();
+            @Source(DATABASE) Cursor managedQuery(@Sink(DATABASE) Uri uri, @Sink(DATABASE) String[] projection, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String sortOrder);
+            void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo);
+            LayoutInflater getLayoutInflater();
+            boolean onContextItemSelected(MenuItem item);
+            Application getApplication();
+
     
 }
 class ActivityManager{
@@ -807,6 +818,8 @@ class ListActivity{
         ListActivity();
         protected void onListItemClick(ListView l, View v, int position, long id);
         void setListAdapter(ListAdapter adapter);
+        ListView getListView();
+        ListAdapter getListAdapter();
 }
 
 class ListFragment {
@@ -854,6 +867,15 @@ void setListShown(boolean shown);
 //Set the currently selected list item to the specified position with the adapter's data
 }
 
+class Notification{
+            Notification(int icon, @Sink(DISPLAY) CharSequence tickerText, long when);
+            void setLatestEventInfo(Context context, @Sink(DISPLAY) CharSequence contentTitle, @Sink(DISPLAY) CharSequence contentText, PendingIntent contentIntent);
+}
+
+class NotificationManager{
+            void cancel(int id);
+            void notify(int id, @Sink(DISPLAY) Notification notification);
+}
 
 class Notification$Builder {
 
@@ -1002,4 +1024,11 @@ class Service{
       	  void stopSelf();
        	 Application getApplication();
 }
+
+class TabActivity{
+            TabHost getTabHost();
+            TabActivity();
+}
+
+
 

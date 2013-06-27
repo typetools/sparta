@@ -92,6 +92,8 @@ void setFactory2(LayoutInflater.Factory2 factory);
 
 class Menu {
 
+            int addIntentOptions(int arg0, int arg1, int arg2, ComponentName arg3, Intent[] arg4, Intent arg5, int arg6, MenuItem[] arg7);
+
 abstract MenuItem add(@Sink(DISPLAY) CharSequence title);
 //Add a new item to the menu.
 

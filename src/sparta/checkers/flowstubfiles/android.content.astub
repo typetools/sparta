@@ -82,6 +82,13 @@ class ComponentName{
 
 class ContentProvider {
     final @Source(FlowPermission.ANY) Context getContext() @Source(FlowPermission.ANY);
+                @Source(DATABASE) Uri insert(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) ContentValues arg1);
+            int update(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) ContentValues arg1, @Sink(DATABASE) String arg2, @Sink(DATABASE) String @Sink(DATABASE)[] arg3);
+            @Source(DATABASE) Cursor query(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) String @Sink(DATABASE) [] arg1, @Sink(DATABASE) String arg2, @Sink(DATABASE) String @Sink(DATABASE)[] arg3, @Sink(DATABASE) String arg4);
+            @Source(DATABASE) String getType(@Sink(DATABASE) Uri arg0);
+            ContentProvider();
+            int delete(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) String arg1, @Sink(DATABASE) String @Sink(DATABASE)[] arg2);
+            boolean onCreate();
 }
 
 class ContentUris {
@@ -95,12 +102,15 @@ class ContentValues {
         void put(String key, String value);
         void put(String key, Integer value);
     void put(@PolySource @PolySink String key, @PolySource @PolySink Long value) @PolySource @PolySink;
+      boolean containsKey(String key);
+            Object get(String key);
+            ContentValues(ContentValues from);
 }
 
 
 class ContentProviderOperation{
-       // static Builder newUpdate(Uri uri);
-        //static Builder newInsert(Uri uri);
+        static Builder newUpdate(Uri uri);
+        static Builder newInsert(Uri uri);
 }
 
 class ContentProviderOperation$Builder{
@@ -117,6 +127,11 @@ class ContentResolver{
         ContentProviderResult[] applyBatch(String authority, ArrayList<ContentProviderOperation> operations) throws RemoteException,OperationApplicationException;
         //Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
         //int update(Uri uri, ContentValues values, String where, String[] selectionArgs);
+                  int delete(@Sink(DATABASE) Uri url, @Sink(DATABASE) String where, @Sink(DATABASE) String[] selectionArgs);
+            int update(@Sink(DATABASE) Uri uri, @Sink(DATABASE) ContentValues values, @Sink(DATABASE) String where, @Sink(DATABASE) String[] selectionArgs);
+            void notifyChange(Uri uri, ContentObserver observer);
+            @Source(DATABASE) Uri insert(@Sink(DATABASE) Uri url, @Sink(DATABASE) ContentValues values);
+            @Source(DATABASE) Cursor query(@Sink(DATABASE) Uri uri, @Sink(DATABASE) String[] projection, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String sortOrder);
 }
 
 class Context {
@@ -235,6 +250,8 @@ abstract @Source(FlowPermission.FILESYSTEM) File getFileStreamPath(String name);
 
 class ComponentName{
             String getClassName();
+      ComponentName(Context pkg, Class<?> cls);
+
 }
 
 class ContextWrapper {
@@ -251,6 +268,8 @@ class ContextWrapper {
             Context getBaseContext();
             void sendBroadcast(Intent intent);
             @Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences(String name, int mode);
+                        ContentResolver getContentResolver();
+
 
 
 //boolean bindService(Intent service, ServiceConnection conn, int flags);

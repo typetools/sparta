@@ -29,4 +29,6 @@ class SmsMessage{
         @Source(READ_EMAIL) String getEmailFrom();
         @Source(READ_SMS) long getTimestampMillis();
          @Source(READ_SMS) String getServiceCenterAddress();
+           @Source(READ_SMS) String getOriginatingAddress();
+
 }
