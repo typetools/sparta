@@ -364,6 +364,10 @@ void setTranscriptMode(int mode);
 
 }
 
+class AbsSpinner{
+        void setSelection(int position);
+}
+
 class AdapterView {
 
 //void addView(View child);
@@ -460,7 +464,7 @@ void setOnItemClickListener(AdapterView.OnItemClickListener listener);
 void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener);
 //Register a callback to be invoked when an item in this AdapterView has been clicked and held
 
-//void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
+void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
 //Register a callback to be invoked when an item in this AdapterView has been selected.
 
 //abstract void setSelection(int position);
@@ -486,7 +490,13 @@ void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener);
 
 }
 
+class AdapterView$OnItemSelectedListener{
+        void onNothingSelected(AdapterView<?> arg0);
+        void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3);
+}
+
 class ArrayAdapter {
+ArrayAdapter(Context context, int textViewResourceId, List<T> objects);
 
 void add(T object);
 //Adds the specified object at the end of the array.
@@ -1245,6 +1255,11 @@ void setSelection(@Sink(FlowPermission.DISPLAY) int position);
 
 }
 
+class ProgressBar{
+        int getProgress();
+        void setProgress(int progress);
+}
+
 class Scroller {
 void abortAnimation();
 //Stops the animation.
@@ -1645,6 +1660,16 @@ void addView(View child);
 ScrollView(Context context);
 }
 
+class SeekBar{
+        void setOnSeekBarChangeListener(OnSeekBarChangeListener l);
+}
+
+class SeekBar$OnSeekBarChangeListener{
+        void onStopTrackingTouch(SeekBar arg0);
+        void onStartTrackingTouch(SeekBar arg0);
+        void onProgressChanged(SeekBar arg0, int arg1, boolean arg2);
+}
+
 class Toast {
     
 void show();
@@ -1655,7 +1680,8 @@ static Toast makeText(Context context, int resId, int duration);
 
 static Toast makeText(Context context, @Sink(FlowPermission.DISPLAY) CharSequence text, int duration);
 //Make a standard toast that just contains a text view.
-
+void setGravity(int gravity, int xOffset, int yOffset);
+void setView(View view);
 
 //UNUSED AND UNANNOTATED    
 // void cancel();
@@ -1667,9 +1693,15 @@ static Toast makeText(Context context, @Sink(FlowPermission.DISPLAY) CharSequenc
 // int getXOffset();
 // int getYOffset();
 // void setDuration(int duration);
-// void setGravity(int gravity, int xOffset, int yOffset);
 // void setMargin(float horizontalMargin, float verticalMargin);
 // void setText(int resId);
 // void setText(CharSequence s);
-// void setView(View view);
+}
+
+class VideoView{
+        void suspend();
+        void resume();
+        void start();
+        void setVideoPath(String path);
+        void setOnPreparedListener(OnPreparedListener l);
 }

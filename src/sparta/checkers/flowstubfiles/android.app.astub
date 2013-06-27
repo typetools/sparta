@@ -14,6 +14,9 @@ class Activity{
 	void setContentView(@Sink(FlowPermission.DISPLAY) int layout);
     void setContentView (@Sink(FlowPermission.DISPLAY) View view);
     void setProgressBarIndeterminateVisibility(@Source(FlowPermission.LITERAL) @Sink(FlowPermission.DISPLAY) boolean visible);
+    boolean onOptionsItemSelected(MenuItem item);
+    protected void onStop();
+    void setRequestedOrientation(int requestedOrientation);
     
     void startActivityForResult(@Sink(FlowPermission.ANY) Intent intent, int requestCode);
     protected void onActivityResult(int requestCode, int resultCode, @Sink(FlowPermission.ANY) Intent data);
@@ -101,6 +104,10 @@ void setMessage(CharSequence message);
 //PROTECTED
 void onCreate(Bundle savedInstanceState);
 //Similar to onCreate(Bundle);, you should initialize your dialog in this method, including calling setContentView(View);.
+}
+
+class AlarmManager{
+        void set(int type, long triggerAtTime, @Source(FlowPermission.INTENT) PendingIntent operation);
 }
 
 class AlertDialog$Builder {
@@ -766,6 +773,17 @@ abstract FragmentTransaction remove(Fragment fragment);
 
 }
 
+class IntentService{
+        IntentService(String name);
+        protected void onHandleIntent(@Source(FlowPermission.INTENT) Intent arg0);
+}
+
+class ListActivity{
+        ListActivity();
+        protected void onListItemClick(ListView l, View v, int position, long id);
+        void setListAdapter(ListAdapter adapter);
+}
+
 class ListFragment {
 //CSH: in spreadsheet, not found in API
 //ensureList
@@ -911,7 +929,10 @@ Notification.Builder setWhen(long when);
 
 }
 class PendingIntent{
-            static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags);
+            static PendingIntent getActivity(Context context, int requestCode, @Source(FlowPermission.INTENT) Intent intent, int flags);
+            static PendingIntent getBroadcast(Context context, int requestCode, @Source(FlowPermission.INTENT) Intent intent, int flags);
+    //2 (cancel)
+        void cancel();
 }
 
 class ProgressDialog {
@@ -952,5 +973,7 @@ class Service{
             Service();
             void onDestroy();
             void onCreate();
+      	  void stopSelf();
+       	 Application getApplication();
 }
 
