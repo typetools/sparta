@@ -3,13 +3,21 @@ package android.os;
 
 class AsyncTask {
     @Source(FlowPermission.ANY) Result doInBackground(@Source(FlowPermission.ANY) Params... params);
+        protected void onCancelled();
+        AsyncTask<Params,Progress,Result> execute(@Source(FlowPermission.ANY) Params[] params);
+        protected void onProgressUpdate(@Source(FlowPermission.ANY) Progress[] values);
+        boolean cancel(boolean mayInterruptIfRunning);
+        protected void publishProgress(@Source(FlowPermission.ANY) Progress[] values);
+        Status getStatus();
+        protected void onPostExecute(@Source(FlowPermission.ANY) Result result);
+        protected void onPreExecute();
+        AsyncTask();
 }
 
 class Environment {
-
     static @Source(FlowPermission.FILESYSTEM) File 
     getExternalStoragePublicDirectory(@Sink(FlowPermission.FILESYSTEM) String type);
-
+	static @Source(FlowPermission.FILESYSTEM) File getExternalStorageDirectory() ;
 }
 
 class IBinder {

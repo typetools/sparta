@@ -1,0 +1,22 @@
+package org.xml.sax;
+class ContentHandler{
+        void characters(char[] arg0, int arg1, int arg2) throws SAXException;
+        void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException;
+        void startDocument() throws SAXException;
+        void endDocument() throws SAXException;
+        void endElement(String arg0, String arg1, String arg2) throws SAXException;
+}
+class Attributes{
+        String getValue(String arg0, String arg1);
+        String getValue(String arg0);
+}
+
+package org.xml.sax.helpers;
+class DefaultHandler{
+        void endDocument() throws SAXException;
+        void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException;
+        void characters(char[] arg0, int arg1, int arg2) throws SAXException;
+        void startDocument() throws SAXException;
+        DefaultHandler();
+        void endElement(String arg0, String arg1, String arg2) throws SAXException;
+}

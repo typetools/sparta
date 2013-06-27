@@ -249,6 +249,14 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 completePolicyFlows(type, arrayToComponentAnnos.first);
                 completePolicyFlows(((AnnotatedTypeMirror.AnnotatedArrayType) type).getComponentType(), arrayToComponentAnnos.second);
             } else {
+            	if(type instanceof AnnotatedTypeMirror.AnnotatedDeclaredType){
+            		AnnotatedDeclaredType dec = ((AnnotatedTypeMirror.AnnotatedDeclaredType)type);
+            		if(dec.isGeneric()){
+            			for ( final AnnotatedTypeMirror atm :dec.getTypeArguments()) {
+                            completePolicyFlows(false, atm);
+                        }
+            		}
+            	}
                 //Note this only works because TreeAnnotator does not add any defaults besides literals
                 completePolicyFlows(type, (isLocal) ? type.getExplicitAnnotations() : type.getAnnotations());
             }

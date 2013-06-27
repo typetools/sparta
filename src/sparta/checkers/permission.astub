@@ -143,6 +143,10 @@ class NotificationManager{
 @MayRequiredPermissions(value = {android.Manifest.permission.VIBRATE}, notes = "Permission only required if you've set the Notification.vibrate field for the Notification parameter.")  void notify(int arg0, android.app.Notification arg1);
 @MayRequiredPermissions(value = {android.Manifest.permission.VIBRATE}, notes = "Permission only required if you've set the Notification.vibrate field for the Notification parameter.")  void notify(java.lang.String arg0, int arg1, android.app.Notification arg2);
 }
+class SearchManager {
+
+}
+
 class Service{
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
@@ -166,6 +170,32 @@ class WallpaperManager{
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clear();
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER_HINTS})  void suggestDesiredDimensions(int arg0, int arg1);
 }
+
+package android.app.activity;
+
+class BroadcastTest {
+@DependentPermissions(android.Manifest.permission.TEST_DENIED) static final java.lang.String BROADCAST_LOCAL_DENIED;
+@DependentPermissions(android.Manifest.permission.TEST_GRANTED) static final java.lang.String BROADCAST_LOCAL_GRANTED;
+@DependentPermissions(android.Manifest.permission.TEST_DENIED) static final java.lang.String BROADCAST_REMOTE_DENIED;
+@DependentPermissions(android.Manifest.permission.TEST_GRANTED) static final java.lang.String BROADCAST_REMOTE_GRANTED;
+}
+
+class ServiceTest {
+@DependentPermissions(android.Manifest.permission.TEST_GRANTED) static final java.lang.String SERVICE_LOCAL_DENIED;
+@DependentPermissions(android.Manifest.permission.TEST_GRANTED) static final java.lang.String SERVICE_LOCAL_GRANTED;
+}
+
+package android.app.admin;
+
+class ServiceTest {
+@DependentPermissions(android.Manifest.permission.TEST_DENIED) java.lang.String SERVICE_LOCAL_DENIED;
+@DependentPermissions(android.Manifest.permission.TEST_GRANTED) java.lang.String SERVICE_LOCAL_GRANTED;
+}
+
+class DeviceAdminReceiver {
+@DependentPermissions({android.Manifest.permission.BIND_DEVICE_ADMIN}) java.lang.String ACTION_DEVICE_ADMIN_ENABLED;
+}
+
 package android.app.backup;
 class BackupAgent{
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
@@ -191,6 +221,9 @@ class BluetoothA2dp{
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.util.List getConnectedDevices();
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.util.List getDevicesMatchingConnectionStates(int[] arg0);
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
+
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) java.lang.String ACTION_CONNECTION_STATE_CHANGED;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) java.lang.String ACTION_PLAYING_STATE_CHANGED;
 }
 class BluetoothAdapter{
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN})  boolean enable();
@@ -208,6 +241,14 @@ class BluetoothAdapter{
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.lang.String getAddress();
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  android.bluetooth.BluetoothServerSocket listenUsingInsecureRfcommWithServiceRecord(java.lang.String arg0, java.util.UUID arg1);
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getState();
+
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) java.lang.String ACTION_REQUEST_DISCOVERABLE;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) java.lang.String ACTION_REQUEST_ENABLE;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) java.lang.String ACTION_CONNECTION_STATE_CHANGED;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) java.lang.String ACTION_LOCAL_NAME_CHANGED;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) java.lang.String ACTION_SCAN_MODE_CHANGED;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) java.lang.String ACTION_DISCOVERY_FINISHED;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) java.lang.String ACTION_STATE_CHANGED;
 }
 class BluetoothDevice{
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.lang.String getName();
@@ -215,7 +256,23 @@ class BluetoothDevice{
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getBondState();
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  android.bluetooth.BluetoothSocket createRfcommSocketToServiceRecord(java.util.UUID arg0);
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  android.bluetooth.BluetoothSocket createInsecureRfcommSocketToServiceRecord(java.util.UUID arg0);
+@DependentPermissions({android.Manifest.permission.BLUETOOTH_ADMIN})  static final java.lang.String ACTION_PAIRING_REQUEST;
+@DependentPermissions({android.Manifest.permission.BLUETOOTH_ADMIN})  static final java.lang.String ACTION_PAIRING_CANCEL;
+@DependentPermissions({android.Manifest.permission.BLUETOOTH_ADMIN})  static final java.lang.String ACTION_UUID;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH_ADMIN)  static final java.lang.String ACTION_CONNECTION_ACCESS_CANCEL;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH_ADMIN)  static final java.lang.String ACTION_CONNECTION_ACCESS_REQUEST;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH_ADMIN) static final java.lang.String ACTION_CONNECTION_ACCESS_REPLY;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final String ACTION_BOND_STATE_CHANGED;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final String ACTION_FOUND;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final String ACTION_DISAPPEARED;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final String ACTION_ACL_DISCONNECT_REQUESTED;
+
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final String ACTION_NAME_CHANGED;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final String ACTION_CLASS_CHANGED; 
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final String ACTION_ACL_DISCONNECTED;
 }
+
+
 class BluetoothHeadset{
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.BLUETOOTH})  boolean stopVoiceRecognition(android.bluetooth.BluetoothDevice arg0);
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH_ADMIN, android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.WAKE_LOCK, android.Manifest.permission.BLUETOOTH})  boolean startVoiceRecognition(android.bluetooth.BluetoothDevice arg0);
@@ -223,7 +280,12 @@ class BluetoothHeadset{
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  java.util.List getConnectedDevices();
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean isAudioConnected(android.bluetooth.BluetoothDevice arg0);
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final java.lang.String ACTION_VENDOR_SPECIFIC_HEADSET_EVENT;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final java.lang.String ACTION_CONNECTION_STATE_CHANGED;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final java.lang.String ACTION_CONNECTION_STATE_CHANGED;
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final java.lang.String ACTION_AUDIO_STATE_CHANGED;
 }
+
 class BluetoothHealth{
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  int getConnectionState(android.bluetooth.BluetoothDevice arg0);
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean unregisterAppConfiguration(android.bluetooth.BluetoothHealthAppConfiguration arg0);
@@ -234,6 +296,14 @@ class BluetoothHealth{
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean registerSinkAppConfiguration(java.lang.String arg0, int arg1, android.bluetooth.BluetoothHealthCallback arg2);
 @RequiredPermissions({android.Manifest.permission.BLUETOOTH})  boolean connectChannelToSource(android.bluetooth.BluetoothDevice arg0, android.bluetooth.BluetoothHealthAppConfiguration arg1);
 }
+class BluetoothInputDevice {
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final java.lang.String ACTION_CONNECTION_STATE_CHANGED;
+}
+
+class BluetoothPbap {
+@DependentPermissions(android.Manifest.permission.BLUETOOTH) static final java.lang.String PBAP_STATE_CHANGED_ACTION;
+}
+
 class BluetoothServerSocket{
 }
 class BluetoothSocket{
@@ -271,6 +341,21 @@ class ContextWrapper{
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
+
+class DefaultDataHandler {
+@DependentPermissions({android.Manifest.permission.READ_CONTACTS,android.Manifest.permission.WRITE_CONTACTS,android.Manifest.permission.GLOBAL_SEARCH}) Stack<Uri> mUris;
+}
+
+class Intent {
+@DependentPermissions(android.Manifest.permission.SHUTDOWN) static final java.lang.String ACTION_REQUEST_SHUTDOWN;
+@DependentPermissions(android.Manifest.permission.CALL_PHONE) static final java.lang.String ACTION_CALL;
+@DependentPermissions(android.Manifest.permission.CALL_PRIVILEGED) static final java.lang.String ACTION_CALL_EMERGENCY;
+@DependentPermissions(android.Manifest.permission.CALL_PRIVILEGED) static final java.lang.String ACTION_CALL_PRIVILEGED;
+@DependentPermissions(android.Manifest.permission.SHUTDOWN) static final java.lang.String ACTION_REBOOT;
+@DependentPermissions(android.Manifest.permission.MASTER_CLEAR) static final java.lang.String ACTION_REMOTE_INTENT;
+@DependentPermissions(android.Manifest.permission.RECEIVE_BOOT_COMPLETED) static final java.lang.String ACTION_BOOT_COMPLETED;
+}
+
 class MutableContextWrapper{
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void clearWallpaper();
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
@@ -556,6 +641,7 @@ class NfcV{
 }
 package android.os;
 class DropBoxManager{
+@DependentPermissions(android.Manifest.permission.READ_LOGS) static final java.lang.String ACTION_DROPBOX_ENTRY_ADDED;
 @RequiredPermissions({android.Manifest.permission.READ_LOGS})  android.os.DropBoxManager$Entry getNextEntry(java.lang.String arg0, long arg1);
 }
 class PowerManager$WakeLock{
@@ -579,6 +665,11 @@ class PreferenceActivity{
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 }
 package android.provider;
+
+class AlarmClock {
+@DependentPermissions(android.Manifest.permission.SET_ALARM) static final java.lang.String ACTION_SET_ALARM;
+}
+
 class Browser{
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", android.Manifest.permission.GET_ACCOUNTS})  void deleteFromHistory(android.content.ContentResolver arg0, java.lang.String arg1);
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS"})  android.database.Cursor getAllVisitedUrls(android.content.ContentResolver arg0);
@@ -591,9 +682,16 @@ class Browser{
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", android.Manifest.permission.GET_ACCOUNTS})  void addSearchUrl(android.content.ContentResolver arg0, java.lang.String arg1);
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS"})  boolean canClearHistory(android.content.ContentResolver arg0);
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS", "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS", android.Manifest.permission.GET_ACCOUNTS})  void clearHistory(android.content.ContentResolver arg0);
+@DependentPermissions({android.Manifest.permission.WRITE_HISTORY_BOOKMARKS,android.Manifest.permission.READ_HISTORY_BOOKMARKS, android.Manifest.permission.GLOBAL_SEARCH}) static final Uri BOOKMARKS_URI;
 }
+
+class BrowserContract {
+@DependentPermissions({android.Manifest.permission.WRITE_HISTORY_BOOKMARKS,android.Manifest.permission.READ_HISTORY_BOOKMARKS,android.Manifest.permission.GLOBAL_SEARCH}) static final Uri AUTHORITY_URI;
+}
+
 class CalendarContract$Attendees{
 @RequiredPermissions({android.Manifest.permission.READ_CALENDAR})  android.database.Cursor query(android.content.ContentResolver arg0, long arg1, java.lang.String[] arg2);
+@DependentPermissions({android.Manifest.permission.WRITE_CALENDAR,android.Manifest.permission.READ_CALENDAR}) static final Uri CONTENT_URI;
 }
 class CalendarContract$CalendarAlerts{
 }
@@ -607,7 +705,13 @@ class CalendarContract$Instances{
 class CalendarContract$Reminders{
 @RequiredPermissions({android.Manifest.permission.READ_CALENDAR})  android.database.Cursor query(android.content.ContentResolver arg0, long arg1, java.lang.String[] arg2);
 }
+class CallLog {
+
+}
+
 class CallLog$Calls{
+@DependentPermissions({android.Manifest.permission.WRITE_CONTACTS,android.Manifest.permission.READ_CONTACTS}) static final Uri CONTENT_URI;
+@DependentPermissions({android.Manifest.permission.WRITE_CONTACTS,android.Manifest.permission.READ_CONTACTS}) static final Uri CONTENT_FILTER_URI;
 @RequiredPermissions({"com.android.voicemail.permission.ADD_VOICEMAIL", android.Manifest.permission.READ_CONTACTS})  java.lang.String getLastOutgoingCall(android.content.Context arg0);
 }
 class Contacts$ContactMethods{
@@ -625,15 +729,21 @@ class Contacts$Settings{
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void setSetting(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3);
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  java.lang.String getSetting(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
 }
+class ContactsContract{
+@DependentPermissions({android.Manifest.permission.WRITE_CONTACTS,android.Manifest.permission.GLOBAL_SEARCH,android.Manifest.permission.READ_CONTACTS}) static final Uri AUTHORITY_URI;
+}
 class ContactsContract$Contacts{
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void markAsContacted(android.content.ContentResolver arg0, long arg1);
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getLookupUri(long arg0, java.lang.String arg1);
+@DependentPermissions(android.Manifest.permission.GLOBAL_SEARCH) static final Uri CONTENT_URI;
+
 }
 class ContactsContract$Data{
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getContactLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
 }
 class ContactsContract$Directory{
+@DependentPermissions(android.Manifest.permission.WRITE_CONTACTS) static final Uri CONTENT_URI;
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void notifyDirectoryChange(android.content.ContentResolver arg0);
 }
 class ContactsContract$ProfileSyncState{
@@ -651,6 +761,19 @@ class ContactsContract$SyncState{
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.content.ContentProviderOperation newSetOperation(android.accounts.Account arg0, byte[] arg1);
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  byte[] get(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
 }
+
+class Downloads {
+
+}
+
+class Downloads$Impl {
+@DependentPermissions(android.Manifest.permission.INTERNET) static final Uri CONTENT_URI;
+@DependentPermissions(android.Manifest.permission.ACCESS_ALL_DOWNLOADS)	static final Uri ALL_DOWNLOADS_CONTENT_URI;
+@DependentPermissions(android.Manifest.permission.INTERNET)	static final Uri PUBLICLY_ACCESSIBLE_DOWNLOADS_URI;
+
+
+}
+
 class Settings$Secure{
 @RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putString(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
 @RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putLong(android.content.ContentResolver arg0, java.lang.String arg1, long arg2);
@@ -668,14 +791,99 @@ class Settings$System{
 @RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putString(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
 @RequiredPermissions({android.Manifest.permission.WRITE_SETTINGS})  boolean putConfiguration(android.content.ContentResolver arg0, android.content.res.Configuration arg1);
 }
+
+class SocialContract {
+@DependentPermissions({android.Manifest.permission.WRITE_CONTACTS,android.Manifest.permission.READ_CONTACTS}) static final Uri AUTHORITY_URI;
+}
+
+class Telephony {
+}
+
+class Telephony$Intents {
+@DependentPermissions(android.Manifest.permission.BROADCAST_SMS) static final java.lang.String SMS_CB_RECEIVED_ACTION;
+@DependentPermissions(android.Manifest.permission.BROADCAST_SMS) static final java.lang.String SMS_EMERGENCY_CB_RECEIVED_ACTION;
+@DependentPermissions(android.Manifest.permission.BROADCAST_SMS) static final java.lang.String SMS_RECEIVED_ACTION;
+@DependentPermissions(android.Manifest.permission.BROADCAST_WAP_PUSH) static final java.lang.String WAP_PUSH_RECEIVED_ACTION;
+@DependentPermissions(android.Manifest.permission.RECEIVE_SMS) static final java.lang.String SMS_REJECTED_ACTION;
+@DependentPermissions(android.Manifest.permission.RECEIVE_SMS) static final java.lang.String SIM_FULL_ACTION;
+@DependentPermissions(android.Manifest.permission.RECEIVE_SMS) static final java.lang.String SMS_RECEIVED_ACTION;
+@DependentPermissions(android.Manifest.permission.RECEIVE_SMS) static final java.lang.String DATA_SMS_RECEIVED_ACTION;
+@DependentPermissions(android.Manifest.permission.RECEIVE_SMS) static final java.lang.String SMS_CB_RECEIVED_ACTION;
+}
+
+class Telephony$Mms {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+class Telephony$Mms$Conversations {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+
+class Telephony$Mms$Draft {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+class Telephony$Mms$Inbox {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+
+class Telephony$Mms$Outbox {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+
+class Telephony$Mms$Sent {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+
+
+
+
+class Telephony$Sms {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+
+class Telephony$Sms$Conversations {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+class Telephony$Sms$Draft {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+class Telephony$Sms$Inbox {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+class Telephony$Sms$Outbox {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+class Telephony$Sms$Sent {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri CONTENT_URI;
+}
+
+
+
+
+class Telephony$Threads {
+@DependentPermissions({android.Manifest.permission.WRITE_SMS,android.Manifest.permission.READ_SMS}) static final Uri THREAD_ID_CONTENT_URI;
+}
+
+class UserDictionary {
+@DependentPermissions({android.Manifest.permissions.READ_USER_DICTIONARY,android.Manifest.permissions.WRITE_USER_DICTIONARY}) static final String AUTHORITY;
+@DependentPermissions({android.Manifest.permissions.READ_USER_DICTIONARY,android.Manifest.permissions.WRITE_USER_DICTIONARY}) static final Uri CONTENT_URI;
+}
+
 class UserDictionary$Words{
 @RequiredPermissions({android.Manifest.permission.READ_USER_DICTIONARY, android.Manifest.permission.WRITE_USER_DICTIONARY})  void addWord(android.content.Context arg0, java.lang.String arg1, int arg2, int arg3);
 }
+
+class VoicemailContract {
+
+}
+
 class VoicemailContract$Status{
-@RequiredPermissions({"com.android.voicemail.permission.ADD_VOICEMAIL"})  android.net.Uri buildSourceUri(java.lang.String arg0);
+@RequiredPermissions({com.android.voicemail.permission.ADD_VOICEMAIL})  android.net.Uri buildSourceUri(java.lang.String arg0);
+@DependentPermissions(android.Manifest.permission.ADD_VOICEMAIL) static final Uri CONTENT_URI;
 }
 class VoicemailContract$Voicemails{
-@RequiredPermissions({"com.android.voicemail.permission.ADD_VOICEMAIL"})  android.net.Uri buildSourceUri(java.lang.String arg0);
+@RequiredPermissions({com.android.voicemail.permission.ADD_VOICEMAIL})  android.net.Uri buildSourceUri(java.lang.String arg0);
+@DependentPermissions(android.Manifest.permission.ADD_VOICEMAIL) static final Uri CONTENT_URI;
+
 }
 package android.service.textservice;
 class SpellCheckerService{
@@ -685,6 +893,8 @@ class SpellCheckerService{
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
+@DependentPermissions(android.Manifest.permission.BIND_TEXT_SERVICE) static final java.lang.String SERVICE_INTERFACE;
+
 }
 package android.service.wallpaper;
 class WallpaperService{
@@ -694,6 +904,7 @@ class WallpaperService{
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyBroadcast(android.content.Intent arg0);
+@DependentPermissions({android.Manifest.permission.BIND_WALLPAPER}) static final java.lang.String SERVICE_INTERFACE;
 }
 package android.speech;
 class RecognitionService{
@@ -800,6 +1011,14 @@ class ContextThemeWrapper{
 class View{
 @RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  boolean startDrag(android.content.ClipData arg0, DragShadowBuilder arg1, java.lang.Object arg2, int arg3);
 }
+
+
+package android.view.inputmethod;
+
+interface InputMethod {
+@DependentPermissions(android.Manifest.permission.BIND_INPUT_METHOD) static final java.lang.String SERVICE_INTERFACE;
+}
+
 package android.webkit;
 class WebIconDatabase{
 @RequiredPermissions({"com.android.browser.permission.READ_HISTORY_BOOKMARKS"})  void removeAllIcons();
@@ -853,6 +1072,17 @@ class VideoView{
 @RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void start();
 @RequiredPermissions({android.Manifest.permission.WAKE_LOCK})  void setVideoURI(android.net.Uri arg0);
 }
+
+package com.android.internal.telephony;
+
+class IccProvider {
+
+}
+
+class PhoneSubInfo {
+@DependentPermissions(android.Manifest.permission.READ_PHONE_STATE) static final java.lang.String READ_PHONE_STATE;
+}
+
 package java.net;
 class DatagramSocket{
 @RequiredPermissions({android.Manifest.permission.INTERNET})  DatagramSocket(int arg0);

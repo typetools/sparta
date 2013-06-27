@@ -4,8 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 
+import sparta.checkers.quals.DependentPermissions;
 import sparta.checkers.quals.MayRequiredPermissions;
 import sparta.checkers.quals.RequiredPermissions;
 import checkers.basetype.BaseTypeVisitor;
@@ -15,8 +17,10 @@ import javacutils.AnnotationUtils;
 import javacutils.TreeUtils;
 
 import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
+import com.sun.source.tree.VariableTree;
 
 /**
  * Propagate required permissions up the call stack. Require that they are
@@ -32,79 +36,141 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker, Basi
     	super(checker, root);
     }
 
-    @Override
-    public Void visitMethodInvocation(MethodInvocationTree node, Void p) {
-        // Look for @RequiredPermissions on the enclosing method
-        ExecutableElement methodElt = TreeUtils.elementFromUse(node);
-        AnnotationMirror reqP = atypeFactory.getDeclAnnotation(methodElt,
-                RequiredPermissions.class);
-        if (reqP != null) {
-            List<String> reqPerms = AnnotationUtils.getElementValueArray(reqP,
-                    "value", String.class, false);
-            if (!reqPerms.isEmpty()) {
-                ExecutableElement callerElt = TreeUtils
-                        .elementFromDeclaration(TreeUtils
-                                .enclosingMethod(getCurrentPath()));
-                AnnotationMirror callerReq = atypeFactory.getDeclAnnotation(
-                        callerElt, RequiredPermissions.class);
-                List<String> callerPerms;
-                List<String> missing = new LinkedList<String>();
-                if (callerReq == null) {
-                    missing.addAll(reqPerms);
-                    callerPerms = new LinkedList<String>();
-                } else {
-                    callerPerms = AnnotationUtils.getElementValueArray(
-                            callerReq, "value", String.class, false);
-                    for (String perm : reqPerms) {
-                        if (!callerPerms.contains(perm)) {
-                            missing.add(perm);
-                        }
-                    }
-                }
-                if (!missing.isEmpty()) {
-                    checker.report(Result.failure("unsatisfied.permissions",
-                            missing, callerPerms), node);
-                }
-            }
-        }
-        // Look for @MayRequiredPermissions on the enclosing method
-        AnnotationMirror mayReqP = atypeFactory.getDeclAnnotation(methodElt,
-                MayRequiredPermissions.class);
-        if (mayReqP != null) {
-            List<String> mayReqPerms = AnnotationUtils.getElementValueArray(
-                    mayReqP, "value", String.class, false);
-            if (!mayReqPerms.isEmpty()) {
-                ExecutableElement callerElt = TreeUtils
-                        .elementFromDeclaration(TreeUtils
-                                .enclosingMethod(getCurrentPath()));
-                AnnotationMirror callerReq = atypeFactory.getDeclAnnotation(
-                        callerElt, MayRequiredPermissions.class);
-                List<String> callerPerms;
-                List<String> missing = new LinkedList<String>();
-                if (callerReq == null) {
-                    missing.addAll(mayReqPerms);
-                    callerPerms = new LinkedList<String>();
-                } else {
-                    callerPerms = AnnotationUtils.getElementValueArray(
-                            callerReq, "value", String.class, false);
-                    for (String perm : mayReqPerms) {
-                        if (!callerPerms.contains(perm)) {
-                            missing.add(perm);
-                        }
-                    }
-                }
-                if (!missing.isEmpty()) {
-                    checker.report(Result.failure("may.required.permissions",
-                            missing, callerPerms, AnnotationUtils
-                            .getElementValue(mayReqP, "notes",
-                                    String.class, false)), node);
-                }
-            }
 
-        }
+	@Override
+	public Void visitVariable(VariableTree node, Void p) {
+		//Checking for annotation on variable declaration
+		if (node != null) {
+			ExpressionTree et = node.getInitializer();
+			if (et != null) {
+				Element elt = TreeUtils.elementFromUse(et);
+				if (elt != null) {
+					AnnotationMirror reqP = atypeFactory
+							.getDeclAnnotation(elt, DependentPermissions.class);
+					if (reqP != null) {
+						List<String> reqPerms = AnnotationUtils
+								.getElementValueArray(reqP, "value",
+										String.class, false);
+						if (!reqPerms.isEmpty()) {
+							checker.report(Result.failure(
+									"dependent.permissions", node.getName(),reqPerms), node);
+						}
+					}
 
-        return super.visitMethodInvocation(node, p);
+				}
+			}
+		}
+		return super.visitVariable(node, p);
+	}
+
+
+	@Override
+	public Void visitMethodInvocation(MethodInvocationTree node, Void p) {
+		visitMethodParameters(node);
+		ExecutableElement methodElt = visitMethodRequiredPermissions(node);
+		visitMethodMayRequirePermissions(node, methodElt);
+		return super.visitMethodInvocation(node, p);
+	}
+
+	private void visitMethodMayRequirePermissions(MethodInvocationTree node,
+			ExecutableElement methodElt) {
+		// Look for @MayRequiredPermissions on the enclosing method
+		AnnotationMirror mayReqP = atypeFactory.getDeclAnnotation(methodElt,
+				MayRequiredPermissions.class);
+		if (mayReqP != null) {
+			List<String> mayReqPerms = AnnotationUtils.getElementValueArray(
+					mayReqP, "value", String.class, false);
+			if (!mayReqPerms.isEmpty()) {
+				ExecutableElement callerElt = TreeUtils
+						.elementFromDeclaration(TreeUtils
+								.enclosingMethod(getCurrentPath()));
+				AnnotationMirror callerReq = atypeFactory.getDeclAnnotation(
+						callerElt, MayRequiredPermissions.class);
+				List<String> callerPerms;
+				List<String> missing = new LinkedList<String>();
+				if (callerReq == null) {
+					missing.addAll(mayReqPerms);
+					callerPerms = new LinkedList<String>();
+				} else {
+					callerPerms = AnnotationUtils.getElementValueArray(
+							callerReq, "value", String.class, false);
+					for (String perm : mayReqPerms) {
+						if (!callerPerms.contains(perm)) {
+							missing.add(perm);
+						}
+					}
+				}
+				if (!missing.isEmpty()) {
+					checker.report(Result.failure("may.required.permissions",
+							missing, callerPerms, AnnotationUtils
+									.getElementValue(mayReqP, "notes",
+											String.class, false)), node);
+				}
+			}
+
+		}
     }
+
+	private ExecutableElement visitMethodRequiredPermissions(
+			MethodInvocationTree node) {
+		// Look for @RequiredPermissions on the enclosing method
+		ExecutableElement methodElt = TreeUtils.elementFromUse(node);
+		AnnotationMirror reqP = atypeFactory.getDeclAnnotation(methodElt,
+				RequiredPermissions.class);
+		if (reqP != null) {
+			List<String> reqPerms = AnnotationUtils.getElementValueArray(reqP,
+					"value", String.class, false);
+			if (!reqPerms.isEmpty()) {
+				ExecutableElement callerElt = TreeUtils
+						.elementFromDeclaration(TreeUtils
+								.enclosingMethod(getCurrentPath()));
+				AnnotationMirror callerReq = atypeFactory.getDeclAnnotation(
+						callerElt, RequiredPermissions.class);
+				List<String> callerPerms;
+				List<String> missing = new LinkedList<String>();
+				if (callerReq == null) {
+					missing.addAll(reqPerms);
+					callerPerms = new LinkedList<String>();
+				} else {
+					callerPerms = AnnotationUtils.getElementValueArray(
+							callerReq, "value", String.class, false);
+					for (String perm : reqPerms) {
+						if (!callerPerms.contains(perm)) {
+							missing.add(perm);
+						}
+					}
+				}
+				if (!missing.isEmpty()) {
+					checker.report(Result.failure("unsatisfied.permissions",
+							missing, callerPerms), node);
+				}
+			}
+		}
+		return methodElt;
+	}
+
+	private void visitMethodParameters(MethodInvocationTree node) {
+		//Checking for annotations on method parameters
+		List<? extends ExpressionTree> parameters = node.getArguments();
+		for (ExpressionTree param : parameters) {
+			Element elt = TreeUtils.elementFromUse(param);
+			if (elt != null) {
+				AnnotationMirror reqP = atypeFactory
+						.getDeclAnnotation(elt, DependentPermissions.class);
+				if (reqP != null) {
+					List<String> reqPerms = AnnotationUtils
+							.getElementValueArray(reqP, "value", String.class,
+									false);
+					if (!reqPerms.isEmpty()) {
+						checker.report(Result.failure(
+								"dependent.permissions", param,reqPerms),
+								node);
+					}
+				}
+
+			}
+		}
+	}
 
     @Override
     public Void visitMethod(MethodTree node, Void p) {

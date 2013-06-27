@@ -7,16 +7,16 @@ public class Poly {
     @PolyFlow
     Object testSink(Object in) { return in; }
 
-    void callSink(@Sink(FlowPermission.EMAIL) Object s) { 
-	@Sink(FlowPermission.EMAIL)  Object l = 
+    void callSink(@Sink(FlowPermission.WRITE_EMAIL) Object s) { 
+	@Sink(FlowPermission.WRITE_EMAIL)  Object l = 
 		testSink(s); 
     }
 
     @PolySink @Source(FlowPermission.CAMERA) Object
     testComb(@PolySink @Source(FlowPermission.CAMERA) Object in) { return in; }
 
-    void callComb(@Sink(FlowPermission.EMAIL) Object s) {
-        @Sink(FlowPermission.EMAIL) @Source(FlowPermission.CAMERA) Object l = testComb(s);
+    void callComb(@Sink(FlowPermission.WRITE_EMAIL) Object s) {
+        @Sink(FlowPermission.WRITE_EMAIL) @Source(FlowPermission.CAMERA) Object l = testComb(s);
         //:: error: (assignment.type.incompatible)
         @Sink(FlowPermission.INTERNET) @Source(FlowPermission.CAMERA) Object l2 = testComb(s); 
     }

@@ -182,7 +182,7 @@ finally sends information to a sensitive sink.  This may help you decide
 what parts of the app to further investigate, or where to start your
 annotation work.
 
-There are two types of errors you will see. The first error:
+There are three possible types of errors you will see. The first error:
 
 \begin{Verbatim}
 MainActivity.java:35: 
@@ -202,10 +202,20 @@ Notes: WAKE_LOCK is required if MediaPlayer.setWakeMode has been called first.
 			          stop();
 			              ^
 \end{Verbatim}
+
 This error means the method may or may not require one or more permissions which the caller
 does not have. An explanation for the current error can be seen on the \<Notes>. 
 
-You can eliminate the error by writing
+\begin{Verbatim}
+HelloWorldActivity.java:83: warning: If the constant DeviceAdminReceiver.ACTION_DEVICE_ADMIN_ENABLED 
+is passed to an intent it will require following permission(s): [android.permission.BIND_DEVICE_ADMIN]! 
+i.setAction(DeviceAdminReceiver.ACTION_DEVICE_ADMIN_ENABLED);
+            ^
+\end{Verbatim}
+
+This error means that the constant used depends on one or more permissions.
+
+You can eliminate the first 2 errors by writing
 \<@RequiredPermissions({android.Manifest.permission.\emph{PERMISSION}})> or
 \<@MayRequiredPermissions({android.Manifest.permission.\emph{WAKE\_LOCK}})> in
 front of the method header in the source code, if you would like to propagate the

@@ -1,5 +1,11 @@
 package java.nio;
 
+class Buffer{
+   int remaining();
+   @PolyFlowReceiver
+   Buffer flip();
+}
+
 @PolyFlowReceiver
 class ByteBuffer extends Buffer implements Comparable<ByteBuffer> {
     static ByteBuffer allocateDirect(int arg0);

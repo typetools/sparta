@@ -203,34 +203,42 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
             this.flowVisitor = flowVisitor;
         }
 
-        @Override
-        public Void visitTypeVariable(AnnotatedTypeVariable type, Tree tree) {
-            // Keep in sync with visitWildcard
-            AnnotatedTypeMirror upperbound = type.getUpperBound();
-            if (upperbound != null) {
-                //Allow top on upper bounds
-                flowVisitor.setAllowTop(true);
-            }
-            Void tmpReturn = super.visitTypeVariable(type, tree);
-            //Disallow top, done processing type variable
-            flowVisitor.setAllowTop(false);
-            return tmpReturn;
-        }
 
-        @Override
-        public Void visitWildcard(AnnotatedWildcardType type, Tree tree) {
-            // Keep in sync with visitTypeVariable
-            AnnotatedTypeMirror upperbound = type.getExtendsBound();
-            if (upperbound != null) {
-                //Allow top on upper bounds
-                flowVisitor.setAllowTop(true);
-            }
-            Void tmpReturn = super.visitWildcard(type, tree);
-            //Disallow top, done processing wildcard
-            flowVisitor.setAllowTop(false);
-            return tmpReturn;
-        }
+		@Override
+		public Void visitTypeVariable(AnnotatedTypeVariable type, Tree tree) {
+//			// Keep in sync with visitWildcard
+			//getUpperBound() has side effects we don't want
+			//So we just get the field
+			AnnotatedTypeMirror upperbound = type.getUpperBoundField();
+			if (upperbound != null) {
+				//Allow top on upper bounds
+				flowVisitor.setAllowTop(true);
+			}
+			Void tmpReturn = super.visitTypeVariable(type, tree);
+//			//Disallow top, done processing type variable
+			flowVisitor.setAllowTop(false);
+			return tmpReturn;
 
+		}
+
+
+		@Override
+		public Void visitWildcard(AnnotatedWildcardType type, Tree tree) {
+			// Keep in sync with visitTypeVariable
+			//getExtendsBound() has side effects we don't want
+			//So we just get the field
+			AnnotatedTypeMirror upperbound = type.getExtendsBoundField();
+			if (upperbound != null) {
+				//Allow top on upper bounds
+				flowVisitor.setAllowTop(true);
+			}
+			Void tmpReturn = super.visitWildcard(type, tree);
+			//Disallow top, done processing wildcard
+			flowVisitor.setAllowTop(false);
+			return tmpReturn;
+		}
+        	   
+    	
         @Override
         protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
             StringBuffer buf = new StringBuffer();

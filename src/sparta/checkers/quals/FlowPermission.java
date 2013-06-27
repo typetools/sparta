@@ -44,20 +44,24 @@ public enum FlowPermission {
     DISPLAY(T.SINK),
     FILESYSTEM(T.BOTH),
     RANDOM(T.SOURCE),
-    READ_TIME(T.SOURCE), //WRITE_TIME is an Android Permission, but read time isn't
-    SQLITE_DATABASE(T.BOTH), 
-    USER_INPUT(T.SOURCE),
-    WRITE_LOGS(T.SINK), //READ_LOGS is an Android Permission, but there is no WRITE_LOGS
-    DATABASE(T.BOTH), //This is an Android database that could be any of the Content database.
-    SYSTEM_PROPERTIES(T.BOTH), //This is for java.lang.System
 
+    READ_TIME (T.SOURCE), //WRITE_TIME is an Android Permission, but read time isn't
+    SQLITE_DATABASE (T.BOTH), 
+    USER_INPUT (T.SOURCE),
+    WRITE_LOGS (T.SINK), //READ_LOGS is an Android Permission, but there is no WRITE_LOGS
+    DATABASE (T.BOTH), //This is an Android database that could be any of the Content database.
+    SYSTEM_PROPERTIES(T.BOTH),//This is for java.lang.System
+    MEDIA(T.SOURCE),
+    READ_EMAIL (T.SOURCE),
+    WRITE_EMAIL (T.SINK),
+    WRITE_CLIPBOARD(T.SINK),
+    READ_CLIPBOARD(T.SOURCE),
+    
     /**
      * These are old sources or sinks that may or may not be of use
      */
     PHONE_NUMBER(T.SOURCE), 
     SHARED_PREFERENCES(T.BOTH),
-    //Can't figure out when email should be used or if a permission is required instead.
-    EMAIL(T.BOTH), 
     ACCELEROMETER(T.SOURCE),
 
     /**

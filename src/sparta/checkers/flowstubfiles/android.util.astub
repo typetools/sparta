@@ -63,4 +63,7 @@ static int wtf(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission
 // static int println(int priority, String tag, String msg);
 }
 
+class Xml{
+        static void parse(@Source(FlowPermission.FILESYSTEM)Reader in, ContentHandler contentHandler) throws IOException,SAXException;
+}
 

@@ -1,0 +1,17 @@
+package android.preference;
+class Preference{
+        void setOnPreferenceChangeListener(OnPreferenceChangeListener onPreferenceChangeListener);
+}
+class Preference$OnPreferenceChangeListener{
+        boolean onPreferenceChange(Preference arg0, Object arg1);
+}
+class PreferenceActivity{
+        void addPreferencesFromResource(int preferencesResId);
+        Preference findPreference(CharSequence key);
+        PreferenceActivity();
+        protected void onCreate(Bundle savedInstanceState);
+}
+class PreferenceManager{
+        static SharedPreferences getDefaultSharedPreferences(Context context);
+}
+

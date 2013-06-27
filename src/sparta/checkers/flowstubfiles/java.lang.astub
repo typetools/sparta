@@ -2,6 +2,12 @@
 package java.lang;
 
 @PolyFlowReceiver
+class AbstractStringBuilder{
+        int length();
+        setLength(int arg0);
+}
+
+@PolyFlowReceiver
 interface Appendable {
 //Added by pbsf
     Appendable append(CharSequence arg0) throws IOException;
@@ -459,6 +465,18 @@ interface CharSequence {
     char charAt(int arg0);
     CharSequence subSequence(int arg0, int arg1);
     String toString();
+                boolean isAssignableFrom(Class<?> arg0);
+            boolean isInstance(Object arg0);
+            static Class<?> forName(String arg0) throws ClassNotFoundException;
+            Method getMethod(String arg0, Class<?>[] arg1) throws NoSuchMethodException,SecurityException;
+            T cast(Object arg0);
+            String getName();
+
+}
+
+class Class{
+        Constructor<T> getConstructor(Class<?>[] parameterTypes) throws NoSuchMethodException,SecurityException;
+        Field getDeclaredField(String name) throws NoSuchFieldException,SecurityException;
 }
 
 @PolyFlowReceiver
@@ -567,6 +585,12 @@ class Enum<E> implements Comparable<E>, Serializable {
     protected void finalize();
 }
 
+class Exception{
+        Exception(String message);
+        Exception(Throwable arg0);
+        Exception(String arg0, Throwable arg1);
+}
+
 @PolyFlowReceiver
 class Float extends Number implements Comparable<Float> {
 //Added by pbsf
@@ -606,6 +630,20 @@ class Float extends Number implements Comparable<Float> {
     static float intBitsToFloat(int arg0);
     int compareTo(Float arg0);
     static int compare(float arg0, float arg1);
+}
+
+class IllegalArgumentException{
+        IllegalArgumentException();
+        IllegalArgumentException(Throwable arg0);
+        IllegalArgumentException(String arg0);
+        IllegalArgumentException(String arg0, Throwable arg1);
+}
+class UnsupportedOperationException{
+            UnsupportedOperationException(String arg0);
+            UnsupportedOperationException();
+}
+class NumberFormatException{
+            NumberFormatException(String arg0);
 }
 
 @PolyFlowReceiver
@@ -901,6 +939,9 @@ class ProcessBuilder$Redirect {
     boolean equals(Object arg0);
     int hashCode();
 }
+class Runnable{
+            void run();
+}
 
 @PolyFlowReceiver
 class Runtime {
@@ -928,6 +969,22 @@ class Runtime {
     void loadLibrary(String arg0);
     InputStream getLocalizedInputStream(InputStream arg0);
     OutputStream getLocalizedOutputStream(OutputStream arg0);
+}
+
+class RuntimeException{
+            RuntimeException(String arg0);
+            RuntimeException(String arg0, Throwable arg1);
+}
+class IndexOutOfBoundsException{
+            IndexOutOfBoundsException();
+}
+class NullPointerException{
+            NullPointerException();
+}
+
+@PolyFlowReceiver
+class Readable{
+            int read(CharBuffer arg0) throws IOException;
 }
 
 @PolyFlowReceiver
@@ -1539,6 +1596,9 @@ class Field extends AccessibleObject implements Member {
 interface GenericArrayType extends Type {
     Type getGenericComponentType();
 }
+class InvocationTargetException{
+            Throwable getCause();
+}
 
 @PolyFlowReceiver
 class Method extends Executable {
@@ -1557,7 +1617,7 @@ class Method extends Executable {
     int hashCode();
     String toString();
     String toGenericString();
-    @Source(FlowPermission.REFLECTION) Object invoke(Object arg0, Object[] arg1) throws IllegalAccessException,IllegalArgumentException,InvocationTargetException;
+    @Source(FlowPermission.REFLECTION) Object invoke(@Sink(REFLECTION) Object arg0, @Sink(REFLECTION) Object @Sink(REFLECTION) [] arg1) throws IllegalAccessException,IllegalArgumentException,InvocationTargetException;
     boolean isBridge();
     boolean isVarArgs();
     boolean isSynthetic();
