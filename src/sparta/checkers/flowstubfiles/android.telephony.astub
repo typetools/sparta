@@ -14,7 +14,7 @@ class SmsManager{
 
         @PolyFlow
         ArrayList<@PolySource @PolySink String> divideMessage(String text);
-        void sendTextMessage(@Sink(SEND_SMS) String destinationAddress, @Sink(SEND_SMS) String scAddress, @Sink(SEND_SMS) tring text, @Sink(SEND_SMS) PendingIntent sentIntent, @Sink(SEND_SMS) PendingIntent deliveryIntent);
+        void sendTextMessage(@Sink(SEND_SMS) String destinationAddress, @Sink(SEND_SMS) String scAddress, @Sink(SEND_SMS) String text, @Sink(SEND_SMS) PendingIntent sentIntent, @Sink(SEND_SMS) PendingIntent deliveryIntent);
         static SmsManager getDefault();
 }
 
