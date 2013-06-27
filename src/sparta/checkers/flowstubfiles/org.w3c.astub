@@ -1,0 +1,43 @@
+package org.w3c.dom;
+
+class NodeList {
+    @PolySource @PolySink Node item(@Sink(FlowPermission.CONDITIONAL) int index) @PolySource @PolySink;
+    @PolyFlowReceiver
+    int getLength();
+
+}
+
+class Node {
+
+    @PolyFlowReceiver
+    String getTextContent() throws DOMException;
+
+    @PolyFlowReceiver
+    Node getPreviousSibling();
+
+    @PolyFlowReceiver
+    short getNodeType();
+
+    @PolyFlowReceiver
+    Node appendChild(Node arg0) throws DOMException;
+
+    void normalize();
+}
+
+class Document{
+    @PolyFlowReceiver
+    NodeList getElementsByTagName(String arg0);
+    @PolyFlowReceiver
+    Text createTextNode(String arg0);
+    @PolyFlowReceiver
+    Element getDocumentElement();
+    @PolyFlowReceiver
+    Element createElement(String arg0) throws DOMException;
+}
+
+class Element{
+    @PolyFlowReceiver
+    NodeList getElementsByTagName(String arg0);
+    @PolyFlowReceiver
+    String getTagName();
+}

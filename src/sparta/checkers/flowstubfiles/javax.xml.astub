@@ -1,0 +1,18 @@
+package javax.xml.parsers;
+
+class DocumentBuilder{
+    Document newDocument();
+    @PolyFlowReceiver
+    Document parse(File arg0);
+}
+class DocumentBuilderFactory{
+    DocumentBuilder newDocumentBuilder();
+    static DocumentBuilderFactory newInstance();
+}
+
+package javax.xml.transform;
+class TransformerFactory {
+    @PolyFlowReceiver
+    Transformer newTransformer() throws TransformerConfigurationException;
+    static TransformerFactory newInstance() throws TransformerFactoryConfigurationError;
+}

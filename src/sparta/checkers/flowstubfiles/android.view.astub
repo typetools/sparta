@@ -1923,6 +1923,24 @@ class Window{
 class Window$Callback{
         boolean onMenuItemSelected(int arg0, MenuItem arg1);
 }
+
 class WindowManager{
             Display getDefaultDisplay();
+}
+
+class KeyEvent {
+    @Source(FlowPermission.USER_INPUT) int getKeyCode();
+}
+
+package android.view.animation;
+
+class Animation$AnimationListener {
+    void onAnimationRepeat(Animation arg0);
+    void onAnimationStart(Animation arg0);
+    void onAnimationEnd(Animation arg0);
+}
+
+class AnimationUtils{
+    @PolyFlow
+    static Animation loadAnimation(Context context, int id);
 }

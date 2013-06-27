@@ -1668,3 +1668,6 @@ class Modifier {
     static int fieldModifiers();
 }
 
+class Runnable {
+    void run();
+}

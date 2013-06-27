@@ -141,4 +141,10 @@ class URLEncoder{
 @PolyFlow
             static String encode(String arg0, String arg1) throws UnsupportedEncodingException;
 }
+class HttpURLConnection {
+    @Source(FlowPermission.INTERNET) int getResponseCode() throws IOException;
+    void setRequestMethod(@Sink(FlowPermission.INTERNET) String arg0) throws ProtocolException;
+
+}
+
 
