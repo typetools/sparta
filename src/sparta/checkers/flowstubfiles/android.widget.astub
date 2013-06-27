@@ -509,11 +509,8 @@ class AdapterView$OnItemSelectedListener{
 }
 
 class ArrayAdapter {
-<<<<<<< local
  ArrayAdapter(Context context, int textViewResourceId, T @SINK(DISPLY) [] objects);
-=======
 ArrayAdapter(Context context, int textViewResourceId, List<T> objects);
->>>>>>> other
 
 void add(T object);
 //Adds the specified object at the end of the array.
