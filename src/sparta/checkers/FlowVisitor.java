@@ -15,7 +15,6 @@ import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.tree.TreeInfo;
 
 import checkers.basetype.BaseTypeVisitor;
-import checkers.quals.DefaultQualifier;
 import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
@@ -27,35 +26,33 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
 
 
-public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
+public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeFactory> {
 
     private boolean topAllowed = false;
 
-	public FlowVisitor(FlowChecker checker, CompilationUnitTree root) {
-       super(checker, root);
+    public FlowVisitor(FlowChecker checker, CompilationUnitTree root) {
+        super(checker, root);
     }
-
 
 
     @Override
     public boolean isValidUse(AnnotatedDeclaredType declarationType,
                                            AnnotatedDeclaredType useType) {
-    	
        return areFlowsValid(useType) ;
                //&& areFlowsValid(declarationType);
     }
 
     @Override
     public boolean isValidUse(AnnotatedPrimitiveType type) {
-       return areFlowsValid(type);
+        return areFlowsValid(type);
     }
 
     @Override
     public boolean isValidUse(AnnotatedArrayType type) {
-       return areFlowsValid(type);
+        return areFlowsValid(type);
     }
 
-    private void ensureContionalSink(ExpressionTree tree) {
+    private void ensureConditionalSink(ExpressionTree tree) {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
 
         final AnnotationMirror sinkAnno = type.getAnnotation(Sink.class);
@@ -69,19 +66,19 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
     @Override
     public Void visitConditionalExpression(ConditionalExpressionTree node, Void p) {
-        ensureContionalSink(node.getCondition());
+        ensureConditionalSink(node.getCondition());
         return super.visitConditionalExpression(node, p);
     }
 
     @Override
     public Void visitIf(IfTree node, Void p) {
-        ensureContionalSink(node.getCondition());
+        ensureConditionalSink(node.getCondition());
         return super.visitIf(node, p);
     }
 
     @Override
     public Void visitSwitch(SwitchTree node, Void p) {
-        ensureContionalSink(node.getExpression());
+        ensureConditionalSink(node.getExpression());
         return super.visitSwitch(node, p);
     }
 
@@ -89,19 +86,19 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     public Void visitCase(CaseTree node, Void p) {
         ExpressionTree exprTree = node.getExpression();
         if (exprTree != null)
-            ensureContionalSink(exprTree);
+            ensureConditionalSink(exprTree);
         return super.visitCase(node, p);
     }
 
     @Override
     public Void visitDoWhileLoop(DoWhileLoopTree node, Void p) {
-        ensureContionalSink(node.getCondition());
+        ensureConditionalSink(node.getCondition());
         return super.visitDoWhileLoop(node, p);
     }
 
     @Override
     public Void visitWhileLoop(WhileLoopTree node, Void p) {
-        ensureContionalSink(node.getCondition());
+        ensureConditionalSink(node.getCondition());
         return super.visitWhileLoop(node, p);
     }
 
@@ -110,11 +107,12 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     public Void visitForLoop(ForLoopTree node, Void p) {
         if (node.getCondition()!=null) {
             // Condition is null e.g. in "for (;;) {...}"
-            ensureContionalSink(node.getCondition());
+            ensureConditionalSink(node.getCondition());
         }
-      
+
         return super.visitForLoop(node, p);
     }
+
     /**
      * For some reason, the FlowPermission[] passed to @Source or @Sink
      * is annotated and causes a type error.
@@ -139,7 +137,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         }
         return super.visitAnnotation(node, p);
     }
-    
+
     /**
      * Check the return type of an invoked method for forbidden 
      * flows in case the method was annotated in a stub file. 
@@ -176,11 +174,11 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
     }
 
     private boolean areFlowsValid(final AnnotatedTypeMirror atm) {
-    	boolean isLocal = atm.getElement() != null && atm.getElement().getKind() == ElementKind.LOCAL_VARIABLE;
+        boolean isLocal = atm.getElement() != null && atm.getElement().getKind() == ElementKind.LOCAL_VARIABLE;
         if((isLocal || this.topAllowed)  && FlowUtil.isTop(atm)){
-        	//Local variables are allowed to be top type so a more specific type can
-        	//be inferred.
-        	return true;
+            //Local variables are allowed to be top type so a more specific type can
+            //be inferred.
+            return true;
         }
 
         final FlowPolicy flowPolicy = checker.getFlowPolicy();
@@ -193,52 +191,51 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
 
     @Override
-    protected BaseTypeVisitor<FlowChecker>.TypeValidator createTypeValidator() {
+    protected BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeFactory>.TypeValidator createTypeValidator() {
         return new FlowTypeValidator(this);
     }
 
-    protected class FlowTypeValidator extends BaseTypeVisitor<FlowChecker>.TypeValidator {
+    protected class FlowTypeValidator extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeFactory>.TypeValidator {
 
-		private FlowVisitor flowVisitor;
+        private FlowVisitor flowVisitor;
 
-		public FlowTypeValidator(FlowVisitor flowVisitor) {
-			this.flowVisitor = flowVisitor;
-		}
+        public FlowTypeValidator(FlowVisitor flowVisitor) {
+            this.flowVisitor = flowVisitor;
+        }
 
-		@Override
-		public Void visitTypeVariable(AnnotatedTypeVariable type, Tree tree) {
-			// Keep in sync with visitWildcard
-			AnnotatedTypeMirror upperbound = type.getUpperBound();
-			if (upperbound != null) {
-				//Allow top on upper bounds
-				flowVisitor.setAllowTop(true);
-			}
-			Void tmpReturn = super.visitTypeVariable(type, tree);
-			//Disallow top, done processing type variable
-			flowVisitor.setAllowTop(false);
-			return tmpReturn;
-		}
+        @Override
+        public Void visitTypeVariable(AnnotatedTypeVariable type, Tree tree) {
+            // Keep in sync with visitWildcard
+            AnnotatedTypeMirror upperbound = type.getUpperBound();
+            if (upperbound != null) {
+                //Allow top on upper bounds
+                flowVisitor.setAllowTop(true);
+            }
+            Void tmpReturn = super.visitTypeVariable(type, tree);
+            //Disallow top, done processing type variable
+            flowVisitor.setAllowTop(false);
+            return tmpReturn;
+        }
 
-		@Override
-		public Void visitWildcard(AnnotatedWildcardType type, Tree tree) {
-			// Keep in sync with visitTypeVariable
-			AnnotatedTypeMirror upperbound = type.getExtendsBound();
-			if (upperbound != null) {
-				//Allow top on upper bounds
-				flowVisitor.setAllowTop(true);
-			}
-			Void tmpReturn = super.visitWildcard(type, tree);
-			//Disallow top, done processing wildcard
-			flowVisitor.setAllowTop(false);
-			return tmpReturn;
-		}
-        	   
-    	
+        @Override
+        public Void visitWildcard(AnnotatedWildcardType type, Tree tree) {
+            // Keep in sync with visitTypeVariable
+            AnnotatedTypeMirror upperbound = type.getExtendsBound();
+            if (upperbound != null) {
+                //Allow top on upper bounds
+                flowVisitor.setAllowTop(true);
+            }
+            Void tmpReturn = super.visitWildcard(type, tree);
+            //Disallow top, done processing wildcard
+            flowVisitor.setAllowTop(false);
+            return tmpReturn;
+        }
+
         @Override
         protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
             StringBuffer buf = new StringBuffer();
             for(Flow flow: checker.getFlowPolicy().forbiddenFlows(type)){
-        	buf.append(flow.toString()+"\n");
+                buf.append(flow.toString()+"\n");
             }
             checker.report(Result.failure("forbidden.flow",
                     type.toString(), buf.toString()), p);
@@ -257,14 +254,14 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         }
 
     }
-/**
- * Do not warn if any type is ANY->{}
- * 
- * This turned on when visiting type parameters or wildcards with upper bounds.
- * @param topAllowed
- */
-	public void setAllowTop(boolean topAllowed) {
-		this.topAllowed  = topAllowed;
-		
-	}
+
+    /**
+     * Do not warn if any type is ANY->{}
+     *
+     * This turned on when visiting type parameters or wildcards with upper bounds.
+     * @param topAllowed
+     */
+    public void setAllowTop(boolean topAllowed) {
+        this.topAllowed  = topAllowed;
+    }
 }

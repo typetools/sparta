@@ -6,7 +6,6 @@ import javacutils.AnnotationUtils;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.FlowPermission;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
@@ -46,23 +45,25 @@ public class FlowUtil {
     }
 
     public static List<FlowPermission> getSink(final AnnotatedTypeMirror type){
-	return getSink(type.getAnnotation(Sink.class));
+        return getSink(type.getAnnotation(Sink.class));
     }
+
     public static List<FlowPermission> getSource(final AnnotatedTypeMirror type){
-	return getSource(type.getAnnotation(Source.class));
+        return getSource(type.getAnnotation(Source.class));
     }
+
     public static List<FlowPermission> getSink(final AnnotationMirror am) {
-	if(am == null){
-	    return new ArrayList<FlowPermission>();
-	}
+        if(am == null){
+            return new ArrayList<FlowPermission>();
+        }
         return AnnotationUtils.getElementValueEnumArray(am, "value", FlowPermission.class, true);
     }
 
     public static List<FlowPermission> getSource(final AnnotationMirror am) {
-	if(am == null){
-	    return new ArrayList<FlowPermission>();
-	}
-	
+        if(am == null){
+            return new ArrayList<FlowPermission>();
+        }
+
         return AnnotationUtils.getElementValueEnumArray(am, "value", FlowPermission.class, true);
     }
 
@@ -74,12 +75,13 @@ public class FlowUtil {
 
         return sinkSet;
     }
-/**
- * Returns the set of flow sources for the given annotation mirror
- * @param annotationMirror if null, then the empty set is returned
- * @param replaceAny
- * @return
- */
+
+    /**
+     * Returns the set of flow sources for the given annotation mirror
+     * @param annotationMirror if null, then the empty set is returned
+     * @param replaceAny
+     * @return
+     */
     public static Set<FlowPermission> getSource(final AnnotationMirror annotationMirror, boolean replaceAny) {
         final Set<FlowPermission> sourceSet =  new HashSet<FlowPermission>(getSource(annotationMirror));
         if(replaceAny) {
@@ -89,12 +91,12 @@ public class FlowUtil {
         return sourceSet;
     }
 
-/**
- * REturn the set of flow sinks for the given annoation mirror
- * @param annotationMirror if null, then the empty set is returned
- * @param replaceAny
- * @return
- */
+    /**
+     * Returns the set of flow sinks for the given annotation mirror
+     * @param annotationMirror if null, then the empty set is returned
+     * @param replaceAny
+     * @return
+     */
     public static Set<FlowPermission> getSourceOrEmpty(final AnnotationMirror annotationMirror, boolean replaceAny) {
         if(annotationMirror == null) {
             return new HashSet<FlowPermission>();
@@ -118,19 +120,19 @@ public class FlowUtil {
     }
 
     public static AnnotationMirror createAnnoFromSink(final ProcessingEnvironment processingEnv, final Set<FlowPermission> sinks) {
-	if (sinks.contains(FlowPermission.ANY) && sinks.size() > 1) {
-	    sinks.clear();
-	    sinks.add(FlowPermission.ANY);
-	}
+        if (sinks.contains(FlowPermission.ANY) && sinks.size() > 1) {
+            sinks.clear();
+            sinks.add(FlowPermission.ANY);
+        }
         return createAnnoFromEnumArray(processingEnv, Sink.class, sinks.toArray(new FlowPermission[sinks.size()]));
     }
 
     public static AnnotationMirror createAnnoFromSource(final ProcessingEnvironment processingEnv, Set<FlowPermission> sources) {
-	if (sources.contains(FlowPermission.ANY) && sources.size() > 1) {
-	    sources.clear();
-	    sources.add(FlowPermission.ANY);
-	}
-	return createAnnoFromEnumArray(processingEnv, Source.class, sources.toArray(new FlowPermission[sources.size()]));
+        if (sources.contains(FlowPermission.ANY) && sources.size() > 1) {
+            sources.clear();
+            sources.add(FlowPermission.ANY);
+        }
+        return createAnnoFromEnumArray(processingEnv, Source.class, sources.toArray(new FlowPermission[sources.size()]));
     }
 
     public static Set<FlowPermission> replaceAnySink(final Set<FlowPermission> sinks, boolean inPlace) {
@@ -181,10 +183,10 @@ public class FlowUtil {
         return retSet;
     }
 
-	public static boolean isTop(AnnotatedTypeMirror atm) {
-		List<FlowPermission> sources = getSource(atm);
-		List<FlowPermission> sinks = getSink(atm);
-		return sources.contains(FlowPermission.ANY) && sinks.isEmpty();		
-	}
+    public static boolean isTop(AnnotatedTypeMirror atm) {
+        List<FlowPermission> sources = getSource(atm);
+        List<FlowPermission> sinks = getSink(atm);
+        return sources.contains(FlowPermission.ANY) && sinks.isEmpty();		
+    }
 
 }

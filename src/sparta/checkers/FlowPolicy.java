@@ -2,7 +2,6 @@ package sparta.checkers;
 
 import checkers.quals.PolyAll;
 import checkers.types.AnnotatedTypeMirror;
-import javacutils.AnnotationUtils;
 import javacutils.Pair;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
@@ -46,13 +45,13 @@ public class FlowPolicy {
 
     //True: LITERAL->CONDITIONAL is added,
     //False: ANY->CONDITIONAL is added
-	private final boolean strictConditionals;
+    private final boolean strictConditionals;
 
     public FlowPolicy( final Map<FlowPermission, Set<FlowPermission>> allowedFlows) {
         this.allowedFlows         = allowedFlows;
         this.reversedAllowedFlows = reverse(allowedFlows);
-        this.sinksFromAnySource = allowedFlows.get(FlowPermission.ANY);
-        this.strictConditionals=false;
+        this.sinksFromAnySource   = allowedFlows.get(FlowPermission.ANY);
+        this.strictConditionals   = false;
     }
 
     /**
@@ -71,7 +70,7 @@ public class FlowPolicy {
     }
 
     public FlowPolicy(final File flowPolicyFile){
-    	this(flowPolicyFile,false);
+        this(flowPolicyFile,false);
     }
 
     public FlowPolicy( ) {
@@ -83,21 +82,21 @@ public class FlowPolicy {
      * @param strictConditionals if true LITERAL->CONDITIONAL is added, otherwise ANY->CONDITIONAL is added
      */
     public FlowPolicy( boolean strictConditionals ) {
-    	this(null,strictConditionals);
+        this(null, strictConditionals);
     }
 
     private  HashMap<FlowPermission, Set<FlowPermission>> getDefaultAllowedFlows(){
-    	HashMap<FlowPermission, Set<FlowPermission>> defaultAllowedFlows = new HashMap<FlowPermission, Set<FlowPermission>>();
-    	HashSet<FlowPermission> sinkSet = new HashSet<FlowPermission>(1);
-    	sinkSet.add(FlowPermission.CONDITIONAL);
+        HashMap<FlowPermission, Set<FlowPermission>> defaultAllowedFlows = new HashMap<FlowPermission, Set<FlowPermission>>();
+        HashSet<FlowPermission> sinkSet = new HashSet<FlowPermission>(1);
+        sinkSet.add(FlowPermission.CONDITIONAL);
 
-    	if(strictConditionals){
-        	defaultAllowedFlows.put(FlowPermission.LITERAL, sinkSet);
-    	}else{
-        	defaultAllowedFlows.put(FlowPermission.ANY, sinkSet);
-    	}
+        if (strictConditionals){
+            defaultAllowedFlows.put(FlowPermission.LITERAL, sinkSet);
+        } else {
+            defaultAllowedFlows.put(FlowPermission.ANY, sinkSet);
+        }
 
-    	return defaultAllowedFlows;
+        return defaultAllowedFlows;
     }
 
     public Pair<Set<FlowPermission>, Set<FlowPermission>> annotatedTypeMirrorToFlows(final AnnotatedTypeMirror atm) {
@@ -107,69 +106,68 @@ public class FlowPolicy {
         
 
         final Set<FlowPermission> sources = FlowUtil.getSource(sourceAnno, true);
-        final Set<FlowPermission>   sinks   = FlowUtil.getSink(sinkAnno, true); ;
+        final Set<FlowPermission>   sinks = FlowUtil.getSink(sinkAnno, true); ;
 
         return Pair.of(sources, sinks);
     }
 
     public boolean areFlowsAllowed(final AnnotatedTypeMirror atm) {
-    	final AnnotationMirror polySourceAnno = atm.getAnnotation(PolySource.class);
+        final AnnotationMirror polySourceAnno = atm.getAnnotation(PolySource.class);
         final AnnotationMirror polySinkAnno   = atm.getAnnotation(PolySink.class);
         final AnnotationMirror polyAllAnno   = atm.getAnnotation(PolyAll.class);
         //If the type is marked with poly flow source or poly flow sink, 
         //Then the flow is allowed.
         if(polySinkAnno != null || polySourceAnno != null || polyAllAnno != null){
-        	return true;
+            return true;
         }
-         
-	return areFlowsAllowed(annotatedTypeMirrorToFlows(atm));
+
+        return areFlowsAllowed(annotatedTypeMirrorToFlows(atm));
     }
 
     public List<Flow> forbiddenFlows(
-	    final AnnotatedTypeMirror atm) {
-	return forbiddenFlows(annotatedTypeMirrorToFlows(atm));
+            final AnnotatedTypeMirror atm) {
+        return forbiddenFlows(annotatedTypeMirrorToFlows(atm));
     }
 
     public List<Flow> forbiddenFlows(
-	final Pair<Set<FlowPermission>, Set<FlowPermission>> flows) {
-	final Set<FlowPermission> sources = flows.first;
-	final Set<FlowPermission> sinks = flows.second;
-	
-	FlowUtil.allToAnySink(sinks, true);
-	FlowUtil.allToAnySource(sources, true);
-	List<Flow> forflows = new ArrayList<Flow>();
-	
-	if(sources.isEmpty() || sinks.isEmpty()){
-	    forflows.add(new Flow(sources, sinks));
-	    return forflows;
-	} 
+            final Pair<Set<FlowPermission>, Set<FlowPermission>> flows) {
+        final Set<FlowPermission> sources = flows.first;
+        final Set<FlowPermission> sinks = flows.second;
 
-	if (sinksFromAnySource != null) {
-	    sinks.removeAll(sinksFromAnySource);
-	}
-	   
-		
-	for (final FlowPermission source : sources) {
-	    final Set<FlowPermission> allowedSink = allowedFlows.get(source);
+        FlowUtil.allToAnySink(sinks, true);
+        FlowUtil.allToAnySource(sources, true);
+        List<Flow> forflows = new ArrayList<Flow>();
 
-	    if (allowedSink == null){
-		forflows.add(new Flow(source, sinks));
-	    }else if(allowedSink.contains(FlowPermission.ANY)){
-		//Then source->ANY is allowed
-	    }else if(!(allowedSink.containsAll(sinks))) {
-		Flow flow = new Flow(source);
-		for(FlowPermission sink : sinks){
-		    if(!allowedSink.contains(sink)){
-			flow.addSink(sink);
-		    }
-		}
-		if(flow.hasSink()){
-		    forflows.add(flow);
-		}
-	    }
-	}
+        if(sources.isEmpty() || sinks.isEmpty()){
+            forflows.add(new Flow(sources, sinks));
+            return forflows;
+        } 
 
-	    return forflows;
+        if (sinksFromAnySource != null) {
+            sinks.removeAll(sinksFromAnySource);
+        }
+
+        for (final FlowPermission source : sources) {
+            final Set<FlowPermission> allowedSink = allowedFlows.get(source);
+
+            if (allowedSink == null){
+                forflows.add(new Flow(source, sinks));
+            } else if (allowedSink.contains(FlowPermission.ANY)){
+                //Then source->ANY is allowed
+            } else if (!(allowedSink.containsAll(sinks))) {
+                Flow flow = new Flow(source);
+                for (FlowPermission sink : sinks){
+                    if (!allowedSink.contains(sink)){
+                        flow.addSink(sink);
+                    }
+                }
+                if (flow.hasSink()){
+                    forflows.add(flow);
+                }
+            }
+        }
+
+        return forflows;
     }
 
     public boolean areFlowsAllowed(final Pair<Set<FlowPermission>, Set<FlowPermission>> flows) {
@@ -180,18 +178,18 @@ public class FlowPolicy {
             return false;
         }
 
-        if(sinksFromAnySource != null) {
+        if (sinksFromAnySource != null) {
             sinks.removeAll(sinksFromAnySource);
         }
 
-        if( sinks.isEmpty() ) {
+        if (sinks.isEmpty() ) {
             return true;
         }
 
-        for(final FlowPermission source : sources) {
+        for (final FlowPermission source : sources) {
             final Set<FlowPermission> allowedSink = allowedFlows.get(source);
 
-            if(allowedSink == null || !(allowedSink.contains(FlowPermission.ANY) ||
+            if (allowedSink == null || !(allowedSink.contains(FlowPermission.ANY) ||
                                          allowedSink.containsAll(sinks))) {
                 return false;
             }
@@ -336,7 +334,7 @@ public class FlowPolicy {
                         }
 
                         for(final String sink : sinkStrs) {
-                        	if( sink.equals(EMPTY) || sink.equals(NOT_REVIEWED.toString()) ) {
+                            if( sink.equals(EMPTY) || sink.equals(NOT_REVIEWED.toString()) ) {
                                 errors.add(
                                         formatPolicyFileError(policyFile, lineNum,
                                                 "FlowPermission " + sourceStr +
@@ -344,19 +342,19 @@ public class FlowPolicy {
                                                 originalLine)
                                 );
                                 continue;
-                        	}
+                            }
                             try {
-								final String trimmedSink = sink.trim();
+                                final String trimmedSink = sink.trim();
 
-								// Read sinks even if source can't be decoded
-								// (i.e. source == null)
-								// in order to catch all errors in one pass
-								final FlowPermission sinkEnum = FlowPermission
-										.valueOf(trimmedSink);
+                                // Read sinks even if source can't be decoded
+                                // (i.e. source == null)
+                                // in order to catch all errors in one pass
+                                final FlowPermission sinkEnum = FlowPermission
+                                        .valueOf(trimmedSink);
 
-								if (!skip) {
-									sinks.add(sinkEnum);
-								}
+                                if (!skip) {
+                                    sinks.add(sinkEnum);
+                                }
 
                             } catch(final IllegalArgumentException iaExc) {
                                 errors.add(
