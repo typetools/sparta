@@ -59,8 +59,8 @@ static int wtf(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission
 static int wtf(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg, Throwable tr);
 //What a Terrible Failure: Report an exception that should never happen.
 
-// UNUSED AND UNANNOTATED
-// static int println(int priority, String tag, String msg);
+static int println(int priority, @Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg);
+
 }
 
 class Xml{

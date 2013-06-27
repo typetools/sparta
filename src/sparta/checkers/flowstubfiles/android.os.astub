@@ -232,9 +232,9 @@ final boolean sendEmptyMessageDelayed(int what, long delayMillis);
 final boolean sendMessage(Message msg);
 //Pushes a message onto the end of the message queue after all pending messages before the current time .
 
-
+        Handler();
+        void dispatchMessage(Message msg);
 //UNUSED AND UNANNOTATED    
-// void dispatchMessage(Message msg);
 // final void dump(Printer pw, String prefix);
 // String getMessageName(Message message);
 // final boolean postAtFrontOfQueue(Runnable r);
@@ -244,6 +244,15 @@ final boolean sendMessage(Message msg);
 // boolean sendMessageAtTime(Message msg, long uptimeMillis);
 // final boolean sendMessageDelayed(Message msg, long delayMillis);
 // String toString();
+}
+
+class PowerManager{
+        @Source(FlowPermission.WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
+}
+
+class PowerManager$WakeLock{
+        void acquire();
+        void release();
 }
 
 class SystemClock {

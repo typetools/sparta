@@ -35,6 +35,7 @@ class Display{
             int getPixelFormat();
             int getWidth();
             int getHeight();
+             void getSize(Point outSize);
 }
 
 class LayoutInflater {
@@ -627,6 +628,8 @@ void recycle();
 
 class View {
 
+View(Context context);
+
 final View findViewById(int id);
 //Look for a child view with the given id.
 
@@ -1025,8 +1028,8 @@ void requestLayout();
 
  void setPaddingRelative(int start, int top, int end, int bottom);
 
-
-
+void destroyDrawingCache();
+ boolean post(Runnable action);
 
 
 
@@ -1048,7 +1051,6 @@ void requestLayout();
 // void computeScroll();
 // AccessibilityNodeInfo createAccessibilityNodeInfo();
 // void createContextMenu(ContextMenu menu);
-// void destroyDrawingCache();
 // void dispatchConfigurationChanged(Configuration newConfig);
 // void dispatchDisplayHint(int hint);
 // boolean dispatchDragEvent(DragEvent event);
@@ -1187,7 +1189,6 @@ void requestLayout();
 // boolean performHapticFeedback(int feedbackConstant);
 // boolean performHapticFeedback(int feedbackConstant, int flags);
 // boolean performLongClick();
-// boolean post(Runnable action);
 // void removeOnAttachStateChangeListener(View.OnAttachStateChangeListener listener);
 // void removeOnLayoutChangeListener(View.OnLayoutChangeListener listener);
 // void requestFitSystemWindows();
@@ -1338,6 +1339,11 @@ class View$OnClickListener{
 
 class View$OnCreateContextMenuListener{
         void onCreateContextMenu(ContextMenu arg0, View arg1, ContextMenuInfo arg2);
+}
+
+
+class View$OnTouchListener{
+        boolean onTouch(View arg0, MotionEvent arg1);
 }
 
 class ViewConfiguration {
