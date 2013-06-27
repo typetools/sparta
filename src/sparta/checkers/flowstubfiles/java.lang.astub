@@ -477,6 +477,8 @@ interface CharSequence {
 class Class{
         Constructor<T> getConstructor(Class<?>[] parameterTypes) throws NoSuchMethodException,SecurityException;
         Field getDeclaredField(String name) throws NoSuchFieldException,SecurityException;
+         String getName();
+            boolean isInstance(Object arg0);
 }
 
 @PolyFlowReceiver
@@ -589,6 +591,8 @@ class Exception{
         Exception(String message);
         Exception(Throwable arg0);
         Exception(String arg0, Throwable arg1);
+        Exception();
+
 }
 
 @PolyFlowReceiver
@@ -974,6 +978,8 @@ class Runtime {
 class RuntimeException{
             RuntimeException(String arg0);
             RuntimeException(String arg0, Throwable arg1);
+            RuntimeException(Throwable arg0);
+
 }
 class IndexOutOfBoundsException{
             IndexOutOfBoundsException();

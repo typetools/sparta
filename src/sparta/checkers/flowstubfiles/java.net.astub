@@ -136,3 +136,9 @@ class URLConnection {
     static String guessContentTypeFromName(String arg0);
     static String guessContentTypeFromStream(InputStream arg0) throws IOException;
 }
+
+class URLEncoder{
+@PolyFlow
+            static String encode(String arg0, String arg1) throws UnsupportedEncodingException;
+}
+

@@ -33,7 +33,23 @@ class Activity{
             Intent getIntent();
             protected void onPause();
             void runOnUiThread(Runnable action);
+            
+                        void setResult(int resultCode, Intent data);
+            Object getSystemService(String name);
+            boolean onOptionsItemSelected(MenuItem item);
+            boolean isFinishing();
+            FragmentManager getFragmentManager();
+            void onBackPressed();
+            protected void onSaveInstanceState(Bundle outState);
+            Window getWindow();
     
+}
+class ActivityManager{
+                List<RunningServiceInfo> getRunningServices(int maxNum) throws SecurityException;
+}
+
+class Application{
+            Application();
 }
 
 class AlertDialog {
@@ -436,6 +452,12 @@ void show();
 //Called to tell you that you're stopping.
 }
 
+class DialogFragment{
+            DialogFragment();
+            @Sink(DISPLAY) void show(FragmentManager manager, String tag);
+            Dialog onCreateDialog(Bundle savedInstanceState);
+}
+
 class ExpandableListActivity{
         ExpandableListActivity();
         void setListAdapter(ExpandableListAdapter adapter);
@@ -445,6 +467,8 @@ class ExpandableListActivity{
 
 class Fragment {
      Fragment();
+     FragmentManager getFragmentManager();
+
 void dump(@Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String prefix, FileDescriptor fd, PrintWriter writer, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String[] args);
 //Print the Fragments's state into the given stream.
 //CSH: FileDescriptors are a... "structure representing an open file, an open socket, or another source or sink of bytes"
@@ -692,6 +716,7 @@ abstract Fragment.SavedState saveFragmentInstanceState(Fragment f);
 }
 
 class FragmentTransaction {
+FragmentTransaction replace(int arg0, @Sink(DISPLAY) Fragment arg1);
 
 abstract FragmentTransaction add(@Sink(DISPLAY) Fragment fragment, String tag);
 //Calls add(int, Fragment, String); with a 0 containerViewId.
@@ -952,5 +977,6 @@ class Service{
             Service();
             void onDestroy();
             void onCreate();
+            int onStartCommand(Intent intent, int flags, int startId);
 }
 

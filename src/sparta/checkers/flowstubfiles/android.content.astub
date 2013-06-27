@@ -560,6 +560,10 @@ class DialogInterface$OnClickListener{
 class DialogInterface$OnKeyListener{
         boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2);
 }
+
+class DialogInterface$OnMultiChoiceClickListener{
+            void onClick(DialogInterface arg0, int arg1, boolean arg2);
+}
 class IntentFilter{
             IntentFilter(String action);
 }
@@ -1005,5 +1009,18 @@ void recycle();
 //Returns a string containing a concise, human-readable description of this object.
 
 
-
 }
+
+
+package android.content.pm;
+class PackageManager{
+            PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
+            List<ResolveInfo> queryIntentActivities(Intent arg0, int arg1);
+            boolean hasSystemFeature(String arg0);
+            ResolveInfo resolveActivity(Intent arg0, int arg1);
+}
+class Signature{
+            String toCharsString();
+}
+
+

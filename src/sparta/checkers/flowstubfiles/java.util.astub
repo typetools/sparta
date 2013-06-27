@@ -1738,4 +1738,10 @@ class Matcher{
             int regionEnd();
 }
 
+package java.util.zip;
+@PolyFlowReceiver
+class GZIPInputStream{
+            GZIPInputStream(InputStream arg0) throws IOException;
+}
+
 

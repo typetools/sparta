@@ -1,4 +1,40 @@
 
+package org.apache.http.conn;
+class ClientConnectionManager{
+            ClientConnectionRequest requestConnection(HttpRoute arg0, Object arg1);
+}
+class ConnectionKeepAliveStrategy{
+            long getKeepAliveDuration(HttpResponse arg0, HttpContext arg1);
+}
+
+package org.apache.http.conn.params;
+class ConnPerRoute{
+            int getMaxForRoute(HttpRoute arg0);
+}
+class ConnManagerParams{
+            static void setMaxConnectionsPerRoute(HttpParams params, ConnPerRoute connPerRoute);
+            static void setMaxTotalConnections(HttpParams params, int maxTotalConnections);
+}
+
+package org.apache.http.entity;
+@PolyFlowReceiver
+class InputStreamEntity{
+            InputStreamEntity(InputStream instream, long length);
+}
+class HttpEntityWrapper{
+            long getContentLength();
+            HttpEntityWrapper(HttpEntity wrapped);
+            @PolyFlowReceiver
+            InputStream getContent() throws IOException;
+            @PolyFlowReceiver
+            void writeTo(OutputStream outstream) throws IOException;
+}
+@PolyFlowReceiver
+class AbstractHttpEntity{
+            void setChunked(boolean b);
+            void setContentEncoding(String ceString);
+}
+
 package org.apache.http.client.entity;
 
 class UrlEncodedFormEntity {
@@ -32,9 +68,24 @@ class HttpClient {
     // Added by mcarthur
     @Source(FlowPermission.INTERNET)
     HttpResponse execute(@Sink(FlowPermission.INTERNET) HttpUriRequest request);
+                @Source(FlowPermission.INTERNET) HttpParams getParams();
+
+}
+
+package org.apache.http.impl;
+class DefaultConnectionReuseStrategy{
+            boolean keepAlive(HttpResponse response, HttpContext context);
+            protected TokenIterator createTokenIterator(HeaderIterator hit);
+            DefaultConnectionReuseStrategy();
 }
 
 package org.apache.http.impl.client;
+class AbstractHttpClient{
+            protected ConnectionKeepAliveStrategy createConnectionKeepAliveStrategy();
+            void addRequestInterceptor(HttpRequestInterceptor itcp);
+            protected ConnectionReuseStrategy createConnectionReuseStrategy();
+            void addResponseInterceptor(HttpResponseInterceptor itcp);
+}
 
 class DefaultHttpClient extends AbstractHttpClient {
     DefaultHttpClient(ClientConnectionManager arg0, HttpParams arg1);
