@@ -4,6 +4,9 @@ package android.app;
 class ActivityGroup{
             protected void onCreate(Bundle savedInstanceState);
 }
+class ActionBar{
+            void setDisplayHomeAsUpEnabled(boolean arg0);
+}
 
 class Activity{
 //Annotations by SOM
@@ -55,6 +58,12 @@ class Activity{
             LayoutInflater getLayoutInflater();
             boolean onContextItemSelected(MenuItem item);
             Application getApplication();
+                        void setResult(int resultCode);
+            void setTitle(CharSequence title);
+            boolean dispatchKeyEvent(KeyEvent event);
+            ActionBar getActionBar();
+            void setTitle(int titleId);
+            void onConfigurationChanged(Configuration newConfig);
 
     
 }
@@ -118,7 +127,7 @@ void setButton(int whichButton, @Sink(FlowPermission.DISPLAY) CharSequence text,
 
 void setMessage(CharSequence message);
 
-//void setTitle(CharSequence title);
+void setTitle(@Sink(DISPLAY) CharSequence title);
 //Set the title text for this dialog's window.
 
 //void setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom);
@@ -126,6 +135,12 @@ void setMessage(CharSequence message);
 
 //void setView(View view);
 //Set the view to display in that dialog.
+           boolean dispatchKeyEvent(KeyEvent event);
+            void setTitle(int titleId);
+            ActionBar getActionBar();
+            void onConfigurationChanged(Configuration newConfig);
+            LayoutInflater getLayoutInflater();
+            void setResult(int resultCode);
 
 
 //PROTECTED
@@ -229,6 +244,11 @@ AlertDialog.Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener
 // AlertDialog.Builder setMultiChoiceItems(int itemsId, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener);
 // AlertDialog.Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener);
 // AlertDialog.Builder setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
+}
+
+
+class DatePickerDialog{
+            DatePickerDialog(Context context, OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth);
 }
 
 class Dialog {
@@ -474,6 +494,8 @@ class DialogFragment{
             DialogFragment();
             @Sink(DISPLAY) void show(FragmentManager manager, String tag);
             Dialog onCreateDialog(Bundle savedInstanceState);
+                 Dialog getDialog();
+            void onCreate(Bundle savedInstanceState);
 }
 
 class ExpandableListActivity{

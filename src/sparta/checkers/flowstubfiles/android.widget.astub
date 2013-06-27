@@ -1,7 +1,15 @@
 
 package android.widget;
 
+
+class AbsListView$MultiChoiceModeListener{
+            void onItemCheckedStateChanged(ActionMode arg0, int arg1, long arg2, boolean arg3);
+}
+
 class AbsListView {
+   int getCheckedItemCount();
+            void setMultiChoiceModeListener(MultiChoiceModeListener listener);
+
 //void addTouchables(ArrayList<View> views);
 //Add any touchable views that are descendants of this view (possibly including this view if it is touchable itself); to views.
 
@@ -381,6 +389,9 @@ class Adapter{
 }
 
 class AdapterView {
+      long getItemIdAtPosition(int position);
+            int getCount();
+            int getFirstVisiblePosition();
 
 //void addView(View child);
 //This method is not supported and throws an UnsupportedOperationException when called.
@@ -513,6 +524,8 @@ class AdapterView$OnItemSelectedListener{
 }
 
 class ArrayAdapter {
+            void notifyDataSetChanged();
+
  ArrayAdapter(Context context, int textViewResourceId, T @SINK(DISPLY) [] objects);
 ArrayAdapter(Context context, int textViewResourceId, List<T> objects);
 
@@ -703,6 +716,10 @@ void setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener listener)
 //boolean verifyDrawable(Drawable who);
 //If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
 
+}
+
+class CompoundButton$OnCheckedChangeListener{
+            void onCheckedChanged(CompoundButton arg0, boolean arg1);
 }
 
 class CursorAdapter {
@@ -1291,6 +1308,11 @@ class ProgressBar {
 void setProgress(@Sink(FLowPermission.DISPLAY) int progress);
 void setVisibility(int v);
 
+}
+
+class ShareActionProvider{
+            void setShareIntent(Intent shareIntent);
+            void setShareHistoryFileName(String shareHistoryFile);
 }
 
 class Scroller {

@@ -1509,6 +1509,10 @@ interface Future<V> {
     V get() throws InterruptedException,ExecutionException;
     V get(long arg0, TimeUnit arg1) throws InterruptedException,ExecutionException,TimeoutException;
 }
+class Executor{
+            void execute(Runnable arg0);
+}
+
 
 @PolyFlowReceiver
 interface ExecutorService extends Executor {
@@ -1748,4 +1752,14 @@ class GZIPInputStream{
             GZIPInputStream(InputStream arg0) throws IOException;
 }
 
+@PolyFlowReceiver
+class ZipOutputStream{
+            void putNextEntry(ZipEntry arg0) throws IOException;
+            void close() throws IOException;
+            ZipOutputStream(OutputStream arg0);
+            void closeEntry() throws IOException;
+}
+class ZipEntry{
+            ZipEntry(String arg0);
+}
 

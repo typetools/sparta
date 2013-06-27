@@ -62,6 +62,17 @@ static int wtf(@Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission
 static int println(int priority, @Sink(FlowPermission.WRITE_LOGS) String tag, @Sink(FlowPermission.WRITE_LOGS) String msg);
 
 }
+class SparseArray{
+            SparseArray();
+            int size();
+            int keyAt(int index);
+            int indexOfValue(E value);
+            E get(int key);
+            void append(int key, E value);
+}
+class SparseBooleanArray{
+            boolean get(int key);
+}
 
 class Xml{
         static void parse(@Source(FlowPermission.FILESYSTEM)Reader in, ContentHandler contentHandler) throws IOException,SAXException;

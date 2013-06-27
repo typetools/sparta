@@ -176,6 +176,11 @@ class SQLiteOpenHelper {
     @Source(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getReadableDatabase() @Source(FlowPermission.ANY) @Sink({});
     @Source(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getWritableDatabase() @Source(FlowPermission.ANY) @Sink({});
     @Source(FlowPermission.ANY) @Sink({}) SQLiteOpenHelper(@Source(FlowPermission.ANY) @Sink({}) Context context, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String name, @Source(FlowPermission.ANY) @Sink({}) CursorFactory factory, @Source(FlowPermission.ANY) @Sink({}) int version);
+           void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion);
+            void onCreate(SQLiteDatabase arg0);
+            void close();
+            void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2);
+            
 }
 
 class SQLiteQueryBuilder {

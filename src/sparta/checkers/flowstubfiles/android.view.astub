@@ -1,5 +1,15 @@
 package android.view;
 
+class ActionMode{
+            MenuInflater getMenuInflater();
+}
+class ActionMode$Callback{
+            boolean onPrepareActionMode(ActionMode arg0, Menu arg1);
+            boolean onCreateActionMode(ActionMode arg0, Menu arg1);
+            boolean onActionItemClicked(ActionMode arg0, MenuItem arg1);
+            void onDestroyActionMode(ActionMode arg0);
+}
+
 class ContextMenu{
         ContextMenu setHeaderTitle(CharSequence arg0);
 }
@@ -1930,6 +1940,7 @@ class Window{
 
 class Window$Callback{
         boolean onMenuItemSelected(int arg0, MenuItem arg1);
+            boolean dispatchKeyEvent(KeyEvent arg0);
 }
 
 class WindowManager{

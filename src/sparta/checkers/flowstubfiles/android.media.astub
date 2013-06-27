@@ -24,3 +24,7 @@ class MediaPlayer {
 class MediaPlayer$OnPreparedListener{
         void onPrepared(MediaPlayer arg0);
 }
+class ThumbnailUtils{
+            static Bitmap extractThumbnail(Bitmap source, int width, int height);
+}
+

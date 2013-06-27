@@ -152,7 +152,16 @@ class Fragment{
         boolean isResumed();
         FragmentActivity getActivity();
 }
+class NavUtils{
+            static void navigateUpFromSameTask(Activity sourceActivity);
+}
 
+package android.support.v4.content;
+class LocalBroadcastManager{
+            static LocalBroadcastManager getInstance(Context context);
+            void registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
+            boolean sendBroadcast(Intent intent);
+}
 
 package android.support.v4.util;
 
