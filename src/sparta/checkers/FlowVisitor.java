@@ -245,7 +245,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
             StringBuffer buf = new StringBuffer();
             for(Flow flow: checker.getFlowPolicy().forbiddenFlows(type)){
-//        	buf.append(flow.toString()+"\n");
+                buf.append(flow.toString()+"\n");
             }
             checker.report(Result.failure("forbidden.flow",
                     type.toString(), buf.toString()), p);
