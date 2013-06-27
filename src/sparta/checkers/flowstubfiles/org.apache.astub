@@ -1,0 +1,61 @@
+
+package org.apache.http.client.entity;
+
+class UrlEncodedFormEntity {
+
+    // Added by mcarthur
+    // Constructor returns do not work yet.
+    // And I have my doubts about Poly for Generic types.
+    @PolySource @PolySink UrlEncodedFormEntity(@Sink(FlowPermission.CONDITIONAL) List<? extends @PolySource @PolySink NameValuePair> parameters) @PolySource @PolySink ; 
+}
+
+
+
+package org.apache.http.client.methods;
+
+class HttpPost {
+
+    HttpPost(@Sink(FlowPermission.INTERNET) String postUrl);
+
+    // Added by mcarthur
+    // I would like for this to actually work, but it does not.
+//    void setEntity(@PolySource @PolySink HttpEntity entity) @PolySource @PolySink;
+    void setEntity(@Sink(FlowPermission.INTERNET) HttpEntity entity) @Sink(FlowPermission.INTERNET);
+
+}
+
+
+package org.apache.http.client;
+
+class HttpClient {
+
+    // Added by mcarthur
+    @Source(FlowPermission.INTERNET)
+    HttpResponse execute(@Sink(FlowPermission.INTERNET) HttpUriRequest request);
+}
+
+package org.apache.http.impl.client;
+
+class DefaultHttpClient extends AbstractHttpClient {
+    DefaultHttpClient(ClientConnectionManager arg0, HttpParams arg1);
+    DefaultHttpClient(HttpParams arg0);
+    DefaultHttpClient();
+    
+    protected HttpParams createHttpParams();
+    protected HttpRequestExecutor createRequestExecutor();
+    protected ClientConnectionManager createClientConnectionManager();
+    protected HttpContext createHttpContext();
+    protected ConnectionReuseStrategy createConnectionReuseStrategy();
+    protected ConnectionKeepAliveStrategy createConnectionKeepAliveStrategy();
+    protected AuthSchemeRegistry createAuthSchemeRegistry();
+    protected CookieSpecRegistry createCookieSpecRegistry();
+    protected BasicHttpProcessor createHttpProcessor();
+    protected HttpRequestRetryHandler createHttpRequestRetryHandler();
+    protected RedirectHandler createRedirectHandler();
+    protected AuthenticationHandler createTargetAuthenticationHandler();
+    protected AuthenticationHandler createProxyAuthenticationHandler();
+    protected CookieStore createCookieStore();
+    protected CredentialsProvider createCredentialsProvider();
+    protected HttpRoutePlanner createHttpRoutePlanner();
+    protected UserTokenHandler createUserTokenHandler();
+}

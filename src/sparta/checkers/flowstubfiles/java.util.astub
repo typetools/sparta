@@ -51,6 +51,7 @@ class AbstractMap{
             void clear();
             boolean containsKey(Object arg0);
             int size();
+             String toString();
 }
 
 class AbstractSet{
