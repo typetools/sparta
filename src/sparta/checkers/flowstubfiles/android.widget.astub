@@ -392,7 +392,7 @@ class AdapterView {
 //int getFirstVisiblePosition();
 //Returns the position within the adapter's data set for the first item displayed on screen.
 
-//Object getItemAtPosition(int position);
+@PolySource @PolySink Object getItemAtPosition(@Sink(FlowPermission.CONDITIONAL) int position) @PolySource @PolySink;
 //Gets the data associated with the specified position in the list.
 
 //long getItemIdAtPosition(int position);
@@ -521,7 +521,8 @@ T getItem(int position);
 int getPosition(T item);
 //Returns the position of the specified item in the array.
 
-//View getView(int position, View convertView, ViewGroup parent);
+@PolyFlowReceiver
+View getView(int position, View convertView, ViewGroup parent);
 
 //void insert(T object, int index);
 //Inserts the specified object at the specified index in the array.
@@ -1672,4 +1673,30 @@ static Toast makeText(Context context, @Sink(FlowPermission.DISPLAY) CharSequenc
 // void setText(int resId);
 // void setText(CharSequence s);
 // void setView(View view);
+}
+
+class ProgressBar {
+
+void setProgress(@Sink(FLowPermission.DISPLAY) int progress);
+void setVisibility(int v);
+}
+
+class Adapter{
+    int getCount();
+    @PolyFlowReceiver
+    long getItemId(int arg0);
+    @PolyFlowReceiver
+    Object getItem(int arg0);
+    @PolyFlowReceiver
+    View getView(int arg0, View arg1, ViewGroup arg2);
+}
+
+class AdapterView$OnItemClickListener {
+    void onItemClick(@Source(FlowPermission.USER_INPUT)AdapterView<?> arg0,
+    @Source(FlowPermission.USER_INPUT)View arg1, @Source(FlowPermission.USER_INPUT)int arg2,
+    @Source(FlowPermission.USER_INPUT)long arg3);
+}
+
+class KeyEvent {
+    @Source(FlowPermission.USER_INPUT) int getKeyCode();
 }

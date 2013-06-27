@@ -685,3 +685,9 @@ Typeface setTypeface(Typeface typeface);
 //void finalize();
 
 }
+
+class Drawable {
+    @PolyFlow
+    static Drawable createFromPath(String pathName);
+}
+

@@ -156,3 +156,8 @@ class SimpleDateFormat extends DateFormat {
     int hashCode();
     boolean equals(Object arg0);
 }
+
+@PolyFlowReceiver
+class Format {
+    String format(Object arg0);
+}
