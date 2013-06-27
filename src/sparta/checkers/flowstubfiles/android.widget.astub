@@ -487,6 +487,7 @@ void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener);
 }
 
 class ArrayAdapter {
+ ArrayAdapter(Context context, int textViewResourceId, T @SINK(DISPLY) [] objects);
 
 void add(T object);
 //Adds the specified object at the end of the array.
@@ -592,6 +593,9 @@ class Button {
 //void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
 //Initializes an AccessibilityNodeInfo with information about this view.
 
+}
+class ContextThemeWrapper{
+            void setTheme(int resid);
 }
 
 interface Checkable {
@@ -1246,6 +1250,15 @@ void setSelection(@Sink(FlowPermission.DISPLAY) int position);
 
 }
 
+class SeekBar{
+            void setOnSeekBarChangeListener(OnSeekBarChangeListener l);
+}
+class SeekBar$OnSeekBarChangeListener{
+            void onProgressChanged(SeekBar arg0, int arg1, boolean arg2);
+            void onStopTrackingTouch(SeekBar arg0);
+            void onStartTrackingTouch(SeekBar arg0);
+}
+
 class Scroller {
 void abortAnimation();
 //Stops the animation.
@@ -1646,6 +1659,10 @@ void addView(View child);
 ScrollView(Context context);
 }
 
+class SurfaceHolder{
+            Surface getSurface();
+}
+
 class Toast {
     
 void show();
@@ -1673,6 +1690,10 @@ static Toast makeText(Context context, @Sink(FlowPermission.DISPLAY) CharSequenc
 // void setText(int resId);
 // void setText(CharSequence s);
 // void setView(View view);
+}
+class View{
+            void setDrawingCacheEnabled(boolean enabled);
+            Bitmap getDrawingCache();
 }
 
 class ProgressBar {

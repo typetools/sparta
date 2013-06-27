@@ -4,6 +4,8 @@ class TelephonyManager{
             @Source(READ_PHONE_STATE) String getSimSerialNumber();
             @Source(READ_PHONE_STATE) String getNetworkOperatorName();
             @Source(READ_PHONE_STATE) int getPhoneType();
+                        @Source(READ_PHONE_STATE) String getLine1Number();
+
 }
 
 

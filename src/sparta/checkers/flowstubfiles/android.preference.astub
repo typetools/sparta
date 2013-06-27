@@ -13,5 +13,17 @@ class PreferenceActivity{
 }
 class PreferenceManager{
         static SharedPreferences getDefaultSharedPreferences(Context context);
+         static void setDefaultValues(Context context, int resId, boolean readAgain);
 }
 
+
+class PreferenceFragment{
+            void addPreferencesFromResource(int preferencesResId);
+            @Source(SHARED_PREFERENCES) Preference findPreference(CharSequence key);
+            PreferenceFragment();
+            void onCreate(Bundle savedInstanceState);
+}
+
+class Preference$OnPreferenceClickListener{
+            boolean onPreferenceClick(Preference arg0);
+}

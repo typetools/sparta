@@ -6,4 +6,6 @@ class ExifInterface {
     String getAttribute(@Sink(FlowPermission.CONDITIONAL) String tag);
 
     ExifInterface(@Sink(FlowPermission.FILESYSTEM) String path);
+    void setAttribute(String tag, String value);
+
 }

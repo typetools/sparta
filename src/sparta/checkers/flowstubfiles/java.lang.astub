@@ -1,6 +1,10 @@
 
 package java.lang;
 
+class AutoCloseable{
+            void close() throws Exception;
+}
+
 @PolyFlowReceiver
 class AbstractStringBuilder{
         int length();
@@ -585,6 +589,9 @@ class Enum<E> implements Comparable<E>, Serializable {
     Class<E> getDeclaringClass();
     static <T> T valueOf(Class<T> arg0, String arg1);
     protected void finalize();
+}
+class Error{
+            Error(String arg0);
 }
 
 class Exception{

@@ -20,6 +20,8 @@ class Environment {
 	static @Source(FlowPermission.FILESYSTEM) File getExternalStorageDirectory() ;
 
     @Source(FlowPermission.READ_EXTERNAL_STORAGE) static String getExternalStorageState();
+                static @Source(FILESYSTEM) File getDataDirectory();
+
 }
 
 class IBinder {
@@ -46,7 +48,8 @@ class IBinder {
     class Bundle {
         //Added by Carl Hartung
         //This class will need a qualifier  parameter
-        
+                    Bundle();
+
     void writeToParcel(@Source(FlowPermission.PARCEL) Parcel parcel, int flags);
     //Writes the Bundle contents to a Parcel, typically in order for it to be passed through an IBinder connection .
     
@@ -155,6 +158,18 @@ class IBinder {
     
     Object clone();
     //Clones the current Bundle .
+}
+
+class Looper{
+            static Looper myLooper();
+            static void prepare();
+}
+
+
+class FileObserver{
+            FileObserver(String path, int mask);
+            void onEvent(int arg0, String arg1);
+            void startWatching();
 }
 
 class Handler {

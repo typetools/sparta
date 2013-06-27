@@ -228,9 +228,24 @@ abstract @Source(FlowPermission.FILESYSTEM) File getFileStreamPath(String name);
 
 }
 
+class ComponentName{
+            String getClassName();
+}
+
 class ContextWrapper {
             File getDir(String name, int mode);
             ContextWrapper(Context base);
+            
+                        String getPackageName();
+            ComponentName startService(Intent service);
+            PackageManager getPackageManager();
+            @Source(FILESYSTEM) File getFilesDir();
+            AssetManager getAssets();
+            Context getApplicationContext();
+            Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
+            Context getBaseContext();
+            void sendBroadcast(Intent intent);
+            @Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences(String name, int mode);
 
 
 //boolean bindService(Intent service, ServiceConnection conn, int flags);
@@ -566,6 +581,8 @@ class DialogInterface$OnMultiChoiceClickListener{
 }
 class IntentFilter{
             IntentFilter(String action);
+             IntentFilter();
+            void addAction(String action);
 }
 
 
@@ -812,11 +829,16 @@ abstract Map<String, ?> getAll();
 }
 
 class SharedPreferences$Editor{
-        Editor putBoolean(String arg0, boolean arg1);
+        Editor putBoolean(@Sink(SHARED_PREFERENCES) String arg0, @Sink(SHARED_PREFERENCES) boolean arg1);
         boolean commit();
+            Editor putString(@Sink(SHARED_PREFERENCES) String arg0, @Sink(SHARED_PREFERENCES) String arg1);
 }
 
 package android.content.res;
+
+class AssetManager{
+            @Source(ANY) InputStream open(String fileName) throws IOException;
+}
 
 class ColorStateList{
         int getDefaultColor();
