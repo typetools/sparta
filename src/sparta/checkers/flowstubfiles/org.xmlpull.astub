@@ -1,0 +1,12 @@
+package org.xmlpull.v1;
+
+class XmlPullParser {
+    @PolyFlowReceiver
+    String getText();
+    @PolyFlowReceiver
+    boolean isEmptyElementTag();
+    @PolyFlowReceiver
+    int next();
+    @PolyFlowReceiver
+    String getName();
+}

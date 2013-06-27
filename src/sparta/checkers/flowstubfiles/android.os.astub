@@ -18,6 +18,8 @@ class Environment {
     static @Source(FlowPermission.FILESYSTEM) File 
     getExternalStoragePublicDirectory(@Sink(FlowPermission.FILESYSTEM) String type);
 	static @Source(FlowPermission.FILESYSTEM) File getExternalStorageDirectory() ;
+
+    @Source(FlowPermission.READ_EXTERNAL_STORAGE) static String getExternalStorageState();
 }
 
 class IBinder {

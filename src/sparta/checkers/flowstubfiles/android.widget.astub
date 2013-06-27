@@ -368,6 +368,16 @@ class AbsSpinner{
         void setSelection(int position);
 }
 
+class Adapter{
+    int getCount();
+    @PolyFlowReceiver
+    long getItemId(int arg0);
+    @PolyFlowReceiver
+    Object getItem(int arg0);
+    @PolyFlowReceiver
+    View getView(int arg0, View arg1, ViewGroup arg2);
+}
+
 class AdapterView {
 
 //void addView(View child);
@@ -396,7 +406,7 @@ class AdapterView {
 //int getFirstVisiblePosition();
 //Returns the position within the adapter's data set for the first item displayed on screen.
 
-//Object getItemAtPosition(int position);
+@PolySource @PolySink Object getItemAtPosition(@Sink(FlowPermission.CONDITIONAL) int position) @PolySource @PolySink;
 //Gets the data associated with the specified position in the list.
 
 //long getItemIdAtPosition(int position);
@@ -493,6 +503,9 @@ void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
 class AdapterView$OnItemSelectedListener{
         void onNothingSelected(AdapterView<?> arg0);
         void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3);
+		void onItemClick(@Source(FlowPermission.USER_INPUT)AdapterView<?> arg0,
+   	 	@Source(FlowPermission.USER_INPUT)View arg1, @Source(FlowPermission.USER_INPUT)int arg2,
+   		@Source(FlowPermission.USER_INPUT)long arg3);
 }
 
 class ArrayAdapter {
@@ -531,7 +544,8 @@ T getItem(int position);
 int getPosition(T item);
 //Returns the position of the specified item in the array.
 
-//View getView(int position, View convertView, ViewGroup parent);
+@PolyFlowReceiver
+View getView(int position, View convertView, ViewGroup parent);
 
 //void insert(T object, int index);
 //Inserts the specified object at the specified index in the array.
@@ -1255,9 +1269,10 @@ void setSelection(@Sink(FlowPermission.DISPLAY) int position);
 
 }
 
-class ProgressBar{
-        int getProgress();
-        void setProgress(int progress);
+class ProgressBar {
+
+void setProgress(@Sink(FLowPermission.DISPLAY) int progress);
+void setVisibility(int v);
 }
 
 class Scroller {

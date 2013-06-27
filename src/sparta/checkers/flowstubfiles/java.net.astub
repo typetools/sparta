@@ -136,3 +136,8 @@ class URLConnection {
     static String guessContentTypeFromName(String arg0);
     static String guessContentTypeFromStream(InputStream arg0) throws IOException;
 }
+
+class HttpURLConnection {
+    @Source(FlowPermission.INTERNET) int getResponseCode() throws IOException;
+    void setRequestMethod(@Sink(FlowPermission.INTERNET) String arg0) throws ProtocolException;
+}
