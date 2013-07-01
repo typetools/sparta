@@ -705,6 +705,7 @@ class Rect{
         void set(int left, int top, int right, int bottom);
         Rect();
         void union(int left, int top, int right, int bottom);
+}
 class Point{
         Point();
         Point(int x, int y);
