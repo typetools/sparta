@@ -2,9 +2,10 @@
 package java.security;
 class MessageDigest{
             static MessageDigest getInstance(String arg0) throws NoSuchAlgorithmException;
-            byte[] digest(byte[] arg0);
-            void update(byte[] arg0, int arg1, int arg2);
-            byte[] digest();
+
+           @Source(SECURE_HASH) byte @Source(SECURE_HASH) [] digest(@Snk(SECURE_HASH) byte @Sink(SECURE_HASH) [] arg0);
+            void update(@Snk(SECURE_HASH) byte @Snk(SECURE_HASH) [] arg0, int arg1, int arg2);
+           @Source(SECURE_HASH) byte @Source(SECURE_HASH) [] digest();
 }
 class SecureRandom{
             SecureRandom();

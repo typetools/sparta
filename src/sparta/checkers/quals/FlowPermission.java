@@ -73,6 +73,7 @@ public enum FlowPermission {
     BUNDLE(T.SOURCE), 
     PROCESS_BUILDER(T.SOURCE), //The ProcessBuilder variable should have this permission.
     PARCEL(T.BOTH),
+    SECURE_HASH(T.BOTH),  //Use only for one way hashes (MD5 for example)
 
 
     /**

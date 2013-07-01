@@ -2,7 +2,7 @@ package android.nfc;
 
 
 class Tag{
-            @Source(NFC) String[] getTechList();
+             String @Source(NFC) [] getTechList();
 }
 class NfcAdapter{
             void disableForegroundDispatch(Activity activity);
