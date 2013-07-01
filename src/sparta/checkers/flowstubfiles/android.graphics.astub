@@ -429,7 +429,8 @@ class Movie{
 }
 
 class Paint {
-
+        ColorFilter setColorFilter(ColorFilter filter);
+        Paint();
 int getFlags();
 //Return the paint's flags.
 
@@ -697,6 +698,13 @@ Typeface setTypeface(Typeface typeface);
 
 }
 
+class PorterDuffColorFilter{
+        PorterDuffColorFilter(int srcColor, Mode mode);
+}
+class Rect{
+        void set(int left, int top, int right, int bottom);
+        Rect();
+        void union(int left, int top, int right, int bottom);
 class Point{
         Point();
         Point(int x, int y);
@@ -704,5 +712,11 @@ class Point{
 
 package android.graphics.drawable;
 class Drawable{
+        int getIntrinsicWidth();
+        boolean setState(int[] stateSet);
+        int getIntrinsicHeight();
+        void draw(Canvas arg0);
+        boolean isStateful();
+        void setBounds(int left, int top, int right, int bottom);
         void setAlpha(int arg0);
 }

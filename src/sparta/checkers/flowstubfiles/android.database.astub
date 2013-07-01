@@ -1,6 +1,13 @@
 
 package android.database;
 
+class ContentObserver{
+            ContentObserver(Handler handler);
+            void onChange(boolean selfChange);
+            boolean deliverSelfNotifications();
+}
+
+
 class Cursor {
 //Added by Carl Hartung
 abstract @Source(FlowPermission.DATABASE) String getString(@Source({DATABASE, LITERAL}) int columnIndex);
@@ -105,6 +112,19 @@ abstract @Source(FlowPermission.DATABASE) byte[] getBlob(@Source({DATABASE, LITE
 
 }
 
+class DataSetObserver{
+            void onInvalidated();
+            void onChanged();
+            DataSetObserver();
+}
+class DataSetObservable{
+            DataSetObservable();
+            void notifyChanged();
+}
+class Observable{
+            void unregisterObserver(T observer);
+            void registerObserver(T observer);
+}
 
 package android.database.sqlite;
 

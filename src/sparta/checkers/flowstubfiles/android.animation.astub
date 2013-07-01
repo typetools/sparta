@@ -1,0 +1,7 @@
+package android.animation;
+class ValueAnimator{
+        static long getFrameDelay();
+}
+class TimeInterpolator{
+        float getInterpolation(float arg0);
+}

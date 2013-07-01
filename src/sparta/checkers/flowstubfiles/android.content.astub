@@ -80,6 +80,15 @@ class ComponentName{
         ComponentName(String pkg, String cls);
 }
 
+class ComponentCallbacks{
+            void onLowMemory();
+            void onConfigurationChanged(Configuration arg0);
+}
+class ComponentName{
+            ComponentName(Context pkg, String cls);
+            String getPackageName();
+}
+
 class ContentProvider {
     final @Source(FlowPermission.ANY) Context getContext() @Source(FlowPermission.ANY);
                 @Source(DATABASE) Uri insert(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) ContentValues arg1);
@@ -135,6 +144,8 @@ class ContentResolver{
 }
 
 class Context {
+            @Source({FILESYSTEM, EXTERNAL_STORAGE}) FileInputStream openFileInput(String arg0) throws FileNotFoundException;
+
 	@Source(FlowPermission.FILESYSTEM) File getDir( @Sink(FlowPermission.FILESYSTEM) String name,  @Sink(FlowPermission.CONDITIONAL) int mode);
 	void unregisterReceiver(BroadcastReceiver arg0);
 
@@ -257,7 +268,7 @@ class ComponentName{
 class ContextWrapper {
             File getDir(String name, int mode);
             ContextWrapper(Context base);
-            
+             Context createPackageContext(String packageName, int flags) throws NameNotFoundException;            
                         String getPackageName();
             ComponentName startService(Intent service);
             PackageManager getPackageManager();
@@ -600,14 +611,28 @@ class DialogInterface$OnKeyListener{
         boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2);
 }
 
+class DialogInterface$OnCancelListener{
+            void onCancel(DialogInterface arg0);
+}
 class DialogInterface$OnMultiChoiceClickListener{
             void onClick(DialogInterface arg0, int arg1, boolean arg2);
 }
+class DialogInterface$OnDismissListener{
+            void onDismiss(DialogInterface arg0);
+}
+
+
 class IntentFilter{
             IntentFilter(String action);
+
+               int countActions();
+            String getAction(int index);
+            int match(String action, String type, String scheme, Uri data, Set<String> categories, String logTag);
+
              IntentFilter();
             void addAction(String action);
             void addCategory(String category);
+
 }
 
 
@@ -1068,16 +1093,28 @@ void recycle();
 //String toString();
 //Returns a string containing a concise, human-readable description of this object.
 
+}
 
+<<<<<<< local
+=======
 }
 
 
+>>>>>>> other
 package android.content.pm;
 class PackageManager{
+<<<<<<< local
+            CharSequence getApplicationLabel(ApplicationInfo arg0);
+            ActivityInfo getActivityInfo(ComponentName arg0, int arg1) throws NameNotFoundException;
+            Drawable getApplicationIcon(String arg0) throws NameNotFoundException;
+            ApplicationInfo getApplicationInfo(String arg0, int arg1) throws NameNotFoundException;
+            Drawable getActivityIcon(ComponentName arg0) throws NameNotFoundException;
+=======
             PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
             List<ResolveInfo> queryIntentActivities(Intent arg0, int arg1);
             boolean hasSystemFeature(String arg0);
             ResolveInfo resolveActivity(Intent arg0, int arg1);
+>>>>>>> other
 }
 class Signature{
             String toCharsString();

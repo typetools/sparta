@@ -1383,6 +1383,24 @@ class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess, Clonea
 
 package java.util.concurrent;
 
+class ThreadPoolExecutor{
+        ThreadPoolExecutor(int arg0, int arg1, long arg2, TimeUnit arg3, BlockingQueue<Runnable> arg4, ThreadFactory arg5);
+}
+class FutureTask{
+        protected void done();
+        boolean isCancelled();
+        V get() throws InterruptedException,ExecutionException;
+        V get(long arg0, TimeUnit arg1) throws InterruptedException,ExecutionException,TimeoutException;
+        FutureTask(Callable<V> arg0);
+        boolean cancel(boolean arg0);
+}
+class Callable{
+        V call() throws Exception;
+}
+class ThreadFactory{
+        Thread newThread(Runnable arg0);
+}
+
 @PolyFlowReceiver
 interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
     void addFirst(E arg0);
@@ -1569,6 +1587,12 @@ class TimeUnit{
 }
 
 package java.util.concurrent.atomic;
+
+class AtomicBoolean{
+        AtomicBoolean();
+        boolean get();
+        void set(boolean arg0);
+}
 
 @PolyFlowReceiver
 class AtomicInteger extends Number implements Serializable {

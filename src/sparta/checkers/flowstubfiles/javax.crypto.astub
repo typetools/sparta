@@ -1,0 +1,39 @@
+package javax.crypto;
+@PolyFlowReceiver
+class CipherOutputStream{
+        void write(byte[] arg0, int arg1, int arg2) throws IOException;
+        void flush() throws IOException;
+        CipherOutputStream(OutputStream arg0, Cipher arg1);
+        void close() throws IOException;
+}
+class Cipher{
+        static Cipher getInstance(String arg0) throws NoSuchAlgorithmException,NoSuchPaddingException;
+        void init(int arg0, Key arg1) throws InvalidKeyException;
+}
+@PolyFlowReceiver
+class CipherInputStream{
+        int read(byte[] arg0) throws IOException;
+        CipherInputStream(InputStream arg0, Cipher arg1);
+        void close() throws IOException;
+}
+package android.net;
+class NetworkInfo{
+        int getType();
+}
+class ConnectivityManager{
+        @Source(ACCESS_NETWORK_STATE) NetworkInfo getActiveNetworkInfo();
+}
+class TrafficStats{
+        static void tagSocket(Socket socket) throws SocketException;
+        static void incrementOperationCount(int operationCount);
+        static void incrementOperationCount(int tag, int operationCount);
+        static void setThreadStatsTag(int tag);
+        static int getThreadStatsTag();
+        static void untagSocket(Socket socket) throws SocketException;
+        static void clearThreadStatsTag();
+}
+
+package javax.crypto.spec;
+class SecretKeySpec{
+        SecretKeySpec(byte[] arg0, String arg1);
+}

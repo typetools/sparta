@@ -372,11 +372,16 @@ void setTranscriptMode(int mode);
 
 }
 
+
 class AbsSpinner{
         void setSelection(int position);
 }
 
+class AdapterView$OnItemClickListener{
+        void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
+}
 class Adapter{
+        boolean hasStableIds();
     int getCount();
     @PolyFlowReceiver
     long getItemId(int arg0);
@@ -586,6 +591,8 @@ void setDropDownViewResource(int resource);
 }
 
 class BaseAdapter {
+boolean hasStableIds();
+View getDropDownView(int position, View convertView, ViewGroup parent);
             BaseAdapter();
 
 //boolean areAllItemsEnabled();
@@ -846,11 +853,16 @@ static int getPackedPositionType(long packedPosition);
 class ExpandableListView$OnChildClickListener{
         boolean onChildClick(ExpandableListView arg0, View arg1, int arg2, int arg3, long arg4);
 }
+class FrameLayout$LayoutParams{
+        LayoutParams(int width, int height);
+}
 class FilterQueryProvider{
             Cursor runQuery(CharSequence arg0);
 }
 
 class FrameLayout {
+        FrameLayout(Context context);
+
 //void draw(Canvas canvas);
 //Manually render this view (and all of its children); to the given Canvas.
 
@@ -1063,8 +1075,14 @@ void onDetachedFromWindow();
 
 }
 
+class LinearLayout$LayoutParams{
+        LayoutParams(int width, int height, float weight);
+}
+
+
 class LinearLayout {
 //CSH: Another class where almost all of the methods used are inherited
+        LinearLayout(Context context);
 
 
 //LinearLayout.LayoutParams generateLayoutParams(AttributeSet attrs);
@@ -1154,6 +1172,8 @@ void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 }
 
 class ListView {
+        ListView(Context context);
+
 
 //void addFooterView(View v);
 //Add a fixed view to appear at the bottom of the list.
@@ -1316,6 +1336,9 @@ class ShareActionProvider{
 }
 
 class Scroller {
+    Scroller(Context context, Interpolator interpolator);
+    Scroller(Context context);
+    void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY);
 void abortAnimation();
 //Stops the animation.
 
@@ -1391,6 +1414,8 @@ class TabHost$TabSpec{
 
 
 class TextView {
+int getBaseline();
+
     
 TextView(Context context);
 final void setText(int resid);
@@ -1776,10 +1801,24 @@ void setView(View view);
 // void setText(int resId);
 // void setText(CharSequence s);
 }
+
+class TabHost{
+        TabHost(Context context, AttributeSet attrs);
+        protected void onDetachedFromWindow();
+        void setCurrentTabByTag(String tag);
+        void setOnTabChangedListener(OnTabChangeListener l);
+        void setup();
+        protected void onAttachedToWindow();
+        String getCurrentTabTag();
+}
+class TabHost$OnTabChangeListener{
+        void onTabChanged(String arg0);
+}
 class View{
             void setDrawingCacheEnabled(boolean enabled);
             Bitmap getDrawingCache();
 }
+
 
 class VideoView{
         void suspend();
@@ -1788,3 +1827,49 @@ class VideoView{
         void setVideoPath(String path);
         void setOnPreparedListener(OnPreparedListener l);
 }
+class TabHost$TabSpec{
+        String getTag();
+        TabSpec setContent(TabContentFactory contentFactory);
+}
+class TabHost$TabContentFactory{
+        View createTabContent(String arg0);
+}
+class SpinnerAdapter{
+        View getDropDownView(int arg0, View arg1, ViewGroup arg2);
+}
+class TabWidget{
+        TabWidget(Context context);
+}
+
+class EdgeEffect{
+        void onPull(float deltaDistance);
+        boolean isFinished();
+        void onRelease();
+        void setSize(int width, int height);
+        boolean draw(Canvas canvas);
+        EdgeEffect(Context context);
+        void onAbsorb(int velocity);
+        void finish();
+}
+
+class Filter$FilterResults{
+        FilterResults();
+}
+
+
+class Filterable{
+        Filter getFilter();
+}
+class Filter{
+        Filter();
+        protected FilterResults performFiltering(CharSequence arg0);
+        CharSequence convertResultToString(Object resultValue);
+        protected void publishResults(CharSequence arg0, FilterResults arg1);
+}
+class ProgressBar{
+        ProgressBar(Context context, AttributeSet attrs, int defStyle);
+}
+class ShareActionProvider{
+        ShareActionProvider(Context context);
+}
+

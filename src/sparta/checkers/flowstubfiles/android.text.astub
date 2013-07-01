@@ -36,12 +36,35 @@ class Spanned {
 }
 
 class TextUtils {
+    static void writeToParcel(CharSequence cs, Parcel p, int parcelableFlags);
     static String htmlEncode(String s);
     @PolyFlow boolean isEmpty(CharSequence str);
 }
 
+package android.text.method;
+class TransformationMethod{
+        CharSequence getTransformation(CharSequence arg0, View arg1);
 class TextWatcher {
     void onTextChanged(@Source(FlowPermission.USER_INPUT)CharSequence arg0, @Source(FlowPermission.USER_INPUT)int arg1, @Source(FlowPermission.USER_INPUT)int arg2, @Source(FlowPermission.USER_INPUT)int arg3);
     void afterTextChanged(@Source(FlowPermission.USER_INPUT)Editable arg0);
     void beforeTextChanged(@Source(FlowPermission.USER_INPUT)CharSequence arg0, @Source(FlowPermission.USER_INPUT)int arg1, @Source(FlowPermission.USER_INPUT)int arg2, @Source(FlowPermission.USER_INPUT)int arg3);
+}
+class SingleLineTransformationMethod{
+        SingleLineTransformationMethod();
+}
+class ReplacementTransformationMethod{
+        CharSequence getTransformation(CharSequence source, View v);
+}
+package java.io;
+class Flushable{
+        void flush() throws IOException;
+}
+
+package android.net.wifi;
+class WifiManager{
+        boolean setWifiEnabled(@Sink(CHANGE_WIFI_STATE) boolean enabled);
+}
+package java.lang.ref;
+class Reference{
+        T get();
 }

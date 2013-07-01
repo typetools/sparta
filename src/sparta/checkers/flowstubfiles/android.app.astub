@@ -11,6 +11,22 @@ class ActionBar{
 class Activity{
 //Annotations by SOM
     Activity();
+        boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+        void dump(@Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) String prefix, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) FileDescriptor fd, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) PrintWriter writer, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) String[] args);
+        View onCreateView(String name, Context context, AttributeSet attrs);
+        void invalidateOptionsMenu();
+        void onPanelClosed(int featureId, Menu menu);
+        Object onRetainNonConfigurationInstance();
+        protected void onStart();
+        protected void onDestroy();
+        Object getLastNonConfigurationInstance();
+        ComponentName getComponentName();
+        boolean onPreparePanel(int featureId, View view, Menu menu);
+        String getCallingPackage();
+        protected void onPostResume();
+        ComponentName getCallingActivity();
+        boolean onCreatePanelMenu(int featureId, @Sink(DISPLAY) Menu menu);
+        void onLowMemory();
 
     @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
     @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater (); 
@@ -252,6 +268,8 @@ class DatePickerDialog{
 }
 
 class Dialog {
+        Dialog(Context context, int theme);
+
 //void addContentView(View view, ViewGroup.LayoutParams params);
 //Add an additional content view to the screen.
 
@@ -890,16 +908,21 @@ void setListShown(boolean shown);
 }
 
 class Notification{
+    Notification();
             Notification(int icon, @Sink(DISPLAY) CharSequence tickerText, long when);
             void setLatestEventInfo(Context context, @Sink(DISPLAY) CharSequence contentTitle, @Sink(DISPLAY) CharSequence contentText, PendingIntent contentIntent);
 }
+
 
 class NotificationManager{
             void cancel(int id);
             void notify(int id, @Sink(DISPLAY) Notification notification);
 }
 
+
 class Notification$Builder {
+
+        Builder(Context context);
 
 Notification.Builder addAction(@Sink(FlowPermission.DISPLAY) int icon, @Sink(FlowPermission.DISPLAY) CharSequence title, PendingIntent intent);
 //Add an action to this notification.
@@ -998,9 +1021,11 @@ Notification.Builder setWhen(long when);
 
 }
 class PendingIntent{
+
+    static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags);
+       static PendingIntent getActivities(Context context, int requestCode, Intent[] intents, int flags);
             static PendingIntent getActivity(Context context, int requestCode, @Source(FlowPermission.INTENT) Intent intent, int flags);
             static PendingIntent getBroadcast(Context context, int requestCode, @Source(FlowPermission.INTENT) Intent intent, int flags);
-    //2 (cancel)
         void cancel();
 }
 
