@@ -3,8 +3,8 @@ package java.security;
 class MessageDigest{
             static MessageDigest getInstance(String arg0) throws NoSuchAlgorithmException;
 
-           @Source(SECURE_HASH) byte @Source(SECURE_HASH) [] digest(@Snk(SECURE_HASH) byte @Sink(SECURE_HASH) [] arg0);
-            void update(@Snk(SECURE_HASH) byte @Snk(SECURE_HASH) [] arg0, int arg1, int arg2);
+           @Source(SECURE_HASH) byte @Source(SECURE_HASH) [] digest(@Sink(SECURE_HASH) byte @Sink(SECURE_HASH) [] arg0);
+            void update(@Sink(SECURE_HASH) byte @Sink(SECURE_HASH) [] arg0, int arg1, int arg2);
            @Source(SECURE_HASH) byte @Source(SECURE_HASH) [] digest();
 }
 class SecureRandom{
