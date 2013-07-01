@@ -477,6 +477,13 @@ interface CharSequence {
 class Class{
         Constructor<T> getConstructor(Class<?>[] parameterTypes) throws NoSuchMethodException,SecurityException;
         Field getDeclaredField(String name) throws NoSuchFieldException,SecurityException;
+        String getSimpleName();
+        int getModifiers();
+        boolean isMemberClass();
+        ClassLoader getClassLoader();
+        static Class<?> forName(String arg0) throws ClassNotFoundException;
+        Method getDeclaredMethod(String arg0, Class<?>[] arg1) throws NoSuchMethodException,SecurityException;
+        T newInstance() throws InstantiationException,IllegalAccessException;
 }
 
 @PolyFlowReceiver
@@ -976,10 +983,14 @@ class RuntimeException{
             RuntimeException(String arg0, Throwable arg1);
 }
 class IndexOutOfBoundsException{
-            IndexOutOfBoundsException();
+        IndexOutOfBoundsException();               
+        IndexOutOfBoundsException(String arg0);
+
 }
 class NullPointerException{
             NullPointerException();
+            NullPointerException(String arg0);
+
 }
 
 @PolyFlowReceiver
@@ -1506,7 +1517,9 @@ class WeakReference<T> extends Reference<T> {
 
 
 package java.lang.reflect;
-
+class AccessibleObject{
+        void setAccessible(boolean arg0) throws SecurityException;
+}
 @PolyFlowReceiver
 class Array {
 //Added by pbsf

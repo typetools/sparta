@@ -1,7 +1,23 @@
 
 package android.location;
 
+class Address{
+            void setPostalCode(String postalCode);
+            String getAddressLine(int index);
+            String getPostalCode();
+            double getLatitude();
+            void setCountryCode(String countryCode);
+            int getMaxAddressLineIndex();
+            double getLongitude();
+            Address(Locale locale);
+            void setAdminArea(String adminArea);
+            void setAddressLine(int index, String line);
+            String getCountryCode();
+            Locale getLocale();
+}
+
 class Geocoder {
+            Geocoder(Context context, Locale locale);
     @Source(FlowPermission.ANY) @Sink({}) Geocoder(@Source(FlowPermission.ANY) @Sink({}) Context context);
     @Source(FlowPermission.ACCESS_FINE_LOCATION) List<@Source(FlowPermission.ACCESS_FINE_LOCATION) Address> getFromLocationName(@Source(FlowPermission.ANY) @Sink({}) String locationName, @Source(FlowPermission.ANY) @Sink({}) int maxResults);
 }
@@ -13,3 +29,15 @@ class Geocoder {
         void onProviderEnabled(String arg0);
         void onProviderDisabled(String arg0);
  }
+class LocationManager{
+            List<String> getAllProviders();
+}
+class Location{
+            void setLatitude(double latitude);
+            String getProvider();
+            void setLongitude(double longitude);
+            float distanceTo(Location dest);
+            Location(String provider);
+            float getAccuracy();
+            long getTime();
+}

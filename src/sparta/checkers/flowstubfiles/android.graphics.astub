@@ -418,7 +418,8 @@ void translate(float dx, float dy);
 }
 
 class Paint {
-
+        ColorFilter setColorFilter(ColorFilter filter);
+        Paint();
 int getFlags();
 //Return the paint's flags.
 
@@ -684,4 +685,23 @@ Typeface setTypeface(Typeface typeface);
 //Protected methods
 //void finalize();
 
+}
+
+class PorterDuffColorFilter{
+        PorterDuffColorFilter(int srcColor, Mode mode);
+}
+class Rect{
+        void set(int left, int top, int right, int bottom);
+        Rect();
+        void union(int left, int top, int right, int bottom);
+}
+
+package android.graphics.drawable;
+class Drawable{
+        int getIntrinsicWidth();
+        boolean setState(int[] stateSet);
+        int getIntrinsicHeight();
+        void draw(Canvas arg0);
+        boolean isStateful();
+        void setBounds(int left, int top, int right, int bottom);
 }

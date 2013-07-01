@@ -76,6 +76,15 @@ class ClipData$Item {
 }
 
 
+class ComponentCallbacks{
+            void onLowMemory();
+            void onConfigurationChanged(Configuration arg0);
+}
+class ComponentName{
+            ComponentName(Context pkg, String cls);
+            String getPackageName();
+}
+
 class ContentProvider {
     final @Source(FlowPermission.ANY) Context getContext() @Source(FlowPermission.ANY);
 }
@@ -116,6 +125,8 @@ class ContentResolver{
 }
 
 class Context {
+            @Source({FILESYSTEM, EXTERNAL_STORAGE}) FileInputStream openFileInput(String arg0) throws FileNotFoundException;
+
 	@Source(FlowPermission.FILESYSTEM) File getDir( @Sink(FlowPermission.FILESYSTEM) String name,  @Sink(FlowPermission.CONDITIONAL) int mode);
 
 String getString(int resId, Object[] formatArgs);
@@ -231,6 +242,7 @@ abstract @Source(FlowPermission.FILESYSTEM) File getFileStreamPath(String name);
 class ContextWrapper {
             File getDir(String name, int mode);
             ContextWrapper(Context base);
+             Context createPackageContext(String packageName, int flags) throws NameNotFoundException;
 
 
 //boolean bindService(Intent service, ServiceConnection conn, int flags);
@@ -560,8 +572,19 @@ class DialogInterface$OnClickListener{
 class DialogInterface$OnKeyListener{
         boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2);
 }
+
+class DialogInterface$OnCancelListener{
+            void onCancel(DialogInterface arg0);
+}
+class DialogInterface$OnDismissListener{
+            void onDismiss(DialogInterface arg0);
+}
+
 class IntentFilter{
             IntentFilter(String action);
+               int countActions();
+            String getAction(int index);
+            int match(String action, String type, String scheme, Uri data, Set<String> categories, String logTag);
 }
 
 
@@ -1004,6 +1027,13 @@ void recycle();
 //String toString();
 //Returns a string containing a concise, human-readable description of this object.
 
+}
 
-
+package android.content.pm;
+class PackageManager{
+            CharSequence getApplicationLabel(ApplicationInfo arg0);
+            ActivityInfo getActivityInfo(ComponentName arg0, int arg1) throws NameNotFoundException;
+            Drawable getApplicationIcon(String arg0) throws NameNotFoundException;
+            ApplicationInfo getApplicationInfo(String arg0, int arg1) throws NameNotFoundException;
+            Drawable getActivityIcon(ComponentName arg0) throws NameNotFoundException;
 }

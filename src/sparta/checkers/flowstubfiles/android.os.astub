@@ -20,6 +20,10 @@ class Environment {
 	static @Source(FlowPermission.FILESYSTEM) File getExternalStorageDirectory() ;
 }
 
+class IInterface{
+    IBinder asBinder();
+}
+
 class IBinder {
     //Added by Carl Hartung
     abstract boolean transact(int code, Parcel data, Parcel reply, int flags);
@@ -39,7 +43,11 @@ class IBinder {
     // abstract boolean pingBinder();
     // abstract boolean unlinkToDeath(IBinder.DeathRecipient recipient, int flags);
     }
-    
+class Binder{
+            protected boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException;
+            void attachInterface(IInterface owner, String descriptor);
+            Binder();
+}
     
     class Bundle {
         //Added by Carl Hartung
@@ -156,7 +164,8 @@ class IBinder {
 }
 
 class Handler {
-    
+       boolean sendEmptyMessageAtTime(int what, long uptimeMillis);
+    Handler(Looper looper);
 final Looper getLooper();
 void handleMessage(Message msg);
 //Subclasses must implement this to receive messages .
@@ -249,4 +258,49 @@ static @Source(FlowPermission.READ_TIME) long uptimeMillis();
 //Returns milliseconds since boot, not counting time spent in deep sleep.
 
 
+}
+class Messenger{
+            Messenger(Handler target);
+            IBinder getBinder();
+}
+class Message{
+    Bundle getData();
+    void sendToTarget();
+}
+class Process{
+            static void setThreadPriority(int arg0) throws IllegalArgumentException,SecurityException;
+}
+class Parcelable{
+            void writeToParcel(Parcel arg0, int arg1);
+            int describeContents();
+}
+class Parcelable$Creator{
+            T[] newArray(int arg0);
+            T createFromParcel(Parcel arg0);
+}
+class Parcelable$ClassLoaderCreator{
+            T createFromParcel(Parcel arg0, ClassLoader arg1);
+}
+
+class Parcel{
+            <T> T readParcelable(ClassLoader loader);
+            void enforceInterface(String arg0);
+            <T> T[] createTypedArray(Creator<T> c);
+            void writeInt(int arg0);
+            int[] createIntArray();
+            <T> void writeTypedArray(T[] val, int parcelableFlags);
+            Bundle readBundle();
+            void writeParcelable(Parcelable p, int parcelableFlags);
+            void writeBundle(Bundle val);
+            void writeInterfaceToken(String arg0);
+            static Parcel obtain();
+            Object readValue(ClassLoader loader);
+            int readInt();
+            String readString();
+            void recycle();
+            void writeIntArray(int[] val);
+            void writeNoException();
+            void writeValue(Object v);
+            void readException();
+            void writeString(String arg0);
 }

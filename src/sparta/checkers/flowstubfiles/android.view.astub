@@ -1,5 +1,14 @@
 package android.view;
 
+class AbsSavedState{
+            Parcelable getSuperState();
+            void writeToParcel(Parcel dest, int flags);
+}
+
+class CollapsibleActionView{
+            void onActionViewCollapsed();
+}
+
 class ContextMenu{
         ContextMenu setHeaderTitle(CharSequence arg0);
 }
@@ -35,6 +44,50 @@ class Display{
             int getPixelFormat();
             int getWidth();
             int getHeight();
+}
+
+class FocusFinder{
+            static FocusFinder getInstance();
+            View findNextFocus(ViewGroup root, View focused, int direction);
+}
+
+class GestureDetector{
+            void setOnDoubleTapListener(OnDoubleTapListener onDoubleTapListener);
+            boolean onTouchEvent(@Source(USER_INPUT) MotionEvent ev);
+            boolean isLongpressEnabled();
+            GestureDetector(Context context, OnGestureListener listener, Handler handler);
+            void setIsLongpressEnabled(boolean isLongpressEnabled);
+}
+
+class GestureDetector$OnDoubleTapListener{
+        boolean onDoubleTapEvent(@Source(USER_INPUT) MotionEvent arg0);
+        boolean onSingleTapConfirmed(@Source(USER_INPUT) MotionEvent arg0);
+        boolean onDoubleTap(@Source(USER_INPUT) MotionEvent arg0);
+}
+class GestureDetector$OnGestureListener{
+        boolean onScroll(@Source(USER_INPUT) MotionEvent arg0, @Source(USER_INPUT) MotionEvent arg1, @Source(USER_INPUT) float arg2, @Source(USER_INPUT) float arg3);
+        boolean onFling(@Source(USER_INPUT) MotionEvent arg0, @Source(USER_INPUT) MotionEvent arg1, @Source(USER_INPUT) float arg2, @Source(USER_INPUT) float arg3);
+        void onShowPress(@Source(USER_INPUT) MotionEvent arg0);
+        boolean onSingleTapUp(@Source(USER_INPUT) MotionEvent arg0);
+        void onLongPress(@Source(USER_INPUT) MotionEvent arg0);
+        boolean onDown(@Source(USER_INPUT) MotionEvent arg0);
+}
+
+class KeyEvent{
+            static boolean metaStateHasNoModifiers(int metaState);
+            int getRepeatCount();
+            static boolean metaStateHasModifiers(int metaState, int modifiers);
+            int getMetaState();
+            int getAction();
+            static int normalizeMetaState(int metaState);
+}
+
+class KeyEvent$Callback{
+        boolean onKeyDown(@Source(USER_INPUT) int arg0, @Source(USER_INPUT) KeyEvent arg1);
+}
+
+class LayoutInflater$Factory{
+            View onCreateView(String arg0, Context arg1, AttributeSet arg2);
 }
 
 class LayoutInflater {
@@ -302,6 +355,12 @@ abstract MenuItem setVisible(@Sink(FlowPermission.DISPLAY) boolean visible);
 }
 
 class MotionEvent {
+
+ int getEdgeFlags();
+ long getDownTime();
+     static MotionEvent obtain(MotionEvent other);
+    static MotionEvent obtain(long downTime, long eventTime, int action, float x, float y, int metaState);
+            
 //final void addBatch(long eventTime, PointerCoords[] pointerCoords, int metaState);
 //Add a new movement to the batch of movements in this event.
 
@@ -565,6 +624,9 @@ class SurfaceView{
  @Sink(FlowPermission.DISPLAY) SurfaceHolder getHolder ();
 }        
      
+class SoundEffectConstants{
+    static int getContantForFocusDirection(int direction);
+}
 class SurfaceHolder{
 //Add by SOM, once we have the new defaulting, then these annotations can be removed.
    void addCallback (@Sink(FlowPermission.CONDITIONAL) SurfaceHolder.Callback callback) @Sink(FlowPermission.DISPLAY);
@@ -624,8 +686,20 @@ void recycle();
 
 }
 
-
+class ViewManager{
+            void removeView(@Sink(DISPLAY) View arg0);
+}
 class View {
+          protected void dispatchSaveInstanceState(SparseArray<Parcelable> container);
+            void computeScroll();
+            protected boolean verifyDrawable(Drawable who);
+            boolean isDrawingCacheEnabled();
+            Bitmap getDrawingCache();
+            protected void onLayout(boolean changed, int left, int top, int right, int bottom);
+            void setDrawingCacheEnabled(boolean enabled);
+            boolean dispatchKeyEvent(KeyEvent event);
+            protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container);
+            protected void drawableStateChanged();
 
 final View findViewById(int id);
 //Look for a child view with the given id.
@@ -1331,6 +1405,25 @@ void requestLayout();
 // boolean verifyDrawable(Drawable who);
 
 }
+class View$BaseSavedState{
+        BaseSavedState(Parcelable superState);
+        BaseSavedState(Parcel source);
+}
+class View$MeasureSpec{
+        static int makeMeasureSpec(int size, int mode);
+        static int getSize(int measureSpec);
+        static int getMode(int measureSpec);
+}
+class View$AccessibilityDelegate{
+        boolean onRequestSendAccessibilityEvent(ViewGroup host, View child, AccessibilityEvent event);
+        void onPopulateAccessibilityEvent(View host, AccessibilityEvent event);
+        AccessibilityDelegate();
+        void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfo info);
+        void onInitializeAccessibilityEvent(View host, AccessibilityEvent event);
+        boolean dispatchPopulateAccessibilityEvent(View host, AccessibilityEvent event);
+        void sendAccessibilityEventUnchecked(View host, AccessibilityEvent event);
+        void sendAccessibilityEvent(View host, int eventType);
+}
 
 class View$OnClickListener{
         void onClick(View arg0);
@@ -1341,6 +1434,8 @@ class View$OnCreateContextMenuListener{
 }
 
 class ViewConfiguration {
+    int getScaledPagingTouchSlop();
+
     
 static ViewConfiguration get(Context context);
 //Returns a configuration for the specified context.
@@ -1426,7 +1521,44 @@ static int getTapTimeout();
     
 }
 
+class ViewGroup$MarginLayoutParams{
+        MarginLayoutParams(Context c, AttributeSet attrs);
+        MarginLayoutParams(int width, int height);
+        MarginLayoutParams(MarginLayoutParams source);
+        MarginLayoutParams(LayoutParams source);
+}
+class ViewGroup$LayoutParams{
+        LayoutParams(int width, int height);
+        LayoutParams(Context c, AttributeSet attrs);
+}
+
 class ViewGroup {
+
+            //CSH: the removes alter the data on the screen, so DISPLAY seemed appropraite
+            void removeView(@Sink(DISPLAY) View view);
+            protected void dispatchFreezeSelfOnly(SparseArray<Parcelable> container);
+            protected void dispatchThawSelfOnly(SparseArray<Parcelable> container);
+            protected LayoutParams generateLayoutParams(LayoutParams p);
+            protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container);
+            protected void onLayout(boolean arg0, int arg1, int arg2, int arg3, int arg4);
+            protected boolean checkLayoutParams(LayoutParams p);
+            protected boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect);
+            boolean onRequestSendAccessibilityEvent(View child, AccessibilityEvent event);
+            protected LayoutParams generateDefaultLayoutParams();
+            protected int getChildDrawingOrder(int childCount, int i);
+            LayoutParams generateLayoutParams(AttributeSet attrs);
+            protected void drawableStateChanged();
+            boolean dispatchKeyEvent(KeyEvent event);
+            void addTouchables(ArrayList<View> views);
+            void removeViewInLayout(@Sink(DISPLAY) View view);
+            ViewGroup(Context context, AttributeSet attrs, int defStyle);
+            ViewGroup(Context context);
+            void addFocusables(ArrayList<View> views, int direction, int focusableMode);
+            protected void dispatchSaveInstanceState(SparseArray<Parcelable> container);
+            boolean hasFocus();
+            boolean onInterceptTouchEvent(@Source(USER_INPUT) MotionEvent ev);
+            protected boolean drawChild(Canvas canvas, View child, long drawingTime);
+            ViewGroup(Context context, AttributeSet attrs);
 
 void setPadding(int left, int top, int right, int bottom);
 
@@ -1916,8 +2048,13 @@ abstract void requestLayout();
 }
 
 class Window{
-        void clearFlags(int flags);
-        void addFlags(int flags);
+    void clearFlags(int flags);
+    void addFlags(int flags);
+    View getDecorView();
+    LayoutParams getAttributes();
+    void onPanelClosed(int arg0, Menu arg1);
+    boolean onCreatePanelMenu(int arg0, Menu arg1);
+    boolean onPreparePanel(int arg0, View arg1, Menu arg2);
 }
 
 class Window$Callback{
@@ -1925,4 +2062,31 @@ class Window$Callback{
 }
 class WindowManager{
             Display getDefaultDisplay();
+}
+
+package android.view.animation;
+class Animation{
+        void setAnimationListener(AnimationListener listener);
+        void setDuration(long durationMillis);
+        void setInterpolator(Interpolator i);
+}
+class AccelerateInterpolator{
+        AccelerateInterpolator(float factor);
+}
+class AlphaAnimation{
+        AlphaAnimation(float fromAlpha, float toAlpha);
+}
+class DecelerateInterpolator{
+        DecelerateInterpolator(float factor);
+}
+class ScaleAnimation{
+        ScaleAnimation(float fromX, float toX, float fromY, float toY, int pivotXType, float pivotXValue, int pivotYType, float pivotYValue);
+}
+class AnimationSet{
+        void addAnimation(Animation a);
+        AnimationSet(boolean shareInterpolator);
+}
+package android.view.accessibility.AccessibilityManager;
+class AccessibilityStateChangeListener{
+        void onAccessibilityStateChanged(boolean arg0);
 }
