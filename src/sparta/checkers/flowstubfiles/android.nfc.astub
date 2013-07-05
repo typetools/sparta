@@ -2,7 +2,7 @@ package android.nfc;
 
 
 class Tag{
-             String @Source(NFC) [] getTechList();
+             @Source(NFC) String @Source(NFC) [] getTechList() @Source(NFC) ;
 }
 class NfcAdapter{
             void disableForegroundDispatch(Activity activity);
@@ -13,8 +13,8 @@ package android.nfc.tech;
 
 class MifareClassic{
             boolean authenticateSectorWithKeyA(int sectorIndex, byte[] key) throws IOException;
-            static MifareClassic get(Tag tag);
-            byte[] readBlock(int blockIndex) throws IOException;
+            static @Source(NFC) MifareClassic get(@Source({NFC, LITERAL}) Tag tag);
+            @Source(NFC) byte @Source(NFC) [] readBlock(int blockIndex) throws IOException;
             int getSectorCount();
             int getBlockCountInSector(int sectorIndex);
 }
