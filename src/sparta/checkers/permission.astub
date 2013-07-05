@@ -736,7 +736,7 @@ class ContactsContract$Contacts{
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void markAsContacted(android.content.ContentResolver arg0, long arg1);
 @RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getLookupUri(long arg0, java.lang.String arg1);
-@DependentPermissions(android.Manifest.permission.GLOBAL_SEARCH) static final Uri CONTENT_URI;
+@DependentPermissions({android.Manifest.permission.GLOBAL_SEARCH,android.Manifest.permission.WRITE_CONTACTS}) static final Uri CONTENT_URI;
 
 }
 class ContactsContract$Data{
