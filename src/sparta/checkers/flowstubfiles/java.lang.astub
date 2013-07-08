@@ -1,4 +1,6 @@
 
+
+
 package java.lang;
 
 class AutoCloseable{
@@ -679,7 +681,8 @@ class Integer extends Number implements Comparable<Integer> {
     static @PolyFlow int parseInt(String arg0) throws NumberFormatException;
     static @PolyFlow Integer valueOf(String arg0, int arg1) throws NumberFormatException;
     static @PolyFlow Integer valueOf(String arg0) throws NumberFormatException;
-    static @PolyFlow Integer valueOf(int arg0);
+    @PolyFlow
+    static Integer valueOf(int arg0);
     Integer(int arg0);
     @PolyFlow Integer(String arg0) throws NumberFormatException;
     @PolyFlow byte byteValue();
