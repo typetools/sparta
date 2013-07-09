@@ -37,21 +37,46 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
 
 	@Override
 	public Void visitVariable(VariableTree node, Void p) {
-		//Checking for annotation on variable declaration
+		// Checking for annotation on variable declaration
 		if (node != null) {
 			ExpressionTree et = node.getInitializer();
 			if (et != null) {
 				Element elt = TreeUtils.elementFromUse(et);
 				if (elt != null) {
-					AnnotationMirror reqP = atypeFactory
-							.getDeclAnnotation(elt, DependentPermissions.class);
+					AnnotationMirror reqP = atypeFactory.getDeclAnnotation(elt,
+							DependentPermissions.class);
 					if (reqP != null) {
-						List<String> reqPerms = AnnotationUtils
+						List<String> depPerms = AnnotationUtils
 								.getElementValueArray(reqP, "value",
 										String.class, false);
-						if (!reqPerms.isEmpty()) {
-							checker.report(Result.failure(
-									"dependent.permissions", node.getName(),reqPerms), node);
+						if (!depPerms.isEmpty()) {
+							ExecutableElement callerElt = TreeUtils
+									.elementFromDeclaration(TreeUtils
+											.enclosingMethod(getCurrentPath()));
+							AnnotationMirror callerReq = atypeFactory
+									.getDeclAnnotation(callerElt,
+											DependentPermissions.class);
+							List<String> callerPerms;
+							List<String> missing = new LinkedList<String>();
+							if (callerReq == null) {
+								missing.addAll(depPerms);
+								callerPerms = new LinkedList<String>();
+							} else {
+								callerPerms = AnnotationUtils
+										.getElementValueArray(callerReq,
+												"value", String.class, false);
+								for (String perm : depPerms) {
+									if (!callerPerms.contains(perm)) {
+										missing.add(perm);
+									}
+								}
+							}
+							if (!missing.isEmpty()) {
+								checker.report(Result.failure(
+										"dependent.permissions",
+										node.getName(), depPerms), node);
+							}
+
 						}
 					}
 
@@ -61,15 +86,13 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
 		return super.visitVariable(node, p);
 	}
 
-
 	@Override
 	public Void visitMethodInvocation(MethodInvocationTree node, Void p) {
-		visitMethodParameters(node);
 		ExecutableElement methodElt = visitMethodRequiredPermissions(node);
 		visitMethodMayRequirePermissions(node, methodElt);
 		return super.visitMethodInvocation(node, p);
 	}
-
+	
 	private void visitMethodMayRequirePermissions(MethodInvocationTree node,
 			ExecutableElement methodElt) {
 		// Look for @MayRequiredPermissions on the enclosing method
@@ -145,29 +168,6 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
 			}
 		}
 		return methodElt;
-	}
-
-	private void visitMethodParameters(MethodInvocationTree node) {
-		//Checking for annotations on method parameters
-		List<? extends ExpressionTree> parameters = node.getArguments();
-		for (ExpressionTree param : parameters) {
-			Element elt = TreeUtils.elementFromUse(param);
-			if (elt != null) {
-				AnnotationMirror reqP = atypeFactory
-						.getDeclAnnotation(elt, DependentPermissions.class);
-				if (reqP != null) {
-					List<String> reqPerms = AnnotationUtils
-							.getElementValueArray(reqP, "value", String.class,
-									false);
-					if (!reqPerms.isEmpty()) {
-						checker.report(Result.failure(
-								"dependent.permissions", param,reqPerms),
-								node);
-					}
-				}
-
-			}
-		}
 	}
 
 	@Override
