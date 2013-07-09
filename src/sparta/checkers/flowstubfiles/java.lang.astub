@@ -1563,7 +1563,7 @@ class Array {
 }
 
 @PolyFlowReceiver
-class Constructor<T> extends Executable {
+class Constructor<T> {
 //Added by pbsf
     Class<T> getDeclaringClass();
     String getName();
