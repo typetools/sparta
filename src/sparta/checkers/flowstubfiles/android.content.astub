@@ -144,7 +144,7 @@ class ContentResolver{
 }
 
 class Context {
-            @Source({FILESYSTEM, EXTERNAL_STORAGE}) FileInputStream openFileInput(String arg0) throws FileNotFoundException;
+            @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) FileInputStream openFileInput(String arg0) throws FileNotFoundException;
 
 	@Source(FlowPermission.FILESYSTEM) File getDir( @Sink(FlowPermission.FILESYSTEM) String name,  @Sink(FlowPermission.CONDITIONAL) int mode);
 	void unregisterReceiver(BroadcastReceiver arg0);

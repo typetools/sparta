@@ -41,7 +41,7 @@ class LocationManager{
 
             List<String> getAllProviders();
             void requestLocationUpdates(String provider, long minTime, float minDistance, LocationListener listener);
-            @Source({ACCESS_COURSE_LOCATION, ACCESS_FINE_LOCATION}) Location getLastKnownLocation(String provider);
+            @Source({ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION}) Location getLastKnownLocation(String provider);
 }
 class Location{
             void setLatitude(double latitude);
