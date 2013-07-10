@@ -51,6 +51,7 @@ class AbstractMap{
             void clear();
             boolean containsKey(Object arg0);
             int size();
+             String toString();
 }
 
 class AbstractSet{
@@ -1526,6 +1527,10 @@ interface Future<V> {
     V get() throws InterruptedException,ExecutionException;
     V get(long arg0, TimeUnit arg1) throws InterruptedException,ExecutionException,TimeoutException;
 }
+class Executor{
+            void execute(Runnable arg0);
+}
+
 
 @PolyFlowReceiver
 interface ExecutorService extends Executor {
@@ -1575,6 +1580,10 @@ interface ScheduledExecutorService extends ExecutorService {
     <V> ScheduledFuture<V> schedule(Callable<V> arg0, long arg1, TimeUnit arg2);
     ScheduledFuture<?> scheduleAtFixedRate(Runnable arg0, long arg1, long arg2, TimeUnit arg3);
     ScheduledFuture<?> scheduleWithFixedDelay(Runnable arg0, long arg1, long arg2, TimeUnit arg3);
+}
+
+class TimeUnit{
+        long toMillis(long arg0);
 }
 
 package java.util.concurrent.atomic;
@@ -1761,4 +1770,20 @@ class Matcher{
             int regionEnd();
 }
 
+package java.util.zip;
+@PolyFlowReceiver
+class GZIPInputStream{
+            GZIPInputStream(InputStream arg0) throws IOException;
+}
+
+@PolyFlowReceiver
+class ZipOutputStream{
+            void putNextEntry(ZipEntry arg0) throws IOException;
+            void close() throws IOException;
+            ZipOutputStream(OutputStream arg0);
+            void closeEntry() throws IOException;
+}
+class ZipEntry{
+            ZipEntry(String arg0);
+}
 

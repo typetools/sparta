@@ -12,10 +12,39 @@ class Camera {
     void startPreview();
     void release();
     void stopPreview();
+                                        void autoFocus(AutoFocusCallback cb);
+            static @Source(CAMERA) Camera open(int cameraId);
+            static @Source(CAMERA) int getNumberOfCameras();
 }
 interface Camera$PictureCallback {
     void onPictureTaken(@Source(FlowPermission.CAMERA) byte @Source(FlowPermission.CAMERA) [] arg0, @Source(FlowPermission.CAMERA) Camera arg1);
 }
+
+class Camera$Parameters{
+            @Source(CAMERA) String getSceneMode();
+            @Source(CAMERA) List<String> getSupportedFocusModes();
+            void setFlashMode(@Sink(CAMERA) String value);
+            void setWhiteBalance(@Sink(CAMERA) String value);
+            void setPreviewSize(@Sink(CAMERA) int width, @Sink(CAMERA) int height);
+            @Source(CAMERA) List<String> getSupportedWhiteBalance();
+            void setZoom(@Sink(CAMERA) int value);
+            @Source(CAMERA) String getFlashMode();
+            void setSceneMode(@Sink(CAMERA) String value);
+            @Source(CAMERA) List<String> getSupportedColorEffects();
+            @Source(CAMERA) String getFocusMode();
+            @Source(CAMERA) List<String> getSupportedFlashModes();
+            @Source(CAMERA) boolean isZoomSupported();
+            @Source(CAMERA) List<Integer> getZoomRatios();
+            @Source(CAMERA) List<Size> getSupportedPreviewSizes();
+            void setColorEffect(@Sink(CAMERA) String value);
+            void setFocusMode(@Sink(CAMERA) String value);
+            @Source(CAMERA) List<String> getSupportedSceneModes();
+}
+
+class Camera$AutoFocusCallback{
+            void onAutoFocus(boolean arg0, Camera arg1);
+}
+
 
 
 

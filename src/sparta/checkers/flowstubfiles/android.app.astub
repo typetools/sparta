@@ -1,6 +1,13 @@
 
 package android.app;
 
+class ActivityGroup{
+            protected void onCreate(Bundle savedInstanceState);
+}
+class ActionBar{
+            void setDisplayHomeAsUpEnabled(boolean arg0);
+}
+
 class Activity{
 //Annotations by SOM
     Activity();
@@ -30,6 +37,9 @@ class Activity{
 	void setContentView(@Sink(FlowPermission.DISPLAY) int layout);
     void setContentView (@Sink(FlowPermission.DISPLAY) View view);
     void setProgressBarIndeterminateVisibility(@Source(FlowPermission.LITERAL) @Sink(FlowPermission.DISPLAY) boolean visible);
+    boolean onOptionsItemSelected(MenuItem item);
+    protected void onStop();
+    void setRequestedOrientation(int requestedOrientation);
     
     void startActivityForResult(@Sink(FlowPermission.ANY) Intent intent, int requestCode);
     protected void onActivityResult(int requestCode, int resultCode, @Sink(FlowPermission.ANY) Intent data);
@@ -49,7 +59,36 @@ class Activity{
             Intent getIntent();
             protected void onPause();
             void runOnUiThread(Runnable action);
+            
+                        void setResult(int resultCode, Intent data);
+            Object getSystemService(String name);
+            boolean onOptionsItemSelected(MenuItem item);
+            boolean isFinishing();
+            FragmentManager getFragmentManager();
+            void onBackPressed();
+            protected void onSaveInstanceState(Bundle outState);
+            Window getWindow();
+              Activity getParent();
+            @Source(DATABASE) Cursor managedQuery(@Sink(DATABASE) Uri uri, @Sink(DATABASE) String[] projection, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String sortOrder);
+            void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo);
+            LayoutInflater getLayoutInflater();
+            boolean onContextItemSelected(MenuItem item);
+            Application getApplication();
+                        void setResult(int resultCode);
+            void setTitle(CharSequence title);
+            boolean dispatchKeyEvent(KeyEvent event);
+            ActionBar getActionBar();
+            void setTitle(int titleId);
+            void onConfigurationChanged(Configuration newConfig);
+
     
+}
+class ActivityManager{
+                List<RunningServiceInfo> getRunningServices(int maxNum) throws SecurityException;
+}
+
+class Application{
+            Application();
 }
 
 class AlertDialog {
@@ -104,7 +143,7 @@ void setButton(int whichButton, @Sink(FlowPermission.DISPLAY) CharSequence text,
 
 void setMessage(CharSequence message);
 
-//void setTitle(CharSequence title);
+void setTitle(@Sink(DISPLAY) CharSequence title);
 //Set the title text for this dialog's window.
 
 //void setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom);
@@ -112,11 +151,21 @@ void setMessage(CharSequence message);
 
 //void setView(View view);
 //Set the view to display in that dialog.
+           boolean dispatchKeyEvent(KeyEvent event);
+            void setTitle(int titleId);
+            ActionBar getActionBar();
+            void onConfigurationChanged(Configuration newConfig);
+            LayoutInflater getLayoutInflater();
+            void setResult(int resultCode);
 
 
 //PROTECTED
 void onCreate(Bundle savedInstanceState);
 //Similar to onCreate(Bundle);, you should initialize your dialog in this method, including calling setContentView(View);.
+}
+
+class AlarmManager{
+        void set(int type, long triggerAtTime, @Source(FlowPermission.INTENT) PendingIntent operation);
 }
 
 class AlertDialog$Builder {
@@ -211,6 +260,11 @@ AlertDialog.Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener
 // AlertDialog.Builder setMultiChoiceItems(int itemsId, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener);
 // AlertDialog.Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener);
 // AlertDialog.Builder setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
+}
+
+
+class DatePickerDialog{
+            DatePickerDialog(Context context, OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth);
 }
 
 class Dialog {
@@ -454,6 +508,14 @@ void show();
 //Called to tell you that you're stopping.
 }
 
+class DialogFragment{
+            DialogFragment();
+            @Sink(DISPLAY) void show(FragmentManager manager, String tag);
+            Dialog onCreateDialog(Bundle savedInstanceState);
+                 Dialog getDialog();
+            void onCreate(Bundle savedInstanceState);
+}
+
 class ExpandableListActivity{
         ExpandableListActivity();
         void setListAdapter(ExpandableListAdapter adapter);
@@ -463,6 +525,8 @@ class ExpandableListActivity{
 
 class Fragment {
      Fragment();
+     FragmentManager getFragmentManager();
+
 void dump(@Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String prefix, FileDescriptor fd, PrintWriter writer, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String[] args);
 //Print the Fragments's state into the given stream.
 //CSH: FileDescriptors are a... "structure representing an open file, an open socket, or another source or sink of bytes"
@@ -710,6 +774,7 @@ abstract Fragment.SavedState saveFragmentInstanceState(Fragment f);
 }
 
 class FragmentTransaction {
+FragmentTransaction replace(int arg0, @Sink(DISPLAY) Fragment arg1);
 
 abstract FragmentTransaction add(@Sink(DISPLAY) Fragment fragment, String tag);
 //Calls add(int, Fragment, String); with a 0 containerViewId.
@@ -784,6 +849,19 @@ abstract FragmentTransaction remove(Fragment fragment);
 
 }
 
+class IntentService{
+        IntentService(String name);
+        protected void onHandleIntent(@Source(FlowPermission.INTENT) Intent arg0);
+}
+
+class ListActivity{
+        ListActivity();
+        protected void onListItemClick(ListView l, View v, int position, long id);
+        void setListAdapter(ListAdapter adapter);
+        ListView getListView();
+        ListAdapter getListAdapter();
+}
+
 class ListFragment {
 //CSH: in spreadsheet, not found in API
 //ensureList
@@ -831,7 +909,16 @@ void setListShown(boolean shown);
 
 class Notification{
     Notification();
+            Notification(int icon, @Sink(DISPLAY) CharSequence tickerText, long when);
+            void setLatestEventInfo(Context context, @Sink(DISPLAY) CharSequence contentTitle, @Sink(DISPLAY) CharSequence contentText, PendingIntent contentIntent);
 }
+
+
+class NotificationManager{
+            void cancel(int id);
+            void notify(int id, @Sink(DISPLAY) Notification notification);
+}
+
 
 class Notification$Builder {
 
@@ -934,8 +1021,12 @@ Notification.Builder setWhen(long when);
 
 }
 class PendingIntent{
+
     static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags);
        static PendingIntent getActivities(Context context, int requestCode, Intent[] intents, int flags);
+            static PendingIntent getActivity(Context context, int requestCode, @Source(FlowPermission.INTENT) Intent intent, int flags);
+            static PendingIntent getBroadcast(Context context, int requestCode, @Source(FlowPermission.INTENT) Intent intent, int flags);
+        void cancel();
 }
 
 class ProgressDialog {
@@ -976,5 +1067,15 @@ class Service{
             Service();
             void onDestroy();
             void onCreate();
+            int onStartCommand(Intent intent, int flags, int startId);
+      	  void stopSelf();
+       	 Application getApplication();
 }
+
+class TabActivity{
+            TabHost getTabHost();
+            TabActivity();
+}
+
+
 

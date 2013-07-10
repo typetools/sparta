@@ -22,6 +22,13 @@ class BufferedInputStream extends FilterInputStream {
 }
 
 @PolyFlowReceiver
+class BufferedOutputStream{
+            void write(byte @PolySource @PolySink[] arg0, int arg1, int arg2) throws IOException;
+            void flush() throws IOException;
+            BufferedOutputStream(OutputStream arg0);
+}
+
+@PolyFlowReceiver
 class BufferedReader extends Reader {
 //Added by pbsf
     BufferedReader(Reader arg0, int arg1);
@@ -85,6 +92,9 @@ class ByteArrayOutputStream extends OutputStream {
     String toString();
     String toString(String arg0) throws UnsupportedEncodingException;
     String toString(int arg0);
+}
+class Closeable{
+            void close() throws IOException;
 }
 
 @PolyFlowReceiver
@@ -235,7 +245,9 @@ class File implements Serializable, Comparable<File> {
     Path toPath();
 	
 }
-
+class FileDescriptor{
+            void sync() throws SyncFailedException;
+}
 
 @PolyFlowReceiver
 class FileInputStream extends InputStream {
@@ -243,8 +255,8 @@ class FileInputStream extends InputStream {
     FileInputStream(@Source(FlowPermission.FILESYSTEM) File arg0) throws FileNotFoundException;
     FileInputStream(@Source(FlowPermission.FILESYSTEM) FileDescriptor arg0);
     int read() throws IOException;
-    int read(@Source(FlowPermission.FILESYSTEM) byte[] arg0) throws IOException;
-    int read(@Source(FlowPermission.FILESYSTEM) byte[] arg0, int arg1, int arg2) throws IOException;
+    int read(@Source(FlowPermission.FILESYSTEM) byte@Source(FlowPermission.FILESYSTEM)[] arg0) throws IOException;
+    int read(@Source(FlowPermission.FILESYSTEM) byte@Source(FlowPermission.FILESYSTEM)[] arg0, int arg1, int arg2) throws IOException;
     long skip(long arg0) throws IOException;
     int available() throws IOException;
     void close() throws IOException;
@@ -256,7 +268,9 @@ class FileInputStream extends InputStream {
 class FilterInputStream{
             protected @PolySource FilterInputStream(InputStream arg0);
             long skip(long arg0) throws IOException;
-            int read (byte[] arg0, int arg1, int arg2) throws IOException;
+            int read (byte @PolySouce @PolySink[] arg0, int arg1, int arg2) throws IOException;
+            int read(byte @PolySource @PolySink[] arg0) throws IOException;
+
             void close() throws IOException;
             int available() throws IOException;
             int read() throws IOException;
@@ -272,6 +286,9 @@ class FilterOutputStream{
             @PolySink FilterOutputStream(OutputStream arg0);
             void close() throws IOException;
             void write(@PolySink byte[] arg0) throws IOException;
+                        void write(int arg0) throws IOException;
+            void write(byte[] arg0, int arg1, int arg2) throws IOException;
+
 }
 
 class FilenameFilter{
@@ -591,7 +608,11 @@ class Writer implements Appendable, Closeable, Flushable {
     void flush() throws IOException;
     void close() throws IOException;
 }
+@PolyFlowReceiver
 
+class StringReader{
+            StringReader(String arg0);
+}
 
 
 

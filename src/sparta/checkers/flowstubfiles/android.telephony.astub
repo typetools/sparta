@@ -4,6 +4,8 @@ class TelephonyManager{
             @Source(READ_PHONE_STATE) String getSimSerialNumber();
             @Source(READ_PHONE_STATE) String getNetworkOperatorName();
             @Source(READ_PHONE_STATE) int getPhoneType();
+                        @Source(READ_PHONE_STATE) String getLine1Number();
+
 }
 
 
@@ -12,7 +14,7 @@ class SmsManager{
 
         @PolyFlow
         ArrayList<@PolySource @PolySink String> divideMessage(String text);
-        void sendTextMessage(@Sink(SEND_SMS) String destinationAddress, @Sink(SEND_SMS) String scAddress, @Sink(SEND_SMS) tring text, @Sink(SEND_SMS) PendingIntent sentIntent, @Sink(SEND_SMS) PendingIntent deliveryIntent);
+        void sendTextMessage(@Sink(SEND_SMS) String destinationAddress, @Sink(SEND_SMS) String scAddress, @Sink(SEND_SMS) String text, @Sink(SEND_SMS) PendingIntent sentIntent, @Sink(SEND_SMS) PendingIntent deliveryIntent);
         static SmsManager getDefault();
 }
 
@@ -27,4 +29,6 @@ class SmsMessage{
         @Source(READ_EMAIL) String getEmailFrom();
         @Source(READ_SMS) long getTimestampMillis();
          @Source(READ_SMS) String getServiceCenterAddress();
+           @Source(READ_SMS) String getOriginatingAddress();
+
 }

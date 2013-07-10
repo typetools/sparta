@@ -1,13 +1,6 @@
 
 package android.graphics;
 
-class BitmapFactory {
-//Added by SOM
-	@PolySource @PolySink Bitmap decodeByteArray(
-	                                @PolySource @PolySink byte @PolySource @PolySink [] data, 
-	                                 int offset,  
-	                                 int length);
-}
 
 class Bitmap {
 
@@ -160,6 +153,17 @@ void setPixel(int x, int y, int color);
 void writeToParcel(Parcel p, int flags);
 //Write the bitmap and its pixels to the parcel.
 
+}
+
+class BitmapFactory {
+//Added by SOM
+	@PolySource @PolySink Bitmap decodeByteArray(
+	                                @PolySource @PolySink byte @PolySource @PolySink [] data, 
+	                                 int offset,  
+	                                 int length);
+	static @PolySource @PolySink Bitmap decodeStream(@Source(FlowPermission.FILESYSTEM) InputStream is);
+        static @PolySource @PolySink Bitmap decodeFile(String pathName);
+        static @PolySource @PolySink Bitmap decodeResource(Resources res, int id);
 }
 
 class Canvas {
@@ -326,7 +330,7 @@ void drawText(@Sink(FlowPermission.DISPLAY) String text, int start, int end, flo
 
 //DrawFilter getDrawFilter();
 
-//int getHeight();
+int getHeight();
 //Returns the height of the current drawing layer
 
 //void getMatrix(Matrix ctm);
@@ -344,7 +348,7 @@ void drawText(@Sink(FlowPermission.DISPLAY) String text, int start, int end, flo
 //int getSaveCount();
 //Returns the number of matrix/clip states on the Canvas' private stack.
 
-//int getWidth();
+int getWidth();
 //Returns the width of the current drawing layer
 
 //boolean isHardwareAccelerated();
@@ -415,6 +419,13 @@ void setBitmap(@Sink(FlowPermission.DISPLAY) Bitmap bitmap);
 void translate(float dx, float dy);
 //Preconcat the current matrix with the specified translation
 
+}
+
+class Movie{
+        void draw(Canvas canvas, float x, float y);
+        static Movie decodeStream(@Source(FlowPermission.FILESYSTEM) InputStream arg0);
+        int duration();
+        boolean setTime(int arg0);
 }
 
 class Paint {
@@ -694,6 +705,9 @@ class Rect{
         void set(int left, int top, int right, int bottom);
         Rect();
         void union(int left, int top, int right, int bottom);
+class Point{
+        Point();
+        Point(int x, int y);
 }
 
 package android.graphics.drawable;
@@ -704,4 +718,5 @@ class Drawable{
         void draw(Canvas arg0);
         boolean isStateful();
         void setBounds(int left, int top, int right, int bottom);
+        void setAlpha(int arg0);
 }

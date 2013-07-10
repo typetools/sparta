@@ -1,7 +1,15 @@
 
 package android.widget;
 
+
+class AbsListView$MultiChoiceModeListener{
+            void onItemCheckedStateChanged(ActionMode arg0, int arg1, long arg2, boolean arg3);
+}
+
 class AbsListView {
+   int getCheckedItemCount();
+            void setMultiChoiceModeListener(MultiChoiceModeListener listener);
+
 //void addTouchables(ArrayList<View> views);
 //Add any touchable views that are descendants of this view (possibly including this view if it is touchable itself); to views.
 
@@ -364,15 +372,31 @@ void setTranscriptMode(int mode);
 
 }
 
-class Adapter{
-        boolean hasStableIds();
+
+class AbsSpinner{
+        void setSelection(int position);
 }
 
 class AdapterView$OnItemClickListener{
         void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
 }
+class Adapter{
+        boolean hasStableIds();
+    int getCount();
+    @PolyFlowReceiver
+    long getItemId(int arg0);
+    @PolyFlowReceiver
+    Object getItem(int arg0);
+    @PolyFlowReceiver
+    View getView(int arg0, View arg1, ViewGroup arg2);
+    Object getSelectedItem();
+
+}
 
 class AdapterView {
+      long getItemIdAtPosition(int position);
+            int getCount();
+            int getFirstVisiblePosition();
 
 //void addView(View child);
 //This method is not supported and throws an UnsupportedOperationException when called.
@@ -400,7 +424,7 @@ class AdapterView {
 //int getFirstVisiblePosition();
 //Returns the position within the adapter's data set for the first item displayed on screen.
 
-//Object getItemAtPosition(int position);
+@PolySource @PolySink Object getItemAtPosition(@Sink(FlowPermission.CONDITIONAL) int position) @PolySource @PolySink;
 //Gets the data associated with the specified position in the list.
 
 //long getItemIdAtPosition(int position);
@@ -468,7 +492,7 @@ void setOnItemClickListener(AdapterView.OnItemClickListener listener);
 void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener);
 //Register a callback to be invoked when an item in this AdapterView has been clicked and held
 
-//void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
+void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
 //Register a callback to be invoked when an item in this AdapterView has been selected.
 
 //abstract void setSelection(int position);
@@ -494,7 +518,21 @@ void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener);
 
 }
 
+class AdapterView$OnItemSelectedListener{
+        void onNothingSelected(AdapterView<?> arg0);
+        void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3);
+		void onItemClick(@Source(FlowPermission.USER_INPUT)AdapterView<?> arg0,
+   	 	@Source(FlowPermission.USER_INPUT)View arg1, @Source(FlowPermission.USER_INPUT)int arg2,
+   		@Source(FlowPermission.USER_INPUT)long arg3);
+                    void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
+
+}
+
 class ArrayAdapter {
+            void notifyDataSetChanged();
+
+ ArrayAdapter(Context context, int textViewResourceId, T @SINK(DISPLY) [] objects);
+ArrayAdapter(Context context, int textViewResourceId, List<T> objects);
 
 void add(T object);
 //Adds the specified object at the end of the array.
@@ -529,7 +567,8 @@ T getItem(int position);
 int getPosition(T item);
 //Returns the position of the specified item in the array.
 
-//View getView(int position, View convertView, ViewGroup parent);
+@PolyFlowReceiver
+View getView(int position, View convertView, ViewGroup parent);
 
 //void insert(T object, int index);
 //Inserts the specified object at the specified index in the array.
@@ -554,6 +593,7 @@ void setDropDownViewResource(int resource);
 class BaseAdapter {
 boolean hasStableIds();
 View getDropDownView(int position, View convertView, ViewGroup parent);
+            BaseAdapter();
 
 //boolean areAllItemsEnabled();
 //Indicates whether all the items in this adapter are enabled.
@@ -602,6 +642,9 @@ class Button {
 //void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
 //Initializes an AccessibilityNodeInfo with information about this view.
 
+}
+class ContextThemeWrapper{
+            void setTheme(int resid);
 }
 
 interface Checkable {
@@ -682,7 +725,14 @@ void setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener listener)
 
 }
 
+class CompoundButton$OnCheckedChangeListener{
+            void onCheckedChanged(CompoundButton arg0, boolean arg1);
+}
+
 class CursorAdapter {
+
+ FilterQueryProvider getFilterQueryProvider();
+ Cursor runQueryOnBackgroundThread(CharSequence constraint);
 
 
 abstract void bindView(View view, Context context, Cursor cursor);
@@ -805,6 +855,9 @@ class ExpandableListView$OnChildClickListener{
 }
 class FrameLayout$LayoutParams{
         LayoutParams(int width, int height);
+}
+class FilterQueryProvider{
+            Cursor runQuery(CharSequence arg0);
 }
 
 class FrameLayout {
@@ -1269,6 +1322,19 @@ void setSelection(@Sink(FlowPermission.DISPLAY) int position);
 
 }
 
+
+class ProgressBar {
+
+void setProgress(@Sink(FLowPermission.DISPLAY) int progress);
+void setVisibility(int v);
+
+}
+
+class ShareActionProvider{
+            void setShareIntent(Intent shareIntent);
+            void setShareHistoryFileName(String shareHistoryFile);
+}
+
 class Scroller {
     Scroller(Context context, Interpolator interpolator);
     Scroller(Context context);
@@ -1333,6 +1399,17 @@ void startScroll(int startX, int startY, int dx, int dy, int duration);
 int timePassed();
 //Returns the time elapsed since the beginning of the scrolling.
 
+}
+
+class TabHost{
+            void addTab(@Sink(DISPLAY) TabSpec tabSpec);
+            void setCurrentTab(int index);
+            TabSpec newTabSpec(String tag);
+}
+
+class TabHost$TabSpec{
+            TabSpec setIndicator(@Sink(DISPLAY) CharSequence label);
+            TabSpec setContent(Intent intent);
 }
 
 
@@ -1674,6 +1751,29 @@ void addView(View child);
 ScrollView(Context context);
 }
 
+class SurfaceHolder{
+            Surface getSurface();
+}
+
+class SeekBar{
+        void setOnSeekBarChangeListener(OnSeekBarChangeListener l);
+}
+
+
+class SeekBar$OnSeekBarChangeListener{
+        void onStopTrackingTouch(SeekBar arg0);
+        void onStartTrackingTouch(SeekBar arg0);
+        void onProgressChanged(SeekBar arg0, int arg1, boolean arg2);
+}
+
+class Spinner{
+            void setAdapter(SpinnerAdapter adapter);
+}
+class SimpleCursorAdapter{
+            SimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to);
+            void bindView(View view, Context context, Cursor cursor);
+}
+
 class Toast {
     
 void show();
@@ -1684,7 +1784,8 @@ static Toast makeText(Context context, int resId, int duration);
 
 static Toast makeText(Context context, @Sink(FlowPermission.DISPLAY) CharSequence text, int duration);
 //Make a standard toast that just contains a text view.
-
+void setGravity(int gravity, int xOffset, int yOffset);
+void setView(View view);
 
 //UNUSED AND UNANNOTATED    
 // void cancel();
@@ -1696,11 +1797,9 @@ static Toast makeText(Context context, @Sink(FlowPermission.DISPLAY) CharSequenc
 // int getXOffset();
 // int getYOffset();
 // void setDuration(int duration);
-// void setGravity(int gravity, int xOffset, int yOffset);
 // void setMargin(float horizontalMargin, float verticalMargin);
 // void setText(int resId);
 // void setText(CharSequence s);
-// void setView(View view);
 }
 
 class TabHost{
@@ -1712,9 +1811,21 @@ class TabHost{
         protected void onAttachedToWindow();
         String getCurrentTabTag();
 }
-
 class TabHost$OnTabChangeListener{
         void onTabChanged(String arg0);
+}
+class View{
+            void setDrawingCacheEnabled(boolean enabled);
+            Bitmap getDrawingCache();
+}
+
+
+class VideoView{
+        void suspend();
+        void resume();
+        void start();
+        void setVideoPath(String path);
+        void setOnPreparedListener(OnPreparedListener l);
 }
 class TabHost$TabSpec{
         String getTag();
@@ -1761,3 +1872,4 @@ class ProgressBar{
 class ShareActionProvider{
         ShareActionProvider(Context context);
 }
+

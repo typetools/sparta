@@ -18,6 +18,10 @@ class Environment {
     static @Source(FlowPermission.FILESYSTEM) File 
     getExternalStoragePublicDirectory(@Sink(FlowPermission.FILESYSTEM) String type);
 	static @Source(FlowPermission.FILESYSTEM) File getExternalStorageDirectory() ;
+
+    @Source(FlowPermission.READ_EXTERNAL_STORAGE) static String getExternalStorageState();
+                static @Source(FILESYSTEM) File getDataDirectory();
+
 }
 
 class IInterface{
@@ -52,14 +56,17 @@ class Binder{
     class Bundle {
         //Added by Carl Hartung
         //This class will need a qualifier  parameter
-        
+        //TODO:  Bundles are often from intents, so all of these receivers
+        //should be of type @Source({LITERAL,INTENT})
+                    Bundle();
+
     void writeToParcel(@Source(FlowPermission.PARCEL) Parcel parcel, int flags);
     //Writes the Bundle contents to a Parcel, typically in order for it to be passed through an IBinder connection .
     
     @Source(BUNDLE) String getString(String key, String defaultValue);
     //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
     
-    @Source(BUNDLE) String getString(String key);
+    @Source(BUNDLE) String getString(String key)@Source({LITERAL,INTENT});
     //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
     
     <T extends Parcelable> T getParcelable(String key);
@@ -163,6 +170,22 @@ class Binder{
     //Clones the current Bundle .
 }
 
+class Message{
+            static Message obtain(Handler h, int what);
+}
+
+class Looper{
+            static Looper myLooper();
+            static void prepare();
+}
+
+
+class FileObserver{
+            FileObserver(String path, int mask);
+            void onEvent(int arg0, String arg1);
+            void startWatching();
+}
+
 class Handler {
        boolean sendEmptyMessageAtTime(int what, long uptimeMillis);
     Handler(Looper looper);
@@ -224,9 +247,9 @@ final boolean sendEmptyMessageDelayed(int what, long delayMillis);
 final boolean sendMessage(Message msg);
 //Pushes a message onto the end of the message queue after all pending messages before the current time .
 
-
+        Handler();
+        void dispatchMessage(Message msg);
 //UNUSED AND UNANNOTATED    
-// void dispatchMessage(Message msg);
 // final void dump(Printer pw, String prefix);
 // String getMessageName(Message message);
 // final boolean postAtFrontOfQueue(Runnable r);
@@ -236,6 +259,15 @@ final boolean sendMessage(Message msg);
 // boolean sendMessageAtTime(Message msg, long uptimeMillis);
 // final boolean sendMessageDelayed(Message msg, long delayMillis);
 // String toString();
+}
+
+class PowerManager{
+        @Source(FlowPermission.WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
+}
+
+class PowerManager$WakeLock{
+        void acquire();
+        void release();
 }
 
 class SystemClock {

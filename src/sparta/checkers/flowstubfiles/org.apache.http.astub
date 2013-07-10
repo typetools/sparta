@@ -1,0 +1,7 @@
+package org.apache.http;
+class HttpResponse{
+       @Source(FlowPermission.INTERNET) HttpEntity getEntity();
+}
+class HttpEntity{
+        InputStream getContent() throws IOException,IllegalStateException;
+}

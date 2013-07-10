@@ -1,6 +1,10 @@
 
 package java.lang;
 
+class AutoCloseable{
+            void close() throws Exception;
+}
+
 @PolyFlowReceiver
 class AbstractStringBuilder{
         int length();
@@ -484,6 +488,8 @@ class Class{
         static Class<?> forName(String arg0) throws ClassNotFoundException;
         Method getDeclaredMethod(String arg0, Class<?>[] arg1) throws NoSuchMethodException,SecurityException;
         T newInstance() throws InstantiationException,IllegalAccessException;
+         String getName();
+            boolean isInstance(Object arg0);
 }
 
 @PolyFlowReceiver
@@ -591,11 +597,16 @@ class Enum<E> implements Comparable<E>, Serializable {
     static <T> T valueOf(Class<T> arg0, String arg1);
     protected void finalize();
 }
+class Error{
+            Error(String arg0);
+}
 
 class Exception{
         Exception(String message);
         Exception(Throwable arg0);
         Exception(String arg0, Throwable arg1);
+        Exception();
+
 }
 
 @PolyFlowReceiver
@@ -981,6 +992,8 @@ class Runtime {
 class RuntimeException{
             RuntimeException(String arg0);
             RuntimeException(String arg0, Throwable arg1);
+            RuntimeException(Throwable arg0);
+
 }
 class IndexOutOfBoundsException{
         IndexOutOfBoundsException();               
@@ -1675,3 +1688,6 @@ class Modifier {
     static int fieldModifiers();
 }
 
+class Runnable {
+    void run();
+}

@@ -1,0 +1,239 @@
+
+package org.apache.http;
+class TokenIterator{
+            boolean hasNext();
+            String nextToken();
+}
+class HeaderElement{
+            String getName();
+            String getValue();
+}
+class HttpResponse{
+            void setEntity(HttpEntity arg0);
+            StatusLine getStatusLine();
+            HttpEntity getEntity();
+}
+class HeaderElementIterator{
+            boolean hasNext();
+            HeaderElement nextElement();
+}
+class Header{
+            String getValue();
+            HeaderElement[] getElements() throws ParseException;
+}
+class HttpEntityEnclosingRequest{
+            HttpEntity getEntity();
+}
+class HttpHost{
+            HttpHost(String hostname, int port);
+            HttpHost(String hostname);
+}
+class HeaderIterator{
+            boolean hasNext();
+}
+class HttpResponseInterceptor{
+            void process(HttpResponse arg0, HttpContext arg1) throws HttpException,IOException;
+}
+class HttpRequestInterceptor{
+            void process(HttpRequest arg0, HttpContext arg1) throws HttpException,IOException;
+}
+class HttpMessage{
+            HttpParams getParams();
+            HeaderIterator headerIterator(String arg0);
+            Header getFirstHeader(String arg0);
+            boolean containsHeader(String arg0);
+            void addHeader(String arg0, String arg1);
+            Header[] getHeaders(String arg0);
+}
+class StatusLine{
+            String getReasonPhrase();
+            int getStatusCode();
+            ProtocolVersion getProtocolVersion();
+}
+class ConnectionReuseStrategy{
+            boolean keepAlive(HttpResponse arg0, HttpContext arg1);
+}
+class HttpEntity{
+            Header getContentEncoding();
+            boolean isRepeatable();
+            InputStream getContent() throws IOException,IllegalStateException;
+            void writeTo(@PolySink OutputStream arg0) throws IOException;
+            long getContentLength();
+}
+class ProtocolVersion{
+            boolean lessEquals(ProtocolVersion version);
+}
+
+
+package org.apache.http.conn;
+class ClientConnectionManager{
+            ClientConnectionRequest requestConnection(HttpRoute arg0, Object arg1);
+}
+class ConnectionKeepAliveStrategy{
+            long getKeepAliveDuration(HttpResponse arg0, HttpContext arg1);
+}
+
+package org.apache.http.message;
+class BasicHeaderElementIterator{
+            BasicHeaderElementIterator(HeaderIterator headerIterator);
+}
+
+package org.apache.http.conn.params;
+class ConnPerRoute{
+            int getMaxForRoute(HttpRoute arg0);
+}
+class ConnManagerParams{
+            static void setMaxConnectionsPerRoute(HttpParams params, ConnPerRoute connPerRoute);
+            static void setMaxTotalConnections(HttpParams params, int maxTotalConnections);
+}
+
+package org.apache.http.conn.ssl;
+class SSLSocketFactory{
+            static SSLSocketFactory getSocketFactory();
+}
+
+package org.apache.http.conn.scheme;
+class SchemeRegistry{
+            SchemeRegistry();
+            Scheme register(Scheme sch);
+}
+class Scheme{
+            Scheme(String name, SocketFactory factory, int port);
+}
+class PlainSocketFactory{
+            static PlainSocketFactory getSocketFactory();
+}
+
+package org.apache.http.entity;
+@PolyFlowReceiver
+class InputStreamEntity{
+            InputStreamEntity(InputStream instream, long length);
+}
+class HttpEntityWrapper{
+            long getContentLength();
+            HttpEntityWrapper(HttpEntity wrapped);
+            @PolyFlowReceiver
+            InputStream getContent() throws IOException;
+            @PolyFlowReceiver
+            void writeTo(OutputStream outstream) throws IOException;
+}
+@PolyFlowReceiver
+class AbstractHttpEntity{
+            void setChunked(boolean b);
+            void setContentEncoding(String ceString);
+}
+
+package org.apache.http.client.entity;
+
+@PolyFlowReceiver
+class UrlEncodedFormEntity {
+
+    // Added by mcarthur
+    // Constructor returns do not work yet.
+    // And I have my doubts about Poly for Generic types.
+    @PolySource @PolySink UrlEncodedFormEntity(@Sink(FlowPermission.CONDITIONAL) List<? extends @PolySource @PolySink NameValuePair> parameters) @PolySource @PolySink ; 
+        UrlEncodedFormEntity(List<? extends NameValuePair> parameters, String encoding) throws UnsupportedEncodingException;
+}
+
+
+
+package org.apache.http.client.methods;
+
+class HttpPost {
+
+    HttpPost(@Sink(FlowPermission.INTERNET) String postUrl);
+
+    // Added by mcarthur
+    // I would like for this to actually work, but it does not.
+//    void setEntity(@PolySource @PolySink HttpEntity entity) @PolySource @PolySink;
+    void setEntity(@Sink(FlowPermission.INTERNET) HttpEntity entity) @Sink(FlowPermission.INTERNET);
+
+}
+
+class HttpUriRequest{
+            void abort() throws UnsupportedOperationException;
+            boolean isAborted();
+}
+class HttpPut{
+            HttpPut(String uri);
+}
+class HttpGet{
+            HttpGet(String uri);
+}
+
+
+package org.apache.http.client;
+
+class HttpClient {
+
+    // Added by mcarthur
+    @Source(FlowPermission.INTERNET)
+    HttpResponse execute(@Sink(FlowPermission.INTERNET) HttpUriRequest request);
+                @Source(FlowPermission.INTERNET) HttpParams getParams();
+
+}
+
+package org.apache.http.impl;
+class DefaultConnectionReuseStrategy{
+            boolean keepAlive(HttpResponse response, HttpContext context);
+            protected TokenIterator createTokenIterator(HeaderIterator hit);
+            DefaultConnectionReuseStrategy();
+}
+
+package org.apache.http.impl.conn.tsccm;
+class ThreadSafeClientConnManager{
+            ThreadSafeClientConnManager(HttpParams params, SchemeRegistry schreg);
+            ClientConnectionRequest requestConnection(HttpRoute route, Object state);
+            void closeExpiredConnections();
+            int getConnectionsInPool();
+            void closeIdleConnections(long idleTimeout, TimeUnit tunit);
+}
+
+package org.apache.http.impl.client;
+class AbstractHttpClient{
+            protected ConnectionKeepAliveStrategy createConnectionKeepAliveStrategy();
+            void addRequestInterceptor(HttpRequestInterceptor itcp);
+            protected ConnectionReuseStrategy createConnectionReuseStrategy();
+            void addResponseInterceptor(HttpResponseInterceptor itcp);
+}
+
+class DefaultHttpClient extends AbstractHttpClient {
+    DefaultHttpClient(ClientConnectionManager arg0, HttpParams arg1);
+    DefaultHttpClient(HttpParams arg0);
+    DefaultHttpClient();
+    
+    protected HttpParams createHttpParams();
+    protected HttpRequestExecutor createRequestExecutor();
+    protected ClientConnectionManager createClientConnectionManager();
+    protected HttpContext createHttpContext();
+    protected ConnectionReuseStrategy createConnectionReuseStrategy();
+    protected ConnectionKeepAliveStrategy createConnectionKeepAliveStrategy();
+    protected AuthSchemeRegistry createAuthSchemeRegistry();
+    protected CookieSpecRegistry createCookieSpecRegistry();
+    protected BasicHttpProcessor createHttpProcessor();
+    protected HttpRequestRetryHandler createHttpRequestRetryHandler();
+    protected RedirectHandler createRedirectHandler();
+    protected AuthenticationHandler createTargetAuthenticationHandler();
+    protected AuthenticationHandler createProxyAuthenticationHandler();
+    protected CookieStore createCookieStore();
+    protected CredentialsProvider createCredentialsProvider();
+    protected HttpRoutePlanner createHttpRoutePlanner();
+    protected UserTokenHandler createUserTokenHandler();
+}
+
+package org.apache.http.params;
+class HttpConnectionParams{
+            static void setSoTimeout(HttpParams params, int timeout);
+            static void setSocketBufferSize(HttpParams params, int size);
+            static void setConnectionTimeout(HttpParams params, int timeout);
+}
+class HttpProtocolParams{
+            static void setUserAgent(HttpParams params, String useragent);
+}
+class BasicHttpParams{
+            BasicHttpParams();
+}
+class HttpParams{
+            boolean removeParameter(String arg0);
+            HttpParams setParameter(String arg0, Object arg1);
+}

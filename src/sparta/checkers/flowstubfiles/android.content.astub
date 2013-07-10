@@ -32,6 +32,7 @@ D onLoadInBackground();
 class BroadcastReceiver{
             BroadcastReceiver();
             void onReceive(Context arg0, Intent arg1);
+            void setResult(int code, String data, Bundle extras);
 }
 class ClipData{
         static ClipData newPlainText(CharSequence label, CharSequence text);
@@ -75,6 +76,9 @@ class ClipData$Item {
     @Source(READ_CLIPBOARD) CharSequence coerceToText(@Sink(WRITE_CLIPBOARD) Context arg0);
 }
 
+class ComponentName{
+        ComponentName(String pkg, String cls);
+}
 
 class ComponentCallbacks{
             void onLowMemory();
@@ -87,6 +91,13 @@ class ComponentName{
 
 class ContentProvider {
     final @Source(FlowPermission.ANY) Context getContext() @Source(FlowPermission.ANY);
+                @Source(DATABASE) Uri insert(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) ContentValues arg1);
+            int update(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) ContentValues arg1, @Sink(DATABASE) String arg2, @Sink(DATABASE) String @Sink(DATABASE)[] arg3);
+            @Source(DATABASE) Cursor query(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) String @Sink(DATABASE) [] arg1, @Sink(DATABASE) String arg2, @Sink(DATABASE) String @Sink(DATABASE)[] arg3, @Sink(DATABASE) String arg4);
+            @Source(DATABASE) String getType(@Sink(DATABASE) Uri arg0);
+            ContentProvider();
+            int delete(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) String arg1, @Sink(DATABASE) String @Sink(DATABASE)[] arg2);
+            boolean onCreate();
 }
 
 class ContentUris {
@@ -100,12 +111,15 @@ class ContentValues {
         void put(String key, String value);
         void put(String key, Integer value);
     void put(@PolySource @PolySink String key, @PolySource @PolySink Long value) @PolySource @PolySink;
+      boolean containsKey(String key);
+            Object get(String key);
+            ContentValues(ContentValues from);
 }
 
 
 class ContentProviderOperation{
-       // static Builder newUpdate(Uri uri);
-        //static Builder newInsert(Uri uri);
+        static Builder newUpdate(Uri uri);
+        static Builder newInsert(Uri uri);
 }
 
 class ContentProviderOperation$Builder{
@@ -122,12 +136,18 @@ class ContentResolver{
         ContentProviderResult[] applyBatch(String authority, ArrayList<ContentProviderOperation> operations) throws RemoteException,OperationApplicationException;
         //Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
         //int update(Uri uri, ContentValues values, String where, String[] selectionArgs);
+                  int delete(@Sink(DATABASE) Uri url, @Sink(DATABASE) String where, @Sink(DATABASE) String[] selectionArgs);
+            int update(@Sink(DATABASE) Uri uri, @Sink(DATABASE) ContentValues values, @Sink(DATABASE) String where, @Sink(DATABASE) String[] selectionArgs);
+            void notifyChange(Uri uri, ContentObserver observer);
+            @Source(DATABASE) Uri insert(@Sink(DATABASE) Uri url, @Sink(DATABASE) ContentValues values);
+            @Source(DATABASE) Cursor query(@Sink(DATABASE) Uri uri, @Sink(DATABASE) String[] projection, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String sortOrder);
 }
 
 class Context {
             @Source({FILESYSTEM, EXTERNAL_STORAGE}) FileInputStream openFileInput(String arg0) throws FileNotFoundException;
 
 	@Source(FlowPermission.FILESYSTEM) File getDir( @Sink(FlowPermission.FILESYSTEM) String name,  @Sink(FlowPermission.CONDITIONAL) int mode);
+	void unregisterReceiver(BroadcastReceiver arg0);
 
 String getString(int resId, Object[] formatArgs);
  //Added by Carl Hartung
@@ -239,10 +259,28 @@ abstract @Source(FlowPermission.FILESYSTEM) File getFileStreamPath(String name);
 
 }
 
+class ComponentName{
+            String getClassName();
+      ComponentName(Context pkg, Class<?> cls);
+
+}
+
 class ContextWrapper {
             File getDir(String name, int mode);
             ContextWrapper(Context base);
-             Context createPackageContext(String packageName, int flags) throws NameNotFoundException;
+             Context createPackageContext(String packageName, int flags) throws NameNotFoundException;            
+                        String getPackageName();
+            ComponentName startService(Intent service);
+            PackageManager getPackageManager();
+            @Source(FILESYSTEM) File getFilesDir();
+            AssetManager getAssets();
+            Context getApplicationContext();
+            Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
+            Context getBaseContext();
+            void sendBroadcast(Intent intent);
+            @Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences(String name, int mode);
+                        ContentResolver getContentResolver();
+
 
 
 //boolean bindService(Intent service, ServiceConnection conn, int flags);
@@ -315,16 +353,16 @@ class ContextWrapper {
 //String[] fileList();
 //Returns an array of strings naming the private files associated with this Context's application package.
 
-//Context getApplicationContext();
+Context getApplicationContext();
 //Return the context of the single, global Application object of the current process.
 
 //ApplicationInfo getApplicationInfo();
 //Return the full application info for this context's package.
 
-//AssetManager getAssets();
+AssetManager getAssets();
 //Return an AssetManager instance for your application's package.
 
-//Context getBaseContext();
+Context getBaseContext();
 
 //File getCacheDir();
 //Returns the absolute path to the application specific cache directory on the filesystem.
@@ -429,7 +467,7 @@ Object getSystemService(String name);
 //void revokeUriPermission(Uri uri, int modeFlags);
 //Remove all permissions to access a particular content provider Uri that were previously added with grantUriPermission(String, Uri, int);.
 
-//void sendBroadcast(Intent intent);
+void sendBroadcast(@Source(FlowPermission.INTENT) Intent intent);
 //Broadcast the given intent to all interested BroadcastReceivers.
 
 //void sendBroadcast(Intent intent, String receiverPermission);
@@ -479,7 +517,7 @@ Object getSystemService(String name);
 //void startActivities(Intent[] intents, Bundle options);
 //Launch multiple new activities.
 
-//void startActivity(Intent intent);
+void startActivity(@Source(FlowPermission.INTENT) Intent intent);
 //Same as startActivity(Intent, Bundle); with no options specified.
 
 //void startActivity(Intent intent, Bundle options);
@@ -494,7 +532,7 @@ Object getSystemService(String name);
 //void startIntentSender(IntentSender intent, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
 //Same as startIntentSender(IntentSender, Intent, int, int, int, Bundle); with no options specified.
 
-//ComponentName startService(Intent service);
+ComponentName startService(@Source(FlowPermission.INTENT) Intent service);
 //Request that a given application service be started.
 
 //boolean stopService(Intent name);
@@ -576,15 +614,25 @@ class DialogInterface$OnKeyListener{
 class DialogInterface$OnCancelListener{
             void onCancel(DialogInterface arg0);
 }
+class DialogInterface$OnMultiChoiceClickListener{
+            void onClick(DialogInterface arg0, int arg1, boolean arg2);
+}
 class DialogInterface$OnDismissListener{
             void onDismiss(DialogInterface arg0);
 }
 
+
 class IntentFilter{
             IntentFilter(String action);
+
                int countActions();
             String getAction(int index);
             int match(String action, String type, String scheme, Uri data, Set<String> categories, String logTag);
+
+             IntentFilter();
+            void addAction(String action);
+            void addCategory(String category);
+
 }
 
 
@@ -801,19 +849,19 @@ class UriMatcher {
 
 class SharedPreferences {
     
-abstract boolean getBoolean(String key, boolean defValue);
+abstract @Source(FlowPermission.SHARED_PREFERENCES) boolean getBoolean(String key, boolean defValue);
 //Retrieve a boolean value from the preferences.
 
-abstract String getString(String key, String defValue);
+abstract @Source(FlowPermission.SHARED_PREFERENCES) String getString(String key, String defValue);
 //Retrieve a String value from the preferences.
 
 abstract SharedPreferences.Editor edit();
 //Create a new Editor for these preferences, through which you can make modifications to the data in the preferences and atomically commit those changes back to the SharedPreferences object.
 
-abstract long getLong(String key, long defValue);
+abstract @Source(FlowPermission.SHARED_PREFERENCES) long getLong(String key, long defValue);
 //Retrieve a long value from the preferences.
 
-abstract int getInt(String key, int defValue);
+abstract @Source(FlowPermission.SHARED_PREFERENCES) int getInt(String key, int defValue);
 //Retrieve an int value from the preferences.
 
 abstract void registerOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener);
@@ -831,11 +879,29 @@ abstract Map<String, ?> getAll();
 }
 
 class SharedPreferences$Editor{
-        Editor putBoolean(String arg0, boolean arg1);
+        Editor putBoolean(@Sink(SHARED_PREFERENCES) String arg0, @Sink(SHARED_PREFERENCES) boolean arg1);
+
         boolean commit();
+
+            Editor putString(@Sink(SHARED_PREFERENCES) String arg0, @Sink(SHARED_PREFERENCES) String arg1);
+
+        Editor putLong(String arg0, @Sink(FlowPermission.SHARED_PREFERENCES) long arg1);
+        Editor putInt(String arg0, @Sink(FlowPermission.SHARED_PREFERENCES) int arg1);
+}
+
+package android.content.pm;
+class PackageManager{
+        List<ResolveInfo> queryBroadcastReceivers(@Source(FlowPermission.INTENT) Intent arg0, int arg1);
+        PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
+        PermissionInfo getPermissionInfo(String arg0, int arg1) throws NameNotFoundException;
 }
 
 package android.content.res;
+
+class AssetManager{
+            @Source(ANY) InputStream open(String fileName) throws IOException;
+
+}
 
 class ColorStateList{
         int getDefaultColor();
@@ -1029,11 +1095,29 @@ void recycle();
 
 }
 
+<<<<<<< local
+=======
+}
+
+
+>>>>>>> other
 package android.content.pm;
 class PackageManager{
+<<<<<<< local
             CharSequence getApplicationLabel(ApplicationInfo arg0);
             ActivityInfo getActivityInfo(ComponentName arg0, int arg1) throws NameNotFoundException;
             Drawable getApplicationIcon(String arg0) throws NameNotFoundException;
             ApplicationInfo getApplicationInfo(String arg0, int arg1) throws NameNotFoundException;
             Drawable getActivityIcon(ComponentName arg0) throws NameNotFoundException;
+=======
+            PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
+            List<ResolveInfo> queryIntentActivities(Intent arg0, int arg1);
+            boolean hasSystemFeature(String arg0);
+            ResolveInfo resolveActivity(Intent arg0, int arg1);
+>>>>>>> other
 }
+class Signature{
+            String toCharsString();
+}
+
+

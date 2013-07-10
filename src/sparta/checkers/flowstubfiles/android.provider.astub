@@ -7,3 +7,11 @@ static final @Source(FlowPermission.MEDIA) String CONTENT_AUTHORITY_SLASH;
 class MediaStore$Audio$Playlists$Members{
         static @Source(FlowPermission.MEDIA) Uri getContentUri(String volumeName, long playlistId);
 }
+
+
+class ContactsContract$CommonDataKinds$Phone{
+            static @Sink(PHONE_NUMBER) CharSequence getTypeLabel(Resources res, int type, CharSequence label);
+}
+class ContactsContract$CommonDataKinds$Email{
+            static @Sink(READ_EMAIL) CharSequence getTypeLabel(Resources res, int type, CharSequence label);
+}

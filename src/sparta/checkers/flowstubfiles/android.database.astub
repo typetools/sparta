@@ -10,7 +10,7 @@ class ContentObserver{
 
 class Cursor {
 //Added by Carl Hartung
-abstract @Source(FlowPermission.DATABASE) String getString(int columnIndex);
+abstract @Source(FlowPermission.DATABASE) String getString(@Source({DATABASE, LITERAL}) int columnIndex);
 //Returns the value of the requested column as a String.
 
 abstract @Source(FlowPermission.DATABASE) int getColumnIndex(String columnName);
@@ -25,13 +25,13 @@ abstract boolean moveToFirst();
 abstract boolean moveToNext();
 //Move the cursor to the next row.
 
-abstract @Source(FlowPermission.DATABASE) int getInt(int columnIndex);
+abstract @Source(FlowPermission.DATABASE) int getInt(@Source({DATABASE, LITERAL}) int columnIndex);
 //Returns the value of the requested column as an int.
 
 abstract boolean isClosed();
 //return true if the cursor is closed
 
-abstract @Source(FlowPermission.DATABASE) long getLong(int columnIndex);
+abstract @Source(FlowPermission.DATABASE) long getLong(@Source({DATABASE, LITERAL})  int columnIndex);
 //Returns the value of the requested column as a long.
 
 abstract boolean isAfterLast();
@@ -49,7 +49,7 @@ abstract void registerDataSetObserver(DataSetObserver observer);
 abstract @Source(FlowPermission.DATABASE) int getColumnIndexOrThrow(String columnName);
 //Returns the zero-based index for the given column name, or throws IllegalArgumentException if the column doesn't exist.
 
-abstract @Source(FlowPermission.DATABASE) double getDouble(int columnIndex);
+abstract @Source(FlowPermission.DATABASE) double getDouble(@Source({DATABASE, LITERAL})  int columnIndex);
 //Returns the value of the requested column as a double.
 
 abstract boolean requery();
@@ -70,7 +70,7 @@ abstract @Source(FlowPermission.DATABASE) String[] getColumnNames();
 abstract void registerContentObserver(ContentObserver observer);
 //Register an observer that is called when changes happen to the content backing this cursor.
 
-abstract @Source(FlowPermission.DATABASE) float getFloat(int columnIndex);
+abstract @Source(FlowPermission.DATABASE) float getFloat(@Source({DATABASE, LITERAL}) int columnIndex);
 //Returns the value of the requested column as a float.
 
 abstract void setNotificationUri(ContentResolver cr, Uri uri);
@@ -82,16 +82,16 @@ abstract boolean moveToLast();
 abstract void unregisterContentObserver(ContentObserver observer);
 //Unregister an observer that has previously been registered with this cursor via registerContentObserver(ContentObserver);.
 
-abstract @Source(FlowPermission.DATABASE) short getShort(int columnIndex);
+abstract @Source(FlowPermission.DATABASE) short getShort(@Source({DATABASE, LITERAL}) int columnIndex);
 //Returns the value of the requested column as a short.
 
-abstract @Source(FlowPermission.DATABASE) String getColumnName(int columnIndex);
+abstract @Source(FlowPermission.DATABASE) String getColumnName(@Source({DATABASE, LITERAL}) int columnIndex);
 //Returns the column name at the given zero-based column index.
 
 abstract @Source(FlowPermission.DATABASE) int getColumnCount();
 //Return total number of columns
 
-abstract @Source(FlowPermission.DATABASE) byte[] getBlob(int columnIndex);
+abstract @Source(FlowPermission.DATABASE) byte[] getBlob(@Source({DATABASE, LITERAL}) int columnIndex);
 //Returns the value of the requested column as a byte array.
 
 
@@ -152,6 +152,8 @@ void close();
 }
 
 class SQLiteDatabase {
+    @Source(SQLITE_DATABASE) Cursor query(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String[] columns, @Sink(SQLITE_DATABASE) String selection, @Sink(SQLITE_DATABASE) String[] selectionArgs, @Sink(SQLITE_DATABASE) String groupBy, @Sink(SQLITE_DATABASE) String having, @Sink(SQLITE_DATABASE) String orderBy);
+
 //Added by Philip
     @Source(FlowPermission.SQLITE_DATABASE) int delete(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY);
     void execSQL(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sql) @Source(FlowPermission.ANY) @Sink({});
@@ -194,9 +196,18 @@ class SQLiteOpenHelper {
     @Source(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getReadableDatabase() @Source(FlowPermission.ANY) @Sink({});
     @Source(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getWritableDatabase() @Source(FlowPermission.ANY) @Sink({});
     @Source(FlowPermission.ANY) @Sink({}) SQLiteOpenHelper(@Source(FlowPermission.ANY) @Sink({}) Context context, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String name, @Source(FlowPermission.ANY) @Sink({}) CursorFactory factory, @Source(FlowPermission.ANY) @Sink({}) int version);
+           void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion);
+            void onCreate(SQLiteDatabase arg0);
+            void close();
+            void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2);
+            
 }
 
 class SQLiteQueryBuilder {
+
+ @Source(SQLITE_DATABASE) Cursor query(@Sink(SQLITE_DATABASE) SQLiteDatabase db, @Sink(SQLITE_DATABASE) String[] projectionIn, @Sink(SQLITE_DATABASE) String selection, @Sink(SQLITE_DATABASE) String[] selectionArgs, @Sink(SQLITE_DATABASE) String groupBy, @Sink(SQLITE_DATABASE) String having, @Sink(SQLITE_DATABASE) String sortOrder);
+            void setProjectionMap(Map<String,String> columnMap);
+            
 //Added by Philip
     void appendWhere(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) CharSequence inWhere) @Source(FlowPermission.ANY) @Sink({});
     @Source(FlowPermission.SQLITE_DATABASE) Cursor query(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) SQLiteDatabase db, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] projectionIn, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String selection, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] selectionArgs, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String groupBy, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String having, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sortOrder, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String limit) @Source(FlowPermission.ANY) @Sink({});

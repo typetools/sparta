@@ -1,0 +1,10 @@
+package android.webkit;
+class WebViewClient{
+            boolean shouldOverrideUrlLoading(WebView view, String url);
+            WebViewClient();
+}
+class WebView{
+            WebView(Context context);
+            void setWebViewClient(WebViewClient client);
+            void loadUrl(@Sink(INTERNET) String url);
+}

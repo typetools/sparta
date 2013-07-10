@@ -14,12 +14,16 @@ class Address{
             void setAddressLine(int index, String line);
             String getCountryCode();
             Locale getLocale();
+                   String getLocality();
+            String getAdminArea();
 }
 
 class Geocoder {
             Geocoder(Context context, Locale locale);
     @Source(FlowPermission.ANY) @Sink({}) Geocoder(@Source(FlowPermission.ANY) @Sink({}) Context context);
     @Source(FlowPermission.ACCESS_FINE_LOCATION) List<@Source(FlowPermission.ACCESS_FINE_LOCATION) Address> getFromLocationName(@Source(FlowPermission.ANY) @Sink({}) String locationName, @Source(FlowPermission.ANY) @Sink({}) int maxResults);
+     static boolean isPresent();
+            List<Address> getFromLocation(double latitude, double longitude, int maxResults) throws IOException;
 }
 
  interface LocationListener {
@@ -29,8 +33,15 @@ class Geocoder {
         void onProviderEnabled(String arg0);
         void onProviderDisabled(String arg0);
  }
+
+
+
+
 class LocationManager{
+
             List<String> getAllProviders();
+            void requestLocationUpdates(String provider, long minTime, float minDistance, LocationListener listener);
+            @Source({ACCESS_COURSE_LOCATION, ACCESS_FINE_LOCATION}) Location getLastKnownLocation(String provider);
 }
 class Location{
             void setLatitude(double latitude);
@@ -40,4 +51,8 @@ class Location{
             Location(String provider);
             float getAccuracy();
             long getTime();
+            double getLatitude();
+                        double getLongitude();
+
 }
+

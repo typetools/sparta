@@ -5,6 +5,10 @@ class ConnectivityManager{
             NetworkInfo getNetworkInfo(int networkType);
 }
 
+class NetworkInfo{
+            boolean isConnected();
+}
+
 class Uri {
     
     
@@ -64,8 +68,8 @@ static Uri fromParts(String scheme, String ssp, String fragment);
 
 abstract String getLastPathSegment();
 //Gets the decoded last segment in the path.
-
-//abstract String getPath();
+@PolyFlowReceiver
+abstract String getPath();
 //Gets the decoded path.
 
 @PolySource @PolySink List<@PolySource @PolySink String> getPathSegments() @PolySource @PolySink;

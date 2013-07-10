@@ -6,4 +6,25 @@ class ExifInterface {
     String getAttribute(@Sink(FlowPermission.CONDITIONAL) String tag);
 
     ExifInterface(@Sink(FlowPermission.FILESYSTEM) String path);
+    void setAttribute(String tag, String value);
+
 }
+
+class MediaPlayer {
+        void reset();
+        void pause() throws IllegalStateException;
+        void setOnPreparedListener(OnPreparedListener listener);
+        void setLooping(boolean arg0);
+        void setDataSource(String arg0) throws IOException,IllegalArgumentException,SecurityException,IllegalStateException;
+        void start() throws IllegalStateException;
+        void prepare() throws IOException,IllegalStateException;
+        MediaPlayer();
+}
+
+class MediaPlayer$OnPreparedListener{
+        void onPrepared(MediaPlayer arg0);
+}
+class ThumbnailUtils{
+            static Bitmap extractThumbnail(Bitmap source, int width, int height);
+}
+

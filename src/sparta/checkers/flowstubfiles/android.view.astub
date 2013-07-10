@@ -4,6 +4,15 @@ class AbsSavedState{
             Parcelable getSuperState();
             void writeToParcel(Parcel dest, int flags);
 }
+class ActionMode{
+            MenuInflater getMenuInflater();
+}
+class ActionMode$Callback{
+            boolean onPrepareActionMode(ActionMode arg0, Menu arg1);
+            boolean onCreateActionMode(ActionMode arg0, Menu arg1);
+            boolean onActionItemClicked(ActionMode arg0, MenuItem arg1);
+            void onDestroyActionMode(ActionMode arg0);
+}
 
 class CollapsibleActionView{
             void onActionViewCollapsed();
@@ -44,6 +53,7 @@ class Display{
             int getPixelFormat();
             int getWidth();
             int getHeight();
+             void getSize(Point outSize);
 }
 
 class FocusFinder{
@@ -143,6 +153,8 @@ void setFactory2(LayoutInflater.Factory2 factory);
 }
 
 class Menu {
+
+            int addIntentOptions(int arg0, int arg1, int arg2, ComponentName arg3, Intent[] arg4, Intent arg5, int arg6, MenuItem[] arg7);
 
 abstract MenuItem add(@Sink(DISPLAY) CharSequence title);
 //Add a new item to the menu.
@@ -701,6 +713,8 @@ class View {
             protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container);
             protected void drawableStateChanged();
 
+View(Context context);
+
 final View findViewById(int id);
 //Look for a child view with the given id.
 
@@ -1099,8 +1113,8 @@ void requestLayout();
 
  void setPaddingRelative(int start, int top, int end, int bottom);
 
-
-
+void destroyDrawingCache();
+ boolean post(Runnable action);
 
 
 
@@ -1122,7 +1136,6 @@ void requestLayout();
 // void computeScroll();
 // AccessibilityNodeInfo createAccessibilityNodeInfo();
 // void createContextMenu(ContextMenu menu);
-// void destroyDrawingCache();
 // void dispatchConfigurationChanged(Configuration newConfig);
 // void dispatchDisplayHint(int hint);
 // boolean dispatchDragEvent(DragEvent event);
@@ -1261,7 +1274,6 @@ void requestLayout();
 // boolean performHapticFeedback(int feedbackConstant);
 // boolean performHapticFeedback(int feedbackConstant, int flags);
 // boolean performLongClick();
-// boolean post(Runnable action);
 // void removeOnAttachStateChangeListener(View.OnAttachStateChangeListener listener);
 // void removeOnLayoutChangeListener(View.OnLayoutChangeListener listener);
 // void requestFitSystemWindows();
@@ -1431,6 +1443,11 @@ class View$OnClickListener{
 
 class View$OnCreateContextMenuListener{
         void onCreateContextMenu(ContextMenu arg0, View arg1, ContextMenuInfo arg2);
+}
+
+
+class View$OnTouchListener{
+        boolean onTouch(View arg0, MotionEvent arg1);
 }
 
 class ViewConfiguration {
@@ -2059,20 +2076,45 @@ class Window{
 
 class Window$Callback{
         boolean onMenuItemSelected(int arg0, MenuItem arg1);
+            boolean dispatchKeyEvent(KeyEvent arg0);
 }
+
 class WindowManager{
             Display getDefaultDisplay();
 }
+<<<<<<< local
+=======
+
+class KeyEvent {
+    @Source(FlowPermission.USER_INPUT) int getKeyCode();
+}
+>>>>>>> other
 
 package android.view.animation;
+<<<<<<< local
 class Animation{
         void setAnimationListener(AnimationListener listener);
         void setDuration(long durationMillis);
         void setInterpolator(Interpolator i);
+=======
+
+class Animation$AnimationListener {
+    void onAnimationRepeat(Animation arg0);
+    void onAnimationStart(Animation arg0);
+    void onAnimationEnd(Animation arg0);
+>>>>>>> other
 }
+<<<<<<< local
 class AccelerateInterpolator{
         AccelerateInterpolator(float factor);
+=======
+
+class AnimationUtils{
+    @PolyFlow
+    static Animation loadAnimation(Context context, int id);
+>>>>>>> other
 }
+<<<<<<< local
 class AlphaAnimation{
         AlphaAnimation(float fromAlpha, float toAlpha);
 }
@@ -2089,4 +2131,5 @@ class AnimationSet{
 package android.view.accessibility.AccessibilityManager;
 class AccessibilityStateChangeListener{
         void onAccessibilityStateChanged(boolean arg0);
-}
+}=======
+>>>>>>> other
