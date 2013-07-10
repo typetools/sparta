@@ -154,7 +154,7 @@ class ArrayList<E extends @Sink({}) @Source(FlowPermission.ANY) Object> extends 
     List<E> subList(int arg0, int arg1);
 }
 
-@PolyFlowReceiver
+@PolyFlow
 class Arrays {
     static void sort(int[] arg0);
     static void sort(int[] arg0, int arg1, int arg2);

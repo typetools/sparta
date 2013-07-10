@@ -144,7 +144,7 @@ class ContentResolver{
 }
 
 class Context {
-            @Source({FILESYSTEM, EXTERNAL_STORAGE}) FileInputStream openFileInput(String arg0) throws FileNotFoundException;
+            @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) FileInputStream openFileInput(String arg0) throws FileNotFoundException;
 
 	@Source(FlowPermission.FILESYSTEM) File getDir( @Sink(FlowPermission.FILESYSTEM) String name,  @Sink(FlowPermission.CONDITIONAL) int mode);
 	void unregisterReceiver(BroadcastReceiver arg0);
@@ -1095,26 +1095,18 @@ void recycle();
 
 }
 
-<<<<<<< local
-=======
-}
 
-
->>>>>>> other
 package android.content.pm;
 class PackageManager{
-<<<<<<< local
             CharSequence getApplicationLabel(ApplicationInfo arg0);
             ActivityInfo getActivityInfo(ComponentName arg0, int arg1) throws NameNotFoundException;
             Drawable getApplicationIcon(String arg0) throws NameNotFoundException;
             ApplicationInfo getApplicationInfo(String arg0, int arg1) throws NameNotFoundException;
             Drawable getActivityIcon(ComponentName arg0) throws NameNotFoundException;
-=======
             PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
             List<ResolveInfo> queryIntentActivities(Intent arg0, int arg1);
             boolean hasSystemFeature(String arg0);
             ResolveInfo resolveActivity(Intent arg0, int arg1);
->>>>>>> other
 }
 class Signature{
             String toCharsString();

@@ -12,7 +12,7 @@ class Activity{
 //Annotations by SOM
     Activity();
         boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
-        void dump(@Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) String prefix, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) FileDescriptor fd, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) PrintWriter writer, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) String[] args);
+        void dump(@Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) PrintWriter writer, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String[] args);
         View onCreateView(String name, Context context, AttributeSet attrs);
         void invalidateOptionsMenu();
         void onPanelClosed(int featureId, Menu menu);

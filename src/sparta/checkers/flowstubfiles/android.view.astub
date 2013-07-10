@@ -2082,39 +2082,30 @@ class Window$Callback{
 class WindowManager{
             Display getDefaultDisplay();
 }
-<<<<<<< local
-=======
+
 
 class KeyEvent {
     @Source(FlowPermission.USER_INPUT) int getKeyCode();
 }
->>>>>>> other
 
 package android.view.animation;
-<<<<<<< local
 class Animation{
         void setAnimationListener(AnimationListener listener);
         void setDuration(long durationMillis);
         void setInterpolator(Interpolator i);
-=======
-
+}
 class Animation$AnimationListener {
     void onAnimationRepeat(Animation arg0);
     void onAnimationStart(Animation arg0);
     void onAnimationEnd(Animation arg0);
->>>>>>> other
 }
-<<<<<<< local
 class AccelerateInterpolator{
         AccelerateInterpolator(float factor);
-=======
-
+}
 class AnimationUtils{
     @PolyFlow
     static Animation loadAnimation(Context context, int id);
->>>>>>> other
 }
-<<<<<<< local
 class AlphaAnimation{
         AlphaAnimation(float fromAlpha, float toAlpha);
 }
@@ -2131,5 +2122,4 @@ class AnimationSet{
 package android.view.accessibility.AccessibilityManager;
 class AccessibilityStateChangeListener{
         void onAccessibilityStateChanged(boolean arg0);
-}=======
->>>>>>> other
+}

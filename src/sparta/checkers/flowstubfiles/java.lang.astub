@@ -1,4 +1,6 @@
 
+
+
 package java.lang;
 
 class AutoCloseable{
@@ -679,7 +681,8 @@ class Integer extends Number implements Comparable<Integer> {
     static @PolyFlow int parseInt(String arg0) throws NumberFormatException;
     static @PolyFlow Integer valueOf(String arg0, int arg1) throws NumberFormatException;
     static @PolyFlow Integer valueOf(String arg0) throws NumberFormatException;
-    static @PolyFlow Integer valueOf(int arg0);
+    @PolyFlow
+    static Integer valueOf(int arg0);
     Integer(int arg0);
     @PolyFlow Integer(String arg0) throws NumberFormatException;
     @PolyFlow byte byteValue();
@@ -917,27 +920,23 @@ class Process {
 
 class ProcessBuilder {
 //Added by pbsf
-    ProcessBuilder(List<String> arg0);
-    ProcessBuilder(String[] arg0);
-    @PolyFlowReceiver
-    ProcessBuilder command(List<String> arg0);
-    @PolyFlowReceiver
-    ProcessBuilder command(String[] arg0);
-    @PolyFlowReceiver
-    List<String> command();
-    @PolyFlowReceiver
-    Map<String,String> environment();
-    File directory();
-    ProcessBuilder directory(File arg0);
-    ProcessBuilder redirectInput(Redirect arg0);
-    ProcessBuilder redirectOutput(Redirect arg0);
-    ProcessBuilder redirectError(Redirect arg0);
-    ProcessBuilder redirectInput(File arg0);
-    ProcessBuilder redirectOutput(File arg0);
-    ProcessBuilder redirectError(File arg0);
-    Redirect redirectInput();
-    Redirect redirectOutput();
-    Redirect redirectError();
+    ProcessBuilder(@Sink(PROCESS_BUILDER) List< @Sink(PROCESS_BUILDER)String> arg0);
+    ProcessBuilder( @Sink(PROCESS_BUILDER) String @Sink(PROCESS_BUILDER) [] arg0);
+    ProcessBuilder command(@Sink(PROCESS_BUILDER) List< @Sink(PROCESS_BUILDER) String> arg0);
+    ProcessBuilder command(@Sink(PROCESS_BUILDER) String @Sink(PROCESS_BUILDER) [] arg0);
+    @Sink(PROCESS_BUILDER) List< @Sink(PROCESS_BUILDER) String> command();
+    @Sink(PROCESS_BUILDER) Map<@Sink(PROCESS_BUILDER) String,@Sink(PROCESS_BUILDER) String> environment();
+    @Sink(PROCESS_BUILDER) File directory();
+    ProcessBuilder directory(@Sink(PROCESS_BUILDER) File arg0);
+    ProcessBuilder redirectInput(@Sink(PROCESS_BUILDER) Redirect arg0);
+    ProcessBuilder redirectOutput(@Sink(PROCESS_BUILDER) Redirect arg0);
+    ProcessBuilder redirectError(@Sink(PROCESS_BUILDER) Redirect arg0);
+    ProcessBuilder redirectInput(@Sink(PROCESS_BUILDER) File arg0);
+    ProcessBuilder redirectOutput(@Sink(PROCESS_BUILDER) File arg0);
+    ProcessBuilder redirectError(@Sink(PROCESS_BUILDER) File arg0);
+    @Sink(PROCESS_BUILDER) Redirect redirectInput();
+    @Sink(PROCESS_BUILDER) Redirect redirectOutput();
+    @Sink(PROCESS_BUILDER) Redirect redirectError();
     ProcessBuilder inheritIO();
     boolean redirectErrorStream();
     ProcessBuilder redirectErrorStream(boolean arg0);
@@ -1560,7 +1559,7 @@ class Array {
 }
 
 @PolyFlowReceiver
-class Constructor<T> extends Executable {
+class Constructor<T> {
 //Added by pbsf
     Class<T> getDeclaringClass();
     String getName();
@@ -1627,7 +1626,7 @@ class InvocationTargetException{
 }
 
 @PolyFlowReceiver
-class Method extends Executable {
+class Method {
 //Added by pbsf
     Class<?> getDeclaringClass();
     String getName();

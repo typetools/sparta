@@ -1,25 +1,30 @@
 
 package org.apache.http;
-class TokenIterator{
-            boolean hasNext();
-            String nextToken();
+class ConnectionReuseStrategy{
+            boolean keepAlive(HttpResponse arg0, HttpContext arg1);
+}
+class Header{
+            String getValue();
+            HeaderElement[] getElements() throws ParseException;
 }
 class HeaderElement{
             String getName();
             String getValue();
 }
-class HttpResponse{
-            void setEntity(HttpEntity arg0);
-            StatusLine getStatusLine();
-            HttpEntity getEntity();
-}
 class HeaderElementIterator{
             boolean hasNext();
             HeaderElement nextElement();
 }
-class Header{
-            String getValue();
-            HeaderElement[] getElements() throws ParseException;
+class HeaderIterator{
+            boolean hasNext();
+}
+
+class HttpEntity{
+            Header getContentEncoding();
+            boolean isRepeatable();
+            InputStream getContent() throws IOException,IllegalStateException;
+            void writeTo(@PolySink OutputStream arg0) throws IOException;
+            long getContentLength();
 }
 class HttpEntityEnclosingRequest{
             HttpEntity getEntity();
@@ -27,15 +32,6 @@ class HttpEntityEnclosingRequest{
 class HttpHost{
             HttpHost(String hostname, int port);
             HttpHost(String hostname);
-}
-class HeaderIterator{
-            boolean hasNext();
-}
-class HttpResponseInterceptor{
-            void process(HttpResponse arg0, HttpContext arg1) throws HttpException,IOException;
-}
-class HttpRequestInterceptor{
-            void process(HttpRequest arg0, HttpContext arg1) throws HttpException,IOException;
 }
 class HttpMessage{
             HttpParams getParams();
@@ -45,23 +41,28 @@ class HttpMessage{
             void addHeader(String arg0, String arg1);
             Header[] getHeaders(String arg0);
 }
+class HttpRequestInterceptor{
+            void process(HttpRequest arg0, HttpContext arg1) throws HttpException,IOException;
+}
+class HttpResponse{
+            void setEntity(HttpEntity arg0);
+            StatusLine getStatusLine();
+            @Source(FlowPermission.INTERNET) HttpEntity getEntity();
+}
+class HttpResponseInterceptor{
+            void process(HttpResponse arg0, HttpContext arg1) throws HttpException,IOException;
+}
+class ProtocolVersion{
+            boolean lessEquals(ProtocolVersion version);
+}
 class StatusLine{
             String getReasonPhrase();
             int getStatusCode();
             ProtocolVersion getProtocolVersion();
 }
-class ConnectionReuseStrategy{
-            boolean keepAlive(HttpResponse arg0, HttpContext arg1);
-}
-class HttpEntity{
-            Header getContentEncoding();
-            boolean isRepeatable();
-            InputStream getContent() throws IOException,IllegalStateException;
-            void writeTo(@PolySink OutputStream arg0) throws IOException;
-            long getContentLength();
-}
-class ProtocolVersion{
-            boolean lessEquals(ProtocolVersion version);
+class TokenIterator{
+            boolean hasNext();
+            String nextToken();
 }
 
 
@@ -221,19 +222,26 @@ class DefaultHttpClient extends AbstractHttpClient {
     protected UserTokenHandler createUserTokenHandler();
 }
 
+package org.apache.http.message;
+class BasicNameValuePair{
+        BasicNameValuePair(String name, @PolySource @PolySink String value);
+}
+
+
 package org.apache.http.params;
+class BasicHttpParams{
+            BasicHttpParams();
+}
 class HttpConnectionParams{
             static void setSoTimeout(HttpParams params, int timeout);
             static void setSocketBufferSize(HttpParams params, int size);
             static void setConnectionTimeout(HttpParams params, int timeout);
 }
-class HttpProtocolParams{
-            static void setUserAgent(HttpParams params, String useragent);
-}
-class BasicHttpParams{
-            BasicHttpParams();
-}
 class HttpParams{
             boolean removeParameter(String arg0);
             HttpParams setParameter(String arg0, Object arg1);
 }
+class HttpProtocolParams{
+            static void setUserAgent(HttpParams params, String useragent);
+}
+
