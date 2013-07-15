@@ -100,7 +100,7 @@ public class FlowPolicy {
     	return defaultAllowedFlows;
     }
 
-    public Pair<Set<FlowPermission>, Set<FlowPermission>> annotatedTypeMirrorToFlows(final AnnotatedTypeMirror atm) {
+    public static Pair<Set<FlowPermission>, Set<FlowPermission>> annotatedTypeMirrorToFlows(final AnnotatedTypeMirror atm) {
 
         final AnnotationMirror sourceAnno = atm.getAnnotation(Source.class);
         final AnnotationMirror sinkAnno   = atm.getAnnotation(Sink.class);
@@ -108,9 +108,12 @@ public class FlowPolicy {
 
         final Set<FlowPermission> sources = FlowUtil.getSource(sourceAnno, true);
         final Set<FlowPermission>   sinks   = FlowUtil.getSink(sinkAnno, true); ;
+        FlowUtil.allToAnySource(sources, true);
+        FlowUtil.allToAnySink(sinks, true);
 
         return Pair.of(sources, sinks);
     }
+    
 
     public boolean areFlowsAllowed(final AnnotatedTypeMirror atm) {
     	final AnnotationMirror polySourceAnno = atm.getAnnotation(PolySource.class);
@@ -533,5 +536,7 @@ public class FlowPolicy {
 
         return reversed;
     }
+
+
 
 }
