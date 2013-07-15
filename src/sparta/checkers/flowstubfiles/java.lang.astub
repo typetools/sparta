@@ -920,27 +920,23 @@ class Process {
 
 class ProcessBuilder {
 //Added by pbsf
-    ProcessBuilder(List<String> arg0);
-    ProcessBuilder(String[] arg0);
-    @PolyFlowReceiver
-    ProcessBuilder command(List<String> arg0);
-    @PolyFlowReceiver
-    ProcessBuilder command(String[] arg0);
-    @PolyFlowReceiver
-    List<String> command();
-    @PolyFlowReceiver
-    Map<String,String> environment();
-    File directory();
-    ProcessBuilder directory(File arg0);
-    ProcessBuilder redirectInput(Redirect arg0);
-    ProcessBuilder redirectOutput(Redirect arg0);
-    ProcessBuilder redirectError(Redirect arg0);
-    ProcessBuilder redirectInput(File arg0);
-    ProcessBuilder redirectOutput(File arg0);
-    ProcessBuilder redirectError(File arg0);
-    Redirect redirectInput();
-    Redirect redirectOutput();
-    Redirect redirectError();
+    ProcessBuilder(@Sink(PROCESS_BUILDER) List< @Sink(PROCESS_BUILDER)String> arg0);
+    ProcessBuilder( @Sink(PROCESS_BUILDER) String @Sink(PROCESS_BUILDER) [] arg0);
+    ProcessBuilder command(@Sink(PROCESS_BUILDER) List< @Sink(PROCESS_BUILDER) String> arg0);
+    ProcessBuilder command(@Sink(PROCESS_BUILDER) String @Sink(PROCESS_BUILDER) [] arg0);
+    @Sink(PROCESS_BUILDER) List< @Sink(PROCESS_BUILDER) String> command();
+    @Sink(PROCESS_BUILDER) Map<@Sink(PROCESS_BUILDER) String,@Sink(PROCESS_BUILDER) String> environment();
+    @Sink(PROCESS_BUILDER) File directory();
+    ProcessBuilder directory(@Sink(PROCESS_BUILDER) File arg0);
+    ProcessBuilder redirectInput(@Sink(PROCESS_BUILDER) Redirect arg0);
+    ProcessBuilder redirectOutput(@Sink(PROCESS_BUILDER) Redirect arg0);
+    ProcessBuilder redirectError(@Sink(PROCESS_BUILDER) Redirect arg0);
+    ProcessBuilder redirectInput(@Sink(PROCESS_BUILDER) File arg0);
+    ProcessBuilder redirectOutput(@Sink(PROCESS_BUILDER) File arg0);
+    ProcessBuilder redirectError(@Sink(PROCESS_BUILDER) File arg0);
+    @Sink(PROCESS_BUILDER) Redirect redirectInput();
+    @Sink(PROCESS_BUILDER) Redirect redirectOutput();
+    @Sink(PROCESS_BUILDER) Redirect redirectError();
     ProcessBuilder inheritIO();
     boolean redirectErrorStream();
     ProcessBuilder redirectErrorStream(boolean arg0);
