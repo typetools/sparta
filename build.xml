@@ -163,6 +163,7 @@ ${build.version} of the 'javac.jar' library."/>
             <arg value="-g"/>
             <arg line="-d ${build}"/>
             <arg line="-AstubWarnIfNotFound"/>
+            <arg line="-AprintErrorStack"/>
             <arg line="-processor sparta.checkers.FlowChecker" /> 
             <!-- Arbitrary file to compile. -->
             <arg line="${tests}/Test.java" />
@@ -225,7 +226,7 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- Make sure to add all individual tests as dependency. -->
-    <target name="all-tests" depends="jar,build-tests,reqperms-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests"
+    <target name="all-tests" depends="jar,build-tests,reqperms-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, reflection-tests"
       description="Run tests for all checkers"/>
 
     <target name="reqperms-tests" depends="jar,build-tests"
@@ -269,6 +270,15 @@ ${build.version} of the 'javac.jar' library."/>
             <param name="testclass" value="sparta.checkers.AndroidTests$StubfileTests"/>
         </antcall>
     </target>
+
+    <target name="reflection-tests" depends="jar,build-tests"
+      description="Run reflection tests for the Flow Checker">
+        <antcall target="-run-tests">
+            <param name="testclass" value="sparta.checkers.AndroidTests$ReflectionTests"/>
+        </antcall>
+    </target>
+
+
     <target name="tags" depends="prep" description="Create Emacs TAGS table">
         <exec executable="/bin/sh" failonerror="true">
             <arg value="-c"/>

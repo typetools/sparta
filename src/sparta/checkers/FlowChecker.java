@@ -1,9 +1,22 @@
 package sparta.checkers;
 
+import static sparta.checkers.FlowUtil.createAnnoFromSink;
+import static sparta.checkers.FlowUtil.createAnnoFromSource;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javacutils.AnnotationUtils;
+import javacutils.TreeUtils;
 
 import javax.annotation.processing.SupportedOptions;
 import javax.lang.model.element.AnnotationMirror;
@@ -13,32 +26,25 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
 
-import checkers.basetype.BaseTypeChecker;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.PolySink;
+import sparta.checkers.quals.PolySource;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
+import checkers.quals.PolyAll;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
-import checkers.quals.PolyAll;
+import checkers.reflection.ReflectionResolutionChecker;
 import checkers.source.SupportedLintOptions;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.QualifierHierarchy;
-import javacutils.AnnotationUtils;
-
 import checkers.util.MultiGraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
-import checkers.util.stub.StubGenerator;
 import checkers.util.QualifierPolymorphism;
-import javacutils.TreeUtils;
-
+import checkers.util.stub.StubGenerator;
 /*>>>
 import checkers.compilermsgs.quals.CompilerMessageKey;
 */
-
-import sparta.checkers.quals.Sink;
-import  sparta.checkers.quals.FlowPermission;
-
-import sparta.checkers.quals.Source;
-import sparta.checkers.quals.PolySink;
-import sparta.checkers.quals.PolySource;
-import static sparta.checkers.FlowUtil.*;
 
 @TypeQualifiers({Source.class, Sink.class,
     PolySource.class, PolySink.class,
@@ -48,7 +54,7 @@ import static sparta.checkers.FlowUtil.*;
 @SupportedLintOptions({FlowPolicy.STRICT_CONDITIONALS_OPTION})
 
 
-public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
+public class FlowChecker extends ReflectionResolutionChecker<FlowAnnotatedTypeFactory> {
     public static final String MSG_FILTER_OPTION = "msgFilter";
     public static final String IGNORE_NOT_REVIEWED = "ignorenr";
     public boolean IGNORENR = false;

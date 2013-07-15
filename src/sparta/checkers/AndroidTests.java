@@ -183,4 +183,45 @@ public class AndroidTests {
             );
         }
     }
+
+    public static class ReflectionTests extends ParameterizedCheckerTest {
+        public ReflectionTests(File testFile) {
+             super(testFile, FlowChecker.class.getName(), "sparta.checkers", "-Anomsgtext", "-AstubWarnIfNotFound", "-Astubs=tests/reflection/reflection.astub", "-AresolveReflection", "-AdebugReflection");
+        }
+        @Parameters
+        public static Collection<Object[]> data() {
+            return testFiles("reflection");
+        }
+    
+        @Override
+        protected void test(final File testFile) {
+            final File flowPolicyFile = getFlowPolicy(testFile);
+            final String [] optionsWithPf;
+    
+            if(flowPolicyFile.exists()) {
+                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 2);
+                optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy=" + flowPolicyFile.getAbsolutePath();
+                optionsWithPf[optionsWithPf.length - 2] = "-AprintErrorStack";
+    
+                //AprintErrorStack
+            } else {
+                 optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 1);
+                  optionsWithPf[optionsWithPf.length - 1] = "-AprintErrorStack";
+    
+            }
+            test(checkerName, optionsWithPf, testFile);
+        }
+    
+        protected File getFile(final File javaFile, final String extension) {
+            final String path = javaFile.getAbsolutePath();
+            if(!path.endsWith(".java")) {
+                throw new RuntimeException("Cannot recognize java file " + javaFile.getAbsolutePath());
+            } else {
+                return new File(javaFile.getAbsolutePath().substring(0, path.length() - 5) + extension);
+            }
+        }
+        protected File getFlowPolicy(final File javaFile) {
+            return getFile(javaFile, "Flowpolicy");
+        }
+    }
 }
