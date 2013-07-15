@@ -71,7 +71,7 @@ public enum FlowPermission {
     REFLECTION(T.SOURCE), //The caller of the invoke method should have this permission.
     INTENT(T.BOTH), 
     BUNDLE(T.SOURCE), 
-    PROCESS_BUILDER(T.SOURCE), //The ProcessBuilder variable should have this permission.
+    PROCESS_BUILDER(T.BOTH), //The ProcessBuilder variable should have this permission.
     PARCEL(T.BOTH),
     SECURE_HASH(T.BOTH),  //Use only for one way hashes (MD5 for example)
 
