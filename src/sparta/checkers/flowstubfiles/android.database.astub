@@ -9,106 +9,122 @@ class ContentObserver{
 
 
 class Cursor {
-//Added by Carl Hartung
-abstract @Source(FlowPermission.DATABASE) String getString(@Source({DATABASE, LITERAL}) int columnIndex);
-//Returns the value of the requested column as a String.
-
-abstract @Source(FlowPermission.DATABASE) int getColumnIndex(String columnName);
-//Returns the zero-based index for the given column name, or -1 if the column doesn't exist.
-
 abstract void close();
 //Closes the Cursor, releasing all of its resources and making it completely invalid.
 
-abstract boolean moveToFirst();
-//Move the cursor to the first row.
+abstract void copyStringToBuffer(int columnIndex, CharArrayBuffer buffer);
+//Retrieves the requested column text and stores it in the buffer provided.
 
-abstract boolean moveToNext();
-//Move the cursor to the next row.
+abstract void deactivate();
+//This method was deprecated in API level 16. Since requery(); is deprecated, so too is this.
 
-abstract @Source(FlowPermission.DATABASE) int getInt(@Source({DATABASE, LITERAL}) int columnIndex);
+abstract byte[] getBlob(int columnIndex);
+//Returns the value of the requested column as a byte array.
+
+abstract @Source(DATABASE) int getColumnCount();
+//Return total number of columns
+
+abstract @Source(DATABASE) int getColumnIndex(@Sink(DATABASE) String columnName);
+//Returns the zero-based index for the given column name, or -1 if the column doesn't exist.
+
+abstract @Source(DATABASE) int getColumnIndexOrThrow(@Sink(DATABASE) String columnName);
+//Returns the zero-based index for the given column name, or throws IllegalArgumentException if the column doesn't exist.
+
+abstract @Source(DATABASE) String getColumnName(@Sink(DATABASE) int columnIndex);
+//Returns the column name at the given zero-based column index.
+
+abstract @Source(DATABASE) String[] getColumnNames();
+//Returns a string array holding the names of all of the columns in the result set in the order in which they were listed in the result.
+
+abstract @Source(DATABASE) int getCount();
+//Returns the numbers of rows in the cursor.
+
+abstract @Source(DATABASE) double getDouble(int columnIndex);
+//Returns the value of the requested column as a double.
+
+abstract Bundle getExtras();
+//Returns a bundle of extra values.
+
+abstract @Source(DATABASE) float getFloat(@Sink(DATABASE) int columnIndex);
+//Returns the value of the requested column as a float.
+
+abstract @Source(DATABASE) int getInt(@Sink(DATABASE) int columnIndex);
 //Returns the value of the requested column as an int.
 
-abstract boolean isClosed();
-//return true if the cursor is closed
-
-abstract @Source(FlowPermission.DATABASE) long getLong(@Source({DATABASE, LITERAL})  int columnIndex);
+abstract @Source(DATABASE) long getLong(@Sink(DATABASE) int columnIndex);
 //Returns the value of the requested column as a long.
+
+abstract @Source(DATABASE) int getPosition();
+//Returns the current position of the cursor in the row set.
+
+abstract @Source(DATABASE) short getShort(@Sink(DATABASE) int columnIndex);
+//Returns the value of the requested column as a short.
+
+abstract @Source(DATABASE) String getString(@Sink(DATABASE) int columnIndex);
+//Returns the value of the requested column as a String.
+
+abstract @Source(DATABASE) int getType(@Sink(DATABASE) int columnIndex);
+//Returns data type of the given column's value.
+
+abstract boolean getWantsAllOnMoveCalls();
+//onMove(); will only be called across processes if this method returns true.
 
 abstract boolean isAfterLast();
 //Returns whether the cursor is pointing to the position after the last row.
 
-abstract @Source(FlowPermission.DATABASE) int getCount();
-//Returns the numbers of rows in the cursor.
+abstract boolean isBeforeFirst();
+//Returns whether the cursor is pointing to the position before the first row.
 
-abstract boolean moveToPosition(int position);
-//Move the cursor to an absolute position.
+abstract boolean isClosed();
+//return true if the cursor is closed
 
-abstract void registerDataSetObserver(DataSetObserver observer);
-//Register an observer that is called when changes happen to the contents of the this cursors data set, for example, when the data set is changed via requery();, deactivate();, or close();.
-
-abstract @Source(FlowPermission.DATABASE) int getColumnIndexOrThrow(String columnName);
-//Returns the zero-based index for the given column name, or throws IllegalArgumentException if the column doesn't exist.
-
-abstract @Source(FlowPermission.DATABASE) double getDouble(@Source({DATABASE, LITERAL})  int columnIndex);
-//Returns the value of the requested column as a double.
-
-abstract boolean requery();
-//This method was deprecated in API level 11. Don't use this. Just request a new cursor, so you can do this asynchronously and update your list view once the new cursor comes back.
-
-abstract void unregisterDataSetObserver(DataSetObserver observer);
-//Unregister an observer that has previously been registered with this cursor via registerContentObserver(ContentObserver);.
+abstract boolean isFirst();
+//Returns whether the cursor is pointing to the first row.
 
 abstract boolean isLast();
 //Returns whether the cursor is pointing to the last row.
 
-abstract boolean isBeforeFirst();
-//Returns whether the cursor is pointing to the position before the first row.
+abstract @Source(DATABASE) boolean isNull(@Sink(DATABASE) int columnIndex);
+//Returns true if the value in the indicated column is null.
 
-abstract @Source(FlowPermission.DATABASE) String[] getColumnNames();
-//Returns a string array holding the names of all of the columns in the result set in the order in which they were listed in the result.
+abstract boolean move(int offset);
+//Move the cursor by a relative amount, forward or backward, from the current position.
 
-abstract void registerContentObserver(ContentObserver observer);
-//Register an observer that is called when changes happen to the content backing this cursor.
-
-abstract @Source(FlowPermission.DATABASE) float getFloat(@Source({DATABASE, LITERAL}) int columnIndex);
-//Returns the value of the requested column as a float.
-
-abstract void setNotificationUri(ContentResolver cr, Uri uri);
-//Register to watch a content URI for changes.
+abstract boolean moveToFirst();
+//Move the cursor to the first row.
 
 abstract boolean moveToLast();
 //Move the cursor to the last row.
 
+abstract boolean moveToNext();
+//Move the cursor to the next row.
+
+abstract boolean moveToPosition(int position);
+//Move the cursor to an absolute position.
+
+abstract boolean moveToPrevious();
+//Move the cursor to the previous row.
+
+abstract void registerContentObserver(ContentObserver observer);
+//Register an observer that is called when changes happen to the content backing this cursor.
+
+abstract void registerDataSetObserver(DataSetObserver observer);
+//Register an observer that is called when changes happen to the contents of the this cursors data set, for example, when the data set is changed via requery();, deactivate();, or close();.
+
+abstract boolean requery();
+//This method was deprecated in API level 11. Don't use this. Just request a new cursor, so you can do this asynchronously and update your list view once the new cursor comes back.
+
+abstract Bundle respond(Bundle extras);
+//This is an out-of-band way for the the user of a cursor to communicate with the cursor.
+
+abstract void setNotificationUri(ContentResolver cr, Uri uri);
+//Register to watch a content URI for changes.
+
 abstract void unregisterContentObserver(ContentObserver observer);
 //Unregister an observer that has previously been registered with this cursor via registerContentObserver(ContentObserver);.
 
-abstract @Source(FlowPermission.DATABASE) short getShort(@Source({DATABASE, LITERAL}) int columnIndex);
-//Returns the value of the requested column as a short.
-
-abstract @Source(FlowPermission.DATABASE) String getColumnName(@Source({DATABASE, LITERAL}) int columnIndex);
-//Returns the column name at the given zero-based column index.
-
-abstract @Source(FlowPermission.DATABASE) int getColumnCount();
-//Return total number of columns
-
-abstract @Source(FlowPermission.DATABASE) byte[] getBlob(@Source({DATABASE, LITERAL}) int columnIndex);
-//Returns the value of the requested column as a byte array.
-
-
-// UNUSED AND UNANNOTATED
-// abstract void copyStringToBuffer(int columnIndex, CharArrayBuffer buffer);
-// abstract void deactivate();
-// abstract Bundle getExtras();
-// abstract int getPosition();
-// abstract int getType(int columnIndex);
-// abstract boolean getWantsAllOnMoveCalls();
-// abstract boolean isFirst();
-// abstract boolean isNull(int columnIndex);
-// abstract boolean move(int offset);
-// abstract boolean moveToFirst();
-// abstract boolean moveToNext();
-// abstract boolean moveToPrevious();
-// abstract Bundle respond(Bundle extras);
+abstract void unregisterDataSetObserver(DataSetObserver observer);
+//Unregister an observer that has previously been registered with this cursor via registerContentObserver(ContentObserver);.
 
 }
 

@@ -11,11 +11,9 @@ class Use {
 
     void demo() {
        @Source(FlowPermission.LITERAL) Context ctx = null;
-       
-       @Sink(FILESYSTEM) File file = ctx.getDir("log", 0);
+       @Source({FILESYSTEM,READ_EXTERNAL_STORAGE}) File file = ctx.getDir("log", 0);
        String fileString = file.toString();
        String s = fileString.toString();
-       
        String filename = fileString +  "test.jpg";   
                                    
     }
