@@ -17,6 +17,8 @@ import checkers.basetype.BaseTypeChecker;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
 import checkers.quals.PolyAll;
+import checkers.source.Result;
+import checkers.source.Result.DiagMessage;
 import checkers.source.SourceChecker;
 import checkers.source.SupportedLintOptions;
 import checkers.types.AnnotatedTypeMirror;
@@ -68,6 +70,8 @@ public class FlowChecker extends BaseTypeChecker {
     //Methods that are not in a stub file
     protected final Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
 
+    // FlowVisitor uses these to hold flow state
+    private FlowAnalizer flowAnalizer;
 
     public FlowChecker() {
 		super();
@@ -135,6 +139,8 @@ public class FlowChecker extends BaseTypeChecker {
                 unfilteredMessages = null;
             }
         }
+
+        flowAnalizer = new FlowAnalizer(getFlowPolicy());
     }
 
     protected ExecutableElement sourceValue;
@@ -162,8 +168,13 @@ public class FlowChecker extends BaseTypeChecker {
             return (List<FlowPermission>) sinksValue.getValue();
         }
     }
+    
+    @Override
     public void typeProcessingOver() {
         printMethods();
+        flowAnalizer.printImpliedFlowsVerbose();
+        flowAnalizer.printImpliedFlowsForbidden();
+        flowAnalizer.printAllFlows();
         super.typeProcessingOver();
     }
     
@@ -520,6 +531,10 @@ public class FlowChecker extends BaseTypeChecker {
 
     public FlowPolicy getFlowPolicy() {
         return flowPolicy;
+    }
+
+    public FlowAnalizer getFlowAnalizer() {
+        return flowAnalizer;
     }
 
     @Override

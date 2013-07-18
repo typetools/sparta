@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.FlowPermission;
 
 public class Flow {
     Set<FlowPermission> sources;
@@ -74,6 +73,37 @@ public class Flow {
     public void addSink(Set<FlowPermission> sinks) {
         this.sinks.addAll(FlowUtil.allToAnySink(sinks, false));
 
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((sinks == null) ? 0 : sinks.hashCode());
+        result = prime * result + ((sources == null) ? 0 : sources.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Flow other = (Flow) obj;
+        if (sinks == null) {
+            if (other.sinks != null)
+                return false;
+        } else if (!sinks.equals(other.sinks))
+            return false;
+        if (sources == null) {
+            if (other.sources != null)
+                return false;
+        } else if (!sources.equals(other.sources))
+            return false;
+        return true;
     }
 
 }

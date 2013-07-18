@@ -1,6 +1,7 @@
 package sparta.checkers;
 
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +16,6 @@ import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.tree.TreeInfo;
 
 import checkers.basetype.BaseTypeVisitor;
-import checkers.quals.DefaultQualifier;
 import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
@@ -25,6 +25,7 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedNoType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
+import checkers.util.Pair;
 
 
 public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
@@ -161,6 +162,23 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
 
     }
 
+    @Override
+    protected void commonAssignmentCheck(AnnotatedTypeMirror varType,
+            AnnotatedTypeMirror valueType, Tree valueTree,  String errorKey) {
+
+        super.commonAssignmentCheck(varType, valueType, valueTree, errorKey);
+
+        Set<FlowPermission> sinks = new HashSet<FlowPermission>(FlowUtil.getSink(varType));
+        Set<FlowPermission> sources = new HashSet<FlowPermission>(FlowUtil.getSource(valueType));
+        Flow flow = new Flow(sources, sinks);
+        checker.getFlowAnalizer().getAssignmentFlows().add(flow);
+        checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
+        boolean success = checker.getTypeHierarchy().isSubtype(valueType, varType);
+        if (!success) {
+            checker.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
+        }
+    }
+
     private boolean warnForbiddenFlows(final AnnotatedTypeMirror type,
             final Tree tree) {
 
@@ -186,10 +204,19 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker> {
         	return true;
         }
 
-        final FlowPolicy flowPolicy = checker.getFlowPolicy();
+        Set<FlowPermission> sinks = new HashSet<FlowPermission>(FlowUtil.getSink(atm));
+        Set<FlowPermission> sources = new HashSet<FlowPermission>(FlowUtil.getSource(atm));
+        Flow flow = new Flow(sources, sinks);
+        checker.getFlowAnalizer().getTypeFlows().add(flow);
+        checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
 
+        final FlowPolicy flowPolicy = checker.getFlowPolicy();
         if( flowPolicy != null ) {
-            return checker.getFlowPolicy().areFlowsAllowed(atm);
+            boolean allowed = checker.getFlowPolicy().areFlowsAllowed(atm);
+            if (!allowed) {
+                checker.getFlowAnalizer().getForbiddenTypeFlows().add(flow);
+            }
+            return allowed;
         }
 
         return true;
