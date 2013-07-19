@@ -97,13 +97,15 @@ public class FlowAnalizer {
             printFlows(writer, getFlowStrList(groupFlowsOnSource(typeFlows)), 
                     "# Type Flows Grouped");
 
-            printFlows(writer, getFlowStrList(getForbiddenFlowsPairwise(groupFlowsOnSource(forbiddenTypeFlows))), 
+            printFlows(writer, getFlowStrList(groupFlowsOnSource(getForbiddenFlowsPairwise(
+                    groupFlowsOnSource(forbiddenTypeFlows)))), 
                     "# Forbidden Type Flows Grouped");
 
             printFlows(writer, getFlowStrList(groupFlowsOnSource(assignmentFlows)), 
                     "# Assignment Flows Grouped");
 
-            printFlows(writer, getFlowStrList(getForbiddenFlowsPairwise(groupFlowsOnSource(forbiddenAssignmentFlows))), 
+            printFlows(writer, getFlowStrList(groupFlowsOnSource(getForbiddenFlowsPairwise(
+                    groupFlowsOnSource(forbiddenAssignmentFlows)))), 
                     "# Forbidden Assignment Flows Grouped");
 
             printFlows(writer, getFlowStrList(typeFlows), "# Type Flows");
@@ -130,7 +132,9 @@ public class FlowAnalizer {
                     groupFlowsOnSource(forbiddenAssignmentFlows));
 
             forbiddenAssignmentFlowsGrouped.addAll(forbiddenTypeFlowsGrouped);
-            printFlows(writer, getFlowStrList(forbiddenAssignmentFlowsGrouped), "# Flows currently forbidden");
+            // Need to regroup on source because after adding two sets together.
+            printFlows(writer, getFlowStrList(groupFlowsOnSource(
+                    forbiddenAssignmentFlowsGrouped)), "# Flows currently forbidden");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
