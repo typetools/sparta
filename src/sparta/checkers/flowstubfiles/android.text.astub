@@ -1,5 +1,46 @@
 package android.text;
 
+class Editable {
+    
+abstract Editable append(CharSequence text);
+//Convenience for replace(length();, length();, text, 0, text.length(););
+
+abstract Editable append(CharSequence text, int start, int end);
+//Convenience for replace(length();, length();, text, start, end);
+
+abstract Editable append(char text);
+//Convenience for append(String.valueOf(text););.
+
+abstract void clear();
+//Convenience for replace(0, length();, "", 0, 0);
+
+abstract void clearSpans();
+//Removes all spans from the Editable, as if by calling removeSpan(Object); on each of them.
+
+abstract Editable delete(int st, int en);
+//Convenience for replace(st, en, "", 0, 0);
+
+abstract InputFilter[] getFilters();
+//Returns the array of input filters that are currently applied to changes to this Editable.
+
+abstract Editable insert(int where, CharSequence text, int start, int end);
+//Convenience for replace(where, where, text, start, end);
+
+abstract Editable insert(int where, CharSequence text);
+//Convenience for replace(where, where, text, 0, text.length(););;
+
+abstract Editable replace(int st, int en, CharSequence source, int start, int end);
+//Replaces the specified range (st…en); of text in this Editable with a copy of the slice start…end from source.
+
+abstract Editable replace(int st, int en, CharSequence text);
+//Convenience for replace(st, en, text, 0, text.length(););
+
+abstract void setFilters(InputFilter[] filters);
+//Sets the series of filters that will be called in succession whenever the text of this Editable is changed, each of which has the opportunity to limit or transform the text that is being inserted.
+
+    
+}
+
 class Html {
 static String escapeHtml(CharSequence text);
 //Returns an HTML escaped representation of the given plain text.
@@ -16,45 +57,284 @@ static String toHtml(Spanned text);
 }
 
 class Spanned {
-// CSH: only calls toString().  So I'm assuming we'll ahve to annotate the parent's toString()?
-
-//abstract int getSpanEnd(Object tag);
+    
+abstract int getSpanEnd(Object tag);
 //Return the end of the range of text to which the specified markup object is attached, or -1 if the object is not attached.
 
-//abstract int getSpanFlags(Object tag);
+abstract int getSpanFlags(Object tag);
 //Return the flags that were specified when setSpan(Object, int, int, int); was used to attach the specified markup object, or 0 if the specified object has not been attached.
 
-//abstract int getSpanStart(Object tag);
+abstract int getSpanStart(Object tag);
 //Return the beginning of the range of text to which the specified markup object is attached, or -1 if the object is not attached.
 
-//abstract <T> T[] getSpans(int start, int end, Class<T> type);
+abstract <T> T[] getSpans(int start, int end, Class<T> type);
 //Return an array of the markup objects attached to the specified slice of this CharSequence and whose type is the specified type or a subclass of it.
 
-//abstract int nextSpanTransition(int start, int limit, Class type);
+abstract int nextSpanTransition(int start, int limit, Class type);
 //Return the first offset greater than or equal to start where a markup object of class type begins or ends, or limit if there are no starts or ends greater than or equal to start but less than limit.
+
+
 
 }
 
 class TextUtils {
-    static void writeToParcel(CharSequence cs, Parcel p, int parcelableFlags);
-    static String htmlEncode(String s);
-    @PolyFlow boolean isEmpty(CharSequence str);
+    
+static CharSequence commaEllipsize(CharSequence text, TextPaint p, float avail, String oneMore, String more);
+//Converts a CharSequence of the comma-separated form "Andy, Bob, Charles, David" that is too wide to fit into the specified width into one like "Andy, Bob, 2 more".
+
+static CharSequence concat(CharSequence... text);
+//Returns a CharSequence concatenating the specified CharSequences, retaining their spans if any.
+
+static void copySpansFrom(Spanned source, int start, int end, Class kind, Spannable dest, int destoff);
+//Copies the spans from the region start...end in source to the region destoff...destoff+end-start in dest.
+
+static void dumpSpans(CharSequence cs, Printer printer, String prefix);
+//Debugging tool to print the spans in a CharSequence.
+
+static CharSequence ellipsize(CharSequence text, TextPaint p, float avail, TextUtils.TruncateAt where);
+//Returns the original text if it fits in the specified width given the properties of the specified Paint, or, if it does not fit, a truncated copy with ellipsis character added at the specified edge or center.
+
+static CharSequence ellipsize(CharSequence text, TextPaint paint, float avail, TextUtils.TruncateAt where, boolean preserveLength, TextUtils.EllipsizeCallback callback);
+//Returns the original text if it fits in the specified width given the properties of the specified Paint, or, if it does not fit, a copy with ellipsis character added at the specified edge or center.
+
+static boolean equals(CharSequence a, CharSequence b);
+//Returns true if a and b are equal, including if they are both null.
+
+static CharSequence expandTemplate(CharSequence template, CharSequence... values);
+//Replace instances of "^1", "^2", etc.
+
+static int getCapsMode(CharSequence cs, int off, int reqModes);
+//Determine what caps mode should be in effect at the current offset in the text.
+
+static void getChars(CharSequence s, int start, int end, char[] dest, int destoff);
+
+static int getLayoutDirectionFromLocale(Locale locale);
+//Return the layout direction for a given Locale
+
+static int getOffsetAfter(CharSequence text, int offset);
+
+static int getOffsetBefore(CharSequence text, int offset);
+
+static CharSequence getReverse(CharSequence source, int start, int end);
+
+static int getTrimmedLength(CharSequence s);
+//Returns the length that the specified CharSequence would have if spaces and control characters were trimmed from the start and end, as by trim();.
+
+static String htmlEncode(String s);
+//Html-encode the string.
+
+static int indexOf(CharSequence s, char ch);
+
+static int indexOf(CharSequence s, CharSequence needle);
+
+static int indexOf(CharSequence s, CharSequence needle, int start);
+
+static int indexOf(CharSequence s, char ch, int start, int end);
+
+static int indexOf(CharSequence s, char ch, int start);
+
+static int indexOf(CharSequence s, CharSequence needle, int start, int end);
+
+static boolean isDigitsOnly(CharSequence str);
+//Returns whether the given CharSequence contains only digits.
+
+static boolean isEmpty(CharSequence str);
+//Returns true if the string is null or 0-length.
+
+static boolean isGraphic(CharSequence str);
+//Returns whether the given CharSequence contains any printable characters.
+
+static boolean isGraphic(char c);
+//Returns whether this character is a printable character.
+
+static String join(CharSequence delimiter, Iterable tokens);
+//Returns a string containing the tokens joined by delimiters.
+
+static String join(CharSequence delimiter, Object[] tokens);
+//Returns a string containing the tokens joined by delimiters.
+
+static int lastIndexOf(CharSequence s, char ch, int start, int last);
+
+static int lastIndexOf(CharSequence s, char ch);
+
+static int lastIndexOf(CharSequence s, char ch, int last);
+
+static boolean regionMatches(CharSequence one, int toffset, CharSequence two, int ooffset, int len);
+
+static CharSequence replace(CharSequence template, String[] sources, CharSequence[] destinations);
+//Return a new CharSequence in which each of the source strings is replaced by the corresponding element of the destinations.
+
+static String[] split(String text, Pattern pattern);
+//Splits a string on a pattern.
+
+static String[] split(String text, String expression);
+//String.split(); returns [''] when the string to be split is empty.
+
+static CharSequence stringOrSpannedString(CharSequence source);
+
+static String substring(CharSequence source, int start, int end);
+//Create a new String object containing the given range of characters from the source string.
+
+static void writeToParcel(CharSequence cs, Parcel p, int parcelableFlags);
+//Flatten a CharSequence and whatever styles can be copied across processes into the parcel.
+
+    
+    
+}
+
+package android.text.format;
+
+class DateFormat {
+    
+Object clone();
+//Returns a new instance of DateFormat with the same properties.
+
+boolean equals(Object object);
+//Compares this date format with the specified object and indicates if they are equal.
+
+abstract StringBuffer format(Date date, StringBuffer buffer, FieldPosition field);
+//Formats the specified date as a string using the pattern of this date format and appends the string to the specified string buffer.
+
+final StringBuffer format(Object object, StringBuffer buffer, FieldPosition field);
+//Formats the specified object as a string using the pattern of this date format and appends the string to the specified string buffer.
+
+final String format(Date date);
+//Formats the specified date using the rules of this date format.
+
+static Locale[] getAvailableLocales();
+//Returns an array of locales for which custom DateFormat instances are available.
+
+Calendar getCalendar();
+//Returns the calendar used by this DateFormat.
+
+final static DateFormat getDateInstance(int style);
+//Returns a DateFormat instance for formatting and parsing dates in the specified style for the user's default locale.
+
+final static DateFormat getDateInstance(int style, Locale locale);
+//Returns a DateFormat instance for formatting and parsing dates in the specified style for the specified locale.
+
+final static DateFormat getDateInstance();
+//Returns a DateFormat instance for formatting and parsing dates in the DEFAULT style for the default locale.
+
+final static DateFormat getDateTimeInstance(int dateStyle, int timeStyle, Locale locale);
+//Returns a DateFormat instance for formatting and parsing dates and time values in the specified styles for the specified locale.
+
+final static DateFormat getDateTimeInstance(int dateStyle, int timeStyle);
+//Returns a DateFormat instance for formatting and parsing of both dates and time values in the manner appropriate for the user's default locale.
+
+final static DateFormat getDateTimeInstance();
+//Returns a DateFormat instance for formatting and parsing dates and time values in the DEFAULT style for the default locale.
+
+final static DateFormat getInstance();
+//Returns a DateFormat instance for formatting and parsing dates and times in the SHORT style for the default locale.
+
+NumberFormat getNumberFormat();
+//Returns the NumberFormat used by this DateFormat.
+
+final static DateFormat getTimeInstance(int style);
+//Returns a DateFormat instance for formatting and parsing time values in the specified style for the user's default locale.
+
+final static DateFormat getTimeInstance();
+//Returns a DateFormat instance for formatting and parsing time values in the DEFAULT style for the default locale.
+
+final static DateFormat getTimeInstance(int style, Locale locale);
+//Returns a DateFormat instance for formatting and parsing time values in the specified style for the specified locale.
+
+TimeZone getTimeZone();
+//Returns the time zone of this date format's calendar.
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+boolean isLenient();
+//Indicates whether the calendar used by this date format is lenient.
+
+Date parse(String string);
+//Parses a date from the specified string using the rules of this date format.
+
+abstract Date parse(String string, ParsePosition position);
+//Parses a date from the specified string starting at the index specified by position.
+
+Object parseObject(String string, ParsePosition position);
+//Parses a date from the specified string starting at the index specified by position.
+
+void setCalendar(Calendar cal);
+//Sets the calendar used by this date format.
+
+void setLenient(boolean value);
+//Specifies whether or not date/time parsing shall be lenient.
+
+void setNumberFormat(NumberFormat format);
+//Sets the NumberFormat used by this date format.
+
+void setTimeZone(TimeZone timezone);
+//Sets the time zone of the calendar used by this date format.
+
+
+
 }
 
 package android.text.method;
-class TransformationMethod{
-        CharSequence getTransformation(CharSequence arg0, View arg1);
-        }
+
+class LinkMovementMethod {
+    
+    
+static MovementMethod getInstance();
+
+void initialize(TextView widget, Spannable text);
+
+void onTakeFocus(TextView view, Spannable text, int dir);
+
+boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event);
+
+//Protected Methods
+boolean down(TextView widget, Spannable buffer);
+//Performs a down movement action.
+
+boolean handleMovementKey(TextView widget, Spannable buffer, int keyCode, int movementMetaState, KeyEvent event);
+//Performs a movement key action.
+
+boolean left(TextView widget, Spannable buffer);
+//Performs a left movement action.
+
+boolean right(TextView widget, Spannable buffer);
+//Performs a right movement action.
+
+boolean up(TextView widget, Spannable buffer);
+//Performs an up movement action.
+
+
+
+
+}
+
+
+class ReplacementTransformationMethod{
+        CharSequence getTransformation(CharSequence source, View v);
+}
+
+class SingleLineTransformationMethod {
+    
+    
+static SingleLineTransformationMethod getInstance();
+
+//Protected Methods
+char[] getOriginal();
+//The characters to be replaced are \n and \r.
+
+char[] getReplacement();
+//The character \n is replaced with is space; the character \r is replaced with is FEFF (zero width space);.
+
+
+
+}
+
 class TextWatcher {
     void onTextChanged(@Source(FlowPermission.USER_INPUT)CharSequence arg0, @Source(FlowPermission.USER_INPUT)int arg1, @Source(FlowPermission.USER_INPUT)int arg2, @Source(FlowPermission.USER_INPUT)int arg3);
     void afterTextChanged(@Source(FlowPermission.USER_INPUT)Editable arg0);
     void beforeTextChanged(@Source(FlowPermission.USER_INPUT)CharSequence arg0, @Source(FlowPermission.USER_INPUT)int arg1, @Source(FlowPermission.USER_INPUT)int arg2, @Source(FlowPermission.USER_INPUT)int arg3);
 }
-class SingleLineTransformationMethod{
-        SingleLineTransformationMethod();
-}
-class ReplacementTransformationMethod{
-        CharSequence getTransformation(CharSequence source, View v);
-}
 
-
+class TransformationMethod{
+        CharSequence getTransformation(CharSequence arg0, View arg1);
+}

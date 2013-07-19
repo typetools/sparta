@@ -4,12 +4,147 @@ package android.nfc;
 class Tag{
              @Source(NFC) String @Source(NFC) [] getTechList() @Source(NFC) ;
 }
-class NfcAdapter{
-            void disableForegroundDispatch(Activity activity);
-            void enableForegroundDispatch(Activity activity, PendingIntent intent, IntentFilter[] filters, String[][] techLists);
-            static NfcAdapter getDefaultAdapter(Context context);
+class NfcAdapter {
+    
+void disableForegroundDispatch(@Sink(NFC) Activity activity);
+//Disable foreground dispatch to the given activity.
+
+void disableForegroundNdefPush(@Sink(NFC) Activity activity);
+//This method was deprecated in API level 14. use setNdefPushMessage(NdefMessage, Activity, Activity...); instead
+
+void enableForegroundDispatch(@Sink(NFC) Activity activity, @Sink(NFC) PendingIntent intent, @Sink(NFC) IntentFilter[] filters, @Sink(NFC) String[][] techLists);
+//Enable foreground dispatch to the given Activity.
+
+void enableForegroundNdefPush(@Sink(NFC) Activity activity, @Sink(NFC) NdefMessage message);
+//This method was deprecated in API level 14. use setNdefPushMessage(NdefMessage, Activity, Activity...); instead
+
+static NfcAdapter getDefaultAdapter(Context context);
+//Helper to get the default NFC Adapter.
+
+boolean isEnabled();
+//Return true if this NFC Adapter has any features enabled.
+
+boolean isNdefPushEnabled();
+//Return true if the NDEF Push (Android Beam); feature is enabled.
+
+void setBeamPushUris(@Sink(NFC) Uri[] uris, @Sink(NFC) Activity activity);
+//Set one or more Uris to send using Android Beam (TM);.
+
+void setBeamPushUrisCallback(NfcAdapter.CreateBeamUrisCallback callback, @Sink(NFC) Activity activity);
+//Set a callback that will dynamically generate one or more Uris to send using Android Beam (TM);.
+
+void setNdefPushMessage(@Sink(NFC) NdefMessage message, @Sink(NFC) Activity activity, @Sink(NFC) Activity... activities);
+//Set a static NdefMessage to send using Android Beam (TM);.
+
+void setNdefPushMessageCallback(NfcAdapter.CreateNdefMessageCallback callback, @Sink(NFC) Activity activity, @Sink(NFC) Activity... activities);
+//Set a callback that dynamically generates NDEF messages to send using Android Beam (TM);.
+
+void setOnNdefPushCompleteCallback(NfcAdapter.OnNdefPushCompleteCallback callback, @Sink(NFC) Activity activity, @Sink(NFC) Activity... activities);
+//Set a callback on successful Android Beam (TM);.
+
+
+
+
 }
+
+
+class NdefMessage {
+    
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+boolean equals(Object obj);
+//Returns true if the specified NDEF Message contains identical NDEF Records.
+
+int getByteArrayLength();
+//Return the length of this NDEF Message if it is written to a byte array with toByteArray();.
+
+NdefRecord[] getRecords();
+//Get the NDEF Records inside this NDEF Message.
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+byte[] toByteArray();
+//Return this NDEF Message as raw bytes.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel dest, int flags);
+//Flatten this object in to a Parcel.
+
+
+
+
+}
+
+class NdefRecord {
+    
+    
+static NdefRecord createApplicationRecord(String packageName);
+//Create a new Android Application Record (AAR);.
+
+static NdefRecord createExternal(String domain, String type, byte[] data);
+//Create a new NDEF Record containing external (application-specific); data.
+
+static NdefRecord createMime(String mimeType, byte[] mimeData);
+//Create a new NDEF Record containing MIME data.
+
+static NdefRecord createUri(String uriString);
+//Create a new NDEF Record containing a URI.
+
+static NdefRecord createUri(Uri uri);
+//Create a new NDEF Record containing a URI.
+
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+boolean equals(Object obj);
+//Returns true if the specified NDEF Record contains identical tnf, type, id and payload fields.
+
+byte[] getId();
+//Returns the variable length ID.
+
+byte[] getPayload();
+//Returns the variable length payload.
+
+short getTnf();
+//Returns the 3-bit TNF.
+
+byte[] getType();
+//Returns the variable length Type field.
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+byte[] toByteArray();
+//This method was deprecated in API level 16. use toByteArray(); instead
+
+String toMimeType();
+//Map this record to a MIME type, or return null if it cannot be mapped.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+Uri toUri();
+//Map this record to a URI, or return null if it cannot be mapped.
+
+void writeToParcel(Parcel dest, int flags);
+//Flatten this object in to a Parcel.
+
+
+
+
+}
+
 package android.nfc.tech;
+
+
+class BasicTagTechnology{
+            void connect() throws IOException;
+}
+
 
 class MifareClassic{
             boolean authenticateSectorWithKeyA(int sectorIndex, byte[] key) throws IOException;
@@ -18,6 +153,52 @@ class MifareClassic{
             int getSectorCount();
             int getBlockCountInSector(int sectorIndex);
 }
-class BasicTagTechnology{
-            void connect() throws IOException;
+
+class Ndef {
+    
+    
+boolean canMakeReadOnly();
+//Indicates whether a tag can be made read-only with makeReadOnly();.
+
+void close() @Source(NFC);
+//Disable I/O operations to the tag from this TagTechnology object, and release resources.
+
+void connect() @Source(NFC);
+//Enable I/O operations to the tag from this TagTechnology object.
+
+static Ndef get(Tag tag);
+//Get an instance of Ndef for the given tag.
+
+NdefMessage getCachedNdefMessage();
+//Get the NdefMessage that was read from the tag at discovery time.
+
+int getMaxSize();
+//Get the maximum NDEF message size in bytes.
+
+@Source(NFC) NdefMessage getNdefMessage();
+//Read the current NdefMessage on this tag.
+
+Tag getTag();
+//Get the Tag object backing this TagTechnology object.
+
+String getType();
+//Get the NDEF tag type.
+
+boolean isConnected();
+//Helper to indicate if I/O operations should be possible.
+
+@Source(NFC) boolean isWritable();
+//Determine if the tag is writable.
+
+@Source(NFC) boolean makeReadOnly();
+//Make a tag read-only.
+
+void writeNdefMessage(@Sink(NFC) NdefMessage msg);
+//Overwrite the NdefMessage on this tag.
+
+
+
+
 }
+
+

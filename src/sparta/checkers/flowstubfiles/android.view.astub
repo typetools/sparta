@@ -4,8 +4,59 @@ class AbsSavedState{
             Parcelable getSuperState();
             void writeToParcel(Parcel dest, int flags);
 }
-class ActionMode{
-            MenuInflater getMenuInflater();
+class ActionMode {
+    
+abstract void finish();
+//Finish and close this action mode.
+
+abstract View getCustomView();
+//Returns the current custom view for this action mode.
+
+abstract Menu getMenu();
+//Returns the menu of actions that this action mode presents.
+
+abstract MenuInflater getMenuInflater();
+//Returns a MenuInflater with the ActionMode's context.
+
+abstract CharSequence getSubtitle();
+//Returns the current subtitle of this action mode.
+
+Object getTag();
+//Retrieve the tag object associated with this ActionMode.
+
+abstract CharSequence getTitle();
+//Returns the current title of this action mode.
+
+boolean getTitleOptionalHint();
+
+abstract void invalidate();
+//Invalidate the action mode and refresh menu content.
+
+boolean isTitleOptional();
+
+abstract void setCustomView(View view);
+//Set a custom view for this action mode.
+
+abstract void setSubtitle(int resId);
+//Set the subtitle of the action mode.
+
+abstract void setSubtitle(CharSequence subtitle);
+//Set the subtitle of the action mode.
+
+void setTag(Object tag);
+//Set a tag object associated with this ActionMode.
+
+abstract void setTitle(CharSequence title);
+//Set the title of the action mode.
+
+abstract void setTitle(int resId);
+//Set the title of the action mode.
+
+void setTitleOptionalHint(boolean titleOptional);
+//Set whether or not the title/subtitle display for this action mode is optional.
+
+
+
 }
 class ActionMode$Callback{
             boolean onPrepareActionMode(ActionMode arg0, Menu arg1);
@@ -18,8 +69,28 @@ class CollapsibleActionView{
             void onActionViewCollapsed();
 }
 
-class ContextMenu{
-        ContextMenu setHeaderTitle(CharSequence arg0);
+class ContextMenu {
+    
+abstract void clearHeader();
+//Clears the header of the context menu.
+
+abstract ContextMenu setHeaderIcon(@Sink(DISPLAY) Drawable icon);
+//Sets the context menu header's icon to the icon given in icon Drawable.
+
+abstract ContextMenu setHeaderIcon(int iconRes);
+//Sets the context menu header's icon to the icon given in iconRes resource id.
+
+abstract ContextMenu setHeaderTitle(@Sink(DISPLAY) CharSequence title);
+//Sets the context menu header's title to the title given in title.
+
+abstract ContextMenu setHeaderTitle(int titleRes);
+//Sets the context menu header's title to the title given in titleRes resource identifier.
+
+abstract ContextMenu setHeaderView(@Sink(DISPLAY) View view);
+//Sets the header of the context menu to the View given in view.
+
+
+
 }
 
 class ContextThemeWrapper {
@@ -49,24 +120,97 @@ Object getSystemService(String name);
 
 }
 
-class Display{
-            int getPixelFormat();
-            int getWidth();
-            int getHeight();
-             void getSize(Point outSize);
+class Display {
+    
+    
+void getCurrentSizeRange(Point outSmallestSize, Point outLargestSize);
+//Return the range of display sizes an application can expect to encounter under normal operation, as long as there is no physical change in screen size.
+
+int getDisplayId();
+//Gets the display id.
+
+int getFlags();
+//Returns a combination of flags that describe the capabilities of the display.
+
+int getHeight();
+//This method was deprecated in API level 13. Use getSize(Point); instead.
+
+void getMetrics(DisplayMetrics outMetrics);
+//Gets display metrics that describe the size and density of this display.
+
+String getName();
+//Gets the name of the display.
+
+int getOrientation();
+//This method was deprecated in API level 8. use getRotation();
+
+int getPixelFormat();
+//This method was deprecated in API level 17. This method is no longer supported. The result is always RGBA_8888.
+
+void getRealMetrics(DisplayMetrics outMetrics);
+//Gets display metrics based on the real size of this display.
+
+void getRealSize(Point outSize);
+//Gets the real size of the display without subtracting any window decor or applying any compatibility scale factors.
+
+void getRectSize(Rect outSize);
+//Gets the size of the display as a rectangle, in pixels.
+
+float getRefreshRate();
+//Gets the refresh rate of this display in frames per second.
+
+int getRotation();
+//Returns the rotation of the screen from its "natural" orientation.
+
+void getSize(Point outSize);
+//Gets the size of the display, in pixels.
+
+int getWidth();
+//This method was deprecated in API level 13. Use getSize(Point); instead.
+
+boolean isValid();
+//Returns true if this display is still valid, false if the display has been removed.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+
+
+    
 }
 
-class FocusFinder{
-            static FocusFinder getInstance();
-            View findNextFocus(ViewGroup root, View focused, int direction);
+class FocusFinder {
+    
+View findNearestTouchable(ViewGroup root, int x, int y, int direction, int[] deltas);
+//Find the nearest touchable view to the specified view.
+
+final View findNextFocus(ViewGroup root, View focused, int direction);
+//Find the next view to take focus in root's descendants, starting from the view that currently is focused.
+
+View findNextFocusFromRect(ViewGroup root, Rect focusedRect, int direction);
+//Find the next view to take focus in root's descendants, searching from a particular rectangle in root's coordinates.
+
+static FocusFinder getInstance();
+//Get the focus finder for this thread.
+
+
+
 }
 
-class GestureDetector{
-            void setOnDoubleTapListener(OnDoubleTapListener onDoubleTapListener);
-            boolean onTouchEvent(@Source(USER_INPUT) MotionEvent ev);
-            boolean isLongpressEnabled();
-            GestureDetector(Context context, OnGestureListener listener, Handler handler);
-            void setIsLongpressEnabled(boolean isLongpressEnabled);
+class GestureDetector {
+
+boolean isLongpressEnabled();
+
+boolean onTouchEvent(MotionEvent ev);
+//Analyzes the given motion event and if applicable triggers the appropriate callbacks on the GestureDetector.OnGestureListener supplied.
+
+void setIsLongpressEnabled(boolean isLongpressEnabled);
+//Set whether longpress is enabled, if this is enabled when a user presses and holds down you get a longpress event and nothing further.
+
+void setOnDoubleTapListener(GestureDetector.OnDoubleTapListener onDoubleTapListener);
+//Sets the listener which will be called for double-tap and related gestures.
+
+    
 }
 
 class GestureDetector$OnDoubleTapListener{
@@ -83,13 +227,176 @@ class GestureDetector$OnGestureListener{
         boolean onDown(@Source(USER_INPUT) MotionEvent arg0);
 }
 
-class KeyEvent{
-            static boolean metaStateHasNoModifiers(int metaState);
-            int getRepeatCount();
-            static boolean metaStateHasModifiers(int metaState, int modifiers);
-            int getMetaState();
-            int getAction();
-            static int normalizeMetaState(int metaState);
+class KeyEvent {
+static KeyEvent changeAction(KeyEvent event, int action);
+//Create a new key event that is the same as the given one, but whose action is replaced with the given value.
+
+static KeyEvent changeFlags(KeyEvent event, int flags);
+//Create a new key event that is the same as the given one, but whose flags are replaced with the given value.
+
+static KeyEvent changeTimeRepeat(KeyEvent event, long eventTime, int newRepeat);
+//Create a new key event that is the same as the given one, but whose event time and repeat count are replaced with the given value.
+
+static KeyEvent changeTimeRepeat(KeyEvent event, long eventTime, int newRepeat, int newFlags);
+//Create a new key event that is the same as the given one, but whose event time and repeat count are replaced with the given value.
+
+final boolean dispatch(KeyEvent.Callback receiver, KeyEvent.DispatcherState state, Object target);
+//Deliver this key event to a KeyEvent.Callback interface.
+
+final boolean dispatch(KeyEvent.Callback receiver);
+//This method was deprecated in API level 5. Use dispatch(Callback, DispatcherState, Object); instead.
+
+final int getAction();
+//Retrieve the action of this key event.
+
+final String getCharacters();
+//For the special case of a ACTION_MULTIPLE event with key code of KEYCODE_UNKNOWN, this is a raw string of characters associated with the event.
+
+static int getDeadChar(int accent, int c);
+//Get the character that is produced by putting accent on the character c.
+
+final int getDeviceId();
+//Gets the id for the device that this event came from.
+
+char getDisplayLabel();
+//Gets the primary character for this key.
+
+final long getDownTime();
+//Retrieve the time of the most recent key down event, in the uptimeMillis(); time base.
+
+final long getEventTime();
+//Retrieve the time this event occurred, in the uptimeMillis(); time base.
+
+final int getFlags();
+//Returns the flags for this key event.
+
+final KeyCharacterMap getKeyCharacterMap();
+//Gets the KeyCharacterMap associated with the keyboard device.
+
+final int getKeyCode();
+//Retrieve the key code of the key event.
+
+boolean getKeyData(KeyCharacterMap.KeyData results);
+//This method was deprecated in API level 11. instead use getDisplayLabel();, getNumber(); or getUnicodeChar(int);.
+
+char getMatch(char[] chars);
+//Gets the first character in the character array that can be generated by the specified key code.
+
+char getMatch(char[] chars, int metaState);
+//Gets the first character in the character array that can be generated by the specified key code.
+
+static int getMaxKeyCode();
+//Returns the maximum keycode.
+
+final int getMetaState();
+//Returns the state of the meta keys.
+
+static int getModifierMetaStateMask();
+//Gets a mask that includes all valid modifier key meta state bits.
+
+final int getModifiers();
+//Returns the state of the modifier keys.
+
+char getNumber();
+//Gets the number or symbol associated with the key.
+
+final int getRepeatCount();
+//Retrieve the repeat count of the event.
+
+final int getScanCode();
+//Retrieve the hardware key id of this key event. These values are not reliable and vary from device to device.
+
+final int getSource();
+//Gets the source of the event.
+
+int getUnicodeChar();
+//Gets the Unicode character generated by the specified key and meta key state combination.
+
+int getUnicodeChar(int metaState);
+//Gets the Unicode character generated by the specified key and meta key state combination.
+
+final boolean hasModifiers(int modifiers);
+//Returns true if only the specified modifiers keys are pressed.
+
+final boolean hasNoModifiers();
+//Returns true if no modifier keys are pressed.
+
+final boolean isAltPressed();
+//Returns the pressed state of the ALT meta key.
+
+final boolean isCanceled();
+//For ACTION_UP events, indicates that the event has been canceled as per FLAG_CANCELED.
+
+final boolean isCapsLockOn();
+//Returns the locked state of the CAPS LOCK meta key.
+
+final boolean isCtrlPressed();
+//Returns the pressed state of the CTRL meta key.
+
+final boolean isFunctionPressed();
+//Returns the pressed state of the FUNCTION meta key.
+
+final static boolean isGamepadButton(int keyCode);
+//Returns true if the specified keycode is a gamepad button.
+
+final boolean isLongPress();
+//For ACTION_DOWN events, indicates that the event has been canceled as per FLAG_LONG_PRESS.
+
+final boolean isMetaPressed();
+//Returns the pressed state of the META meta key.
+
+static boolean isModifierKey(int keyCode);
+//Returns true if this key code is a modifier key.
+
+final boolean isNumLockOn();
+//Returns the locked state of the NUM LOCK meta key.
+
+boolean isPrintingKey();
+//Returns true if this key produces a glyph.
+
+final boolean isScrollLockOn();
+//Returns the locked state of the SCROLL LOCK meta key.
+
+final boolean isShiftPressed();
+//Returns the pressed state of the SHIFT meta key.
+
+final boolean isSymPressed();
+//Returns the pressed state of the SYM meta key.
+
+final boolean isSystem();
+//Is this a system key? System keys can not be used for menu shortcuts.
+
+final boolean isTracking();
+//For ACTION_UP events, indicates that the event is still being tracked from its initial down event as per FLAG_TRACKING.
+
+static int keyCodeFromString(String symbolicName);
+//Gets a keycode by its symbolic name such as "KEYCODE_A" or an equivalent numeric constant such as "1001".
+
+static String keyCodeToString(int keyCode);
+//Returns a string that represents the symbolic name of the specified keycode such as "KEYCODE_A", "KEYCODE_DPAD_UP", or an equivalent numeric constant such as "1001" if unknown.
+
+static boolean metaStateHasModifiers(int metaState, int modifiers);
+//Returns true if only the specified modifier keys are pressed according to the specified meta state.
+
+static boolean metaStateHasNoModifiers(int metaState);
+//Returns true if no modifiers keys are pressed according to the specified meta state.
+
+static int normalizeMetaState(int metaState);
+//Normalizes the specified meta state.
+
+final void setSource(int source);
+//Modifies the source of the event.
+
+final void startTracking();
+//Call this during onKeyDown(int, KeyEvent); to have the system track the key through its final up (possibly including a long press);.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel out, int flags);
+//Flatten this object in to a Parcel.
+
+    
 }
 
 class KeyEvent$Callback{
@@ -101,7 +408,6 @@ class LayoutInflater$Factory{
 }
 
 class LayoutInflater {
-
 
 abstract LayoutInflater cloneInContext(Context newContext);
 //Create a copy of the existing LayoutInflater object, with the copy pointing to a different Context than the original.
@@ -118,10 +424,11 @@ Context getContext();
 final LayoutInflater.Factory getFactory();
 //Return the current LayoutInflater.Factory (or null);.
 
-//final LayoutInflater.Factory2 getFactory2();
+final LayoutInflater.Factory2 getFactory2();
 //Return the current LayoutInflater.Factory2.
 
-//LayoutInflater.Filter getFilter();
+LayoutInflater.Filter getFilter();
+
 View inflate(int resource, ViewGroup root);
 //Inflate a new view hierarchy from the specified xml resource.
 
@@ -140,21 +447,19 @@ void setFactory(LayoutInflater.Factory factory);
 void setFactory2(LayoutInflater.Factory2 factory);
 //Like setFactory(LayoutInflater.Factory);, but allows you to set a LayoutInflater.Factory2 interface.
 
-//void setFilter(LayoutInflater.Filter filter);
+void setFilter(LayoutInflater.Filter filter);
 //Sets the LayoutInflater.Filter to by this LayoutInflater.
 
 //Protected Methods
-//View onCreateView(String name, AttributeSet attrs);
+View onCreateView(String name, AttributeSet attrs);
 //This routine is responsible for creating the correct subclass of View given the xml element name.
 
-//View onCreateView(View parent, String name, AttributeSet attrs);
+View onCreateView(View parent, String name, AttributeSet attrs);
 //Version of onCreateView(String, AttributeSet); that also takes the future parent of the view being constructure.
 
 }
 
 class Menu {
-
-            int addIntentOptions(int arg0, int arg1, int arg2, ComponentName arg3, Intent[] arg4, Intent arg5, int arg6, MenuItem[] arg7);
 
 abstract MenuItem add(@Sink(DISPLAY) CharSequence title);
 //Add a new item to the menu.
@@ -168,100 +473,102 @@ abstract MenuItem add(int titleRes);
 abstract MenuItem add(int groupId, int itemId, int order, @Sink(DISPLAY) CharSequence title);
 //Add a new item to the menu.
 
-//abstract int addIntentOptions(int groupId, int itemId, int order, ComponentName caller, Intent[] specifics, Intent intent, int flags, MenuItem[] outSpecificItems);
+abstract int addIntentOptions(int groupId, int itemId, int order, ComponentName caller, Intent[] specifics, Intent intent, int flags, MenuItem[] outSpecificItems);
 //Add a group of menu items corresponding to actions that can be performed for a particular Intent.
 
-//abstract SubMenu addSubMenu(int groupId, int itemId, int order, CharSequence title);
+abstract SubMenu addSubMenu(int groupId, int itemId, int order, @Sink(DISPLAY) CharSequence title);
 //Add a new sub-menu to the menu.
 
-//abstract SubMenu addSubMenu(int groupId, int itemId, int order, int titleRes);
+abstract SubMenu addSubMenu(int groupId, int itemId, int order, int titleRes);
 //Variation on addSubMenu(int, int, int, CharSequence); that takes a string resource identifier for the title instead of the string itself.
 
-//abstract SubMenu addSubMenu(CharSequence title);
+abstract SubMenu addSubMenu(@Sink(DISPLAY) CharSequence title);
 //Add a new sub-menu to the menu.
 
-//abstract SubMenu addSubMenu(int titleRes);
+abstract SubMenu addSubMenu(int titleRes);
 //Add a new sub-menu to the menu.
 
 abstract void clear();
 //Remove all existing items from the menu, leaving it empty as if it had just been created.
 
-//abstract void close();
+abstract void close();
 //Closes the menu, if open.
 
 abstract MenuItem findItem(int id);
 //Return the menu item with a particular identifier.
 
-//abstract MenuItem getItem(int index);
+abstract MenuItem getItem(int index);
 //Gets the menu item at the given index.
 
 abstract boolean hasVisibleItems();
 //Return whether the menu currently has item items that are visible.
 
-//abstract boolean isShortcutKey(int keyCode, KeyEvent event);
+abstract boolean isShortcutKey(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Is a keypress one of the defined shortcut keys for this window.
 
-//abstract boolean performIdentifierAction(int id, int flags);
+abstract boolean performIdentifierAction(int id, int flags);
 //Execute the menu item action associated with the given menu identifier.
 
-//abstract boolean performShortcut(int keyCode, KeyEvent event, int flags);
+abstract boolean performShortcut(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event, int flags);
 //Execute the menu item action associated with the given shortcut character.
 
-//abstract void removeGroup(int groupId);
+abstract void removeGroup(int groupId);
 //Remove all items in the given group.
 
-//abstract void removeItem(int id);
+abstract void removeItem(int id);
 //Remove the item with the given identifier.
 
-//abstract void setGroupCheckable(int group, boolean checkable, boolean exclusive);
+abstract void setGroupCheckable(int group, boolean checkable, boolean exclusive);
 //Control whether a particular group of items can show a check mark.
 
-//abstract void setGroupEnabled(int group, boolean enabled);
+abstract void setGroupEnabled(int group, boolean enabled);
 //Enable or disable all menu items that are in the given group.
 
 abstract void setGroupVisible(int group, boolean visible);
 //Show or hide all menu items that are in the given group.
 
-//abstract void setQwertyMode(boolean isQwerty);
+abstract void setQwertyMode(boolean isQwerty);
 //Control whether the menu should be running in qwerty mode (alphabetic shortcuts); or 12-key mode (numeric shortcuts);.
 
-//abstract int size();
+abstract int size();
 //Get the number of items in the menu.
 
 }
 
 
-class MenuInflater{
+class MenuInflater {
+    
+void inflate(int menuRes, Menu menu);
+//Inflate a menu hierarchy from the specified XML resource.
 
-//Add by SOM, once we have the new defaulting, then these annotations can be removed.
-void inflate (@Sink(FlowPermission.CONDITIONAL) int menuRes, @Sink(FlowPermission.CONDITIONAL) Menu menu);
+
 
 }
 
 class MenuItem {
 
-//abstract boolean collapseActionView();
+abstract boolean collapseActionView();
 //Collapse the action view associated with this menu item.
 
-//abstract boolean expandActionView();
+abstract boolean expandActionView();
 //Expand the action view associated with this menu item.
 
 abstract ActionProvider getActionProvider();
 //Gets the ActionProvider.
 
-//abstract View getActionView();
+abstract View getActionView();
 //Returns the currently set action view for this menu item.
 
-//abstract char getAlphabeticShortcut();
+abstract char getAlphabeticShortcut();
 //Return the char for this menu item's alphabetic shortcut.
 
-//abstract int getGroupId();
+abstract int getGroupId();
 //Return the group identifier that this menu item is part of.
 
-//abstract Drawable getIcon();
+abstract Drawable getIcon();
 //Returns the icon for this item as a Drawable (getting it from resources if it hasn't been loaded before);.
 
-//abstract Intent getIntent();
+abstract Intent getIntent();
 //Return the Intent associated with this item.
 
 abstract int getItemId();
@@ -270,19 +577,19 @@ abstract int getItemId();
 abstract ContextMenu.ContextMenuInfo getMenuInfo();
 //Gets the extra information linked to this menu item.
 
-//abstract char getNumericShortcut();
+abstract char getNumericShortcut();
 //Return the char for this menu item's numeric (12-key); shortcut.
 
-//abstract int getOrder();
+abstract int getOrder();
 //Return the category and order within the category of this item.
 
-//abstract SubMenu getSubMenu();
+abstract SubMenu getSubMenu();
 //Get the sub-menu to be invoked when this item is selected, if it has one.
 
-//abstract CharSequence getTitle();
+abstract CharSequence getTitle();
 //Retrieve the current title of the item.
 
-//abstract CharSequence getTitleCondensed();
+abstract CharSequence getTitleCondensed();
 //Retrieve the current condensed title of the item.
 
 abstract boolean hasSubMenu();
@@ -297,10 +604,10 @@ abstract boolean isCheckable();
 abstract boolean isChecked();
 //Return whether the item is currently displaying a check mark.
 
-//abstract boolean isEnabled();
+abstract boolean isEnabled();
 //Return the enabled state of the menu item.
 
-//abstract boolean isVisible();
+abstract boolean isVisible();
 //Return the visibility of the menu item.
 
 abstract MenuItem setActionProvider(ActionProvider actionProvider);
@@ -312,20 +619,20 @@ abstract MenuItem setActionView(int resId);
 abstract MenuItem setActionView(View view);
 //Set an action view for this menu item.
 
-//abstract MenuItem setAlphabeticShortcut(char alphaChar);
+abstract MenuItem setAlphabeticShortcut(char alphaChar);
 //Change the alphabetic shortcut associated with this item.
 
-//abstract MenuItem setCheckable(boolean checkable);
+abstract MenuItem setCheckable(boolean checkable);
 //Control whether this item can display a check mark.
 
-abstract MenuItem setChecked(@Sink(FlowPermission.DISPLAY) boolean checked);
+abstract MenuItem setChecked(@Sink(DISPLAY) boolean checked);
 //Control whether this item is shown with a check mark.
 
-abstract MenuItem setEnabled(@Sink(FlowPermission.DISPLAY) boolean enabled);
+abstract MenuItem setEnabled(@Sink(DISPLAY) boolean enabled);
 //Sets whether the menu item is enabled.
 // setting to false greys out the View
 
-abstract MenuItem setIcon(@Sink(FlowPermission.DISPLAY) Drawable icon);
+abstract MenuItem setIcon(@Sink(DISPLAY) Drawable icon);
 //Change the icon associated with this item.
 
 abstract MenuItem setIcon(int iconRes);
@@ -334,10 +641,10 @@ abstract MenuItem setIcon(int iconRes);
 abstract MenuItem setIntent(Intent intent);
 //Change the Intent associated with this item.
 
-//abstract MenuItem setNumericShortcut(char numericChar);
+abstract MenuItem setNumericShortcut(char numericChar);
 //Change the numeric shortcut associated with this item.
 
-//abstract MenuItem setOnActionExpandListener(MenuItem.OnActionExpandListener listener);
+abstract MenuItem setOnActionExpandListener(MenuItem.OnActionExpandListener listener);
 //Set an MenuItem.OnActionExpandListener on this menu item to be notified when the associated action view is expanded or collapsed.
 
 abstract MenuItem setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener menuItemClickListener);
@@ -349,40 +656,36 @@ abstract MenuItem setShortcut(char numericChar, char alphaChar);
 abstract void setShowAsAction(int actionEnum);
 //Sets how this item should display in the presence of an Action Bar.
 
-//abstract MenuItem setShowAsActionFlags(int actionEnum);
+abstract MenuItem setShowAsActionFlags(int actionEnum);
 //Sets how this item should display in the presence of an Action Bar.
 
-abstract MenuItem setTitle(@Sink(FlowPermission.DISPLAY) CharSequence title);
+abstract MenuItem setTitle(@Sink(DISPLAY) CharSequence title);
 //Change the title associated with this item.
 
 abstract MenuItem setTitle(int title);
 //Change the title associated with this item.
 
-//abstract MenuItem setTitleCondensed(CharSequence title);
+abstract MenuItem setTitleCondensed(@Sink(DISPLAY) CharSequence title);
 //Change the condensed title associated with this item.
 
-abstract MenuItem setVisible(@Sink(FlowPermission.DISPLAY) boolean visible);
+abstract MenuItem setVisible(@Sink(DISPLAY) boolean visible);
 //Sets the visibility of the menu item.
 
 }
 
 class MotionEvent {
-
- int getEdgeFlags();
- long getDownTime();
-     static MotionEvent obtain(MotionEvent other);
-    static MotionEvent obtain(long downTime, long eventTime, int action, float x, float y, int metaState);
-            
-//final void addBatch(long eventTime, PointerCoords[] pointerCoords, int metaState);
+    //CSH: all these methods have to do with a user touching the screen, but so far we've decided that touches don't count as USER_INPUT
+    
+final void addBatch(long eventTime, PointerCoords[] pointerCoords, int metaState);
 //Add a new movement to the batch of movements in this event.
 
-//final void addBatch(long eventTime, float x, float y, float pressure, float size, int metaState);
+final void addBatch(long eventTime, float x, float y, float pressure, float size, int metaState);
 //Add a new movement to the batch of movements in this event.
 
-//static int axisFromString(String symbolicName);
+static int axisFromString(String symbolicName);
 //Gets an axis by its symbolic name such as "AXIS_X" or an equivalent numeric constant such as "42".
 
-//static String axisToString(int axis);
+static String axisToString(int axis);
 //Returns a string that represents the symbolic name of the specified axis such as "AXIS_X" or an equivalent numeric constant such as "42" if unknown.
 
 final int findPointerIndex(int pointerId);
@@ -391,115 +694,115 @@ final int findPointerIndex(int pointerId);
 final int getAction();
 //Return the kind of action being performed.
 
-//final int getActionIndex();
+final int getActionIndex();
 //For ACTION_POINTER_DOWN or ACTION_POINTER_UP as returned by getActionMasked();, this returns the associated pointer index.
 
-//final int getActionMasked();
+final int getActionMasked();
 //Return the masked action being performed, without pointer index information.
 
-//final float getAxisValue(int axis);
+final float getAxisValue(int axis);
 //getAxisValue(int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getAxisValue(int axis, int pointerIndex);
+final float getAxisValue(int axis, int pointerIndex);
 //Returns the value of the requested axis for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
 
-//final int getButtonState();
+final int getButtonState();
 //Gets the state of all buttons that are pressed such as a mouse or stylus button.
 
-//final int getDeviceId();
+final int getDeviceId();
 //Gets the id for the device that this event came from.
 
-//final long getDownTime();
+final long getDownTime();
 //Returns the time (in ms); when the user originally pressed down to start a stream of position events.
 
-//final int getEdgeFlags();
+final int getEdgeFlags();
 //Returns a bitfield indicating which edges, if any, were touched by this MotionEvent.
 
 final @Source(FlowPermission.READ_TIME) long getEventTime();
 //Retrieve the time this event occurred, in the uptimeMillis(); time base.
 
-//final int getFlags();
+final int getFlags();
 //Gets the motion event flags.
 
-//final float getHistoricalAxisValue(int axis, int pointerIndex, int pos);
+final float getHistoricalAxisValue(int axis, int pointerIndex, int pos);
 //Returns the historical value of the requested axis, as per getAxisValue(int, int);, occurred between this event and the previous event for the given pointer.
 
-//final float getHistoricalAxisValue(int axis, int pos);
+final float getHistoricalAxisValue(int axis, int pos);
 //getHistoricalAxisValue(int, int, int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final long getHistoricalEventTime(int pos);
+final long getHistoricalEventTime(int pos);
 //Returns the time that a historical movement occurred between this event and the previous event, in the uptimeMillis(); time base.
 
-//final float getHistoricalOrientation(int pointerIndex, int pos);
+final float getHistoricalOrientation(int pointerIndex, int pos);
 //Returns a historical orientation coordinate, as per getOrientation(int);, that occurred between this event and the previous event for the given pointer.
 
-//final float getHistoricalOrientation(int pos);
+final float getHistoricalOrientation(int pos);
 //getHistoricalOrientation(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final void getHistoricalPointerCoords(int pointerIndex, int pos, MotionEvent.PointerCoords outPointerCoords);
+final void getHistoricalPointerCoords(int pointerIndex, int pos, MotionEvent.PointerCoords outPointerCoords);
 //Populates a MotionEvent.PointerCoords object with historical pointer coordinate data, as per getPointerCoords(int, MotionEvent.PointerCoords);, that occurred between this event and the previous event for the given pointer.
 
-//final float getHistoricalPressure(int pos);
+final float getHistoricalPressure(int pos);
 //getHistoricalPressure(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getHistoricalPressure(int pointerIndex, int pos);
+final float getHistoricalPressure(int pointerIndex, int pos);
 //Returns a historical pressure coordinate, as per getPressure(int);, that occurred between this event and the previous event for the given pointer.
 
-//final float getHistoricalSize(int pos);
+final float getHistoricalSize(int pos);
 //getHistoricalSize(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getHistoricalSize(int pointerIndex, int pos);
+final float getHistoricalSize(int pointerIndex, int pos);
 //Returns a historical size coordinate, as per getSize(int);, that occurred between this event and the previous event for the given pointer.
 
-//final float getHistoricalToolMajor(int pointerIndex, int pos);
+final float getHistoricalToolMajor(int pointerIndex, int pos);
 //Returns a historical tool major axis coordinate, as per getToolMajor(int);, that occurred between this event and the previous event for the given pointer.
 
-//final float getHistoricalToolMajor(int pos);
+final float getHistoricalToolMajor(int pos);
 //getHistoricalToolMajor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getHistoricalToolMinor(int pointerIndex, int pos);
+final float getHistoricalToolMinor(int pointerIndex, int pos);
 //Returns a historical tool minor axis coordinate, as per getToolMinor(int);, that occurred between this event and the previous event for the given pointer.
 
-//final float getHistoricalToolMinor(int pos);
+final float getHistoricalToolMinor(int pos);
 //getHistoricalToolMinor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getHistoricalTouchMajor(int pointerIndex, int pos);
+final float getHistoricalTouchMajor(int pointerIndex, int pos);
 //Returns a historical touch major axis coordinate, as per getTouchMajor(int);, that occurred between this event and the previous event for the given pointer.
 
-//final float getHistoricalTouchMajor(int pos);
+final float getHistoricalTouchMajor(int pos);
 //getHistoricalTouchMajor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getHistoricalTouchMinor(int pointerIndex, int pos);
+final float getHistoricalTouchMinor(int pointerIndex, int pos);
 //Returns a historical touch minor axis coordinate, as per getTouchMinor(int);, that occurred between this event and the previous event for the given pointer.
 
-//final float getHistoricalTouchMinor(int pos);
+final float getHistoricalTouchMinor(int pos);
 //getHistoricalTouchMinor(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getHistoricalX(int pos);
+final float getHistoricalX(int pos);
 //getHistoricalX(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getHistoricalX(int pointerIndex, int pos);
+final float getHistoricalX(int pointerIndex, int pos);
 //Returns a historical X coordinate, as per getX(int);, that occurred between this event and the previous event for the given pointer.
 
-//final float getHistoricalY(int pos);
+final float getHistoricalY(int pos);
 //getHistoricalY(int, int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getHistoricalY(int pointerIndex, int pos);
+final float getHistoricalY(int pointerIndex, int pos);
 //Returns a historical Y coordinate, as per getY(int);, that occurred between this event and the previous event for the given pointer.
 
-//final int getHistorySize();
+final int getHistorySize();
 //Returns the number of historical points in this event.
 
-//final int getMetaState();
+final int getMetaState();
 //Returns the state of any meta / modifier keys that were in effect when the event was generated.
 
-//final float getOrientation(int pointerIndex);
+final float getOrientation(int pointerIndex);
 //Returns the orientation of the touch area and tool area in radians clockwise from vertical for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
 
-//final float getOrientation();
+final float getOrientation();
 //getOrientation(int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final void getPointerCoords(int pointerIndex, MotionEvent.PointerCoords outPointerCoords);
+final void getPointerCoords(int pointerIndex, MotionEvent.PointerCoords outPointerCoords);
 //Populates a MotionEvent.PointerCoords object with pointer coordinate data for the specified pointer index.
 
 final int getPointerCount();
@@ -508,55 +811,55 @@ final int getPointerCount();
 final int getPointerId(int pointerIndex);
 //Return the pointer identifier associated with a particular pointer data index is this event.
 
-//final void getPointerProperties(int pointerIndex, MotionEvent.PointerProperties outPointerProperties);
+final void getPointerProperties(int pointerIndex, MotionEvent.PointerProperties outPointerProperties);
 //Populates a MotionEvent.PointerProperties object with pointer properties for the specified pointer index.
 
-//final float getPressure();
+final float getPressure();
 //getPressure(int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getPressure(int pointerIndex);
+final float getPressure(int pointerIndex);
 //Returns the current pressure of this event for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
 
-//final float getRawX();
+final float getRawX();
 //Returns the original raw X coordinate of this event.
 
-//final float getRawY();
+final float getRawY();
 //Returns the original raw Y coordinate of this event.
 
-//final float getSize(int pointerIndex);
+final float getSize(int pointerIndex);
 //Returns a scaled value of the approximate size for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
 
-//final float getSize();
+final float getSize();
 //getSize(int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final int getSource();
+final int getSource();
 //Gets the source of the event.
 
-//final float getToolMajor(int pointerIndex);
+final float getToolMajor(int pointerIndex);
 //Returns the length of the major axis of an ellipse that describes the size of the approaching tool for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
 
-//final float getToolMajor();
+final float getToolMajor();
 //getToolMajor(int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getToolMinor();
+final float getToolMinor();
 //getToolMinor(int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getToolMinor(int pointerIndex);
+final float getToolMinor(int pointerIndex);
 //Returns the length of the minor axis of an ellipse that describes the size of the approaching tool for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
 
-//final int getToolType(int pointerIndex);
+final int getToolType(int pointerIndex);
 //Gets the tool type of a pointer for the given pointer index.
 
-//final float getTouchMajor();
+final float getTouchMajor();
 //getTouchMajor(int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getTouchMajor(int pointerIndex);
+final float getTouchMajor(int pointerIndex);
 //Returns the length of the major axis of an ellipse that describes the touch area at the point of contact for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
 
-//final float getTouchMinor();
+final float getTouchMinor();
 //getTouchMinor(int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getTouchMinor(int pointerIndex);
+final float getTouchMinor(int pointerIndex);
 //Returns the length of the minor axis of an ellipse that describes the touch area at the point of contact for the given pointer index (use getPointerId(int); to find the pointer identifier for this index);.
 
 final float getX(int pointerIndex);
@@ -565,7 +868,7 @@ final float getX(int pointerIndex);
 final float getX();
 //getX(int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getXPrecision();
+final float getXPrecision();
 //Return the precision of the X coordinates being reported.
 
 final float getY(int pointerIndex);
@@ -574,59 +877,60 @@ final float getY(int pointerIndex);
 final float getY();
 //getY(int); for the first pointer index (may be an arbitrary pointer identifier);.
 
-//final float getYPrecision();
+final float getYPrecision();
 //Return the precision of the Y coordinates being reported.
 
-//static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, PointerProperties[] pointerProperties, PointerCoords[] pointerCoords, int metaState, int buttonState, float xPrecision, float yPrecision, int deviceId, int edgeFlags, int source, int flags);
+static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, PointerProperties[] pointerProperties, PointerCoords[] pointerCoords, int metaState, int buttonState, float xPrecision, float yPrecision, int deviceId, int edgeFlags, int source, int flags);
 //Create a new MotionEvent, filling in all of the basic values that define the motion.
 
-//static MotionEvent obtain(long downTime, long eventTime, int action, float x, float y, float pressure, float size, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags);
+static MotionEvent obtain(long downTime, long eventTime, int action, float x, float y, float pressure, float size, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags);
 //Create a new MotionEvent, filling in all of the basic values that define the motion.
 
-//static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, float x, float y, float pressure, float size, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags);
+static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, float x, float y, float pressure, float size, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags);
 //This method was deprecated in API level 9. Use obtain(long, long, int, float, float, float, float, int, float, float, int, int); instead.
 
-//static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, int[] pointerIds, PointerCoords[] pointerCoords, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags, int source, int flags);
+static MotionEvent obtain(long downTime, long eventTime, int action, int pointerCount, int[] pointerIds, PointerCoords[] pointerCoords, int metaState, float xPrecision, float yPrecision, int deviceId, int edgeFlags, int source, int flags);
 //This method was deprecated in API level 14. Use obtain(long, long, int, int, PointerProperties[], PointerCoords[], int, int, float, float, int, int, int, int); instead.
 
-//static MotionEvent obtain(MotionEvent other);
+static MotionEvent obtain(MotionEvent other);
 //Create a new MotionEvent, copying from an existing one.
 
-//static MotionEvent obtain(long downTime, long eventTime, int action, float x, float y, int metaState);
+static MotionEvent obtain(long downTime, long eventTime, int action, float x, float y, int metaState);
 //Create a new MotionEvent, filling in a subset of the basic motion values.
 
-//static MotionEvent obtainNoHistory(MotionEvent other);
+static MotionEvent obtainNoHistory(MotionEvent other);
 //Create a new MotionEvent, copying from an existing one, but not including any historical point information.
 
-//final void offsetLocation(float deltaX, float deltaY);
+final void offsetLocation(float deltaX, float deltaY);
 //Adjust this event's location.
 
 final void recycle();
 //Recycle the MotionEvent, to be re-used by a later caller.
 
-//final void setAction(int action);
+final void setAction(int action);
 //Sets this event's action.
 
-//final void setEdgeFlags(int flags);
+final void setEdgeFlags(int flags);
 //Sets the bitfield indicating which edges, if any, were touched by this MotionEvent.
 
 final void setLocation(float x, float y);
 //Set this event's location.
 
-//final void setSource(int source);
+final void setSource(int source);
 //Modifies the source of the event.
 
-//String toString();
+String toString();
 //Returns a string containing a concise, human-readable description of this object.
 
-//final void transform(Matrix matrix);
+final void transform(Matrix matrix);
 //Applies a transformation matrix to all of the points in the event.
 
-//void writeToParcel(Parcel out, int flags);
+void writeToParcel(Parcel out, int flags);
 //Flatten this object in to a Parcel.
 
 //Protected Methods
-//void finalize()
+
+void finalize();
 //Invoked when the garbage collector has detected that this instance is no longer reachable.
 
 }
@@ -636,13 +940,56 @@ class SurfaceView{
  @Sink(FlowPermission.DISPLAY) SurfaceHolder getHolder ();
 }        
      
-class SoundEffectConstants{
-    static int getContantForFocusDirection(int direction);
+class SoundEffectConstants {
+    
+static int getContantForFocusDirection(int direction);
+//Get the sonification constant for the focus directions.
+
+
 }
-class SurfaceHolder{
-//Add by SOM, once we have the new defaulting, then these annotations can be removed.
-   void addCallback (@Sink(FlowPermission.CONDITIONAL) SurfaceHolder.Callback callback) @Sink(FlowPermission.DISPLAY);
-   void setType (@Sink(FlowPermission.CONDITIONAL)  int type) @Sink(FlowPermission.DISPLAY);
+class SurfaceHolder {
+    
+    
+abstract void addCallback(SurfaceHolder.Callback callback);
+//Add a Callback interface for this holder.
+
+abstract Surface getSurface();
+//Direct access to the surface object.
+
+abstract Rect getSurfaceFrame();
+//Retrieve the current size of the surface.
+
+abstract boolean isCreating();
+//Use this method to find out if the surface is in the process of being created from Callback methods.
+
+abstract Canvas lockCanvas(Rect dirty);
+//Just like lockCanvas(); but allows specification of a dirty rectangle.
+
+abstract Canvas lockCanvas();
+//Start editing the pixels in the surface.
+
+abstract void removeCallback(SurfaceHolder.Callback callback);
+//Removes a previously added Callback interface from this holder.
+
+abstract void setFixedSize(int width, int height);
+//Make the surface a fixed size.
+
+abstract void setFormat(int format);
+//Set the desired PixelFormat of the surface.
+
+abstract void setKeepScreenOn(boolean screenOn);
+//Enable or disable option to keep the screen turned on while this surface is displayed.
+
+abstract void setSizeFromLayout();
+//Allow the surface to resized based on layout of its container (this is the default);.
+
+abstract void setType(int type);
+//This method was deprecated in API level 11. this is ignored, this value is set automatically when needed.
+
+abstract void unlockCanvasAndPost(Canvas canvas);
+//Finish editing pixels in the surface.
+
+
 
 }
 
@@ -651,6 +998,51 @@ interface SurfaceHolder$Callback {
     void surfaceChanged(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0, int arg1, int arg2, int arg3);
     void surfaceDestroyed(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0);
 }
+
+class SurfaceView {
+    
+    
+void draw(Canvas canvas);
+//Manually render this view (and all of its children); to the given Canvas.
+
+boolean gatherTransparentRegion(Region region);
+//This is used by the RootView to perform an optimization when the view hierarchy contains one or several SurfaceView.
+
+SurfaceHolder getHolder();
+//Return the SurfaceHolder providing access and control over this SurfaceView's underlying surface.
+
+void setSecure(boolean isSecure);
+//Control whether the surface view's content should be treated as secure, preventing it from appearing in screenshots or from being viewed on non-secure displays.
+
+void setVisibility(int visibility);
+//Set the enabled state of this view.
+
+void setZOrderMediaOverlay(boolean isMediaOverlay);
+//Control whether the surface view's surface is placed on top of another regular surface view in the window (but still behind the window itself);.
+
+void setZOrderOnTop(boolean onTop);
+//Control whether the surface view's surface is placed on top of its window.
+
+//Protected Methods
+void dispatchDraw(Canvas canvas);
+//Called by draw to draw the child views.
+
+void onAttachedToWindow();
+//This is called when the view is attached to a window.
+
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+void onWindowVisibilityChanged(int visibility);
+//Called when the window containing has change its visibility (between GONE, INVISIBLE, and VISIBLE);.
+
+
+
+}
+
 
 class VelocityTracker {
 
@@ -1975,10 +2367,22 @@ class View$BaseSavedState{
         BaseSavedState(Parcelable superState);
         BaseSavedState(Parcel source);
 }
-class View$MeasureSpec{
-        static int makeMeasureSpec(int size, int mode);
-        static int getSize(int measureSpec);
-        static int getMode(int measureSpec);
+class View$MeasureSpec {
+    
+static int getMode(int measureSpec);
+//Extracts the mode from the supplied measure specification.
+
+static int getSize(int measureSpec);
+//Extracts the size from the supplied measure specification.
+
+static int makeMeasureSpec(int size, int mode);
+//Creates a measure specification based on the supplied size and mode.
+
+static String toString(int measureSpec);
+//Returns a String representation of the specified measure specification.
+
+
+
 }
 class View$AccessibilityDelegate{
         boolean onRequestSendAccessibilityEvent(ViewGroup host, View child, AccessibilityEvent event);
@@ -2005,88 +2409,87 @@ class View$OnTouchListener{
 }
 
 class ViewConfiguration {
-    int getScaledPagingTouchSlop();
-
     
 static ViewConfiguration get(Context context);
 //Returns a configuration for the specified context.
 
 static int getDoubleTapTimeout();
 
-//static int getEdgeSlop();
+static int getEdgeSlop();
 //This method was deprecated in API level 3. Use getScaledEdgeSlop(); instead.
 
-//static int getFadingEdgeLength();
+static int getFadingEdgeLength();
 //This method was deprecated in API level 3. Use getScaledFadingEdgeLength(); instead.
 
-//static long getGlobalActionKeyTimeout();
+static long getGlobalActionKeyTimeout();
 //The amount of time a user needs to press the relevant key to bring up the global actions dialog.
 
-//static int getJumpTapTimeout();
+static int getJumpTapTimeout();
 
-//static int getKeyRepeatDelay();
+static int getKeyRepeatDelay();
 
-//static int getKeyRepeatTimeout();
+static int getKeyRepeatTimeout();
 
 static int getLongPressTimeout();
 
-//static int getMaximumDrawingCacheSize();
+static int getMaximumDrawingCacheSize();
 //This method was deprecated in API level 3. Use getScaledMaximumDrawingCacheSize(); instead.
 
-//static int getMaximumFlingVelocity();
+static int getMaximumFlingVelocity();
 //This method was deprecated in API level 4. Use getScaledMaximumFlingVelocity(); instead.
 
-//static int getMinimumFlingVelocity();
+static int getMinimumFlingVelocity();
 //This method was deprecated in API level 3. Use getScaledMinimumFlingVelocity(); instead.
 
-//static int getPressedStateDuration();
+static int getPressedStateDuration();
 
 int getScaledDoubleTapSlop();
 
-//int getScaledEdgeSlop();
+int getScaledEdgeSlop();
 
-//int getScaledFadingEdgeLength();
+int getScaledFadingEdgeLength();
 
-//int getScaledMaximumDrawingCacheSize();
+int getScaledMaximumDrawingCacheSize();
 //The maximum drawing cache size expressed in bytes.
 
 int getScaledMaximumFlingVelocity();
 
 int getScaledMinimumFlingVelocity();
-//int getScaledOverflingDistance();
 
-//int getScaledOverscrollDistance();
+int getScaledOverflingDistance();
 
-//int getScaledPagingTouchSlop();
+int getScaledOverscrollDistance();
 
-//int getScaledScrollBarSize();
+int getScaledPagingTouchSlop();
+
+int getScaledScrollBarSize();
 
 int getScaledTouchSlop();
 
-//int getScaledWindowTouchSlop();
+int getScaledWindowTouchSlop();
 
-//static int getScrollBarFadeDuration();
+static int getScrollBarFadeDuration();
 
-//static int getScrollBarSize();
+static int getScrollBarSize();
 //This method was deprecated in API level 3. Use getScaledScrollBarSize(); instead.
 
-//static int getScrollDefaultDelay();
+static int getScrollDefaultDelay();
 
-//static float getScrollFriction();
+static float getScrollFriction();
 //The amount of friction applied to scrolls and flings.
 
 static int getTapTimeout();
 
-//static int getTouchSlop();
+static int getTouchSlop();
 //This method was deprecated in API level 3. Use getScaledTouchSlop(); instead.
 
-//static int getWindowTouchSlop();
+static int getWindowTouchSlop();
 //This method was deprecated in API level 3. Use getScaledWindowTouchSlop(); instead.
 
-//static long getZoomControlsTimeout();
+static long getZoomControlsTimeout();
 //The amount of time that the zoom controls should be displayed on the screen expressed in milliseconds.
 
-//boolean hasPermanentMenuKey();
+boolean hasPermanentMenuKey();
 //Report if the device has a permanent menu key available to the user.
 
     
@@ -2098,9 +2501,17 @@ class ViewGroup$MarginLayoutParams{
         MarginLayoutParams(MarginLayoutParams source);
         MarginLayoutParams(LayoutParams source);
 }
-class ViewGroup$LayoutParams{
-        LayoutParams(int width, int height);
-        LayoutParams(Context c, AttributeSet attrs);
+class ViewGroup$LayoutParams {
+    
+void resolveLayoutDirection(int layoutDirection);
+//Resolve layout parameters depending on the layout direction.
+
+//Protected Methods
+void setBaseAttributes(TypedArray a, int widthAttr, int heightAttr);
+//Extracts the layout parameters from the supplied attributes.
+
+
+
 }
 
 class ViewGroup {
@@ -2588,14 +2999,223 @@ abstract void requestLayout();
 //Start an action mode for the specified view.
 }
 
-class Window{
-    void clearFlags(int flags);
-    void addFlags(int flags);
-    View getDecorView();
-    LayoutParams getAttributes();
-    void onPanelClosed(int arg0, Menu arg1);
-    boolean onCreatePanelMenu(int arg0, Menu arg1);
-    boolean onPreparePanel(int arg0, View arg1, Menu arg2);
+class Window {
+    
+    
+abstract void addContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
+//Variation on setContentView(View, android.view.ViewGroup.LayoutParams); to add an additional content view to the screen.
+
+void addFlags(int flags);
+//Convenience function to set the flag bits as specified in flags, as per setFlags(int, int);.
+
+void clearFlags(int flags);
+//Convenience function to clear the flag bits as specified in flags, as per setFlags(int, int);.
+
+abstract void closeAllPanels();
+
+abstract void closePanel(int featureId);
+
+View findViewById(int id);
+//Finds a view that was identified by the id attribute from the XML that was processed in onCreate(Bundle);.
+
+final WindowManager.LayoutParams getAttributes();
+//Retrieve the current window attributes associated with this panel.
+
+final Window.Callback getCallback();
+//Return the current Callback interface for this window.
+
+final Window getContainer();
+//Return the container for this Window.
+
+final Context getContext();
+//Return the Context this window policy is running in, for retrieving resources and other information.
+
+abstract View getCurrentFocus();
+//Return the view in this Window that currently has focus, or null if there are none.
+
+abstract View getDecorView();
+//Retrieve the top-level window decor view (containing the standard window frame/decorations and the client's content inside of that);, which can be added as a window to the window manager.
+
+abstract LayoutInflater getLayoutInflater();
+//Quick access to the LayoutInflater instance that this Window retrieved from its Context.
+
+abstract int getVolumeControlStream();
+
+WindowManager getWindowManager();
+//Return the window manager allowing this Window to display its own windows.
+
+final TypedArray getWindowStyle();
+//Return the Window attributes from this window's theme.
+
+final boolean hasChildren();
+
+boolean hasFeature(int feature);
+//Query for the availability of a certain feature.
+
+abstract void invalidatePanelMenu(int featureId);
+
+final boolean isActive();
+
+abstract boolean isFloating();
+//Return whether this window is being displayed with a floating style (based on the windowIsFloating attribute in the style/theme);.
+
+abstract boolean isShortcutKey(int keyCode, KeyEvent event);
+//Is a keypress one of the defined shortcut keys for this window.
+
+final void makeActive();
+
+abstract void onConfigurationChanged(Configuration newConfig);
+//Should be called when the configuration is changed.
+
+abstract void openPanel(int featureId, KeyEvent event);
+
+abstract View peekDecorView();
+//Retrieve the current decor view, but only if it has already been created; otherwise returns null.
+
+abstract boolean performContextMenuIdentifierAction(int id, int flags);
+
+abstract boolean performPanelIdentifierAction(int featureId, int id, int flags);
+
+abstract boolean performPanelShortcut(int featureId, int keyCode, KeyEvent event, int flags);
+
+boolean requestFeature(int featureId);
+//Enable extended screen features.
+
+abstract void restoreHierarchyState(Bundle savedInstanceState);
+
+abstract Bundle saveHierarchyState();
+
+void setAttributes(WindowManager.LayoutParams a);
+//Specify custom window attributes.
+
+abstract void setBackgroundDrawable(Drawable drawable);
+//Change the background of this window to a custom Drawable.
+
+void setBackgroundDrawableResource(int resid);
+//Change the background of this window to a Drawable resource.
+
+void setCallback(Window.Callback callback);
+//Set the Callback interface for this window, used to intercept key events and other dynamic operations in the window.
+
+abstract void setChildDrawable(int featureId, Drawable drawable);
+
+abstract void setChildInt(int featureId, int value);
+
+void setContainer(Window container);
+//Set the container for this window.
+
+abstract void setContentView(@Sink(DISPLAY) View view);
+//Convenience for setContentView(View, android.view.ViewGroup.LayoutParams); set the screen content to an explicit view.
+
+abstract void setContentView(int layoutResID);
+//Convenience for setContentView(View, android.view.ViewGroup.LayoutParams); to set the screen content from a layout resource.
+
+abstract void setContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
+//Set the screen content to an explicit view.
+
+void setDimAmount(float amount);
+//Set the amount of dim behind the window when using FLAG_DIM_BEHIND.
+
+abstract void setFeatureDrawable(int featureId, Drawable drawable);
+//Set an explicit Drawable value for feature of this window.
+
+abstract void setFeatureDrawableAlpha(int featureId, int alpha);
+//Set a custom alpha value for the given drawale feature, controlling how much the background is visible through it.
+
+abstract void setFeatureDrawableResource(int featureId, int resId);
+//Set the value for a drawable feature of this window, from a resource identifier.
+
+abstract void setFeatureDrawableUri(int featureId, Uri uri);
+//Set the value for a drawable feature of this window, from a URI.
+
+abstract void setFeatureInt(int featureId, int value);
+//Set the integer value for a feature.
+
+void setFlags(int flags, int mask);
+//Set the flags of the window, as per the WindowManager.LayoutParams flags.
+
+void setFormat(int format);
+//Set the format of window, as per the PixelFormat types.
+
+void setGravity(int gravity);
+//Set the gravity of the window, as per the Gravity constants.
+
+void setLayout(int width, int height);
+//Set the width and height layout parameters of the window.
+
+void setSoftInputMode(int mode);
+//Specify an explicit soft input mode to use for the window, as per WindowManager.LayoutParams.softInputMode.
+
+abstract void setTitle(CharSequence title);
+
+abstract void setTitleColor(int textColor);
+
+void setType(int type);
+//Set the type of the window, as per the WindowManager.LayoutParams types.
+
+void setUiOptions(int uiOptions);
+//Set extra options that will influence the UI for this window.
+
+void setUiOptions(int uiOptions, int mask);
+//Set extra options that will influence the UI for this window.
+
+abstract void setVolumeControlStream(int streamType);
+
+void setWindowAnimations(int resId);
+//Specify custom animations to use for the window, as per WindowManager.LayoutParams.windowAnimations.
+
+void setWindowManager(WindowManager wm, IBinder appToken, String appName, boolean hardwareAccelerated);
+//Set the window manager for use by this Window to, for example, display panels.
+
+void setWindowManager(WindowManager wm, IBinder appToken, String appName);
+//Set the window manager for use by this Window to, for example, display panels.
+
+abstract boolean superDispatchGenericMotionEvent(MotionEvent event);
+//Used by custom windows, such as Dialog, to pass the generic motion event further down the view hierarchy.
+
+abstract boolean superDispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
+//Used by custom windows, such as Dialog, to pass the key press event further down the view hierarchy.
+
+abstract boolean superDispatchKeyShortcutEvent(@Source(USER_INPUT) KeyEvent event);
+//Used by custom windows, such as Dialog, to pass the key shortcut press event further down the view hierarchy.
+
+abstract boolean superDispatchTouchEvent(MotionEvent event);
+//Used by custom windows, such as Dialog, to pass the touch screen event further down the view hierarchy.
+
+abstract boolean superDispatchTrackballEvent(MotionEvent event);
+//Used by custom windows, such as Dialog, to pass the trackball event further down the view hierarchy.
+
+abstract void takeInputQueue(InputQueue.Callback callback);
+//Take ownership of this window's InputQueue.
+
+abstract void takeKeyEvents(boolean get);
+//Request that key events come to this activity.
+
+abstract void takeSurface(SurfaceHolder.Callback2 callback);
+//Take ownership of this window's surface.
+
+abstract void togglePanel(int featureId, KeyEvent event);
+
+
+//Protected Methods
+final int getFeatures();
+//Return the feature bits that are enabled.
+
+final int getForcedWindowFlags();
+//Return the window flags that have been explicitly set by the client, so will not be modified by getDecorView();.
+
+final int getLocalFeatures();
+//Return the feature bits that are being implemented by this Window.
+
+final boolean hasSoftInputMode();
+//Has the app specified their own soft input mode?
+
+abstract void onActive();
+
+void setDefaultWindowFormat(int format);
+//Set the default format of window, as per the PixelFormat types.
+
+    
 }
 
 class Window$Callback{
@@ -2603,8 +3223,17 @@ class Window$Callback{
             boolean dispatchKeyEvent(KeyEvent arg0);
 }
 
-class WindowManager{
-            Display getDefaultDisplay();
+class WindowManager {
+    
+    
+abstract Display getDefaultDisplay();
+//Returns the Display upon which this WindowManager instance will create new windows.
+
+abstract void removeViewImmediate(View view);
+//Special variation of removeView(View); that immediately invokes the given view hierarchy's View.onDetachedFromWindow(); methods before returning.
+
+
+
 }
 
 
@@ -2613,37 +3242,531 @@ class KeyEvent {
 }
 
 package android.view.animation;
-class Animation{
-        void setAnimationListener(AnimationListener listener);
-        void setDuration(long durationMillis);
-        void setInterpolator(Interpolator i);
+
+class AccelerateInterpolator {
+
+float getInterpolation(float input);
+//Maps a value representing the elapsed fraction of an animation to a value that represents the interpolated fraction.
+
+}
+
+class AlphaAnimation {
+    
+boolean willChangeBounds();
+//Indicates whether or not this animation will affect the bounds of the animated view.
+
+boolean willChangeTransformationMatrix();
+//Indicates whether or not this animation will affect the transformation matrix.
+
+//Protected Methods
+void applyTransformation(float interpolatedTime, Transformation t);
+//Changes the alpha property of the supplied Transformation
+
+
+}
+class Animation {
+    
+void cancel();
+//Cancel the animation.
+
+long computeDurationHint();
+//Compute a hint at how long the entire animation may last, in milliseconds.
+
+int getBackgroundColor();
+//Returns the background color behind the animation.
+
+boolean getDetachWallpaper();
+//Return value of setDetachWallpaper(boolean);.
+
+long getDuration();
+//How long this animation should last
+
+boolean getFillAfter();
+//If fillAfter is true, this animation will apply its transformation after the end time of the animation.
+
+boolean getFillBefore();
+//If fillBefore is true, this animation will apply its transformation before the start time of the animation.
+
+Interpolator getInterpolator();
+//Gets the acceleration curve type for this animation.
+
+int getRepeatCount();
+//Defines how many times the animation should repeat.
+
+int getRepeatMode();
+//Defines what this animation should do when it reaches the end.
+
+long getStartOffset();
+//When this animation should start, relative to StartTime
+
+long getStartTime();
+//When this animation should start.
+
+boolean getTransformation(long currentTime, Transformation outTransformation, float scale);
+//Gets the transformation to apply at a specified point in time.
+
+boolean getTransformation(long currentTime, Transformation outTransformation);
+//Gets the transformation to apply at a specified point in time.
+
+int getZAdjustment();
+//Returns the Z ordering mode to use while running the animation as previously set by setZAdjustment(int);.
+
+boolean hasEnded();
+//Indicates whether this animation has ended or not.
+
+boolean hasStarted();
+//Indicates whether this animation has started or not.
+
+void initialize(int width, int height, int parentWidth, int parentHeight);
+//Initialize this animation with the dimensions of the object being animated as well as the objects parents.
+
+boolean isFillEnabled();
+//If fillEnabled is true, this animation will apply the value of fillBefore.
+
+boolean isInitialized();
+//Whether or not the animation has been initialized.
+
+void reset();
+//Reset the initialization state of this animation.
+
+void restrictDuration(long durationMillis);
+//Ensure that the duration that this animation will run is not longer than durationMillis.
+
+void scaleCurrentDuration(float scale);
+//How much to scale the duration by.
+
+void setAnimationListener(Animation.AnimationListener listener);
+//Binds an animation listener to this animation.
+
+void setBackgroundColor(int bg);
+//Set background behind animation.
+
+void setDetachWallpaper(boolean detachWallpaper);
+//If detachWallpaper is true, and this is a window animation of a window that has a wallpaper background, then the window will be detached from the wallpaper while it runs.
+
+void setDuration(long durationMillis);
+//How long this animation should last.
+
+void setFillAfter(boolean fillAfter);
+//If fillAfter is true, the transformation that this animation performed will persist when it is finished.
+
+void setFillBefore(boolean fillBefore);
+//If fillBefore is true, this animation will apply its transformation before the start time of the animation.
+
+void setFillEnabled(boolean fillEnabled);
+//If fillEnabled is true, the animation will apply the value of fillBefore.
+
+void setInterpolator(Context context, int resID);
+//Sets the acceleration curve for this animation.
+
+void setInterpolator(Interpolator i);
+//Sets the acceleration curve for this animation.
+
+void setRepeatCount(@Sink(DISPLAY) int repeatCount);
+//Sets how many times the animation should be repeated.
+
+void setRepeatMode(int repeatMode);
+//Defines what this animation should do when it reaches the end.
+
+void setStartOffset(long startOffset);
+//When this animation should start relative to the start time.
+
+void setStartTime(long startTimeMillis);
+//When this animation should start.
+
+void setZAdjustment(int zAdjustment);
+//Set the Z ordering mode to use while running the animation.
+
+void start();
+//Convenience method to start the animation the first time getTransformation(long, Transformation); is invoked.
+
+void startNow();
+//Convenience method to start the animation at the current time in milliseconds.
+
+boolean willChangeBounds();
+//Indicates whether or not this animation will affect the bounds of the animated view.
+
+boolean willChangeTransformationMatrix();
+//Indicates whether or not this animation will affect the transformation matrix.
+
+//Protected Methods
+void applyTransformation(float interpolatedTime, Transformation t);
+//Helper for getTransformation.
+
+Animation clone();
+//Creates and returns a copy of this Object.
+
+void ensureInterpolator();
+//Gurantees that this animation has an interpolator.
+
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+float getScaleFactor();
+//The scale factor is set by the call to getTransformation.
+
+float resolveSize(int type, float value, int size, int parentSize);
+//Convert the information in the description of a size to an actual dimension
+    
 }
 class Animation$AnimationListener {
     void onAnimationRepeat(Animation arg0);
     void onAnimationStart(Animation arg0);
     void onAnimationEnd(Animation arg0);
 }
-class AccelerateInterpolator{
-        AccelerateInterpolator(float factor);
+
+class AnimationSet {
+    
+void addAnimation(@Sink(DISPLAY) Animation a);
+//Add a child animation to this animation set.
+
+long computeDurationHint();
+//The duration hint of an animation set is the maximum of the duration hints of all of its component animations.
+
+List<Animation> getAnimations();
+
+long getDuration();
+//The duration of an AnimationSet is defined to be the duration of the longest child animation.
+
+long getStartTime();
+//When this animation should start.
+
+boolean getTransformation(long currentTime, Transformation t);
+//The transformation of an animation set is the concatenation of all of its component animations.
+
+void initialize(int width, int height, int parentWidth, int parentHeight);
+//Initialize this animation with the dimensions of the object being animated as well as the objects parents.
+
+void reset();
+//Reset the initialization state of this animation.
+
+void restrictDuration(long durationMillis);
+//Ensure that the duration that this animation will run is not longer than durationMillis.
+
+void scaleCurrentDuration(float scale);
+//How much to scale the duration by.
+
+void setDuration(long durationMillis);
+//Sets the duration of every child animation.
+
+void setFillAfter(boolean fillAfter);
+//If fillAfter is true, the transformation that this animation performed will persist when it is finished.
+
+void setFillBefore(boolean fillBefore);
+//If fillBefore is true, this animation will apply its transformation before the start time of the animation.
+
+void setRepeatMode(int repeatMode);
+//Defines what this animation should do when it reaches the end.
+
+void setStartOffset(long startOffset);
+//When this animation should start relative to the start time.
+
+void setStartTime(long startTimeMillis);
+//Sets the start time of this animation and all child animations
+
+boolean willChangeBounds();
+//Indicates whether or not this animation will affect the bounds of the animated view.
+
+boolean willChangeTransformationMatrix();
+//Indicates whether or not this animation will affect the transformation matrix.
+
+//Protected Methods
+AnimationSet clone();
+//Creates and returns a copy of this Object.
+
+    
+    
 }
-class AnimationUtils{
-    @PolyFlow
-    static Animation loadAnimation(Context context, int id);
+
+class AnimationUtils {
+
+
+static long currentAnimationTimeMillis();
+//Returns the current animation time in milliseconds.
+
+static Animation loadAnimation(Context context, int id);
+//Loads an Animation object from a resource
+
+static Interpolator loadInterpolator(Context context, int id);
+//Loads an Interpolator object from a resource
+
+static LayoutAnimationController loadLayoutAnimation(Context context, int id);
+//Loads a LayoutAnimationController object from a resource
+
+static Animation makeInAnimation(Context c, boolean fromLeft);
+//Make an animation for objects becoming visible.
+
+static Animation makeInChildBottomAnimation(Context c);
+//Make an animation for objects becoming visible.
+
+static Animation makeOutAnimation(Context c, boolean toRight);
+//Make an animation for objects becoming invisible.
+
 }
-class AlphaAnimation{
-        AlphaAnimation(float fromAlpha, float toAlpha);
+class DecelerateInterpolator {
+    
+float getInterpolation(float input);
+//Maps a value representing the elapsed fraction of an animation to a value that represents the interpolated fraction.
+
+
 }
-class DecelerateInterpolator{
-        DecelerateInterpolator(float factor);
+class ScaleAnimation {
+    
+    
+void initialize(int width, int height, int parentWidth, int parentHeight);
+//Initialize this animation with the dimensions of the object being animated as well as the objects parents.
+
+//Protected Methods
+void applyTransformation(float interpolatedTime, Transformation t);
+//Helper for getTransformation.
+
+
 }
-class ScaleAnimation{
-        ScaleAnimation(float fromX, float toX, float fromY, float toY, int pivotXType, float pivotXValue, int pivotYType, float pivotYValue);
-}
-class AnimationSet{
-        void addAnimation(Animation a);
-        AnimationSet(boolean shareInterpolator);
-}
-package android.view.accessibility.AccessibilityManager;
-class AccessibilityStateChangeListener{
+
+package android.view.accessibility;
+class AccessibilityManager$AccessibilityStateChangeListener{
         void onAccessibilityStateChanged(boolean arg0);
+}
+
+package android.view.inputmethod;
+
+class CompletionInfo {
+    
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+long getId();
+//Return the abstract identifier for this completion, typically corresponding to the id associated with it in the original adapter.
+
+CharSequence getLabel();
+//Return the user-visible label for the completion, or null if the plain text should be shown.
+
+int getPosition();
+//Return the original position of this completion, typically corresponding to its position in the original adapter.
+
+CharSequence getText();
+//Return the actual text associated with this completion.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel dest, int flags);
+//Used to package this object into a Parcel.
+
+
+
+}
+
+class InputConnection {
+    
+abstract boolean beginBatchEdit();
+//Tell the editor that you are starting a batch of editor operations.
+
+abstract boolean clearMetaKeyStates(int states);
+//Clear the given meta key pressed states in the given input connection.
+
+abstract boolean commitCompletion(CompletionInfo text);
+//Commit a completion the user has selected from the possible ones previously reported to InputMethodSession.displayCompletions();.
+
+abstract boolean commitCorrection(CorrectionInfo correctionInfo);
+//Commit a correction automatically performed on the raw user's input.
+
+abstract boolean commitText(CharSequence text, int newCursorPosition);
+//Commit text to the text box and set the new cursor position.
+
+abstract boolean deleteSurroundingText(int beforeLength, int afterLength);
+//Delete beforeLength characters of text before the current cursor position, and delete afterLength characters of text after the current cursor position, excluding composing text.
+
+abstract boolean endBatchEdit();
+//Tell the editor that you are done with a batch edit previously initiated with beginBatchEdit();.
+
+abstract boolean finishComposingText();
+//Have the text editor finish whatever composing text is currently active.
+
+abstract int getCursorCapsMode(int reqModes);
+//Retrieve the current capitalization mode in effect at the current cursor position in the text.
+
+abstract ExtractedText getExtractedText(ExtractedTextRequest request, int flags);
+//Retrieve the current text in the input connection's editor, and monitor for any changes to it.
+
+abstract CharSequence getSelectedText(int flags);
+//Gets the selected text, if any.
+
+abstract CharSequence getTextAfterCursor(int n, int flags);
+//Get n characters of text after the current cursor position.
+
+abstract CharSequence getTextBeforeCursor(int n, int flags);
+//Get n characters of text before the current cursor position.
+
+abstract boolean performContextMenuAction(int id);
+//Perform a context menu action on the field.
+
+abstract boolean performEditorAction(int editorAction);
+//Have the editor perform an action it has said it can do.
+
+abstract boolean performPrivateCommand(String action, Bundle data);
+//API to send private commands from an input method to its connected editor.
+
+abstract boolean reportFullscreenMode(boolean enabled);
+//Called by the IME to tell the client when it switches between fullscreen and normal modes.
+
+abstract boolean sendKeyEvent(KeyEvent event);
+//Send a key event to the process that is currently attached through this input connection.
+
+abstract boolean setComposingRegion(int start, int end);
+//Mark a certain region of text as composing text.
+
+abstract boolean setComposingText(CharSequence text, int newCursorPosition);
+//Set composing text around the current cursor position with the given text, and set the new cursor position.
+
+abstract boolean setSelection(int start, int end);
+//Set the selection of the text editor.
+
+
+}
+
+class InputMethodManager {
+    
+void displayCompletions(View view, CompletionInfo[] completions);
+
+InputMethodSubtype getCurrentInputMethodSubtype();
+//Returns the current input method subtype.
+
+List<InputMethodInfo> getEnabledInputMethodList();
+
+List<InputMethodSubtype> getEnabledInputMethodSubtypeList(InputMethodInfo imi, boolean allowsImplicitlySelectedSubtypes);
+//Returns a list of enabled input method subtypes for the specified input method info.
+
+List<InputMethodInfo> getInputMethodList();
+
+InputMethodSubtype getLastInputMethodSubtype();
+
+Map<InputMethodInfo, List<InputMethodSubtype>> getShortcutInputMethodsAndSubtypes();
+//Returns a map of all shortcut input method info and their subtypes.
+
+void hideSoftInputFromInputMethod(IBinder token, int flags);
+//Close/hide the input method's soft input area, so the user no longer sees it or can interact with it.
+
+boolean hideSoftInputFromWindow(IBinder windowToken, int flags);
+//Synonym for hideSoftInputFromWindow(IBinder, int, ResultReceiver); without a result: request to hide the soft input window from the context of the window that is currently accepting input.
+
+boolean hideSoftInputFromWindow(IBinder windowToken, int flags, ResultReceiver resultReceiver);
+//Request to hide the soft input window from the context of the window that is currently accepting input.
+
+void hideStatusIcon(IBinder imeToken);
+
+boolean isAcceptingText();
+//Return true if the currently served view is accepting full text edits.
+
+boolean isActive(View view);
+//Return true if the given view is the currently active view for the input method.
+
+boolean isActive();
+//Return true if any view is currently active in the input method.
+
+boolean isFullscreenMode();
+//Allows you to discover whether the attached input method is running in fullscreen mode.
+
+boolean isWatchingCursor(View view);
+//Returns true if the current input method wants to watch the location of the input editor's cursor in its window.
+
+void restartInput(View view);
+//If the input method is currently connected to the given view, restart it with its new contents.
+
+void sendAppPrivateCommand(View view, String action, Bundle data);
+//Call InputMethodSession.appPrivateCommand(); on the current Input Method.
+
+void setAdditionalInputMethodSubtypes(String imiId, InputMethodSubtype[] subtypes);
+//Set additional input method subtypes.
+
+boolean setCurrentInputMethodSubtype(InputMethodSubtype subtype);
+//Switch to a new input method subtype of the current input method.
+
+void setInputMethod(IBinder token, String id);
+//Force switch to a new input method component.
+
+void setInputMethodAndSubtype(IBinder token, String id, InputMethodSubtype subtype);
+//Force switch to a new input method and subtype.
+
+void showInputMethodAndSubtypeEnabler(String imiId);
+//Show the settings for enabling subtypes of the specified input method.
+
+void showInputMethodPicker();
+
+boolean showSoftInput(View view, int flags, ResultReceiver resultReceiver);
+//Explicitly request that the current input method's soft input area be shown to the user, if needed.
+
+boolean showSoftInput(View view, int flags);
+//Synonym for showSoftInput(View, int, ResultReceiver); without a result receiver: explicitly request that the current input method's soft input area be shown to the user, if needed.
+
+void showSoftInputFromInputMethod(IBinder token, int flags);
+//Show the input method's soft input area, so the user sees the input method window and can interact with it.
+
+void showStatusIcon(IBinder imeToken, String packageName, int iconId);
+
+boolean switchToLastInputMethod(IBinder imeToken);
+//Force switch to the last used input method and subtype.
+
+boolean switchToNextInputMethod(IBinder imeToken, boolean onlyCurrentIme);
+//Force switch to the next input method and subtype.
+
+void toggleSoftInput(int showFlags, int hideFlags);
+
+void toggleSoftInputFromWindow(IBinder windowToken, int showFlags, int hideFlags);
+//This method toggles the input method window display.
+
+void updateCursor(View view, int left, int top, int right, int bottom);
+//Report the current cursor location in its window.
+
+void updateExtractedText(View view, int token, ExtractedText text);
+
+void updateSelection(View view, int selStart, int selEnd, int candidatesStart, int candidatesEnd);
+//Report the current selection range.
+
+void viewClicked(View view);
+//Notify the event when the user tapped or clicked the text view.
+
+
+
+}
+
+class InputMethodSubtype {
+    
+    
+boolean containsExtraValueKey(String key);
+//The string of ExtraValue in subtype should be defined as follows: example: key0,key1=value1,key2,key3,key4=value4
+
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+boolean equals(Object o);
+//Compares this instance with the specified object and indicates if they are equal.
+
+CharSequence getDisplayName(Context context, String packageName, ApplicationInfo appInfo);
+
+String getExtraValue();
+
+String getExtraValueOf(String key);
+//The string of ExtraValue in subtype should be defined as follows: example: key0,key1=value1,key2,key3,key4=value4
+
+int getIconResId();
+
+String getLocale();
+
+String getMode();
+
+int getNameResId();
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+boolean isAuxiliary();
+
+boolean overridesImplicitlyEnabledSubtype();
+
+void writeToParcel(Parcel dest, int parcelableFlags);
+//Flatten this object in to a Parcel.
+
+
+
 }

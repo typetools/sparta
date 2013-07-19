@@ -1,0 +1,409 @@
+package android.inputmethodservice;
+
+class InputMethodService {
+    
+    
+boolean enableHardwareAcceleration();
+//You can call this to try to enable hardware accelerated drawing for your IME.
+
+int getBackDisposition();
+
+int getCandidatesHiddenVisibility();
+//Returns the visibility mode (either View.INVISIBLE or View.GONE); of the candidates view when it is not shown.
+
+InputBinding getCurrentInputBinding();
+//Return the currently active InputBinding for the input method, or null if there is none.
+
+InputConnection getCurrentInputConnection();
+//Retrieve the currently active InputConnection that is bound to the input method, or null if there is none.
+
+EditorInfo getCurrentInputEditorInfo();
+
+boolean getCurrentInputStarted();
+
+LayoutInflater getLayoutInflater();
+
+int getMaxWidth();
+//Return the maximum width, in pixels, available the input method.
+
+CharSequence getTextForImeAction(int imeOptions);
+//Return text that can be used as a button label for the given EditorInfo.imeOptions.
+
+Dialog getWindow();
+
+void hideStatusIcon();
+
+void hideWindow();
+
+boolean isExtractViewShown();
+//Return whether the fullscreen extract view is shown.
+
+boolean isFullscreenMode();
+//Return whether the input method is currently running in fullscreen mode.
+
+boolean isInputViewShown();
+//Return whether the soft input view is currently shown to the user.
+
+boolean isShowInputRequested();
+//Returns true if we have been asked to show our input view.
+
+void onAppPrivateCommand(String action, Bundle data);
+
+void onBindInput();
+//Called when a new client has bound to the input method.
+
+void onComputeInsets(InputMethodService.Insets outInsets);
+//Compute the interesting insets into your UI.
+
+void onConfigurationChanged(Configuration newConfig);
+//Take care of handling configuration changes.
+
+void onConfigureWindow(Window win, boolean isFullscreen, boolean isCandidatesOnly);
+//Update the given window's parameters for the given mode.
+
+void onCreate();
+//Called by the system when the service is first created.
+
+View onCreateCandidatesView();
+//Create and return the view hierarchy used to show candidates.
+
+View onCreateExtractTextView();
+//Called by the framework to create the layout for showing extacted text.
+
+AbstractInputMethodService.AbstractInputMethodImpl onCreateInputMethodInterface();
+//Implement to return our standard InputMethodService.InputMethodImpl.
+
+AbstractInputMethodService.AbstractInputMethodSessionImpl onCreateInputMethodSessionInterface();
+//Implement to return our standard InputMethodService.InputMethodSessionImpl.
+
+View onCreateInputView();
+//Create and return the view hierarchy used for the input area (such as a soft keyboard);.
+
+void onDestroy();
+//Called by the system to notify a Service that it is no longer used and is being removed.
+
+void onDisplayCompletions(CompletionInfo[] completions);
+//Called when the application has reported auto-completion candidates that it would like to have the input method displayed.
+
+boolean onEvaluateFullscreenMode();
+//Override this to control when the input method should run in fullscreen mode.
+
+boolean onEvaluateInputViewShown();
+//Override this to control when the soft input area should be shown to the user.
+
+boolean onExtractTextContextMenuItem(int id);
+//This is called when the user has selected a context menu item from the extracted text view, when running in fullscreen mode.
+
+void onExtractedCursorMovement(int dx, int dy);
+//This is called when the user has performed a cursor movement in the extracted text view, when it is running in fullscreen mode.
+
+void onExtractedSelectionChanged(int start, int end);
+//This is called when the user has moved the cursor in the extracted text view, when running in fullsreen mode.
+
+void onExtractedTextClicked();
+//This is called when the user has clicked on the extracted text view, when running in fullscreen mode.
+
+void onExtractingInputChanged(EditorInfo ei);
+//This is called when, while currently displayed in extract mode, the current input target changes.
+
+void onFinishCandidatesView(boolean finishingInput);
+//Called when the candidates view is being hidden from the user.
+
+void onFinishInput();
+//Called to inform the input method that text input has finished in the last editor.
+
+void onFinishInputView(boolean finishingInput);
+//Called when the input view is being hidden from the user.
+
+boolean onGenericMotionEvent(MotionEvent event);
+//Override this to intercept generic motion events before they are processed by the application.
+
+void onInitializeInterface();
+//This is a hook that subclasses can use to perform initialization of their interface.
+
+boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Override this to intercept key down events before they are processed by the application.
+
+boolean onKeyLongPress(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyLongPress();: always returns false (doesn't handle the event);.
+
+boolean onKeyMultiple(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) int count, @Source(USER_INPUT) KeyEvent event);
+//Override this to intercept special key multiple events before they are processed by the application.
+
+boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Override this to intercept key up events before they are processed by the application.
+
+boolean onShowInputRequested(int flags, boolean configChange);
+//The system has decided that it may be time to show your input method.
+
+void onStartCandidatesView(EditorInfo info, boolean restarting);
+//Called when only the candidates view has been shown for showing processing as the user enters text through a hard keyboard.
+
+void onStartInput(EditorInfo attribute, boolean restarting);
+//Called to inform the input method that text input has started in an editor.
+
+void onStartInputView(EditorInfo info, boolean restarting);
+//Called when the input view is being shown and input has started on a new editor.
+
+boolean onTrackballEvent(MotionEvent event);
+//Override this to intercept trackball motion events before they are processed by the application.
+
+void onUnbindInput();
+//Called when the previous bound client is no longer associated with the input method.
+
+void onUpdateCursor(Rect newCursor);
+//Called when the application has reported a new location of its text cursor.
+
+void onUpdateExtractedText(int token, ExtractedText text);
+//Called when the application has reported new extracted text to be shown due to changes in its current text state.
+
+void onUpdateExtractingViews(EditorInfo ei);
+//Called when the fullscreen-mode extracting editor info has changed, to update the state of its UI such as the action buttons shown.
+
+void onUpdateExtractingVisibility(EditorInfo ei);
+//Called when the fullscreen-mode extracting editor info has changed, to determine whether the extracting (extract text and candidates); portion of the UI should be shown.
+
+void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd, int candidatesStart, int candidatesEnd);
+//Called when the application has reported a new selection region of the text.
+
+void onViewClicked(boolean focusChanged);
+//Called when the user tapped or clicked a text view.
+
+void onWindowHidden();
+//Called when the input method window has been hidden from the user, after previously being visible.
+
+void onWindowShown();
+//Called when the input method window has been shown to the user, after previously not being visible.
+
+void requestHideSelf(int flags);
+//Close this input method's soft input area, removing it from the display.
+
+boolean sendDefaultEditorAction(boolean fromEnterKey);
+//Ask the input target to execute its default action via InputConnection.performEditorAction();.
+
+void sendDownUpKeyEvents(@Source(USER_INPUT) int keyEventCode);
+//Send the given key event code (as defined by KeyEvent); to the current input connection is a key down + key up event pair.
+
+void sendKeyChar(@Source(USER_INPUT) char charCode);
+//Send the given UTF-16 character to the current input connection.
+
+void setBackDisposition(int disposition);
+
+void setCandidatesView(@Sink(DISPLAY) View view);
+//Replaces the current candidates view with a new one.
+
+void setCandidatesViewShown(boolean shown);
+//Controls the visibility of the candidates display area.
+
+void setExtractView(@Sink(DISPLAY) View view);
+
+void setExtractViewShown(boolean shown);
+//Controls the visibility of the extracted text area.
+
+void setInputView(@Sink(DISPLAY) View view);
+//Replaces the current input view with a new one.
+
+void setTheme(int theme);
+//You can call this to customize the theme used by your IME's window.
+
+void showStatusIcon(int iconResId);
+
+void showWindow(boolean showInput);
+
+void switchInputMethod(String id);
+//Force switch to a new input method, as identified by id.
+
+void updateFullscreenMode();
+//Re-evaluate whether the input method should be running in fullscreen mode, and update its UI if this has changed since the last time it was evaluated.
+
+void updateInputViewShown();
+//Re-evaluate whether the soft input area should currently be shown, and update its UI if this has changed since the last time it was evaluated.
+
+//Protected Methods
+void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter fout, String[] args);
+//Performs a dump of the InputMethodService's internal state.
+
+void onCurrentInputMethodSubtypeChanged(InputMethodSubtype newSubtype);
+//Called when the subtype was changed.
+
+
+
+}
+
+
+class Keyboard {
+    
+    
+int getHeight();
+//Returns the total height of the keyboard
+
+List<Keyboard.Key> getKeys();
+
+int getMinWidth();
+
+List<Keyboard.Key> getModifierKeys();
+
+int[] getNearestKeys(int x, int y);
+//Returns the indices of the keys that are closest to the given point.
+
+int getShiftKeyIndex();
+
+boolean isShifted();
+
+boolean setShifted(boolean shiftState);
+
+//Protected Methods
+Keyboard.Key createKeyFromXml(Resources res, Keyboard.Row parent, int x, int y, XmlResourceParser parser);
+
+Keyboard.Row createRowFromXml(Resources res, XmlResourceParser parser);
+
+int getHorizontalGap();
+
+int getKeyHeight();
+
+int getKeyWidth();
+
+int getVerticalGap();
+
+void setHorizontalGap(int gap);
+
+void setKeyHeight(int height);
+
+void setKeyWidth(int width);
+
+void setVerticalGap(int gap);
+
+
+}
+
+class Keyboard$Key {
+    
+int[] getCurrentDrawableState();
+//Returns the drawable state for the key, based on the current state and type of the key.
+
+boolean isInside(int x, int y);
+//Detects if a point falls inside this key.
+
+void onPressed();
+//Informs the key that it has been pressed, in case it needs to change its appearance or state.
+
+void onReleased(boolean inside);
+//Changes the pressed state of the key.
+
+int squaredDistanceFrom(int x, int y);
+//Returns the square of the distance between the center of the key and the given point.
+
+
+
+}
+
+class KeyboardView {
+    
+    
+void closing();
+
+Keyboard getKeyboard();
+//Returns the current keyboard being displayed by this view.
+
+boolean handleBack();
+
+void invalidateAllKeys();
+//Requests a redraw of the entire keyboard.
+
+void invalidateKey(int keyIndex);
+//Invalidates a key so that it will be redrawn on the next repaint.
+
+boolean isPreviewEnabled();
+//Returns the enabled state of the key feedback popup.
+
+boolean isProximityCorrectionEnabled();
+//Returns true if proximity correction is enabled.
+
+boolean isShifted();
+//Returns the state of the shift key of the keyboard, if any.
+
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+void onDraw(Canvas canvas);
+//Implement this to do your drawing.
+
+boolean onHoverEvent(MotionEvent event);
+//Implement this method to handle hover events.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+void onSizeChanged(int w, int h, int oldw, int oldh);
+//This is called during layout when the size of this view has changed.
+
+boolean onTouchEvent(MotionEvent me);
+//Implement this method to handle touch screen motion events.
+
+void setKeyboard(Keyboard keyboard);
+//Attaches a keyboard to this view.
+
+void setOnKeyboardActionListener(KeyboardView.OnKeyboardActionListener listener);
+
+void setPopupOffset(int x, int y);
+
+void setPopupParent(View v);
+
+void setPreviewEnabled(boolean previewEnabled);
+//Enables or disables the key feedback popup.
+
+void setProximityCorrectionEnabled(boolean enabled);
+//When enabled, calls to onKey(int, int[]); will include key codes for adjacent keys.
+
+boolean setShifted(boolean shifted);
+//Sets the state of the shift key of the keyboard, if any.
+
+void setVerticalCorrection(int verticalOffset);
+//Protected Methods
+
+KeyboardView.OnKeyboardActionListener getOnKeyboardActionListener();
+//Returns the KeyboardView.OnKeyboardActionListener object.
+
+boolean onLongPress(@Source(USER_INPUT) Keyboard.Key popupKey);
+//Called when a key is long pressed.
+
+void swipeDown();
+
+void swipeLeft();
+
+void swipeRight();
+
+void swipeUp();
+
+
+}
+
+class KeyboardView$OnKeyboardActionListener {
+    
+abstract void onKey(@Source(USER_INPUT) int primaryCode, @Source(USER_INPUT) int[] keyCodes);
+//Send a key press to the listener.
+
+abstract void onPress(@Source(USER_INPUT) int primaryCode);
+//Called when the user presses a key.
+
+abstract void onRelease(@Source(USER_INPUT) int primaryCode);
+//Called when the user releases a key.
+
+abstract void onText(CharSequence text);
+//Sends a sequence of characters to the listener.
+
+abstract void swipeDown();
+//Called when the user quickly moves the finger from up to down.
+
+abstract void swipeLeft();
+//Called when the user quickly moves the finger from right to left.
+
+abstract void swipeRight();
+//Called when the user quickly moves the finger from left to right.
+
+abstract void swipeUp();
+//Called when the user quickly moves the finger from down to up.
+
+
+
+}

@@ -1,10 +1,399 @@
 package android.webkit;
+
+class MimeTypeMap {
+    
+String getExtensionFromMimeType(String mimeType);
+//Return the registered extension for the given MIME type.
+
+static String getFileExtensionFromUrl(String url);
+//Returns the file extension or an empty string iff there is no extension.
+
+String getMimeTypeFromExtension(String extension);
+//Return the MIME type for the given extension.
+
+static MimeTypeMap getSingleton();
+//Get the singleton instance of MimeTypeMap.
+
+boolean hasExtension(String extension);
+//Return true if the given extension has a registered MIME type.
+
+boolean hasMimeType(String mimeType);
+//Return true if the given MIME type has an entry in the map.
+
+
+
+}
+
+
+class WebView {
+//CHS: This whole class needs the INTERNET permission
+
+
+void addJavascriptInterface(Object object, String name);
+//Injects the supplied Java object into this WebView.
+
+boolean canGoBack();
+//Gets whether this WebView has a back history item.
+
+boolean canGoBackOrForward(int steps);
+//Gets whether the page can go back or forward the given number of steps.
+
+boolean canGoForward();
+//Gets whether this WebView has a forward history item.
+
+boolean canZoomIn();
+//This method was deprecated in API level 17. This method is prone to inaccuracy due to race conditions between the web rendering and UI threads; prefer onScaleChanged(WebView, float, float);.
+
+boolean canZoomOut();
+//This method was deprecated in API level 17. This method is prone to inaccuracy due to race conditions between the web rendering and UI threads; prefer onScaleChanged(WebView, float, float);.
+
+Picture capturePicture();
+//Gets a new picture that captures the current contents of this WebView.
+
+void clearCache(boolean includeDiskFiles);
+//Clears the resource cache.
+
+void clearFormData();
+//Removes the autocomplete popup from the currently focused form field, if present.
+
+void clearHistory();
+//Tells this WebView to clear its internal back/forward list.
+
+void clearMatches();
+//Clears the highlighting surrounding text matches created by findAllAsync(String);.
+
+void clearSslPreferences();
+//Clears the SSL preferences table stored in response to proceeding with SSL certificate errors.
+
+void clearView();
+//Clears this WebView so that onDraw(); will draw nothing but white background, and onMeasure(); will return 0 if MeasureSpec is not MeasureSpec.EXACTLY.
+
+void computeScroll();
+//Called by a parent to request that a child update its values for mScrollX and mScrollY if necessary.
+
+WebBackForwardList copyBackForwardList();
+//Gets the WebBackForwardList for this WebView.
+
+void destroy();
+//Destroys the internal state of this WebView.
+
+boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
+//Dispatch a key event to the next view on the focus path.
+
+void documentHasImages(Message response);
+//Queries the document to see if it contains any image references.
+
+abstract void dumpViewHierarchyWithProperties(BufferedWriter out, int level);
+//Dumps custom children to hierarchy viewer.
+
+static String findAddress(String addr);
+//Gets the first substring consisting of the address of a physical location.
+
+int findAll(String find);
+//This method was deprecated in API level 16. findAllAsync(String); is preferred.
+
+void findAllAsync(String find);
+//Finds all instances of find on the page and highlights them, asynchronously.
+
+abstract View findHierarchyView(String className, int hashCode);
+//Returns a View to enable grabbing screenshots from custom children returned in dumpViewHierarchyWithProperties.
+
+void findNext(boolean forward);
+//Highlights and scrolls to the next match found by findAllAsync(String);, wrapping around page boundaries as necessary.
+
+void flingScroll(int vx, int vy);
+//void freeMemory();
+//Informs this WebView that memory is low so that it can free any available memory.
+
+SslCertificate getCertificate();
+//Gets the SSL certificate for the main top-level page or null if there is no certificate (the site is not secure);.
+
+int getContentHeight();
+//Gets the height of the HTML content.
+
+Bitmap getFavicon();
+//Gets the favicon for the current page.
+
+WebView.HitTestResult getHitTestResult();
+//Gets a HitTestResult based on the current cursor node.
+
+String[] getHttpAuthUsernamePassword(@Source(INTERNET) String host, @Source(INTERNET) String realm);
+//Retrieves HTTP authentication credentials for a given host and realm.
+
+String getOriginalUrl();
+//Gets the original URL for the current page.
+
+int getProgress();
+//Gets the progress for the current page.
+
+float getScale();
+//This method was deprecated in API level 17. This method is prone to inaccuracy due to race conditions between the web rendering and UI threads; prefer onScaleChanged(WebView, float, float);.
+
+WebSettings getSettings();
+//Gets the WebSettings object used to control the settings for this WebView.
+
+String getTitle();
+//Gets the title for the current page.
+
+String getUrl();
+//Gets the URL for the current page.
+
+void goBack();
+//Goes back in the history of this WebView.
+
+void goBackOrForward(int steps);
+//Goes to the history item that is the number of steps away from the current item.
+
+void goForward();
+//Goes forward in the history of this WebView.
+
+void invokeZoomPicker();
+//Invokes the graphical zoom picker widget for this WebView.
+
+boolean isPrivateBrowsingEnabled();
+//Gets whether private browsing is enabled in this WebView.
+
+void loadData(@Source(INTERNET) String data, @Source(INTERNET) String mimeType, @Source(INTERNET) String encoding);
+//Loads the given data into this WebView using a 'data' scheme URL.
+
+void loadDataWithBaseURL(@Source(INTERNET) String baseUrl, @Source(INTERNET) String data, @Source(INTERNET) String mimeType, @Source(INTERNET) String encoding, @Source(INTERNET) String historyUrl);
+//Loads the given data into this WebView, using baseUrl as the base URL for the content.
+
+void loadUrl(@Source(INTERNET) String url);
+//Loads the given URL.
+
+void loadUrl(@Source(INTERNET) String url, @Source(INTERNET) Map<String, String> additionalHttpHeaders);
+//Loads the given URL with the specified additional HTTP headers.
+
+void onChildViewAdded(View parent, View child);
+//This method was deprecated in API level 8. WebView no longer needs to implement ViewGroup.OnHierarchyChangeListener. This method does nothing now.
+
+void onChildViewRemoved(View p, View child);
+//This method was deprecated in API level 8. WebView no longer needs to implement ViewGroup.OnHierarchyChangeListener. This method does nothing now.
+
+InputConnection onCreateInputConnection(EditorInfo outAttrs);
+//Create a new InputConnection for an InputMethod to interact with the view.
+
+boolean onGenericMotionEvent(MotionEvent event);
+//Implement this method to handle generic motion events.
+
+void onGlobalFocusChanged(View oldFocus, View newFocus);
+//This method was deprecated in API level 3. WebView should not have implemented ViewTreeObserver.OnGlobalFocusChangeListener. This method does nothing now.
+
+boolean onHoverEvent(MotionEvent event);
+//Implement this method to handle hover events.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyDown();: perform press of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released, if the view is enabled and clickable.
+
+boolean onKeyMultiple(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) int repeatCount, @Source(USER_INPUT) KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyMultiple();: always returns false (doesn't handle the event);.
+
+boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyUp();: perform clicking of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released.
+
+void onPause();
+//Pauses any extra processing associated with this WebView and its associated DOM, plugins, JavaScript etc.
+
+void onResume();
+//Resumes a WebView after a previous call to onPause();.
+
+boolean onTouchEvent(MotionEvent event);
+//Implement this method to handle touch screen motion events.
+
+boolean onTrackballEvent(MotionEvent event);
+//Implement this method to handle trackball motion events.
+
+void onWindowFocusChanged(boolean hasWindowFocus);
+//Called when the window containing this view gains or loses focus.
+
+boolean overlayHorizontalScrollbar();
+//Gets whether horizontal scrollbar has overlay style.
+
+boolean overlayVerticalScrollbar();
+//Gets whether vertical scrollbar has overlay style.
+
+boolean pageDown(boolean bottom);
+//Scrolls the contents of this WebView down by half the page size.
+
+boolean pageUp(boolean top);
+//Scrolls the contents of this WebView up by half the view size.
+
+void pauseTimers();
+//Pauses all layout, parsing, and JavaScript timers for all WebViews.
+
+boolean performAccessibilityAction(int action, Bundle arguments);
+//Performs the specified accessibility action on the view.
+
+boolean performLongClick();
+//Call this view's OnLongClickListener, if it is defined.
+
+void postUrl(@Sink(INTERNET) String url, @Sink(INTERNET) byte[] postData);
+//Loads the URL with postData using "POST" method into this WebView.
+
+void reload() @Source(INTERNET);
+//Reloads the current URL.
+
+void removeJavascriptInterface(String name);
+//Removes a previously injected Java object from this WebView.
+
+boolean requestChildRectangleOnScreen(View child, Rect rect, boolean immediate);
+//Called when a child of this group wants a particular rectangle to be positioned onto the screen.
+
+boolean requestFocus(int direction, Rect previouslyFocusedRect);
+//Call this to try to give focus to a specific view or to one of its descendants and give it hints about the direction and a specific rectangle that the focus is coming from. Looks for a view to give focus to respecting the setting specified by getDescendantFocusability();.
+
+void requestFocusNodeHref(Message hrefMsg);
+//Requests the anchor or image element URL at the last tapped point.
+
+void requestImageRef(Message msg);
+//Requests the URL of the image last touched by the user.
+
+WebBackForwardList restoreState(Bundle inState);
+//Restores the state of this WebView from the given Bundle.
+
+void resumeTimers();
+//Resumes all layout, parsing, and JavaScript timers for all WebViews.
+
+void savePassword(String host, String username, String password);
+//Sets a username and password pair for the specified host.
+
+WebBackForwardList saveState(Bundle outState);
+//Saves the state of this WebView used in onSaveInstanceState(Bundle);.
+
+void saveWebArchive(String filename);
+//Saves the current view as a web archive.
+
+void saveWebArchive(String basename, boolean autoname, ValueCallback<String> callback);
+//Saves the current view as a web archive.
+
+void setBackgroundColor(int color);
+//Sets the background color for this view.
+
+void setCertificate(SslCertificate certificate);
+//This method was deprecated in API level 17. Calling this function has no useful effect, and will be ignored in future releases.
+
+void setDownloadListener(DownloadListener listener);
+//Registers the interface to be used when content can not be handled by the rendering engine, and should be downloaded instead.
+
+void setFindListener(WebView.FindListener listener);
+//Registers the listener to be notified as find-on-page operations progress.
+
+void setHorizontalScrollbarOverlay(boolean overlay);
+//Specifies whether the horizontal scrollbar has overlay style.
+
+void setHttpAuthUsernamePassword(String host, String realm, String username, String password);
+//Stores HTTP authentication credentials for a given host and realm.
+
+void setInitialScale(int scaleInPercent);
+//Sets the initial scale for this WebView.
+
+void setLayerType(int layerType, Paint paint);
+//Specifies the type of layer backing this view.
+
+void setLayoutParams(ViewGroup.LayoutParams params);
+//Set the layout parameters associated with this view.
+
+void setMapTrackballToArrowKeys(boolean setMap);
+//This method was deprecated in API level 17. Only the default case, true, will be supported in a future version.
+
+void setNetworkAvailable(boolean networkUp);
+//Informs WebView of the network state.
+
+void setOverScrollMode(int mode);
+//Set the over-scroll mode for this view.
+
+void setPictureListener(WebView.PictureListener listener);
+//This method was deprecated in API level 12. This method is now obsolete.
+
+void setScrollBarStyle(int style);
+//Specify the style of the scrollbars.
+
+void setVerticalScrollbarOverlay(boolean overlay);
+//Specifies whether the vertical scrollbar has overlay style.
+
+void setWebChromeClient(WebChromeClient client);
+//Sets the chrome handler.
+
+void setWebViewClient(WebViewClient client);
+//Sets the WebViewClient that will receive various notifications and requests.
+
+boolean shouldDelayChildPressedState();
+//Return true if the pressed state should be delayed for children or descendants of this ViewGroup.
+
+boolean showFindDialog(String text, boolean showIme);
+//Starts an ActionMode for finding text in this WebView.
+
+void stopLoading();
+//Stops the current load.
+
+boolean zoomIn();
+//Performs zoom in in this WebView.
+
+boolean zoomOut();
+//Performs zoom out in this WebView.
+
+//Protected Methods
+int computeHorizontalScrollOffset();
+//Compute the horizontal offset of the horizontal scrollbar's thumb within the horizontal range.
+
+int computeHorizontalScrollRange();
+//Compute the horizontal range that the horizontal scrollbar represents.
+
+int computeVerticalScrollExtent();
+//Compute the vertical extent of the horizontal scrollbar's thumb within the vertical range.
+
+int computeVerticalScrollOffset();
+//Compute the vertical offset of the vertical scrollbar's thumb within the horizontal range.
+
+int computeVerticalScrollRange();
+//Compute the vertical range that the vertical scrollbar represents.
+
+void onAttachedToWindow();
+//This is called when the view is attached to a window.
+
+void onConfigurationChanged(Configuration newConfig);
+//Called when the current configuration of the resources being used by the application have changed.
+
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+void onDraw(Canvas canvas);
+//Implement this to do your drawing.
+
+void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect);
+//Called by the view system when the focus state of this view changes.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY);
+//Called by overScrollBy(int, int, int, int, int, int, int, int, boolean); to respond to the results of an over-scroll operation.
+
+void onScrollChanged(int l, int t, int oldl, int oldt);
+//This is called in response to an internal scroll in this view (i.e., the view scrolled its own contents);.
+
+void onSizeChanged(int w, int h, int ow, int oh);
+//This is called during layout when the size of this view has changed.
+
+void onVisibilityChanged(View changedView, int visibility);
+//Called when the visibility of the view or an ancestor of the view is changed.
+
+void onWindowVisibilityChanged(int visibility);
+//Called when the window containing has change its visibility (between GONE, INVISIBLE, and VISIBLE);.
+
+
+
+    
+}
+
 class WebViewClient{
             boolean shouldOverrideUrlLoading(WebView view, String url);
             WebViewClient();
-}
-class WebView{
-            WebView(Context context);
-            void setWebViewClient(WebViewClient client);
-            void loadUrl(@Sink(INTERNET) String url);
 }
