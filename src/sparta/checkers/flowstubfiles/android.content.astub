@@ -1,38 +1,100 @@
 package android.content;
 
 class AsyncTaskLoader {
-// CSH: In spreadsheet but not in class or parents:
-//dispatchOnCancelled
-//dispatchOnLoadComplete
-//executePendingTask
+    
+    
+void cancelLoadInBackground();
+//Called on the main thread to abort a load in progress.
 
-boolean cancelLoad();
-//Attempt to cancel the current load task.
-
-void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_FILESYSTEM, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the Loader's state into the given stream.
-//CSH: FileDescriptor
+
+boolean isLoadInBackgroundCanceled();
+//Returns true if the current invocation of loadInBackground(); is being canceled.
 
 abstract D loadInBackground();
+//Called on a worker thread to perform the actual load and to return the result of the load operation.
 
 void onCanceled(D data);
 //Called if the task was canceled before it was completed.
 
-//void setUpdateThrottle(long delayMS);
+void setUpdateThrottle(long delayMS);
 //Set amount to throttle updates by.
 
 //Protected Methods
-//void onForceLoad();
+boolean onCancelLoad();
+//Subclasses must implement this to take care of requests to cancelLoad();.
+
+void onForceLoad();
 //Subclasses must implement this to take care of requests to forceLoad();.
 
 D onLoadInBackground();
-//Called on a worker thread to perform the actual load.
+//Calls loadInBackground();.
+
+
 
 }
-class BroadcastReceiver{
-            BroadcastReceiver();
-            void onReceive(Context arg0, Intent arg1);
-            void setResult(int code, String data, Bundle extras);
+class BroadcastReceiver {
+    
+//CSH:  Not sure how to do this class.  It's probably ANY/ANY, since you sometimes need permissions to use this...  
+
+
+final void abortBroadcast();
+//Sets the flag indicating that this receiver should abort the current broadcast; only works with broadcasts sent through Context.sendOrderedBroadcast.
+
+final void clearAbortBroadcast();
+//Clears the flag indicating that this receiver should abort the current broadcast.
+
+final boolean getAbortBroadcast();
+//Returns the flag indicating whether or not this receiver should abort the current broadcast.
+
+final boolean getDebugUnregister();
+//Return the last value given to setDebugUnregister(boolean);.
+
+final int getResultCode();
+//Retrieve the current result code, as set by the previous receiver.
+
+final String getResultData();
+//Retrieve the current result data, as set by the previous receiver.
+
+final Bundle getResultExtras(boolean makeMap);
+//Retrieve the current result extra data, as set by the previous receiver.
+
+final BroadcastReceiver.PendingResult goAsync();
+//This can be called by an application in onReceive(Context, Intent); to allow it to keep the broadcast active after returning from that function.
+
+final boolean isInitialStickyBroadcast();
+//Returns true if the receiver is currently processing the initial value of a sticky broadcast -- that is, the value that was last broadcast and is currently held in the sticky cache, so this is not directly the result of a broadcast right now.
+
+final boolean isOrderedBroadcast();
+//Returns true if the receiver is currently processing an ordered broadcast.
+
+abstract void onReceive(Context context, Intent intent);
+//This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+
+IBinder peekService(Context myContext, Intent service);
+//Provide a binder to an already-running service.
+
+final void setDebugUnregister(boolean debug);
+//Control inclusion of debugging help for mismatched calls to Context.registerReceiver();.
+
+final void setOrderedHint(boolean isOrdered);
+//For internal use, sets the hint about whether this BroadcastReceiver is running in ordered mode.
+
+final void setResult(int code, String data, Bundle extras);
+//Change all of the result data returned from this broadcasts; only works with broadcasts sent through Context.sendOrderedBroadcast.
+
+final void setResultCode(int code);
+//Change the current result code of this broadcast; only works with broadcasts sent through Context.sendOrderedBroadcast.
+
+final void setResultData(String data);
+//Change the current result data of this broadcast; only works with broadcasts sent through Context.sendOrderedBroadcast.
+
+final void setResultExtras(Bundle extras);
+//Change the current result extras of this broadcast; only works with broadcasts sent through Context.sendOrderedBroadcast.
+
+
+
 }
 class ClipData{
         static ClipData newPlainText(CharSequence label, CharSequence text);
@@ -76,8 +138,56 @@ class ClipData$Item {
     @Source(READ_CLIPBOARD) CharSequence coerceToText(@Sink(WRITE_CLIPBOARD) Context arg0);
 }
 
-class ComponentName{
-        ComponentName(String pkg, String cls);
+class ComponentName {
+    
+ComponentName clone();
+//Creates and returns a copy of this Object.
+
+int compareTo(ComponentName that);
+
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+boolean equals(Object obj);
+//Compares this instance with the specified object and indicates if they are equal.
+
+String flattenToShortString();
+//The same as flattenToString();, but abbreviates the class name if it is a suffix of the package.
+
+String flattenToString();
+//Return a String that unambiguously describes both the package and class names contained in the ComponentName.
+
+String getClassName();
+//Return the class name of this component.
+
+String getPackageName();
+//Return the package name of this component.
+
+String getShortClassName();
+//Return the class name, either fully qualified or in a shortened form (with a leading '.'); if it is a suffix of the package.
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+static @Source(PARCEL) ComponentName readFromParcel(Parcel in);
+//Read a ComponentName from a Parcel that was previously written with writeToParcel(ComponentName, Parcel);, returning either a null or new object as appropriate.
+
+String toShortString();
+//Return string representation of this class without the class's name as a prefix.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+static ComponentName unflattenFromString(String str);
+//Recover a ComponentName from a String that was previously created with flattenToString();.
+
+void writeToParcel(Parcel out, int flags);
+//Flatten this object in to a Parcel.
+
+static void writeToParcel(@Sink(PARCEL) ComponentName c, Parcel out);
+//Write a ComponentName to a Parcel, handling null pointers.
+
+    
 }
 
 class ComponentCallbacks{
@@ -100,20 +210,267 @@ class ContentProvider {
             boolean onCreate();
 }
 
-class ContentUris {
-    @PolyFlow static Uri withAppendedId(Uri contentUri, long id);
+class ContentResolver {
+    
+final ContentProviderClient acquireContentProviderClient(Uri uri);
+//Returns a ContentProviderClient that is associated with the ContentProvider that services the content at uri, starting the provider if necessary.
+
+final ContentProviderClient acquireContentProviderClient(String name);
+//Returns a ContentProviderClient that is associated with the ContentProvider with the authority of name, starting the provider if necessary.
+
+final ContentProviderClient acquireUnstableContentProviderClient(Uri uri);
+//Like acquireContentProviderClient(Uri);, but for use when you do not trust the stability of the target content provider.
+
+final ContentProviderClient acquireUnstableContentProviderClient(String name);
+//Like acquireContentProviderClient(String);, but for use when you do not trust the stability of the target content provider.
+
+static void addPeriodicSync(@Sink(WRITE_SYNC_SETTINGS) Account account, @Sink(WRITE_SYNC_SETTINGS) String authority, @Sink(WRITE_SYNC_SETTINGS) Bundle extras, @Sink(WRITE_SYNC_SETTINGS) long pollFrequency);
+//Specifies that a sync should be requested with the specified the account, authority, and extras at the given frequency.
+
+static Object addStatusChangeListener(int mask, SyncStatusObserver callback);
+//Request notifications when the different aspects of the SyncManager change.
+
+ContentProviderResult[] applyBatch(String authority, ArrayList<ContentProviderOperation> operations);
+//Applies each of the ContentProviderOperation objects and returns an array of their results.
+
+final int bulkInsert(Uri url, ContentValues[] values);
+//Inserts multiple rows into a table at the given URL.
+
+final Bundle call(Uri uri, String method, String arg, Bundle extras);
+//Call a provider-defined method.
+
+static void cancelSync(Account account, String authority);
+//Cancel any active or pending syncs that match account and authority.
+
+void cancelSync(Uri uri);
+//This method was deprecated in API level 5. instead use cancelSync(android.accounts.Account, String);
+
+final int delete(Uri url, String where, String[] selectionArgs);
+//Deletes row(s); specified by a content URI.
+
+static @Source(READ_SYNC_STATS) SyncInfo getCurrentSync();
+//This method was deprecated in API level 11. Since multiple concurrent syncs are now supported you should use getCurrentSyncs(); to get the accurate list of current syncs. This method returns the first item from the list of current syncs or null if there are none.
+
+static @Source(READ_SYNC_STATS) List<SyncInfo> getCurrentSyncs();
+//Returns a list with information about all the active syncs.
+
+static @Source(READ_SYNC_SETTINGS) int getIsSyncable(Account account, String authority);
+//Check if this account/provider is syncable.
+
+static  @Source(READ_SYNC_SETTINGS) boolean getMasterSyncAutomatically();
+//Gets the master auto-sync setting that applies to all the providers and accounts.
+
+static  @Source(READ_SYNC_SETTINGS) List<PeriodicSync> getPeriodicSyncs(Account account, String authority);
+//Get the list of information about the periodic syncs for the given account and authority.
+
+String[] getStreamTypes(Uri url, String mimeTypeFilter);
+//Query for the possible MIME types for the representations the given content URL can be returned when opened as as stream with openTypedAssetFileDescriptor(Uri, String, Bundle);.
+
+static SyncAdapterType[] getSyncAdapterTypes();
+//Get information about the SyncAdapters that are known to the system.
+
+static @Source(READ_SYNC_SETTINGS) boolean getSyncAutomatically(Account account, String authority);
+//Check if the provider should be synced when a network tickle is received
+//This method requires the caller to hold the permission READ_SYNC_SETTINGS.
+
+final String getType(Uri url);
+//Return the MIME type of the given content URL.
+
+final Uri insert(Uri url, ContentValues values);
+//Inserts a row into a table at the given URL.
+
+static @Source(READ_SYNC_STATS) boolean isSyncActive(Account account, String authority);
+//Returns true if there is currently a sync operation for the given account or authority in the pending list, or actively being processed.
+
+static @Source(READ_SYNC_STATS) boolean isSyncPending(Account account, String authority);
+//Return true if the pending status is true of any matching authorities.
+
+void notifyChange(Uri uri, ContentObserver observer, boolean syncToNetwork);
+//Notify registered observers that a row was updated.
+
+void notifyChange(Uri uri, ContentObserver observer);
+//Notify registered observers that a row was updated and attempt to sync changes to the network.
+
+final AssetFileDescriptor openAssetFileDescriptor(Uri uri, String mode);
+//Open a raw file descriptor to access data under a URI.
+
+final ParcelFileDescriptor openFileDescriptor(Uri uri, String mode);
+//Open a raw file descriptor to access data under a URI.
+
+final InputStream openInputStream(Uri uri);
+//Open a stream on to the content associated with a content URI.
+
+final OutputStream openOutputStream(Uri uri);
+//Synonym for openOutputStream(uri, "w");.
+
+final OutputStream openOutputStream(Uri uri, String mode);
+//Open a stream on to the content associated with a content URI.
+
+final AssetFileDescriptor openTypedAssetFileDescriptor(Uri uri, String mimeType, Bundle opts);
+//Open a raw file descriptor to access (potentially type transformed); data from a "content:" URI.
+
+final Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
+//Query the given URI, returning a Cursor over the result set.
+
+final Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal);
+//Query the given URI, returning a Cursor over the result set.
+
+final void registerContentObserver(Uri uri, boolean notifyForDescendents, ContentObserver observer);
+//Register an observer class that gets callbacks when data identified by a given content URI changes.
+
+static void removePeriodicSync(@Sink(WRITE_SYNC_SETTINGS) Account account, @Sink(WRITE_SYNC_SETTINGS) String authority, @Sink(WRITE_SYNC_SETTINGS) Bundle extras);
+//Remove a periodic sync.
+
+static void removeStatusChangeListener(Object handle);
+//Remove a previously registered status change listener.
+
+static void requestSync(Account account, String authority, Bundle extras);
+//Start an asynchronous sync operation.
+
+static void setIsSyncable(@Sink(WRITE_SYNC_SETTINGS) Account account, @Sink(WRITE_SYNC_SETTINGS) String authority, @Sink(WRITE_SYNC_SETTINGS) int syncable);
+//Set whether this account/provider is syncable.
+
+static void setMasterSyncAutomatically(@Sink(WRITE_SYNC_SETTINGS) boolean sync);
+//Sets the master auto-sync setting that applies to all the providers and accounts.
+
+static void setSyncAutomatically(@Sink(WRITE_SYNC_SETTINGS) Account account, @Sink(WRITE_SYNC_SETTINGS) String authority, @Sink(WRITE_SYNC_SETTINGS) boolean sync);
+//Set whether or not the provider is synced when it receives a network tickle.
+
+void startSync(Uri uri, Bundle extras);
+//This method was deprecated in API level 5. instead use requestSync(android.accounts.Account, String, android.os.Bundle);
+
+final void unregisterContentObserver(ContentObserver observer);
+//Unregisters a change observer.
+
+final int update(Uri uri, ContentValues values, String where, String[] selectionArgs);
+//Update row(s); in a content URI.
+
+static void validateSyncExtrasBundle(Bundle extras);
+//Check that only values of the following types are in the Bundle:
+//Integer
+//Long
+//Boolean
+//Float
+//Double
+//String
+//Account
+//null
+
+
 }
 
-@PolyFlowReceiver
+class ContentUris {
+    
+static Uri.Builder appendId(Uri.Builder builder, long id);
+//Appends the given ID to the end of the path.
+
+static long parseId(Uri contentUri);
+//Converts the last path segment to a long.
+
+static Uri withAppendedId(Uri contentUri, long id);
+//Appends the given ID to the end of the path.
+
+
+
+}
+
 class ContentValues {
-        ContentValues();
-        Set<String> keySet();
-        void put(String key, String value);
-        void put(String key, Integer value);
-    void put(@PolySource @PolySink String key, @PolySource @PolySink Long value) @PolySource @PolySink;
-      boolean containsKey(String key);
-            Object get(String key);
-            ContentValues(ContentValues from);
+    
+void clear();
+//Removes all values.
+
+boolean containsKey(String key);
+//Returns true if this object has the named value.
+
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+boolean equals(Object object);
+//Compares this instance with the specified object and indicates if they are equal.
+
+Object get(String key);
+//Gets a value.
+
+Boolean getAsBoolean(String key);
+//Gets a value and converts it to a Boolean.
+
+Byte getAsByte(String key);
+//Gets a value and converts it to a Byte.
+
+byte[] getAsByteArray(String key);
+//Gets a value that is a byte array.
+
+Double getAsDouble(String key);
+//Gets a value and converts it to a Double.
+
+Float getAsFloat(String key);
+//Gets a value and converts it to a Float.
+
+Integer getAsInteger(String key);
+//Gets a value and converts it to an Integer.
+
+Long getAsLong(String key);
+//Gets a value and converts it to a Long.
+
+Short getAsShort(String key);
+//Gets a value and converts it to a Short.
+
+String getAsString(String key);
+//Gets a value and converts it to a String.
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+Set<String> keySet();
+//Returns a set of all of the keys
+void put(String key, Byte value);
+//Adds a value to the set.
+
+void put(String key, Integer value);
+//Adds a value to the set.
+
+void put(String key, Float value);
+//Adds a value to the set.
+
+void put(String key, Short value);
+//Adds a value to the set.
+
+void put(String key, byte[] value);
+//Adds a value to the set.
+
+void put(String key, String value);
+//Adds a value to the set.
+
+void put(String key, Double value);
+//Adds a value to the set.
+
+void put(String key, Long value);
+//Adds a value to the set.
+
+void put(String key, Boolean value);
+//Adds a value to the set.
+
+void putAll(ContentValues other);
+//Adds all values from the passed in ContentValues.
+
+void putNull(String key);
+//Adds a null value to the set.
+
+void remove(String key);
+//Remove a single value.
+
+int size();
+//Returns the number of values.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+Set<Entry<String, Object>> valueSet();
+//Returns a set of all of the keys and values
+
+void writeToParcel(Parcel parcel, int flags);
+//Flatten this object in to a Parcel.
+
 }
 
 
@@ -771,9 +1128,15 @@ void onStopLoading();
 //Must be called from the UI thread
 }
 
-class DialogInterface{
-        void dismiss();
-        void cancel();
+class DialogInterface {
+    
+abstract void cancel();
+
+abstract void dismiss();
+
+
+
+
 }
 
 class DialogInterface$OnClickListener{
@@ -794,17 +1157,139 @@ class DialogInterface$OnDismissListener{
 }
 
 
-class IntentFilter{
-            IntentFilter(String action);
+class IntentFilter {
 
-               int countActions();
-            String getAction(int index);
-            int match(String action, String type, String scheme, Uri data, Set<String> categories, String logTag);
+final Iterator<String> actionsIterator();
+//Return an iterator over the filter's actions.
 
-             IntentFilter();
-            void addAction(String action);
-            void addCategory(String category);
+final void addAction(String action);
+//Add a new Intent action to match against.
 
+final void addCategory(String category);
+//Add a new Intent category to match against.
+
+final void addDataAuthority(String host, String port);
+//Add a new Intent data authority to match against.
+
+final void addDataPath(String path, int type);
+//Add a new Intent data path to match against.
+
+final void addDataScheme(String scheme);
+//Add a new Intent data scheme to match against.
+
+final void addDataType(String type);
+//Add a new Intent data type to match against.
+
+final Iterator<IntentFilter.AuthorityEntry> authoritiesIterator();
+//Return an iterator over the filter's data authorities.
+
+final Iterator<String> categoriesIterator();
+//Return an iterator over the filter's categories.
+
+final int countActions();
+//Return the number of actions in the filter.
+
+final int countCategories();
+//Return the number of categories in the filter.
+
+final int countDataAuthorities();
+//Return the number of data authorities in the filter.
+
+final int countDataPaths();
+//Return the number of data paths in the filter.
+
+final int countDataSchemes();
+//Return the number of data schemes in the filter.
+
+final int countDataTypes();
+//Return the number of data types in the filter.
+
+static IntentFilter create(String action, String dataType);
+//Create a new IntentFilter instance with a specified action and MIME type, where you know the MIME type is correctly formatted.
+
+final int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+void dump(Printer du, String prefix);
+
+final String getAction(int index);
+//Return an action in the filter.
+
+final String getCategory(int index);
+//Return a category in the filter.
+
+final IntentFilter.AuthorityEntry getDataAuthority(int index);
+//Return a data authority in the filter.
+
+final PatternMatcher getDataPath(int index);
+//Return a data path in the filter.
+
+final String getDataScheme(int index);
+//Return a data scheme in the filter.
+
+final String getDataType(int index);
+//Return a data type in the filter.
+
+final int getPriority();
+//Return the priority of this filter.
+
+final boolean hasAction(String action);
+//Is the given action included in the filter? Note that if the filter does not include any actions, false will always be returned.
+
+final boolean hasCategory(String category);
+//Is the given category included in the filter?
+
+final boolean hasDataAuthority(Uri data);
+//Is the given data authority included in the filter? Note that if the filter does not include any authorities, false will always be returned.
+
+final boolean hasDataPath(String data);
+//Is the given data path included in the filter? Note that if the filter does not include any paths, false will always be returned.
+
+final boolean hasDataScheme(String scheme);
+//Is the given data scheme included in the filter? Note that if the filter does not include any scheme, false will always be returned.
+
+final boolean hasDataType(String type);
+//Is the given data type included in the filter? Note that if the filter does not include any type, false will always be returned.
+
+final int match(ContentResolver resolver, Intent intent, boolean resolve, String logTag);
+//Test whether this filter matches the given intent.
+
+final int match(String action, String type, String scheme, Uri data, Set<String> categories, String logTag);
+//Test whether this filter matches the given intent data.
+
+final boolean matchAction(String action);
+//Match this filter against an Intent's action.
+
+final String matchCategories(Set<String> categories);
+//Match this filter against an Intent's categories.
+
+final int matchData(String type, String scheme, Uri data);
+//Match this filter against an Intent's data (type, scheme and path);.
+
+final int matchDataAuthority(Uri data);
+//Match this intent filter against the given Intent data.
+
+final Iterator<PatternMatcher> pathsIterator();
+//Return an iterator over the filter's data paths.
+
+void readFromXml(XmlPullParser parser);
+
+final Iterator<String> schemesIterator();
+//Return an iterator over the filter's data schemes.
+
+final void setPriority(int priority);
+//Modify priority of this filter.
+
+final Iterator<String> typesIterator();
+//Return an iterator over the filter's data types.
+
+final void writeToParcel(Parcel dest, int flags);
+//Flatten this object in to a Parcel.
+
+void writeToXml(XmlSerializer serializer);
+//Write the contents of the IntentFilter as an XML stream.
+
+    
 }
 
 
@@ -1021,62 +1506,389 @@ class UriMatcher {
 
 class SharedPreferences {
     
-abstract @Source(FlowPermission.SHARED_PREFERENCES) boolean getBoolean(String key, boolean defValue);
-//Retrieve a boolean value from the preferences.
+abstract @Source(SHARED_PREFERENCES) boolean contains(@Sink(SHARED_PREFERNCES) String key);
+//Checks whether the preferences contains a preference.
 
-abstract @Source(FlowPermission.SHARED_PREFERENCES) String getString(String key, String defValue);
-//Retrieve a String value from the preferences.
-
-abstract SharedPreferences.Editor edit();
+abstract @Source(SHARED_PREFERENCES) SharedPreferences.Editor edit();
 //Create a new Editor for these preferences, through which you can make modifications to the data in the preferences and atomically commit those changes back to the SharedPreferences object.
 
-abstract @Source(FlowPermission.SHARED_PREFERENCES) long getLong(String key, long defValue);
+abstract @Source(SHARED_PREFERENCES) Map<String, ?> getAll();
+//Retrieve all values from the preferences.
+
+abstract @Source(SHARED_PREFERENCES) boolean getBoolean(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) boolean defValue);
+//Retrieve a boolean value from the preferences.
+
+abstract @Source(SHARED_PREFERENCES) float getFloat(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) float defValue);
+//Retrieve a float value from the preferences.
+
+abstract @Source(SHARED_PREFERENCES) int getInt(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) int defValue);
+//Retrieve an int value from the preferences.
+
+abstract @Source(SHARED_PREFERENCES) long getLong(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) long defValue);
 //Retrieve a long value from the preferences.
 
-abstract @Source(FlowPermission.SHARED_PREFERENCES) int getInt(String key, int defValue);
-//Retrieve an int value from the preferences.
+abstract @Source(SHARED_PREFERENCES) String getString(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) String defValue);
+//Retrieve a String value from the preferences.
+
+abstract @Source(SHARED_PREFERENCES) Set<String> getStringSet(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) Set<String> defValues);
+//Retrieve a set of String values from the preferences.
 
 abstract void registerOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener);
 //Registers a callback to be invoked when a change happens to a preference.
 
-abstract Map<String, ?> getAll();
-//Retrieve all values from the preferences.
+abstract void unregisterOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener);
+//Unregisters a previous callback.
 
-
-//UNUSED AND UNANNOTATED
-// abstract boolean contains(String key);
-// abstract float getFloat(String key, float defValue);
-// abstract Set<String> getStringSet(String key, Set<String> defValues);
-// abstract void unregisterOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener);
 }
 
-class SharedPreferences$Editor{
-        Editor putBoolean(@Sink(SHARED_PREFERENCES) String arg0, @Sink(SHARED_PREFERENCES) boolean arg1);
+class SharedPreferences$Editor {
+//CSH: I think this is the right way to annotate this.  The put* methods don't actually send the data until commit() or apply() is called, so those are the methods that should be annotated.?
 
-        boolean commit();
+abstract void apply() @Sink(SHARED_PREFERENCES);
+//Commit your preferences changes back from this Editor to the SharedPreferences object it is editing.
 
-            Editor putString(@Sink(SHARED_PREFERENCES) String arg0, @Sink(SHARED_PREFERENCES) String arg1);
+abstract SharedPreferences.Editor clear() @Sink(SHARED_PREFERENCES);
+//Mark in the editor to remove all values from the preferences.
 
-        Editor putLong(String arg0, @Sink(FlowPermission.SHARED_PREFERENCES) long arg1);
-        Editor putInt(String arg0, @Sink(FlowPermission.SHARED_PREFERENCES) int arg1);
+abstract boolean commit() @Sink(SHARED_PREFERENCES);
+//Commit your preferences changes back from this Editor to the SharedPreferences object it is editing.
+
+abstract SharedPreferences.Editor putBoolean(String key, boolean value);
+//Set a boolean value in the preferences editor, to be written back once commit(); or apply(); are called.
+
+abstract SharedPreferences.Editor putFloat(String key, float value);
+//Set a float value in the preferences editor, to be written back once commit(); or apply(); are called.
+
+abstract SharedPreferences.Editor putInt(String key, int value);
+//Set an int value in the preferences editor, to be written back once commit(); or apply(); are called.
+
+abstract SharedPreferences.Editor putLong(String key, long value);
+//Set a long value in the preferences editor, to be written back once commit(); or apply(); are called.
+
+abstract SharedPreferences.Editor putString(String key, String value);
+//Set a String value in the preferences editor, to be written back once commit(); or apply(); are called.
+
+abstract SharedPreferences.Editor putStringSet(String key, Set<String> values);
+//Set a set of String values in the preferences editor, to be written back once commit(); is called.
+
+abstract SharedPreferences.Editor remove(String key);
+//Mark in the editor that a preference value should be removed, which will be done in the actual preferences once commit(); is called.
+
+
+
 }
 
 package android.content.pm;
-class PackageManager{
-        List<ResolveInfo> queryBroadcastReceivers(@Source(FlowPermission.INTENT) Intent arg0, int arg1);
-        PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
-        PermissionInfo getPermissionInfo(String arg0, int arg1) throws NameNotFoundException;
+class PackageManager {
+    
+abstract void addPackageToPreferred(String packageName);
+//This method was deprecated in API level 7. This function no longer does anything; it was an old approach to managing preferred activities, which has been superceeded (and conflicts with); the modern activity-based preferences.
+
+abstract boolean addPermission(PermissionInfo info);
+//Add a new dynamic permission to the system.
+
+abstract boolean addPermissionAsync(PermissionInfo info);
+//Like addPermission(PermissionInfo); but asynchronously persists the package manager state after returning from the call, allowing it to return quicker and batch a series of adds at the expense of no guarantee the added permission will be retained if the device is rebooted before it is written.
+
+abstract void addPreferredActivity(IntentFilter filter, int match, ComponentName[] set, ComponentName activity);
+//This method was deprecated in API level 8. This is a protected API that should not have been available to third party applications. It is the platform's responsibility for assigning preferred activities and this can not be directly modified. Add a new preferred activity mapping to the system. This will be used to automatically select the given activity component when Context.startActivity(); finds multiple matching activities and also matches the given filter.
+
+abstract String[] canonicalToCurrentPackageNames(String[] names);
+//Map from a packages canonical name to the current name in use on the device.
+
+abstract int checkPermission(String permName, String pkgName);
+//Check whether a particular package has been granted a particular permission.
+
+abstract int checkSignatures(int uid1, int uid2);
+//Like checkSignatures(String, String);, but takes UIDs of the two packages to be checked.
+
+abstract int checkSignatures(String pkg1, String pkg2);
+//Compare the signatures of two packages to determine if the same signature appears in both of them.
+
+abstract void clearPackagePreferredActivities(String packageName);
+//Remove all preferred activity mappings, previously added with addPreferredActivity(IntentFilter, int, ComponentName[], ComponentName);, from the system whose activities are implemented in the given package name.
+
+abstract String[] currentToCanonicalPackageNames(String[] names);
+//Map from the current package names in use on the device to whatever the current canonical name of that package is.
+
+abstract void extendVerificationTimeout(int id, int verificationCodeAtTimeout, long millisecondsToDelay);
+//Allows a package listening to the package verification broadcast to extend the default timeout for a response and declare what action to perform after the timeout occurs.
+
+abstract Drawable getActivityIcon(Intent intent);
+//Retrieve the icon associated with an Intent.
+
+abstract Drawable getActivityIcon(ComponentName activityName);
+//Retrieve the icon associated with an activity.
+
+abstract ActivityInfo getActivityInfo(ComponentName component, int flags);
+//Retrieve all of the information we know about a particular activity class.
+
+abstract Drawable getActivityLogo(Intent intent);
+//Retrieve the logo associated with an Intent.
+
+abstract Drawable getActivityLogo(ComponentName activityName);
+//Retrieve the logo associated with an activity.
+
+abstract List<PermissionGroupInfo> getAllPermissionGroups(int flags);
+//Retrieve all of the known permission groups in the system.
+
+abstract int getApplicationEnabledSetting(String packageName);
+//Return the the enabled setting for an application.
+
+abstract Drawable getApplicationIcon(String packageName);
+//Retrieve the icon associated with an application.
+
+abstract Drawable getApplicationIcon(ApplicationInfo info);
+//Retrieve the icon associated with an application.
+
+abstract ApplicationInfo getApplicationInfo(String packageName, int flags);
+//Retrieve all of the information we know about a particular package/application.
+
+abstract CharSequence getApplicationLabel(ApplicationInfo info);
+//Return the label to use for this application.
+
+abstract Drawable getApplicationLogo(String packageName);
+//Retrieve the logo associated with an application.
+
+abstract Drawable getApplicationLogo(ApplicationInfo info);
+//Retrieve the logo associated with an application.
+
+abstract int getComponentEnabledSetting(ComponentName componentName);
+//Return the the enabled setting for a package component (activity, receiver, service, provider);.
+
+abstract Drawable getDefaultActivityIcon();
+//Return the generic icon for an activity that is used when no specific icon is defined.
+
+abstract Drawable getDrawable(String packageName, int resid, ApplicationInfo appInfo);
+//Retrieve an image from a package.
+
+abstract List<ApplicationInfo> getInstalledApplications(int flags);
+//Return a List of all application packages that are installed on the device.
+
+abstract List<PackageInfo> getInstalledPackages(int flags);
+//Return a List of all packages that are installed on the device.
+
+abstract String getInstallerPackageName(String packageName);
+//Retrieve the package name of the application that installed a package.
+
+abstract InstrumentationInfo getInstrumentationInfo(ComponentName className, int flags);
+//Retrieve all of the information we know about a particular instrumentation class.
+
+abstract Intent getLaunchIntentForPackage(String packageName);
+//Return a "good" intent to launch a front-door activity in a package, for use for example to implement an "open" button when browsing through packages.
+
+abstract String getNameForUid(int uid);
+//Retrieve the official name associated with a user id.
+
+PackageInfo getPackageArchiveInfo(String archiveFilePath, int flags);
+//Retrieve overall information about an application package defined in a package archive file
+
+abstract int[] getPackageGids(String packageName);
+//Return an array of all of the secondary group-ids that have been assigned to a package.
+
+abstract PackageInfo getPackageInfo(String packageName, int flags);
+//Retrieve overall information about an application package that is installed on the system.
+
+abstract String[] getPackagesForUid(int uid);
+//Retrieve the names of all packages that are associated with a particular user id.
+
+abstract PermissionGroupInfo getPermissionGroupInfo(String name, int flags);
+//Retrieve all of the information we know about a particular group of permissions.
+
+abstract PermissionInfo getPermissionInfo(String name, int flags);
+//Retrieve all of the information we know about a particular permission.
+
+abstract int getPreferredActivities(List<IntentFilter> outFilters, List<ComponentName> outActivities, String packageName);
+//Retrieve all preferred activities, previously added with addPreferredActivity(IntentFilter, int, ComponentName[], ComponentName);, that are currently registered with the system.
+
+abstract List<PackageInfo> getPreferredPackages(int flags);
+//Retrieve the list of all currently configured preferred packages.
+
+abstract ProviderInfo getProviderInfo(ComponentName component, int flags);
+//Retrieve all of the information we know about a particular content provider class.
+
+abstract ActivityInfo getReceiverInfo(ComponentName component, int flags);
+//Retrieve all of the information we know about a particular receiver class.
+
+abstract Resources getResourcesForActivity(ComponentName activityName);
+//Retrieve the resources associated with an activity.
+
+abstract Resources getResourcesForApplication(String appPackageName);
+//Retrieve the resources associated with an application.
+
+abstract Resources getResourcesForApplication(ApplicationInfo app);
+//Retrieve the resources for an application.
+
+abstract ServiceInfo getServiceInfo(ComponentName component, int flags);
+//Retrieve all of the information we know about a particular service class.
+
+abstract FeatureInfo[] getSystemAvailableFeatures();
+//Get a list of features that are available on the system.
+
+abstract String[] getSystemSharedLibraryNames();
+//Get a list of shared libraries that are available on the system.
+
+abstract CharSequence getText(String packageName, int resid, ApplicationInfo appInfo);
+//Retrieve text from a package.
+
+abstract XmlResourceParser getXml(String packageName, int resid, ApplicationInfo appInfo);
+//Retrieve an XML file from a package.
+
+abstract boolean hasSystemFeature(String name);
+//Check whether the given feature name is one of the available features as returned by getSystemAvailableFeatures();.
+
+abstract boolean isSafeMode();
+//Return whether the device has been booted into safe mode.
+
+abstract List<ResolveInfo> queryBroadcastReceivers(Intent intent, int flags);
+//Retrieve all receivers that can handle a broadcast of the given intent.
+
+abstract List<ProviderInfo> queryContentProviders(String processName, int uid, int flags);
+//Retrieve content provider information.
+
+abstract List<InstrumentationInfo> queryInstrumentation(String targetPackage, int flags);
+//Retrieve information about available instrumentation code.
+
+abstract List<ResolveInfo> queryIntentActivities(Intent intent, int flags);
+//Retrieve all activities that can be performed for the given intent.
+
+abstract List<ResolveInfo> queryIntentActivityOptions(ComponentName caller, Intent[] specifics, Intent intent, int flags);
+//Retrieve a set of activities that should be presented to the user as similar options.
+
+abstract List<ResolveInfo> queryIntentServices(Intent intent, int flags);
+//Retrieve all services that can match the given intent.
+
+abstract List<PermissionInfo> queryPermissionsByGroup(String group, int flags);
+//Query for all of the permissions associated with a particular group.
+
+abstract void removePackageFromPreferred(String packageName);
+//This method was deprecated in API level 7. This function no longer does anything; it was an old approach to managing preferred activities, which has been superceeded (and conflicts with); the modern activity-based preferences.
+
+abstract void removePermission(String name);
+//Removes a permission that was previously added with addPermission(PermissionInfo);.
+
+abstract ResolveInfo resolveActivity(Intent intent, int flags);
+//Determine the best action to perform for a given Intent.
+
+abstract ProviderInfo resolveContentProvider(String name, int flags);
+//Find a single content provider by its base path name.
+
+abstract ResolveInfo resolveService(Intent intent, int flags);
+//Determine the best service to handle for a given Intent.
+
+abstract void setApplicationEnabledSetting(String packageName, int newState, int flags);
+//Set the enabled setting for an application This setting will override any enabled state which may have been set by the application in its manifest.
+
+abstract void setComponentEnabledSetting(ComponentName componentName, int newState, int flags);
+//Set the enabled setting for a package component (activity, receiver, service, provider);.
+
+abstract void setInstallerPackageName(String targetPackage, String installerPackageName);
+//Change the installer associated with a given package.
+
+abstract void verifyPendingInstall(int id, int verificationCode);
+//Allows a package listening to the package verification broadcast to respond to the package manager.
+
+
+
+}
+
+class ResolveInfo {
+
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+void dump(@PolyFlowReceiver Printer pw, String prefix);
+
+final int getIconResource();
+//Return the icon resource identifier to use for this match.
+
+Drawable loadIcon(PackageManager pm);
+//Retrieve the current graphical icon associated with this resolution.
+
+CharSequence loadLabel(PackageManager pm);
+//Retrieve the current textual label associated with this resolution.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel dest, int parcelableFlags);
+//Flatten this object in to a Parcel.
+
 }
 
 package android.content.res;
 
-class AssetManager{
-            @Source(ANY) InputStream open(String fileName) throws IOException;
+class AssetManager {
+//CSH: maybe Filesystem permission here...
+    
+void close();
+//Close this asset manager.
+
+final String[] getLocales();
+//Get the locales that this asset manager contains data for.
+
+final String[] list(String path);
+//Return a String array of all the assets at the given path.
+
+final InputStream open(String fileName);
+//Open an asset using ACCESS_STREAMING mode.
+
+final InputStream open(String fileName, int accessMode);
+//Open an asset using an explicit access mode, returning an InputStream to read its contents.
+
+final AssetFileDescriptor openFd(String fileName);
+
+final AssetFileDescriptor openNonAssetFd(String fileName);
+
+final AssetFileDescriptor openNonAssetFd(int cookie, String fileName);
+
+final XmlResourceParser openXmlResourceParser(String fileName);
+//Retrieve a parser for a compiled XML file.
+
+final XmlResourceParser openXmlResourceParser(int cookie, String fileName);
+//Retrieve a parser for a compiled XML file.
+
+//Protected Methods
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+
+
 
 }
 
-class ColorStateList{
-        int getDefaultColor();
+class ColorStateList {
+    
+    
+static ColorStateList createFromXml(Resources r, XmlPullParser parser);
+//Create a ColorStateList from an XML document, given a set of Resources.
+
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+int getColorForState(int[] stateSet, int defaultColor);
+//Return the color associated with the given set of View states.
+
+int getDefaultColor();
+//Return the default color in this ColorStateList.
+
+boolean isStateful();
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+static ColorStateList valueOf(int color);
+//Creates or retrieves a ColorStateList that always returns a single color.
+
+ColorStateList withAlpha(int alpha);
+//Creates a new ColorStateList that has the same states and colors as this one but where each color has the specified alpha value (0-255);.
+
+void writeToParcel(Parcel dest, int flags);
+//Flatten this object in to a Parcel.
+
+
+
+
 }
 
 class Resources {
@@ -1230,31 +2042,31 @@ boolean getBoolean(int index, boolean defValue);
 int getColor(int index, int defValue);
 //Retrieve the color value for the attribute at index.
 
-//ColorStateList getColorStateList(int index);
+ColorStateList getColorStateList(int index);
 //Retrieve the ColorStateList for the attribute at index.
 
-//float getDimension(int index, float defValue);
+float getDimension(int index, float defValue);
 //Retrieve a dimensional unit attribute at index.
 
-//int getDimensionPixelOffset(int index, int defValue);
+int getDimensionPixelOffset(int index, int defValue);
 //Retrieve a dimensional unit attribute at index for use as an offset in raw pixels.
 
 int getDimensionPixelSize(int index, int defValue);
 //Retrieve a dimensional unit attribute at index for use as a size in raw pixels.
 
-//Drawable getDrawable(int index);
+Drawable getDrawable(int index);
 //Retrieve the Drawable for the attribute at index.
 
 float getFloat(int index, float defValue);
 //Retrieve the float value for the attribute at index.
 
-//float getFraction(int index, int base, int pbase, float defValue);
+float getFraction(int index, int base, int pbase, float defValue);
 //Retrieve a fractional unit attribute at index.
 
-//int getIndex(int at);
+int getIndex(int at);
 //Return an index in the array that has data.
 
-//int getIndexCount();
+int getIndexCount();
 //Return the number of indices in the array that actually have data.
 
 int getInt(int index, int defValue);
@@ -1263,50 +2075,52 @@ int getInt(int index, int defValue);
 int getInteger(int index, int defValue);
 //Retrieve the integer value for the attribute at index.
 
-//int getLayoutDimension(int index, String name);
+int getLayoutDimension(int index, String name);
 //Special version of getDimensionPixelSize(int, int); for retrieving ViewGroup's layout_width and layout_height attributes.
 
-//int getLayoutDimension(int index, int defValue);
+int getLayoutDimension(int index, int defValue);
 //Special version of getDimensionPixelSize(int, int); for retrieving ViewGroup's layout_width and layout_height attributes.
 
-//String getNonResourceString(int index);
+String getNonResourceString(int index);
 //Retrieve the string value for the attribute at index, but only if that string comes from an immediate value in an XML file.
 
-//String getPositionDescription();
+String getPositionDescription();
 //Returns a message about the parser state suitable for printing error messages.
 
 int getResourceId(int index, int defValue);
 //Retrieve the resource identifier for the attribute at index.
 
-//Resources getResources();
+Resources getResources();
 //Return the Resources object this array was loaded from.
 
 String getString(int index);
 //Retrieve the string value for the attribute at index.
 
-//CharSequence getText(int index);
+CharSequence getText(int index);
 //Retrieve the styled string value for the attribute at index.
 
-//CharSequence[] getTextArray(int index);
+CharSequence[] getTextArray(int index);
 //Retrieve the CharSequence[] for the attribute at index.
 
-//boolean getValue(int index, TypedValue outValue);
+boolean getValue(int index, TypedValue outValue);
 //Retrieve the raw TypedValue for the attribute at index.
 
 boolean hasValue(int index);
 //Determines whether there is an attribute at index.
 
-//int length();
+int length();
 //Return the number of values in this array.
 
-//TypedValue peekValue(int index);
+TypedValue peekValue(int index);
 //Retrieve the raw TypedValue for the attribute at index and return a temporary object holding its data.
 
 void recycle();
 //Give back a previously retrieved array, for later re-use.
 
-//String toString();
+String toString();
 //Returns a string containing a concise, human-readable description of this object.
+
+
 
 }
 

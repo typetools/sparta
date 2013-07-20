@@ -4,18 +4,135 @@ package android.util;
 class AndroidRuntimeException{
             AndroidRuntimeException(String name);
 }
-class AttributeSet{
-            String getPositionDescription();
-            String getAttributeValue(String arg0, String arg1);
+class AttributeSet {
+    
+abstract boolean getAttributeBooleanValue(String namespace, String attribute, boolean defaultValue);
+//Return the boolean value of 'attribute'.
+
+abstract boolean getAttributeBooleanValue(int index, boolean defaultValue);
+//Return the boolean value of attribute at 'index'.
+
+abstract int getAttributeCount();
+//Returns the number of attributes available in the set.
+
+abstract float getAttributeFloatValue(int index, float defaultValue);
+//Return the float value of attribute at 'index'.
+
+abstract float getAttributeFloatValue(String namespace, String attribute, float defaultValue);
+//Return the float value of 'attribute'.
+
+abstract int getAttributeIntValue(String namespace, String attribute, int defaultValue);
+//Return the integer value of 'attribute'.
+
+abstract int getAttributeIntValue(int index, int defaultValue);
+//Return the integer value of attribute at 'index'.
+
+abstract int getAttributeListValue(String namespace, String attribute, String[] options, int defaultValue);
+//Return the index of the value of 'attribute' in the list 'options'.
+
+abstract int getAttributeListValue(int index, String[] options, int defaultValue);
+//Return the index of the value of attribute at 'index' in the list 'options'.
+
+abstract String getAttributeName(int index);
+//Returns the name of the specified attribute.
+
+abstract int getAttributeNameResource(int index);
+//Return the resource ID associated with the given attribute name.
+
+abstract int getAttributeResourceValue(String namespace, String attribute, int defaultValue);
+//Return the value of 'attribute' as a resource identifier.
+
+abstract int getAttributeResourceValue(int index, int defaultValue);
+//Return the value of attribute at 'index' as a resource identifier.
+
+abstract int getAttributeUnsignedIntValue(int index, int defaultValue);
+//Return the integer value of attribute at 'index' that is formatted as an unsigned value.
+
+abstract int getAttributeUnsignedIntValue(String namespace, String attribute, int defaultValue);
+//Return the boolean value of 'attribute' that is formatted as an unsigned value.
+
+abstract String getAttributeValue(int index);
+//Returns the value of the specified attribute as a string representation.
+
+abstract String getAttributeValue(String namespace, String name);
+//Returns the value of the specified attribute as a string representation.
+
+abstract String getClassAttribute();
+//Return the value of the "class" attribute or null if there is not one.
+
+abstract String getIdAttribute();
+//Return the value of the "id" attribute or null if there is not one.
+
+abstract int getIdAttributeResourceValue(int defaultValue);
+//Return the integer value of the "id" attribute or defaultValue if there is none.
+
+abstract String getPositionDescription();
+//Returns a description of the current position of the attribute set.
+
+abstract int getStyleAttribute();
+//Return the value of the "style" attribute or 0 if there is not one.
+
+
+
 }
 
+class Base64 {
+    
+static byte[] decode(byte[] input, int offset, int len, int flags);
+//Decode the Base64-encoded data in input and return the data in a new byte array.
+
+static byte[] decode(byte[] input, int flags);
+//Decode the Base64-encoded data in input and return the data in a new byte array.
+
+static byte[] decode(String str, int flags);
+//Decode the Base64-encoded data in input and return the data in a new byte array.
+
+static byte[] encode(byte[] input, int flags);
+//Base64-encode the given data and return a newly allocated byte[] with the result.
+
+static byte[] encode(byte[] input, int offset, int len, int flags);
+//Base64-encode the given data and return a newly allocated byte[] with the result.
+
+static String encodeToString(byte[] input, int offset, int len, int flags);
+//Base64-encode the given data and return a newly allocated String with the result.
+
+static String encodeToString(byte[] input, int flags);
+//Base64-encode the given data and return a newly allocated String with the result.
+
+
+
+}
+
+@PolyFlowReceiver
 class FloatMath {
-//Added by SOM
-   static @PolySource @PolySink float ceil(@PolySource @PolySink float value);
-   static @PolySource @PolySink float cos(@PolySource @PolySink float angle);
-   static @PolySource @PolySink float floor(@PolySource @PolySink float value);
-   static @PolySource @PolySink float sin(@PolySource @PolySink float angle);
-   static @PolySource @PolySink float sqrt(@PolySource @PolySink float value);
+    
+    
+static float ceil(float value);
+//Returns the float conversion of the most negative (i.e.
+
+static float cos(float angle);
+//Returns the closest float approximation of the cosine of the argument.
+
+static float exp(float value);
+//Returns the closest float approximation of the raising "e" to the power of the argument.
+
+static float floor(float value);
+//Returns the float conversion of the most positive (i.e.
+
+static float hypot(float x, float y);
+//Returns sqrt(x2+ y2);.
+
+static float pow(float x, float y);
+//Returns the closest float approximation of the result of raising x to the power of y.
+
+static float sin(float angle);
+//Returns the closest float approximation of the sine of the argument.
+
+static float sqrt(float value);
+//Returns the closest float approximation of the square root of the argument.
+
+
+
 }
 
 
@@ -78,15 +195,76 @@ class SparseArray{
             E get(int key);
             void append(int key, E value);
 }
-class SparseBooleanArray{
-            boolean get(int key);
+class SparseBooleanArray {
+    
+    
+void append(int key, boolean value);
+//Puts a key/value pair into the array, optimizing for the case where the key is greater than all existing keys in the array.
+
+void clear();
+//Removes all key-value mappings from this SparseBooleanArray.
+
+SparseBooleanArray clone();
+//Creates and returns a copy of this Object.
+
+void delete(int key);
+//Removes the mapping from the specified key, if there was any.
+
+boolean get(int key);
+//Gets the boolean mapped from the specified key, or false if no such mapping has been made.
+
+boolean get(int key, boolean valueIfKeyNotFound);
+//Gets the boolean mapped from the specified key, or the specified value if no such mapping has been made.
+
+int indexOfKey(int key);
+//Returns the index for which keyAt(int); would return the specified key, or a negative number if the specified key is not mapped.
+
+int indexOfValue(boolean value);
+//Returns an index for which valueAt(int); would return the specified key, or a negative number if no keys map to the specified value.
+
+int keyAt(int index);
+//Given an index in the range 0...size();-1, returns the key from the indexth key-value mapping that this SparseBooleanArray stores.
+
+void put(int key, boolean value);
+//Adds a mapping from the specified key to the specified value, replacing the previous mapping from the specified key if there was one.
+
+int size();
+//Returns the number of key-value mappings that this SparseBooleanArray currently stores.
+
+boolean valueAt(int index);
+//Given an index in the range 0...size();-1, returns the value from the indexth key-value mapping that this SparseBooleanArray stores.
+
+
+
 }
 
 class SparseArray{
             void clear();
 }
 
-class Xml{
-        static void parse(@Source(FlowPermission.FILESYSTEM)Reader in, ContentHandler contentHandler) throws IOException,SAXException;
-}
+class Xml {
+    
+static AttributeSet asAttributeSet(XmlPullParser parser);
+//Return an AttributeSet interface for use with the given XmlPullParser.
 
+static Xml.Encoding findEncodingByName(String encodingName);
+//Finds an encoding by name.
+
+static XmlPullParser newPullParser();
+//Returns a new pull parser with namespace support.
+
+static XmlSerializer newSerializer();
+//Creates a new xml serializer.
+
+static void parse(String xml, ContentHandler contentHandler);
+//Parses the given xml string and fires events on the given SAX handler.
+
+static void parse(InputStream in, Xml.Encoding encoding, ContentHandler contentHandler);
+//Parses xml from the given input stream and fires events on the given SAX handler.
+
+static void parse(Reader in, ContentHandler contentHandler);
+//Parses xml from the given reader and fires events on the given SAX handler.
+
+
+
+}

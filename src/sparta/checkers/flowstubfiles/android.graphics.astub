@@ -2,17 +2,14 @@
 package android.graphics;
 
 
+
+
 class Bitmap {
 
-//Added by SOM
-//The CompressFormat is any enum value
-	 boolean compress(
-	          CompressFormat format, int quality, 
-	          @PolySink @PolySource OutputStream stream) @PolySink @PolySource;
-//CSH:  Total possible set of sinks of OutputStream?
+boolean compress(Bitmap.CompressFormat format, int quality, @PolyFlowReceiver OutputStream stream);
 //Write a compressed version of the bitmap to the specified outputstream.
 
-//Bitmap copy(Bitmap.Config config, boolean isMutable);
+Bitmap copy(Bitmap.Config config, boolean isMutable);
 //Tries to make a new bitmap based on the dimensions of this bitmap, setting the new bitmap's config to the one specified, and then copying this bitmap's pixels into the new bitmap.
 
 void copyPixelsFromBuffer(Buffer src);
@@ -51,103 +48,103 @@ static Bitmap createBitmap(int[] colors, int width, int height, Bitmap.Config co
 static Bitmap createScaledBitmap(Bitmap src, int dstWidth, int dstHeight, boolean filter);
 //Creates a new bitmap, scaled from an existing bitmap, when possible.
 
-//int describeContents();
+int describeContents();
 //No special parcel contents.
 
-//void eraseColor(int c);
+void eraseColor(int c);
 //Fills the bitmap's pixels with the specified Color.
 
-//Bitmap extractAlpha();
+Bitmap extractAlpha();
 //Returns a new bitmap that captures the alpha values of the original.
 
-//Bitmap extractAlpha(Paint paint, int[] offsetXY);
+Bitmap extractAlpha(Paint paint, int[] offsetXY);
 //Returns a new bitmap that captures the alpha values of the original.
 
-//final int getByteCount();
+final int getByteCount();
 //Returns the number of bytes used to store this bitmap's pixels.
 
 final Bitmap.Config getConfig();
 //If the bitmap's internal config is in one of the public formats, return that config, otherwise return null.
 
-//int getDensity();
+int getDensity();
 //Returns the density for this bitmap.
 
-//int getGenerationId();
+int getGenerationId();
 //Returns the generation ID of this bitmap.
 
 final int getHeight();
 //Returns the bitmap's height
 
-//byte[] getNinePatchChunk();
+byte[] getNinePatchChunk();
 //Returns an optional array of private data, used by the UI system for some bitmaps.
 
 int getPixel(int x, int y);
 //Returns the Color at the specified location.
 
-//void getPixels(int[] pixels, int offset, int stride, int x, int y, int width, int height);
+void getPixels(int[] pixels, int offset, int stride, int x, int y, int width, int height);
 //Returns in pixels[] a copy of the data in the bitmap.
 
 final int getRowBytes();
 //Return the number of bytes between rows in the bitmap's pixels.
 
-//int getScaledHeight(int targetDensity);
+int getScaledHeight(int targetDensity);
 //Convenience method that returns the height of this bitmap divided by the density scale factor.
 
-//int getScaledHeight(DisplayMetrics metrics);
+int getScaledHeight(DisplayMetrics metrics);
 //Convenience for calling getScaledHeight(int); with the target density of the given DisplayMetrics.
 
-//int getScaledHeight(Canvas canvas);
+int getScaledHeight(Canvas canvas);
 //Convenience for calling getScaledHeight(int); with the target density of the given Canvas.
 
-//int getScaledWidth(int targetDensity);
+int getScaledWidth(int targetDensity);
 //Convenience method that returns the width of this bitmap divided by the density scale factor.
 
-//int getScaledWidth(DisplayMetrics metrics);
+int getScaledWidth(DisplayMetrics metrics);
 //Convenience for calling getScaledWidth(int); with the target density of the given DisplayMetrics.
 
-//int getScaledWidth(Canvas canvas);
+int getScaledWidth(Canvas canvas);
 //Convenience for calling getScaledWidth(int); with the target density of the given Canvas.
 
 final int getWidth();
 //Returns the bitmap's width
 
-//final boolean hasAlpha();
+final boolean hasAlpha();
 //Returns true if the bitmap's config supports per-pixel alpha, and if the pixels may contain non-opaque alpha values.
 
-//final boolean hasMipMap();
+final boolean hasMipMap();
 //Indicates whether the renderer responsible for drawing this bitmap should attempt to use mipmaps when this bitmap is drawn scaled down.
 
-//final boolean isMutable();
+final boolean isMutable();
 //Returns true if the bitmap is marked as mutable (i.e.
 
-//final boolean isPremultiplied();
+final boolean isPremultiplied();
 //Indicates whether pixels stored in this bitmaps are stored pre-multiplied.
 
 final boolean isRecycled();
 //Returns true if this bitmap has been recycled.
 
-//void prepareToDraw();
+void prepareToDraw();
 //Rebuilds any caches associated with the bitmap that are used for drawing it.
 
 void recycle();
 //Free the native object associated with this bitmap, and clear the reference to the pixel data.
 
-//boolean sameAs(Bitmap other);
+boolean sameAs(Bitmap other);
 //Given another bitmap, return true if it has the same dimensions, config, and pixel data as this bitmap.
 
-//void setDensity(int density);
+void setDensity(int density);
 //Specifies the density for this bitmap.
 
-//void setHasAlpha(boolean hasAlpha);
+void setHasAlpha(boolean hasAlpha);
 //Tell the bitmap if all of the pixels are known to be opaque (false); or if some of the pixels may contain non-opaque alpha values (true);.
 
-//final void setHasMipMap(boolean hasMipMap);
+final void setHasMipMap(boolean hasMipMap);
 //Set a hint for the renderer responsible for drawing this bitmap indicating that it should attempt to use mipmaps when this bitmap is drawn scaled down.
 
 void setPixel(int x, int y, int color);
 //Write the specified Color into the bitmap (assuming it is mutable); at the x,y coordinate.
 
-//void setPixels(int[] pixels, int offset, int stride, int x, int y, int width, int height);
+void setPixels(int[] pixels, int offset, int stride, int x, int y, int width, int height);
 //Replace pixels in the bitmap with the colors in the array.
 
 void writeToParcel(Parcel p, int flags);
@@ -156,14 +153,48 @@ void writeToParcel(Parcel p, int flags);
 }
 
 class BitmapFactory {
-//Added by SOM
-	@PolySource @PolySink Bitmap decodeByteArray(
-	                                @PolySource @PolySink byte @PolySource @PolySink [] data, 
-	                                 int offset,  
-	                                 int length);
-	static @PolySource @PolySink Bitmap decodeStream(@Source(FlowPermission.FILESYSTEM) InputStream is);
-        static @PolySource @PolySink Bitmap decodeFile(String pathName);
-        static @PolySource @PolySink Bitmap decodeResource(Resources res, int id);
+static Bitmap decodeByteArray(byte[] data, int offset, int length, BitmapFactory.Options opts);
+//Decode an immutable bitmap from the specified byte array.
+
+static Bitmap decodeByteArray(byte[] data, int offset, int length);
+//Decode an immutable bitmap from the specified byte array.
+
+static @Source({FILESYTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFile(@Sink({FILESYTEM, WRITE_EXTERNAL_STORAGE}) String pathName);
+//Decode a file path into a bitmap.
+
+static @Source({FILESYTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFile(@Sink({FILESYTEM, WRITE_EXTERNAL_STORAGE}) String pathName, BitmapFactory.Options opts);
+//Decode a file path into a bitmap.
+
+static @Source({FILESYTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFileDescriptor(@Sink({FILESYTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd);
+//Decode a bitmap from the file descriptor.
+
+static @Source({FILESYTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFileDescriptor(@Sink({FILESYTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, Rect outPadding, BitmapFactory.Options opts);
+//Decode a bitmap from the file descriptor.
+
+static Bitmap decodeResource(Resources res, int id, BitmapFactory.Options opts);
+//Synonym for opening the given resource and calling decodeResourceStream(Resources, TypedValue, InputStream, Rect, BitmapFactory.Options);.
+
+static Bitmap decodeResource(Resources res, int id);
+//Synonym for decodeResource(Resources, int, android.graphics.BitmapFactory.Options); will null Options.
+
+static Bitmap decodeResourceStream(Resources res, TypedValue value, InputStream is, Rect pad, BitmapFactory.Options opts);
+//Decode a new Bitmap from an InputStream.
+
+static Bitmap decodeStream(InputStream is);
+//Decode an input stream into a bitmap.
+
+static Bitmap decodeStream(InputStream is, Rect outPadding, BitmapFactory.Options opts);
+//Decode an input stream into a bitmap.
+
+}
+
+class BitmapFactory$Options {
+    
+void requestCancelDecode();
+//This can be called from another thread while this options object is inside a decode...
+
+
+
 }
 
 class Canvas {
@@ -171,67 +202,67 @@ class Canvas {
 // In general if the square/circle/object was specified I put a Sink of DISPLAY on it, but if the method had only only points or coordinates
 // I didn't annotate them because the value of the point isn't output, per se, but it does represent a location on the screen.
 
-//boolean clipPath(Path path);
+boolean clipPath(Path path);
 //Intersect the current clip with the specified path.
 
-//boolean clipPath(Path path, Region.Op op);
+boolean clipPath(Path path, Region.Op op);
 //Modify the current clip with the specified path.
 
-//boolean clipRect(Rect rect, Region.Op op);
+boolean clipRect(Rect rect, Region.Op op);
 //Modify the current clip with the specified rectangle, which is expressed in local coordinates.
 
-//boolean clipRect(RectF rect, Region.Op op);
+boolean clipRect(RectF rect, Region.Op op);
 //Modify the current clip with the specified rectangle.
 
-//boolean clipRect(int left, int top, int right, int bottom);
+boolean clipRect(int left, int top, int right, int bottom);
 //Intersect the current clip with the specified rectangle, which is expressed in local coordinates.
 
-//boolean clipRect(float left, float top, float right, float bottom);
+boolean clipRect(float left, float top, float right, float bottom);
 //Intersect the current clip with the specified rectangle, which is expressed in local coordinates.
 
-//boolean clipRect(RectF rect);
+boolean clipRect(RectF rect);
 //Intersect the current clip with the specified rectangle, which is expressed in local coordinates.
 
-//boolean clipRect(float left, float top, float right, float bottom, Region.Op op);
+boolean clipRect(float left, float top, float right, float bottom, Region.Op op);
 //Modify the current clip with the specified rectangle, which is expressed in local coordinates.
 
-//boolean clipRect(Rect rect);
+boolean clipRect(Rect rect);
 //Intersect the current clip with the specified rectangle, which is expressed in local coordinates.
 
-//boolean clipRegion(Region region);
+boolean clipRegion(Region region);
 //Intersect the current clip with the specified region.
 
-//boolean clipRegion(Region region, Region.Op op);
+boolean clipRegion(Region region, Region.Op op);
 //Modify the current clip with the specified region.
 
-//void concat(Matrix matrix);
+void concat(Matrix matrix);
 //Preconcat the current matrix with the specified matrix.
 
 void drawARGB(int a, int r, int g, int b);
 //Fill the entire canvas' bitmap (restricted to the current clip); with the specified ARGB color, using srcover porterduff mode.
 
-//void drawArc(RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint);
+void drawArc(RectF oval, float startAngle, float sweepAngle, boolean useCenter, Paint paint);
 //Draw the specified arc, which will be scaled to fit inside the specified oval.
 
-void drawBitmap(@Sink(FlowPermission.DISPLAY) int[] colors, int offset, int stride, float x, float y, int width, int height, boolean hasAlpha, Paint paint);
+void drawBitmap(@Sink(DISPLAY) int[] colors, int offset, int stride, float x, float y, int width, int height, boolean hasAlpha, Paint paint);
 //Treat the specified array of colors as a bitmap, and draw it.
 
-void drawBitmap(@Sink(FlowPermission.DISPLAY) Bitmap bitmap, Matrix matrix, Paint paint);
+void drawBitmap(@Sink(DISPLAY) Bitmap bitmap, Matrix matrix, Paint paint);
 //Draw the bitmap using the specified matrix.
 
-void drawBitmap(@Sink(FlowPermission.DISPLAY) int[] colors, int offset, int stride, int x, int y, int width, int height, boolean hasAlpha, Paint paint);
+void drawBitmap(@Sink(DISPLAY) int[] colors, int offset, int stride, int x, int y, int width, int height, boolean hasAlpha, Paint paint);
 //Legacy version of drawBitmap(int[] colors, ...); that took ints for x,y
 
-void drawBitmap(@Sink(FlowPermission.DISPLAY) Bitmap bitmap, Rect src, RectF dst, Paint paint);
+void drawBitmap(@Sink(DISPLAY) Bitmap bitmap, Rect src, RectF dst, Paint paint);
 //Draw the specified bitmap, scaling/translating automatically to fill the destination rectangle.
 
-void drawBitmap(@Sink(FlowPermission.DISPLAY) Bitmap bitmap, float left, float top, Paint paint);
+void drawBitmap(@Sink(DISPLAY) Bitmap bitmap, float left, float top, Paint paint);
 //Draw the specified bitmap, with its top/left corner at (x,y);, using the specified paint, transformed by the current matrix.
 
-void drawBitmap(@Sink(FlowPermission.DISPLAY) Bitmap bitmap, Rect src, Rect dst, Paint paint);
+void drawBitmap(@Sink(DISPLAY) Bitmap bitmap, Rect src, Rect dst, Paint paint);
 //Draw the specified bitmap, scaling/translating automatically to fill the destination rectangle.
 
-void drawBitmapMesh(@Sink(FlowPermission.DISPLAY) Bitmap bitmap, int meshWidth, int meshHeight, float[] verts, int vertOffset, int[] colors, int colorOffset, Paint paint);
+void drawBitmapMesh(@Sink(DISPLAY) Bitmap bitmap, int meshWidth, int meshHeight, float[] verts, int vertOffset, int[] colors, int colorOffset, Paint paint);
 //Draw the bitmap through the mesh, where mesh vertices are evenly distributed across the bitmap.
 
 void drawCircle(float cx, float cy, float radius, Paint paint);
@@ -243,127 +274,128 @@ void drawColor(int color);
 void drawColor(int color, PorterDuff.Mode mode);
 //Fill the entire canvas' bitmap (restricted to the current clip); with the specified color and porter-duff xfermode.
 
-//void drawLine(float startX, float startY, float stopX, float stopY, Paint paint);
+void drawLine(float startX, float startY, float stopX, float stopY, Paint paint);
 //Draw a line segment with the specified start and stop x,y coordinates, using the specified paint.
 
-//void drawLines(float[] pts, Paint paint);
-//void drawLines(float[] pts, int offset, int count, Paint paint);
+void drawLines(float[] pts, Paint paint);
+
+void drawLines(float[] pts, int offset, int count, Paint paint);
 //Draw a series of lines.
 
-//void drawOval(RectF oval, Paint paint);
+void drawOval(RectF oval, Paint paint);
 //Draw the specified oval using the specified paint.
 
-//void drawPaint(Paint paint);
+void drawPaint(Paint paint);
 //Fill the entire canvas' bitmap (restricted to the current clip); with the specified paint.
 
-void drawPath(@Sink(FlowPermission.DISPLAY) Path path, Paint paint);
+void drawPath(@Sink(DISPLAY) Path path, Paint paint);
 //Draw the specified path using the specified paint.
 
-//void drawPicture(Picture picture, RectF dst);
+void drawPicture(@Sink(DISPLAY) Picture picture, RectF dst);
 //Draw the picture, stretched to fit into the dst rectangle.
 
-//void drawPicture(Picture picture);
+void drawPicture(@Sink(DISPLAY) Picture picture);
 //Save the canvas state, draw the picture, and restore the canvas state.
 
-//void drawPicture(Picture picture, Rect dst);
+void drawPicture(@Sink(DISPLAY) Picture picture, Rect dst);
 //Draw the picture, stretched to fit into the dst rectangle.
 
-//void drawPoint(float x, float y, Paint paint);
+void drawPoint(float x, float y, Paint paint);
 //Helper for drawPoints(); for drawing a single point.
 
-//void drawPoints(float[] pts, int offset, int count, Paint paint);
+void drawPoints(float[] pts, int offset, int count, Paint paint);
 //Draw a series of points.
 
-//void drawPoints(float[] pts, Paint paint);
+void drawPoints(float[] pts, Paint paint);
 //Helper for drawPoints(); that assumes you want to draw the entire array
 
-//void drawPosText(char[] text, int index, int count, float[] pos, Paint paint);
+void drawPosText(@Sink(DISPLAY) char[] text, int index, int count, float[] pos, Paint paint);
 //Draw the text in the array, with each character's origin specified by the pos array.
 
-//void drawPosText(String text, float[] pos, Paint paint);
+void drawPosText(@Sink(DISPLAY) tring text, float[] pos, Paint paint);
 //Draw the text in the array, with each character's origin specified by the pos array.
 
-//void drawRGB(int r, int g, int b);
+void drawRGB(int r, int g, int b);
 //Fill the entire canvas' bitmap (restricted to the current clip); with the specified RGB color, using srcover porterduff mode.
 
 void drawRect(float left, float top, float right, float bottom, Paint paint);
 //Draw the specified Rect using the specified paint.
 
-void drawRect(@Sink(FlowPermission.DISPLAY) RectF rect, Paint paint);
+void drawRect(@Sink(DISPLAY) RectF rect, Paint paint);
 //Draw the specified Rect using the specified paint.
 
-void drawRect(@Sink(FlowPermission.DISPLAY) Rect r, Paint paint);
+void drawRect(@Sink(DISPLAY) Rect r, Paint paint);
 //Draw the specified Rect using the specified Paint.
 
-void drawRoundRect(@Sink(FlowPermission.DISPLAY) RectF rect, float rx, float ry, Paint paint);
+void drawRoundRect(@Sink(DISPLAY) RectF rect, float rx, float ry, Paint paint);
 //Draw the specified round-rect using the specified paint.
 
-void drawText(@Sink(FlowPermission.DISPLAY) String text, float x, float y, Paint paint);
+void drawText(@Sink(DISPLAY) String text, float x, float y, Paint paint);
 //Draw the text, with origin at (x,y);, using the specified paint.
 
-void drawText(@Sink(FlowPermission.DISPLAY) CharSequence text, int start, int end, float x, float y, Paint paint);
+void drawText(@Sink(DISPLAY) CharSequence text, int start, int end, float x, float y, Paint paint);
 //Draw the specified range of text, specified by start/end, with its origin at (x,y);, in the specified Paint.
 
-void drawText(@Sink(FlowPermission.DISPLAY) char[] text, int index, int count, float x, float y, Paint paint);
+void drawText(@Sink(DISPLAY) char[] text, int index, int count, float x, float y, Paint paint);
 //Draw the text, with origin at (x,y);, using the specified paint.
 
-void drawText(@Sink(FlowPermission.DISPLAY) String text, int start, int end, float x, float y, Paint paint);
+void drawText(@Sink(DISPLAY) String text, int start, int end, float x, float y, Paint paint);
 //Draw the text, with origin at (x,y);, using the specified paint.
 
-//void drawTextOnPath(String text, Path path, float hOffset, float vOffset, Paint paint);
+void drawTextOnPath(@Sink(DISPLAY) String text, Path path, float hOffset, float vOffset, Paint paint);
 //Draw the text, with origin at (x,y);, using the specified paint, along the specified path.
 
-//void drawTextOnPath(char[] text, int index, int count, Path path, float hOffset, float vOffset, Paint paint);
+void drawTextOnPath(@Sink(DISPLAY) char[] text, int index, int count, Path path, float hOffset, float vOffset, Paint paint);
 //Draw the text, with origin at (x,y);, using the specified paint, along the specified path.
 
-//void drawVertices(Canvas.VertexMode mode, int vertexCount, float[] verts, int vertOffset, float[] texs, int texOffset, int[] colors, int colorOffset, short[] indices, int indexOffset, int indexCount, Paint paint);
+void drawVertices(Canvas.VertexMode mode, int vertexCount, float[] verts, int vertOffset, float[] texs, int texOffset, int[] colors, int colorOffset, short[] indices, int indexOffset, int indexCount, Paint paint);
 //Draw the array of vertices, interpreted as triangles (based on mode);.
 
-//final Rect getClipBounds();
+final Rect getClipBounds();
 //Retrieve the clip bounds.
 
-//boolean getClipBounds(Rect bounds);
+boolean getClipBounds(Rect bounds);
 //Retrieve the clip bounds, returning true if they are non-empty.
 
-//int getDensity();
+int getDensity();
 //Returns the target density of the canvas.
 
-//DrawFilter getDrawFilter();
+DrawFilter getDrawFilter();
 
 int getHeight();
 //Returns the height of the current drawing layer
 
-//void getMatrix(Matrix ctm);
+void getMatrix(Matrix ctm);
 //Return, in ctm, the current transformation matrix.
 
-//final Matrix getMatrix();
+final Matrix getMatrix();
 //Return a new matrix with a copy of the canvas' current transformation matrix.
 
-//int getMaximumBitmapHeight();
+int getMaximumBitmapHeight();
 //Returns the maximum allowed height for bitmaps drawn with this canvas.
 
-//int getMaximumBitmapWidth();
+int getMaximumBitmapWidth();
 //Returns the maximum allowed width for bitmaps drawn with this canvas.
 
-//int getSaveCount();
+int getSaveCount();
 //Returns the number of matrix/clip states on the Canvas' private stack.
 
 int getWidth();
 //Returns the width of the current drawing layer
 
-//boolean isHardwareAccelerated();
+boolean isHardwareAccelerated();
 //Indicates whether this Canvas uses hardware acceleration.
 
-//boolean isOpaque();
+boolean isOpaque();
 //Return true if the device that the current layer draws into is opaque (i.e.
 
-//boolean quickReject(Path path, Canvas.EdgeType type);
+boolean quickReject(Path path, Canvas.EdgeType type);
 //Return true if the specified path, after being transformed by the current matrix, would lie completely outside of the current clip.
 
-//boolean quickReject(float left, float top, float right, float bottom, Canvas.EdgeType type);
+boolean quickReject(float left, float top, float right, float bottom, Canvas.EdgeType type);
 //Return true if the specified rectangle, after being transformed by the current matrix, would lie completely outside of the current clip.
 
-//boolean quickReject(RectF rect, Canvas.EdgeType type);
+boolean quickReject(RectF rect, Canvas.EdgeType type);
 //Return true if the specified rectangle, after being transformed by the current matrix, would lie completely outside of the current clip.
 
 void restore();
@@ -384,16 +416,16 @@ int save();
 int save(int saveFlags);
 //Based on saveFlags, can save the current matrix and clip onto a private stack.
 
-//int saveLayer(RectF bounds, Paint paint, int saveFlags);
+int saveLayer(RectF bounds, Paint paint, int saveFlags);
 //This behaves the same as save();, but in addition it allocates an offscreen bitmap.
 
-//int saveLayer(float left, float top, float right, float bottom, Paint paint, int saveFlags);
+int saveLayer(float left, float top, float right, float bottom, Paint paint, int saveFlags);
 //Helper version of saveLayer(); that takes 4 values rather than a RectF.
 
-//int saveLayerAlpha(RectF bounds, int alpha, int saveFlags);
+int saveLayerAlpha(RectF bounds, int alpha, int saveFlags);
 //This behaves the same as save();, but in addition it allocates an offscreen bitmap.
 
-//int saveLayerAlpha(float left, float top, float right, float bottom, int alpha, int saveFlags);
+int saveLayerAlpha(float left, float top, float right, float bottom, int alpha, int saveFlags);
 //Helper for saveLayerAlpha(); that takes 4 values instead of a RectF.
 
 void scale(float sx, float sy);
@@ -402,22 +434,169 @@ void scale(float sx, float sy);
 final void scale(float sx, float sy, float px, float py);
 //Preconcat the current matrix with the specified scale.
 
-void setBitmap(@Sink(FlowPermission.DISPLAY) Bitmap bitmap);
+void setBitmap(@Sink(DISPLAY) Bitmap bitmap);
 //Specify a bitmap for the canvas to draw into.
 
-//void setDensity(int density);
+void setDensity(int density);
 //Specifies the density for this Canvas' backing bitmap.
 
-//void setDrawFilter(DrawFilter filter);
+void setDrawFilter(DrawFilter filter);
 
-//void setMatrix(Matrix matrix);
+void setMatrix(Matrix matrix);
 //Completely replace the current matrix with the specified matrix.
 
-//void skew(float sx, float sy);
+void skew(float sx, float sy);
 //Preconcat the current matrix with the specified skew.
 
 void translate(float dx, float dy);
 //Preconcat the current matrix with the specified translation
+
+}
+
+class Matrix {
+    
+    
+boolean equals(Object obj);
+//Returns true iff obj is a Matrix and its values equal our values.
+
+void getValues(float[] values);
+//Copy 9 values from the matrix into the array.
+
+boolean invert(Matrix inverse);
+//If this matrix can be inverted, return true and if inverse is not null, set inverse to be the inverse of this matrix.
+
+boolean isIdentity();
+//Returns true if the matrix is identity.
+
+void mapPoints(float[] dst, int dstIndex, float[] src, int srcIndex, int pointCount);
+//Apply this matrix to the array of 2D points specified by src, and write the transformed points into the array of points specified by dst.
+
+void mapPoints(float[] pts);
+//Apply this matrix to the array of 2D points, and write the transformed points back into the array
+
+void mapPoints(float[] dst, float[] src);
+//Apply this matrix to the array of 2D points specified by src, and write the transformed points into the array of points specified by dst.
+
+float mapRadius(float radius);
+//Return the mean radius of a circle after it has been mapped by this matrix.
+
+boolean mapRect(RectF dst, RectF src);
+//Apply this matrix to the src rectangle, and write the transformed rectangle into dst.
+
+boolean mapRect(RectF rect);
+//Apply this matrix to the rectangle, and write the transformed rectangle back into it.
+
+void mapVectors(float[] dst, float[] src);
+//Apply this matrix to the array of 2D vectors specified by src, and write the transformed vectors into the array of vectors specified by dst.
+
+void mapVectors(float[] vecs);
+//Apply this matrix to the array of 2D vectors, and write the transformed vectors back into the array.
+
+void mapVectors(float[] dst, int dstIndex, float[] src, int srcIndex, int vectorCount);
+//Apply this matrix to the array of 2D vectors specified by src, and write the transformed vectors into the array of vectors specified by dst.
+
+boolean postConcat(Matrix other);
+//Postconcats the matrix with the specified matrix.
+
+boolean postRotate(float degrees);
+//Postconcats the matrix with the specified rotation.
+
+boolean postRotate(float degrees, float px, float py);
+//Postconcats the matrix with the specified rotation.
+
+boolean postScale(float sx, float sy);
+//Postconcats the matrix with the specified scale.
+
+boolean postScale(float sx, float sy, float px, float py);
+//Postconcats the matrix with the specified scale.
+
+boolean postSkew(float kx, float ky);
+//Postconcats the matrix with the specified skew.
+
+boolean postSkew(float kx, float ky, float px, float py);
+//Postconcats the matrix with the specified skew.
+
+boolean postTranslate(float dx, float dy);
+//Postconcats the matrix with the specified translation.
+
+boolean preConcat(Matrix other);
+//Preconcats the matrix with the specified matrix.
+
+boolean preRotate(float degrees);
+//Preconcats the matrix with the specified rotation.
+
+boolean preRotate(float degrees, float px, float py);
+//Preconcats the matrix with the specified rotation.
+
+boolean preScale(float sx, float sy);
+//Preconcats the matrix with the specified scale.
+
+boolean preScale(float sx, float sy, float px, float py);
+//Preconcats the matrix with the specified scale.
+
+boolean preSkew(float kx, float ky);
+//Preconcats the matrix with the specified skew.
+
+boolean preSkew(float kx, float ky, float px, float py);
+//Preconcats the matrix with the specified skew.
+
+boolean preTranslate(float dx, float dy);
+//Preconcats the matrix with the specified translation.
+
+boolean rectStaysRect();
+//Returns true if will map a rectangle to another rectangle.
+
+void reset();
+//Set the matrix to identity
+void set(Matrix src);
+//(deep); copy the src matrix into this matrix.
+
+boolean setConcat(Matrix a, Matrix b);
+//Set the matrix to the concatenation of the two specified matrices, returning true if the the result can be represented.
+
+boolean setPolyToPoly(float[] src, int srcIndex, float[] dst, int dstIndex, int pointCount);
+//Set the matrix such that the specified src points would map to the specified dst points.
+
+boolean setRectToRect(RectF src, RectF dst, Matrix.ScaleToFit stf);
+//Set the matrix to the scale and translate values that map the source rectangle to the destination rectangle, returning true if the the result can be represented.
+
+void setRotate(float degrees);
+//Set the matrix to rotate about (0,0); by the specified number of degrees.
+
+void setRotate(float degrees, float px, float py);
+//Set the matrix to rotate by the specified number of degrees, with a pivot point at (px, py);.
+
+void setScale(float sx, float sy, float px, float py);
+//Set the matrix to scale by sx and sy, with a pivot point at (px, py);.
+
+void setScale(float sx, float sy);
+//Set the matrix to scale by sx and sy.
+
+void setSinCos(float sinValue, float cosValue);
+//Set the matrix to rotate by the specified sine and cosine values.
+
+void setSinCos(float sinValue, float cosValue, float px, float py);
+//Set the matrix to rotate by the specified sine and cosine values, with a pivot point at (px, py);.
+
+void setSkew(float kx, float ky, float px, float py);
+//Set the matrix to skew by sx and sy, with a pivot point at (px, py);.
+
+void setSkew(float kx, float ky);
+//Set the matrix to skew by sx and sy.
+
+void setTranslate(float dx, float dy);
+//Set the matrix to translate by (dx, dy);.
+
+void setValues(float[] values);
+//Copy 9 values from the array into the matrix.
+
+String toShortString();
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+
+
 
 }
 
@@ -429,10 +608,151 @@ class Movie{
 }
 
 class Paint {
-        ColorFilter setColorFilter(ColorFilter filter);
-        Paint();
+float ascent();
+//Return the distance above (negative); the baseline (ascent); based on the current typeface and text size.
+
+int breakText(CharSequence text, int start, int end, boolean measureForwards, float maxWidth, float[] measuredWidth);
+//Measure the text, stopping early if the measured width exceeds maxWidth.
+
+int breakText(String text, boolean measureForwards, float maxWidth, float[] measuredWidth);
+//Measure the text, stopping early if the measured width exceeds maxWidth.
+
+int breakText(char[] text, int index, int count, float maxWidth, float[] measuredWidth);
+//Measure the text, stopping early if the measured width exceeds maxWidth.
+
+void clearShadowLayer();
+//Clear the shadow layer.
+
+float descent();
+//Return the distance below (positive); the baseline (descent); based on the current typeface and text size.
+
+int getAlpha();
+//Helper to getColor(); that just returns the color's alpha value.
+
+int getColor();
+//Return the paint's color.
+
+ColorFilter getColorFilter();
+//Get the paint's colorfilter (maybe be null);.
+
+boolean getFillPath(Path src, Path dst);
+//Applies any/all effects (patheffect, stroking); to src, returning the result in dst.
+
 int getFlags();
 //Return the paint's flags.
+
+float getFontMetrics(Paint.FontMetrics metrics);
+//Return the font's recommended interline spacing, given the Paint's settings for typeface, textSize, etc.
+
+Paint.FontMetrics getFontMetrics();
+//Allocates a new FontMetrics object, and then calls getFontMetrics(fm); with it, returning the object.
+
+Paint.FontMetricsInt getFontMetricsInt();
+
+int getFontMetricsInt(Paint.FontMetricsInt fmi);
+//Return the font's interline spacing, given the Paint's settings for typeface, textSize, etc.
+
+float getFontSpacing();
+//Return the recommend line spacing based on the current typeface and text size.
+
+int getHinting();
+//Return the paint's hinting mode.
+
+MaskFilter getMaskFilter();
+//Get the paint's maskfilter object.
+
+PathEffect getPathEffect();
+//Get the paint's patheffect object.
+
+Rasterizer getRasterizer();
+//Get the paint's rasterizer (or null);.
+
+Shader getShader();
+//Get the paint's shader object.
+
+Paint.Cap getStrokeCap();
+//Return the paint's Cap, controlling how the start and end of stroked lines and paths are treated.
+
+Paint.Join getStrokeJoin();
+//Return the paint's stroke join type.
+
+float getStrokeMiter();
+//Return the paint's stroke miter value.
+
+float getStrokeWidth();
+//Return the width for stroking.
+
+Paint.Style getStyle();
+//Return the paint's style, used for controlling how primitives' geometries are interpreted (except for drawBitmap, which always assumes FILL_STYLE);.
+
+Paint.Align getTextAlign();
+//Return the paint's Align value for drawing text.
+
+void getTextBounds(char[] text, int index, int count, Rect bounds);
+//Return in bounds (allocated by the caller); the smallest rectangle that encloses all of the characters, with an implied origin at (0,0);.
+
+void getTextBounds(String text, int start, int end, Rect bounds);
+//Return in bounds (allocated by the caller); the smallest rectangle that encloses all of the characters, with an implied origin at (0,0);.
+
+Locale getTextLocale();
+//Get the text Locale.
+
+void getTextPath(String text, int start, int end, float x, float y, Path path);
+//Return the path (outline); for the specified text.
+
+void getTextPath(char[] text, int index, int count, float x, float y, Path path);
+//Return the path (outline); for the specified text.
+
+float getTextScaleX();
+//Return the paint's horizontal scale factor for text.
+
+float getTextSize();
+//Return the paint's text size.
+
+float getTextSkewX();
+//Return the paint's horizontal skew factor for text.
+
+int getTextWidths(String text, float[] widths);
+//Return the advance widths for the characters in the string.
+
+int getTextWidths(CharSequence text, int start, int end, float[] widths);
+//Return the advance widths for the characters in the string.
+
+int getTextWidths(String text, int start, int end, float[] widths);
+//Return the advance widths for the characters in the string.
+
+int getTextWidths(char[] text, int index, int count, float[] widths);
+//Return the advance widths for the characters in the string.
+
+Typeface getTypeface();
+//Get the paint's typeface object.
+
+Xfermode getXfermode();
+//Get the paint's xfermode object.
+
+final boolean isAntiAlias();
+//Helper for getFlags();, returning true if ANTI_ALIAS_FLAG bit is set AntiAliasing smooths out the edges of what is being drawn, but is has no impact on the interior of the shape.
+
+final boolean isDither();
+//Helper for getFlags();, returning true if DITHER_FLAG bit is set Dithering affects how colors that are higher precision than the device are down-sampled.
+
+final boolean isFakeBoldText();
+//Helper for getFlags();, returning true if FAKE_BOLD_TEXT_FLAG bit is set
+
+final boolean isFilterBitmap();
+//Whether or not the bitmap filter is activated.
+
+final boolean isLinearText();
+//Helper for getFlags();, returning true if LINEAR_TEXT_FLAG bit is set
+
+final boolean isStrikeThruText();
+//Helper for getFlags();, returning true if STRIKE_THRU_TEXT_FLAG bit is set
+
+final boolean isSubpixelText();
+//Helper for getFlags();, returning true if SUBPIXEL_TEXT_FLAG bit is set
+
+final boolean isUnderlineText();
+//Helper for getFlags();, returning true if UNDERLINE_TEXT_FLAG bit is set
 
 float measureText(String text);
 //Return the width of the text.
@@ -446,6 +766,15 @@ float measureText(String text, int start, int end);
 float measureText(char[] text, int index, int count);
 //Return the width of the text.
 
+void reset();
+//Restores the paint to its default settings.
+
+void set(Paint src);
+//Copy the fields from src into this paint.
+
+void setARGB(int a, int r, int g, int b);
+//Helper to setColor();, that takes a,r,g,b and constructs the color int
+
 void setAlpha(int a);
 //Helper to setColor();, that only assigns the color's alpha value, leaving its r,g,b values unchanged.
 
@@ -454,6 +783,9 @@ void setAntiAlias(boolean aa);
 
 void setColor(int color);
 //Set the paint's color.
+
+ColorFilter setColorFilter(ColorFilter filter);
+//Set or clear the paint's colorfilter, returning the parameter.
 
 void setDither(boolean dither);
 //Helper for setFlags();, setting or clearing the DITHER_FLAG bit Dithering affects how colors that are higher precision than the device are down-sampled.
@@ -464,8 +796,32 @@ void setFakeBoldText(boolean fakeBoldText);
 void setFilterBitmap(boolean filter);
 //Helper for setFlags();, setting or clearing the FILTER_BITMAP_FLAG bit.
 
+void setFlags(int flags);
+//Set the paint's flags.
+
+void setHinting(int mode);
+//Set the paint's hinting mode.
+
+void setLinearText(boolean linearText);
+//Helper for setFlags();, setting or clearing the LINEAR_TEXT_FLAG bit
+
+MaskFilter setMaskFilter(MaskFilter maskfilter);
+//Set or clear the maskfilter object.
+
+PathEffect setPathEffect(PathEffect effect);
+//Set or clear the patheffect object.
+
+Rasterizer setRasterizer(Rasterizer rasterizer);
+//Set or clear the rasterizer object.
+
 Shader setShader(Shader shader);
 //Set or clear the shader object.
+
+void setShadowLayer(float radius, float dx, float dy, int color);
+//This draws a shadow layer below the main layer, with the specified offset and color, and blur radius.
+
+void setStrikeThruText(boolean strikeThruText);
+//Helper for setFlags();, setting or clearing the STRIKE_THRU_TEXT_FLAG bit
 
 void setStrokeCap(Paint.Cap cap);
 //Set the paint's Cap.
@@ -473,251 +829,640 @@ void setStrokeCap(Paint.Cap cap);
 void setStrokeJoin(Paint.Join join);
 //Set the paint's Join.
 
+void setStrokeMiter(float miter);
+//Set the paint's stroke miter value.
+
 void setStrokeWidth(float width);
 //Set the width for stroking.
 
 void setStyle(Paint.Style style);
 //Set the paint's style, used for controlling how primitives' geometries are interpreted (except for drawBitmap, which always assumes Fill);.
 
+void setSubpixelText(boolean subpixelText);
+//Helper for setFlags();, setting or clearing the SUBPIXEL_TEXT_FLAG bit
+
 void setTextAlign(Paint.Align align);
 //Set the paint's text alignment.
+
+void setTextLocale(Locale locale);
+//Set the text locale.
+
+void setTextScaleX(float scaleX);
+//Set the paint's horizontal scale factor for text.
 
 void setTextSize(float textSize);
 //Set the paint's text size.
 
+void setTextSkewX(float skewX);
+//Set the paint's horizontal skew factor for text.
+
 Typeface setTypeface(Typeface typeface);
 //Set or clear the typeface object.
 
-
-
-
-
-//UNUSED AND UNANNOTATED
-//float ascent();
-//Return the distance above (negative); the baseline (ascent); based on the current typeface and text size.
-
-//int breakText(CharSequence text, int start, int end, boolean measureForwards, float maxWidth, float[] measuredWidth);
-//Measure the text, stopping early if the measured width exceeds maxWidth.
-
-//int breakText(String text, boolean measureForwards, float maxWidth, float[] measuredWidth);
-//Measure the text, stopping early if the measured width exceeds maxWidth.
-
-//int breakText(char[] text, int index, int count, float maxWidth, float[] measuredWidth);
-//Measure the text, stopping early if the measured width exceeds maxWidth.
-
-//void clearShadowLayer();
-//Clear the shadow layer.
-
-//float descent();
-//Return the distance below (positive); the baseline (descent); based on the current typeface and text size.
-
-//int getAlpha();
-//Helper to getColor(); that just returns the color's alpha value.
-
-//int getColor();
-//Return the paint's color.
-
-//ColorFilter getColorFilter();
-//Get the paint's colorfilter (maybe be null);.
-
-//boolean getFillPath(Path src, Path dst);
-//Applies any/all effects (patheffect, stroking); to src, returning the result in dst.
-
-//float getFontMetrics(Paint.FontMetrics metrics);
-//Return the font's recommended interline spacing, given the Paint's settings for typeface, textSize, etc.
-
-//Paint.FontMetrics getFontMetrics();
-//Allocates a new FontMetrics object, and then calls getFontMetrics(fm); with it, returning the object.
-
-//Paint.FontMetricsInt getFontMetricsInt();
-
-//int getFontMetricsInt(Paint.FontMetricsInt fmi);
-//Return the font's interline spacing, given the Paint's settings for typeface, textSize, etc.
-
-//float getFontSpacing();
-//Return the recommend line spacing based on the current typeface and text size.
-
-//int getHinting();
-//Return the paint's hinting mode.
-
-//MaskFilter getMaskFilter();
-//Get the paint's maskfilter object.
-
-//PathEffect getPathEffect();
-//Get the paint's patheffect object.
-
-//Rasterizer getRasterizer();
-//Get the paint's rasterizer (or null);.
-
-//Shader getShader();
-//Get the paint's shader object.
-
-//Paint.Cap getStrokeCap();
-//Return the paint's Cap, controlling how the start and end of stroked lines and paths are treated.
-
-//Paint.Join getStrokeJoin();
-//Return the paint's stroke join type.
-
-//float getStrokeMiter();
-//Return the paint's stroke miter value.
-
-//float getStrokeWidth();
-//Return the width for stroking.
-
-//Paint.Style getStyle();
-//Return the paint's style, used for controlling how primitives' geometries are interpreted (except for drawBitmap, which always assumes FILL_STYLE);.
-
-//Paint.Align getTextAlign();
-//Return the paint's Align value for drawing text.
-
-//void getTextBounds(char[] text, int index, int count, Rect bounds);
-//Return in bounds (allocated by the caller); the smallest rectangle that encloses all of the characters, with an implied origin at (0,0);.
-
-//void getTextBounds(String text, int start, int end, Rect bounds);
-//Return in bounds (allocated by the caller); the smallest rectangle that encloses all of the characters, with an implied origin at (0,0);.
-
-//Locale getTextLocale();
-//Get the text Locale.
-
-//void getTextPath(String text, int start, int end, float x, float y, Path path);
-//Return the path (outline); for the specified text.
-
-//void getTextPath(char[] text, int index, int count, float x, float y, Path path);
-//Return the path (outline); for the specified text.
-
-//float getTextScaleX();
-//Return the paint's horizontal scale factor for text.
-
-//float getTextSize();
-//Return the paint's text size.
-
-//float getTextSkewX();
-//Return the paint's horizontal skew factor for text.
-
-//int getTextWidths(String text, float[] widths);
-//Return the advance widths for the characters in the string.
-
-//int getTextWidths(CharSequence text, int start, int end, float[] widths);
-//Return the advance widths for the characters in the string.
-
-//int getTextWidths(String text, int start, int end, float[] widths);
-//Return the advance widths for the characters in the string.
-
-//int getTextWidths(char[] text, int index, int count, float[] widths);
-//Return the advance widths for the characters in the string.
-
-//Typeface getTypeface();
-//Get the paint's typeface object.
-
-//Xfermode getXfermode();
-//Get the paint's xfermode object.
-
-//final boolean isAntiAlias();
-//Helper for getFlags();, returning true if ANTI_ALIAS_FLAG bit is set AntiAliasing smooths out the edges of what is being drawn, but is has no impact on the interior of the shape.
-
-//final boolean isDither();
-//Helper for getFlags();, returning true if DITHER_FLAG bit is set Dithering affects how colors that are higher precision than the device are down-sampled.
-
-//final boolean isFakeBoldText();
-//Helper for getFlags();, returning true if FAKE_BOLD_TEXT_FLAG bit is set
-
-//final boolean isFilterBitmap();
-//Whether or not the bitmap filter is activated.
-
-//final boolean isLinearText();
-//Helper for getFlags();, returning true if LINEAR_TEXT_FLAG bit is set
-
-//final boolean isStrikeThruText();
-//Helper for getFlags();, returning true if STRIKE_THRU_TEXT_FLAG bit is set
-
-//final boolean isSubpixelText();
-//Helper for getFlags();, returning true if SUBPIXEL_TEXT_FLAG bit is set
-
-//final boolean isUnderlineText();
-//Helper for getFlags();, returning true if UNDERLINE_TEXT_FLAG bit is set
-
-//void reset();
-//Restores the paint to its default settings.
-
-//void set(Paint src);
-//Copy the fields from src into this paint.
-
-//void setARGB(int a, int r, int g, int b);
-//Helper to setColor();, that takes a,r,g,b and constructs the color int
-
-//ColorFilter setColorFilter(ColorFilter filter);
-//Set or clear the paint's colorfilter, returning the parameter.
-
-//void setFlags(int flags);
-//Set the paint's flags.
-
-//void setHinting(int mode);
-//Set the paint's hinting mode.
-
-//void setLinearText(boolean linearText);
-//Helper for setFlags();, setting or clearing the LINEAR_TEXT_FLAG bit
-
-//MaskFilter setMaskFilter(MaskFilter maskfilter);
-//Set or clear the maskfilter object.
-
-//PathEffect setPathEffect(PathEffect effect);
-//Set or clear the patheffect object.
-
-//Rasterizer setRasterizer(Rasterizer rasterizer);
-//Set or clear the rasterizer object.
-
-//void setShadowLayer(float radius, float dx, float dy, int color);
-//This draws a shadow layer below the main layer, with the specified offset and color, and blur radius.
-
-//void setStrikeThruText(boolean strikeThruText);
-//Helper for setFlags();, setting or clearing the STRIKE_THRU_TEXT_FLAG bit
-
-//void setStrokeMiter(float miter);
-//Set the paint's stroke miter value.
-
-//void setSubpixelText(boolean subpixelText);
-//Helper for setFlags();, setting or clearing the SUBPIXEL_TEXT_FLAG bit
-
-//void setTextLocale(Locale locale);
-//Set the text locale.
-
-//void setTextScaleX(float scaleX);
-//Set the paint's horizontal scale factor for text.
-
-//void setTextSkewX(float skewX);
-//Set the paint's horizontal skew factor for text.
-
-//void setUnderlineText(boolean underlineText);
+void setUnderlineText(boolean underlineText);
 //Helper for setFlags();, setting or clearing the UNDERLINE_TEXT_FLAG bit
 
-//Xfermode setXfermode(Xfermode xfermode);
+Xfermode setXfermode(Xfermode xfermode);
 //Set or clear the xfermode object.
+
+//Protected Methods
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+}
+
+class Point {
     
-//Protected methods
-//void finalize();
+    
+int describeContents();
+//Parcelable interface methods
+
+final boolean equals(int x, int y);
+//Returns true if the point's coordinates equal (x,y);
+
+boolean equals(Object o);
+//Compares this instance with the specified object and indicates if they are equal.
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+final void negate();
+//Negate the point's coordinates
+
+final void offset(int dx, int dy);
+//Offset the point's coordinates by dx, dy
+
+void readFromParcel(Parcel in);
+//Set the point's coordinates from the data stored in the specified parcel.
+
+void set(int x, int y);
+//Set the point's x and y coordinates
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel out, int flags);
+//Write this point to the specified parcel.
+
+
+
+}
+
+class PointF {
+
+int describeContents();
+//Parcelable interface methods
+
+boolean equals(Object o);
+//Compares this instance with the specified object and indicates if they are equal.
+
+final boolean equals(float x, float y);
+//Returns true if the point's coordinates equal (x,y);
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+final float length();
+//Return the euclidian distance from (0,0); to the point
+
+static float length(float x, float y);
+//Returns the euclidian distance from (0,0); to (x,y);
+
+final void negate();
+
+final void offset(float dx, float dy);
+
+void readFromParcel(Parcel in);
+//Set the point's coordinates from the data stored in the specified parcel.
+
+final void set(float x, float y);
+//Set the point's x and y coordinates
+
+final void set(PointF p);
+//Set the point's x and y coordinates to the coordinates of p
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel out, int flags);
+//Write this point to the specified parcel.
 
 }
 
 class PorterDuffColorFilter{
         PorterDuffColorFilter(int srcColor, Mode mode);
 }
-class Rect{
-        void set(int left, int top, int right, int bottom);
-        Rect();
-        void union(int left, int top, int right, int bottom);
-}
-class Point{
-        Point();
-        Point(int x, int y);
+class Rect {
+    
+final int centerX();
+
+final int centerY();
+
+boolean contains(int x, int y);
+//Returns true if (x,y); is inside the rectangle.
+
+boolean contains(int left, int top, int right, int bottom);
+//Returns true iff the 4 specified sides of a rectangle are inside or equal to this rectangle.
+
+boolean contains(Rect r);
+//Returns true iff the specified rectangle r is inside or equal to this rectangle.
+
+int describeContents();
+//Parcelable interface methods
+
+boolean equals(Object o);
+//Compares this instance with the specified object and indicates if they are equal.
+
+final float exactCenterX();
+
+final float exactCenterY();
+
+String flattenToString();
+//Return a string representation of the rectangle in a well-defined format.
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+final int height();
+
+void inset(int dx, int dy);
+//Inset the rectangle by (dx,dy);.
+
+boolean intersect(Rect r);
+//If the specified rectangle intersects this rectangle, return true and set this rectangle to that intersection, otherwise return false and do not change this rectangle.
+
+boolean intersect(int left, int top, int right, int bottom);
+//If the rectangle specified by left,top,right,bottom intersects this rectangle, return true and set this rectangle to that intersection, otherwise return false and do not change this rectangle.
+
+boolean intersects(int left, int top, int right, int bottom);
+//Returns true if this rectangle intersects the specified rectangle.
+
+static boolean intersects(Rect a, Rect b);
+//Returns true iff the two specified rectangles intersect.
+
+final boolean isEmpty();
+//Returns true if the rectangle is empty (left >= right or top >= bottom);
+
+void offset(int dx, int dy);
+//Offset the rectangle by adding dx to its left and right coordinates, and adding dy to its top and bottom coordinates.
+
+void offsetTo(int newLeft, int newTop);
+//Offset the rectangle to a specific (left, top); position, keeping its width and height the same.
+
+void readFromParcel(Parcel in);
+//Set the rectangle's coordinates from the data stored in the specified parcel.
+
+void set(int left, int top, int right, int bottom);
+//Set the rectangle's coordinates to the specified values.
+
+void set(Rect src);
+//Copy the coordinates from src into this rectangle.
+
+void setEmpty();
+//Set the rectangle to (0,0,0,0);
+
+boolean setIntersect(Rect a, Rect b);
+//If rectangles a and b intersect, return true and set this rectangle to that intersection, otherwise return false and do not change this rectangle.
+
+void sort();
+//Swap top/bottom or left/right if there are flipped (i.e.
+
+String toShortString();
+//Return a string representation of the rectangle in a compact form.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+static Rect unflattenFromString(String str);
+//Returns a Rect from a string of the form returned by flattenToString();, or null if the string is not of that form.
+
+void union(int left, int top, int right, int bottom);
+//Update this Rect to enclose itself and the specified rectangle.
+
+void union(Rect r);
+//Update this Rect to enclose itself and the specified rectangle.
+
+void union(int x, int y);
+//Update this Rect to enclose itself and the [x,y] coordinate.
+
+final int width();
+
+void writeToParcel(Parcel out, int flags);
+//Write this rectangle to the specified parcel.
+
 }
 
+class RectF {
+    
+final float centerX();
+
+final float centerY();
+
+boolean contains(float left, float top, float right, float bottom);
+//Returns true iff the 4 specified sides of a rectangle are inside or equal to this rectangle.
+
+boolean contains(float x, float y);
+//Returns true if (x,y); is inside the rectangle.
+
+boolean contains(RectF r);
+//Returns true iff the specified rectangle r is inside or equal to this rectangle.
+
+int describeContents();
+//Parcelable interface methods
+
+boolean equals(Object o);
+//Compares this instance with the specified object and indicates if they are equal.
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+final float height();
+
+void inset(float dx, float dy);
+//Inset the rectangle by (dx,dy);.
+
+boolean intersect(float left, float top, float right, float bottom);
+//If the rectangle specified by left,top,right,bottom intersects this rectangle, return true and set this rectangle to that intersection, otherwise return false and do not change this rectangle.
+
+boolean intersect(RectF r);
+//If the specified rectangle intersects this rectangle, return true and set this rectangle to that intersection, otherwise return false and do not change this rectangle.
+
+static boolean intersects(RectF a, RectF b);
+//Returns true iff the two specified rectangles intersect.
+
+boolean intersects(float left, float top, float right, float bottom);
+//Returns true if this rectangle intersects the specified rectangle.
+
+final boolean isEmpty();
+//Returns true if the rectangle is empty (left >= right or top >= bottom);
+
+void offset(float dx, float dy);
+//Offset the rectangle by adding dx to its left and right coordinates, and adding dy to its top and bottom coordinates.
+
+void offsetTo(float newLeft, float newTop);
+//Offset the rectangle to a specific (left, top); position, keeping its width and height the same.
+
+void readFromParcel(Parcel in);
+//Set the rectangle's coordinates from the data stored in the specified parcel.
+
+void round(Rect dst);
+//Set the dst integer Rect by rounding this rectangle's coordinates to their nearest integer values.
+
+void roundOut(Rect dst);
+//Set the dst integer Rect by rounding "out" this rectangle, choosing the floor of top and left, and the ceiling of right and bottom.
+
+void set(float left, float top, float right, float bottom);
+//Set the rectangle's coordinates to the specified values.
+
+void set(RectF src);
+//Copy the coordinates from src into this rectangle.
+
+void set(Rect src);
+//Copy the coordinates from src into this rectangle.
+
+void setEmpty();
+//Set the rectangle to (0,0,0,0);
+
+boolean setIntersect(RectF a, RectF b);
+//If rectangles a and b intersect, return true and set this rectangle to that intersection, otherwise return false and do not change this rectangle.
+
+void sort();
+//Swap top/bottom or left/right if there are flipped (i.e.
+
+String toShortString();
+//Return a string representation of the rectangle in a compact form.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void union(float left, float top, float right, float bottom);
+//Update this Rect to enclose itself and the specified rectangle.
+
+void union(RectF r);
+//Update this Rect to enclose itself and the specified rectangle.
+
+void union(float x, float y);
+//Update this Rect to enclose itself and the [x,y] coordinate.
+
+final float width();
+
+void writeToParcel(Parcel out, int flags);
+//Write this rectangle to the specified parcel.
+
+
+
+}
+
+
 package android.graphics.drawable;
-class Drawable{
-        int getIntrinsicWidth();
-        boolean setState(int[] stateSet);
-        int getIntrinsicHeight();
-        void draw(Canvas arg0);
-        boolean isStateful();
-        void setBounds(int left, int top, int right, int bottom);
-        void setAlpha(int arg0);
+
+class BitmapDrawable {
+    
+void draw(Canvas canvas);
+//Draw in its bounds (set via setBounds); respecting optional effects such as alpha (set via setAlpha); and color filter (set via setColorFilter);.
+
+final Bitmap getBitmap();
+//Returns the bitmap used by this drawable to render.
+
+int getChangingConfigurations();
+//Return a mask of the configuration parameters for which this drawable may change, requiring that it be re-created.
+
+final Drawable.ConstantState getConstantState();
+//Return a Drawable.ConstantState instance that holds the shared state of this Drawable.
+
+int getGravity();
+//Get the gravity used to position/stretch the bitmap within its bounds.
+
+int getIntrinsicHeight();
+//Return the intrinsic height of the underlying drawable object.
+
+int getIntrinsicWidth();
+//Return the intrinsic width of the underlying drawable object.
+
+int getOpacity();
+//Return the opacity/transparency of this Drawable.
+
+final Paint getPaint();
+//Returns the paint used to render this drawable.
+
+Shader.TileMode getTileModeX();
+//Indicates the repeat behavior of this drawable on the X axis.
+
+Shader.TileMode getTileModeY();
+//Indicates the repeat behavior of this drawable on the Y axis.
+
+void inflate(Resources r, XmlPullParser parser, AttributeSet attrs);
+//Inflate this Drawable from an XML resource.
+
+Drawable mutate();
+//A mutable BitmapDrawable still shares its Bitmap with any other Drawable that comes from the same resource.
+
+void setAlpha(int alpha);
+//Specify an alpha value for the drawable.
+
+void setAntiAlias(boolean aa);
+//Enables or disables anti-aliasing for this drawable.
+
+void setColorFilter(ColorFilter cf);
+//Specify an optional colorFilter for the drawable.
+
+void setDither(boolean dither);
+//Set to true to have the drawable dither its colors when drawn to a device with fewer than 8-bits per color component.
+
+void setFilterBitmap(boolean filter);
+//Set to true to have the drawable filter its bitmap when scaled or rotated (for drawables that use bitmaps);.
+
+void setGravity(int gravity);
+//Set the gravity used to position/stretch the bitmap within its bounds.
+
+void setTargetDensity(int density);
+//Set the density at which this drawable will be rendered.
+
+void setTargetDensity(DisplayMetrics metrics);
+//Set the density scale at which this drawable will be rendered.
+
+void setTargetDensity(Canvas canvas);
+//Set the density scale at which this drawable will be rendered.
+
+void setTileModeX(Shader.TileMode mode);
+//Sets the repeat behavior of this drawable on the X axis.
+
+void setTileModeXY(Shader.TileMode xmode, Shader.TileMode ymode);
+//Sets the repeat behavior of this drawable on both axis.
+
+final void setTileModeY(Shader.TileMode mode);
+//Sets the repeat behavior of this drawable on the Y axis.
+
+//Protected Methods
+void onBoundsChange(Rect bounds);
+//Override this in your subclass to change appearance if you recognize the specified state.
+
+
+
+}
+
+class Drawable {
+
+void clearColorFilter();
+
+final Rect copyBounds();
+//Return a copy of the drawable's bounds in a new Rect.
+
+final void copyBounds(Rect bounds);
+//Return a copy of the drawable's bounds in the specified Rect (allocated by the caller);.
+
+static Drawable createFromPath(String pathName);
+//Create a drawable from file path name.
+
+static Drawable createFromResourceStream(Resources res, TypedValue value, InputStream is, String srcName, BitmapFactory.Options opts);
+//Create a drawable from an inputstream, using the given resources and value to determine density information.
+
+static Drawable createFromResourceStream(Resources res, TypedValue value, InputStream is, String srcName);
+//Create a drawable from an inputstream, using the given resources and value to determine density information.
+
+static Drawable createFromStream(InputStream is, String srcName);
+//Create a drawable from an inputstream
+
+static Drawable createFromXml(Resources r, XmlPullParser parser);
+//Create a drawable from an XML document.
+
+static Drawable createFromXmlInner(Resources r, XmlPullParser parser, AttributeSet attrs);
+//Create from inside an XML document.
+
+abstract void draw(Canvas canvas);
+//Draw in its bounds (set via setBounds); respecting optional effects such as alpha (set via setAlpha); and color filter (set via setColorFilter);.
+
+final Rect getBounds();
+//Return the drawable's bounds Rect.
+
+Drawable.Callback getCallback();
+//Return the current Drawable.Callback implementation attached to this Drawable.
+
+int getChangingConfigurations();
+//Return a mask of the configuration parameters for which this drawable may change, requiring that it be re-created.
+
+Drawable.ConstantState getConstantState();
+//Return a Drawable.ConstantState instance that holds the shared state of this Drawable.
+
+Drawable getCurrent();
+
+int getIntrinsicHeight();
+//Return the intrinsic height of the underlying drawable object.
+
+int getIntrinsicWidth();
+//Return the intrinsic width of the underlying drawable object.
+
+final int getLevel();
+//Retrieve the current level.
+
+int getMinimumHeight();
+//Returns the minimum height suggested by this Drawable.
+
+int getMinimumWidth();
+//Returns the minimum width suggested by this Drawable.
+
+abstract int getOpacity();
+//Return the opacity/transparency of this Drawable.
+
+boolean getPadding(Rect padding);
+//Return in padding the insets suggested by this Drawable for placing content inside the drawable's bounds.
+
+int[] getState();
+//Describes the current state, as a union of primitve states, such as state_focused, state_selected, etc.
+
+Region getTransparentRegion();
+//Returns a Region representing the part of the Drawable that is completely transparent.
+
+void inflate(Resources r, XmlPullParser parser, AttributeSet attrs);
+//Inflate this Drawable from an XML resource.
+
+void invalidateSelf();
+//Use the current Drawable.Callback implementation to have this Drawable redrawn.
+
+boolean isStateful();
+//Indicates whether this view will change its appearance based on state.
+
+final boolean isVisible();
+
+void jumpToCurrentState();
+//If this Drawable does transition animations between states, ask that it immediately jump to the current state and skip any active animations.
+
+Drawable mutate();
+//Make this drawable mutable.
+
+static int resolveOpacity(int op1, int op2);
+//Return the appropriate opacity value for two source opacities.
+
+void scheduleSelf(Runnable what, long when);
+//Use the current Drawable.Callback implementation to have this Drawable scheduled.
+
+abstract void setAlpha(int alpha);
+//Specify an alpha value for the drawable.
+
+void setBounds(int left, int top, int right, int bottom);
+//Specify a bounding rectangle for the Drawable.
+
+void setBounds(Rect bounds);
+//Specify a bounding rectangle for the Drawable.
+
+final void setCallback(Drawable.Callback cb);
+//Bind a Drawable.Callback object to this Drawable.
+
+void setChangingConfigurations(int configs);
+//Set a mask of the configuration parameters for which this drawable may change, requiring that it be re-created.
+
+abstract void setColorFilter(ColorFilter cf);
+//Specify an optional colorFilter for the drawable.
+
+void setColorFilter(int color, PorterDuff.Mode mode);
+//Specify a color and porterduff mode to be the colorfilter for this drawable.
+
+void setDither(boolean dither);
+//Set to true to have the drawable dither its colors when drawn to a device with fewer than 8-bits per color component.
+
+void setFilterBitmap(boolean filter);
+//Set to true to have the drawable filter its bitmap when scaled or rotated (for drawables that use bitmaps);.
+
+final boolean setLevel(int level);
+//Specify the level for the drawable.
+
+boolean setState(int[] stateSet);
+//Specify a set of states for the drawable.
+
+boolean setVisible(boolean visible, boolean restart);
+//Set whether this Drawable is visible.
+
+void unscheduleSelf(Runnable what);
+//Use the current Drawable.Callback implementation to have this Drawable unscheduled.
+
+//Protected Methods
+void onBoundsChange(Rect bounds);
+//Override this in your subclass to change appearance if you recognize the specified state.
+
+boolean onLevelChange(int level);
+//Override this in your subclass to change appearance if you vary based on level.
+
+boolean onStateChange(int[] state);
+//Override this in your subclass to change appearance if you recognize the specified state.
+
+    
+}
+
+class ShapeDrawable {
+
+void draw(Canvas canvas);
+//Draw in its bounds (set via setBounds); respecting optional effects such as alpha (set via setAlpha); and color filter (set via setColorFilter);.
+
+int getChangingConfigurations();
+//Return a mask of the configuration parameters for which this drawable may change, requiring that it be re-created.
+
+Drawable.ConstantState getConstantState();
+//Return a Drawable.ConstantState instance that holds the shared state of this Drawable.
+
+int getIntrinsicHeight();
+//Return the intrinsic height of the underlying drawable object.
+
+int getIntrinsicWidth();
+//Return the intrinsic width of the underlying drawable object.
+
+int getOpacity();
+//Return the opacity/transparency of this Drawable.
+
+boolean getPadding(Rect padding);
+//Return in padding the insets suggested by this Drawable for placing content inside the drawable's bounds.
+
+Paint getPaint();
+//Returns the Paint used to draw the shape.
+
+ShapeDrawable.ShaderFactory getShaderFactory();
+//Returns the ShaderFactory used by this ShapeDrawable for requesting a Shader.
+
+Shape getShape();
+//Returns the Shape of this ShapeDrawable.
+
+void inflate(Resources r, XmlPullParser parser, AttributeSet attrs);
+//Inflate this Drawable from an XML resource.
+
+Drawable mutate();
+//Make this drawable mutable.
+
+void setAlpha(int alpha);
+//Set the alpha level for this drawable [0..255].
+
+void setColorFilter(ColorFilter cf);
+//Specify an optional colorFilter for the drawable.
+
+void setDither(boolean dither);
+//Set to true to have the drawable dither its colors when drawn to a device with fewer than 8-bits per color component.
+
+void setIntrinsicHeight(int height);
+//Sets the intrinsic (default); height for this shape.
+
+void setIntrinsicWidth(int width);
+//Sets the intrinsic (default); width for this shape.
+
+void setPadding(Rect padding);
+//Sets padding for this shape, defined by a Rect object.
+
+void setPadding(int left, int top, int right, int bottom);
+//Sets padding for the shape.
+
+void setShaderFactory(ShapeDrawable.ShaderFactory fact);
+//Sets a ShaderFactory to which requests for a Shader object will be made.
+
+void setShape(Shape s);
+//Sets the Shape of this ShapeDrawable.
+
+//Protected Methods
+boolean inflateTag(String name, Resources r, XmlPullParser parser, AttributeSet attrs);
+//Subclasses override this to parse custom subelements.
+
+void onBoundsChange(Rect bounds);
+//Override this in your subclass to change appearance if you recognize the specified state.
+
+void onDraw(Shape shape, Canvas canvas, Paint paint);
+//Called from the drawable's draw(); method after the canvas has been set to draw the shape at (0,0);.
+
+
+
 }

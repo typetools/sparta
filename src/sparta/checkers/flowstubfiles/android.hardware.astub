@@ -1,50 +1,485 @@
 package android.hardware;
 
 class Camera {
-//Annotations by Philip 
 
-	@Source(FlowPermission.CAMERA_SETTINGS) Parameters getParameters();
-	@DefaultFlow
-	@RequiredPermissions(android.Manifest.permission.CAMERA) Camera open();
-	void setParameters(@Sink(FlowPermission.CAMERA_SETTINGS) Parameters params);
-	void setPreviewDisplay(@Sink(FlowPermission.DISPLAY) SurfaceHolder holder);
-	void takePicture(ShutterCallback shutter, @Source(FlowPermission.CAMERA) PictureCallback raw, @Source(FlowPermission.CAMERA) PictureCallback jpeg);
-    void startPreview();
-    void release();
-    void stopPreview();
-                                        void autoFocus(AutoFocusCallback cb);
-            static @Source(CAMERA) Camera open(int cameraId);
-            static @Source(CAMERA) int getNumberOfCameras();
+final void addCallbackBuffer(byte[] callbackBuffer);
+//Adds a pre-allocated buffer to the preview callback buffer queue.
+
+final void autoFocus(@Sink(CAMERA) Camera.AutoFocusCallback cb);
+//Starts camera auto-focus and registers a callback function to run when the camera is focused.
+
+final void cancelAutoFocus();
+//Cancels any auto-focus function in progress.
+
+final boolean enableShutterSound(@Sink(CAMERA) boolean enabled);
+//Enable or disable the default shutter sound when taking a picture.
+
+static void getCameraInfo(@SINK(CAMERA) int cameraId, @Source(CAMERA) Camera.CameraInfo cameraInfo);
+//Returns the information about a particular camera.
+
+static @Source(CAMERA) int getNumberOfCameras();
+//Returns the number of physical cameras available on this device.
+
+@Source(CAMERA) Camera.Parameters getParameters();
+//Returns the current settings for this Camera service.
+
+final void lock();
+//Re-locks the camera to prevent other processes from accessing it.
+
+static @Source(CAMERA) Camera open(int cameraId);
+//Creates a new Camera object to access a particular hardware camera.
+
+static @Source(CAMERA) Camera open();
+//Creates a new Camera object to access the first back-facing camera on the device.
+
+final void reconnect();
+//Reconnects to the camera service after another process used it.
+
+final void release();
+//Disconnects and releases the Camera object resources.
+
+void setAutoFocusMoveCallback(Camera.AutoFocusMoveCallback cb);
+//Sets camera auto-focus move callback.
+
+final void setDisplayOrientation(@Sink(CAMERA) int degrees);
+//Set the clockwise rotation of preview display in degrees.
+
+final void setErrorCallback(Camera.ErrorCallback cb);
+//Registers a callback to be invoked when an error occurs.
+
+final void setFaceDetectionListener(Camera.FaceDetectionListener listener);
+//Registers a listener to be notified about the faces detected in the preview frame.
+
+final void setOneShotPreviewCallback(Camera.PreviewCallback cb);
+//Installs a callback to be invoked for the next preview frame in addition to displaying it on the screen.
+
+void setParameters(@Sink(CAMERA) Camera.Parameters params);
+//Changes the settings for this Camera service.
+
+final void setPreviewCallback(Camera.PreviewCallback cb);
+//Installs a callback to be invoked for every preview frame in addition to displaying them on the screen.
+
+final void setPreviewCallbackWithBuffer(Camera.PreviewCallback cb);
+//Installs a callback to be invoked for every preview frame, using buffers supplied with addCallbackBuffer(byte[]);, in addition to displaying them on the screen.
+
+final void setPreviewDisplay(@Sink(CAMERA) SurfaceHolder holder);
+//Sets the Surface to be used for live preview.
+
+final void setPreviewTexture(@Sink(CAMERA) SurfaceTexture surfaceTexture);
+//Sets the SurfaceTexture to be used for live preview.
+
+final void setZoomChangeListener(Camera.OnZoomChangeListener listener);
+//Registers a listener to be notified when the zoom value is updated by the camera driver during smooth zoom.
+
+final void startFaceDetection();
+//Starts the face detection.
+
+final void startPreview();
+//Starts capturing and drawing preview frames to the screen.
+
+final void startSmoothZoom(int value);
+//Zooms to the requested value smoothly.
+
+final void stopFaceDetection();
+//Stops the face detection.
+
+final void stopPreview();
+//Stops capturing and drawing preview frames to the surface, and resets the camera for a future call to startPreview();.
+
+final void stopSmoothZoom();
+//Stops the smooth zoom.
+
+final void takePicture(Camera.ShutterCallback shutter, Camera.PictureCallback raw, Camera.PictureCallback jpeg);
+//Equivalent to takePicture(shutter, raw, null, jpeg);.
+
+final void takePicture(Camera.ShutterCallback shutter, Camera.PictureCallback raw, Camera.PictureCallback postview, Camera.PictureCallback jpeg);
+//Triggers an asynchronous image capture.
+
+final void unlock();
+//Unlocks the camera to allow another process to access it.
+
+//Protected Methods
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
 }
 interface Camera$PictureCallback {
     void onPictureTaken(@Source(FlowPermission.CAMERA) byte @Source(FlowPermission.CAMERA) [] arg0, @Source(FlowPermission.CAMERA) Camera arg1);
 }
 
-class Camera$Parameters{
-            @Source(CAMERA) String getSceneMode();
-            @Source(CAMERA) List<String> getSupportedFocusModes();
-            void setFlashMode(@Sink(CAMERA) String value);
-            void setWhiteBalance(@Sink(CAMERA) String value);
-            void setPreviewSize(@Sink(CAMERA) int width, @Sink(CAMERA) int height);
-            @Source(CAMERA) List<String> getSupportedWhiteBalance();
-            void setZoom(@Sink(CAMERA) int value);
-            @Source(CAMERA) String getFlashMode();
-            void setSceneMode(@Sink(CAMERA) String value);
-            @Source(CAMERA) List<String> getSupportedColorEffects();
-            @Source(CAMERA) String getFocusMode();
-            @Source(CAMERA) List<String> getSupportedFlashModes();
-            @Source(CAMERA) boolean isZoomSupported();
-            @Source(CAMERA) List<Integer> getZoomRatios();
-            @Source(CAMERA) List<Size> getSupportedPreviewSizes();
-            void setColorEffect(@Sink(CAMERA) String value);
-            void setFocusMode(@Sink(CAMERA) String value);
-            @Source(CAMERA) List<String> getSupportedSceneModes();
+class Camera$Parameters {
+    
+String flatten();
+//Creates a single string with all the parameters set in this Parameters object.
+
+String get(String key);
+//Returns the value of a String parameter.
+
+String getAntibanding();
+//Gets the current antibanding setting.
+
+boolean getAutoExposureLock();
+//Gets the state of the auto-exposure lock.
+
+boolean getAutoWhiteBalanceLock();
+//Gets the state of the auto-white balance lock.
+
+String getColorEffect();
+//Gets the current color effect setting.
+
+int getExposureCompensation();
+//Gets the current exposure compensation index.
+
+float getExposureCompensationStep();
+//Gets the exposure compensation step.
+
+String getFlashMode();
+//Gets the current flash mode setting.
+
+float getFocalLength();
+//Gets the focal length (in millimeter); of the camera.
+
+List<Camera.Area> getFocusAreas();
+//Gets the current focus areas.
+
+void getFocusDistances(float[] output);
+//Gets the distances from the camera to where an object appears to be in focus.
+
+String getFocusMode();
+//Gets the current focus mode setting.
+
+float getHorizontalViewAngle();
+//Gets the horizontal angle of view in degrees.
+
+int getInt(String key);
+//Returns the value of an integer parameter.
+
+int getJpegQuality();
+//Returns the quality setting for the JPEG picture.
+
+int getJpegThumbnailQuality();
+//Returns the quality setting for the EXIF thumbnail in Jpeg picture.
+
+Camera.Size getJpegThumbnailSize();
+//Returns the dimensions for EXIF thumbnail in Jpeg picture.
+
+int getMaxExposureCompensation();
+//Gets the maximum exposure compensation index.
+
+int getMaxNumDetectedFaces();
+//Gets the maximum number of detected faces supported.
+
+int getMaxNumFocusAreas();
+//Gets the maximum number of focus areas supported.
+
+int getMaxNumMeteringAreas();
+//Gets the maximum number of metering areas supported.
+
+int getMaxZoom();
+//Gets the maximum zoom value allowed for snapshot.
+
+List<Camera.Area> getMeteringAreas();
+//Gets the current metering areas.
+
+int getMinExposureCompensation();
+//Gets the minimum exposure compensation index.
+
+int getPictureFormat();
+//Returns the image format for pictures.
+
+Camera.Size getPictureSize();
+//Returns the dimension setting for pictures.
+
+Camera.Size getPreferredPreviewSizeForVideo();
+//Returns the preferred or recommended preview size (width and height); in pixels for video recording.
+
+int getPreviewFormat();
+//Returns the image format for preview frames got from Camera.PreviewCallback.
+
+void getPreviewFpsRange(int[] range);
+//Returns the current minimum and maximum preview fps.
+
+int getPreviewFrameRate();
+//This method was deprecated in API level 9. replaced by getPreviewFpsRange(int[]);
+
+Camera.Size getPreviewSize();
+//Returns the dimensions setting for preview pictures.
+
+String getSceneMode();
+//Gets the current scene mode setting.
+
+List<String> getSupportedAntibanding();
+//Gets the supported antibanding values.
+
+List<String> getSupportedColorEffects();
+//Gets the supported color effects.
+
+List<String> getSupportedFlashModes();
+//Gets the supported flash modes.
+
+List<String> getSupportedFocusModes();
+//Gets the supported focus modes.
+
+List<Camera.Size> getSupportedJpegThumbnailSizes();
+//Gets the supported jpeg thumbnail sizes.
+
+List<Integer> getSupportedPictureFormats();
+//Gets the supported picture formats.
+
+List<Camera.Size> getSupportedPictureSizes();
+//Gets the supported picture sizes.
+
+List<Integer> getSupportedPreviewFormats();
+//Gets the supported preview formats.
+
+List<int[]> getSupportedPreviewFpsRange();
+//Gets the supported preview fps (frame-per-second); ranges.
+
+List<Integer> getSupportedPreviewFrameRates();
+//This method was deprecated in API level 9. replaced by getSupportedPreviewFpsRange();
+
+List<Camera.Size> getSupportedPreviewSizes();
+//Gets the supported preview sizes.
+
+List<String> getSupportedSceneModes();
+//Gets the supported scene modes.
+
+List<Camera.Size> getSupportedVideoSizes();
+//Gets the supported video frame sizes that can be used by MediaRecorder.
+
+List<String> getSupportedWhiteBalance();
+//Gets the supported white balance.
+
+float getVerticalViewAngle();
+//Gets the vertical angle of view in degrees.
+
+boolean getVideoStabilization();
+//Get the current state of video stabilization.
+
+String getWhiteBalance();
+//Gets the current white balance setting.
+
+int getZoom();
+//Gets current zoom value.
+
+List<Integer> getZoomRatios();
+//Gets the zoom ratios of all zoom values.
+
+boolean isAutoExposureLockSupported();
+//Returns true if auto-exposure locking is supported.
+
+boolean isAutoWhiteBalanceLockSupported();
+//Returns true if auto-white balance locking is supported.
+
+boolean isSmoothZoomSupported();
+//Returns true if smooth zoom is supported.
+
+boolean isVideoSnapshotSupported();
+//Returns true if video snapshot is supported.
+
+boolean isVideoStabilizationSupported();
+//Returns true if video stabilization is supported.
+
+boolean isZoomSupported();
+//Returns true if zoom is supported.
+
+void remove(String key);
+//void removeGpsData();
+//Removes GPS latitude, longitude, altitude, and timestamp from the parameters.
+
+void set(String key, String value);
+//Sets a String parameter.
+
+void set(String key, int value);
+//Sets an integer parameter.
+
+void setAntibanding(String antibanding);
+//Sets the antibanding.
+
+void setAutoExposureLock(boolean toggle);
+//Sets the auto-exposure lock state.
+
+void setAutoWhiteBalanceLock(boolean toggle);
+//Sets the auto-white balance lock state.
+
+void setColorEffect(String value);
+//Sets the current color effect setting.
+
+void setExposureCompensation(int value);
+//Sets the exposure compensation index.
+
+void setFlashMode(String value);
+//Sets the flash mode.
+
+void setFocusAreas(List<Camera.Area> focusAreas);
+//Sets focus areas.
+
+void setFocusMode(String value);
+//Sets the focus mode.
+
+void setGpsAltitude(double altitude);
+//Sets GPS altitude.
+
+void setGpsLatitude(double latitude);
+//Sets GPS latitude coordinate.
+
+void setGpsLongitude(double longitude);
+//Sets GPS longitude coordinate.
+
+void setGpsProcessingMethod(String processing_method);
+//Sets GPS processing method.
+
+void setGpsTimestamp(long timestamp);
+//Sets GPS timestamp.
+
+void setJpegQuality(int quality);
+//Sets Jpeg quality of captured picture.
+
+void setJpegThumbnailQuality(int quality);
+//Sets the quality of the EXIF thumbnail in Jpeg picture.
+
+void setJpegThumbnailSize(int width, int height);
+//Sets the dimensions for EXIF thumbnail in Jpeg picture.
+
+void setMeteringAreas(List<Camera.Area> meteringAreas);
+//Sets metering areas.
+
+void setPictureFormat(int pixel_format);
+//Sets the image format for pictures.
+
+void setPictureSize(int width, int height);
+//Sets the dimensions for pictures.
+
+void setPreviewFormat(int pixel_format);
+//Sets the image format for preview pictures.
+
+void setPreviewFpsRange(int min, int max);
+//Sets the maximum and maximum preview fps.
+
+void setPreviewFrameRate(int fps);
+//This method was deprecated in API level 9. replaced by setPreviewFpsRange(int, int);
+
+void setPreviewSize(int width, int height);
+//Sets the dimensions for preview pictures.
+
+void setRecordingHint(boolean hint);
+//Sets recording mode hint.
+
+void setRotation(int rotation);
+//Sets the clockwise rotation angle in degrees relative to the orientation of the camera.
+
+void setSceneMode(String value);
+//Sets the scene mode.
+
+void setVideoStabilization(boolean toggle);
+//Enables and disables video stabilization.
+
+void setWhiteBalance(String value);
+//Sets the white balance.
+
+void setZoom(int value);
+//Sets current zoom value.
+
+void unflatten(String flattened);
+//Takes a flattened string of parameters and adds each one to this Parameters object.
+
+
+
 }
 
 class Camera$AutoFocusCallback{
             void onAutoFocus(boolean arg0, Camera arg1);
 }
 
+class Sensor {
+    
+float getMaximumRange();
+
+int getMinDelay();
+
+String getName();
+
+float getPower();
+
+float getResolution();
+
+int getType();
+
+String getVendor();
+
+int getVersion();
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+
+
+}
+
+class SensorManager {
+    
+    
+static float getAltitude(float p0, float p);
+//Computes the Altitude in meters from the atmospheric pressure and the pressure at sea level.
+
+static void getAngleChange(float[] angleChange, float[] R, float[] prevR);
+//Helper function to compute the angle change between two rotation matrices.
+
+Sensor getDefaultSensor(int type);
+//Use this method to get the default sensor for a given type.
+
+static float getInclination(float[] I);
+//Computes the geomagnetic inclination angle in radians from the inclination matrix I returned by getRotationMatrix(float[], float[], float[], float[]);.
+
+static float[] getOrientation(float[] R, float[] values);
+//Computes the device's orientation based on the rotation matrix.
+
+static void getQuaternionFromVector(float[] Q, float[] rv);
+//Helper function to convert a rotation vector to a normalized quaternion.
+
+static boolean getRotationMatrix(float[] R, float[] I, float[] gravity, float[] geomagnetic);
+//Computes the inclination matrix I as well as the rotation matrix R transforming a vector from the device coordinate system to the world's coordinate system which is defined as a direct orthonormal basis, where:
+
+//X is defined as the vector product Y.Z (It is tangential to the ground at the device's current location and roughly points East);.
+
+static void getRotationMatrixFromVector(float[] R, float[] rotationVector);
+//Helper function to convert a rotation vector to a rotation matrix.
+
+List<Sensor> getSensorList(int type);
+//Use this method to get the list of available sensors of a certain type.
+
+int getSensors();
+//This method was deprecated in API level 3. This method is deprecated, use getSensorList(int); instead
+
+boolean registerListener(SensorListener listener, int sensors, int rate);
+//This method was deprecated in API level 3. This method is deprecated, use registerListener(SensorEventListener, Sensor, int); instead.
+
+boolean registerListener(SensorListener listener, int sensors);
+//This method was deprecated in API level 3. This method is deprecated, use registerListener(SensorEventListener, Sensor, int); instead.
+
+boolean registerListener(SensorEventListener listener, Sensor sensor, int rate, Handler handler);
+//Registers a SensorEventListener for the given sensor.
+
+boolean registerListener(SensorEventListener listener, Sensor sensor, int rate);
+//Registers a SensorEventListener for the given sensor.
+
+static boolean remapCoordinateSystem(float[] inR, int X, int Y, float[] outR);
+//Rotates the supplied rotation matrix so it is expressed in a different coordinate system.
+
+void unregisterListener(SensorListener listener);
+//This method was deprecated in API level 3. This method is deprecated, use unregisterListener(SensorEventListener); instead.
+
+void unregisterListener(SensorListener listener, int sensors);
+//This method was deprecated in API level 3. This method is deprecated, use unregisterListener(SensorEventListener, Sensor); instead.
+
+void unregisterListener(SensorEventListener listener, Sensor sensor);
+//Unregisters a listener for the sensors with which it is registered.
+
+void unregisterListener(SensorEventListener listener);
+//Unregisters a listener for all sensors.
+
+
+
+}
 
 
 

@@ -1,5 +1,24 @@
 package android.media;
 
+class CamcorderProfile {
+    
+    
+static CamcorderProfile get(int quality);
+//Returns the camcorder profile for the first back-facing camera on the device at the given quality level.
+
+static CamcorderProfile get(int cameraId, int quality);
+//Returns the camcorder profile for the given camera at the given quality level.
+
+static boolean hasProfile(int quality);
+//Returns true if camcorder profile exists for the first back-facing camera at the given quality level.
+
+static boolean hasProfile(int cameraId, int quality);
+//Returns true if camcorder profile exists for the given camera at the given quality level.
+
+
+
+}
+
 class ExifInterface {
     // Added by mcarthur
     @Source({FlowPermission.READ_EXTERNAL_STORAGE}) 
@@ -24,7 +43,119 @@ class MediaPlayer {
 class MediaPlayer$OnPreparedListener{
         void onPrepared(MediaPlayer arg0);
 }
-class ThumbnailUtils{
-            static Bitmap extractThumbnail(Bitmap source, int width, int height);
+
+class MediaRecorder {
+    
+final static int getAudioSourceMax();
+//Gets the maximum value for audio sources.
+
+int getMaxAmplitude();
+//Returns the maximum absolute amplitude that was sampled since the last call to this method.
+
+void prepare();
+//Prepares the recorder to begin capturing and encoding data.
+
+void release();
+//Releases resources associated with this MediaRecorder object.
+
+void reset();
+//Restarts the MediaRecorder to its idle state.
+
+void setAudioChannels(int numChannels);
+//Sets the number of audio channels for recording.
+
+void setAudioEncoder(int audio_encoder);
+//Sets the audio encoder to be used for recording.
+
+void setAudioEncodingBitRate(int bitRate);
+//Sets the audio encoding bit rate for recording.
+
+void setAudioSamplingRate(int samplingRate);
+//Sets the audio sampling rate for recording.
+
+void setAudioSource(int audio_source);
+//Sets the audio source to be used for recording.
+
+void setCamera(Camera c);
+//Sets a Camera to use for recording.
+
+void setCaptureRate(double fps);
+//Set video frame capture rate.
+
+void setLocation(float latitude, float longitude);
+//Set and store the geodata (latitude and longitude); in the output file.
+
+void setMaxDuration(int max_duration_ms);
+//Sets the maximum duration (in ms); of the recording session.
+
+void setMaxFileSize(long max_filesize_bytes);
+//Sets the maximum filesize (in bytes); of the recording session.
+
+void setOnErrorListener(MediaRecorder.OnErrorListener l);
+//Register a callback to be invoked when an error occurs while recording.
+
+void setOnInfoListener(MediaRecorder.OnInfoListener listener);
+//Register a callback to be invoked when an informational event occurs while recording.
+
+void setOrientationHint(int degrees);
+//Sets the orientation hint for output video playback.
+
+void setOutputFile(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd);
+//Pass in the file descriptor of the file to be written.
+
+void setOutputFile(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String path);
+//Sets the path of the output file to be produced.
+
+void setOutputFormat(int output_format);
+//Sets the format of the output file produced during recording.
+
+void setPreviewDisplay(Surface sv);
+//Sets a Surface to show a preview of recorded media (video);.
+
+void setProfile(CamcorderProfile profile);
+//Uses the settings from a CamcorderProfile object for recording.
+
+void setVideoEncoder(int video_encoder);
+//Sets the video encoder to be used for recording.
+
+void setVideoEncodingBitRate(int bitRate);
+//Sets the video encoding bit rate for recording.
+
+void setVideoFrameRate(int rate);
+//Sets the frame rate of the video to be captured.
+
+void setVideoSize(int width, int height);
+//Sets the width and height of the video to be captured.
+
+void setVideoSource(int video_source);
+//Sets the video source to be used for recording.
+
+void start() @Source({RECORD_AUDIO, CAMERA});
+//Begins capturing and encoding data to the file specified with setOutputFile();.
+
+void stop() @Source({RECORD_AUDIO, CAMERA});
+//Stops recording.
+
+//Protected Methods
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+
+
+}
+
+class ThumbnailUtils {
+    
+static Bitmap createVideoThumbnail(String filePath, int kind);
+//Create a video thumbnail for a video.
+
+static Bitmap extractThumbnail(Bitmap source, int width, int height, int options);
+//Creates a centered bitmap of the desired size.
+
+static Bitmap extractThumbnail(Bitmap source, int width, int height);
+//Creates a centered bitmap of the desired size.
+
+
+
 }
 
