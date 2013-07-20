@@ -9,6 +9,9 @@ my $flow_file = 'allFlows.txt';
 GetOptions('filter:s' => \$filter, 'flow-file:s' => \$flow_file);
 
 sub parse_flow {
+    if (length($filter) == 0) {
+        return ([], [], "");
+    }
     $filter = shift;
     $filter =~ s/\s//g;
     $filter =~ /(.*)(->|~>)(.*)/ or die "Could not parse match string: $filter";
@@ -33,13 +36,13 @@ my ($source_ref, $sink_ref, $type) = parse_flow($filter);
 my @sources = @$source_ref;
 my @sinks = @$sink_ref;
 
-print "Filtering with sources: @sources sinks: @sinks\n";
+print "Sources: @sources sinks: @sinks\n";
+
 open(my $fh, '<', $flow_file) or die "Cannot open $flow_file: $!";
 
 # Code snippets can span multiple lines, use this var to indicate
 # that we should keep printing.
 my $print = 0;
-
 lines: while (<$fh>) {
     my @parts = split("##", $_);
     if ($#parts < 1) {
