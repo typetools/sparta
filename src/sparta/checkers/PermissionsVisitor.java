@@ -12,8 +12,9 @@ import sparta.checkers.quals.MayRequiredPermissions;
 import sparta.checkers.quals.RequiredPermissions;
 import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
-import checkers.util.AnnotationUtils;
-import checkers.util.TreeUtils;
+import checkers.types.BasicAnnotatedTypeFactory;
+import javacutils.AnnotationUtils;
+import javacutils.TreeUtils;
 
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.ExpressionTree;
@@ -28,12 +29,13 @@ import com.sun.source.tree.VariableTree;
  * TODO: should we propagate required permissions from (anonymous) inner classes
  * to the outside?
  */
-public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
+public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker, BasicAnnotatedTypeFactory<PermissionsChecker>> {
 
-	public PermissionsVisitor(PermissionsChecker checker,
-			CompilationUnitTree root) {
-		super(checker, root);
-	}
+    public PermissionsVisitor(PermissionsChecker checker,
+            CompilationUnitTree root) {
+    	super(checker, root);
+    }
+
 
 	@Override
 	public Void visitVariable(VariableTree node, Void p) {
@@ -92,7 +94,7 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
 		visitMethodMayRequirePermissions(node, methodElt);
 		return super.visitMethodInvocation(node, p);
 	}
-	
+
 	private void visitMethodMayRequirePermissions(MethodInvocationTree node,
 			ExecutableElement methodElt) {
 		// Look for @MayRequiredPermissions on the enclosing method
@@ -130,7 +132,7 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
 			}
 
 		}
-	}
+    }
 
 	private ExecutableElement visitMethodRequiredPermissions(
 			MethodInvocationTree node) {
@@ -170,9 +172,9 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker> {
 		return methodElt;
 	}
 
-	@Override
-	public Void visitMethod(MethodTree node, Void p) {
-		// Ensure that all constants in @RequiredPermissions are in Manifest
-		return super.visitMethod(node, p);
-	}
+    @Override
+    public Void visitMethod(MethodTree node, Void p) {
+        // Ensure that all constants in @RequiredPermissions are in Manifest
+        return super.visitMethod(node, p);
+    }
 }

@@ -1,6 +1,7 @@
 package sparta.checkers.quals;
 
 import java.lang.annotation.*;
+
 /**
  * List of Android permissions required in some cases to use a method.
  * 

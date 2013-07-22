@@ -1,12 +1,13 @@
 package stubfile;
 
+@SuppressWarnings("flow")
 public class ExampleApi {
     public ExampleApi(){}
     public ExampleApi(String s){}
     public ExampleApi(int i){}
 	
 	public void polyFlow(){}
-	public String polyFlow1(){return "";}
+	public String polyFlow1(){return " ";}
 	public void polyFlow2(String s){}
 	public String polyFlow3(String s){return "";}
 	

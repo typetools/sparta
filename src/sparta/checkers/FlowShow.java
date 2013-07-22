@@ -12,17 +12,15 @@ import com.sun.source.util.Trees;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
 import checkers.source.SourceVisitor;
-import checkers.types.AnnotatedTypeFactory;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
-import checkers.util.AnnotationUtils;
-import checkers.util.TreeUtils;
+import javacutils.AnnotationUtils;
+import javacutils.TreeUtils;
 
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.Source;
-import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 
@@ -31,16 +29,16 @@ import sparta.checkers.quals.PolySource;
 @StubFiles("flow.astub")
 public class FlowShow extends FlowChecker {
     @Override
-    public AnnotatedTypeFactory createFactory(CompilationUnitTree root) {
+    public FlowAnnotatedTypeFactory createFactory(CompilationUnitTree root) {
         return new FlowAnnotatedTypeFactory(this, root);
     }
 
     @Override
-    protected SourceVisitor<?, ?> createSourceVisitor(CompilationUnitTree root) {
+    protected SourceVisitor<?, ?, ?, ?> createSourceVisitor(CompilationUnitTree root) {
         return new FlowShowVisitor(this, root);
     }
 
-    protected class FlowShowVisitor extends SourceVisitor<Void, Void> {
+    protected class FlowShowVisitor extends SourceVisitor<FlowChecker, FlowAnnotatedTypeFactory, Void, Void> {
 
         private final Trees treemsg;
 

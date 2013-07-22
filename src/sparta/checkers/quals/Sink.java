@@ -17,9 +17,6 @@ import checkers.quals.*;
 @TypeQualifier
 @SubtypeOf({})
 public @interface Sink {
-
-    
-
     /**
      * By default we allow no sinks.
      * There is always a @Sink annotation and this default

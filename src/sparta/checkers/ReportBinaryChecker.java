@@ -1,10 +1,11 @@
 package sparta.checkers;
 
+import checkers.basetype.BaseTypeChecker;
 import checkers.source.Result;
-import checkers.source.SourceChecker;
 import checkers.source.SourceVisitor;
-import checkers.util.ElementUtils;
-import checkers.util.TreeUtils;
+import checkers.types.BasicAnnotatedTypeFactory;
+import javacutils.ElementUtils;
+import javacutils.TreeUtils;
 
 import com.sun.source.tree.*;
 import javax.lang.model.element.Element;
@@ -19,7 +20,7 @@ import javax.lang.model.element.Element;
  * fields and method. You may also wish to use the {@code -proc:only} javac option to
  * stop compilation after annotation processing.
  */
-public class ReportBinaryChecker extends SourceChecker {
+public class ReportBinaryChecker extends BaseTypeChecker<BasicAnnotatedTypeFactory<ReportBinaryChecker>> {
 
     private static final String[] ignorePackages = { "java",
         "javax",
@@ -37,11 +38,11 @@ public class ReportBinaryChecker extends SourceChecker {
     }
 
     @Override
-    protected SourceVisitor<?, ?> createSourceVisitor(CompilationUnitTree root) {
+    protected SourceVisitor<?, ?, ?, ?> createSourceVisitor(CompilationUnitTree root) {
         return new ReportBinaryVisitor(this, root);
     }
 
-    public static class ReportBinaryVisitor extends SourceVisitor<Void, Void> {
+    public static class ReportBinaryVisitor extends SourceVisitor<ReportBinaryChecker, BasicAnnotatedTypeFactory<ReportBinaryChecker>, Void, Void> {
         public ReportBinaryVisitor(ReportBinaryChecker checker, CompilationUnitTree root) {
             super(checker, root);
         }

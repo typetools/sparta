@@ -9,6 +9,8 @@ tags
 *.orig
 .DS_Store
 
+missingAPI.astub
+
 sparta.jar
 
 bin/jarlist.cache

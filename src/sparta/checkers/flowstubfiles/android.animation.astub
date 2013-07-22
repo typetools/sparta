@@ -1,7 +1,6 @@
 package android.animation;
 class ValueAnimator {
-    
-    
+
 void addUpdateListener(ValueAnimator.AnimatorUpdateListener listener);
 //Adds a listener to the set of listeners that are sent update events through the life of an animation.
 

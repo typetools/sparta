@@ -6,11 +6,8 @@ class MiscTests {
     double clean;
 
     void test() {
-        // TODO: current flow inference stops as soon as the first qualifier hierarchy
-        // has errors. Therefore, the sources are not propagated, resulting in
-        // an assignment error. Let us work on this once the new flow is integrated.
+
         @Sink({FlowPermission.INTERNET}) double lat = 1.0;
-        //::error: (assignment.type.incompatible)
         clean = lat;
 
         @Sink({FlowPermission.INTERNET, FlowPermission.CONDITIONAL}) @Source(FlowPermission.LITERAL) double lat2 = 1.0;
@@ -49,7 +46,6 @@ class MiscTests {
         @Sink(INTERNET)  double lat = 1.0;
         @Sink(INTERNET)  double lon = 2.0;
         @Sink(INTERNET)  int days = 3;
-        //::error: (argument.type.incompatible)
         result3 = String.format(WEBSERVICE_URL3, lat, lon, days);
     }
 
@@ -57,7 +53,6 @@ class MiscTests {
         @Source({READ_CALENDAR,LITERAL}) double lat = 1.0;
         @Source({READ_CALENDAR,LITERAL}) double lon = 2.0;
         @Source({READ_CALENDAR,LITERAL}) int days = 3;
-        //::error: (argument.type.incompatible)
         result = String.format(WEBSERVICE_URL3, lat, lon, days);
     }
 }
