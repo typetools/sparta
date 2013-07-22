@@ -15,7 +15,7 @@ public class GenericFlowPolicyTest extends CheckerTest {
     private final String [] checkerOptionsWPolicy;
 
     public GenericFlowPolicyTest(final String parentDir, final String [] optionsWithoutPolicyFile) {
-        super(FlowChecker.class.getName(), parentDir, optionsWithoutPolicyFile);
+        super(FlowChecker.class, parentDir, optionsWithoutPolicyFile);
         this.testDir = new File(parentDir);
         this.checkerOptionsWPolicy = Arrays.copyOf(optionsWithoutPolicyFile, optionsWithoutPolicyFile.length + 1);
     }
