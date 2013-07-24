@@ -31,10 +31,10 @@ import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
+import checkers.basetype.BaseTypeChecker;
 import checkers.quals.PolyAll;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
-import checkers.reflection.ReflectionResolutionChecker;
 import checkers.source.SupportedLintOptions;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.QualifierHierarchy;
@@ -54,7 +54,7 @@ import checkers.compilermsgs.quals.CompilerMessageKey;
 @SupportedLintOptions({FlowPolicy.STRICT_CONDITIONALS_OPTION})
 
 
-public class FlowChecker extends ReflectionResolutionChecker<FlowAnnotatedTypeFactory> {
+public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
     public static final String MSG_FILTER_OPTION = "msgFilter";
     public static final String IGNORE_NOT_REVIEWED = "ignorenr";
     public boolean IGNORENR = false;
