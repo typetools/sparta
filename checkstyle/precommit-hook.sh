@@ -1,7 +1,5 @@
 #!/bin/sh
 
-exit 0
-
 files=`hg st | sed -n "s/^[AM]\s\(.*\.java$\)/\1/p" | tr '\n' ' '`
 [ -z "$files" ] && exit 0
 
