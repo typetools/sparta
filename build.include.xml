@@ -20,6 +20,23 @@
       </classpath>-->
     </javac>
     </presetdef>
+    
+    <presetdef name="dff.jsr308.javac">
+    <javac fork="yes" executable="/Users/smillst/src/jsr308/checker-framework-dff-reflection/checkers/binary/javac">
+      <!-- JSR308 related compiler arguments -->
+      <compilerarg value="-version"/>
+      <!-- optional, so .class files work with older JVMs: <compilerarg line="-target 5"/> -->
+      <compilerarg value="-implicit:class"/>
+      <!-- optional, to issue warnings instead of errors: <compilerarg line="-Awarns -Xmaxwarns 10000"/> -->
+	<compilerarg line="-Awarns -Xmaxwarns 10000"/>
+      <!--<compilerarg value="-J-Xbootclasspath/p:${checkers}/binary/jsr308-all.jar"/>
+
+      <classpath>
+        <pathelement location="${checkers}/binary/checkers.jar"/>
+      </classpath>-->
+    </javac>
+    </presetdef>
+    
     <!--depends="-set-release-mode, -release-obfuscation-check, -package, -post-package, -release-prompt-for-password, -release-nosign, -release-sign, -post-build"-->
 
     <!-- Apply a type processor to all files in the project. -->
@@ -191,11 +208,24 @@
         <property name="build.target" value="reqperms" />
     </target>
 
+    <target name="check-permissions"
+                depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="check for both required permissions and dependent permissions.">
+        <process-proj processor="sparta.checkers.PermissionsChecker"/>
+    </target>
+
     <target name="reqperms"
                 depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for required permissions.">
-        <process-proj processor="sparta.checkers.PermissionsChecker"/>
+        <process-proj processor="sparta.checkers.RequiredPermissionsChecker"/>
     </target>
+
+    <target name="reqdependentperms"
+                depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="check for dependent permissions.">
+        <process-proj processor="sparta.checkers.DependentPermissionsChecker"/>
+    </target>
+
 
 
     <target name="flowshow"
@@ -253,6 +283,64 @@
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report binary-only method calls and field accesses.">
         <process-proj processor="sparta.checkers.ReportBinaryChecker"/>
+    </target>
+    
+    <macrodef name="dff-process-proj">
+        <!-- The processor to apply. -->
+        <attribute name="processor"/>
+        <!-- Optional additional tasks to perform at the end. -->
+        <element name="more-tasks" optional="yes"/>
+        <sequential>
+            <condition property="extensible.libs.classpath"
+                   value="${tested.project.absolute.dir}/${jar.libs.dir}"
+                   else="${jar.libs.dir}">
+                <isset property="tested.project.absolute.dir" />
+            </condition>
+            <!-- Option to show all subtyping tests. -->
+            <condition property="showchecks"
+                   value="-Ashowchecks -AprintErrorStack"
+                   else="">
+                <equals arg1="${debug}" arg2="true" />
+            </condition>
+
+            <condition property="checkerFrameworkOpts" value="${cfOpts}" else="">
+                <isset property="cfOpts"/>
+            </condition>
+
+            <!-- Option to enforce stricter checks, in particular for casts. -->
+            <!-- Note that only one -Alint argument can be provided. -->
+            <condition property="lintoptions"
+                   value="-Alint=cast:strict,arrays,strict-conditional:invariant"
+                   else="">
+                <or>
+                    <equals arg1="${stricter}" arg2="true" />
+                    <equals arg1="${sound}" arg2="true" />                
+                </or>
+            </condition>
+
+            <!--classpathref="android.target.classpath"-->
+            <dff.jsr308.javac
+                   destdir="${out.classes.absolute.dir}"
+                   classpathref="project.target.class.path"
+                   includeantruntime="false">
+                <src path="${source.absolute.dir}" />
+                <src path="${gen.absolute.dir}" />
+                <classpath>
+                    <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
+                    <pathelement location="${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
+                </classpath>
+                <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
+                <compilerarg line=" -processor @{processor} -AresolveReflection -AdebugReflection ${checkerFrameworkOpts}"/>
+                <compilerarg line="-encoding ISO8859-1 -AprintErrorStack -AstubWarnIfNotFound" />
+            </dff.jsr308.javac>
+            <more-tasks/>
+        </sequential>
+    </macrodef>
+    
+        <target name="check-reflection"
+                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="check for check-flow.">
+        <dff-process-proj processor="checkers.reflection.ReflectionResolutionChecker"/>
     </target>
 
 </project>

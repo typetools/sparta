@@ -50,17 +50,13 @@ class FirstCall {
     	mayReqSMS();    	
     }
     
+    public String s="k";
     void dependentPermissionTest() {
     	//:: error: (dependent.permissions)
-    	String s = constant;
+    	s = constant;
     	
     }
     
-    @DependentPermissions(permission.BLUETOOTH)
-    void goodUse3() {
-    	String s = constant;
-    	
-    }
-    
+     
     
 }

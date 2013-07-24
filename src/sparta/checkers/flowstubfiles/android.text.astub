@@ -1,5 +1,9 @@
 package android.text;
 
+class ClipboardManager{
+        void setText(@Sink(WRITE_CLIPBOARD) CharSequence arg0);
+}
+
 class Editable {
     
 abstract Editable append(CharSequence text);

@@ -231,7 +231,7 @@ ${build.version} of the 'javac.jar' library."/>
     <target name="reqperms-tests" depends="jar,build-tests"
       description="Run tests for the Permissions Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$AndroidReqPermissionsCheckerTests"/>
+            <param name="testclass" value="sparta.checkers.AndroidTests$AndroidPermissionsCheckerTests"/>
         </antcall>
     </target>
 

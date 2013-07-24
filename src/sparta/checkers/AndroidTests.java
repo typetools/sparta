@@ -41,8 +41,8 @@ public class AndroidTests {
         }
     }
 
-    public static class AndroidReqPermissionsCheckerTests extends ParameterizedCheckerTest {
-        public AndroidReqPermissionsCheckerTests(File testFile) {
+    public static class AndroidPermissionsCheckerTests extends ParameterizedCheckerTest {
+        public AndroidPermissionsCheckerTests(File testFile) {
             super(testFile, PermissionsChecker.class.getName(), "sparta.checkers", "-Anomsgtext");
         }
         @Parameters
