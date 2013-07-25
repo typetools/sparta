@@ -14,6 +14,7 @@ class LocationController implements LocationListener {
 }
 
 class LocationControllerBad implements LocationListener {
+    //:: error: (override.param.invalid)
     public void onLocationChanged(Location location) {}
 
     public void onStatusChanged(String arg0, int arg1, @Source(ANY) Bundle arg2) {}
