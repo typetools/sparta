@@ -52,7 +52,7 @@ public class FlowPolicy {
         this.allowedFlows         = allowedFlows;
         this.reversedAllowedFlows = reverse(allowedFlows);
         this.sinksFromAnySource = allowedFlows.get(FlowPermission.ANY);
-        this.strictConditionals=false;
+        this.strictConditionals=true;
     }
 
     /**
