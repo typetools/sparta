@@ -340,6 +340,7 @@ public enum FlowPermission {
           WRITE_SOCIAL_STREAM  (T.SINK) , 
   //Allows applications to write the sync settings 
           WRITE_SYNC_SETTINGS  (T.SINK) , 
+          WRITE_TIME(T.SINK),
   //Allows an application to write to the user dictionary. 
           WRITE_USER_DICTIONARY  (T.SINK) , 
  

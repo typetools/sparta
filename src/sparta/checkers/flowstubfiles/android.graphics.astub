@@ -159,16 +159,16 @@ static Bitmap decodeByteArray(byte[] data, int offset, int length, BitmapFactory
 static Bitmap decodeByteArray(byte[] data, int offset, int length);
 //Decode an immutable bitmap from the specified byte array.
 
-static @Source({FILESYTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFile(@Sink({FILESYTEM, WRITE_EXTERNAL_STORAGE}) String pathName);
+static @Source({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFile(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String pathName);
 //Decode a file path into a bitmap.
 
-static @Source({FILESYTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFile(@Sink({FILESYTEM, WRITE_EXTERNAL_STORAGE}) String pathName, BitmapFactory.Options opts);
+static @Source({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFile(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String pathName, BitmapFactory.Options opts);
 //Decode a file path into a bitmap.
 
-static @Source({FILESYTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFileDescriptor(@Sink({FILESYTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd);
+static @Source({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFileDescriptor(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd);
 //Decode a bitmap from the file descriptor.
 
-static @Source({FILESYTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFileDescriptor(@Sink({FILESYTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, Rect outPadding, BitmapFactory.Options opts);
+static @Source({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFileDescriptor(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, Rect outPadding, BitmapFactory.Options opts);
 //Decode a bitmap from the file descriptor.
 
 static Bitmap decodeResource(Resources res, int id, BitmapFactory.Options opts);

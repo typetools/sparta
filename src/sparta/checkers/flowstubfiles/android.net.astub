@@ -346,7 +346,7 @@ class SipAudioCall {
     void continueCall(int arg0) throws SipException;
     void toggleMute();
     @Source(USE_SIP) boolean isMuted();
-    void setSpeakerMode(@Sink(SET_AUDIO_SETTINGS) boolean arg0);
+    void setSpeakerMode(@Sink(MODIFY_AUDIO_SETTINGS) boolean arg0);
     void sendDtmf(@SINK({USE_SIP, INTERNET}) int arg0);
     void sendDtmf(@SINK({USE_SIP, INTERNET}) int arg0, @SINK({USE_SIP, INTERNET}) Message arg1);
     void startAudio() @Source({RECORD_AUDIO, ACCESS_WIFI_STATE, WAKE_LOCK, USE_SIP, INTERNET});
