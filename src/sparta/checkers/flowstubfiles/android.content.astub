@@ -742,7 +742,7 @@ abstract ContentResolver getContentResolver();
 abstract @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getDatabasePath(@Sink(DATABASE) String name);
 //Returns the absolute path on the filesystem where a database created with openOrCreateDatabase(String, int, SQLiteDatabase.CursorFactory); is stored.
 
-abstract @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getDir(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String name, int mode);
+abstract @Source({FILESYSTEM}) File getDir(@Sink({FILESYSTEM}) String name, int mode);
 //Retrieve, creating if needed, a new directory in which the application can place its own custom data files.
 
 abstract @Source({READ_EXTERNAL_STORAGE}) File getExternalCacheDir();

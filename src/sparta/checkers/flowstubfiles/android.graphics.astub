@@ -6,7 +6,7 @@ package android.graphics;
 
 class Bitmap {
 
-boolean compress(Bitmap.CompressFormat format, int quality, @PolyFlowReceiver OutputStream stream);
+boolean compress(Bitmap.CompressFormat format, int quality, @PolySource @PolySink OutputStream stream) @PolySource @PolySink;
 //Write a compressed version of the bitmap to the specified outputstream.
 
 Bitmap copy(Bitmap.Config config, boolean isMutable);
@@ -153,10 +153,10 @@ void writeToParcel(Parcel p, int flags);
 }
 
 class BitmapFactory {
-static Bitmap decodeByteArray(byte[] data, int offset, int length, BitmapFactory.Options opts);
+static @PolySource @PolySink Bitmap decodeByteArray(@PolySource @PolySink byte @PolySource @PolySink [] data, int offset, int length, BitmapFactory.Options opts);
 //Decode an immutable bitmap from the specified byte array.
 
-static Bitmap decodeByteArray(byte[] data, int offset, int length);
+static @PolySource @PolySink  Bitmap decodeByteArray(@PolySource @PolySink  byte @PolySource @PolySink [] data, int offset, int length);
 //Decode an immutable bitmap from the specified byte array.
 
 static @Source({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) Bitmap decodeFile(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String pathName);
