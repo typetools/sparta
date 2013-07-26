@@ -266,25 +266,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         }
 
         private Pair<Set<AnnotationMirror>, Set<AnnotationMirror>> getArrayAnnos(final AnnotatedTypeMirror.AnnotatedArrayType aat, boolean isLocal) {
-            if(!isLocal) {
                 return Pair.of(aat.getAnnotations(), aat.getComponentType().getAnnotations());
-            } //else
-
-            final Set<AnnotationMirror> arrayAnnos = aat.getExplicitAnnotations();
-            final Set<AnnotationMirror> objectAnnos    = new HashSet<AnnotationMirror>();
-            final Set<AnnotationMirror> componentAnnos = new HashSet<AnnotationMirror>();
-
-            for(final AnnotationMirror arrayAnno : arrayAnnos) {
-                com.sun.tools.javac.code.Attribute.TypeCompound tc = (com.sun.tools.javac.code.Attribute.TypeCompound) arrayAnno;
-
-                if( !tc.position.location.isEmpty() && tc.position.location.get(0) == TypeAnnotationPosition.TypePathEntry.ARRAY ) {
-                    componentAnnos.add(arrayAnno);
-                }  else {
-                    objectAnnos.add(arrayAnno);
-                }
-            }
-
-            return Pair.of(objectAnnos, componentAnnos);
         }
 
         //TODO: THIS SHOULD REALLY RETURN AN EITHER TYPE

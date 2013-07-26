@@ -66,7 +66,7 @@ public class AndroidTests {
         public FlowCheckerTests(File testFile) {
              super(testFile, FlowChecker.class.getName(), "sparta.checkers", "-Anomsgtext", "-Astubs=tests/flow/flowtests.astub");
 //           Uncomment the line below to see the full errors in the JUnit tests
-//           super(testFile, FlowChecker.class.getName(), "sparta.checkers", "stubWarnIfNotFound", "-Astubs=tests/flow/flowtests.astub");
+//           super(testFile, FlowChecker.class.getName(), "sparta.checkers", "-Astubs=tests/flow/flowtests.astub");
 
         }
         @Parameters
