@@ -53,7 +53,7 @@
             <!-- Option to enforce stricter checks, in particular for casts. -->
             <!-- Note that only one -Alint argument can be provided. -->
             <condition property="lintoptions"
-                   value="-Alint=cast:strict,arrays,strict-conditional:invariant"
+                   value="-Alint=cast:strict,strict-conditional,arrays:invariant"
                    else="">
                 <or>
                     <equals arg1="${stricter}" arg2="true" />
