@@ -64,10 +64,10 @@ public class FlowShow extends FlowChecker {
 
                 boolean show = false;
 
-                if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(NOFLOWSOURCES), NOFLOWSOURCES)) {
+                if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(NOSOURCE), NOSOURCE)) {
                     show = true;
                 }
-                if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(NOFLOWSINKS), NOFLOWSINKS)) {
+                if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(NOSINK), NOSINK)) {
                     show = true;
                 }
                 if (show) {
