@@ -1,3 +1,17 @@
+
+
+Dependent Permissions Checker
+   Intents and URIs use different permissions depending on the string value of one of 
+   its arguments. Dependent Permissions checker tracks special string literals and
+   string constants that will require some permission if used to initialize an Intent
+   or URI.
+
+Unified Permissions Checker
+   A unified permissions checker has been added that will run RequiredPermissions
+   checker and DependentPermissions checker. Users should now use ant check-permissions
+   instead of reqperms.
+
+
 Version 0.9.3 1 August 2013
 
 Flow Checker Changes
