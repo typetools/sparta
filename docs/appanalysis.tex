@@ -28,7 +28,7 @@ More specifically, the recommended workflow is:
 % 
 % \begin{enumerate}
 % \item ant reportsuspicious (also runs sparta-code/suspicious.pl)
-% \item ant reqperms
+% \item ant check-permissions
 % \item ant reportapiusage
 % \item ant check-flow
 % \end{enumerate}
@@ -77,7 +77,7 @@ Look at the \<AndroidManifest.xml> file and:
   If an application uses certain permissions that are not justified
   in the description, this indicates suspicious code. 
   (To determine where these permissions are used in the application,
-   see \ref{sec:appanalysis/reqperms})
+   see \ref{sec:appanalysis/check-permissions})
 
 
 \item Determine the entry points into the source code. (This may also give
@@ -160,7 +160,7 @@ inform the SPARTA developers so they can add them to the
 
 
 \subsection{Review where permissions are used in the application}
-\label{sec:appanalysis/reqperms}
+\label{sec:appanalysis/check-permissions}
 
 
 Run
@@ -494,7 +494,7 @@ This option will also use the stricter conditional rule. (LITERAL
 %%% End: 
 
 %  LocalWords:  App xml env basename sparta dir app check-flow Dstrict SDK
-%  LocalWords:  reportsuspicious reqperms reportapiusage buildfile dirname
+%  LocalWords:  reportsuspicious check-permissions reportapiusage buildfile dirname
 %  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
 %  LocalWords:  RequiredPermissions Source Sink apiusage Dstubs
 %  LocalWords:  flowstubfiles TelephonyManager getLine1Number flowshow url

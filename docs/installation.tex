@@ -163,7 +163,7 @@ Add the SPARTA build targets to the end of the \<build.xml>
 <basename property="sparta-code_base" file="${sparta-code}" />
 <import file="${sparta-code_dir}/${sparta-code_base}/build.include.xml" />
 <property name="flowPolicy" value="flow-policy"/>
-<target name="all-tests" depends="check-flow,flowshow,reqperms" description="Run check-flow, flowshow, and reqperms"/>
+<target name="all-tests" depends="check-flow,flowshow,check-permissions" description="Run check-flow, flowshow, and check permissions"/>
 
 \end{Verbatim}
 
