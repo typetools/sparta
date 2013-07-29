@@ -1,4 +1,4 @@
-Version 0.9.3 1 July 2013
+Version 0.9.3 1 August 2013
 
 Flow Checker Changes
    Flow Checker now writes a file called missingAPI.astub that list all
