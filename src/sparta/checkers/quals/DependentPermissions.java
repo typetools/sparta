@@ -7,15 +7,20 @@ package sparta.checkers.quals;
  *
  */
 
-import java.lang.annotation.*;
-
 import checkers.fenum.quals.FenumTop;
-import checkers.quals.*;
+import checkers.quals.SubtypeOf;
+import checkers.quals.TypeQualifier;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER, ElementType.CONSTRUCTOR, ElementType.METHOD })
+@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER, ElementType.CONSTRUCTOR,
+        ElementType.METHOD })
 @TypeQualifier
 @SubtypeOf(FenumTop.class)
 public @interface DependentPermissions {

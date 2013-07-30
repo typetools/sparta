@@ -1,32 +1,25 @@
 package sparta.checkers;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.ExecutableElement;
-
-import sparta.checkers.quals.DependentPermissions;
-
 import checkers.basetype.BaseTypeChecker;
 import checkers.fenum.quals.FenumTop;
 import checkers.fenum.quals.FenumUnqualified;
 import checkers.quals.DefaultLocation;
-import checkers.quals.Unqualified;
-import checkers.source.Result;
-import checkers.types.AnnotatedTypeFactory;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.BasicAnnotatedTypeFactory;
 import checkers.types.TreeAnnotator;
 import checkers.util.AnnotationBuilder;
 import checkers.util.AnnotationUtils;
-import checkers.util.TreeUtils;
 
-import com.sun.source.tree.AssignmentTree;
+import java.util.HashMap;
+import java.util.LinkedList;
+
+import javax.lang.model.element.AnnotationMirror;
+
+import sparta.checkers.quals.DependentPermissions;
+
 import com.sun.source.tree.CompilationUnitTree;
-import com.sun.source.tree.ExpressionTree;
-import com.sun.source.tree.Tree;
 import com.sun.source.tree.LiteralTree;
+import com.sun.source.tree.Tree;
 import com.sun.tools.javac.util.Pair;
 
 public class DependentPermissionsAnnotatedTypeFactory extends
@@ -46,29 +39,21 @@ public class DependentPermissionsAnnotatedTypeFactory extends
             // sed -e "s/^/intentConstTable.put(\"/"
             intentConstTable.put("android.app.action.DEVICE_ADMIN_ENABLED",
                     "android.permission.BIND_DEVICE_ADMIN");
-            intentConstTable.put(
-                    "android.app.cts.activity.SERVICE_LOCAL_DENIED",
+            intentConstTable.put("android.app.cts.activity.SERVICE_LOCAL_DENIED",
                     "android.app.cts.permission.TEST_DENIED");
-            intentConstTable.put(
-                    "android.app.cts.activity.SERVICE_LOCAL_GRANTED",
+            intentConstTable.put("android.app.cts.activity.SERVICE_LOCAL_GRANTED",
                     "android.app.cts.permission.TEST_GRANTED");
-            intentConstTable.put(
-                    "android.bluetooth.adapter.action.REQUEST_DISCOVERABLE",
+            intentConstTable.put("android.bluetooth.adapter.action.REQUEST_DISCOVERABLE",
                     "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.adapter.action.REQUEST_ENABLE",
+            intentConstTable.put("android.bluetooth.adapter.action.REQUEST_ENABLE",
                     "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.CONNECTION_ACCESS_CANCEL",
+            intentConstTable.put("android.bluetooth.device.action.CONNECTION_ACCESS_CANCEL",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable
-                    .put("android.bluetooth.device.action.CONNECTION_ACCESS_REQUEST",
-                            "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.intent.action.ACTION_REQUEST_SHUTDOWN",
+            intentConstTable.put("android.bluetooth.device.action.CONNECTION_ACCESS_REQUEST",
+                    "android.permission.BLUETOOTH_ADMIN");
+            intentConstTable.put("android.intent.action.ACTION_REQUEST_SHUTDOWN",
                     "android.permission.SHUTDOWN");
-            intentConstTable.put("android.intent.action.CALL",
-                    "android.permission.CALL_PHONE");
+            intentConstTable.put("android.intent.action.CALL", "android.permission.CALL_PHONE");
             intentConstTable.put("android.intent.action.CALL_EMERGENCY",
                     "android.permission.CALL_PRIVILEGED");
             intentConstTable.put("android.intent.action.CALL_PRIVILEGED",
@@ -77,62 +62,52 @@ public class DependentPermissionsAnnotatedTypeFactory extends
                     "android.permission.MASTER_CLEAR");
             intentConstTable.put("android.intent.action.PRELOAD",
                     "com.android.browser.permission.PRELOAD");
-            intentConstTable.put("android.intent.action.REBOOT",
-                    "android.permission.SHUTDOWN");
+            intentConstTable.put("android.intent.action.REBOOT", "android.permission.SHUTDOWN");
             intentConstTable.put("android.intent.action.SET_ALARM",
                     "com.android.alarm.permission.SET_ALARM");
             intentConstTable.put("android.provider.Telephony.SMS_CB_RECEIVED",
                     "android.permission.BROADCAST_SMS");
-            intentConstTable.put(
-                    "android.provider.Telephony.SMS_EMERGENCY_CB_RECEIVED",
+            intentConstTable.put("android.provider.Telephony.SMS_EMERGENCY_CB_RECEIVED",
                     "android.permission.BROADCAST_SMS");
             intentConstTable.put("android.provider.Telephony.SMS_RECEIVED",
                     "android.permission.BROADCAST_SMS");
-            intentConstTable.put(
-                    "android.provider.Telephony.WAP_PUSH_RECEIVED",
+            intentConstTable.put("android.provider.Telephony.WAP_PUSH_RECEIVED",
                     "android.permission.BROADCAST_WAP_PUSH");
-            intentConstTable.put(
-                    "android.service.textservice.SpellCheckerService",
+            intentConstTable.put("android.service.textservice.SpellCheckerService",
                     "android.permission.BIND_TEXT_SERVICE");
             intentConstTable.put("android.service.wallpaper.WallpaperService",
                     "android.permission.BIND_WALLPAPER");
-            intentConstTable.put("android.view.InputMethod",
-                    "android.permission.BIND_INPUT_METHOD");
+            intentConstTable
+                    .put("android.view.InputMethod", "android.permission.BIND_INPUT_METHOD");
             intentConstTable.put("com.android.email.ACCOUNT_INTENT",
                     "com.android.email.permission.ACCESS_PROVIDER");
             intentConstTable.put("com.android.email.EXCHANGE_INTENT",
                     "com.android.email.permission.ACCESS_PROVIDER");
             intentConstTable.put("com.android.email.POLICY_INTENT",
                     "com.android.email.permission.ACCESS_PROVIDER");
-            intentConstTable
-                    .put("com.android.frameworks.coretests.activity.BROADCAST_LOCAL_DENIED",
-                            "com.android.frameworks.coretests.permission.TEST_DENIED");
-            intentConstTable
-                    .put("com.android.frameworks.coretests.activity.BROADCAST_LOCAL_GRANTED",
-                            "com.android.frameworks.coretests.permission.TEST_GRANTED");
-            intentConstTable
-                    .put("com.android.frameworks.coretests.activity.BROADCAST_REMOTE_DENIED",
-                            "com.android.frameworks.coretests.permission.TEST_DENIED");
-            intentConstTable
-                    .put("com.android.frameworks.coretests.activity.BROADCAST_REMOTE_GRANTED",
-                            "com.android.frameworks.coretests.permission.TEST_GRANTED");
-            intentConstTable
-                    .put("com.android.frameworks.coretests.activity.SERVICE_LOCAL_DENIED",
-                            "com.android.frameworks.coretests.permission.TEST_DENIED");
-            intentConstTable
-                    .put("com.android.frameworks.coretests.activity.SERVICE_LOCAL_GRANTED",
-                            "com.android.frameworks.coretests.permission.TEST_GRANTED");
             intentConstTable.put(
-                    "com.android.internal.telephony.IWapPushManager",
+                    "com.android.frameworks.coretests.activity.BROADCAST_LOCAL_DENIED",
+                    "com.android.frameworks.coretests.permission.TEST_DENIED");
+            intentConstTable.put(
+                    "com.android.frameworks.coretests.activity.BROADCAST_LOCAL_GRANTED",
+                    "com.android.frameworks.coretests.permission.TEST_GRANTED");
+            intentConstTable.put(
+                    "com.android.frameworks.coretests.activity.BROADCAST_REMOTE_DENIED",
+                    "com.android.frameworks.coretests.permission.TEST_DENIED");
+            intentConstTable.put(
+                    "com.android.frameworks.coretests.activity.BROADCAST_REMOTE_GRANTED",
+                    "com.android.frameworks.coretests.permission.TEST_GRANTED");
+            intentConstTable.put("com.android.frameworks.coretests.activity.SERVICE_LOCAL_DENIED",
+                    "com.android.frameworks.coretests.permission.TEST_DENIED");
+            intentConstTable.put("com.android.frameworks.coretests.activity.SERVICE_LOCAL_GRANTED",
+                    "com.android.frameworks.coretests.permission.TEST_GRANTED");
+            intentConstTable.put("com.android.internal.telephony.IWapPushManager",
                     "com.android.smspush.WAPPUSH_MANAGER_BIND");
-            intentConstTable.put(
-                    "com.android.launcher.action.INSTALL_SHORTCUT",
+            intentConstTable.put("com.android.launcher.action.INSTALL_SHORTCUT",
                     "com.android.launcher.permission.INSTALL_SHORTCUT");
-            intentConstTable.put(
-                    "com.android.launcher.action.UNINSTALL_SHORTCUT",
+            intentConstTable.put("com.android.launcher.action.UNINSTALL_SHORTCUT",
                     "com.android.launcher.permission.UNINSTALL_SHORTCUT");
-            intentConstTable.put(
-                    "com.android.mms.intent.action.SENDTO_NO_CONFIRMATION",
+            intentConstTable.put("com.android.mms.intent.action.SENDTO_NO_CONFIRMATION",
                     "android.permission.SEND_SMS_NO_CONFIRMATION");
             intentConstTable.put("com.android.phone.PERFORM_CDMA_PROVISIONING",
                     "android.permission.PERFORM_CDMA_PROVISIONING");
@@ -140,52 +115,37 @@ public class DependentPermissionsAnnotatedTypeFactory extends
                     "android.permission.MASTER_CLEAR");
             intentConstTable.put("android.intent.action.DROPBOX_ENTRY_ADDED",
                     "android.permission.READ_LOGS");
-            intentConstTable
-                    .put("android.bluetooth.device.action.CONNECTION_ACCESS_REQUEST",
-                            "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.CONNECTION_ACCESS_REPLY",
+            intentConstTable.put("android.bluetooth.device.action.CONNECTION_ACCESS_REQUEST",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable
-                    .put("android.bluetooth.device.action.CONNECTION_ACCESS_REQUEST",
-                            "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.CONNECTION_ACCESS_CANCEL",
+            intentConstTable.put("android.bluetooth.device.action.CONNECTION_ACCESS_REPLY",
+                    "android.permission.BLUETOOTH_ADMIN");
+            intentConstTable.put("android.bluetooth.device.action.CONNECTION_ACCESS_REQUEST",
+                    "android.permission.BLUETOOTH_ADMIN");
+            intentConstTable.put("android.bluetooth.device.action.CONNECTION_ACCESS_CANCEL",
                     "android.permission.BLUETOOTH_ADMIN");
             intentConstTable.put("android.bleutooth.device.action.UUID",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.PAIRING_REQUEST",
+            intentConstTable.put("android.bluetooth.device.action.PAIRING_REQUEST",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.PAIRING_REQUEST",
+            intentConstTable.put("android.bluetooth.device.action.PAIRING_REQUEST",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.PAIRING_REQUEST",
+            intentConstTable.put("android.bluetooth.device.action.PAIRING_REQUEST",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.PAIRING_REQUEST",
+            intentConstTable.put("android.bluetooth.device.action.PAIRING_REQUEST",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.PAIRING_REQUEST",
+            intentConstTable.put("android.bluetooth.device.action.PAIRING_REQUEST",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.PAIRING_REQUEST",
+            intentConstTable.put("android.bluetooth.device.action.PAIRING_REQUEST",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.PAIRING_REQUEST",
+            intentConstTable.put("android.bluetooth.device.action.PAIRING_REQUEST",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.PAIRING_CANCEL",
+            intentConstTable.put("android.bluetooth.device.action.PAIRING_CANCEL",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.CONNECTION_ACCESS_CANCEL",
+            intentConstTable.put("android.bluetooth.device.action.CONNECTION_ACCESS_CANCEL",
                     "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable
-                    .put("android.bluetooth.device.action.CONNECTION_ACCESS_REQUEST",
-                            "android.permission.BLUETOOTH_ADMIN");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.CONNECTION_ACCESS_REPLY",
+            intentConstTable.put("android.bluetooth.device.action.CONNECTION_ACCESS_REQUEST",
+                    "android.permission.BLUETOOTH_ADMIN");
+            intentConstTable.put("android.bluetooth.device.action.CONNECTION_ACCESS_REPLY",
                     "android.permission.BLUETOOTH_ADMIN");
             intentConstTable.put("android.intent.action.BOOT_COMPLETED",
                     "android.permission.RECEIVE_BOOT_COMPLETED");
@@ -203,67 +163,49 @@ public class DependentPermissionsAnnotatedTypeFactory extends
                     "android.permission.RECEIVE_SMS");
             intentConstTable.put("android.provider.Telephony.SMS_CB_RECEIVED",
                     "android.permission.RECEIVE_SMS");
-            intentConstTable
-                    .put("android.bluetooth.headset.action.VENDOR_SPECIFIC_HEADSET_EVENT",
-                            "android.permission.BLUETOOTH");
-            intentConstTable
-                    .put("android.bluetooth.pan.profile.action.CONNECTION_STATE_CHANGED",
-                            "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.adapter.action.SCAN_MODE_CHANGED",
+            intentConstTable.put("android.bluetooth.headset.action.VENDOR_SPECIFIC_HEADSET_EVENT",
                     "android.permission.BLUETOOTH");
-            intentConstTable
-                    .put("android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED",
-                            "android.permission.BLUETOOTH");
-            intentConstTable
-                    .put("android.bluetooth.input.profile.action.CONNECTION_STATE_CHANGED",
-                            "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.BOND_STATE_CHANGED",
+            intentConstTable.put("android.bluetooth.pan.profile.action.CONNECTION_STATE_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.adapter.action.SCAN_MODE_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.input.profile.action.CONNECTION_STATE_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.device.action.BOND_STATE_CHANGED",
                     "android.permission.BLUETOOTH");
             intentConstTable.put("android.bluetooth.device.action.FOUND",
                     "android.permission.BLUETOOTH");
             intentConstTable.put("android.bluetooth.device.action.DISAPPEARED",
                     "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.ACL_DISCONNECT_REQUESTED",
+            intentConstTable.put("android.bluetooth.device.action.ACL_DISCONNECT_REQUESTED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.adapter.action.LOCAL_NAME_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.adapter.action.SCAN_MODE_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.adapter.action.DISCOVERY_FINISHED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.device.action.NAME_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.device.action.CLASS_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.device.action.ACL_DISCONNECTED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.a2dp.profile.action.CONNECTION_STATE_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.a2dp.profile.action.PLAYING_STATE_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.adapter.action.STATE_CHANGED",
+                    "android.permission.BLUETOOTH");
+            intentConstTable.put("android.bluetooth.pbap.intent.action.PBAP_STATE_CHANGED",
                     "android.permission.BLUETOOTH");
             intentConstTable.put(
-                    "android.bluetooth.adapter.action.LOCAL_NAME_CHANGED",
+                    "android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED",
                     "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.adapter.action.SCAN_MODE_CHANGED",
+            intentConstTable.put("android.bluetooth.headset.profile.action.AUDIO_STATE_CHANGED",
                     "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.adapter.action.DISCOVERY_FINISHED",
-                    "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.NAME_CHANGED",
-                    "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.CLASS_CHANGED",
-                    "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.device.action.ACL_DISCONNECTED",
-                    "android.permission.BLUETOOTH");
-            intentConstTable
-                    .put("android.bluetooth.a2dp.profile.action.CONNECTION_STATE_CHANGED",
-                            "android.permission.BLUETOOTH");
-            intentConstTable
-                    .put("android.bluetooth.a2dp.profile.action.PLAYING_STATE_CHANGED",
-                            "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.adapter.action.STATE_CHANGED",
-                    "android.permission.BLUETOOTH");
-            intentConstTable.put(
-                    "android.bluetooth.pbap.intent.action.PBAP_STATE_CHANGED",
-                    "android.permission.BLUETOOTH");
-            intentConstTable
-                    .put("android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED",
-                            "android.permission.BLUETOOTH");
-            intentConstTable
-                    .put("android.bluetooth.headset.profile.action.AUDIO_STATE_CHANGED",
-                            "android.permission.BLUETOOTH");
 
             // contentURIPatternList
             // grep "pathPrefix" | sed "s/ . /\.\*\",\"/" | sed
@@ -272,18 +214,15 @@ public class DependentPermissionsAnnotatedTypeFactory extends
             contentURIPatternList.add(new Pair<String, String>(
                     "^content://com.android.contacts/search_suggest_query.*",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList
-                    .add(new Pair<String, String>(
-                            "^content://com.android.contacts/search_suggest_shortcut.*",
-                            "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList
-                    .add(new Pair<String, String>(
-                            "^content://com.android.mms.SuggestionsProvider/search_suggest_query.*",
-                            "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList
-                    .add(new Pair<String, String>(
-                            "^content://com.android.mms.SuggestionsProvider/search_suggest_shortcut.*",
-                            "android.permission.GLOBAL_SEARCH"));
+            contentURIPatternList.add(new Pair<String, String>(
+                    "^content://com.android.contacts/search_suggest_shortcut.*",
+                    "android.permission.GLOBAL_SEARCH"));
+            contentURIPatternList.add(new Pair<String, String>(
+                    "^content://com.android.mms.SuggestionsProvider/search_suggest_query.*",
+                    "android.permission.GLOBAL_SEARCH"));
+            contentURIPatternList.add(new Pair<String, String>(
+                    "^content://com.android.mms.SuggestionsProvider/search_suggest_shortcut.*",
+                    "android.permission.GLOBAL_SEARCH"));
             contentURIPatternList.add(new Pair<String, String>(
                     "^content://contacts/search_suggest_query.*",
                     "android.permission.GLOBAL_SEARCH"));
@@ -297,30 +236,25 @@ public class DependentPermissionsAnnotatedTypeFactory extends
                     "^content://ctspermissionwithsignaturepath/yes.*",
                     "com.android.cts.permissionWithSignature"));
             contentURIPatternList.add(new Pair<String, String>(
-                    "^content://downloads/all_downloads/.*",
+                    "^content://downloads/all_downloads/.*", "grant-uri-permission"));
+            contentURIPatternList.add(new Pair<String, String>(
+                    "^content://downloads/all_downloads.*",
+                    "android.permission.ACCESS_ALL_DOWNLOADS"));
+            contentURIPatternList.add(new Pair<String, String>(
+                    "^content://downloads/all_downloads.*",
+                    "android.permission.ACCESS_ALL_DOWNLOADS"));
+            contentURIPatternList.add(new Pair<String, String>("^content://downloads/download.*",
+                    "android.permission.INTERNET"));
+            contentURIPatternList.add(new Pair<String, String>("^content://downloads/download.*",
+                    "android.permission.INTERNET"));
+            contentURIPatternList.add(new Pair<String, String>(
+                    "^content://downloads/my_downloads.*", "android.permission.INTERNET"));
+            contentURIPatternList.add(new Pair<String, String>(
+                    "^content://downloads/my_downloads.*", "android.permission.INTERNET"));
+            contentURIPatternList.add(new Pair<String, String>("^content://mms/drm/.*",
                     "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
-                    "^content://downloads/all_downloads.*",
-                    "android.permission.ACCESS_ALL_DOWNLOADS"));
-            contentURIPatternList.add(new Pair<String, String>(
-                    "^content://downloads/all_downloads.*",
-                    "android.permission.ACCESS_ALL_DOWNLOADS"));
-            contentURIPatternList.add(new Pair<String, String>(
-                    "^content://downloads/download.*",
-                    "android.permission.INTERNET"));
-            contentURIPatternList.add(new Pair<String, String>(
-                    "^content://downloads/download.*",
-                    "android.permission.INTERNET"));
-            contentURIPatternList.add(new Pair<String, String>(
-                    "^content://downloads/my_downloads.*",
-                    "android.permission.INTERNET"));
-            contentURIPatternList.add(new Pair<String, String>(
-                    "^content://downloads/my_downloads.*",
-                    "android.permission.INTERNET"));
-            contentURIPatternList.add(new Pair<String, String>(
-                    "^content://mms/drm/.*", "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
-                    "^content://mms/part/.*", "grant-uri-permission"));
+            contentURIPatternList.add(new Pair<String, String>("^content://mms/part/.*",
+                    "grant-uri-permission"));
 
             // grep "Pattern" | sed "s/ pathPattern/\"));/" | sed "s/ . / /" |
             // sed "s/ /\",\"/" | sed "s/^/contentURIPatternList.add(new
@@ -328,33 +262,24 @@ public class DependentPermissionsAnnotatedTypeFactory extends
             contentURIPatternList.add(new Pair<String, String>(
                     "^content://com.android.contacts/contacts/.*/photo",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList
-                    .add(new Pair<String, String>(
-                            "^content://com.android.contacts.*",
-                            "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
-                    "^content://com.google.provider.NotePad.*",
+            contentURIPatternList.add(new Pair<String, String>("^content://com.android.contacts.*",
                     "grant-uri-permission"));
             contentURIPatternList.add(new Pair<String, String>(
-                    "^content://contacts/contacts/.*/photo",
-                    "android.permission.GLOBAL_SEARCH"));
+                    "^content://com.google.provider.NotePad.*", "grant-uri-permission"));
             contentURIPatternList.add(new Pair<String, String>(
-                    "^content://contacts.*", "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
-                    "^content://ctspermissionwithsignaturegranting/foo.*",
+                    "^content://contacts/contacts/.*/photo", "android.permission.GLOBAL_SEARCH"));
+            contentURIPatternList.add(new Pair<String, String>("^content://contacts.*",
                     "grant-uri-permission"));
             contentURIPatternList.add(new Pair<String, String>(
-                    "^content://ctspermissionwithsignaturegranting/yes.*",
-                    "grant-uri-permission"));
+                    "^content://ctspermissionwithsignaturegranting/foo.*", "grant-uri-permission"));
             contentURIPatternList.add(new Pair<String, String>(
-                    "^content://ctspermissionwithsignaturepath.*",
-                    "grant-uri-permission"));
+                    "^content://ctspermissionwithsignaturegranting/yes.*", "grant-uri-permission"));
             contentURIPatternList.add(new Pair<String, String>(
-                    "^content://ctsprivateprovidergranting/foo.*",
-                    "grant-uri-permission"));
+                    "^content://ctspermissionwithsignaturepath.*", "grant-uri-permission"));
             contentURIPatternList.add(new Pair<String, String>(
-                    "^content://ctsprivateprovidergranting/yes.*",
-                    "grant-uri-permission"));
+                    "^content://ctsprivateprovidergranting/foo.*", "grant-uri-permission"));
+            contentURIPatternList.add(new Pair<String, String>(
+                    "^content://ctsprivateprovidergranting/yes.*", "grant-uri-permission"));
 
             // contentURIConstList
             // grep -v "Pattern" | grep -v "Prefix" | sed "s/ path//" | sed
@@ -363,46 +288,36 @@ public class DependentPermissionsAnnotatedTypeFactory extends
             contentURIConstList.add(new Pair<String, String>(
                     "content://browser/bookmarks/search_suggest_query",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://browser",
+            contentURIConstList.add(new Pair<String, String>("content://browser",
                     "com.android.browser.permission.READ_HISTORY_BOOKMARKS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://browser",
+            contentURIConstList.add(new Pair<String, String>("content://browser",
                     "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://call_log", "android.permission.READ_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://call_log", "android.permission.WRITE_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.bluetooth.opp/btopp",
-                    "android.permission.ACCESS_BLUETOOTH_SHARE"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.bluetooth.opp/btopp",
-                    "android.permission.ACCESS_BLUETOOTH_SHARE"));
-            contentURIConstList
-                    .add(new Pair<String, String>(
-                            "content://com.android.browser/bookmarks/search_suggest_query",
-                            "android.permission.GLOBAL_SEARCH"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.browser.home",
-                    "com.android.browser.permission.READ_HISTORY_BOOKMARKS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.browser",
-                    "com.android.browser.permission.READ_HISTORY_BOOKMARKS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.browser",
-                    "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.calendar",
-                    "android.permission.READ_CALENDAR"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.calendar",
-                    "android.permission.WRITE_CALENDAR"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.contacts",
+            contentURIConstList.add(new Pair<String, String>("content://call_log",
                     "android.permission.READ_CONTACTS"));
+            contentURIConstList.add(new Pair<String, String>("content://call_log",
+                    "android.permission.WRITE_CONTACTS"));
             contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.contacts",
+                    "content://com.android.bluetooth.opp/btopp",
+                    "android.permission.ACCESS_BLUETOOTH_SHARE"));
+            contentURIConstList.add(new Pair<String, String>(
+                    "content://com.android.bluetooth.opp/btopp",
+                    "android.permission.ACCESS_BLUETOOTH_SHARE"));
+            contentURIConstList.add(new Pair<String, String>(
+                    "content://com.android.browser/bookmarks/search_suggest_query",
+                    "android.permission.GLOBAL_SEARCH"));
+            contentURIConstList.add(new Pair<String, String>("content://com.android.browser.home",
+                    "com.android.browser.permission.READ_HISTORY_BOOKMARKS"));
+            contentURIConstList.add(new Pair<String, String>("content://com.android.browser",
+                    "com.android.browser.permission.READ_HISTORY_BOOKMARKS"));
+            contentURIConstList.add(new Pair<String, String>("content://com.android.browser",
+                    "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS"));
+            contentURIConstList.add(new Pair<String, String>("content://com.android.calendar",
+                    "android.permission.READ_CALENDAR"));
+            contentURIConstList.add(new Pair<String, String>("content://com.android.calendar",
+                    "android.permission.WRITE_CALENDAR"));
+            contentURIConstList.add(new Pair<String, String>("content://com.android.contacts",
+                    "android.permission.READ_CONTACTS"));
+            contentURIConstList.add(new Pair<String, String>("content://com.android.contacts",
                     "android.permission.WRITE_CONTACTS"));
             contentURIConstList.add(new Pair<String, String>(
                     "content://com.android.email.attachmentprovider",
@@ -428,25 +343,21 @@ public class DependentPermissionsAnnotatedTypeFactory extends
             contentURIConstList.add(new Pair<String, String>(
                     "content://com.android.launcher2.settings",
                     "com.android.launcher.permission.WRITE_SETTINGS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.mms.SuggestionsProvider",
-                    "android.permission.READ_SMS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.social",
+            contentURIConstList
+                    .add(new Pair<String, String>("content://com.android.mms.SuggestionsProvider",
+                            "android.permission.READ_SMS"));
+            contentURIConstList.add(new Pair<String, String>("content://com.android.social",
                     "android.permission.READ_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.social",
+            contentURIConstList.add(new Pair<String, String>("content://com.android.social",
                     "android.permission.WRITE_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.voicemail",
+            contentURIConstList.add(new Pair<String, String>("content://com.android.voicemail",
                     "com.android.voicemail.permission.ADD_VOICEMAIL"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://com.android.voicemail",
+            contentURIConstList.add(new Pair<String, String>("content://com.android.voicemail",
                     "com.android.voicemail.permission.ADD_VOICEMAIL"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://contacts", "android.permission.READ_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://contacts", "android.permission.WRITE_CONTACTS"));
+            contentURIConstList.add(new Pair<String, String>("content://contacts",
+                    "android.permission.READ_CONTACTS"));
+            contentURIConstList.add(new Pair<String, String>("content://contacts",
+                    "android.permission.WRITE_CONTACTS"));
             contentURIConstList.add(new Pair<String, String>(
                     "content://ctspermissionwithsignaturegranting",
                     "com.android.cts.permissionWithSignature"));
@@ -471,29 +382,27 @@ public class DependentPermissionsAnnotatedTypeFactory extends
                     "android.permission.WRITE_CONTACTS"));
             contentURIConstList.add(new Pair<String, String>("content://mms",
                     "android.permission.READ_SMS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://mms-sms", "android.permission.READ_SMS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://mms-sms", "android.permission.WRITE_SMS"));
+            contentURIConstList.add(new Pair<String, String>("content://mms-sms",
+                    "android.permission.READ_SMS"));
+            contentURIConstList.add(new Pair<String, String>("content://mms-sms",
+                    "android.permission.WRITE_SMS"));
             contentURIConstList.add(new Pair<String, String>("content://mms",
                     "android.permission.WRITE_SMS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://settings", "android.permission.WRITE_SETTINGS"));
+            contentURIConstList.add(new Pair<String, String>("content://settings",
+                    "android.permission.WRITE_SETTINGS"));
             contentURIConstList.add(new Pair<String, String>("content://sms",
                     "android.permission.READ_SMS"));
             contentURIConstList.add(new Pair<String, String>("content://sms",
                     "android.permission.WRITE_SMS"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://user_dictionary",
+            contentURIConstList.add(new Pair<String, String>("content://user_dictionary",
                     "android.permission.READ_USER_DICTIONARY"));
-            contentURIConstList.add(new Pair<String, String>(
-                    "content://user_dictionary",
+            contentURIConstList.add(new Pair<String, String>("content://user_dictionary",
                     "android.permission.WRITE_USER_DICTIONARY"));
         }
     }
 
-    public DependentPermissionsAnnotatedTypeFactory(
-            DependentPermissionsChecker checker, CompilationUnitTree root) {
+    public DependentPermissionsAnnotatedTypeFactory(DependentPermissionsChecker checker,
+            CompilationUnitTree root) {
         super(checker, root);
 
         // init ConstantTables
@@ -504,11 +413,9 @@ public class DependentPermissionsAnnotatedTypeFactory extends
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.BOTTOM);
         typeAnnotator.addTypeName(java.lang.Void.class, checker.BOTTOM);
 
-        defaults.addAbsoluteDefault(
-                AnnotationUtils.fromClass(elements, FenumTop.class),
+        defaults.addAbsoluteDefault(AnnotationUtils.fromClass(elements, FenumTop.class),
                 DefaultLocation.LOCALS);
-        defaults.addAbsoluteDefault(
-                AnnotationUtils.fromClass(elements, FenumUnqualified.class),
+        defaults.addAbsoluteDefault(AnnotationUtils.fromClass(elements, FenumUnqualified.class),
                 DefaultLocation.OTHERWISE);
 
         this.postInit();
@@ -565,8 +472,7 @@ public class DependentPermissionsAnnotatedTypeFactory extends
                             }
                         }
                         // add annotations
-                        type.addAnnotation(createDependentPermAnnotation(perms
-                                .toString()));
+                        type.addAnnotation(createDependentPermAnnotation(perms.toString()));
 
                     }
 

@@ -1,21 +1,17 @@
 package sparta.checkers;
 
-import java.util.List;
-import sparta.checkers.quals.DependentPermissions;
 import checkers.basetype.BaseTypeVisitor;
-import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
-import checkers.util.AnnotatedTypes;
-import checkers.util.Pair;
-import checkers.util.TreeUtils;
-import com.sun.source.tree.*;
 
-public class DependentPermissionsVisitor extends
-        BaseTypeVisitor<DependentPermissionsChecker> {
-    public DependentPermissionsVisitor(DependentPermissionsChecker checker,
-            CompilationUnitTree root) {
+import sparta.checkers.quals.DependentPermissions;
+
+import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.Tree;
+
+public class DependentPermissionsVisitor extends BaseTypeVisitor<DependentPermissionsChecker> {
+    public DependentPermissionsVisitor(DependentPermissionsChecker checker, CompilationUnitTree root) {
         super(checker, root);
     }
 
@@ -42,8 +38,7 @@ public class DependentPermissionsVisitor extends
     // TODO: should we require a match between switch expression and cases?
 
     @Override
-    public boolean isValidUse(AnnotatedDeclaredType declarationType,
-            AnnotatedDeclaredType useType) {
+    public boolean isValidUse(AnnotatedDeclaredType declarationType, AnnotatedDeclaredType useType) {
         // The checker calls this method to compare the annotation used in a
         // type to the modifier it adds to the class declaration. As our default
         // modifier is Unqualified, this results in an error when a non-subtype

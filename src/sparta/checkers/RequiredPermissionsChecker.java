@@ -7,4 +7,5 @@ import checkers.quals.Unqualified;
 
 @TypeQualifiers(Unqualified.class)
 @StubFiles("permission.astub")
-public class RequiredPermissionsChecker extends BaseTypeChecker {}
+public class RequiredPermissionsChecker extends BaseTypeChecker {
+}
