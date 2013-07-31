@@ -14,7 +14,10 @@ package java.io;
 class FileOutputStream{}
 @ReportCreation
 class FileInputStream{}
-
+class File{
+@ReportCall
+void delete();
+}
 //
 // Suspicious use of java.lang API
 //
