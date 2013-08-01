@@ -72,6 +72,40 @@ Hints to add annotations could be permissionmap (which permission is required
 to call which functions):
 \url{http://www.android-permissions.org/permissionmap.html}.
 
+\paragraph{Eclipse Setup Instructions}
+\begin{itemize}
+\item Follow Section 25.3 from the Checker Framework manual 
+(Building from source.)
+\item As described in the installation instructions, set the \<CHECKERS>
+environment variable to \<.../checker-framework/checkers/>
+\item We recommend that you create a new workspace for that. 
+Open Eclipse and import the following projects: \<jsr308-langtools,
+sparta-code, checkers, javaparser>. The last 2 are both on the
+\<checker-framework> folder.
+\item The \<checkers> project should import \<javaparser> and \<jsr308-langtools>. 
+The \<sparta-code> project should import \<checkers> and \<jsr308-langtools>.  
+\item Select  \<Window $\rightarrow$ Preferences $\rightarrow$ Java 
+$\rightarrow$ Installed JREs> and add the binaries \<.../checkers/binary/javac.jar> 
+and \<.../checkers/binary/jdk7.jar> to the default JRE you are using.
+\item Clean the projects on Eclipse. There should be no errors. 
+\end{itemize}
+\paragraph{Using tools on Eclipse}
+
+\begin{itemize}
+\item Import an Android Project to Eclipse. 
+\item Open the build path of this project and add the sparta-code project.
+\item Every .java file that will be annotated needs to contain the 
+following imports:
+  \begin{itemize}
+    \item \<import  sparta.checkers.quals.Sink;>
+    \item \<import  sparta.checkers.quals.Source;>
+    \item \<import static sparta.checkers.quals.FlowPermission.*;>
+  \end{itemize}
+\item Select \<Run $\rightarrow$ External Tools $\rightarrow$ External Tools Configuration> 
+and create a new \<Ant Build>.
+\item Select the \<build.xml> file as the \<Buildfile> and you can use the SPARTA tools by passing
+Arguments. For example: \<check-flow>.
+\end{itemize}
 
 
 %%% Local Variables: 
