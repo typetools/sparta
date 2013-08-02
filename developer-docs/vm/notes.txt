@@ -1,0 +1,35 @@
+TODO: make this notes better
+
+Download the latest VM from the SPARTA release website
+(See HowToInstallTheVdi document)
+
+Update sparta and how software 
+
+sudo apt-get update
+#Password: ThisIsSparta!
+update java:
+
+sudo apt-get install openjdk-7-jdk
+
+cd ~/Documents/sparta/
+rm -r sparta-subjects
+rm -r sparta-code
+
+cd jsr308; hg fetch
+
+
+
+open Firefox, download sparta-code and sparta-subjects tarballs
+
+mv ~/Downloads/sparta-* .
+
+Open the tarballs then remove thme
+
+cd sparta-code
+ant 
+ant all-tests
+
+change the SPARTA_CODE environment variable  
+check sparta-subjects
+
+tar up the READ.VM with the vdi
