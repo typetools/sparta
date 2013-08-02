@@ -15,7 +15,21 @@ import java.util.LinkedList;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import sparta.checkers.quals.DependentPermissions;
+import sparta.checkers.quals.*;
+
+import checkers.basetype.BaseTypeChecker;
+import checkers.quals.DefaultLocation;
+import checkers.quals.Unqualified;
+import checkers.source.Result;
+import checkers.types.AnnotatedTypeFactory;
+import checkers.types.AnnotatedTypeMirror;
+import checkers.types.BasicAnnotatedTypeFactory;
+import checkers.types.TreeAnnotator;
+import checkers.util.AnnotationBuilder;
+import checkers.util.AnnotationUtils;
+import checkers.util.TreeUtils;
+
+import com.sun.source.tree.AssignmentTree;
 
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.LiteralTree;
@@ -29,9 +43,8 @@ public class DependentPermissionsAnnotatedTypeFactory extends
     public static final LinkedList<Pair<String, String>> contentURIPatternList = new LinkedList<Pair<String, String>>();
     public static final LinkedList<Pair<String, String>> contentURIConstList = new LinkedList<Pair<String, String>>();
 
-    public static void initConstantTables() {
-
-        if (intentConstTable.size() == 0) {
+    static {
+       
             // intent constant tables
             // sed command used to convert intent constant strings from pscout
             // format
@@ -399,23 +412,24 @@ public class DependentPermissionsAnnotatedTypeFactory extends
             contentURIConstList.add(new Pair<String, String>("content://user_dictionary",
                     "android.permission.WRITE_USER_DICTIONARY"));
         }
-    }
 
     public DependentPermissionsAnnotatedTypeFactory(DependentPermissionsChecker checker,
             CompilationUnitTree root) {
         super(checker, root);
 
-        // init ConstantTables
-        initConstantTables();
 
         // Reuse the framework Bottom annotation and make it the default for the
         // null literal.
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.BOTTOM);
-        typeAnnotator.addTypeName(java.lang.Void.class, checker.BOTTOM);
+      //  typeAnnotator.addTypeName(java.lang.Void.class, checker.BOTTOM);
 
-        defaults.addAbsoluteDefault(AnnotationUtils.fromClass(elements, FenumTop.class),
+
+        defaults.addAbsoluteDefault(
+                AnnotationUtils.fromClass(elements, DependentPermissionsTop.class),
                 DefaultLocation.LOCALS);
-        defaults.addAbsoluteDefault(AnnotationUtils.fromClass(elements, FenumUnqualified.class),
+
+        defaults.addAbsoluteDefault(
+                AnnotationUtils.fromClass(elements, DependentPermissionsUnqualified.class),
                 DefaultLocation.OTHERWISE);
 
         this.postInit();
