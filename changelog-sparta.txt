@@ -12,7 +12,7 @@ More Flow Analysis
    Current flow files include:
        foundFlows.txt - A summary of found and forbidden flows
        forbiddenFlows.txt - A flow-policy consisting of forbidden flows
-       allFlows.txt - A machine searchable file of all flows in the system that
+       forbiddenFlowLocations.txt - A machine searchable file of all flows in the system that
        can be indexed using filter-flows.
 
 String Comparison

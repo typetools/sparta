@@ -37,11 +37,11 @@ import com.sun.tools.javac.util.DiagnosticSource;
  * @author mcarthur
  */
 
-public class FlowAnalizer {
+public class FlowAnalyzer {
 
     private static final String IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT = "forbiddenFlows.txt";
     private static final String IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT = "foundFlows.txt";
-    private static final String ALL_FLOWS_FILE_DEFAULT = "allFlows.txt";
+    private static final String ALL_FLOWS_FILE_DEFAULT = "forbiddenFlowLocations.txt";
 
     // TODO: would be nice if you could pass a file name
     private String impliedFlowsForbiddenFile = IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT;
@@ -56,7 +56,7 @@ public class FlowAnalizer {
 
     private FlowPolicy flowPolicy;
 
-    public FlowAnalizer(FlowPolicy flowPolicy) {
+    public FlowAnalyzer(FlowPolicy flowPolicy) {
         this.flowPolicy = flowPolicy;
         assignmentFlows = new HashSet<Flow>();
         typeFlows = new HashSet<Flow>();

@@ -5,7 +5,7 @@ use strict;
 use Getopt::Long;
 
 my $filter = '';
-my $flow_file = 'allFlows.txt';
+my $flow_file = 'forbiddenFlowLocations.txt';
 GetOptions('filter:s' => \$filter, 'flow-file:s' => \$flow_file);
 
 sub parse_flow {

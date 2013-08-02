@@ -135,15 +135,8 @@
         <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
 
-    <target name="capture-flows">
-        <!-- todo setup a switch to turn on this output. Add a filter string? -->
-        <antcall target="check-flow" />
-        <loadfile property="allFlowsOut" srcFile="allFlows.txt" />
-        <echo>${allFlowsOut}</echo>
-    </target>
-
     <target name="filter-flows">
-        <property name="filter.flow_file" value="./allFlows.txt" />
+        <property name="filter.flow_file" value="./forbiddenFlowLocations.txt" />
         <property name="filter.filter" value="" />
         <exec executable="${sparta-code_dir}/${sparta-code_base}/filter-flows.pl">
                     <arg line="--flow-file ${filter.flow_file}" />
