@@ -37,7 +37,7 @@ RequiredPermission Changes
 
 Unified Permissions Checker
    A unified permissions checker has been added that will run the Required 
-   Permissions checker and the Dependent Permissions Checker. Users should now use 
+   Permissions checker and the Dependent Permissions Checker. Users should now use
    ant check-permissions instead of reqperms.
 
 ----------------------------------------------------------------------
