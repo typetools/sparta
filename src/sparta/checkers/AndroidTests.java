@@ -6,7 +6,6 @@ import java.util.Collection;
 
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-
 import org.junit.runners.Parameterized.Parameters;
 
 import checkers.util.test.ParameterizedCheckerTest;
@@ -19,13 +18,13 @@ public class AndroidTests {
         org.junit.runner.JUnitCore jc = new org.junit.runner.JUnitCore();
         Result run = jc.run(AndroidFenumCheckerTests.class);
 
-        if( run.wasSuccessful() ) {
+        if (run.wasSuccessful()) {
             System.out.println("Run was successful with " + run.getRunCount() + " test(s)!");
         } else {
             System.out.println("Run had " + run.getFailureCount() + " failure(s) out of " +
                     run.getRunCount() + " run(s)!");
 
-            for( Failure f : run.getFailures() ) {
+            for (Failure f : run.getFailures()) {
                 System.out.println(f.toString());
             }
         }
@@ -54,7 +53,6 @@ public class AndroidTests {
     public static class AndroidReportCheckerTests extends ParameterizedCheckerTest {
         public AndroidReportCheckerTests(File testFile) {
             super(testFile, AndroidReportChecker.class, "sparta.checkers", "-Anomsgtext", "-Astubs=apiusage.astub:suspicious.astub");
-            
         }
         @Parameters
         public static Collection<Object[]> data() {
@@ -67,8 +65,8 @@ public class AndroidTests {
              super(testFile, FlowChecker.class, "sparta.checkers", "-Anomsgtext", "-Astubs=tests/flow/flowtests.astub");
 //           Uncomment the line below to see the full errors in the JUnit tests
 //           super(testFile, FlowChecker.class, "sparta.checkers", "stubWarnIfNotFound", "-Astubs=tests/flow/flowtests.astub");
-
         }
+
         @Parameters
         public static Collection<Object[]> data() {
             return testFiles("flow");
@@ -79,7 +77,7 @@ public class AndroidTests {
             final File flowPolicyFile = getFlowPolicy(testFile);
             final String [] optionsWithPf;
 
-            if(flowPolicyFile.exists()) {
+            if (flowPolicyFile.exists()) {
                 optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 2);
                 optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy=" + flowPolicyFile.getAbsolutePath();
                 optionsWithPf[optionsWithPf.length - 2] = "-AprintErrorStack";
@@ -97,12 +95,13 @@ public class AndroidTests {
 
         protected File getFile(final File javaFile, final String extension) {
             final String path = javaFile.getAbsolutePath();
-            if(!path.endsWith(".java")) {
+            if (!path.endsWith(".java")) {
                 throw new RuntimeException("Cannot recognize java file " + javaFile.getAbsolutePath());
             } else {
                 return new File(javaFile.getAbsolutePath().substring(0, path.length() - 5) + extension);
             }
         }
+
         protected File getFlowPolicy(final File javaFile) {
             return getFile(javaFile, "Flowpolicy");
         }
