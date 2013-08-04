@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javacutils.Pair;
 import sparta.checkers.quals.FlowPermission;
-import checkers.util.Pair;
 
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.tree.JCTree;
@@ -22,17 +22,17 @@ import com.sun.tools.javac.util.DiagnosticSource;
 
 /**
  * Class to perform extra processing on flow information.
- * 
+ *
  * Currently prints out a flow-policy of forbidden flows and a more
- * verbose breakdown. 
- * 
+ * verbose breakdown.
+ *
  * Flows are categorized as either type flows or assignment flows.
  * Type flows are the flows corresponding to a single type (which
  * has a source and sink).
- * 
+ *
  * Assignment flows are generated from assignment statments (or method calls)
  * by taking the source of the value argument and the sinks of the variable argument.
- * 
+ *
  * @author mcarthur
  */
 
@@ -47,13 +47,13 @@ public class FlowAnalizer {
     private String impliedFlowsVerboseFile = IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT;
     private String allFlowsFile = ALL_FLOWS_FILE_DEFAULT;
 
-    private Set<Flow> forbiddenTypeFlows;
-    private Set<Flow> assignmentFlows;
-    private Set<Flow> forbiddenAssignmentFlows;
-    private Set<Flow> typeFlows;
-    private Set<Pair<TreePath, Flow>> allFlows;
+    private final Set<Flow> forbiddenTypeFlows;
+    private final Set<Flow> assignmentFlows;
+    private final Set<Flow> forbiddenAssignmentFlows;
+    private final Set<Flow> typeFlows;
+    private final Set<Pair<TreePath, Flow>> allFlows;
 
-    private FlowPolicy flowPolicy;
+    private final FlowPolicy flowPolicy;
 
     public FlowAnalizer(FlowPolicy flowPolicy) {
         this.flowPolicy = flowPolicy;
@@ -94,18 +94,18 @@ public class FlowAnalizer {
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(new FileOutputStream(impliedFlowsVerboseFile));
-            printFlows(writer, getFlowStrList(groupFlowsOnSource(typeFlows)), 
+            printFlows(writer, getFlowStrList(groupFlowsOnSource(typeFlows)),
                     "# Type Flows Grouped");
 
             printFlows(writer, getFlowStrList(groupFlowsOnSource(getForbiddenFlowsPairwise(
-                    groupFlowsOnSource(forbiddenTypeFlows)))), 
+                    groupFlowsOnSource(forbiddenTypeFlows)))),
                     "# Forbidden Type Flows Grouped");
 
-            printFlows(writer, getFlowStrList(groupFlowsOnSource(assignmentFlows)), 
+            printFlows(writer, getFlowStrList(groupFlowsOnSource(assignmentFlows)),
                     "# Assignment Flows Grouped");
 
             printFlows(writer, getFlowStrList(groupFlowsOnSource(getForbiddenFlowsPairwise(
-                    groupFlowsOnSource(forbiddenAssignmentFlows)))), 
+                    groupFlowsOnSource(forbiddenAssignmentFlows)))),
                     "# Forbidden Assignment Flows Grouped");
 
             printFlows(writer, getFlowStrList(typeFlows), "# Type Flows");
@@ -147,7 +147,7 @@ public class FlowAnalizer {
     /**
      * Assumes there is only one source per Flow. Finds all sinks for that source
      * that are forbidden.
-     * 
+     *
      * @param flows to check
      * @return Forbidden flows
      */
@@ -156,7 +156,7 @@ public class FlowAnalizer {
         for (Flow flow : flows) {
             Set<FlowPermission> forbiddenSinks = new HashSet<FlowPermission>();
             for (FlowPermission sink: flow.sinks) {
-                if (!flowPolicy.areFlowsAllowed(Pair.<Set<FlowPermission>, Set<FlowPermission>>of(flow.sources, 
+                if (!flowPolicy.areFlowsAllowed(Pair.<Set<FlowPermission>, Set<FlowPermission>>of(flow.sources,
                         new HashSet<FlowPermission>(Arrays.asList(sink))))) {
 
                     forbiddenSinks.add(sink);
