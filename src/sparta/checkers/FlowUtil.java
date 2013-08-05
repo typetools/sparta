@@ -56,15 +56,19 @@ public class FlowUtil {
         if(am == null){
             return new ArrayList<FlowPermission>();
         }
-        return AnnotationUtils.getElementValueEnumArray(am, "value", FlowPermission.class, true);
+
+        List<FlowPermission> sinks = AnnotationUtils.getElementValueEnumArray(am, "value", FlowPermission.class, true);
+        Set<FlowPermission> set = FlowUtil.allToAnySink(new HashSet<FlowPermission>(sinks), false);
+        return new ArrayList<>(set) ;
     }
 
     public static List<FlowPermission> getSource(final AnnotationMirror am) {
-        if(am == null){
-            return new ArrayList<FlowPermission>();
-        }
-
-        return AnnotationUtils.getElementValueEnumArray(am, "value", FlowPermission.class, true);
+	if(am == null){
+	    return new ArrayList<FlowPermission>();
+	}
+    List<FlowPermission> sources = AnnotationUtils.getElementValueEnumArray(am, "value", FlowPermission.class, true);
+    Set<FlowPermission> set = FlowUtil.allToAnySource(new HashSet<FlowPermission>(sources), false);
+     return new ArrayList<>(set) ;
     }
 
     public static Set<FlowPermission> getSink(final AnnotationMirror annotationMirror, boolean replaceAny) {

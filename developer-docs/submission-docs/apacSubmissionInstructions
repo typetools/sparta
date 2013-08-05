@@ -1,0 +1,38 @@
+Downloading and Uploading To apac.fivedirections.com
+
+/homes/gws/jburke/sparta
+
+1.  Email Jonathan and get the private key/password for the server at apac.fivedirections.com.  
+Before you can download to or upload from APAC you must have the SPARTA id_rsa private key (2048 bit sshv2) and password.  The private key, public key, and password were generated according to the instructions that can be found at:  /projects/swlab1/darpa-apac/apac-downloads/APACFileTransferInstructions.pdf
+The private key and password can be found in /homes/gws/jburke/sparta but are readable only by Jonathan (email jburke@cs.washington.edu to get the keys/password).  Suzanne also has a copy.  (smillst@cs.washington.edu)
+
+2.  There are two ways to login with the private key:
+    2.a - Move it to your ~/.ssh
+        2.a.1 If you don't have a ~/.ssh directory:
+              mkdir ~/.ssh
+              chmod 700 ~/.ssh
+    
+        2.a.2 Login via:
+              sftp -P 4264 sparta@apac.fivedirections.com 
+    
+    2.b - Use the -i option
+        2.b.1 Login via:
+              sftp -P 4264 -i /path/to/private/key/id_rsa sparta@apac.fivedirections.com 
+              
+3.  You will be prompted to enter your password.  This password can be found at the bottom of the file id_rsaGenLog_wPassword.txt which will be given to you along with the private key by Jonathan.  Enter your password at the prompt to log in.
+
+4.  To submit files (when you are already logged in via sftp):
+    cd incoming
+    //use put or mput to transfer files to the incoming directory
+    //remember to use lcd to cd into the appropriate local directory
+    //If you are submitting a binary please submit a checksum as well.
+    //openssl dgst -sha256 SPARTA-1BDocs.zip > Checksum_SPARTA_1BDocs.txt
+
+5.  To download files (when you are already logged in via sftp):
+    cd outgoing
+    //use get or mget to download files to your local directory
+    //remember to use lcd to cd into the appropriate local directory
+    
+Remember:
+incoming contains files that are being submitted (i.e. from us)
+outgoing contains files to download (i.e. to us)

@@ -7,43 +7,41 @@ class AbsListView$MultiChoiceModeListener{
 }
 
 class AbsListView {
-   int getCheckedItemCount();
-            void setMultiChoiceModeListener(MultiChoiceModeListener listener);
-
-//void addTouchables(ArrayList<View> views);
+    
+void addTouchables(ArrayList<View> views);
 //Add any touchable views that are descendants of this view (possibly including this view if it is touchable itself); to views.
 
-//void afterTextChanged(Editable s);
+void afterTextChanged(Editable s);
 //For our text watcher that is associated with the text filter.
 
-//void beforeTextChanged(CharSequence s, int start, int count, int after);
+void beforeTextChanged(CharSequence s, int start, int count, int after);
 //For our text watcher that is associated with the text filter.
 
-//boolean checkInputConnectionProxy(View view);
+boolean checkInputConnectionProxy(View view);
 //For filtering we proxy an input connection to an internal text editor, and this allows the proxying to happen.
 
 void clearChoices();
 //Clear any choices previously set
 
-//void clearTextFilter();
+void clearTextFilter();
 //Clear the text filter.
 
-//void deferNotifyDataSetChanged();
+void deferNotifyDataSetChanged();
 //This defers a notifyDataSetChanged on the pending RemoteViewsAdapter if it has not connected yet.
 
-//void draw(Canvas canvas);
+void draw(Canvas canvas);
 //Manually render this view (and all of its children); to the given Canvas.
 
-//AbsListView.LayoutParams generateLayoutParams(AttributeSet attrs);
+AbsListView.LayoutParams generateLayoutParams(AttributeSet attrs);
 //Returns a new set of layout parameters based on the supplied attributes set.
 
-//int getCacheColorHint();
+int getCacheColorHint();
 //When set to a non-zero value, the cache color hint indicates that this list is always drawn on top of a solid, single-color, opaque background
 
-//int getCheckedItemCount();
+int getCheckedItemCount();
 //Returns the number of items currently selected.
 
-//long[] getCheckedItemIds();
+long[] getCheckedItemIds();
 //Returns the set of checked items ids.
 
 int getCheckedItemPosition();
@@ -54,147 +52,147 @@ SparseBooleanArray getCheckedItemPositions();
 
 int getChoiceMode();
 
-//void getFocusedRect(Rect r);
+void getFocusedRect(Rect r);
 //When a view has focus and the user navigates away from it, the next view is searched for starting from the rectangle filled in by this method.
 
-//int getListPaddingBottom();
+int getListPaddingBottom();
 //List padding is the maximum of the normal view's padding and the padding of the selector.
 
-//int getListPaddingLeft();
+int getListPaddingLeft();
 //List padding is the maximum of the normal view's padding and the padding of the selector.
 
-//int getListPaddingRight();
+int getListPaddingRight();
 //List padding is the maximum of the normal view's padding and the padding of the selector.
 
-//int getListPaddingTop();
+int getListPaddingTop();
 //List padding is the maximum of the normal view's padding and the padding of the selector.
 
-//View getSelectedView();
+View getSelectedView();
 
-//Drawable getSelector();
+Drawable getSelector();
 //Returns the selector Drawable that is used to draw the selection in the list.
 
-//int getSolidColor();
+int getSolidColor();
 //Override this if your view is known to always be drawn on top of a solid color background, and needs to draw fading edges.
 
-//CharSequence getTextFilter();
+CharSequence getTextFilter();
 //Returns the list's text filter, if available.
 
-//int getTranscriptMode();
+int getTranscriptMode();
 //Returns the current transcript mode.
 
-//int getVerticalScrollbarWidth();
+int getVerticalScrollbarWidth();
 //Returns the width of the vertical scrollbar.
 
-//boolean hasTextFilter();
+boolean hasTextFilter();
 //Returns if the ListView currently has a text filter.
 
-//void invalidateViews();
+void invalidateViews();
 //Causes all the views to be rebuilt and redrawn.
 
-//boolean isFastScrollAlwaysVisible();
+boolean isFastScrollAlwaysVisible();
 //Returns true if the fast scroller is set to always show on this view rather than fade out when not in use.
 
-//boolean isFastScrollEnabled();
+boolean isFastScrollEnabled();
 //Returns the current state of the fast scroll feature.
 
-//boolean isItemChecked(int position);
+boolean isItemChecked(int position);
 //Returns the checked state of the specified position.
 
-//boolean isScrollingCacheEnabled();
+boolean isScrollingCacheEnabled();
 //Indicates whether the children's drawing cache is used during a scroll.
 
-//boolean isSmoothScrollbarEnabled();
+boolean isSmoothScrollbarEnabled();
 //Returns the current state of the fast scroll feature.
 
-//boolean isStackFromBottom();
+boolean isStackFromBottom();
 //Indicates whether the content of this view is pinned to, or stacked from, the bottom edge.
 
-//boolean isTextFilterEnabled();
+boolean isTextFilterEnabled();
 //Indicates whether type filtering is enabled for this view
 
-//void jumpDrawablesToCurrentState();
+void jumpDrawablesToCurrentState();
 //Call Drawable.jumpToCurrentState(); on all Drawable objects associated with this view.
 
-//InputConnection onCreateInputConnection(EditorInfo outAttrs);
+InputConnection onCreateInputConnection(EditorInfo outAttrs);
 //Return an InputConnection for editing of the filter text.
 
-//void onFilterComplete(int count);
+void onFilterComplete(int count);
 //Notifies the end of a filtering operation.
 
-//boolean onGenericMotionEvent(MotionEvent event);
+boolean onGenericMotionEvent(MotionEvent event);
 //Implement this method to handle generic motion events.
 
-//void onGlobalLayout();
+void onGlobalLayout();
 //Callback method to be invoked when the global layout state or the visibility of views within the view tree changes
 
-//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
 
-//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
 //Initializes an AccessibilityNodeInfo with information about this view.
 
-//boolean onInterceptTouchEvent(MotionEvent ev);
+boolean onInterceptTouchEvent(MotionEvent ev);
 //Implement this method to intercept all touch screen motion events.
 
-//boolean onKeyDown(int keyCode, KeyEvent event);
+boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyDown();: perform press of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released, if the view is enabled and clickable.
 
-//boolean onKeyUp(int keyCode, KeyEvent event);
+boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyUp();: perform clicking of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released.
 
-//boolean onRemoteAdapterConnected();
+boolean onRemoteAdapterConnected();
 //Called back when the adapter connects to the RemoteViewsService.
 
-//void onRemoteAdapterDisconnected();
+void onRemoteAdapterDisconnected();
 //Called back when the adapter disconnects from the RemoteViewsService.
 
-//void onRestoreInstanceState(Parcelable state);
+void onRestoreInstanceState(Parcelable state);
 //Hook allowing a view to re-apply a representation of its internal state that had previously been generated by onSaveInstanceState();.
 
-//Parcelable onSaveInstanceState();
+Parcelable onSaveInstanceState();
 //Hook allowing a view to generate a representation of its internal state that can later be used to create a new instance with that same state.
 
-//void onTextChanged(CharSequence s, int start, int before, int count);
+void onTextChanged(CharSequence s, int start, int before, int count);
 //For our text watcher that is associated with the text filter.
 
-//boolean onTouchEvent(MotionEvent ev);
+boolean onTouchEvent(MotionEvent ev);
 //Implement this method to handle touch screen motion events.
 
-//void onTouchModeChanged(boolean isInTouchMode);
+void onTouchModeChanged(boolean isInTouchMode);
 //Callback method to be invoked when the touch mode changes.
 
-//void onWindowFocusChanged(boolean hasWindowFocus);
+void onWindowFocusChanged(boolean hasWindowFocus);
 //Called when the window containing this view gains or loses focus.
 
-//boolean performAccessibilityAction(int action, Bundle arguments);
+boolean performAccessibilityAction(int action, Bundle arguments);
 //Performs the specified accessibility action on the view.
 
-//boolean performItemClick(View view, int position, long id);
+boolean performItemClick(View view, int position, long id);
 //Call the OnItemClickListener, if it is defined.
 
-//int pointToPosition(int x, int y);
+int pointToPosition(int x, int y);
 //Maps a point to a position in the list.
 
-//long pointToRowId(int x, int y);
+long pointToRowId(int x, int y);
 //Maps a point to a the rowId of the item which intersects that point.
 
-//void reclaimViews(List<View> views);
+void reclaimViews(List<View> views);
 //Move all views (excluding headers and footers); held by this AbsListView into the supplied List.
 
-//void requestDisallowInterceptTouchEvent(boolean disallowIntercept);
+void requestDisallowInterceptTouchEvent(boolean disallowIntercept);
 //Called when a child does not want this parent and its ancestors to intercept touch events with onInterceptTouchEvent(MotionEvent);.
 
-//void requestLayout();
+void requestLayout();
 //Call this when something has changed which has invalidated the layout of this view.
 
-//void sendAccessibilityEvent(int eventType);
+void sendAccessibilityEvent(int eventType);
 //Sends an accessibility event of the given type.
 
-//void setAdapter(ListAdapter adapter);
+void setAdapter(ListAdapter adapter);
 //Sets the adapter that provides the data and the views to represent the data in this widget.
 
-//void setCacheColorHint(int color);
+void setCacheColorHint(int color);
 //When set to a non-zero value, the cache color hint indicates that this list is always drawn on top of a solid, single-color, opaque background.
 
 void setChoiceMode(int choiceMode);
@@ -203,47 +201,47 @@ void setChoiceMode(int choiceMode);
 void setDrawSelectorOnTop(boolean onTop);
 //Controls whether the selection highlight drawable should be drawn on top of the item or behind it.
 
-//void setFastScrollAlwaysVisible(boolean alwaysShow);
+void setFastScrollAlwaysVisible(boolean alwaysShow);
 //Set whether or not the fast scroller should always be shown in place of the standard scrollbars.
 
-//void setFastScrollEnabled(boolean enabled);
+void setFastScrollEnabled(boolean enabled);
 //Enables fast scrolling by letting the user quickly scroll through lists by dragging the fast scroll thumb.
 
-//void setFilterText(String filterText);
+void setFilterText(String filterText);
 //Sets the initial value for the text filter.
 
-//void setFriction(float friction);
+void setFriction(float friction);
 //The amount of friction applied to flings.
 
 void setItemChecked(int position, boolean value);
 //Sets the checked state of the specified position.
 
-//void setMultiChoiceModeListener(AbsListView.MultiChoiceModeListener listener);
+void setMultiChoiceModeListener(AbsListView.MultiChoiceModeListener listener);
 //Set a AbsListView.MultiChoiceModeListener that will manage the lifecycle of the selection ActionMode.
 
 void setOnScrollListener(AbsListView.OnScrollListener l);
 //Set the listener that will receive notifications every time the list scrolls.
 
-//void setOverScrollMode(int mode);
+void setOverScrollMode(int mode);
 //Set the over-scroll mode for this view.
 
-//void setRecyclerListener(AbsListView.RecyclerListener listener);
+void setRecyclerListener(AbsListView.RecyclerListener listener);
 //Sets the recycler listener to be notified whenever a View is set aside in the recycler for later reuse.
 
-//void setRemoteViewsAdapter(Intent intent);
+void setRemoteViewsAdapter(Intent intent);
 //Sets up this AbsListView to use a remote views adapter which connects to a RemoteViewsService through the specified intent.
 
-//void setScrollIndicators(View up, View down);
+void setScrollIndicators(View up, View down);
 
-//void setScrollingCacheEnabled(boolean enabled);
+void setScrollingCacheEnabled(boolean enabled);
 //Enables or disables the children's drawing cache during a scroll.
 
-//void setSelector(Drawable sel);
+void setSelector(Drawable sel);
 
-//void setSelector(int resID);
+void setSelector(int resID);
 //Set a Drawable that should be used to highlight the currently selected item.
 
-//void setSmoothScrollbarEnabled(boolean enabled);
+void setSmoothScrollbarEnabled(boolean enabled);
 //When smooth scrollbar is enabled, the position and size of the scrollbar thumb is computed based on the number of visible pixels in the visible items.
 
 void setStackFromBottom(boolean stackFromBottom);
@@ -255,118 +253,117 @@ void setTextFilterEnabled(boolean textFilterEnabled);
 void setTranscriptMode(int mode);
 //Puts the list or grid into transcript mode.
 
-//void setVelocityScale(float scale);
+void setVelocityScale(float scale);
 //Sets a scale factor for the fling velocity.
 
-//void setVerticalScrollbarPosition(int position);
+void setVerticalScrollbarPosition(int position);
 //Set the position of the vertical scroll bar.
 
-//boolean showContextMenuForChild(View originalView);
+boolean showContextMenuForChild(View originalView);
 //Bring up a context menu for the specified view or its ancestors.
 
-//void smoothScrollBy(int distance, int duration);
+void smoothScrollBy(int distance, int duration);
 //Smoothly scroll by distance pixels over duration milliseconds.
 
-//void smoothScrollToPosition(int position);
+void smoothScrollToPosition(int position);
 //Smoothly scroll to the specified adapter position.
 
-//void smoothScrollToPosition(int position, int boundPosition);
+void smoothScrollToPosition(int position, int boundPosition);
 //Smoothly scroll to the specified adapter position.
 
-//void smoothScrollToPositionFromTop(int position, int offset, int duration);
+void smoothScrollToPositionFromTop(int position, int offset, int duration);
 //Smoothly scroll to the specified adapter position.
 
-//void smoothScrollToPositionFromTop(int position, int offset);
+void smoothScrollToPositionFromTop(int position, int offset);
 //Smoothly scroll to the specified adapter position.
 
-//boolean verifyDrawable(Drawable dr);
+boolean verifyDrawable(Drawable dr);
 //If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
 
+//Protected Methods
+boolean checkLayoutParams(ViewGroup.LayoutParams p);
 
-//PROTECTED
-//boolean checkLayoutParams(ViewGroup.LayoutParams p);
-
-//int computeVerticalScrollExtent();
+int computeVerticalScrollExtent();
 //Compute the vertical extent of the horizontal scrollbar's thumb within the vertical range.
 
-//int computeVerticalScrollOffset();
+int computeVerticalScrollOffset();
 //Compute the vertical offset of the vertical scrollbar's thumb within the horizontal range.
 
-//int computeVerticalScrollRange();
+int computeVerticalScrollRange();
 //Compute the vertical range that the vertical scrollbar represents.
 
-//void dispatchDraw(Canvas canvas);
+void dispatchDraw(Canvas canvas);
 //Called by draw to draw the child views.
 
-//void dispatchSetPressed(boolean pressed);
+void dispatchSetPressed(boolean pressed);
 //Dispatch setPressed to all of this View's children.
 
-//void drawableStateChanged();
+void drawableStateChanged();
 //This function is called whenever the state of the view changes in such a way that it impacts the state of drawables being shown.
 
-//ViewGroup.LayoutParams generateDefaultLayoutParams();
+ViewGroup.LayoutParams generateDefaultLayoutParams();
 //Returns a set of default layout parameters.
 
-//ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
+ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
 //Returns a safe set of layout parameters based on the supplied layout params.
 
-//float getBottomFadingEdgeStrength();
+float getBottomFadingEdgeStrength();
 //Returns the strength, or intensity, of the bottom faded edge.
 
-//int getBottomPaddingOffset();
+int getBottomPaddingOffset();
 //Amount by which to extend the bottom fading region.
 
-//ContextMenu.ContextMenuInfo getContextMenuInfo();
+ContextMenu.ContextMenuInfo getContextMenuInfo();
 //Views should implement this if they have extra information to associate with the context menu.
 
-//int getLeftPaddingOffset();
+int getLeftPaddingOffset();
 //Amount by which to extend the left fading region.
 
-//int getRightPaddingOffset();
+int getRightPaddingOffset();
 //Amount by which to extend the right fading region.
 
-//float getTopFadingEdgeStrength();
+float getTopFadingEdgeStrength();
 //Returns the strength, or intensity, of the top faded edge.
 
-//int getTopPaddingOffset();
+int getTopPaddingOffset();
 //Amount by which to extend the top fading region.
 
-//void handleDataChanged();
+void handleDataChanged();
 
-//boolean isInFilterMode();
+boolean isInFilterMode();
 //Indicates whether this view is in filter mode.
 
-//boolean isPaddingOffsetRequired();
+boolean isPaddingOffsetRequired();
 //If the View draws content inside its padding and enables fading edges, it needs to support padding offsets.
 
-//void layoutChildren();
+void layoutChildren();
 //Subclasses must override this method to layout their children.
 
-//void onAttachedToWindow();
+void onAttachedToWindow();
 //This is called when the view is attached to a window.
 
-//int[] onCreateDrawableState(int extraSpace);
+int[] onCreateDrawableState(int extraSpace);
 //Generate the new Drawable state for this view.
 
-//void onDetachedFromWindow();
+void onDetachedFromWindow();
 //This is called when the view is detached from a window.
 
-//void onDisplayHint(int hint);
+void onDisplayHint(int hint);
 //Gives this view a hint about whether is displayed or not.
 
-//void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect);
+void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect);
 //Called by the view system when the focus state of this view changes.
 
-//void onLayout(boolean changed, int l, int t, int r, int b);
+void onLayout(boolean changed, int l, int t, int r, int b);
 //Subclasses should NOT override this method but layoutChildren(); instead.
 
-//void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 //Measure the view and its content to determine the measured width and the measured height.
 
-//void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY);
+void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY);
 //Called by overScrollBy(int, int, int, int, int, int, int, int, boolean); to respond to the results of an over-scroll operation.
 
-//void onSizeChanged(int w, int h, int oldw, int oldh);
+void onSizeChanged(int w, int h, int oldw, int oldh);
 //This is called during layout when the size of this view has changed.
 
 
@@ -529,18 +526,14 @@ class AdapterView$OnItemSelectedListener{
 }
 
 class ArrayAdapter {
-            void notifyDataSetChanged();
-
- ArrayAdapter(Context context, int textViewResourceId, T @SINK(DISPLY) [] objects);
-ArrayAdapter(Context context, int textViewResourceId, List<T> objects);
 
 void add(T object);
 //Adds the specified object at the end of the array.
 
-//void addAll(Collection<? extends T> collection);
+void addAll(Collection<? extends T> collection);
 //Adds the specified Collection at the end of the array.
 
-//void addAll(T... items);
+void addAll(T... items);
 //Adds the specified items at the end of the array.
 
 void clear();
@@ -549,69 +542,66 @@ void clear();
 static ArrayAdapter<CharSequence> createFromResource(Context context, int textArrayResId, int textViewResId);
 //Creates a new ArrayAdapter from external resources.
 
-//Context getContext();
+Context getContext();
 //Returns the context associated with this array adapter.
 
-//int getCount();
+int getCount();
 
-//View getDropDownView(int position, View convertView, ViewGroup parent);
+View getDropDownView(int position, View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
-//Filter getFilter();
+Filter getFilter();
 //Returns a filter that can be used to constrain data with a filtering pattern.
 
 T getItem(int position);
 
-//long getItemId(int position);
+long getItemId(int position);
 
 int getPosition(T item);
 //Returns the position of the specified item in the array.
 
-@PolyFlowReceiver
 View getView(int position, View convertView, ViewGroup parent);
 
-//void insert(T object, int index);
+void insert(T object, int index);
 //Inserts the specified object at the specified index in the array.
 
-//void notifyDataSetChanged();
+void notifyDataSetChanged();
 //Notifies the attached observers that the underlying data has been changed and any View reflecting the data set should refresh itself.
 
-//void remove(T object);
+void remove(T object);
 //Removes the specified object from the array.
 
 void setDropDownViewResource(int resource);
 //Sets the layout resource to create the drop down views.
 
-//void setNotifyOnChange(boolean notifyOnChange);
+void setNotifyOnChange(boolean notifyOnChange);
 //Control whether methods that change the list (add(T);, insert(T, int);, remove(T);, clear();); automatically call notifyDataSetChanged();.
 
-//void sort(Comparator<? super T> comparator);
+void sort(Comparator<? super T> comparator);
 //Sorts the content of this adapter using the specified comparator.
 
 }
 
 class BaseAdapter {
-boolean hasStableIds();
-View getDropDownView(int position, View convertView, ViewGroup parent);
-            BaseAdapter();
-
-//boolean areAllItemsEnabled();
+    
+boolean areAllItemsEnabled();
 //Indicates whether all the items in this adapter are enabled.
 
-//View getDropDownView(int position, View convertView, ViewGroup parent);
+View getDropDownView(int position, View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
-//int getItemViewType(int position);
+int getItemViewType(int position);
 //Get the type of View that will be created by getView(int, View, ViewGroup); for the specified item.
 
-//int getViewTypeCount();
+int getViewTypeCount();
 //Returns the number of types of Views that will be created by getView(int, View, ViewGroup);.
 
-//boolean hasStableIds();
+boolean hasStableIds();
 //Indicates whether the item ids are stable across changes to the underlying data.
 
-//boolean isEmpty();
-//boolean isEnabled(int position);
+boolean isEmpty();
+
+boolean isEnabled(int position);
 //Returns true if the item at the specified position is not a separator.
 
 void notifyDataSetChanged();
@@ -620,10 +610,10 @@ void notifyDataSetChanged();
 void notifyDataSetInvalidated();
 //Notifies the attached observers that the underlying data is no longer valid or available.
 
-//void registerDataSetObserver(DataSetObserver observer);
+void registerDataSetObserver(DataSetObserver observer);
 //Register an observer that is called when changes happen to the data used by this adapter.
 
-//void unregisterDataSetObserver(DataSetObserver observer);
+void unregisterDataSetObserver(DataSetObserver observer);
 //Unregister an observer that has previously been registered with this adapter via registerDataSetObserver(DataSetObserver);.
 
 }
@@ -634,12 +624,11 @@ void notifyDataSetChanged();
 }
 
 class Button {
-//CSH: all of the methods used are inhereited
 
-//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
 
-//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
 //Initializes an AccessibilityNodeInfo with information about this view.
 
 }
@@ -730,60 +719,50 @@ class CompoundButton$OnCheckedChangeListener{
 }
 
 class CursorAdapter {
-
- FilterQueryProvider getFilterQueryProvider();
- Cursor runQueryOnBackgroundThread(CharSequence constraint);
-
-
+    
+    
 abstract void bindView(View view, Context context, Cursor cursor);
 //Bind an existing view to the data pointed to by cursor
 
-//void changeCursor(Cursor cursor);
+void changeCursor(Cursor cursor);
 //Change the underlying cursor to a new cursor.
 
-//CharSequence convertToString(Cursor cursor);
+CharSequence convertToString(Cursor cursor);
 //Converts the cursor into a CharSequence.
 
-//int getCount();
+int getCount();
 
-//Cursor getCursor();
+Cursor getCursor();
 //Returns the cursor.
 
-//View getDropDownView(int position, View convertView, ViewGroup parent);
+View getDropDownView(int position, View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
-//Filter getFilter();
+Filter getFilter();
 //Returns a filter that can be used to constrain data with a filtering pattern.
 
-//FilterQueryProvider getFilterQueryProvider();
+FilterQueryProvider getFilterQueryProvider();
 //Returns the query filter provider used for filtering.
 
-//Object getItem(int position);
+Object getItem(int position);
 
-//long getItemId(int position);
+long getItemId(int position);
 
-//View getView(int position, View convertView, ViewGroup parent);
+View getView(int position, View convertView, ViewGroup parent);
 
-//boolean hasStableIds();
+boolean hasStableIds();
 //Indicates whether the item ids are stable across changes to the underlying data.
 
 View newDropDownView(Context context, Cursor cursor, ViewGroup parent);
 //Makes a new drop down view to hold the data pointed to by cursor.
-//CSH: I'm not quite sure what to do with these two methods.  
-// The cursor contains data (likely from a database), that gets put into the View that gets returned.  
-// The cursor itself isn't displayed, it's a container.
-// The new View is attached to the ViewGroup parent.  
-// If parent is currently displayed, the new View will also display, if it's not displaying, the new View is not displayed.
-// My guess is it should be below, but it's not entirely clear
-// @Sink(FlowPermission.DISPLAY) View newDropDownView(Context context, @Sink(FlowPermission.DISPLAY) Cursor cursor, @Sink(FlowPermission.DISPLAY) ViewGroup parent);
 
 abstract View newView(Context context, Cursor cursor, ViewGroup parent);
 //Makes a new view to hold the data pointed to by cursor.
 
-//Cursor runQueryOnBackgroundThread(CharSequence constraint);
+Cursor runQueryOnBackgroundThread(CharSequence constraint);
 //Runs a query with the specified constraint.
 
-//void setFilterQueryProvider(FilterQueryProvider filterQueryProvider);
+void setFilterQueryProvider(FilterQueryProvider filterQueryProvider);
 //Sets the query filter provider used to filter the current Cursor.
 
 Cursor swapCursor(Cursor newCursor);
@@ -791,42 +770,120 @@ Cursor swapCursor(Cursor newCursor);
 
 //Protected Methods
 void init(Context context, Cursor c, boolean autoRequery);
-//This method was deprecated in API level . Don't use this, use the normal constructor. This will be removed in the future.
+//This method was deprecated in API level 11. Don't use this, use the normal constructor. This will be removed in the future.
 
 void onContentChanged();
 //Called when the ContentObserver on the cursor receives a change notification.
 
+
+
+
 }
 
+class DatePicker {
+    
+boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
+//Dispatches an AccessibilityEvent to the View first and then to its children for adding their text content to the event.
 
+CalendarView getCalendarView();
+//Gets the CalendarView.
+
+boolean getCalendarViewShown();
+//Gets whether the CalendarView is shown.
+
+int getDayOfMonth();
+
+long getMaxDate();
+//Gets the maximal date supported by this DatePicker in milliseconds since January 1, 1970 00:00:00 in getDefault(); time zone.
+
+long getMinDate();
+//Gets the minimal date supported by this DatePicker in milliseconds since January 1, 1970 00:00:00 in getDefault(); time zone.
+
+int getMonth();
+
+boolean getSpinnersShown();
+//Gets whether the spinners are shown.
+
+int getYear();
+
+void init(int year, int monthOfYear, int dayOfMonth, DatePicker.OnDateChangedListener onDateChangedListener);
+//Initialize the state.
+
+boolean isEnabled();
+//Returns the enabled status for this view.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+void onPopulateAccessibilityEvent(AccessibilityEvent event);
+//Called from dispatchPopulateAccessibilityEvent(AccessibilityEvent); giving a chance to this View to populate the accessibility event with its text content.
+
+void setCalendarViewShown(boolean shown);
+//Sets whether the CalendarView is shown.
+
+void setEnabled(@Sink(DISPLAY) boolean enabled);
+//Set the enabled state of this view.
+
+void setMaxDate(long maxDate);
+//Sets the maximal date supported by this DatePicker in milliseconds since January 1, 1970 00:00:00 in getDefault(); time zone.
+
+void setMinDate(long minDate);
+//Sets the minimal date supported by this NumberPicker in milliseconds since January 1, 1970 00:00:00 in getDefault(); time zone.
+
+void setSpinnersShown(@Sink(DISPLAY) boolean shown);
+//Sets whether the spinners are shown.
+
+void updateDate(@Sink(DISPLAY) int year, @Sink(DISPLAY) int month, @Sink(DISPLAY) int dayOfMonth);
+//Updates the current date.
+
+//Protected Methods
+void dispatchRestoreInstanceState(SparseArray<Parcelable> container);
+//Called by restoreHierarchyState(android.util.SparseArray); to retrieve the state for this view and its children.
+
+void onConfigurationChanged(Configuration newConfig);
+//Called when the current configuration of the resources being used by the application have changed.
+
+void onRestoreInstanceState(Parcelable state);
+//Hook allowing a view to re-apply a representation of its internal state that had previously been generated by onSaveInstanceState();.
+
+Parcelable onSaveInstanceState();
+//Hook allowing a view to generate a representation of its internal state that can later be used to create a new instance with that same state.
+
+
+
+
+}
 
 class EditText {
     
-//void extendSelection(int index);
+void extendSelection(int index);
 //Convenience for extendSelection(Spannable, int);.
 
-@Source(FlowPermission.USER_INPUT) Editable getText();
+@Source(USER_INPUT) Editable getText();
 //Return the text the TextView is displaying.
 
-//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
 
-//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
 //Initializes an AccessibilityNodeInfo with information about this view.
 
-//void selectAll();
+void selectAll();
 //Convenience for selectAll(Spannable);.
 
-//void setEllipsize(TextUtils.TruncateAt ellipsis);
+void setEllipsize(TextUtils.TruncateAt ellipsis);
 //Causes words in the text that are longer than the view is wide to be ellipsized instead of broken in the middle.
 
-//void setSelection(int index);
+void setSelection(int index);
 //Convenience for setSelection(Spannable, int);.
 
-//void setSelection(int start, int stop);
+void setSelection(int start, int stop);
 //Convenience for setSelection(Spannable, int, int);.
 
-void setText(@Sink(FlowPermission.DISPLAY )CharSequence text, TextView.BufferType type);
+void setText(@Sink(DISPLAY )CharSequence text, TextView.BufferType type);
 //Sets the text that this TextView is to display (see setText(CharSequence);); and also sets whether it is stored in a styleable/spannable buffer and whether it is editable.
 
 }
@@ -856,165 +913,219 @@ class ExpandableListView$OnChildClickListener{
 class FrameLayout$LayoutParams{
         LayoutParams(int width, int height);
 }
-class FilterQueryProvider{
-            Cursor runQuery(CharSequence arg0);
+
+class Filter {
+    
+CharSequence convertResultToString(Object resultValue);
+//Converts a value from the filtered set into a CharSequence.
+
+final void filter(CharSequence constraint, Filter.FilterListener listener);
+//Starts an asynchronous filtering operation.
+
+final void filter(CharSequence constraint);
+//Starts an asynchronous filtering operation.
+
+//Protected Methods
+abstract Filter.FilterResults performFiltering(CharSequence constraint);
+//Invoked in a worker thread to filter the data according to the constraint.
+
+abstract void publishResults(CharSequence constraint, Filter.FilterResults results);
+//Invoked in the UI thread to publish the filtering results in the user interface.
+
+}
+
+class Filter$FilterResults{
+        FilterResults();
+}
+
+class Filterable{
+        Filter getFilter();
+}
+
+class FilterQueryProvider {
+    
+    
+abstract Cursor runQuery(CharSequence constraint);
+//Runs a query with the specified constraint.
+
+    
+    
 }
 
 class FrameLayout {
-        FrameLayout(Context context);
-
-//void draw(Canvas canvas);
+void draw(Canvas canvas);
 //Manually render this view (and all of its children); to the given Canvas.
 
-//boolean gatherTransparentRegion(Region region);
+boolean gatherTransparentRegion(Region region);
 //This is used by the RootView to perform an optimization when the view hierarchy contains one or several SurfaceView.
 
-//FrameLayout.LayoutParams generateLayoutParams(AttributeSet attrs);
+FrameLayout.LayoutParams generateLayoutParams(AttributeSet attrs);
 //Returns a new set of layout parameters based on the supplied attributes set.
 
-//boolean getConsiderGoneChildrenWhenMeasuring();
+boolean getConsiderGoneChildrenWhenMeasuring();
 //This method was deprecated in API level 14. This method is deprecated in favor of getMeasureAllChildren();, which was renamed for consistency with setMeasureAllChildren();.
 
-//Drawable getForeground();
+Drawable getForeground();
 //Returns the drawable used as the foreground of this FrameLayout.
 
-//int getForegroundGravity();
+int getForegroundGravity();
 //Describes how the foreground is positioned.
 
-//boolean getMeasureAllChildren();
+boolean getMeasureAllChildren();
 //Determines whether all children, or just those in the VISIBLE or INVISIBLE state, are considered when measuring.
 
-//void jumpDrawablesToCurrentState();
+void jumpDrawablesToCurrentState();
 //Call Drawable.jumpToCurrentState(); on all Drawable objects associated with this view.
 
-//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
 
-//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
 //Initializes an AccessibilityNodeInfo with information about this view.
 
-//void setForeground(Drawable drawable);
+void setForeground(@Sink(DISPLAY) Drawable drawable);
 //Supply a Drawable that is to be rendered on top of all of the child views in the frame layout.
 
-//void setForegroundGravity(int foregroundGravity);
+void setForegroundGravity(int foregroundGravity);
 //Describes how the foreground is positioned.
 
-//void setMeasureAllChildren(boolean measureAll);
+void setMeasureAllChildren(boolean measureAll);
 //Sets whether to consider all children, or just those in the VISIBLE or INVISIBLE state, when measuring.
 
-//boolean shouldDelayChildPressedState();
+boolean shouldDelayChildPressedState();
 //Return true if the pressed state should be delayed for children or descendants of this ViewGroup.
 
 //Protected Methods
-//boolean checkLayoutParams(ViewGroup.LayoutParams p);
+boolean checkLayoutParams(ViewGroup.LayoutParams p);
 
-//void drawableStateChanged();
+void drawableStateChanged();
 //This function is called whenever the state of the view changes in such a way that it impacts the state of drawables being shown.
 
-//FrameLayout.LayoutParams generateDefaultLayoutParams();
+FrameLayout.LayoutParams generateDefaultLayoutParams();
 //Returns a set of layout parameters with a width of MATCH_PARENT, and a height of MATCH_PARENT.
 
-//ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
+ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
 //Returns a safe set of layout parameters based on the supplied layout params.
 
-//void onLayout(boolean changed, int left, int top, int right, int bottom);
+void onLayout(boolean changed, int left, int top, int right, int bottom);
 //Called from layout when this view should assign a size and position to each of its children.
 
 void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 //Measure the view and its content to determine the measured width and the measured height.
 
-//void onSizeChanged(int w, int h, int oldw, int oldh);
+void onSizeChanged(int w, int h, int oldw, int oldh);
 //This is called during layout when the size of this view has changed.
 
-//boolean verifyDrawable(Drawable who);
+boolean verifyDrawable(Drawable who);
 //If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
 
 }
 
+class FrameLayout$LayoutParams {
+    
+    
+    
+}
+
+class ImageButton {
+    
+    
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+//Protected Methods
+boolean onSetAlpha(int alpha);
+//Invoked if there is a Transform that involves alpha.
+
+
+}
 
 class ImageView {
 
-//final void clearColorFilter();
+final void clearColorFilter();
 
-//boolean getAdjustViewBounds();
+boolean getAdjustViewBounds();
 //True when ImageView is adjusting its bounds to preserve the aspect ratio of its drawable
 
-//int getBaseline();
+int getBaseline();
 //Return the offset of the widget's text baseline from the widget's top boundary.
 
-//boolean getBaselineAlignBottom();
+boolean getBaselineAlignBottom();
 //Return whether this view's baseline will be considered the bottom of the view.
 
-//ColorFilter getColorFilter();
+ColorFilter getColorFilter();
 //Returns the active color filter for this ImageView.
 
-//boolean getCropToPadding();
+boolean getCropToPadding();
 //Return whether this ImageView crops to padding.
 
-//Drawable getDrawable();
+Drawable getDrawable();
 //Return the view's drawable, or null if no drawable has been assigned.
 
-//int getImageAlpha();
+int getImageAlpha();
 //Returns the alpha that will be applied to the drawable of this ImageView.
 
-//Matrix getImageMatrix();
+Matrix getImageMatrix();
 //Return the view's optional matrix.
 
-//int getMaxHeight();
+int getMaxHeight();
 //The maximum height of this view.
 
-//int getMaxWidth();
+int getMaxWidth();
 //The maximum width of this view.
 
-//ImageView.ScaleType getScaleType();
+ImageView.ScaleType getScaleType();
 //Return the current scale type in use by this ImageView.
 
-//boolean hasOverlappingRendering();
+boolean hasOverlappingRendering();
 //Returns whether this View has content which overlaps.
 
-//void invalidateDrawable(Drawable dr);
+void invalidateDrawable(Drawable dr);
 //Invalidates the specified Drawable.
 
-//void jumpDrawablesToCurrentState();
+void jumpDrawablesToCurrentState();
 //Call Drawable.jumpToCurrentState(); on all Drawable objects associated with this view.
 
-//int[] onCreateDrawableState(int extraSpace);
+int[] onCreateDrawableState(int extraSpace);
 //Generate the new Drawable state for this view.
 
-//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
 
-//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
 //Initializes an AccessibilityNodeInfo with information about this view.
 
-//void onPopulateAccessibilityEvent(AccessibilityEvent event);
+void onPopulateAccessibilityEvent(AccessibilityEvent event);
 //Called from dispatchPopulateAccessibilityEvent(AccessibilityEvent); giving a chance to this View to populate the accessibility event with its text content.
 
-//void setAdjustViewBounds(boolean adjustViewBounds);
+void setAdjustViewBounds(boolean adjustViewBounds);
 //Set this to true if you want the ImageView to adjust its bounds to preserve the aspect ratio of its drawable.
 
-//void setAlpha(int alpha);
+void setAlpha(int alpha);
 //This method was deprecated in API level 16. use #setImageAlpha(int); instead
 
-//void setBaseline(int baseline);
+void setBaseline(int baseline);
 //Set the offset of the widget's text baseline from the widget's top boundary.
 
-//void setBaselineAlignBottom(boolean aligned);
+void setBaselineAlignBottom(boolean aligned);
 //Set whether to set the baseline of this view to the bottom of the view.
 
-//final void setColorFilter(int color);
+final void setColorFilter(int color);
 //Set a tinting option for the image.
 
-//void setColorFilter(ColorFilter cf);
+void setColorFilter(ColorFilter cf);
 //Apply an arbitrary colorfilter to the image.
 
-//final void setColorFilter(int color, PorterDuff.Mode mode);
+final void setColorFilter(int color, PorterDuff.Mode mode);
 //Set a tinting option for the image.
 
-//void setCropToPadding(boolean cropToPadding);
+void setCropToPadding(boolean cropToPadding);
 //Sets whether this ImageView will crop to padding.
 
-//void setImageAlpha(int alpha);
+void setImageAlpha(int alpha);
 //Sets the alpha value that should be applied to the image.
 
 void setImageBitmap(@Sink(DISPLAY) Bitmap bm);
@@ -1023,29 +1134,29 @@ void setImageBitmap(@Sink(DISPLAY) Bitmap bm);
 void setImageDrawable(@Sink(DISPLAY) Drawable drawable);
 //Sets a drawable as the content of this ImageView.
 
-//void setImageLevel(int level);
+void setImageLevel(int level);
 //Sets the image level, when it is constructed from a LevelListDrawable.
 
-//void setImageMatrix(Matrix matrix);
+void setImageMatrix(Matrix matrix);
 
 void setImageResource(int resId);
 //Sets a drawable as the content of this ImageView.
 
-//void setImageState(int[] state, boolean merge);
+void setImageState(int[] state, boolean merge);
 
 void setImageURI(Uri uri);
 //Sets the content of this ImageView to the specified Uri.
 
-//void setMaxHeight(int maxHeight);
+void setMaxHeight(int maxHeight);
 //An optional argument to supply a maximum height for this view.
 
-//void setMaxWidth(int maxWidth);
+void setMaxWidth(int maxWidth);
 //An optional argument to supply a maximum width for this view.
 
-//void setScaleType(ImageView.ScaleType scaleType);
+void setScaleType(ImageView.ScaleType scaleType);
 //Controls how the image should be resized or moved to match the size of this ImageView.
 
-//void setSelected(boolean selected);
+void setSelected(@Sink(DISPLAY) boolean selected);
 //Changes the selection state of this view.
 
 void setVisibility(int visibility);
@@ -1061,109 +1172,101 @@ void onAttachedToWindow();
 void onDetachedFromWindow();
 //This is called when the view is detached from a window.
 
-//void onDraw(Canvas canvas);
+void onDraw(Canvas canvas);
 //Implement this to do your drawing.
 
-//void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 //Measure the view and its content to determine the measured width and the measured height.
 
-//boolean setFrame(int l, int t, int r, int b);
+boolean setFrame(int l, int t, int r, int b);
 //Assign a size and position to this view.
 
-//boolean verifyDrawable(Drawable dr);
+boolean verifyDrawable(Drawable dr);
 //If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
 
 }
 
-class LinearLayout$LayoutParams{
-        LayoutParams(int width, int height, float weight);
-}
-
-
 class LinearLayout {
-//CSH: Another class where almost all of the methods used are inherited
-        LinearLayout(Context context);
 
-
-//LinearLayout.LayoutParams generateLayoutParams(AttributeSet attrs);
+LinearLayout.LayoutParams generateLayoutParams(AttributeSet attrs);
 //Returns a new set of layout parameters based on the supplied attributes set.
 
-//int getBaseline();
+int getBaseline();
 //Return the offset of the widget's text baseline from the widget's top boundary.
 
-//int getBaselineAlignedChildIndex();
+int getBaselineAlignedChildIndex();
 //Drawable getDividerDrawable();
 
-//int getDividerPadding();
+int getDividerPadding();
 //Get the padding size used to inset dividers in pixels
 
-//int getOrientation();
+int getOrientation();
 //Returns the current orientation.
 
-//int getShowDividers();
+int getShowDividers();
 
-//float getWeightSum();
+float getWeightSum();
 //Returns the desired weights sum.
 
-//boolean isBaselineAligned();
+boolean isBaselineAligned();
 //Indicates whether widgets contained within this layout are aligned on their baseline or not.
 
-//boolean isMeasureWithLargestChildEnabled();
+boolean isMeasureWithLargestChildEnabled();
 //When true, all children with a weight will be considered having the minimum size of the largest child.
 
-//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
 
-//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
 //Initializes an AccessibilityNodeInfo with information about this view.
 
-//void setBaselineAligned(boolean baselineAligned);
+void setBaselineAligned(boolean baselineAligned);
 //Defines whether widgets contained in this layout are baseline-aligned or not.
 
-//void setBaselineAlignedChildIndex(int i);
+void setBaselineAlignedChildIndex(int i);
 
-//void setDividerDrawable(Drawable divider);
+void setDividerDrawable(@Sink(DISPLAY) Drawable divider);
 //Set a drawable to be used as a divider between items.
 
-//void setDividerPadding(int padding);
+void setDividerPadding(int padding);
 //Set padding displayed on both ends of dividers.
 
 void setGravity(int gravity);
 //Describes how the child views are positioned.
 
-//void setHorizontalGravity(int horizontalGravity);
+void setHorizontalGravity(int horizontalGravity);
 
-//void setMeasureWithLargestChildEnabled(boolean enabled);
+void setMeasureWithLargestChildEnabled(boolean enabled);
 //When set to true, all children with a weight will be considered having the minimum size of the largest child.
 
 void setOrientation(int orientation);
 //Should the layout be a column or a row.
 
-//void setShowDividers(int showDividers);
+void setShowDividers(int showDividers);
 //Set how dividers should be shown between items in this layout
 
-//void setVerticalGravity(int verticalGravity);
+void setVerticalGravity(int verticalGravity);
 
-//void setWeightSum(float weightSum);
+void setWeightSum(float weightSum);
 //Defines the desired weights sum.
 
-//boolean shouldDelayChildPressedState();
+boolean shouldDelayChildPressedState();
 //Return true if the pressed state should be delayed for children or descendants of this ViewGroup.
 
 
 //Protected
-//boolean checkLayoutParams(ViewGroup.LayoutParams p);
+boolean checkLayoutParams(ViewGroup.LayoutParams p);
 
-//LinearLayout.LayoutParams generateDefaultLayoutParams();
+LinearLayout.LayoutParams generateDefaultLayoutParams();
 //Returns a set of layout parameters with a width of MATCH_PARENT and a height of WRAP_CONTENT when the layout's orientation is VERTICAL.
 
-//LinearLayout.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
+LinearLayout.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
 //Returns a safe set of layout parameters based on the supplied layout params.
 
 void onDraw(Canvas canvas);
 //Implement this to do your drawing.
 
-//void onLayout(boolean changed, int l, int t, int r, int b);
+void onLayout(boolean changed, int l, int t, int r, int b);
 //Called from layout when this view should assign a size and position to each of its children.
 
 void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
@@ -1171,80 +1274,95 @@ void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 
 }
 
+class LinearLayout$LayoutParams{
+        LayoutParams(int width, int height, float weight);
+String debug(String output);
+//Returns a String representation of this set of layout parameters.
+}
+
+
+class ListAdapter {
+    
+abstract boolean areAllItemsEnabled();
+//Indicates whether all the items in this adapter are enabled.
+
+abstract boolean isEnabled(int position);
+//Returns true if the item at the specified position is not a separator.
+
+
+
+}
+
 class ListView {
-        ListView(Context context);
-
-
-//void addFooterView(View v);
+void addFooterView(@Sink(DISPLAY) View v);
 //Add a fixed view to appear at the bottom of the list.
 
-//void addFooterView(View v, Object data, boolean isSelectable);
+void addFooterView(@Sink(DISPLAY) View v, Object data, boolean isSelectable);
 //Add a fixed view to appear at the bottom of the list.
 
-//void addHeaderView(View v, Object data, boolean isSelectable);
+void addHeaderView(@Sink(DISPLAY) View v, Object data, boolean isSelectable);
 //Add a fixed view to appear at the top of the list.
 
-//void addHeaderView(View v);
+void addHeaderView(@Sink(DISPLAY) View v);
 //Add a fixed view to appear at the top of the list.
 
-//boolean dispatchKeyEvent(KeyEvent event);
+boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
 //Dispatch a key event to the next view on the focus path.
 
-//ListAdapter getAdapter();
+ListAdapter getAdapter();
 //Returns the adapter currently in use in this ListView.
 
-//long[] getCheckItemIds();
+long[] getCheckItemIds();
 //This method was deprecated in API level 8. Use getCheckedItemIds(); instead.
 
 Drawable getDivider();
 //Returns the drawable that will be drawn between each item in the list.
 
-//int getDividerHeight();
+int getDividerHeight();
 
-//int getFooterViewsCount();
+int getFooterViewsCount();
 //Returns the number of footer views in the list.
 
-//int getHeaderViewsCount();
+int getHeaderViewsCount();
 //Returns the number of header views in the list.
 
-//boolean getItemsCanFocus();
+boolean getItemsCanFocus();
 
-//int getMaxScrollAmount();
+int getMaxScrollAmount();
 
-//Drawable getOverscrollFooter();
+Drawable getOverscrollFooter();
 
-//Drawable getOverscrollHeader();
+Drawable getOverscrollHeader();
 
-//boolean isOpaque();
+boolean isOpaque();
 //Indicates whether this View is opaque.
 
-//void onInitializeAccessibilityEvent(AccessibilityEvent event);
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
 
-//void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
 //Initializes an AccessibilityNodeInfo with information about this view.
 
-//boolean onKeyDown(int keyCode, KeyEvent event);
+boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyDown();: perform press of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released, if the view is enabled and clickable.
 
-//boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event);
+boolean onKeyMultiple(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) int repeatCount, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyMultiple();: always returns false (doesn't handle the event);.
 
-//boolean onKeyUp(int keyCode, KeyEvent event);
+boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyUp();: perform clicking of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released.
 
-//boolean removeFooterView(View v);
+boolean removeFooterView(View v);
 //Removes a previously-added footer view.
 
-//boolean removeHeaderView(View v);
+boolean removeHeaderView(View v);
 //Removes a previously-added header view.
 
-//boolean requestChildRectangleOnScreen(View child, Rect rect, boolean immediate);
+boolean requestChildRectangleOnScreen(View child, Rect rect, boolean immediate);
 //Called when a child of this group wants a particular rectangle to be positioned onto the screen.
 
 void setAdapter(@Sink(FlowPermission.DISPLAY) ListAdapter adapter);
 //Sets the data behind this ListView.
-//CSH: data in list adapter has to be displayable on screen
 
 void setCacheColorHint(int color);
 //When set to a non-zero value, the cache color hint indicates that this list is always drawn on top of a solid, single-color, opaque background.
@@ -1255,78 +1373,457 @@ void setDivider(Drawable divider);
 void setDividerHeight(int height);
 //Sets the height of the divider that will be drawn between each item in the list.
 
-//void setFooterDividersEnabled(boolean footerDividersEnabled);
+void setFooterDividersEnabled(boolean footerDividersEnabled);
 //Enables or disables the drawing of the divider for footer views.
 
-//void setHeaderDividersEnabled(boolean headerDividersEnabled);
+void setHeaderDividersEnabled(boolean headerDividersEnabled);
 //Enables or disables the drawing of the divider for header views.
 
-//void setItemsCanFocus(boolean itemsCanFocus);
+void setItemsCanFocus(boolean itemsCanFocus);
 //Indicates that the views created by the ListAdapter can contain focusable items.
 
-//void setOverscrollFooter(Drawable footer);
+void setOverscrollFooter(@Sink(DISPLAY) Drawable footer);
 //Sets the drawable that will be drawn below all other list content.
 
-//void setOverscrollHeader(Drawable header);
+void setOverscrollHeader(@Sink(DISPLAY) Drawable header);
 //Sets the drawable that will be drawn above all other list content.
 
-//void setRemoteViewsAdapter(Intent intent);
+void setRemoteViewsAdapter(Intent intent);
 //Sets up this AbsListView to use a remote views adapter which connects to a RemoteViewsService through the specified intent.
 
-void setSelection(@Sink(FlowPermission.DISPLAY) int position);
+void setSelection(@Sink(DISPLAY) int position);
 //Sets the currently selected item.
 
-//void setSelectionAfterHeaderView();
+void setSelectionAfterHeaderView();
 //setSelectionAfterHeaderView set the selection to be the first list item after the header views.
 
-//void setSelectionFromTop(int position, int y);
+void setSelectionFromTop(int position, int y);
 //Sets the selected item and positions the selection y pixels from the top edge of the ListView.
 
-//void smoothScrollByOffset(int offset);
+void smoothScrollByOffset(int offset);
 //Smoothly scroll to the specified adapter position offset.
 
-//void smoothScrollToPosition(int position);
+void smoothScrollToPosition(int position);
 //Smoothly scroll to the specified adapter position.
 
 
 
 //Protected
-//boolean canAnimate();
+boolean canAnimate();
 //Indicates whether the view group has the ability to animate its children after the first layout.
 
-//void dispatchDraw(Canvas canvas);
+void dispatchDraw(Canvas canvas);
 //Called by draw to draw the child views.
 
-//boolean drawChild(Canvas canvas, View child, long drawingTime);
+boolean drawChild(Canvas canvas, View child, long drawingTime);
 //Draw one child of this View Group.
 
-//View findViewTraversal(int id);
+View findViewTraversal(int id);
 
-//View findViewWithTagTraversal(Object tag);
+View findViewWithTagTraversal(Object tag);
 
-//void layoutChildren();
+void layoutChildren();
 //Subclasses must override this method to layout their children.
 
-//void onFinishInflate();
+void onFinishInflate();
 //Finalize inflating a view from XML.
 
-//void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect);
+void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect);
 //Called by the view system when the focus state of this view changes.
 
-//void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 //Measure the view and its content to determine the measured width and the measured height.
 
-//void onSizeChanged(int w, int h, int oldw, int oldh);
+void onSizeChanged(int w, int h, int oldw, int oldh);
 //This is called during layout when the size of this view has changed.
+
+}
+
+class MediaController {
+    
+    
+boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
+//Dispatch a key event to the next view on the focus path.
+
+void hide();
+//Remove the controller from the screen.
+
+boolean isShowing();
+
+void onFinishInflate();
+//Finalize inflating a view from XML.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+boolean onTouchEvent(MotionEvent event);
+//Implement this method to handle touch screen motion events.
+
+boolean onTrackballEvent(MotionEvent ev);
+//Implement this method to handle trackball motion events.
+
+void setAnchorView(View view);
+//Set the view that acts as the anchor for the control view.
+
+void setEnabled(boolean enabled);
+//Set the enabled state of this view.
+
+void setMediaPlayer(MediaController.MediaPlayerControl player);
+
+void setPrevNextListeners(View.OnClickListener next, View.OnClickListener prev);
+
+void show(int timeout);
+//Show the controller on screen.
+
+void show() @Sink(DISPLAY);
+//Show the controller on screen.
+
 
 
 }
 
+class NumberPicker {
+    
+void computeScroll();
+//Called by a parent to request that a child update its values for mScrollX and mScrollY if necessary.
+
+boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
+//Dispatch a key event to the next view on the focus path.
+
+boolean dispatchTouchEvent(MotionEvent event);
+//Pass the touch screen motion event down to the target view, or this view if it is the target.
+
+boolean dispatchTrackballEvent(MotionEvent event);
+//Pass a trackball motion event down to the focused view.
+
+AccessibilityNodeProvider getAccessibilityNodeProvider();
+//Gets the provider for managing a virtual view hierarchy rooted at this View and reported to AccessibilityServices that explore the window content.
+
+String[] getDisplayedValues();
+//Gets the values to be displayed instead of string values.
+
+int getMaxValue();
+//Returns the max value of the picker.
+
+int getMinValue();
+//Returns the min value of the picker.
+
+int getSolidColor();
+//Override this if your view is known to always be drawn on top of a solid color background, and needs to draw fading edges.
+
+int getValue();
+//Returns the value of the picker.
+
+boolean getWrapSelectorWheel();
+//Gets whether the selector wheel wraps when reaching the min/max value.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+boolean onInterceptTouchEvent(MotionEvent event);
+//Implement this method to intercept all touch screen motion events.
+
+boolean onTouchEvent(MotionEvent event);
+//Implement this method to handle touch screen motion events.
+
+void scrollBy(int x, int y);
+//Move the scrolled position of your view.
+
+void setDisplayedValues(@Sink(DISPLAY) String[] displayedValues);
+//Sets the values to be displayed.
+
+void setEnabled(@Sink(DISPLAY) boolean enabled);
+//Set the enabled state of this view.
+
+void setFormatter(NumberPicker.Formatter formatter);
+//Set the formatter to be used for formatting the current value.
+
+void setMaxValue(@Sink(DISPLAY) int maxValue);
+//Sets the max value of the picker.
+
+void setMinValue(@Sink(DISPLAY) int minValue);
+//Sets the min value of the picker.
+
+void setOnLongPressUpdateInterval(long intervalMillis);
+//Sets the speed at which the numbers be incremented and decremented when the up and down buttons are long pressed respectively.
+
+void setOnScrollListener(NumberPicker.OnScrollListener onScrollListener);
+//Set listener to be notified for scroll state changes.
+
+void setOnValueChangedListener(NumberPicker.OnValueChangeListener onValueChangedListener);
+//Sets the listener to be notified on change of the current value.
+
+void setValue(@Sink(DISPLAY) int value);
+//Set the current value for the number picker.
+
+void setWrapSelectorWheel(boolean wrapSelectorWheel);
+//Sets whether the selector wheel shown during flinging/scrolling should wrap around the getMinValue(); and getMaxValue(); values.
+
+//Protected Methods
+boolean dispatchHoverEvent(MotionEvent event);
+//Dispatch a hover event.
+
+float getBottomFadingEdgeStrength();
+//Returns the strength, or intensity, of the bottom faded edge.
+
+float getTopFadingEdgeStrength();
+//Returns the strength, or intensity, of the top faded edge.
+
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+void onDraw(Canvas canvas);
+//Implement this to do your drawing.
+
+void onLayout(boolean changed, int left, int top, int right, int bottom);
+//Called from layout when this view should assign a size and position to each of its children.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+
+
+}
+
+class PopupMenu {
+    
+
+void dismiss();
+//Dismiss the menu popup.
+
+Menu getMenu();
+
+MenuInflater getMenuInflater();
+
+void inflate(int menuRes);
+//Inflate a menu resource into this PopupMenu.
+
+void setOnDismissListener(PopupMenu.OnDismissListener listener);
+//Set a listener that will be notified when this menu is dismissed.
+
+void setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener listener);
+//Set a listener that will be notified when the user selects an item from the menu.
+
+void show() @Sink(DISPLAY);
+//Show the menu popup anchored to the view specified during construction.
+
+
+
+}
 
 class ProgressBar {
+    
+    
+Drawable getIndeterminateDrawable();
+//Get the drawable used to draw the progress bar in indeterminate mode.
 
-void setProgress(@Sink(FLowPermission.DISPLAY) int progress);
-void setVisibility(int v);
+Interpolator getInterpolator();
+//Gets the acceleration curve type for the indeterminate animation.
+
+synchronized int getMax();
+//Return the upper limit of this progress bar's range.
+
+synchronized int getProgress();
+//Get the progress bar's current level of progress.
+
+Drawable getProgressDrawable();
+//Get the drawable used to draw the progress bar in progress mode.
+
+synchronized int getSecondaryProgress();
+//Get the progress bar's current level of secondary progress.
+
+synchronized final void incrementProgressBy(@Sink(DISPLAY) int diff);
+//Increase the progress bar's progress by the specified amount.
+
+synchronized final void incrementSecondaryProgressBy(@Sink(DISPLAY) int diff);
+//Increase the progress bar's secondary progress by the specified amount.
+
+void invalidateDrawable(Drawable dr);
+//Invalidates the specified Drawable.
+
+synchronized boolean isIndeterminate();
+//Indicate whether this progress bar is in indeterminate mode.
+
+void jumpDrawablesToCurrentState();
+//Call Drawable.jumpToCurrentState(); on all Drawable objects associated with this view.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+void onRestoreInstanceState(Parcelable state);
+//Hook allowing a view to re-apply a representation of its internal state that had previously been generated by onSaveInstanceState();.
+
+Parcelable onSaveInstanceState();
+//Hook allowing a view to generate a representation of its internal state that can later be used to create a new instance with that same state.
+
+void postInvalidate();
+//Cause an invalidate to happen on a subsequent cycle through the event loop.
+
+synchronized void setIndeterminate(@Sink(DISPLAY) boolean indeterminate);
+//Change the indeterminate mode for this progress bar.
+
+void setIndeterminateDrawable(@Sink(DISPLAY) Drawable d);
+//Define the drawable used to draw the progress bar in indeterminate mode.
+
+void setInterpolator(Context context, int resID);
+//Sets the acceleration curve for the indeterminate animation.
+
+void setInterpolator(Interpolator interpolator);
+//Sets the acceleration curve for the indeterminate animation.
+
+synchronized void setMax(@Sink(DISPLAY) int max);
+//Set the range of the progress bar to 0...
+
+synchronized void setProgress(@Sink(DISPLAY) int progress);
+//Set the current progress to the specified value.
+
+void setProgressDrawable(@Sink(DISPLAY) Drawable d);
+//Define the drawable used to draw the progress bar in progress mode.
+
+synchronized void setSecondaryProgress(@Sink(DISPLAY) int secondaryProgress);
+//Set the current secondary progress to the specified value.
+
+void setVisibility(@Sink(DISPLAY) int v);
+//Set the enabled state of this view.
+
+//Protected Methods
+void drawableStateChanged();
+//This function is called whenever the state of the view changes in such a way that it impacts the state of drawables being shown.
+
+void onAttachedToWindow();
+//This is called when the view is attached to a window.
+
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+synchronized void onDraw(Canvas canvas);
+//Implement this to do your drawing.
+
+synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+void onSizeChanged(int w, int h, int oldw, int oldh);
+//This is called during layout when the size of this view has changed.
+
+void onVisibilityChanged(View changedView, int visibility);
+//Called when the visibility of the view or an ancestor of the view is changed.
+
+boolean verifyDrawable(Drawable who);
+//If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
+
+
+
+}
+
+class RadioButton {
+    
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+void toggle();
+//Change the checked state of the view to the inverse of its current state
+//If the radio button is already checked, this method will not toggle the radio button.
+
+
+
+}
+
+class RadioGroup {
+    
+void addView(@Sink(DISPLAY) View child, int index, ViewGroup.LayoutParams params);
+//Adds a child view with the specified layout parameters.
+
+void check(int id);
+//Sets the selection to the radio button whose identifier is passed in parameter.
+
+void clearCheck();
+//Clears the selection.
+
+RadioGroup.LayoutParams generateLayoutParams(AttributeSet attrs);
+//Returns a new set of layout parameters based on the supplied attributes set.
+
+int getCheckedRadioButtonId();
+//Returns the identifier of the selected radio button in this group.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+void setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener listener);
+//Register a callback to be invoked when the checked radio button changes in this group.
+
+void setOnHierarchyChangeListener(ViewGroup.OnHierarchyChangeListener listener);
+//Register a callback to be invoked when a child is added to or removed from this view.
+
+//Protected Methods
+boolean checkLayoutParams(ViewGroup.LayoutParams p);
+
+LinearLayout.LayoutParams generateDefaultLayoutParams();
+//Returns a set of layout parameters with a width of MATCH_PARENT and a height of WRAP_CONTENT when the layout's orientation is VERTICAL.
+
+void onFinishInflate();
+//Finalize inflating a view from XML.
+
+
+
+}
+
+class RatingBar {
+    
+int getNumStars();
+//Returns the number of stars shown.
+
+RatingBar.OnRatingBarChangeListener getOnRatingBarChangeListener();
+
+float getRating();
+//Gets the current rating (number of stars filled);.
+
+float getStepSize();
+//Gets the step size of this rating bar.
+
+boolean isIndicator();
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+void setIsIndicator(boolean isIndicator);
+//Whether this rating bar should only be an indicator (thus non-changeable by the user);.
+
+synchronized void setMax(@Sink(DISPLAY) int max);
+//Set the range of the progress bar to 0...
+
+void setNumStars(@Sink(DISPLAY) int numStars);
+//Sets the number of stars to show.
+
+void setOnRatingBarChangeListener(RatingBar.OnRatingBarChangeListener listener);
+//Sets the listener to be called when the rating changes.
+
+void setRating(@Sink(DISPLAY) float rating);
+//Sets the rating (the number of stars filled);.
+
+void setStepSize(@Sink(DISPLAY) float stepSize);
+//Sets the step size (granularity); of this rating bar.
+
+//Protected Methods
+synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+
+
 
 }
 
@@ -1336,22 +1833,19 @@ class ShareActionProvider{
 }
 
 class Scroller {
-    Scroller(Context context, Interpolator interpolator);
-    Scroller(Context context);
-    void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY);
 void abortAnimation();
 //Stops the animation.
 
 boolean computeScrollOffset();
 //Call this when you want to know the new location.
 
-//void extendDuration(int extend);
+void extendDuration(int extend);
 //Extend the scroll animation.
 
-//void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY);
+void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY);
 //Start scrolling based on a fling gesture.
 
-//final void forceFinished(boolean finished);
+final void forceFinished(boolean finished);
 //Force the finished field to a particular value.
 
 float getCurrVelocity();
@@ -1369,25 +1863,25 @@ final int getDuration();
 final int getFinalX();
 //Returns where the scroll will end.
 
-//final int getFinalY();
+final int getFinalY();
 //Returns where the scroll will end.
 
-//final int getStartX();
+final int getStartX();
 //Returns the start X offset in the scroll.
 
-//final int getStartY();
+final int getStartY();
 //Returns the start Y offset in the scroll.
 
 final boolean isFinished();
 //Returns whether the scroller has finished scrolling.
 
-//void setFinalX(int newX);
+void setFinalX(int newX);
 //Sets the final position (X); for this scroller.
 
-//void setFinalY(int newY);
+void setFinalY(int newY);
 //Sets the final position (Y); for this scroller.
 
-//final void setFriction(float friction);
+final void setFriction(float friction);
 //The amount of friction applied to flings.
 
 void startScroll(int startX, int startY, int dx, int dy);
@@ -1401,10 +1895,152 @@ int timePassed();
 
 }
 
+class SearchView {
+    
+    
+int getImeOptions();
+//Returns the IME options set on the query text field.
+
+int getInputType();
+//Returns the input type set on the query text field.
+
+int getMaxWidth();
+//Gets the specified maximum width in pixels, if set.
+
+CharSequence getQuery();
+//Returns the query string currently in the text field.
+
+CharSequence getQueryHint();
+//Gets the hint text to display in the query text field.
+
+CursorAdapter getSuggestionsAdapter();
+//Returns the adapter used for suggestions, if any.
+
+boolean isIconfiedByDefault();
+//Returns the default iconified state of the search field.
+
+boolean isIconified();
+//Returns the current iconified state of the SearchView.
+
+boolean isQueryRefinementEnabled();
+//Returns whether query refinement is enabled for all items or only specific ones.
+
+boolean isSubmitButtonEnabled();
+//Returns whether the submit button is enabled when necessary or never displayed.
+
+void onActionViewCollapsed();
+//Called when this view is collapsed as an action view.
+
+void onActionViewExpanded();
+//Called when this view is expanded as an action view.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+boolean onKeyDown(int keyCode, KeyEvent event);
+//Handles the key down event for dealing with action keys.
+
+void onRtlPropertiesChanged(int layoutDirection);
+//Called when any RTL property (layout direction or text direction or text alignment); has been changed.
+
+void onWindowFocusChanged(boolean hasWindowFocus);
+//Called when the window containing this view gains or loses focus.
+
+void setIconified(boolean iconify);
+//Iconifies or expands the SearchView.
+
+void setIconifiedByDefault(boolean iconified);
+//Sets the default or resting state of the search field.
+
+void setImeOptions(int imeOptions);
+//Sets the IME options on the query text field.
+
+void setInputType(int inputType);
+//Sets the input type on the query text field.
+
+void setMaxWidth(int maxpixels);
+//Makes the view at most this many pixels wide
+
+void setOnCloseListener(SearchView.OnCloseListener listener);
+//Sets a listener to inform when the user closes the SearchView.
+
+void setOnQueryTextFocusChangeListener(View.OnFocusChangeListener listener);
+//Sets a listener to inform when the focus of the query text field changes.
+
+void setOnQueryTextListener(SearchView.OnQueryTextListener listener);
+//Sets a listener for user actions within the SearchView.
+
+void setOnSearchClickListener(View.OnClickListener listener);
+//Sets a listener to inform when the search button is pressed.
+
+void setOnSuggestionListener(SearchView.OnSuggestionListener listener);
+//Sets a listener to inform when a suggestion is focused or clicked.
+
+void setQuery(CharSequence query, boolean submit);
+//Sets a query string in the text field and optionally submits the query as well.
+
+void setQueryHint(CharSequence hint);
+//Sets the hint text to display in the query text field.
+
+void setQueryRefinementEnabled(boolean enable);
+//Specifies if a query refinement button should be displayed alongside each suggestion or if it should depend on the flags set in the individual items retrieved from the suggestions provider.
+
+void setSearchableInfo(SearchableInfo searchable);
+//Sets the SearchableInfo for this SearchView.
+
+void setSubmitButtonEnabled(boolean enabled);
+//Enables showing a submit button when the query is non-empty.
+
+void setSuggestionsAdapter(CursorAdapter adapter);
+//You can set a custom adapter if you wish.
+
+//Protected Methods
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+
+
+}
+
+class ShareActionProvider {
+    
+boolean hasSubMenu();
+//Determines if this ActionProvider has a submenu associated with it.
+
+View onCreateActionView();
+//This method was deprecated in API level . use onCreateActionView(MenuItem);
+
+void onPrepareSubMenu(SubMenu subMenu);
+//Called to prepare an associated submenu for the menu item backed by this ActionProvider.
+
+void setOnShareTargetSelectedListener(ShareActionProvider.OnShareTargetSelectedListener listener);
+//Sets a listener to be notified when a share target has been selected.
+
+void setShareHistoryFileName(String shareHistoryFile);
+//Sets the file name of a file for persisting the share history which history will be used for ordering share targets.
+
+void setShareIntent(Intent shareIntent);
+//Sets an intent with information about the share action.
+
+
+}
+
 class TabHost{
             void addTab(@Sink(DISPLAY) TabSpec tabSpec);
             void setCurrentTab(int index);
             TabSpec newTabSpec(String tag);
+}
+
+class TabHost$OnTabChangeListener {
+    
+abstract void onTabChanged(String tabId);    
+    
 }
 
 class TabHost$TabSpec{
@@ -1414,73 +2050,210 @@ class TabHost$TabSpec{
 
 
 class TextView {
+void addTextChangedListener(TextWatcher watcher);
+//Adds a TextWatcher to the list of those whose methods are called whenever this TextView's text changes.
+
+final void append(@Sink(DISPLAY) CharSequence text);
+//Convenience method: Append the specified text to the TextView's display buffer, upgrading it to BufferType.EDITABLE if it was not already editable.
+
+void append(@Sink(DISPLAY)CharSequence text, int start, int end);
+//Convenience method: Append the specified text slice to the TextView's display buffer, upgrading it to BufferType.EDITABLE if it was not already editable.
+
+void beginBatchEdit();
+//boolean bringPointIntoView(int offset);
+//Move the point, specified by the offset, into the view if it is needed.
+
+void cancelLongPress();
+//Cancels a pending long press.
+
+void clearComposingText();
+//Use BaseInputConnection.removeComposingSpans(); to remove any IME composing state from this text view.
+
+void computeScroll();
+//Called by a parent to request that a child update its values for mScrollX and mScrollY if necessary.
+
+void debug(int depth);
+//Prints information about this view in the log output, with the tag VIEW_LOG_TAG.
+
+boolean didTouchFocusSelect();
+//Returns true, only while processing a touch gesture, if the initial touch down event caused focus to move to the text view and as a result its selection changed.
+
+void endBatchEdit();
+
+boolean extractText(ExtractedTextRequest request, ExtractedText outText);
+//If this TextView contains editable content, extract a portion of it based on the information in request in to outText.
+
+void findViewsWithText(ArrayList<View> outViews, CharSequence searched, int flags);
+//Finds the Views that contain given text.
+
+final int getAutoLinkMask();
+//Gets the autolink mask of the text.
+
 int getBaseline();
+//Return the offset of the widget's text baseline from the widget's top boundary.
 
-    
-TextView(Context context);
-final void setText(int resid);
-//Sets the TextView to display the specified slice of the specified char array.
-
-final void setText(@Sink(FlowPermission.DISPLAY) char[] text, int start, int len);
-
-final void setText(int resid, TextView.BufferType type);
-
-final void setText(@Sink(FlowPermission.DISPLAY) CharSequence text);
-//Sets the string value of the TextView.
-
-void setText(@Sink(FlowPermission.DISPLAY) CharSequence text, TextView.BufferType type);
-//Sets the text that this TextView is to display (see setText(CharSequence);); and also sets whether it is stored in a styleable/spannable buffer and whether it is editable.
-
-void setTextColor(ColorStateList colors);
-//Sets the text color.
-
-void setTextColor(int color);
-//Sets the text color for all the states (normal, selected, focused); to be this color.
-
-void setWidth(int pixels);
-//Makes the TextView exactly this many pixels wide.    
-
-void setPadding(int left, int top, int right, int bottom);
-//Sets the padding. 
+int getCompoundDrawablePadding();
+//Returns the padding between the compound drawables and the text.
 
 Drawable[] getCompoundDrawables();
 //Returns drawables for the left, top, right, and bottom borders.
 
-void setGravity(int gravity);
-//Sets the horizontal alignment of the text and the vertical gravity that will be used when there is extra space in the TextView beyond what is required for the text itself.
+Drawable[] getCompoundDrawablesRelative();
+//Returns drawables for the start, top, end, and bottom borders.
+
+int getCompoundPaddingBottom();
+//Returns the bottom padding of the view, plus space for the bottom Drawable if any.
+
+int getCompoundPaddingEnd();
+//Returns the end padding of the view, plus space for the end Drawable if any.
+
+int getCompoundPaddingLeft();
+//Returns the left padding of the view, plus space for the left Drawable if any.
+
+int getCompoundPaddingRight();
+//Returns the right padding of the view, plus space for the right Drawable if any.
+
+int getCompoundPaddingStart();
+//Returns the start padding of the view, plus space for the start Drawable if any.
+
+int getCompoundPaddingTop();
+//Returns the top padding of the view, plus space for the top Drawable if any.
+
+final int getCurrentHintTextColor();
+//Return the current color selected to paint the hint text.
+
+final int getCurrentTextColor();
+//Return the current color selected for normal text.
+
+ActionMode.Callback getCustomSelectionActionModeCallback();
+//Retrieves the value set in setCustomSelectionActionModeCallback(ActionMode.Callback);.
+
+Editable getEditableText();
+//Return the text the TextView is displaying as an Editable object.
+
+TextUtils.TruncateAt getEllipsize();
+//Returns where, if anywhere, words that are longer than the view is wide should be ellipsized.
+
+CharSequence getError();
+//Returns the error message that was set to be displayed with setError(CharSequence);, or null if no error was set or if it the error was cleared by the widget after user input.
+
+int getExtendedPaddingBottom();
+//Returns the extended bottom padding of the view, including both the bottom Drawable if any and any extra space to keep more than maxLines of text from showing.
+
+int getExtendedPaddingTop();
+//Returns the extended top padding of the view, including both the top Drawable if any and any extra space to keep more than maxLines of text from showing.
+
+InputFilter[] getFilters();
+//Returns the current list of input filters.
+
+void getFocusedRect(Rect r);
+//When a view has focus and the user navigates away from it, the next view is searched for starting from the rectangle filled in by this method.
+
+boolean getFreezesText();
+//Return whether this text view is including its entire text contents in frozen icicles.
+
+int getGravity();
+//Returns the horizontal and vertical alignment of this TextView.
+
+int getHighlightColor();
+
+CharSequence getHint();
+//Returns the hint that is displayed when the text of the TextView is empty.
+
+final ColorStateList getHintTextColors();
+
+int getImeActionId();
+//Get the IME action ID previous set with setImeActionLabel(CharSequence, int);.
+
+CharSequence getImeActionLabel();
+//Get the IME action label previous set with setImeActionLabel(CharSequence, int);.
+
+int getImeOptions();
+//Get the type of the IME editor.
+
+boolean getIncludeFontPadding();
+//Gets whether the TextView includes extra top and bottom padding to make room for accents that go above the normal ascent and descent.
+
+Bundle getInputExtras(boolean create);
+//Retrieve the input extras currently associated with the text view, which can be viewed as well as modified.
+
+int getInputType();
+//Get the type of the editable content.
+
+final KeyListener getKeyListener();
+
+final Layout getLayout();
+
+int getLineBounds(int line, Rect bounds);
+//Return the baseline for the specified line (0...getLineCount(); - 1); If bounds is not null, return the top, left, right, bottom extents of the specified line in it.
+
+int getLineCount();
+//Return the number of lines of text, or 0 if the internal Layout has not been built.
+
+int getLineHeight();
+
+float getLineSpacingExtra();
+//Gets the line spacing extra space
+
+float getLineSpacingMultiplier();
+//Gets the line spacing multiplier
+
+final ColorStateList getLinkTextColors();
+
+final boolean getLinksClickable();
+//Returns whether the movement method will automatically be set to LinkMovementMethod if setAutoLinkMask(int); has been set to nonzero and links are detected in setText(char[], int, int);.
+
+int getMarqueeRepeatLimit();
+//Gets the number of times the marquee animation is repeated.
+
+int getMaxEms();
+
+int getMaxHeight();
+
+int getMaxLines();
+
+int getMaxWidth();
+
+int getMinEms();
+
+int getMinHeight();
+
+int getMinLines();
+
+int getMinWidth();
+
+final MovementMethod getMovementMethod();
+
+int getOffsetForPosition(float x, float y);
+//Get the character offset closest to the specified absolute position.
+
+TextPaint getPaint();
+
+int getPaintFlags();
+
+String getPrivateImeOptions();
+//Get the private type of the content.
+
+int getSelectionEnd();
+//Convenience for getSelectionEnd(CharSequence);.
+
+int getSelectionStart();
+//Convenience for getSelectionStart(CharSequence);.
+
+int getShadowColor();
+
+float getShadowDx();
+
+float getShadowDy();
+
+float getShadowRadius();
+//Gets the radius of the shadow layer.
 
 CharSequence getText();
 //Return the text the TextView is displaying.
 
-void setTextSize(float size);
-//Set the default text size to the given value, interpreted as "scaled pixel" units.
-
-void setTextSize(int unit, float size);
-//Set the default text size to a given unit and value.
-
-void setSingleLine();
-//Sets the properties of this field (lines, horizontally scrolling, transformation method); to be for a single-line input.
-
-void setSingleLine(boolean singleLine);
-//If true, sets the properties of this field (number of lines, horizontally scrolling, transformation method); to be for a single-line input; if false, restores these to the default conditions.
-
-void setEnabled(boolean enabled);
-//Set the enabled state of this view.
-
-void setCompoundDrawablesWithIntrinsicBounds(Drawable left, Drawable top, Drawable right, Drawable bottom);
-//Sets the Drawables (if any); to appear to the left of, above, to the right of, and below the text.
-
-void setCompoundDrawablesWithIntrinsicBounds(int left, int top, int right, int bottom);
-//Sets the Drawables (if any); to appear to the left of, above, to the right of, and below the text.
-
-void setTextAppearance(Context context, int resid);
-//Sets the text color, size, style, hint color, and highlight color from the specified TextAppearance resource.
-
-void setEllipsize(TextUtils.TruncateAt where);
-//Causes words in the text that are longer than the view is wide to be ellipsized instead of broken in the middle.
-
-void setMaxLines(int maxlines);
-//Makes the TextView at most this many lines tall.
+static int getTextColor(Context context, TypedArray attrs, int def);
+//Returns the default color from the TextView_textColor attribute from the AttributeSet, if set, or the default color from the TextAppearance_textColor from the TextView_textAppearance attribute, if TextView_textColor was not set directly.
 
 final ColorStateList getTextColors();
 //Gets the text colors for the different states (normal, selected, focused); of the TextView.
@@ -1488,44 +2261,233 @@ final ColorStateList getTextColors();
 static ColorStateList getTextColors(Context context, TypedArray attrs);
 //Returns the TextView_textColor attribute from the Resources.StyledAttributes, if set, or the TextAppearance_textColor from the TextView_textAppearance attribute, if TextView_textColor was not set directly.
 
-final void setTransformationMethod(TransformationMethod method);
-//Sets the transformation that is applied to the text that this TextView is displaying.
+Locale getTextLocale();
+//Get the default Locale of the text in this TextView.
 
-final void setTextKeepState(@Sink(FlowPermission.DISPLAY) CharSequence text);
-//Like setText(CharSequence);, except that the cursor position (if any); is retained in the new text.
+float getTextScaleX();
 
-final void setTextKeepState(@Sink(FlowPermission.DISPLAY) CharSequence text, TextView.BufferType type);
-//Like setText(CharSequence, android.widget.TextView.BufferType);, except that the cursor position (if any); is retained in the new text.
+float getTextSize();
 
-final void setMovementMethod(MovementMethod movement);
-//Sets the movement method (arrow key handler); to be used for this TextView.
+int getTotalPaddingBottom();
+//Returns the total bottom padding of the view, including the bottom Drawable if any, the extra space to keep more than maxLines from showing, and the vertical offset for gravity, if any.
 
-void setMinLines(int minlines);
-//Makes the TextView at least this many lines tall.
-//CSH: sensitive information?  The number minlines, is not directly displayed, but if minlines==3, then 3 lines will be displayed (unless the text in the view makes it larger)
+int getTotalPaddingEnd();
+//Returns the total end padding of the view, including the end Drawable if any.
 
-void setKeyListener(KeyListener input);
-//Sets the key listener to be used with this TextView.
+int getTotalPaddingLeft();
+//Returns the total left padding of the view, including the left Drawable if any.
+
+int getTotalPaddingRight();
+//Returns the total right padding of the view, including the right Drawable if any.
+
+int getTotalPaddingStart();
+//Returns the total start padding of the view, including the start Drawable if any.
+
+int getTotalPaddingTop();
+//Returns the total top padding of the view, including the top Drawable if any, the extra space to keep more than maxLines from showing, and the vertical offset for gravity, if any.
+
+final TransformationMethod getTransformationMethod();
+
+Typeface getTypeface();
+
+URLSpan[] getUrls();
+//Returns the list of URLSpans attached to the text (by Linkify or otherwise); if any.
+
+boolean hasOverlappingRendering();
+//Returns whether this View has content which overlaps.
+
+boolean hasSelection();
+//Return true iff there is a selection inside this text view.
+
+void invalidateDrawable(Drawable drawable);
+//Invalidates the specified Drawable.
+
+boolean isCursorVisible();
+
+boolean isInputMethodTarget();
+//Returns whether this text view is a current input method target.
+
+boolean isSuggestionsEnabled();
+//Return whether or not suggestions are enabled on this TextView.
+
+boolean isTextSelectable();
+//Returns the state of the textIsSelectable flag (See setTextIsSelectable(););.
+
+void jumpDrawablesToCurrentState();
+//Call Drawable.jumpToCurrentState(); on all Drawable objects associated with this view.
+
+int length();
+//Returns the length, in characters, of the text managed by this TextView
+
+boolean moveCursorToVisibleOffset();
+//Move the cursor, if needed, so that it is at an offset that is visible to the user.
+
+void onBeginBatchEdit();
+//Called by the framework in response to a request to begin a batch of edit operations through a call to link beginBatchEdit();.
+
+boolean onCheckIsTextEditor();
+//Check whether the called view is a text editor, in which case it would make sense to automatically display a soft input window for it.
+
+void onCommitCompletion(CompletionInfo text);
+//Called by the framework in response to a text completion from the current input method, provided by it calling InputConnection.commitCompletion();.
+
+void onCommitCorrection(CorrectionInfo info);
+//Called by the framework in response to a text auto-correction (such as fixing a typo using a a dictionnary); from the current input method, provided by it calling commitCorrection(CorrectionInfo); InputConnection.commitCorrection();}.
+
+InputConnection onCreateInputConnection(EditorInfo outAttrs);
+//Create a new InputConnection for an InputMethod to interact with the view.
+
+boolean onDragEvent(DragEvent event);
+//Handles drag events sent by the system following a call to startDrag();.
+
+void onEditorAction(int actionCode);
+//Called when an attached input method calls InputConnection.performEditorAction(); for this text view.
+
+void onEndBatchEdit();
+//Called by the framework in response to a request to end a batch of edit operations through a call to link endBatchEdit();.
+
+void onFinishTemporaryDetach();
+//Called after onStartTemporaryDetach(); when the container is done changing the view.
+
+boolean onGenericMotionEvent(MotionEvent event);
+//Implement this method to handle generic motion events.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyDown();: perform press of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released, if the view is enabled and clickable.
+
+boolean onKeyMultiple(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) int repeatCount, @Source(USER_INPUT) KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyMultiple();: always returns false (doesn't handle the event);.
+
+boolean onKeyPreIme(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Handle a key event before it is processed by any input method associated with the view hierarchy.
+
+boolean onKeyShortcut(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Called on the focused view when a key shortcut event is not handled.
+
+boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyUp();: perform clicking of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released.
+
+void onPopulateAccessibilityEvent(AccessibilityEvent event);
+//Called from dispatchPopulateAccessibilityEvent(AccessibilityEvent); giving a chance to this View to populate the accessibility event with its text content.
+
+boolean onPreDraw();
+//Callback method to be invoked when the view tree is about to be drawn.
+
+boolean onPrivateIMECommand(String action, Bundle data);
+//Called by the framework in response to a private command from the current method, provided by it calling InputConnection.performPrivateCommand();.
+
+void onRestoreInstanceState(Parcelable state);
+//Hook allowing a view to re-apply a representation of its internal state that had previously been generated by onSaveInstanceState();.
+
+void onRtlPropertiesChanged(int layoutDirection);
+//Called when any RTL property (layout direction or text direction or text alignment); has been changed.
+
+Parcelable onSaveInstanceState();
+//Hook allowing a view to generate a representation of its internal state that can later be used to create a new instance with that same state.
+
+void onScreenStateChanged(int screenState);
+//This method is called whenever the state of the screen this view is attached to changes.
+
+void onStartTemporaryDetach();
+//This is called when a container is going to temporarily detach a child, with ViewGroup.detachViewFromParent.
+
+boolean onTextContextMenuItem(int id);
+//Called when a context menu option for the text view is selected.
+
+boolean onTouchEvent(MotionEvent event);
+//Implement this method to handle touch screen motion events.
+
+boolean onTrackballEvent(MotionEvent event);
+//Implement this method to handle trackball motion events.
+
+void onWindowFocusChanged(boolean hasWindowFocus);
+//Called when the window containing this view gains or loses focus.
+
+boolean performLongClick();
+//Call this view's OnLongClickListener, if it is defined.
+
+void removeTextChangedListener(TextWatcher watcher);
+//Removes the specified TextWatcher from the list of those whose methods are called whenever this TextView's text changes.
+
+void sendAccessibilityEvent(int eventType);
+//Sends an accessibility event of the given type.
+
+void setAllCaps(boolean allCaps);
+//Sets the properties of this field to transform input to ALL CAPS display.
 
 final void setAutoLinkMask(int mask);
 //Sets the autolink mask of the text.
 
-Typeface getTypeface();
+void setCompoundDrawablePadding(int pad);
+//Sets the size of the padding between the compound drawables and the text.
 
-float getTextSize();
+void setCompoundDrawables(@Sink(DISPLAY) Drawable left, @Sink(DISPLAY) Drawable top, @Sink(DISPLAY) Drawable right, @Sink(DISPLAY) Drawable bottom);
+//Sets the Drawables (if any); to appear to the left of, above, to the right of, and below the text.
 
-final KeyListener getKeyListener();
+void setCompoundDrawablesRelative(@Sink(DISPLAY) Drawable start, @Sink(DISPLAY) Drawable top, @Sink(DISPLAY) Drawable end, @Sink(DISPLAY) Drawable bottom);
+//Sets the Drawables (if any); to appear to the start of, above, to the end of, and below the text.
 
-void addTextChangedListener(TextWatcher watcher);
-//Adds a TextWatcher to the list of those whose methods are called whenever this TextView's text changes.
+void setCompoundDrawablesRelativeWithIntrinsicBounds(@Sink(DISPLAY) Drawable start, @Sink(DISPLAY) Drawable top, @Sink(DISPLAY) Drawable end, @Sink(DISPLAY) Drawable bottom);
+//Sets the Drawables (if any); to appear to the start of, above, to the end of, and below the text.
 
-void setTypeface(Typeface tf, int style);
-//Sets the typeface and style in which the text should be displayed, and turns on the fake bold and italic bits in the Paint if the Typeface that you provided does not have all the bits in the style that you specified.
+void setCompoundDrawablesRelativeWithIntrinsicBounds(int start, int top, int end, int bottom);
+//Sets the Drawables (if any); to appear to the start of, above, to the end of, and below the text.
 
-void setTypeface(Typeface tf);
-//Sets the typeface and style in which the text should be displayed.
+void setCompoundDrawablesWithIntrinsicBounds(@Sink(DISPLAY) Drawable left, @Sink(DISPLAY) Drawable top, @Sink(DISPLAY) Drawable right, @Sink(DISPLAY) Drawable bottom);
+//Sets the Drawables (if any); to appear to the left of, above, to the right of, and below the text.
 
-final void setHint(@Sink(FlowPermission.DISPLAY) CharSequence hint);
+void setCompoundDrawablesWithIntrinsicBounds(int left, int top, int right, int bottom);
+//Sets the Drawables (if any); to appear to the left of, above, to the right of, and below the text.
+
+void setCursorVisible(boolean visible);
+//Set whether the cursor is visible.
+
+void setCustomSelectionActionModeCallback(ActionMode.Callback actionModeCallback);
+//If provided, this ActionMode.Callback will be used to create the ActionMode when text selection is initiated in this View.
+
+final void setEditableFactory(Editable.Factory factory);
+//Sets the Factory used to create new Editables.
+
+void setEllipsize(TextUtils.TruncateAt where);
+//Causes words in the text that are longer than the view is wide to be ellipsized instead of broken in the middle.
+
+void setEms(int ems);
+//Makes the TextView exactly this many ems wide
+
+void setEnabled(@Sink(DISPLAY) boolean enabled);
+//Set the enabled state of this view.
+
+void setError(@Sink(DISPLAY) CharSequence error);
+//Sets the right-hand compound drawable of the TextView to the "error" icon and sets an error message that will be displayed in a popup when the TextView has focus.
+
+void setError(@Sink(DISPLAY) CharSequence error, @Sink(DISPLAY) Drawable icon);
+//Sets the right-hand compound drawable of the TextView to the specified icon and sets an error message that will be displayed in a popup when the TextView has focus.
+
+void setExtractedText(ExtractedText text);
+//Apply to this text view the given extracted text, as previously returned by extractText(ExtractedTextRequest, ExtractedText);.
+
+void setFilters(InputFilter[] filters);
+//Sets the list of input filters that will be used if the buffer is Editable.
+
+void setFreezesText(boolean freezesText);
+//Control whether this text view saves its entire text contents when freezing to an icicle, in addition to dynamic state such as cursor position.
+
+void setGravity(int gravity);
+//Sets the horizontal alignment of the text and the vertical gravity that will be used when there is extra space in the TextView beyond what is required for the text itself.
+
+void setHeight(int pixels);
+//Makes the TextView exactly this many pixels tall.
+
+void setHighlightColor(int color);
+//Sets the color used to display the selection highlight.
+
+final void setHint(CharSequence hint);
 //Sets the text to be displayed when the text of the TextView is empty.
 
 final void setHint(int resid);
@@ -1535,215 +2497,243 @@ final void setHintTextColor(ColorStateList colors);
 //Sets the color of the hint text.
 
 final void setHintTextColor(int color);
-//Sets the color of the hint text for all the states (disabled, focussed, selected...) of this TextView.
+//Sets the color of the hint text for all the states (disabled, focussed, selected...); of this TextView.
+
+void setHorizontallyScrolling(boolean whether);
+//Sets whether the text should be allowed to be wider than the View is.
+
+void setImeActionLabel(CharSequence label, int actionId);
+//Change the custom IME action associated with the text view, which will be reported to an IME with actionLabel and actionId when it has focus.
+
+void setImeOptions(int imeOptions);
+//Change the editor type integer associated with the text view, which will be reported to an IME with imeOptions when it has focus.
+
+void setIncludeFontPadding(boolean includepad);
+//Set whether the TextView includes extra top and bottom padding to make room for accents that go above the normal ascent and descent.
+
+void setInputExtras(int xmlResId);
+//Set the extra input data of the text, which is the TextBoxAttribute.extras Bundle that will be filled in when creating an input connection.
 
 void setInputType(int type);
 //Set the type of the content with a constant as defined for inputType.
 
-Editable  getEditableText();
-    
-// UNUSED AND UNANNOTATED
-// final void    append(CharSequence text);
-// void  append(CharSequence text, int start, int end);
-// void  beginBatchEdit();
-// boolean   bringPointIntoView(int offset);
-// void  cancelLongPress();
-// void  clearComposingText();
-// void  computeScroll();
-// void  debug(int depth);
-// boolean   didTouchFocusSelect();
-// void  endBatchEdit();
-// boolean   extractText(ExtractedTextRequest request, ExtractedText outText);
-// void  findViewsWithText(ArrayList<View> outViews, CharSequence searched, int flags);
-// final int     getAutoLinkMask();
-// int   getBaseline();
-// int   getCompoundDrawablePadding();
-// Drawable[]    getCompoundDrawablesRelative();
-// int   getCompoundPaddingBottom();
-// int   getCompoundPaddingEnd();
-// int   getCompoundPaddingLeft();
-// int   getCompoundPaddingRight();
-// int   getCompoundPaddingStart();
-// int   getCompoundPaddingTop();
-// final int     getCurrentHintTextColor();
-// final int     getCurrentTextColor();
-// ActionMode.Callback   getCustomSelectionActionModeCallback();
-// 
-// TextUtils.TruncateAt  getEllipsize();
-// CharSequence  getError();
-// int   getExtendedPaddingBottom();
-// int   getExtendedPaddingTop();
-// InputFilter[]     getFilters();
-// void  getFocusedRect(Rect r);
-// boolean   getFreezesText();
-// int   getGravity();
-// int   getHighlightColor();
-// CharSequence  getHint();
-// final ColorStateList  getHintTextColors();
-// int   getImeActionId();
-// CharSequence  getImeActionLabel();
-// int   getImeOptions();
-// boolean   getIncludeFontPadding();
-// Bundle    getInputExtras(boolean create);
-// int   getInputType();
-// final Layout  getLayout();
-// int   getLineBounds(int line, Rect bounds);
-// int   getLineCount();
-// int   getLineHeight();
-// float     getLineSpacingExtra();
-// float     getLineSpacingMultiplier();
-// final ColorStateList  getLinkTextColors();
-// final boolean     getLinksClickable();
-// int   getMarqueeRepeatLimit();
-// int   getMaxEms();
-// int   getMaxHeight();
-// int   getMaxLines();
-// int   getMaxWidth();
-// int   getMinEms();
-// int   getMinHeight();
-// int   getMinLines();
-// int   getMinWidth();
-// final MovementMethod  getMovementMethod();
-// int   getOffsetForPosition(float x, float y);
-// TextPaint     getPaint();
-// int   getPaintFlags();
-// String    getPrivateImeOptions();
-// int   getSelectionEnd();
-// int   getSelectionStart();
-// int   getShadowColor();
-// float     getShadowDx();
-// float     getShadowDy();
-// float     getShadowRadius();
-// static int    getTextColor(Context context, TypedArray attrs, int def);
-// Locale    getTextLocale();
-// float     getTextScaleX();
-// int   getTotalPaddingBottom();
-// int   getTotalPaddingEnd();
-// int   getTotalPaddingLeft();
-// int   getTotalPaddingRight();
-// int   getTotalPaddingStart();
-// int   getTotalPaddingTop();
-// final TransformationMethod    getTransformationMethod();
-// URLSpan[]     getUrls();
-// boolean   hasOverlappingRendering();
-// boolean   hasSelection();
-// void  invalidateDrawable(Drawable drawable);
-// boolean   isCursorVisible();
-// boolean   isInputMethodTarget();
-// boolean   isSuggestionsEnabled();
-// boolean   isTextSelectable();
-// void  jumpDrawablesToCurrentState();
-// int   length();
-// boolean   moveCursorToVisibleOffset();
-// void  onBeginBatchEdit();
-// boolean   onCheckIsTextEditor();
-// void  onCommitCompletion(CompletionInfo text);
-// void  onCommitCorrection(CorrectionInfo info);
-// InputConnection   onCreateInputConnection(EditorInfo outAttrs);
-// boolean   onDragEvent(DragEvent event);
-// void  onEditorAction(int actionCode);
-// void  onEndBatchEdit();
-// void  onFinishTemporaryDetach();
-// boolean   onGenericMotionEvent(MotionEvent event);
-// void  onInitializeAccessibilityEvent(AccessibilityEvent event);
-// void  onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
-// boolean   onKeyDown(int keyCode, KeyEvent event);
-// boolean   onKeyMultiple(int keyCode, int repeatCount, KeyEvent event);
-// boolean   onKeyPreIme(int keyCode, KeyEvent event);
-// boolean   onKeyShortcut(int keyCode, KeyEvent event);
-// boolean   onKeyUp(int keyCode, KeyEvent event);
-// void  onPopulateAccessibilityEvent(AccessibilityEvent event);
-// boolean   onPreDraw();
-// boolean   onPrivateIMECommand(String action, Bundle data);
-// void  onRestoreInstanceState(Parcelable state);
-// void  onRtlPropertiesChanged(int layoutDirection);
-// Parcelable    onSaveInstanceState();
-// void  onScreenStateChanged(int screenState);
-// void  onStartTemporaryDetach();
-// boolean   onTextContextMenuItem(int id);
-// boolean   onTouchEvent(MotionEvent event);
-// boolean   onTrackballEvent(MotionEvent event);
-// void  onWindowFocusChanged(boolean hasWindowFocus);
-// boolean   performLongClick();
-// void  removeTextChangedListener(TextWatcher watcher);
-// void  sendAccessibilityEvent(int eventType);
-// void  setAllCaps(boolean allCaps);
-// void  setCompoundDrawablePadding(int pad);
-// void  setCompoundDrawables(Drawable left, Drawable top, Drawable right, Drawable bottom);
-// void  setCompoundDrawablesRelative(Drawable start, Drawable top, Drawable end, Drawable bottom);
-// void  setCompoundDrawablesRelativeWithIntrinsicBounds(Drawable start, Drawable top, Drawable end, Drawable bottom);
-// void  setCompoundDrawablesRelativeWithIntrinsicBounds(int start, int top, int end, int bottom);
-// void  setCursorVisible(boolean visible);
-// void  setCustomSelectionActionModeCallback(ActionMode.Callback actionModeCallback);
-// final void    setEditableFactory(Editable.Factory factory);
-// void  setEms(int ems);
-// void  setError(CharSequence error);
-// void  setError(CharSequence error, Drawable icon);
-// void  setExtractedText(ExtractedText text);
-// void  setFilters(InputFilter[] filters);
-// void  setFreezesText(boolean freezesText);
-// void  setHeight(int pixels);
-// void  setHighlightColor(int color);
-// void  setHorizontallyScrolling(boolean whether);
-// void  setImeActionLabel(CharSequence label, int actionId);
-// void  setImeOptions(int imeOptions);
-// void  setIncludeFontPadding(boolean includepad);
-// void  setInputExtras(int xmlResId);
-// void  setLineSpacing(float add, float mult);
-// void  setLines(int lines);
-// final void    setLinkTextColor(ColorStateList colors);
-// final void    setLinkTextColor(int color);
-// final void    setLinksClickable(boolean whether);
-// void  setMarqueeRepeatLimit(int marqueeLimit);
-// void  setMaxEms(int maxems);
-// void  setMaxHeight(int maxHeight);
-// void  setMaxWidth(int maxpixels);
-// void  setMinEms(int minems);
-// void  setMinHeight(int minHeight);
-// void  setMinWidth(int minpixels);
-// void  setOnEditorActionListener(TextView.OnEditorActionListener l);
-// Set a special listener to be called when an action is performed on the text view.
-// void  setPaddingRelative(int start, int top, int end, int bottom);
-// void  setPaintFlags(int flags);
-// void  setPrivateImeOptions(String type);
-// void  setRawInputType(int type);
-// void  setScroller(Scroller s);
-// void  setSelectAllOnFocus(boolean selectAllOnFocus);
-// void  setSelected(boolean selected);
-// void  setShadowLayer(float radius, float dx, float dy, int color);
-// final void    setSpannableFactory(Spannable.Factory factory);
-// void  setTextIsSelectable(boolean selectable);
-// void  setTextLocale(Locale locale);
-// void  setTextScaleX(float size);
+void setKeyListener(KeyListener input);
+//Sets the key listener to be used with this TextView.
 
-//
-//PROTECTED (and unused)
-// int   computeHorizontalScrollRange();
-// int   computeVerticalScrollExtent();
-// int   computeVerticalScrollRange();
-// void  drawableStateChanged();
-// int   getBottomPaddingOffset();
-// boolean   getDefaultEditable();
-// MovementMethod    getDefaultMovementMethod();
-// float     getLeftFadingEdgeStrength();
-// int   getLeftPaddingOffset();
-// float     getRightFadingEdgeStrength();
-// int   getRightPaddingOffset();
-// int   getTopPaddingOffset();
-// boolean   isPaddingOffsetRequired();
-// void  onAttachedToWindow();
-// int[]     onCreateDrawableState(int extraSpace);
-// void  onDetachedFromWindow();
-// void  onDraw(Canvas canvas);
-// void  onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect);
-// void  onLayout(boolean changed, int left, int top, int right, int bottom);
-// void  onMeasure(int widthMeasureSpec, int heightMeasureSpec);
-// void  onScrollChanged(int horiz, int vert, int oldHoriz, int oldVert);
-// void  onSelectionChanged(int selStart, int selEnd);
-// void  onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter);
-// void  onVisibilityChanged(View changedView, int visibility);
-// boolean   setFrame(int l, int t, int r, int b);
-// boolean   verifyDrawable(Drawable who);
+void setLineSpacing(float add, float mult);
+//Sets line spacing for this TextView.
+
+void setLines(@Sink(DISPLAY) int lines);
+//Makes the TextView exactly this many lines tall.
+
+final void setLinkTextColor(ColorStateList colors);
+//Sets the color of links in the text.
+
+final void setLinkTextColor(int color);
+//Sets the color of links in the text.
+
+final void setLinksClickable(boolean whether);
+//Sets whether the movement method will automatically be set to LinkMovementMethod if setAutoLinkMask(int); has been set to nonzero and links are detected in setText(char[], int, int);.
+
+void setMarqueeRepeatLimit(int marqueeLimit);
+//Sets how many times to repeat the marquee animation.
+
+void setMaxEms(int maxems);
+//Makes the TextView at most this many ems wide
+
+void setMaxHeight(int maxHeight);
+//Makes the TextView at most this many pixels tall.
+
+void setMaxLines(int maxlines);
+//Makes the TextView at most this many lines tall.
+
+void setMaxWidth(int maxpixels);
+//Makes the TextView at most this many pixels wide
+
+void setMinEms(int minems);
+//Makes the TextView at least this many ems wide
+
+void setMinHeight(int minHeight);
+//Makes the TextView at least this many pixels tall.
+
+void setMinLines(int minlines);
+//Makes the TextView at least this many lines tall.
+
+void setMinWidth(int minpixels);
+//Makes the TextView at least this many pixels wide
+
+final void setMovementMethod(MovementMethod movement);
+//Sets the movement method (arrow key handler); to be used for this TextView.
+
+void setOnEditorActionListener(TextView.OnEditorActionListener l);
+//Set a special listener to be called when an action is performed on the text view.
+
+void setPadding(int left, int top, int right, int bottom);
+//Sets the padding.
+
+void setPaddingRelative(int start, int top, int end, int bottom);
+//Sets the relative padding.
+
+void setPaintFlags(int flags);
+//Sets flags on the Paint being used to display the text and reflows the text if they are different from the old flags.
+
+void setPrivateImeOptions(String type);
+//Set the private content type of the text, which is the EditorInfo.privateImeOptions field that will be filled in when creating an input connection.
+
+void setRawInputType(int type);
+//Directly change the content type integer of the text view, without modifying any other state.
+
+void setScroller(Scroller s);
+
+void setSelectAllOnFocus(boolean selectAllOnFocus);
+//Set the TextView so that when it takes focus, all the text is selected.
+
+void setSelected(@Sink(DISPLAY) boolean selected);
+//Changes the selection state of this view.
+
+void setShadowLayer(float radius, float dx, float dy, int color);
+//Gives the text a shadow of the specified radius and color, the specified distance from its normal position.
+
+void setSingleLine();
+//Sets the properties of this field (lines, horizontally scrolling, transformation method); to be for a single-line input.
+
+void setSingleLine(boolean singleLine);
+//If true, sets the properties of this field (number of lines, horizontally scrolling, transformation method); to be for a single-line input; if false, restores these to the default conditions.
+
+final void setSpannableFactory(Spannable.Factory factory);
+//Sets the Factory used to create new Spannables.
+
+final void setText(int resid);
+//final void setText(char[] text, int start, int len);
+//Sets the TextView to display the specified slice of the specified char array.
+
+final void setText(int resid, TextView.BufferType type);
+//final void setText(CharSequence text);
+//Sets the string value of the TextView.
+
+void setText(@Sink(DISPLAY) CharSequence text, TextView.BufferType type);
+//Sets the text that this TextView is to display (see setText(CharSequence);); and also sets whether it is stored in a styleable/spannable buffer and whether it is editable.
+
+void setTextAppearance(Context context, int resid);
+//Sets the text color, size, style, hint color, and highlight color from the specified TextAppearance resource.
+
+void setTextColor(ColorStateList colors);
+//Sets the text color.
+
+void setTextColor(int color);
+//Sets the text color for all the states (normal, selected, focused); to be this color.
+
+void setTextIsSelectable(boolean selectable);
+//Sets whether the content of this view is selectable by the user.
+
+final void setTextKeepState(CharSequence text);
+//Like setText(CharSequence);, except that the cursor position (if any); is retained in the new text.
+
+final void setTextKeepState(CharSequence text, TextView.BufferType type);
+//Like setText(CharSequence, android.widget.TextView.BufferType);, except that the cursor position (if any); is retained in the new text.
+
+void setTextLocale(Locale locale);
+//Set the default Locale of the text in this TextView to the given value.
+
+void setTextScaleX(float size);
+//Sets the extent by which text should be stretched horizontally.
+
+void setTextSize(float size);
+//Set the default text size to the given value, interpreted as "scaled pixel" units.
+
+void setTextSize(int unit, float size);
+//Set the default text size to a given unit and value.
+
+final void setTransformationMethod(TransformationMethod method);
+//Sets the transformation that is applied to the text that this TextView is displaying.
+
+void setTypeface(Typeface tf, int style);
+//Sets the typeface and style in which the text should be displayed, and turns on the fake bold and italic bits in the Paint if the Typeface that you provided does not have all the bits in the style that you specified.
+
+void setTypeface(Typeface tf);
+//Sets the typeface and style in which the text should be displayed.
+
+void setWidth(int pixels);
+//Makes the TextView exactly this many pixels wide.
+
+//Protected Methods
+int computeHorizontalScrollRange();
+//Compute the horizontal range that the horizontal scrollbar represents.
+
+int computeVerticalScrollExtent();
+//Compute the vertical extent of the horizontal scrollbar's thumb within the vertical range.
+
+int computeVerticalScrollRange();
+//Compute the vertical range that the vertical scrollbar represents.
+
+void drawableStateChanged();
+//This function is called whenever the state of the view changes in such a way that it impacts the state of drawables being shown.
+
+int getBottomPaddingOffset();
+//Amount by which to extend the bottom fading region.
+
+boolean getDefaultEditable();
+//Subclasses override this to specify that they have a KeyListener by default even if not specifically called for in the XML options.
+
+MovementMethod getDefaultMovementMethod();
+//Subclasses override this to specify a default movement method.
+
+float getLeftFadingEdgeStrength();
+//Returns the strength, or intensity, of the left faded edge.
+
+int getLeftPaddingOffset();
+//Amount by which to extend the left fading region.
+
+float getRightFadingEdgeStrength();
+//Returns the strength, or intensity, of the right faded edge.
+
+int getRightPaddingOffset();
+//Amount by which to extend the right fading region.
+
+int getTopPaddingOffset();
+//Amount by which to extend the top fading region.
+
+boolean isPaddingOffsetRequired();
+//If the View draws content inside its padding and enables fading edges, it needs to support padding offsets.
+
+void onAttachedToWindow();
+//This is called when the view is attached to a window.
+
+int[] onCreateDrawableState(int extraSpace);
+//Generate the new Drawable state for this view.
+
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+void onDraw(Canvas canvas);
+//Implement this to do your drawing.
+
+void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect);
+//Called by the view system when the focus state of this view changes.
+
+void onLayout(boolean changed, int left, int top, int right, int bottom);
+//Called from layout when this view should assign a size and position to each of its children.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+void onScrollChanged(int horiz, int vert, int oldHoriz, int oldVert);
+//This is called in response to an internal scroll in this view (i.e., the view scrolled its own contents);.
+
+void onSelectionChanged(int selStart, int selEnd);
+//This method is called when the selection has changed, in case any subclasses would like to know.
+
+void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter);
+//This method is called when the text is changed, in case any subclasses would like to know.
+
+void onVisibilityChanged(View changedView, int visibility);
+//Called when the visibility of the view or an ancestor of the view is changed.
+
+boolean setFrame(int l, int t, int r, int b);
+//Assign a size and position to this view.
+
+boolean verifyDrawable(Drawable who);
+//If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
 }
 
 class ScrollView{
@@ -1766,66 +2756,475 @@ class SeekBar$OnSeekBarChangeListener{
         void onProgressChanged(SeekBar arg0, int arg1, boolean arg2);
 }
 
-class Spinner{
-            void setAdapter(SpinnerAdapter adapter);
+class Spinner {
+    
+    
+int getBaseline();
+//Return the offset of the widget's text baseline from the widget's top boundary.
+
+int getDropDownHorizontalOffset();
+//Get the configured horizontal offset in pixels for the spinner's popup window of choices.
+
+int getDropDownVerticalOffset();
+//Get the configured vertical offset in pixels for the spinner's popup window of choices.
+
+int getDropDownWidth();
+//Get the configured width of the spinner's popup window of choices in pixels.
+
+int getGravity();
+//Describes how the selected item view is positioned.
+
+Drawable getPopupBackground();
+//Get the background drawable for the spinner's popup window of choices.
+
+CharSequence getPrompt();
+
+void onClick(DialogInterface dialog, int which);
+//This method will be invoked when a button in the dialog is clicked.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+boolean performClick();
+//Call this view's OnClickListener, if it is defined.
+
+void setAdapter(@Sink(DISPLAY) SpinnerAdapter adapter);
+//The Adapter is used to provide the data which backs this Spinner.
+
+void setDropDownHorizontalOffset(int pixels);
+//Set a horizontal offset in pixels for the spinner's popup window of choices.
+
+void setDropDownVerticalOffset(int pixels);
+//Set a vertical offset in pixels for the spinner's popup window of choices.
+
+void setDropDownWidth(int pixels);
+//Set the width of the spinner's popup window of choices in pixels.
+
+void setEnabled(boolean enabled);
+//Set the enabled state of this view.
+
+void setGravity(int gravity);
+//Describes how the selected item view is positioned.
+
+void setOnItemClickListener(AdapterView.OnItemClickListener l);
+//A spinner does not support item click events.
+
+void setPopupBackgroundDrawable(Drawable background);
+//Set the background drawable for the spinner's popup window of choices.
+
+void setPopupBackgroundResource(int resId);
+//Set the background drawable for the spinner's popup window of choices.
+
+void setPrompt(CharSequence prompt);
+//Sets the prompt to display when the dialog is shown.
+
+void setPromptId(int promptId);
+//Sets the prompt to display when the dialog is shown.
+
+//Protected Methods
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+void onLayout(boolean changed, int l, int t, int r, int b);
+//Called from layout when this view should assign a size and position to each of its children.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+
+
 }
 class SimpleCursorAdapter{
             SimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to);
             void bindView(View view, Context context, Cursor cursor);
 }
 
+class Switch {
+    
+int getCompoundPaddingLeft();
+//Returns the left padding of the view, plus space for the left Drawable if any.
+
+int getCompoundPaddingRight();
+//Returns the right padding of the view, plus space for the right Drawable if any.
+
+int getSwitchMinWidth();
+//Get the minimum width of the switch in pixels.
+
+int getSwitchPadding();
+//Get the amount of horizontal padding between the switch and the associated text.
+
+CharSequence getTextOff();
+//Returns the text displayed when the button is not in the checked state.
+
+CharSequence getTextOn();
+//Returns the text displayed when the button is in the checked state.
+
+Drawable getThumbDrawable();
+//Get the drawable used for the switch "thumb" - the piece that the user can physically touch and drag along the track.
+
+int getThumbTextPadding();
+//Get the horizontal padding around the text drawn on the switch itself.
+
+Drawable getTrackDrawable();
+//Get the drawable used for the track that the switch slides within.
+
+void jumpDrawablesToCurrentState();
+//Call Drawable.jumpToCurrentState(); on all Drawable objects associated with this view.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+void onPopulateAccessibilityEvent(AccessibilityEvent event);
+//Called from dispatchPopulateAccessibilityEvent(AccessibilityEvent); giving a chance to this View to populate the accessibility event with its text content.
+
+boolean onTouchEvent(MotionEvent ev);
+//Implement this method to handle touch screen motion events.
+
+void setChecked(@Sink(DISPLAY) boolean checked);
+//Changes the checked state of this button.
+
+void setSwitchMinWidth(int pixels);
+//Set the minimum width of the switch in pixels.
+
+void setSwitchPadding(int pixels);
+//Set the amount of horizontal padding between the switch and the associated text.
+
+void setSwitchTextAppearance(Context context, int resid);
+//Sets the switch text color, size, style, hint color, and highlight color from the specified TextAppearance resource.
+
+void setSwitchTypeface(Typeface tf, int style);
+//Sets the typeface and style in which the text should be displayed on the switch, and turns on the fake bold and italic bits in the Paint if the Typeface that you provided does not have all the bits in the style that you specified.
+
+void setSwitchTypeface(Typeface tf);
+//Sets the typeface in which the text should be displayed on the switch.
+
+void setTextOff(@Sink(DISPLAY) CharSequence textOff);
+//Sets the text displayed when the button is not in the checked state.
+
+void setTextOn(@Sink(DISPLAY) CharSequence textOn);
+//Sets the text displayed when the button is in the checked state.
+
+void setThumbDrawable(@Sink(DISPLAY) Drawable thumb);
+//Set the drawable used for the switch "thumb" - the piece that the user can physically touch and drag along the track.
+
+void setThumbResource(int resId);
+//Set the drawable used for the switch "thumb" - the piece that the user can physically touch and drag along the track.
+
+void setThumbTextPadding(int pixels);
+//Set the horizontal padding around the text drawn on the switch itself.
+
+void setTrackDrawable(@Sink(DISPLAY) Drawable track);
+//Set the drawable used for the track that the switch slides within.
+
+void setTrackResource(int resId);
+//Set the drawable used for the track that the switch slides within.
+
+//Protected Methods
+void drawableStateChanged();
+//This function is called whenever the state of the view changes in such a way that it impacts the state of drawables being shown.
+
+int[] onCreateDrawableState(int extraSpace);
+//Generate the new Drawable state for this view.
+
+void onDraw(Canvas canvas);
+//Implement this to do your drawing.
+
+void onLayout(boolean changed, int left, int top, int right, int bottom);
+//Called from layout when this view should assign a size and position to each of its children.
+
+boolean verifyDrawable(Drawable who);
+//If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
+
+
+
+
+}
+
+class TabHost {
+void addTab(@Sink(DISPLAY) TabHost.TabSpec tabSpec);
+//Add a tab.
+
+void clearAllTabs();
+//Removes all tabs from the tab widget associated with this tab host.
+
+boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
+//Dispatch a key event to the next view on the focus path.
+
+void dispatchWindowFocusChanged(boolean hasFocus);
+//Called when the window containing this view gains or loses window focus.
+
+int getCurrentTab();
+
+String getCurrentTabTag();
+
+View getCurrentTabView();
+
+View getCurrentView();
+
+FrameLayout getTabContentView();
+//Get the FrameLayout which holds tab content
+
+TabWidget getTabWidget();
+
+TabHost.TabSpec newTabSpec(String tag);
+//Get a new TabHost.TabSpec associated with this tab host.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+void onTouchModeChanged(boolean isInTouchMode);
+//Callback method to be invoked when the touch mode changes.
+
+void sendAccessibilityEvent(int eventType);
+//Sends an accessibility event of the given type.
+
+void setCurrentTab(int index);
+
+void setCurrentTabByTag(String tag);
+
+void setOnTabChangedListener(TabHost.OnTabChangeListener l);
+//Register a callback to be invoked when the selected state of any of the items in this list changes
+
+void setup();
+//Call setup(); before adding tabs if loading TabHost using findViewById();.
+
+void setup(LocalActivityManager activityGroup);
+//If you are using setContent(android.content.Intent);, this must be called since the activityGroup is needed to launch the local activity.
+
+//Protected Methods
+void onAttachedToWindow();
+//This is called when the view is attached to a window.
+
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+}
+
+class TabHost$OnTabChangeListener {
+    
+abstract void onTabChanged(String tabId);    
+    
+}
+
+
+class TabWidget {
+    
+    
+void addView(@Sink(DISPLAY) View child);
+//Adds a child view.
+
+void childDrawableStateChanged(View child);
+//If addStatesFromChildren(); is true, refreshes this group's drawable state (to include the states from its children);.
+
+void dispatchDraw(Canvas canvas);
+//Called by draw to draw the child views.
+
+boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
+//Dispatches an AccessibilityEvent to the View first and then to its children for adding their text content to the event.
+
+void focusCurrentTab(int index);
+//Sets the current tab and focuses the UI on it.
+
+View getChildTabViewAt(int index);
+//Returns the tab indicator view at the given index.
+
+int getTabCount();
+//Returns the number of tab indicator views.
+
+boolean isStripEnabled();
+//Indicates whether the bottom strips on the tab indicators are drawn or not.
+
+void onFocusChange(View v, boolean hasFocus);
+//Called when the focus state of a view has changed.
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+void removeAllViews();
+//Call this method to remove all child views from the ViewGroup.
+
+void sendAccessibilityEventUnchecked(AccessibilityEvent event);
+//This method behaves exactly as sendAccessibilityEvent(int); but takes as an argument an empty AccessibilityEvent and does not perform a check whether accessibility is enabled.
+
+void setCurrentTab(int index);
+//Sets the current tab.
+
+void setDividerDrawable(@Sink(DISPLAY) Drawable drawable);
+//Sets the drawable to use as a divider between the tab indicators.
+
+void setDividerDrawable(int resId);
+//Sets the drawable to use as a divider between the tab indicators.
+
+void setEnabled(@Sink(DISPLAY) boolean enabled);
+//Set the enabled state of this view.
+
+void setLeftStripDrawable(@Sink(DISPLAY) Drawable drawable);
+//Sets the drawable to use as the left part of the strip below the tab indicators.
+
+void setLeftStripDrawable(int resId);
+//Sets the drawable to use as the left part of the strip below the tab indicators.
+
+void setRightStripDrawable(@Sink(DISPLAY) Drawable drawable);
+//Sets the drawable to use as the right part of the strip below the tab indicators.
+
+void setRightStripDrawable(int resId);
+//Sets the drawable to use as the right part of the strip below the tab indicators.
+
+void setStripEnabled(@Sink(DISPLAY) boolean stripEnabled);
+//Controls whether the bottom strips on the tab indicators are drawn or not.
+
+//Protected Methods
+int getChildDrawingOrder(int childCount, int i);
+//Returns the index of the child to draw for this iteration.
+
+void onSizeChanged(int w, int h, int oldw, int oldh);
+//This is called during layout when the size of this view has changed.
+
+
+
+}
+
+
 class Toast {
     
-void show();
-//Show the view for the specified duration.
+void cancel();
+//Close the view if it's showing, or don't show it if it isn't showing yet.
+
+int getDuration();
+//Return the duration.
+
+int getGravity();
+//Get the location at which the notification should appear on the screen.
+
+float getHorizontalMargin();
+//Return the horizontal margin.
+
+float getVerticalMargin();
+//Return the vertical margin.
+
+View getView();
+//Return the view.
+
+int getXOffset();
+//Return the X offset in pixels to apply to the gravity's location.
+
+int getYOffset();
+//Return the Y offset in pixels to apply to the gravity's location.
 
 static Toast makeText(Context context, int resId, int duration);
 //Make a standard toast that just contains a text view with the text from a resource.
 
-static Toast makeText(Context context, @Sink(FlowPermission.DISPLAY) CharSequence text, int duration);
+static Toast makeText(Context context, @Sink(DISPLAY) CharSequence text, int duration);
 //Make a standard toast that just contains a text view.
+
+void setDuration(int duration);
+//Set how long to show the view for.
+
 void setGravity(int gravity, int xOffset, int yOffset);
-void setView(View view);
+//Set the location at which the notification should appear on the screen.
 
-//UNUSED AND UNANNOTATED    
-// void cancel();
-// int getDuration();
-// int getGravity();
-// float getHorizontalMargin();
-// float getVerticalMargin();
-// View getView();
-// int getXOffset();
-// int getYOffset();
-// void setDuration(int duration);
-// void setMargin(float horizontalMargin, float verticalMargin);
-// void setText(int resId);
-// void setText(CharSequence s);
-}
+void setMargin(float horizontalMargin, float verticalMargin);
+//Set the margins of the view.
 
-class TabHost{
-        TabHost(Context context, AttributeSet attrs);
-        protected void onDetachedFromWindow();
-        void setCurrentTabByTag(String tag);
-        void setOnTabChangedListener(OnTabChangeListener l);
-        void setup();
-        protected void onAttachedToWindow();
-        String getCurrentTabTag();
-}
-class TabHost$OnTabChangeListener{
-        void onTabChanged(String arg0);
-}
-class View{
-            void setDrawingCacheEnabled(boolean enabled);
-            Bitmap getDrawingCache();
+void setText(int resId);
+//Update the text in a Toast that was previously created using one of the makeText(); methods.
+
+void setText(@Sink(DISPLAY) CharSequence s);
+//Update the text in a Toast that was previously created using one of the makeText(); methods.
+
+void setView(@Sink(DISPLAY) View view);
+//Set the view to show.
+
+void show()  @Sink(DISPLAY);
+//Show the view for the specified duration.
+
 }
 
 
 class VideoView{
-        void suspend();
-        void resume();
-        void start();
-        void setVideoPath(String path);
-        void setOnPreparedListener(OnPreparedListener l);
+    
+    
+boolean canPause();
+
+boolean canSeekBackward();
+
+boolean canSeekForward();
+
+int getBufferPercentage();
+
+int getCurrentPosition();
+
+int getDuration();
+
+boolean isPlaying();
+
+void onInitializeAccessibilityEvent(AccessibilityEvent event);
+//Initializes an AccessibilityEvent with information about this View which is the event source.
+
+void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+//Initializes an AccessibilityNodeInfo with information about this view.
+
+boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyDown();: perform press of the view when KEYCODE_DPAD_CENTER or KEYCODE_ENTER is released, if the view is enabled and clickable.
+
+boolean onTouchEvent(MotionEvent ev);
+//Implement this method to handle touch screen motion events.
+
+boolean onTrackballEvent(MotionEvent ev);
+//Implement this method to handle trackball motion events.
+
+void pause();
+
+int resolveAdjustedSize(int desiredSize, int measureSpec);
+
+void resume();
+
+void seekTo(int msec);
+
+void setMediaController(MediaController controller);
+
+void setOnCompletionListener(MediaPlayer.OnCompletionListener l);
+//Register a callback to be invoked when the end of a media file has been reached during playback.
+
+void setOnErrorListener(MediaPlayer.OnErrorListener l);
+//Register a callback to be invoked when an error occurs during playback or setup.
+
+void setOnInfoListener(MediaPlayer.OnInfoListener l);
+//Register a callback to be invoked when an informational event occurs during playback or setup.
+
+void setOnPreparedListener(MediaPlayer.OnPreparedListener l);
+//Register a callback to be invoked when the media file is loaded and ready to go.
+
+void setVideoPath(String path);
+
+void setVideoURI(Uri uri);
+
+void start();
+
+void stopPlayback();
+
+void suspend();
+
+//Protected Methods
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+
+
 }
 class TabHost$TabSpec{
         String getTag();
@@ -1841,35 +3240,32 @@ class TabWidget{
         TabWidget(Context context);
 }
 
-class EdgeEffect{
-        void onPull(float deltaDistance);
-        boolean isFinished();
-        void onRelease();
-        void setSize(int width, int height);
-        boolean draw(Canvas canvas);
-        EdgeEffect(Context context);
-        void onAbsorb(int velocity);
-        void finish();
+class EdgeEffect {
+    
+boolean draw(Canvas canvas);
+//Draw into the provided canvas.
+
+void finish();
+//Immediately finish the current animation.
+
+boolean isFinished();
+//Reports if this EdgeEffect's animation is finished.
+
+void onAbsorb(int velocity);
+//Call when the effect absorbs an impact at the given velocity.
+
+void onPull(float deltaDistance);
+//A view should call this when content is pulled away from an edge by the user.
+
+void onRelease();
+//Call when the object is released after being pulled.
+
+void setSize(int width, int height);
+//Set the size of this edge effect in pixels.
+
+
+    
 }
 
-class Filter$FilterResults{
-        FilterResults();
-}
 
-
-class Filterable{
-        Filter getFilter();
-}
-class Filter{
-        Filter();
-        protected FilterResults performFiltering(CharSequence arg0);
-        CharSequence convertResultToString(Object resultValue);
-        protected void publishResults(CharSequence arg0, FilterResults arg1);
-}
-class ProgressBar{
-        ProgressBar(Context context, AttributeSet attrs, int defStyle);
-}
-class ShareActionProvider{
-        ShareActionProvider(Context context);
-}
 

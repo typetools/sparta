@@ -56,5 +56,11 @@ class FirstCall {
     	
     }
     
+    @DependentPermissions(permission.BLUETOOTH)
+    void goodUse3() {
+    	String s = constant;
+    	
+    }
+    
     
 }

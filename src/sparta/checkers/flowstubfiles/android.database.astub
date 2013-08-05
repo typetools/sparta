@@ -1,114 +1,145 @@
 
 package android.database;
 
-class ContentObserver{
-            ContentObserver(Handler handler);
-            void onChange(boolean selfChange);
-            boolean deliverSelfNotifications();
+class ContentObserver {
+    
+boolean deliverSelfNotifications();
+//Returns true if this observer is interested receiving self-change notifications.
+
+final void dispatchChange(boolean selfChange, Uri uri);
+//Dispatches a change notification to the observer.
+
+final void dispatchChange(boolean selfChange);
+//This method was deprecated in API level 16. Use dispatchChange(boolean, Uri); instead.
+
+void onChange(boolean selfChange, Uri uri);
+//This method is called when a content change occurs.
+
+void onChange(boolean selfChange);
+//This method is called when a content change occurs.
+
+    
+    
 }
 
 
 class Cursor {
-//Added by Carl Hartung
-abstract @Source(FlowPermission.DATABASE) String getString(@Source({DATABASE, LITERAL}) int columnIndex);
-//Returns the value of the requested column as a String.
-
-abstract @Source(FlowPermission.DATABASE) int getColumnIndex(String columnName);
-//Returns the zero-based index for the given column name, or -1 if the column doesn't exist.
-
 abstract void close();
 //Closes the Cursor, releasing all of its resources and making it completely invalid.
 
-abstract boolean moveToFirst();
-//Move the cursor to the first row.
+abstract void copyStringToBuffer(int columnIndex, CharArrayBuffer buffer);
+//Retrieves the requested column text and stores it in the buffer provided.
 
-abstract boolean moveToNext();
-//Move the cursor to the next row.
+abstract void deactivate();
+//This method was deprecated in API level 16. Since requery(); is deprecated, so too is this.
 
-abstract @Source(FlowPermission.DATABASE) int getInt(@Source({DATABASE, LITERAL}) int columnIndex);
+abstract byte[] getBlob(int columnIndex);
+//Returns the value of the requested column as a byte array.
+
+abstract @Source(DATABASE) int getColumnCount();
+//Return total number of columns
+
+abstract @Source(DATABASE) int getColumnIndex(@Sink(DATABASE) String columnName);
+//Returns the zero-based index for the given column name, or -1 if the column doesn't exist.
+
+abstract @Source(DATABASE) int getColumnIndexOrThrow(@Sink(DATABASE) String columnName);
+//Returns the zero-based index for the given column name, or throws IllegalArgumentException if the column doesn't exist.
+
+abstract @Source(DATABASE) String getColumnName(@Sink(DATABASE) int columnIndex);
+//Returns the column name at the given zero-based column index.
+
+abstract @Source(DATABASE) String[] getColumnNames();
+//Returns a string array holding the names of all of the columns in the result set in the order in which they were listed in the result.
+
+abstract @Source(DATABASE) int getCount();
+//Returns the numbers of rows in the cursor.
+
+abstract @Source(DATABASE) double getDouble(int columnIndex);
+//Returns the value of the requested column as a double.
+
+abstract Bundle getExtras();
+//Returns a bundle of extra values.
+
+abstract @Source(DATABASE) float getFloat(@Sink(DATABASE) int columnIndex);
+//Returns the value of the requested column as a float.
+
+abstract @Source(DATABASE) int getInt(@Sink(DATABASE) int columnIndex);
 //Returns the value of the requested column as an int.
 
-abstract boolean isClosed();
-//return true if the cursor is closed
-
-abstract @Source(FlowPermission.DATABASE) long getLong(@Source({DATABASE, LITERAL})  int columnIndex);
+abstract @Source(DATABASE) long getLong(@Sink(DATABASE) int columnIndex);
 //Returns the value of the requested column as a long.
+
+abstract @Source(DATABASE) int getPosition();
+//Returns the current position of the cursor in the row set.
+
+abstract @Source(DATABASE) short getShort(@Sink(DATABASE) int columnIndex);
+//Returns the value of the requested column as a short.
+
+abstract @Source(DATABASE) String getString(@Sink(DATABASE) int columnIndex);
+//Returns the value of the requested column as a String.
+
+abstract @Source(DATABASE) int getType(@Sink(DATABASE) int columnIndex);
+//Returns data type of the given column's value.
+
+abstract boolean getWantsAllOnMoveCalls();
+//onMove(); will only be called across processes if this method returns true.
 
 abstract boolean isAfterLast();
 //Returns whether the cursor is pointing to the position after the last row.
 
-abstract @Source(FlowPermission.DATABASE) int getCount();
-//Returns the numbers of rows in the cursor.
+abstract boolean isBeforeFirst();
+//Returns whether the cursor is pointing to the position before the first row.
 
-abstract boolean moveToPosition(int position);
-//Move the cursor to an absolute position.
+abstract boolean isClosed();
+//return true if the cursor is closed
 
-abstract void registerDataSetObserver(DataSetObserver observer);
-//Register an observer that is called when changes happen to the contents of the this cursors data set, for example, when the data set is changed via requery();, deactivate();, or close();.
-
-abstract @Source(FlowPermission.DATABASE) int getColumnIndexOrThrow(String columnName);
-//Returns the zero-based index for the given column name, or throws IllegalArgumentException if the column doesn't exist.
-
-abstract @Source(FlowPermission.DATABASE) double getDouble(@Source({DATABASE, LITERAL})  int columnIndex);
-//Returns the value of the requested column as a double.
-
-abstract boolean requery();
-//This method was deprecated in API level 11. Don't use this. Just request a new cursor, so you can do this asynchronously and update your list view once the new cursor comes back.
-
-abstract void unregisterDataSetObserver(DataSetObserver observer);
-//Unregister an observer that has previously been registered with this cursor via registerContentObserver(ContentObserver);.
+abstract boolean isFirst();
+//Returns whether the cursor is pointing to the first row.
 
 abstract boolean isLast();
 //Returns whether the cursor is pointing to the last row.
 
-abstract boolean isBeforeFirst();
-//Returns whether the cursor is pointing to the position before the first row.
+abstract @Source(DATABASE) boolean isNull(@Sink(DATABASE) int columnIndex);
+//Returns true if the value in the indicated column is null.
 
-abstract @Source(FlowPermission.DATABASE) String[] getColumnNames();
-//Returns a string array holding the names of all of the columns in the result set in the order in which they were listed in the result.
+abstract boolean move(int offset);
+//Move the cursor by a relative amount, forward or backward, from the current position.
 
-abstract void registerContentObserver(ContentObserver observer);
-//Register an observer that is called when changes happen to the content backing this cursor.
-
-abstract @Source(FlowPermission.DATABASE) float getFloat(@Source({DATABASE, LITERAL}) int columnIndex);
-//Returns the value of the requested column as a float.
-
-abstract void setNotificationUri(ContentResolver cr, Uri uri);
-//Register to watch a content URI for changes.
+abstract boolean moveToFirst();
+//Move the cursor to the first row.
 
 abstract boolean moveToLast();
 //Move the cursor to the last row.
 
+abstract boolean moveToNext();
+//Move the cursor to the next row.
+
+abstract boolean moveToPosition(int position);
+//Move the cursor to an absolute position.
+
+abstract boolean moveToPrevious();
+//Move the cursor to the previous row.
+
+abstract void registerContentObserver(ContentObserver observer);
+//Register an observer that is called when changes happen to the content backing this cursor.
+
+abstract void registerDataSetObserver(DataSetObserver observer);
+//Register an observer that is called when changes happen to the contents of the this cursors data set, for example, when the data set is changed via requery();, deactivate();, or close();.
+
+abstract boolean requery();
+//This method was deprecated in API level 11. Don't use this. Just request a new cursor, so you can do this asynchronously and update your list view once the new cursor comes back.
+
+abstract Bundle respond(Bundle extras);
+//This is an out-of-band way for the the user of a cursor to communicate with the cursor.
+
+abstract void setNotificationUri(ContentResolver cr, Uri uri);
+//Register to watch a content URI for changes.
+
 abstract void unregisterContentObserver(ContentObserver observer);
 //Unregister an observer that has previously been registered with this cursor via registerContentObserver(ContentObserver);.
 
-abstract @Source(FlowPermission.DATABASE) short getShort(@Source({DATABASE, LITERAL}) int columnIndex);
-//Returns the value of the requested column as a short.
-
-abstract @Source(FlowPermission.DATABASE) String getColumnName(@Source({DATABASE, LITERAL}) int columnIndex);
-//Returns the column name at the given zero-based column index.
-
-abstract @Source(FlowPermission.DATABASE) int getColumnCount();
-//Return total number of columns
-
-abstract @Source(FlowPermission.DATABASE) byte[] getBlob(@Source({DATABASE, LITERAL}) int columnIndex);
-//Returns the value of the requested column as a byte array.
-
-
-// UNUSED AND UNANNOTATED
-// abstract void copyStringToBuffer(int columnIndex, CharArrayBuffer buffer);
-// abstract void deactivate();
-// abstract Bundle getExtras();
-// abstract int getPosition();
-// abstract int getType(int columnIndex);
-// abstract boolean getWantsAllOnMoveCalls();
-// abstract boolean isFirst();
-// abstract boolean isNull(int columnIndex);
-// abstract boolean move(int offset);
-// abstract boolean moveToFirst();
-// abstract boolean moveToNext();
-// abstract boolean moveToPrevious();
-// abstract Bundle respond(Bundle extras);
+abstract void unregisterDataSetObserver(DataSetObserver observer);
+//Unregister an observer that has previously been registered with this cursor via registerContentObserver(ContentObserver);.
 
 }
 
@@ -117,10 +148,65 @@ class DataSetObserver{
             void onChanged();
             DataSetObserver();
 }
-class DataSetObservable{
-            DataSetObservable();
-            void notifyChanged();
+class DataSetObservable {
+    
+void notifyChanged();
+//Invokes onChanged(); on each observer.
+
+void notifyInvalidated();
+//Invokes onInvalidated(); on each observer.
+
+
 }
+
+class MatrixCursor {
+    
+void addRow(Iterable<?> columnValues);
+//Adds a new row to the end with the given column values.
+
+void addRow(Object[] columnValues);
+//Adds a new row to the end with the given column values.
+
+byte[] getBlob(int column);
+//Returns the value of the requested column as a byte array.
+
+String[] getColumnNames();
+//Returns a string array holding the names of all of the columns in the result set in the order in which they were listed in the result.
+
+int getCount();
+//Returns the numbers of rows in the cursor.
+
+double getDouble(int column);
+//Returns the value of the requested column as a double.
+
+float getFloat(int column);
+//Returns the value of the requested column as a float.
+
+int getInt(int column);
+//Returns the value of the requested column as an int.
+
+long getLong(int column);
+//Returns the value of the requested column as a long.
+
+short getShort(int column);
+//Returns the value of the requested column as a short.
+
+String getString(int column);
+//Returns the value of the requested column as a String.
+
+int getType(int column);
+//Returns data type of the given column's value.
+
+boolean isNull(int column);
+//Returns true if the value in the indicated column is null.
+
+MatrixCursor.RowBuilder newRow();
+//Adds a new row to the end and returns a builder for that row.
+
+
+
+}
+
 class Observable{
             void unregisterObserver(T observer);
             void registerObserver(T observer);
@@ -152,55 +238,249 @@ void close();
 }
 
 class SQLiteDatabase {
-    @Source(SQLITE_DATABASE) Cursor query(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String[] columns, @Sink(SQLITE_DATABASE) String selection, @Sink(SQLITE_DATABASE) String[] selectionArgs, @Sink(SQLITE_DATABASE) String groupBy, @Sink(SQLITE_DATABASE) String having, @Sink(SQLITE_DATABASE) String orderBy);
+  
+void beginTransaction();
+//Begins a transaction in EXCLUSIVE mode.
 
-//Added by Philip
-    @Source(FlowPermission.SQLITE_DATABASE) int delete(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.ANY);
-    void execSQL(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sql) @Source(FlowPermission.ANY) @Sink({});
-    @Source(FlowPermission.SQLITE_DATABASE) long insert(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String nullColumnHack, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values) @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE);
-    @Source(FlowPermission.SQLITE_DATABASE) int update(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String table, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] whereArgs) @Source(FlowPermission.SQLITE_DATABASE);
+void beginTransactionNonExclusive();
+//Begins a transaction in IMMEDIATE mode.
 
+void beginTransactionWithListener(SQLiteTransactionListener transactionListener);
+//Begins a transaction in EXCLUSIVE mode.
 
-    void endTransaction();
-    //End a transaction.
-    
-    //@Source(FlowPermission.SQLITE_DATABASE) int update(@Sink(FlowPermission.SQLITE_DATABASE) String table, @Sink(FlowPermission.SQLITE_DATABASE) ContentValues values, @Sink(FlowPermission.SQLITE_DATABASE) String whereClause, @Sink(FlowPermission.SQLITE_DATABASE) String[] whereArgs);
-    //Convenience method for updating rows in the database.
-    
-    void setTransactionSuccessful();
-    //Marks the current transaction as successful.
-    
-    void beginTransaction();
-    //Begins a transaction in EXCLUSIVE mode.
-    
-    @Source(FlowPermission.SQLITE_DATABASE) Cursor rawQuery(@Sink(FlowPermission.SQLITE_DATABASE) String sql, @Sink(FlowPermission.SQLITE_DATABASE) String[] selectionArgs, @Sink(FlowPermission.SQLITE_DATABASE) CancellationSignal cancellationSignal);
-    //Runs the provided SQL and returns a Cursor over the result set.
-    
-    SQLiteStatement compileStatement(@Sink(FlowPermission.SQLITE_DATABASE) String sql);
-    //Compiles an SQL statement into a reusable pre-compiled statement object.
-    
-    boolean isOpen();
-    //Returns true if the database is currently open.
-    
-    static SQLiteDatabase openDatabase(String path, SQLiteDatabase.CursorFactory factory, int flags, DatabaseErrorHandler errorHandler);
-    //Open the database according to the flags OPEN_READWRITE OPEN_READONLY CREATE_IF_NECESSARY and/or NO_LOCALIZED_COLLATORS.
-    
-    static SQLiteDatabase openDatabase(String path, SQLiteDatabase.CursorFactory factory, int flags);
-    //Open the database according to the flags OPEN_READWRITE OPEN_READONLY CREATE_IF_NECESSARY and/or NO_LOCALIZED_COLLATORS.
+void beginTransactionWithListenerNonExclusive(SQLiteTransactionListener transactionListener);
+//Begins a transaction in IMMEDIATE mode.
+
+SQLiteStatement compileStatement(String sql);
+//Compiles an SQL statement into a reusable pre-compiled statement object.
+
+static SQLiteDatabase create(SQLiteDatabase.CursorFactory factory);
+//Create a memory backed SQLite database.
+
+int delete(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String whereClause, @Sink(SQLITE_DATABASE) String[] whereArgs);
+//Convenience method for deleting rows in the database.
+
+static @Source(SQLITE_DATABASE) boolean deleteDatabase(@Sink({SQLITE_DATABASE, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) File file);
+//Deletes a database including its journal file and other auxiliary files that may have been created by the database engine.
+
+void disableWriteAheadLogging();
+//This method disables the features enabled by enableWriteAheadLogging();.
+
+boolean enableWriteAheadLogging();
+//This method enables parallel execution of queries from multiple threads on the same database.
+
+void endTransaction();
+//End a transaction.
+
+void execSQL(@Sink(SQLITE_DATABASE) String sql);
+//Execute a single SQL statement that is NOT a SELECT or any other SQL statement that returns data.
+
+void execSQL(@Sink(SQLITE_DATABASE) String sql, @Sink(SQLITE_DATABASE) Object[] bindArgs);
+//Execute a single SQL statement that is NOT a SELECT/INSERT/UPDATE/DELETE.
+
+static String findEditTable(@Sink(SQLITE_DATABASE) String tables);
+//Finds the name of the first table, which is editable.
+
+List<Pair<String, String>> getAttachedDbs();
+//Returns list of full pathnames of all attached databases including the main database by executing 'pragma database_list' on the database.
+
+@Source(SQLITE_DATABASE) long getMaximumSize();
+//Returns the maximum size the database may grow to.
+
+@Source(SQLITE_DATABASE) long getPageSize();
+//Returns the current database page size, in bytes.
+
+@Source({SQLITE_DATABASE, FILESYSTEM, READ_EXTERNAL_STORAGE}) final String getPath();
+//Gets the path to the database file.
+
+Map<String, String> getSyncedTables();
+//This method was deprecated in API level 11. This method no longer serves any useful purpose and has been deprecated.
+
+@Source(SQLITE_DATABASE) int getVersion();
+//Gets the database version.
+
+boolean inTransaction();
+//Returns true if the current thread has a transaction pending.
+
+long insert(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String nullColumnHack, @Sink(SQLITE_DATABASE) ContentValues values);
+//Convenience method for inserting a row into the database.
+
+long insertOrThrow(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String nullColumnHack, @Sink(SQLITE_DATABASE) ContentValues values);
+//Convenience method for inserting a row into the database.
+
+long insertWithOnConflict(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String nullColumnHack, @Sink(SQLITE_DATABASE) ContentValues initialValues, @Sink(SQLITE_DATABASE) int conflictAlgorithm);
+//General method for inserting a row into the database.
+
+@Source(SQLITE_DATABASE) boolean isDatabaseIntegrityOk();
+//Runs 'pragma integrity_check' on the given database (and all the attached databases); and returns true if the given database (and all its attached databases); pass integrity_check, false otherwise.
+
+@Source(SQLITE_DATABASE) boolean isDbLockedByCurrentThread();
+//Returns true if the current thread is holding an active connection to the database.
+
+@Source(SQLITE_DATABASE) boolean isDbLockedByOtherThreads();
+//This method was deprecated in API level 16. Always returns false. Do not use this method.
+
+@Source(SQLITE_DATABASE) boolean isOpen();
+//Returns true if the database is currently open.
+
+@Source(SQLITE_DATABASE) boolean isReadOnly();
+//Returns true if the database is opened as read only.
+
+@Source(SQLITE_DATABASE) boolean isWriteAheadLoggingEnabled();
+//Returns true if write-ahead logging has been enabled for this database.
+
+void markTableSyncable(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String foreignKey, @Sink(SQLITE_DATABASE) String updateTable);
+//This method was deprecated in API level 11. This method no longer serves any useful purpose and has been deprecated.
+
+void markTableSyncable(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String deletedTable);
+//This method was deprecated in API level 11. This method no longer serves any useful purpose and has been deprecated.
+
+@Source(SQLITE_DATABASE) boolean needUpgrade(@Sink(SQLITE_DATABASE) int newVersion);
+//Returns true if the new version code is greater than the current database version.
+
+static @Source(SQLITE_DATABASE) SQLiteDatabase openDatabase(@Sink({SQLITE_DATABASE, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String path, SQLiteDatabase.CursorFactory factory, @Sink(SQLITE_DATABASE) int flags, DatabaseErrorHandler errorHandler);
+//Open the database according to the flags OPEN_READWRITE OPEN_READONLY CREATE_IF_NECESSARY and/or NO_LOCALIZED_COLLATORS.
+
+static @Source(SQLITE_DATABASE) SQLiteDatabase openDatabase(@Sink({SQLITE_DATABASE, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String path, SQLiteDatabase.CursorFactory factory, @Sink(SQLITE_DATABASE) int flags);
+//Open the database according to the flags OPEN_READWRITE OPEN_READONLY CREATE_IF_NECESSARY and/or NO_LOCALIZED_COLLATORS.
+
+static @Source(SQLITE_DATABASE) SQLiteDatabase openOrCreateDatabase(@Sink({SQLITE_DATABASE, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String path, SQLiteDatabase.CursorFactory factory, DatabaseErrorHandler errorHandler);
+//Equivalent to openDatabase(path, factory, CREATE_IF_NECESSARY, errorHandler);.
+
+static @Source(SQLITE_DATABASE) SQLiteDatabase openOrCreateDatabase(@Sink({SQLITE_DATABASE, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String path, SQLiteDatabase.CursorFactory factory);
+//Equivalent to openDatabase(path, factory, CREATE_IF_NECESSARY);.
+
+static @Source(SQLITE_DATABASE) SQLiteDatabase openOrCreateDatabase(@Sink({SQLITE_DATABASE, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) File file, SQLiteDatabase.CursorFactory factory);
+//Equivalent to openDatabase(file.getPath();, factory, CREATE_IF_NECESSARY);.
+
+@Source(SQLITE_DATABASE) Cursor query(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String[] columns, @Sink(SQLITE_DATABASE) String selection, @Sink(SQLITE_DATABASE) String[] selectionArgs, @Sink(SQLITE_DATABASE) String groupBy, @Sink(SQLITE_DATABASE) String having, @Sink(SQLITE_DATABASE) String orderBy, @Sink(SQLITE_DATABASE) String limit);
+//Query the given table, returning a Cursor over the result set.
+
+@Source(SQLITE_DATABASE) Cursor query(@Sink(SQLITE_DATABASE)boolean distinct, @Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String[] columns, @Sink(SQLITE_DATABASE) String selection, @Sink(SQLITE_DATABASE) String[] selectionArgs, @Sink(SQLITE_DATABASE) String groupBy, @Sink(SQLITE_DATABASE) String having, @Sink(SQLITE_DATABASE) String orderBy, @Sink(SQLITE_DATABASE) String limit, CancellationSignal cancellationSignal);
+//Query the given URL, returning a Cursor over the result set.
+
+@Source(SQLITE_DATABASE) Cursor query(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String[] columns, @Sink(SQLITE_DATABASE) String selection, @Sink(SQLITE_DATABASE) String[] selectionArgs, @Sink(SQLITE_DATABASE) String groupBy, @Sink(SQLITE_DATABASE) String having, @Sink(SQLITE_DATABASE) String orderBy);
+//Query the given table, returning a Cursor over the result set.
+
+@Source(SQLITE_DATABASE) Cursor query(@Sink(SQLITE_DATABASE)boolean distinct, @Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE)tring[] columns, @Sink(SQLITE_DATABASE) String selection, @Sink(SQLITE_DATABASE) String[] selectionArgs, @Sink(SQLITE_DATABASE) String groupBy, @Sink(SQLITE_DATABASE) String having, @Sink(SQLITE_DATABASE) String orderBy, @Sink(SQLITE_DATABASE) String limit);
+//Query the given URL, returning a Cursor over the result set.
+
+@Source(SQLITE_DATABASE) Cursor queryWithFactory(SQLiteDatabase.CursorFactory cursorFactory, @Sink(SQLITE_DATABASE)boolean distinct, @Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String[] columns, @Sink(SQLITE_DATABASE) String selection, @Sink(SQLITE_DATABASE) String[] selectionArgs, @Sink(SQLITE_DATABASE) String groupBy, @Sink(SQLITE_DATABASE) String having, @Sink(SQLITE_DATABASE) String orderBy, @Sink(SQLITE_DATABASE) String limit, CancellationSignal cancellationSignal);
+//Query the given URL, returning a Cursor over the result set.
+
+@Source(SQLITE_DATABASE) Cursor queryWithFactory(SQLiteDatabase.CursorFactory cursorFactory, @Sink(SQLITE_DATABASE)boolean distinct, @Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String[] columns, @Sink(SQLITE_DATABASE) String selection, @Sink(SQLITE_DATABASE) String[] selectionArgs, @Sink(SQLITE_DATABASE) String groupBy, @Sink(SQLITE_DATABASE) String having, @Sink(SQLITE_DATABASE) String orderBy, @Sink(SQLITE_DATABASE) String limit);
+//Query the given URL, returning a Cursor over the result set.
+
+@Source(SQLITE_DATABASE) Cursor rawQuery(@Sink(SQLITE_DATABASE) String sql, @Sink(SQLITE_DATABASE) String[] selectionArgs, CancellationSignal cancellationSignal);
+//Runs the provided SQL and returns a Cursor over the result set.
+
+@Source(SQLITE_DATABASE) Cursor rawQuery(@Sink(SQLITE_DATABASE) String sql, @Sink(SQLITE_DATABASE) String[] selectionArgs);
+//Runs the provided SQL and returns a Cursor over the result set.
+
+@Source(SQLITE_DATABASE) Cursor rawQueryWithFactory(SQLiteDatabase.CursorFactory cursorFactory, @Sink(SQLITE_DATABASE) String sql, @Sink(SQLITE_DATABASE) String[] selectionArgs, String editTable);
+//Runs the provided SQL and returns a cursor over the result set.
+
+@Source(SQLITE_DATABASE) Cursor rawQueryWithFactory(SQLiteDatabase.CursorFactory cursorFactory, @Sink(SQLITE_DATABASE) String sql, @Sink(SQLITE_DATABASE) String[] selectionArgs, String editTable, CancellationSignal cancellationSignal);
+//Runs the provided SQL and returns a cursor over the result set.
+
+static int releaseMemory();
+//Attempts to release memory that SQLite holds but does not require to operate properly.
+
+@Source(SQLITE_DATABASE) long replace(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String nullColumnHack, @Sink(SQLITE_DATABASE) ContentValues initialValues);
+//Convenience method for replacing a row in the database.
+
+@Source(SQLITE_DATABASE) long replaceOrThrow(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String nullColumnHack, @Sink(SQLITE_DATABASE) ContentValues initialValues);
+//Convenience method for replacing a row in the database.
+
+@Source(SQLITE_DATABASE) void setForeignKeyConstraintsEnabled(@Sink(SQLITE_DATABASE) boolean enable);
+//Sets whether foreign key constraints are enabled for the database.
+
+@Source(SQLITE_DATABASE) void setLocale(@Sink(SQLITE_DATABASE) Locale locale);
+//Sets the locale for this database.
+
+@Source(SQLITE_DATABASE) void setLockingEnabled(@Sink(SQLITE_DATABASE) boolean lockingEnabled);
+//This method was deprecated in API level 16. This method now does nothing. Do not use.
+
+@Source(SQLITE_DATABASE) void setMaxSqlCacheSize(@Sink(SQLITE_DATABASE) int cacheSize);
+//Sets the maximum size of the prepared-statement cache for this database.
+
+@Source(SQLITE_DATABASE) long setMaximumSize(@Sink(SQLITE_DATABASE) long numBytes);
+//Sets the maximum size the database will grow to.
+
+@Source(SQLITE_DATABASE) void setPageSize(@Sink(SQLITE_DATABASE) long numBytes);
+//Sets the database page size.
+
+@Source(SQLITE_DATABASE) void setTransactionSuccessful();
+//Marks the current transaction as successful.
+
+@Source(SQLITE_DATABASE) void setVersion(@Sink(SQLITE_DATABASE) int version);
+//Sets the database version.
+
+@Source(SQLITE_DATABASE) String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+@Source(SQLITE_DATABASE) int update(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) ContentValues values, @Sink(SQLITE_DATABASE) String whereClause, @Sink(SQLITE_DATABASE) String[] whereArgs);
+//Convenience method for updating rows in the database.
+
+@Source(SQLITE_DATABASE) int updateWithOnConflict(@Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) ContentValues values, @Sink(SQLITE_DATABASE) String whereClause, @Sink(SQLITE_DATABASE) String[] whereArgs, @Sink(SQLITE_DATABASE) int conflictAlgorithm);
+//Convenience method for updating rows in the database.
+
+@Source(SQLITE_DATABASE) boolean yieldIfContended();
+//This method was deprecated in API level 3. if the db is locked more than once (becuase of nested transactions); then the lock will not be yielded. Use yieldIfContendedSafely instead.
+
+@Source(SQLITE_DATABASE) boolean yieldIfContendedSafely(long sleepAfterYieldDelay);
+//Temporarily end the transaction to let other threads run.
+
+@Source(SQLITE_DATABASE) boolean yieldIfContendedSafely();
+//Temporarily end the transaction to let other threads run.
+
+//Protected Methods
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+void onAllReferencesReleased();
+//Called when the last reference to the object was released by a call to releaseReference(); or close();.
 
 }
 
+class SQLiteException {
+    
+    
+}
 
 class SQLiteOpenHelper {
-//Added by Philip
-    @Source(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getReadableDatabase() @Source(FlowPermission.ANY) @Sink({});
-    @Source(FlowPermission.SQLITE_DATABASE) SQLiteDatabase getWritableDatabase() @Source(FlowPermission.ANY) @Sink({});
-    @Source(FlowPermission.ANY) @Sink({}) SQLiteOpenHelper(@Source(FlowPermission.ANY) @Sink({}) Context context, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String name, @Source(FlowPermission.ANY) @Sink({}) CursorFactory factory, @Source(FlowPermission.ANY) @Sink({}) int version);
-           void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion);
-            void onCreate(SQLiteDatabase arg0);
-            void close();
-            void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2);
-            
+    
+synchronized void close();
+//Close any open database object.
+
+@Source(SQLITE_DATABASE) String getDatabaseName();
+//Return the name of the SQLite database being opened, as given to the constructor.
+
+@Source(SQLITE_DATABASE) SQLiteDatabase getReadableDatabase();
+//Create and/or open a database.
+
+@Source(SQLITE_DATABASE) SQLiteDatabase getWritableDatabase();
+//Create and/or open a database that will be used for reading and writing.
+
+void onConfigure(SQLiteDatabase db);
+//Called when the database connection is being configured, to enable features such as write-ahead logging or foreign key support.
+
+abstract void onCreate(SQLiteDatabase db);
+//Called when the database is created for the first time.
+
+void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion);
+//Called when the database needs to be downgraded.
+
+void onOpen(SQLiteDatabase db);
+//Called when the database has been opened.
+
+abstract void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion);
+//Called when the database needs to be upgraded.
+
+void setWriteAheadLoggingEnabled(boolean enabled);
+//Enables or disables the use of write-ahead logging for the database.
+
+
 }
 
 class SQLiteQueryBuilder {
@@ -213,4 +493,33 @@ class SQLiteQueryBuilder {
     @Source(FlowPermission.SQLITE_DATABASE) Cursor query(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) SQLiteDatabase db, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] projectionIn, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String selection, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] selectionArgs, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String groupBy, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String having, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sortOrder, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String limit) @Source(FlowPermission.ANY) @Sink({});
     void setTables(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String inTables) @Source(FlowPermission.ANY) @Sink({});
     @Source(FlowPermission.SQLITE_DATABASE) SQLiteQueryBuilder();
+}
+
+class SQLiteStatement {
+
+void execute();
+//CSH: need a receiver annotation?
+//Execute this SQL statement, if it is not a SELECT / INSERT / DELETE / UPDATE, for example CREATE / DROP table, view, trigger, index etc.
+
+@Source(SQLITE_DATABASE) long executeInsert();
+//Execute this SQL statement and return the ID of the row inserted due to this call.
+
+@Source(SQLITE_DATABASE) int executeUpdateDelete();
+//Execute this SQL statement, if the the number of rows affected by execution of this SQL statement is of any importance to the caller - for example, UPDATE / DELETE SQL statements.
+
+@Source(SQLITE_DATABASE) ParcelFileDescriptor simpleQueryForBlobFileDescriptor();
+//Executes a statement that returns a 1 by 1 table with a blob value.
+
+@Source(SQLITE_DATABASE) long simpleQueryForLong();
+//Execute a statement that returns a 1 by 1 table with a numeric value.
+
+@Source(SQLITE_DATABASE) String simpleQueryForString();
+//Execute a statement that returns a 1 by 1 table with a text value.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+
+
+    
 }

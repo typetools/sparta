@@ -132,7 +132,48 @@
                 description="check for check-flow.">
         <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
+
+    <target name="capture-flows">
+        <!-- todo setup a switch to turn on this output. Add a filter string? -->
+        <antcall target="check-flow" />
+        <loadfile property="allFlowsOut" srcFile="allFlows.txt" />
+        <echo>${allFlowsOut}</echo>
+    </target>
+
+    <target name="filter-flows">
+        <property name="filter.flow_file" value="./allFlows.txt" />
+        <property name="filter.filter" value="" />
+        <exec executable="${sparta-code_dir}/${sparta-code_base}/filter-flows.pl">
+                    <arg line="--flow-file ${filter.flow_file}" />
+                    <arg line="--filter '${filter.filter}'" />
+        </exec><echo/>
+    </target>
+
+    <target name="capture-strings"
+                depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="capture string literals.">
+                <property name="capture.dirs" value="src AndroidManifest.xml" />
+                <property name="capture.outfile" value="sparta_strings.txt" />
+                <echo>Capture string literals from source</echo><echo/>
+                <exec executable="${sparta-code_dir}/${sparta-code_base}/capture-strings.pl">
+                    <arg line="--dirs '${capture.dirs}'" />
+                    <arg line="--outfile ${capture.outfile}" />
+                </exec><echo/>
+    </target>
     
+    <target name="compare-strings"
+                depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="compare string literals.">
+                <property name="compare.source_strings" value="sparta_strings.txt" />
+                <property name="compare.search_file" value="sparta_strings.txt" />
+                <echo>Compare string literals from other packages</echo><echo/>
+                <exec executable="${sparta-code_dir}/${sparta-code_base}/compare-strings.pl">
+                    <arg line="--source-strings ${compare.source_strings}"/>
+                    <arg line="--search_file ${compare.search_file}"/>
+                    <arg line="--root-dir ${compare.root}"/>
+                </exec><echo/>
+    </target>
+
     <target name="check-flow-ignorenr"
                 depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="runs the flow checker but ignores NOT_REVIEWED warnings from methods that are not annotated in the stubfiles.">

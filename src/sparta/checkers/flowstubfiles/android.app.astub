@@ -4,91 +4,819 @@ package android.app;
 class ActivityGroup{
             protected void onCreate(Bundle savedInstanceState);
 }
-class ActionBar{
-            void setDisplayHomeAsUpEnabled(boolean arg0);
+class ActionBar {
+    
+abstract void addOnMenuVisibilityListener(ActionBar.OnMenuVisibilityListener listener);
+//Add a listener that will respond to menu visibility change events.
+
+abstract void addTab(@Sink(DISPLAY) ActionBar.Tab tab, @Sink(DISPLAY) boolean setSelected);
+//Add a tab for use in tabbed navigation mode.
+
+abstract void addTab(@Sink(DISPLAY) ActionBar.Tab tab, @Sink(DISPLAY) int position);
+//Add a tab for use in tabbed navigation mode.
+
+abstract void addTab(@Sink(DISPLAY) ActionBar.Tab tab, @Sink(DISPLAY) int position, @Sink(DISPLAY) boolean setSelected);
+//Add a tab for use in tabbed navigation mode.
+
+abstract void addTab(@Sink(DISPLAY) ActionBar.Tab tab);
+//Add a tab for use in tabbed navigation mode.
+
+abstract View getCustomView();
+
+abstract int getDisplayOptions();
+
+abstract int getHeight();
+//Retrieve the current height of the ActionBar.
+
+abstract int getNavigationItemCount();
+//Get the number of navigation items present in the current navigation mode.
+
+abstract int getNavigationMode();
+//Returns the current navigation mode.
+
+abstract int getSelectedNavigationIndex();
+//Get the position of the selected navigation item in list or tabbed navigation modes.
+
+abstract ActionBar.Tab getSelectedTab();
+//Returns the currently selected tab if in tabbed navigation mode and there is at least one tab present.
+
+abstract CharSequence getSubtitle();
+//Returns the current ActionBar subtitle in standard mode.
+
+abstract ActionBar.Tab getTabAt(int index);
+//Returns the tab at the specified index.
+
+abstract int getTabCount();
+//Returns the number of tabs currently registered with the action bar.
+
+Context getThemedContext();
+//Returns a Context with an appropriate theme for creating views that will appear in the action bar.
+
+abstract CharSequence getTitle();
+//Returns the current ActionBar title in standard mode.
+
+abstract void hide();
+//Hide the ActionBar if it is currently showing.
+
+abstract boolean isShowing();
+
+abstract ActionBar.Tab newTab();
+//Create and return a new ActionBar.Tab.
+
+abstract void removeAllTabs();
+//Remove all tabs from the action bar and deselect the current tab.
+
+abstract void removeOnMenuVisibilityListener(ActionBar.OnMenuVisibilityListener listener);
+//Remove a menu visibility listener.
+
+abstract void removeTab(ActionBar.Tab tab);
+//Remove a tab from the action bar.
+
+abstract void removeTabAt(int position);
+//Remove a tab from the action bar.
+
+abstract void selectTab(@Sink(DISPLAY) ActionBar.Tab tab);
+//Select the specified tab.
+
+abstract void setBackgroundDrawable(Drawable d);
+//Set the ActionBar's background.
+
+abstract void setCustomView(int resId);
+//Set the action bar into custom navigation mode, supplying a view for custom navigation.
+
+abstract void setCustomView(@Sink(DISPLAY) View view);
+//Set the action bar into custom navigation mode, supplying a view for custom navigation.
+
+abstract void setCustomView(@Sink(DISPLAY) View view, ActionBar.LayoutParams layoutParams);
+//Set the action bar into custom navigation mode, supplying a view for custom navigation.
+
+abstract void setDisplayHomeAsUpEnabled(boolean showHomeAsUp);
+//Set whether home should be displayed as an "up" affordance.
+
+abstract void setDisplayOptions(int options, int mask);
+//Set selected display options.
+
+abstract void setDisplayOptions(int options);
+//Set display options.
+
+abstract void setDisplayShowCustomEnabled(boolean showCustom);
+//Set whether a custom view should be displayed, if set.
+
+abstract void setDisplayShowHomeEnabled(boolean showHome);
+//Set whether to include the application home affordance in the action bar.
+
+abstract void setDisplayShowTitleEnabled(boolean showTitle);
+//Set whether an activity title/subtitle should be displayed.
+
+abstract void setDisplayUseLogoEnabled(boolean useLogo);
+//Set whether to display the activity logo rather than the activity icon.
+
+void setHomeButtonEnabled(boolean enabled);
+//Enable or disable the "home" button in the corner of the action bar.
+
+abstract void setIcon(@Sink(DISPLAY) Drawable icon);
+//Set the icon to display in the 'home' section of the action bar.
+
+abstract void setIcon(int resId);
+//Set the icon to display in the 'home' section of the action bar.
+
+abstract void setListNavigationCallbacks(SpinnerAdapter adapter, ActionBar.OnNavigationListener callback);
+//Set the adapter and navigation callback for list navigation mode.
+
+abstract void setLogo(int resId);
+//Set the logo to display in the 'home' section of the action bar.
+
+abstract void setLogo(@Sink(DISPLAY) Drawable logo);
+//Set the logo to display in the 'home' section of the action bar.
+
+abstract void setNavigationMode(int mode);
+//Set the current navigation mode.
+
+abstract void setSelectedNavigationItem(int position);
+//Set the selected navigation item in list or tabbed navigation modes.
+
+void setSplitBackgroundDrawable(@Sink(DISPLAY) Drawable d);
+//Set the ActionBar's split background.
+
+void setStackedBackgroundDrawable(@Sink(DISPLAY) Drawable d);
+//Set the ActionBar's stacked background.
+
+abstract void setSubtitle(int resId);
+//Set the action bar's subtitle.
+
+abstract void setSubtitle(@Sink(DISPLAY) CharSequence subtitle);
+//Set the action bar's subtitle.
+
+abstract void setTitle(int resId);
+//Set the action bar's title.
+
+abstract void setTitle(@Sink(DISPLAY) CharSequence title);
+//Set the action bar's title.
+
+abstract void show() @Sink(DISPLAY);
+//Show the ActionBar if it is not currently showing.
+
+
+
+}
+
+class ActionBar$Tab {
+    
+abstract CharSequence getContentDescription();
+//Gets a brief description of this tab's content for use in accessibility support.
+
+abstract View getCustomView();
+//Retrieve a previously set custom view for this tab.
+
+abstract Drawable getIcon();
+//Return the icon associated with this tab.
+
+abstract int getPosition();
+//Return the current position of this tab in the action bar.
+
+abstract Object getTag();
+
+abstract CharSequence getText();
+//Return the text of this tab.
+
+abstract void select();
+//Select this tab.
+
+abstract ActionBar.Tab setContentDescription(int resId);
+//Set a description of this tab's content for use in accessibility support.
+
+abstract ActionBar.Tab setContentDescription(CharSequence contentDesc);
+//Set a description of this tab's content for use in accessibility support.
+
+abstract ActionBar.Tab setCustomView(int layoutResId);
+//Set a custom view to be used for this tab.
+
+abstract ActionBar.Tab setCustomView(@Sink(DISPLAY) View view);
+//Set a custom view to be used for this tab.
+
+abstract ActionBar.Tab setIcon(@Sink(DISPLAY) Drawable icon);
+//Set the icon displayed on this tab.
+
+abstract ActionBar.Tab setIcon(int resId);
+//Set the icon displayed on this tab.
+
+abstract ActionBar.Tab setTabListener(ActionBar.TabListener listener);
+//Set the ActionBar.TabListener that will handle switching to and from this tab.
+
+abstract ActionBar.Tab setTag(Object obj);
+//Give this Tab an arbitrary object to hold for later use.
+
+abstract ActionBar.Tab setText(int resId);
+//Set the text displayed on this tab.
+
+abstract ActionBar.Tab setText(@Sink(DISPLAY) CharSequence text);
+//Set the text displayed on this tab.
+
+
+
 }
 
 class Activity{
-//Annotations by SOM
-    Activity();
-        boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
-        void dump(@Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) PrintWriter writer, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String[] args);
-        View onCreateView(String name, Context context, AttributeSet attrs);
-        void invalidateOptionsMenu();
-        void onPanelClosed(int featureId, Menu menu);
-        Object onRetainNonConfigurationInstance();
-        protected void onStart();
-        protected void onDestroy();
-        Object getLastNonConfigurationInstance();
-        ComponentName getComponentName();
-        boolean onPreparePanel(int featureId, View view, Menu menu);
-        String getCallingPackage();
-        protected void onPostResume();
-        ComponentName getCallingActivity();
-        boolean onCreatePanelMenu(int featureId, @Sink(DISPLAY) Menu menu);
-        void onLowMemory();
+void addContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
+//Add an additional content view to the activity.
 
-    @Sink(FlowPermission.DISPLAY) View findViewById ( @Sink(FlowPermission.CONDITIONAL) int id);
-    @Source(FlowPermission.LITERAL) MenuInflater getMenuInflater (); 
-    //The getter and setters on Bundle are marked with source/sink Bundle
-    //So although this bundle can be from anywhere, the data pulled from it
-    //will be from BUNDLE
-	void onCreate(Bundle savedInstanceState);
-	void setContentView(@Sink(FlowPermission.DISPLAY) int layout);
-    void setContentView (@Sink(FlowPermission.DISPLAY) View view);
-    void setProgressBarIndeterminateVisibility(@Source(FlowPermission.LITERAL) @Sink(FlowPermission.DISPLAY) boolean visible);
-    boolean onOptionsItemSelected(MenuItem item);
-    protected void onStop();
-    void setRequestedOrientation(int requestedOrientation);
-    
-    void startActivityForResult(@Sink(FlowPermission.ANY) Intent intent, int requestCode);
-    protected void onActivityResult(int requestCode, int resultCode, @Sink(FlowPermission.ANY) Intent data);
-        boolean onMenuItemSelected(int featureId, MenuItem item);
-        protected Dialog onCreateDialog(int id);
-        boolean onCreateOptionsMenu(Menu menu);
-        void showDialog(int id);
-        SharedPreferences getPreferences(int mode);
-        void finish();
-          //The getter and setters on Intents are marked with source/sink INTENT
-    //So although this intent can be from anywhere, the data pulled from it
-    //will be from INTENT
-        void startActivity(Intent intent);
-        
-         protected void onNewIntent(Intent intent);
-            protected void onResume();
-            Intent getIntent();
-            protected void onPause();
-            void runOnUiThread(Runnable action);
-            
-                        void setResult(int resultCode, Intent data);
-            Object getSystemService(String name);
-            boolean onOptionsItemSelected(MenuItem item);
-            boolean isFinishing();
-            FragmentManager getFragmentManager();
-            void onBackPressed();
-            protected void onSaveInstanceState(Bundle outState);
-            Window getWindow();
-              Activity getParent();
-            @Source(DATABASE) Cursor managedQuery(@Sink(DATABASE) Uri uri, @Sink(DATABASE) String[] projection, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String sortOrder);
-            void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo);
-            LayoutInflater getLayoutInflater();
-            boolean onContextItemSelected(MenuItem item);
-            Application getApplication();
-                        void setResult(int resultCode);
-            void setTitle(CharSequence title);
-            boolean dispatchKeyEvent(KeyEvent event);
-            ActionBar getActionBar();
-            void setTitle(int titleId);
-            void onConfigurationChanged(Configuration newConfig);
+void closeContextMenu();
+//Programmatically closes the most recently opened context menu, if showing.
 
-    
+void closeOptionsMenu();
+//Progammatically closes the options menu.
+
+PendingIntent createPendingResult(int requestCode, Intent data, int flags);
+//Create a new PendingIntent object which you can hand to others for them to use to send result data back to your onActivityResult(int, int, Intent); callback.
+
+final void dismissDialog(int id);
+//This method was deprecated in API level 13. Use the new DialogFragment class with FragmentManager instead; this is also available on older platforms through the Android compatibility package.
+
+boolean dispatchGenericMotionEvent(MotionEvent ev);
+//Called to process generic motion events.
+
+boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
+//Called to process key events.
+
+boolean dispatchKeyShortcutEvent(@Source(USER_INPUT) KeyEvent event);
+//Called to process a key shortcut event.
+
+boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
+//Called to process population of AccessibilityEvents.
+
+boolean dispatchTouchEvent(MotionEvent ev);
+//Called to process touch screen events.
+
+boolean dispatchTrackballEvent(MotionEvent ev);
+//Called to process trackball events.
+
+void dump(String prefix, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+//Print the Activity's state into the given stream.
+
+View findViewById(int id);
+//Finds a view that was identified by the id attribute from the XML that was processed in onCreate(Bundle);.
+
+void finish();
+//Call this when your activity is done and should be closed.
+
+void finishActivity(int requestCode);
+//Force finish another activity that you had previously started with startActivityForResult(Intent, int);.
+
+void finishActivityFromChild(Activity child, int requestCode);
+//This is called when a child activity of this one calls its finishActivity();.
+
+void finishAffinity();
+//Finish this activity as well as all activities immediately below it in the current task that have the same affinity.
+
+void finishFromChild(Activity child);
+//This is called when a child activity of this one calls its finish(); method.
+
+ActionBar getActionBar();
+//Retrieve a reference to this activity's ActionBar.
+
+final Application getApplication();
+//Return the application that owns this activity.
+
+ComponentName getCallingActivity();
+//Return the name of the activity that invoked this activity.
+
+@Source(LITERAL) String getCallingPackage();
+//Return the name of the package that invoked this activity.
+
+int getChangingConfigurations();
+//If this activity is being destroyed because it can not handle a configuration parameter being changed (and thus its onConfigurationChanged(Configuration); method is not being called);, then you can use this method to discover the set of changes that have occurred while in the process of being destroyed.
+
+ComponentName getComponentName();
+//Returns complete component name of this activity.
+
+View getCurrentFocus();
+//Calls getCurrentFocus(); on the Window of this Activity to return the currently focused view.
+
+FragmentManager getFragmentManager();
+//Return the FragmentManager for interacting with fragments associated with this activity.
+
+Intent getIntent();
+//Return the intent that started this activity.
+
+Object getLastNonConfigurationInstance();
+//This method was deprecated in API level 13. Use the new Fragment API setRetainInstance(boolean); instead; this is also available on older platforms through the Android compatibility package.
+
+LayoutInflater getLayoutInflater();
+//Convenience for calling getLayoutInflater();.
+
+LoaderManager getLoaderManager();
+//Return the LoaderManager for this fragment, creating it if needed.
+
+@Source(LITERAL) String getLocalClassName();
+//Returns class name for this activity with the package prefix removed.
+
+MenuInflater getMenuInflater();
+//Returns a MenuInflater with this context.
+
+final Activity getParent();
+//Return the parent activity if this view is an embedded child.
+
+Intent getParentActivityIntent();
+//Obtain an Intent that will launch an explicit target activity specified by this activity's logical parent.
+
+@Source(SHARED_PREFERENCES) SharedPreferences getPreferences(int mode);
+//Retrieve a SharedPreferences object for accessing preferences that are private to this activity.
+
+int getRequestedOrientation();
+//Return the current requested orientation of the activity.
+
+Object getSystemService(String name);
+//Return the handle to a system-level service by name.
+//CSH: Should be PolySomething...
+
+int getTaskId();
+//Return the identifier of the task this activity is in.
+
+final CharSequence getTitle();
+
+final int getTitleColor();
+
+final int getVolumeControlStream();
+//Gets the suggested audio stream whose volume should be changed by the harwdare volume controls.
+
+Window getWindow();
+//Retrieve the current Window for the activity.
+
+WindowManager getWindowManager();
+//Retrieve the window manager for showing custom windows.
+
+boolean hasWindowFocus();
+//Returns true if this activity's main window currently has window focus.
+
+void invalidateOptionsMenu();
+//Declare that the options menu has changed, so should be recreated.
+
+boolean isChangingConfigurations();
+//Check to see whether this activity is in the process of being destroyed in order to be recreated with a new configuration.
+
+final boolean isChild();
+//Is this activity embedded inside of another activity?
+
+boolean isDestroyed();
+//Returns true if the final onDestroy(); call has been made on the Activity, so this instance is now dead.
+
+boolean isFinishing();
+//Check to see whether this activity is in the process of finishing, either because you called finish(); on it or someone else has requested that it finished.
+
+boolean isTaskRoot();
+//Return whether this activity is the root of a task.
+
+final @Source(DATABASE) Cursor managedQuery(@Sink(DATABASE) Uri uri, @Sink(DATABASE) String[] projection, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String sortOrder);
+//This method was deprecated in API level 11. Use CursorLoader instead.
+
+boolean moveTaskToBack(boolean nonRoot);
+//Move the task containing this activity to the back of the activity stack.
+
+boolean navigateUpTo(Intent upIntent);
+//Navigate from this activity to the activity specified by upIntent, finishing this activity in the process.
+
+boolean navigateUpToFromChild(Activity child, Intent upIntent);
+//This is called when a child activity of this one calls its navigateUpTo(Intent); method.
+
+void onActionModeFinished(ActionMode mode);
+//Notifies the activity that an action mode has finished.
+
+void onActionModeStarted(ActionMode mode);
+//Notifies the Activity that an action mode has been started.
+
+void onAttachFragment(Fragment fragment);
+//Called when a Fragment is being attached to this activity, immediately after the call to its Fragment.onAttach(); method and before Fragment.onCreate();.
+
+void onAttachedToWindow();
+//Called when the main window associated with the activity has been attached to the window manager.
+
+void onBackPressed();
+//Called when the activity has detected the user's press of the back key.
+
+void onConfigurationChanged(Configuration newConfig);
+//Called by the system when the device configuration changes while your activity is running.
+
+void onContentChanged();
+//This hook is called whenever the content view of the screen changes (due to a call to Window.setContentView or Window.addContentView);.
+
+boolean onContextItemSelected(MenuItem item);
+//This hook is called whenever an item in a context menu is selected.
+
+void onContextMenuClosed(Menu menu);
+//This hook is called whenever the context menu is being closed (either by the user canceling the menu with the back/menu button, or when an item is selected);.
+
+void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo);
+//Called when a context menu for the view is about to be shown.
+
+CharSequence onCreateDescription();
+//Generate a new description for this activity.
+
+void onCreateNavigateUpTaskStack(TaskStackBuilder builder);
+//Define the synthetic task stack that will be generated during Up navigation from a different task.
+
+boolean onCreateOptionsMenu(Menu menu);
+//Initialize the contents of the Activity's standard options menu.
+
+boolean onCreatePanelMenu(int featureId, Menu menu);
+//Default implementation of onCreatePanelMenu(int, Menu); for activities.
+
+View onCreatePanelView(int featureId);
+//Default implementation of onCreatePanelView(int); for activities.
+
+boolean onCreateThumbnail(@Sink(DISPLAY) Bitmap outBitmap, Canvas canvas);
+//Generate a new thumbnail for this activity.
+
+View onCreateView(View parent, String name, Context context, AttributeSet attrs);
+//Standard implementation of onCreateView(View, String, Context, AttributeSet); used when inflating with the LayoutInflater returned by getSystemService(String);.
+
+View onCreateView(String name, Context context, AttributeSet attrs);
+//Standard implementation of onCreateView(String, Context, AttributeSet); used when inflating with the LayoutInflater returned by getSystemService(String);.
+
+void onDetachedFromWindow();
+//Called when the main window associated with the activity has been detached from the window manager.
+
+boolean onGenericMotionEvent(MotionEvent event);
+//Called when a generic motion event was not handled by any of the views inside of the activity.
+
+boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Called when a key was pressed down and not handled by any of the views inside of the activity.
+
+boolean onKeyLongPress(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyLongPress();: always returns false (doesn't handle the event);.
+
+boolean onKeyMultiple(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) int repeatCount, @Source(USER_INPUT) KeyEvent event);
+//Default implementation of KeyEvent.Callback.onKeyMultiple();: always returns false (doesn't handle the event);.
+
+boolean onKeyShortcut(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Called when a key shortcut event is not handled by any of the views in the Activity.
+
+boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
+//Called when a key was released and not handled by any of the views inside of the activity.
+
+void onLowMemory();
+//This is called when the overall system is running low on memory, and would like actively running process to try to tighten their belt.
+
+boolean onMenuItemSelected(int featureId, MenuItem item);
+//Default implementation of onMenuItemSelected(int, MenuItem); for activities.
+
+boolean onMenuOpened(int featureId, @Sink(DISPLAY) Menu menu);
+//Called when a panel's menu is opened by the user.
+
+boolean onNavigateUp();
+//This method is called whenever the user chooses to navigate Up within your application's activity hierarchy from the action bar.
+
+boolean onNavigateUpFromChild(Activity child);
+//This is called when a child activity of this one attempts to navigate up.
+
+boolean onOptionsItemSelected(MenuItem item);
+//This hook is called whenever an item in your options menu is selected.
+
+void onOptionsMenuClosed(Menu menu);
+//This hook is called whenever the options menu is being closed (either by the user canceling the menu with the back/menu button, or when an item is selected);.
+
+void onPanelClosed(int featureId, Menu menu);
+//Default implementation of onPanelClosed(int, Menu); for activities.
+
+void onPrepareNavigateUpTaskStack(TaskStackBuilder builder);
+//Prepare the synthetic task stack that will be generated during Up navigation from a different task.
+
+boolean onPrepareOptionsMenu(Menu menu);
+//Prepare the Screen's standard options menu to be displayed.
+
+boolean onPreparePanel(int featureId, View view, Menu menu);
+//Default implementation of onPreparePanel(int, View, Menu); for activities.
+
+Object onRetainNonConfigurationInstance();
+//This method was deprecated in API level 13. Use the new Fragment API setRetainInstance(boolean); instead; this is also available on older platforms through the Android compatibility package.
+
+boolean onSearchRequested();
+//This hook is called when the user signals the desire to start a search.
+
+boolean onTouchEvent(MotionEvent event);
+//Called when a touch screen event was not handled by any of the views under it.
+
+boolean onTrackballEvent(MotionEvent event);
+//Called when the trackball was moved and not handled by any of the views inside of the activity.
+
+void onTrimMemory(int level);
+//Called when the operating system has determined that it is a good time for a process to trim unneeded memory from its process.
+
+void onUserInteraction();
+//Called whenever a key, touch, or trackball event is dispatched to the activity.
+
+void onWindowAttributesChanged(WindowManager.LayoutParams params);
+//This is called whenever the current window attributes change.
+
+void onWindowFocusChanged(boolean hasFocus);
+//Called when the current Window of the activity gains or loses focus.
+
+ActionMode onWindowStartingActionMode(ActionMode.Callback callback);
+//Give the Activity a chance to control the UI for an action mode requested by the system.
+
+void openContextMenu(View view);
+//Programmatically opens the context menu for a particular view.
+
+void openOptionsMenu();
+//Programmatically opens the options menu.
+
+void overridePendingTransition(int enterAnim, int exitAnim);
+//Call immediately after one of the flavors of startActivity(Intent); or finish(); to specify an explicit transition animation to perform next.
+
+void recreate();
+//Cause this Activity to be recreated with a new instance.
+
+void registerForContextMenu(View view);
+//Registers a context menu to be shown for the given view (multiple views can show the context menu);.
+
+final void removeDialog(int id);
+//This method was deprecated in API level 13. Use the new DialogFragment class with FragmentManager instead; this is also available on older platforms through the Android compatibility package.
+
+final boolean requestWindowFeature(int featureId);
+//Enable extended window features.
+
+final void runOnUiThread(Runnable action);
+//Runs the specified action on the UI thread.
+
+void setContentView(int layoutResID);
+//Set the activity content from a layout resource.
+
+void setContentView(@Sink(DISPLAY) View view);
+//Set the activity content to an explicit view.
+
+void setContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
+//Set the activity content to an explicit view.
+
+final void setDefaultKeyMode(int mode);
+//Select the default key handling for this activity.
+
+final void setFeatureDrawable(int featureId, @Sink(DISPLAY) Drawable drawable);
+//Convenience for calling setFeatureDrawable(int, Drawable);.
+
+final void setFeatureDrawableAlpha(int featureId, int alpha);
+//Convenience for calling setFeatureDrawableAlpha(int, int);.
+
+final void setFeatureDrawableResource(int featureId, int resId);
+//Convenience for calling setFeatureDrawableResource(int, int);.
+
+final void setFeatureDrawableUri(int featureId, @Sink(DISPLAY) Uri uri);
+//Convenience for calling setFeatureDrawableUri(int, Uri);.
+
+void setFinishOnTouchOutside(boolean finish);
+//Sets whether this activity is finished when touched outside its window's bounds.
+
+void setIntent(Intent newIntent);
+//Change the intent returned by getIntent();.
+
+final void setProgress(@Sink(DISPLAY) int progress);
+//Sets the progress for the progress bars in the title.
+
+final void setProgressBarIndeterminate(boolean indeterminate);
+//Sets whether the horizontal progress bar in the title should be indeterminate (the circular is always indeterminate);.
+
+final void setProgressBarIndeterminateVisibility(boolean visible);
+//Sets the visibility of the indeterminate progress bar in the title.
+
+final void setProgressBarVisibility(boolean visible);
+//Sets the visibility of the progress bar in the title.
+
+void setRequestedOrientation(int requestedOrientation);
+//Change the desired orientation of this activity.
+
+final void setResult(int resultCode);
+//Call this to set the result that your activity will return to its caller.
+//CSH: this gets sent back to the calling app, Sink(ANY)?
+
+final void setResult(int resultCode, Intent data);
+//Call this to set the result that your activity will return to its caller.
+
+final void setSecondaryProgress(@Sink(DISPLAY) int secondaryProgress);
+//Sets the secondary progress for the progress bar in the title.
+
+void setTitle(int titleId);
+//Change the title associated with this activity.
+
+void setTitle(@Sink(DISPLAY) CharSequence title);
+//Change the title associated with this activity.
+
+void setTitleColor(int textColor);
+
+void setVisible(boolean visible);
+//Control whether this activity's main window is visible.
+
+final void setVolumeControlStream(int streamType);
+//Suggests an audio stream whose volume should be changed by the hardware volume controls.
+
+boolean shouldUpRecreateTask(Intent targetIntent);
+//Returns true if the app should recreate the task when navigating 'up' from this activity by using targetIntent.
+
+final boolean showDialog(int id, @Sink({BUNDLE, DISPLAY}) Bundle args);
+//This method was deprecated in API level 13. Use the new DialogFragment class with FragmentManager instead; this is also available on older platforms through the Android compatibility package.
+
+final void showDialog(int id);
+//This method was deprecated in API level 13. Use the new DialogFragment class with FragmentManager instead; this is also available on older platforms through the Android compatibility package.
+
+ActionMode startActionMode(ActionMode.Callback callback);
+//Start an action mode.
+
+void startActivities(Intent[] intents, Bundle options);
+//Launch a new activity.
+
+void startActivities(Intent[] intents);
+//Same as startActivities(Intent[], Bundle); with no options specified.
+
+void startActivity(Intent intent);
+//Same as startActivity(Intent, Bundle); with no options specified.
+
+void startActivity(Intent intent, Bundle options);
+//Launch a new activity.
+
+void startActivityForResult(Intent intent, int requestCode);
+//Same as calling startActivityForResult(Intent, int, Bundle); with no options.
+
+void startActivityForResult(Intent intent, int requestCode, Bundle options);
+//Launch an activity for which you would like a result when it finished.
+
+void startActivityFromChild(Activity child, Intent intent, int requestCode, Bundle options);
+//This is called when a child activity of this one calls its startActivity(Intent); or startActivityForResult(Intent, int); method.
+
+void startActivityFromChild(Activity child, Intent intent, int requestCode);
+//Same as calling startActivityFromChild(Activity, Intent, int, Bundle); with no options.
+
+void startActivityFromFragment(Fragment fragment, Intent intent, int requestCode, Bundle options);
+//This is called when a Fragment in this activity calls its startActivity(Intent); or startActivityForResult(Intent, int); method.
+
+void startActivityFromFragment(Fragment fragment, Intent intent, int requestCode);
+//Same as calling startActivityFromFragment(Fragment, Intent, int, Bundle); with no options.
+
+boolean startActivityIfNeeded(Intent intent, int requestCode, Bundle options);
+//A special variation to launch an activity only if a new activity instance is needed to handle the given Intent.
+
+boolean startActivityIfNeeded(Intent intent, int requestCode);
+//Same as calling startActivityIfNeeded(Intent, int, Bundle); with no options.
+
+void startIntentSender(IntentSender intent, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, Bundle options);
+//Like startActivity(Intent, Bundle);, but taking a IntentSender to start; see startIntentSenderForResult(IntentSender, int, Intent, int, int, int, Bundle); for more information.
+
+void startIntentSender(IntentSender intent, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
+//Same as calling startIntentSender(IntentSender, Intent, int, int, int, Bundle); with no options.
+
+void startIntentSenderForResult(IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, Bundle options);
+//Like startActivityForResult(Intent, int);, but allowing you to use a IntentSender to describe the activity to be started.
+
+void startIntentSenderForResult(IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
+//Same as calling startIntentSenderForResult(IntentSender, int, Intent, int, int, int, Bundle); with no options.
+
+void startIntentSenderFromChild(Activity child, IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
+//Same as calling startIntentSenderFromChild(Activity, IntentSender, int, Intent, int, int, int, Bundle); with no options.
+
+void startIntentSenderFromChild(Activity child, IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, Bundle options);
+//Like startActivityFromChild(Activity, Intent, int);, but taking a IntentSender; see startIntentSenderForResult(IntentSender, int, Intent, int, int, int); for more information.
+
+void startManagingCursor(Cursor c);
+//This method was deprecated in API level 11. Use the new CursorLoader class with LoaderManager instead; this is also available on older platforms through the Android compatibility package.
+
+boolean startNextMatchingActivity(Intent intent);
+//Same as calling startNextMatchingActivity(Intent, Bundle); with no options.
+
+boolean startNextMatchingActivity(Intent intent, Bundle options);
+//Special version of starting an activity, for use when you are replacing other activity components.
+
+void startSearch(String initialQuery, boolean selectInitialQuery, Bundle appSearchData, boolean globalSearch);
+//This hook is called to launch the search UI.
+//CSH: should probably create a new SEARCH sink?
+
+void stopManagingCursor(Cursor c);
+//This method was deprecated in API level 11. Use the new CursorLoader class with LoaderManager instead; this is also available on older platforms through the Android compatibility package.
+
+void takeKeyEvents(boolean get);
+//Request that key events come to this activity.
+
+void triggerSearch(String query, Bundle appSearchData);
+//Similar to startSearch(String, boolean, Bundle, boolean);, but actually fires off the search query after invoking the search dialog.
+
+void unregisterForContextMenu(View view);
+//Prevents a context menu to be shown for the given view.
+
+//Protected Methods
+void onActivityResult(int requestCode, int resultCode, Intent data);
+//Called when an activity you launched exits, giving you the requestCode you started it with, the resultCode it returned, and any additional data from it.
+
+void onApplyThemeResource(Resources.Theme theme, int resid, boolean first);
+//Called by setTheme(int); and getTheme(); to apply a theme resource to the current Theme object.
+
+void onChildTitleChanged(Activity childActivity, CharSequence title);
+
+void onCreate(Bundle savedInstanceState);
+//Called when the activity is starting.
+
+@Sink(DISPLAY) Dialog onCreateDialog(int id);
+//This method was deprecated in API level 8. Old no-arguments version of onCreateDialog(int, Bundle);.
+
+@Sink(DISPLAY) Dialog onCreateDialog(int id, Bundle args);
+//This method was deprecated in API level 13. Use the new DialogFragment class with FragmentManager instead; this is also available on older platforms through the Android compatibility package.
+
+void onDestroy();
+//Perform any final cleanup before an activity is destroyed.
+
+void onNewIntent(Intent intent);
+//This is called for activities that set launchMode to "singleTop" in their package, or if a client used the FLAG_ACTIVITY_SINGLE_TOP flag when calling startActivity(Intent);.
+
+void onPause();
+//Called as part of the activity lifecycle when an activity is going into the background, but has not (yet); been killed.
+
+void onPostCreate(Bundle savedInstanceState);
+//Called when activity start-up is complete (after onStart(); and onRestoreInstanceState(Bundle); have been called);.
+
+void onPostResume();
+//Called when activity resume is complete (after onResume(); has been called);.
+
+void onPrepareDialog(int id, Dialog dialog);
+//This method was deprecated in API level 8. Old no-arguments version of onPrepareDialog(int, Dialog, Bundle);.
+
+void onPrepareDialog(int id, Dialog dialog, Bundle args);
+//This method was deprecated in API level 13. Use the new DialogFragment class with FragmentManager instead; this is also available on older platforms through the Android compatibility package.
+
+void onRestart();
+//Called after onStop(); when the current activity is being re-displayed to the user (the user has navigated back to it);.
+
+void onRestoreInstanceState(Bundle savedInstanceState);
+//This method is called after onStart(); when the activity is being re-initialized from a previously saved state, given here in savedInstanceState.
+
+void onResume();
+//Called after onRestoreInstanceState(Bundle);, onRestart();, or onPause();, for your activity to start interacting with the user.
+
+void onSaveInstanceState(Bundle outState);
+//Called to retrieve per-instance state from an activity before being killed so that the state can be restored in onCreate(Bundle); or onRestoreInstanceState(Bundle); (the Bundle populated by this method will be passed to both);.
+
+void onStart();
+//Called after onCreate(Bundle); — or after onRestart(); when the activity had been stopped, but is now again being displayed to the user.
+
+void onStop();
+//Called when you are no longer visible to the user.
+
+void onTitleChanged(CharSequence title, int color);
+
+void onUserLeaveHint();
+//Called as part of the activity lifecycle when an activity is about to go into the background as the result of user choice.
 }
 class ActivityManager{
                 List<RunningServiceInfo> getRunningServices(int maxNum) throws SecurityException;
 }
 
-class Application{
-            Application();
+class Application {
+    
+void onConfigurationChanged(Configuration newConfig);
+//Called by the system when the device configuration changes while your component is running.
+
+void onCreate();
+//Called when the application is starting, before any activity, service, or receiver objects (excluding content providers); have been created.
+
+void onLowMemory();
+//This is called when the overall system is running low on memory, and would like actively running process to try to tighten their belt.
+
+void onTerminate();
+//This method is for use in emulated process environments.
+
+void onTrimMemory(int level);
+//Called when the operating system has determined that it is a good time for a process to trim unneeded memory from its process.
+
+void registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks callback);
+
+void registerComponentCallbacks(ComponentCallbacks callback);
+//Add a new ComponentCallbacks to the base application of the Context, which will be called at the same times as the ComponentCallbacks methods of activities and other components are called.
+
+void unregisterActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks callback);
+
+void unregisterComponentCallbacks(ComponentCallbacks callback);
+//Remove a ComponentCallbacks objec that was previously registered with registerComponentCallbacks(ComponentCallbacks);.
+
+
+
+}
+
+
+class AlarmManager {
+    
+void cancel(PendingIntent operation);
+//Remove any alarms with a matching Intent.
+
+void set(int type, long triggerAtMillis, PendingIntent operation);
+//Schedule an alarm.
+
+void setInexactRepeating(int type, long triggerAtMillis, long intervalMillis, PendingIntent operation);
+//Schedule a repeating alarm that has inexact trigger time requirements; for example, an alarm that repeats every hour, but not necessarily at the top of every hour.
+
+void setRepeating(int type, long triggerAtMillis, long intervalMillis, PendingIntent operation);
+//Schedule a repeating alarm.
+
+void setTime(@Sink(SET_TIME) long millis);
+//Set the system wall clock time.
+
+void setTimeZone(@Sink(SET_TIME_ZONE) String timeZone);
+//Set the system default time zone.
+
+
+
 }
 
 class AlertDialog {
@@ -96,67 +824,61 @@ class AlertDialog {
 Button getButton(int whichButton);
 //Gets one of the buttons used in the dialog.
 
-//ListView getListView();
+ListView getListView();
 //Gets the list view used in the dialog.
 
-//boolean onKeyDown(int keyCode, KeyEvent event);
+boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT)KeyEvent event);
 ////A key was pressed down.
 
-//boolean onKeyUp(int keyCode, KeyEvent event);
+boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //A key was released.
 
-void setButton(@Sink(FlowPermission.DISPLAY) CharSequence text, Message msg);
+void setButton(@Sink(DISPLAY)CharSequence text, Message msg);
 //This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_POSITIVE.
 
-void setButton(int whichButton, @Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+void setButton(int whichButton, @Sink(DISPLAY)CharSequence text, DialogInterface.OnClickListener listener);
 //Set a listener to be invoked when the positive button of the dialog is pressed.
 
-void setButton(@Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+void setButton(@Sink(DISPLAY)CharSequence text, DialogInterface.OnClickListener listener);
 //This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_POSITIVE
 
-void setButton(int whichButton, @Sink(FlowPermission.DISPLAY) CharSequence text, Message msg);
+void setButton(int whichButton, @Sink(DISPLAY)CharSequence text, Message msg);
 //Set a message to be sent when a button is pressed.
 
-//void setButton2(CharSequence text, DialogInterface.OnClickListener listener);
+void setButton2(@Sink(DISPLAY)CharSequence text, DialogInterface.OnClickListener listener);
 //This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_NEGATIVE
 
-//void setButton2(CharSequence text, Message msg);
+void setButton2(@Sink(DISPLAY) CharSequence text, Message msg);
 //This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_NEGATIVE.
 
-//void setButton3(CharSequence text, DialogInterface.OnClickListener listener);
+void setButton3(@Sink(DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
 //This method was deprecated in API level 3. Use setButton(int, CharSequence, android.content.DialogInterface.OnClickListener); with BUTTON_POSITIVE
 
-//void setButton3(CharSequence text, Message msg);
+void setButton3(@Sink(DISPLAY) CharSequence text, Message msg);
 //This method was deprecated in API level 3. Use setButton(int, CharSequence, Message); with BUTTON_NEUTRAL.
 
-//void setCustomTitle(View customTitleView);
+void setCustomTitle(@Sink(DISPLAY) View customTitleView);
 
-//void setIcon(Drawable icon);
+void setIcon(@Sink(DISPLAY) Drawable icon);
 
-//void setIcon(int resId);
+void setIcon(int resId);
 //Set resId to 0 if you don't want an icon.
 
-//void setIconAttribute(int attrId);
+void setIconAttribute(int attrId);
 //Set an icon as supplied by a theme attribute.
 
-//void setInverseBackgroundForced(boolean forceInverseBackground);
+void setInverseBackgroundForced(boolean forceInverseBackground);
 
-void setMessage(CharSequence message);
+void setMessage(@Sink(DISPLAY) CharSequence message);
 
 void setTitle(@Sink(DISPLAY) CharSequence title);
 //Set the title text for this dialog's window.
 
-//void setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom);
+void setView(@Sink(DISPLAY) View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom);
 //Set the view to display in that dialog, specifying the spacing to appear around that view.
 
-//void setView(View view);
+void setView(@Sink(DISPLAY) View view);
 //Set the view to display in that dialog.
-           boolean dispatchKeyEvent(KeyEvent event);
-            void setTitle(int titleId);
-            ActionBar getActionBar();
-            void onConfigurationChanged(Configuration newConfig);
-            LayoutInflater getLayoutInflater();
-            void setResult(int resultCode);
 
 
 //PROTECTED
@@ -164,102 +886,113 @@ void onCreate(Bundle savedInstanceState);
 //Similar to onCreate(Bundle);, you should initialize your dialog in this method, including calling setContentView(View);.
 }
 
-class AlarmManager{
-        void set(int type, long triggerAtTime, @Source(FlowPermission.INTENT) PendingIntent operation);
-}
-
 class AlertDialog$Builder {
-  //Added by Carl Hartung
-  Builder(Context context);
-AlertDialog.Builder setTitle(@Sink(FlowPermission.DISPLAY) CharSequence title);
-//Set the title displayed in the Dialog.
-
-AlertDialog.Builder setTitle(int titleId);
-//Set the title using the given resource id.
-
-AlertDialog.Builder setPositiveButton(int textId, DialogInterface.OnClickListener listener);
-//Set a listener to be invoked when the positive button of the dialog is pressed.
-
-AlertDialog.Builder setPositiveButton(@Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
-//Set a listener to be invoked when the positive button of the dialog is pressed.
-
+  
 AlertDialog create();
 //Creates a AlertDialog with the arguments supplied to this builder.
 
-AlertDialog.Builder setMessage(@Sink(FlowPermission.DISPLAY) CharSequence message);
-//Set the message to display.
+Context getContext();
+//Returns a Context with the appropriate theme for dialogs created by this Builder.
 
-AlertDialog.Builder setMessage(int messageId);
-//Set the message to display using the given resource id.
+AlertDialog.Builder setAdapter(ListAdapter adapter, DialogInterface.OnClickListener listener);
+//Set a list of items, which are supplied by the given ListAdapter, to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
 
-AlertDialog.Builder setNegativeButton(@Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
-//Set a listener to be invoked when the negative button of the dialog is pressed.
+AlertDialog.Builder setCancelable(boolean cancelable);
+//Sets whether the dialog is cancelable or not.
 
-AlertDialog.Builder setNegativeButton(int textId, DialogInterface.OnClickListener listener);
-//Set a listener to be invoked when the negative button of the dialog is pressed.
+AlertDialog.Builder setCursor(Cursor cursor, DialogInterface.OnClickListener listener, String labelColumn);
+//Set a list of items, which are supplied by the given Cursor, to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
 
-AlertDialog show();
-//Creates a AlertDialog with the arguments supplied to this builder and show();'s the dialog.
-//CSH: this actually shows the dialog on the screen, but if we've properly annotated the rest of the methods here, we shouldn't need to annotate this receiver?
+AlertDialog.Builder setCustomTitle(@Sink(DISPLAY) View customTitleView);
+//Set the title using the custom view customTitleView.
 
-AlertDialog.Builder setView(@Sink(FlowPermission.DISPLAY) View view);
-//Set a custom view to be the contents of the Dialog.
-
-AlertDialog.Builder setIcon(@Sink(FlowPermission.DISPLAY) Drawable icon);
+AlertDialog.Builder setIcon(@Sink(DISPLAY) Drawable icon);
 //Set the Drawable to be used in the title.
 
 AlertDialog.Builder setIcon(int iconId);
 //Set the resource id of the Drawable to be used in the title.
 
-AlertDialog.Builder setCancelable(boolean cancelable);
-//Sets whether the dialog is cancelable or not.
+AlertDialog.Builder setIconAttribute(int attrId);
+//Set an icon as supplied by a theme attribute.
 
-AlertDialog.Builder setNeutralButton(int textId, DialogInterface.OnClickListener listener);
-//Set a listener to be invoked when the neutral button of the dialog is pressed.
-
-AlertDialog.Builder setNeutralButton(@Sink(FlowPermission.DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
-//Set a listener to be invoked when the neutral button of the dialog is pressed.
+AlertDialog.Builder setInverseBackgroundForced(boolean useInverseBackground);
+//Sets the Dialog to use the inverse background, regardless of what the contents is.
 
 AlertDialog.Builder setItems(int itemsId, DialogInterface.OnClickListener listener);
 //Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
 
-AlertDialog.Builder setItems(@Sink(FlowPermission.DISPLAY) CharSequence[] items, DialogInterface.OnClickListener listener);
+AlertDialog.Builder setItems(@Sink(DISPLAY) CharSequence[] items, DialogInterface.OnClickListener listener);
 //Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
 
-AlertDialog.Builder setSingleChoiceItems(@Sink(FlowPermission.DISPLAY) CharSequence[] items, int checkedItem, DialogInterface.OnClickListener listener);
+AlertDialog.Builder setMessage(@Sink(DISPLAY) CharSequence message);
+//Set the message to display.
+
+AlertDialog.Builder setMessage(int messageId);
+//Set the message to display using the given resource id.
+
+AlertDialog.Builder setMultiChoiceItems(@Sink(DISPLAY) CharSequence[] items, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener);
 //Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
 
-AlertDialog.Builder setSingleChoiceItems(ListAdapter adapter, int checkedItem, DialogInterface.OnClickListener listener);
-//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
-//CSH: checkedItem is tricky.  The number isn't actually displayed, but it determines which item in the list is 'checked'.  could you leak information by repeatedly loading the dialog with different items checked?
-
-AlertDialog.Builder setSingleChoiceItems(int itemsId, int checkedItem, DialogInterface.OnClickListener listener);
+AlertDialog.Builder setMultiChoiceItems(@Sink(DISPLAY) Cursor cursor, String isCheckedColumn, String labelColumn, DialogInterface.OnMultiChoiceClickListener listener);
 //Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
 
-AlertDialog.Builder setSingleChoiceItems(Cursor cursor, int checkedItem, String labelColumn, DialogInterface.OnClickListener listener);
+AlertDialog.Builder setMultiChoiceItems(int itemsId, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener);
 //Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+
+AlertDialog.Builder setNegativeButton(@Sink(DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the negative button of the dialog is pressed.
+
+AlertDialog.Builder setNegativeButton(int textId, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the negative button of the dialog is pressed.
+
+AlertDialog.Builder setNeutralButton(int textId, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the neutral button of the dialog is pressed.
+
+AlertDialog.Builder setNeutralButton(@Sink(DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the neutral button of the dialog is pressed.
 
 AlertDialog.Builder setOnCancelListener(DialogInterface.OnCancelListener onCancelListener);
 //Sets the callback that will be called if the dialog is canceled.
 
+AlertDialog.Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener);
+//Sets the callback that will be called when the dialog is dismissed for any reason.
+
+AlertDialog.Builder setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
+//Sets a listener to be invoked when an item in the list is selected.
+
 AlertDialog.Builder setOnKeyListener(DialogInterface.OnKeyListener onKeyListener);
 //Sets the callback that will be called if a key is dispatched to the dialog.
 
+AlertDialog.Builder setPositiveButton(int textId, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the positive button of the dialog is pressed.
 
+AlertDialog.Builder setPositiveButton(@Sink(DISPLAY) CharSequence text, DialogInterface.OnClickListener listener);
+//Set a listener to be invoked when the positive button of the dialog is pressed.
 
-  
-//UNUSED and UNANNOTATED  
-// Context getContext();
-// AlertDialog.Builder setAdapter(ListAdapter adapter, DialogInterface.OnClickListener listener);
-// AlertDialog.Builder setCursor(Cursor cursor, DialogInterface.OnClickListener listener, String labelColumn);
-// AlertDialog.Builder setCustomTitle(View customTitleView);
-// AlertDialog.Builder setIconAttribute(int attrId);
-// AlertDialog.Builder setInverseBackgroundForced(boolean useInverseBackground);
-// AlertDialog.Builder setMultiChoiceItems(CharSequence[] items, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener);
-// AlertDialog.Builder setMultiChoiceItems(Cursor cursor, String isCheckedColumn, String labelColumn, DialogInterface.OnMultiChoiceClickListener listener);
-// AlertDialog.Builder setMultiChoiceItems(int itemsId, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener);
-// AlertDialog.Builder setOnDismissListener(DialogInterface.OnDismissListener onDismissListener);
-// AlertDialog.Builder setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
+AlertDialog.Builder setSingleChoiceItems(@Sink(DISPLAY) CharSequence[] items, int checkedItem, DialogInterface.OnClickListener listener);
+//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+
+AlertDialog.Builder setSingleChoiceItems(@Sink(DISPLAY) ListAdapter adapter, int checkedItem, DialogInterface.OnClickListener listener);
+//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+
+AlertDialog.Builder setSingleChoiceItems(int itemsId, int checkedItem, DialogInterface.OnClickListener listener);
+//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+
+AlertDialog.Builder setSingleChoiceItems(@Sink(DISPLAY) Cursor cursor, int checkedItem, String labelColumn, DialogInterface.OnClickListener listener);
+//Set a list of items to be displayed in the dialog as the content, you will be notified of the selected item via the supplied listener.
+
+AlertDialog.Builder setTitle(@Sink(DISPLAY) CharSequence title);
+//Set the title displayed in the Dialog.
+
+AlertDialog.Builder setTitle(int titleId);
+//Set the title using the given resource id.
+
+AlertDialog.Builder setView(@Sink(DISPLAY) View view);
+//Set a custom view to be the contents of the Dialog.
+
+AlertDialog show()  @Sink(DISPLAY);
+//Creates a AlertDialog with the arguments supplied to this builder and show();'s the dialog.
+
 }
 
 
@@ -268,55 +1001,53 @@ class DatePickerDialog{
 }
 
 class Dialog {
-        Dialog(Context context, int theme);
-
-//void addContentView(View view, ViewGroup.LayoutParams params);
+void addContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
 //Add an additional content view to the screen.
 
 void cancel();
 //Cancel the dialog.
 
-//void closeOptionsMenu();
+void closeOptionsMenu();
 
 void dismiss();
 //Dismiss this dialog, removing it from the screen.
 
-//boolean dispatchGenericMotionEvent(MotionEvent ev);
+boolean dispatchGenericMotionEvent(MotionEvent ev);
 //Called to process generic motion events.
 
-//boolean dispatchKeyEvent(KeyEvent event);
+boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
 //Called to process key events.
 
-//boolean dispatchKeyShortcutEvent(KeyEvent event);
+boolean dispatchKeyShortcutEvent(@Source(USER_INPUT) KeyEvent event);
 //Called to process a key shortcut event.
 
-//boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
+boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
 //Called to process population of AccessibilityEvents.
 
-//boolean dispatchTouchEvent(MotionEvent ev);
+boolean dispatchTouchEvent(MotionEvent ev);
 //Called to process touch screen events.
 
-//boolean dispatchTrackballEvent(MotionEvent ev);
+boolean dispatchTrackballEvent(MotionEvent ev);
 //Called to process trackball events.
 
 View findViewById(int id);
 //Finds a view that was identified by the id attribute from the XML that was processed in onStart();.
 
-//ActionBar getActionBar();
+ActionBar getActionBar();
 //Retrieve the ActionBar attached to this dialog, if present.
 
 final Context getContext();
 //Retrieve the Context this Dialog is running in.
 
-//View getCurrentFocus();
+View getCurrentFocus();
 //Call getCurrentFocus(); on the Window if this Activity to return the currently focused view.
 
-//LayoutInflater getLayoutInflater();
+LayoutInflater getLayoutInflater();
 
-//final Activity getOwnerActivity();
+final Activity getOwnerActivity();
 //Returns the Activity that owns this Dialog.
 
-//final int getVolumeControlStream();
+final int getVolumeControlStream();
 
 Window getWindow();
 //Retrieve the current Window for the activity.
@@ -324,79 +1055,79 @@ Window getWindow();
 void hide();
 //Hide the dialog, but do not dismiss it.
 
-//void invalidateOptionsMenu();
+void invalidateOptionsMenu();
 
 boolean isShowing();
 
-//void onActionModeFinished(ActionMode mode);
+void onActionModeFinished(ActionMode mode);
 //Called when an action mode has been finished. Note that if you override this method you should always call through to the superclass implementation by calling super.onActionModeFinished(mode);.
 
-//void onActionModeStarted(ActionMode mode);
+void onActionModeStarted(ActionMode mode);
 //Called when an action mode has been started. Note that if you override this method you should always call through to the superclass implementation by calling super.onActionModeStarted(mode);.
 
-//void onAttachedToWindow();
+void onAttachedToWindow();
 //Called when the window has been attached to the window manager.
 
-//void onBackPressed();
+void onBackPressed();
 //Called when the dialog has detected the user's press of the back key.
 
-//void onContentChanged();
+void onContentChanged();
 //This hook is called whenever the content view of the screen changes (due to a call to Window.setContentView or Window.addContentView);.
 
-//boolean onContextItemSelected(MenuItem item);
+boolean onContextItemSelected(MenuItem item);
 
-//void onContextMenuClosed(Menu menu);
+void onContextMenuClosed(Menu menu);
 
-//void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo);
+void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo);
 //Called when the context menu for this view is being built.
 
-//boolean onCreateOptionsMenu(Menu menu);
+boolean onCreateOptionsMenu(Menu menu);
 //It is usually safe to proxy this call to the owner activity's onCreateOptionsMenu(Menu); if the client desires the same menu for this Dialog.
 
-//boolean onCreatePanelMenu(int featureId, Menu menu);
+boolean onCreatePanelMenu(int featureId, Menu menu);
 //Initialize the contents of the menu for panel 'featureId'.
 
-//View onCreatePanelView(int featureId);
+View onCreatePanelView(int featureId);
 //Instantiate the view to display in the panel for 'featureId'.
 
-//void onDetachedFromWindow();
+void onDetachedFromWindow();
 //Called when the window has been attached to the window manager.
 
-//boolean onGenericMotionEvent(MotionEvent event);
+boolean onGenericMotionEvent(MotionEvent event);
 //Called when a generic motion event was not handled by any of the views inside of the dialog.
 
-//boolean onKeyDown(int keyCode, KeyEvent event);
+boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //A key was pressed down.
 
-//boolean onKeyLongPress(int keyCode, KeyEvent event);
+boolean onKeyLongPress(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyLongPress();: always returns false (doesn't handle the event);.
 
-//boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event);
+boolean onKeyMultiple(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) int repeatCount, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyMultiple();: always returns false (doesn't handle the event);.
 
-//boolean onKeyShortcut(int keyCode, KeyEvent event);
+boolean onKeyShortcut(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Called when a key shortcut event is not handled by any of the views in the Dialog.
 
-//boolean onKeyUp(int keyCode, KeyEvent event);
+boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //A key was released.
 
-//boolean onMenuItemSelected(int featureId, MenuItem item);
+boolean onMenuItemSelected(int featureId, MenuItem item);
 //Called when a panel's menu item has been selected by the user.
 
-//boolean onMenuOpened(int featureId, Menu menu);
+boolean onMenuOpened(int featureId, Menu menu);
 //Called when a panel's menu is opened by the user.
 
-//boolean onOptionsItemSelected(MenuItem item);
+boolean onOptionsItemSelected(MenuItem item);
 
-//void onOptionsMenuClosed(Menu menu);
+void onOptionsMenuClosed(Menu menu);
 
-//void onPanelClosed(int featureId, Menu menu);
+void onPanelClosed(int featureId, Menu menu);
 //Called when a panel is being closed.
 
-//boolean onPrepareOptionsMenu(Menu menu);
+boolean onPrepareOptionsMenu(Menu menu);
 //It is usually safe to proxy this call to the owner activity's onPrepareOptionsMenu(Menu); if the client desires the same menu for this Dialog.
 
-//boolean onPreparePanel(int featureId, View view, Menu menu);
+boolean onPreparePanel(int featureId, View view, Menu menu);
 //Prepare a panel to be displayed.
 
 void onRestoreInstanceState(Bundle savedInstanceState);
@@ -405,64 +1136,64 @@ void onRestoreInstanceState(Bundle savedInstanceState);
 Bundle onSaveInstanceState();
 //Saves the state of the dialog into a bundle.
 
-//boolean onSearchRequested();
+boolean onSearchRequested();
 //This hook is called when the user signals the desire to start a search.
 
-//boolean onTouchEvent(MotionEvent event);
+boolean onTouchEvent(MotionEvent event);
 //Called when a touch screen event was not handled by any of the views under it.
 
-//boolean onTrackballEvent(MotionEvent event);
+boolean onTrackballEvent(MotionEvent event);
 //Called when the trackball was moved and not handled by any of the views inside of the activity.
 
-//void onWindowAttributesChanged(WindowManager.LayoutParams params);
+void onWindowAttributesChanged(WindowManager.LayoutParams params);
 //This is called whenever the current window attributes change.
 
-//void onWindowFocusChanged(boolean hasFocus);
+void onWindowFocusChanged(boolean hasFocus);
 //This hook is called whenever the window focus changes.
 
-//ActionMode onWindowStartingActionMode(ActionMode.Callback callback);
+ActionMode onWindowStartingActionMode(ActionMode.Callback callback);
 //Called when an action mode is being started for this window.
 
-//void openContextMenu(View view);
+void openContextMenu(@Sink(DISPLAY) View view);
 
-//void openOptionsMenu();
+void openOptionsMenu();
 
-//void registerForContextMenu(View view);
+void registerForContextMenu(@Sink(DISPLAY) View view);
 
 final boolean requestWindowFeature(int featureId);
 //Enable extended window features.
 
-//void setCancelMessage(Message msg);
+void setCancelMessage(@Sink(DISPLAY) Message msg);
 //Set a message to be sent when the dialog is canceled.
 
 void setCancelable(boolean flag);
 //Sets whether this dialog is cancelable with the BACK key.
 
-//void setCanceledOnTouchOutside(boolean cancel);
+void setCanceledOnTouchOutside(boolean cancel);
 //Sets whether this dialog is canceled when touched outside the window's bounds.
 
-void setContentView(@Sink(FlowPermission.DISPLAY) View view);
+void setContentView(@Sink(DISPLAY) View view);
 //Set the screen content to an explicit view.
 
-//void setContentView(int layoutResID);
+void setContentView(int layoutResID);
 //Set the screen content from a layout resource.
 
-//void setContentView(View view, ViewGroup.LayoutParams params);
+void setContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
 //Set the screen content to an explicit view.
 
-//void setDismissMessage(Message msg);
+void setDismissMessage(@Sink(DISPLAY) Message msg);
 //Set a message to be sent when the dialog is dismissed.
 
-//final void setFeatureDrawable(int featureId, Drawable drawable);
+final void setFeatureDrawable(int featureId, @Sink(DISPLAY) Drawable drawable);
 //Convenience for calling setFeatureDrawable(int, Drawable);.
 
-//final void setFeatureDrawableAlpha(int featureId, int alpha);
+final void setFeatureDrawableAlpha(int featureId, int alpha);
 //Convenience for calling setFeatureDrawableAlpha(int, int);.
 
-//final void setFeatureDrawableResource(int featureId, int resId);
+final void setFeatureDrawableResource(int featureId, int resId);
 //Convenience for calling setFeatureDrawableResource(int, int);.
 
-//final void setFeatureDrawableUri(int featureId, Uri uri);
+final void setFeatureDrawableUri(int featureId, Uri uri);
 //Convenience for calling setFeatureDrawableUri(int, Uri);.
 
 void setOnCancelListener(DialogInterface.OnCancelListener listener);
@@ -474,7 +1205,7 @@ void setOnDismissListener(DialogInterface.OnDismissListener listener);
 void setOnKeyListener(DialogInterface.OnKeyListener onKeyListener);
 //Sets the callback that will be called if a key is dispatched to the dialog.
 
-//void setOnShowListener(DialogInterface.OnShowListener listener);
+void setOnShowListener(DialogInterface.OnShowListener listener);
 //Sets a listener to be invoked when the dialog is shown.
 
 final void setOwnerActivity(Activity activity);
@@ -486,34 +1217,99 @@ void setTitle(int titleId);
 void setTitle(@Sink(FlowPermission.DISPLAY) CharSequence title);
 //Set the title text for this dialog's window.
 
-//final void setVolumeControlStream(int streamType);
+final void setVolumeControlStream(int streamType);
 //By default, this will use the owner Activity's suggested stream type.
 
-void show();
+void show()  @Sink(DISPLAY);
 //Start the dialog and display it on screen.
 
-//void takeKeyEvents(boolean get);
+void takeKeyEvents(boolean get);
 //Request that key events come to this dialog.
 
-//void unregisterForContextMenu(View view);
+void unregisterForContextMenu(View view);
 
 //PROTECTED
-//void onCreate(Bundle savedInstanceState);
+void onCreate(Bundle savedInstanceState);
 //Similar to onCreate(Bundle);, you should initialize your dialog in this method, including calling setContentView(View);.
 
-//void onStart();
+void onStart();
 //Called when the dialog is starting.
 
-//void onStop();
+void onStop();
 //Called to tell you that you're stopping.
 }
 
-class DialogFragment{
-            DialogFragment();
-            @Sink(DISPLAY) void show(FragmentManager manager, String tag);
-            Dialog onCreateDialog(Bundle savedInstanceState);
-                 Dialog getDialog();
-            void onCreate(Bundle savedInstanceState);
+class DialogFragment {
+    
+void dismiss();
+//Dismiss the fragment and its dialog.
+
+void dismissAllowingStateLoss();
+//Version of dismiss(); that uses FragmentTransaction.commitAllowingStateLoss();.
+
+void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+//Print the Fragments's state into the given stream.
+
+Dialog getDialog();
+
+boolean getShowsDialog();
+//Return the current value of setShowsDialog(boolean);.
+
+int getTheme();
+
+boolean isCancelable();
+//Return the current value of setCancelable(boolean);.
+
+void onActivityCreated(Bundle savedInstanceState);
+//Called when the fragment's activity has been created and this fragment's view hierarchy instantiated.
+
+void onAttach(Activity activity);
+//Called when a fragment is first attached to its activity.
+
+void onCancel(DialogInterface dialog);
+//This method will be invoked when the dialog is canceled.
+
+void onCreate(Bundle savedInstanceState);
+//Called to do initial creation of a fragment.
+
+Dialog onCreateDialog(Bundle savedInstanceState);
+//Override to build your own custom Dialog container.
+
+void onDestroyView();
+//Remove dialog.
+
+void onDetach();
+//Called when the fragment is no longer attached to its activity.
+
+void onDismiss(DialogInterface dialog);
+//This method will be invoked when the dialog is dismissed.
+
+void onSaveInstanceState(Bundle outState);
+//Called to ask the fragment to save its current dynamic state, so it can later be reconstructed in a new instance of its process is restarted.
+
+void onStart();
+//Called when the Fragment is visible to the user.
+
+void onStop();
+//Called when the Fragment is no longer started.
+
+void setCancelable(boolean cancelable);
+//Control whether the shown Dialog is cancelable.
+
+void setShowsDialog(boolean showsDialog);
+//Controls whether this fragment should be shown in a dialog.
+
+void setStyle(int style, int theme);
+//Call to customize the basic appearance and behavior of the fragment's dialog.
+
+int show(FragmentTransaction transaction, String tag) @Sink(DISPLAY);
+//Display the dialog, adding the fragment using an existing transaction and then committing the transaction.
+
+void show(FragmentManager manager, String tag) @Sink(DISPLAY);
+//Display the dialog, adding the fragment to the given FragmentManager.
+
+
+
 }
 
 class ExpandableListActivity{
@@ -524,55 +1320,63 @@ class ExpandableListActivity{
 }
 
 class Fragment {
-     Fragment();
-     FragmentManager getFragmentManager();
-
-void dump(@Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String prefix, FileDescriptor fd, PrintWriter writer, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) String[] args);
+void dump(String prefix, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the Fragments's state into the given stream.
-//CSH: FileDescriptors are a... "structure representing an open file, an open socket, or another source or sink of bytes"
-// vague.  So it seems this would have to support at least writing to disk and sending over network?
-//FILESYSTEM INTERNET WRITE_EXTERNAL_STORAGE
 
-//Methods in spreadsheet not found in Fragment or parent classes:
-// findFragmentByWho
-// getLayoutInflater
-// initState
-// instantiateChildFragmentManager
-// isInBackStack
-// performActivityCreated
-// performConfigurationChanged
-// performContextItemSelected
-// performCreate
-// performCreateOptionsMenu
-// performCreateView
-// performDestroy
-// performDestroyView
-// performLowMemory
-// performOptionsItemSelected
-// performOptionsMenuClosed
-// performPause
-// performPrepareOptionsMenu
-// performReallyStop
-// performResume
-// performSaveInstanceState
-// performStart
-// performStop
-// restoreViewState
-// setIndex
+final boolean equals(Object o);
+//Subclasses can not override equals();.
 
-
-
-final FragmentActivity getActivity();
+final Activity getActivity();
 //Return the Activity this fragment is currently associated with.
 
 final Bundle getArguments();
 //Return the arguments supplied when the fragment was instantiated, if any.
 
+final FragmentManager getChildFragmentManager();
+//Return a private FragmentManager for placing and managing Fragments inside of this Fragment.
+
+final FragmentManager getFragmentManager();
+//Return the FragmentManager for interacting with fragments associated with this fragment's activity.
+
+final int getId();
+//Return the identifier this fragment is known by.
+
+LoaderManager getLoaderManager();
+//Return the LoaderManager for this fragment, creating it if needed.
+
+final Fragment getParentFragment();
+//Returns the parent Fragment containing this Fragment.
+
 final Resources getResources();
 //Return getActivity();.getResources();.
 
+final boolean getRetainInstance();
+
+final @Source(LITERAL) String getString(int resId);
+//Return a localized string from the application's package's default string table.
+
+final @Source(LITERAL) String getString(int resId, Object... formatArgs);
+//Return a localized formatted string from the application's package's default string table, substituting the format arguments as defined in Formatter and format(String, Object...);.
+
+final String getTag();
+//Get the tag name of the fragment, if specified.
+
+final Fragment getTargetFragment();
+//Return the target fragment set by setTargetFragment(Fragment, int);.
+
+final int getTargetRequestCode();
+//Return the target request code set by setTargetFragment(Fragment, int);.
+
+final @Source(LITERAL) CharSequence getText(int resId);
+//Return a localized, styled CharSequence from the application's package's default string table.
+
+boolean getUserVisibleHint();
+
 View getView();
 //Get the root view for the fragment's layout (the one returned by onCreateView(LayoutInflater, ViewGroup, Bundle););, if provided.
+
+final int hashCode();
+//Subclasses can not override hashCode();.
 
 static Fragment instantiate(Context context, String fname);
 //Like instantiate(Context, String, Bundle); but with a null argument Bundle.
@@ -589,6 +1393,18 @@ final boolean isDetached();
 final boolean isHidden();
 //Return true if the fragment has been hidden.
 
+final boolean isInLayout();
+//Return true if the layout is included as part of an activity view hierarchy via the <fragment> tag.
+
+final boolean isRemoving();
+//Return true if this fragment is currently being removed from its activity.
+
+final boolean isResumed();
+//Return true if the fragment is in the resumed state.
+
+final boolean isVisible();
+//Return true if the fragment is currently visible to the user.
+
 void onActivityCreated(Bundle savedInstanceState);
 //Called when the fragment's activity has been created and this fragment's view hierarchy instantiated.
 
@@ -602,13 +1418,16 @@ void onConfigurationChanged(Configuration newConfig);
 //Called by the system when the device configuration changes while your component is running.
 
 boolean onContextItemSelected(MenuItem item);
-//This hook is Called whenever an item in a context menu is selected.
+//This hook is called whenever an item in a context menu is selected.
 
 void onCreate(Bundle savedInstanceState);
 //Called to do initial creation of a fragment.
 
-Animation onCreateAnimation(int transit, boolean enter, int nextAnim);
+Animator onCreateAnimator(int transit, boolean enter, int nextAnim);
 //Called when a fragment loads an animation.
+
+void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo);
+//Called when a context menu for the view is about to be shown.
 
 void onCreateOptionsMenu(Menu menu, MenuInflater inflater);
 //Initialize the contents of the Activity's standard options menu.
@@ -631,17 +1450,20 @@ void onDetach();
 void onHiddenChanged(boolean hidden);
 //Called when the hidden state (as returned by isHidden(); of the fragment has changed.
 
+void onInflate(AttributeSet attrs, Bundle savedInstanceState);
+//This method was deprecated in API level 12. Use onInflate(Activity, AttributeSet, Bundle); instead.
+
 void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState);
 //Called when a fragment is being created as part of a view layout inflation, typically from setting the content view of an activity.
 
 void onLowMemory();
-//This is Called when the overall system is running low on memory, and would like actively running process to try to tighten their belt.
+//This is called when the overall system is running low on memory, and would like actively running process to try to tighten their belt.
 
 boolean onOptionsItemSelected(MenuItem item);
-//This hook is Called whenever an item in your options menu is selected.
+//This hook is called whenever an item in your options menu is selected.
 
 void onOptionsMenuClosed(Menu menu);
-//This hook is Called whenever the options menu is being closed (either by the user canceling the menu with the back/menu button, or when an item is selected);.
+//This hook is called whenever the options menu is being closed (either by the user canceling the menu with the back/menu button, or when an item is selected);.
 
 void onPause();
 //Called when the Fragment is no longer resumed.
@@ -661,14 +1483,23 @@ void onStart();
 void onStop();
 //Called when the Fragment is no longer started.
 
+void onTrimMemory(int level);
+//Called when the operating system has determined that it is a good time for a process to trim unneeded memory from its process.
+
 void onViewCreated(View view, Bundle savedInstanceState);
 //Called immediately after onCreateView(LayoutInflater, ViewGroup, Bundle); has returned, but before any saved state has been restored in to the view.
 
 void onViewStateRestored(Bundle savedInstanceState);
 //Called when all saved state has been restored into the view hierarchy of the fragment.
 
+void registerForContextMenu(View view);
+//Registers a context menu to be shown for the given view (multiple views can show the context menu);.
+
 void setArguments(Bundle args);
 //Supply the construction arguments for this fragment.
+
+void setHasOptionsMenu(boolean hasMenu);
+//Report that this fragment would like to participate in populating the options menu by receiving a call to onCreateOptionsMenu(Menu, MenuInflater); and related methods.
 
 void setInitialSavedState(Fragment.SavedState state);
 //Set the initial saved state that this Fragment should restore itself from when first being constructed, as returned by FragmentManager.saveFragmentInstanceState.
@@ -676,69 +1507,60 @@ void setInitialSavedState(Fragment.SavedState state);
 void setMenuVisibility(boolean menuVisible);
 //Set a hint for whether this fragment's menu should be visible.
 
+void setRetainInstance(boolean retain);
+//Control whether a fragment instance is retained across Activity re-creation (such as from a configuration change);.
+
+void setTargetFragment(Fragment fragment, int requestCode);
+//Optional target for this fragment.
+
 void setUserVisibleHint(boolean isVisibleToUser);
 //Set a hint to the system about whether this fragment's UI is currently visible to the user.
+
+void startActivity(Intent intent);
+//Call startActivity(Intent); from the fragment's containing Activity.
+
+void startActivity(Intent intent, Bundle options);
+//Call startActivity(Intent, Bundle); from the fragment's containing Activity.
+
+void startActivityForResult(Intent intent, int requestCode);
+//Call startActivityForResult(Intent, int); from the fragment's containing Activity.
+
+void startActivityForResult(Intent intent, int requestCode, Bundle options);
+//Call startActivityForResult(Intent, int, Bundle); from the fragment's containing Activity.
 
 String toString();
 //Returns a string containing a concise, human-readable description of this object.
 
-
-
-
-
-    
-
-//UNUSED AND UNANNOTATED
-// final boolean equals(Object o);
-// final FragmentManager getChildFragmentManager();
-// final FragmentManager getFragmentManager();
-// final int getId();
-// LoaderManager getLoaderManager();
-// final Fragment getParentFragment();
-// final boolean getRetainInstance();
-// final String getString(int resId);
-// final String getString(int resId, Object... formatArgs);
-// final String getTag();
-// final Fragment getTargetFragment();
-// final int getTargetRequestCode();
-// final CharSequence getText(int resId);
-// boolean getUserVisibleHint();
-// void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo);
-// void registerForContextMenu(View view);
-// void setHasOptionsMenu(boolean hasMenu);
-// void setRetainInstance(boolean retain);
-// void setTargetFragment(Fragment fragment, int requestCode);
-// void startActivity(Intent intent);
-// void startActivityForResult(Intent intent, int requestCode);
-// void unregisterForContextMenu(View view);
+void unregisterForContextMenu(View view);
+//Prevents a context menu to be shown for the given view.
 }
 
 class FragmentManager {
-//abstract void addOnBackStackChangedListener(FragmentManager.OnBackStackChangedListener listener);
+abstract void addOnBackStackChangedListener(FragmentManager.OnBackStackChangedListener listener);
 //Add a new listener for changes to the fragment back stack.
 
 abstract FragmentTransaction beginTransaction();
 //Start a series of edit operations on the Fragments associated with this FragmentManager.
 
-//abstract void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args);
+abstract void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the FragmentManager's state into the given stream.
 
-//static void enableDebugLogging(boolean enabled);
+static void enableDebugLogging(boolean enabled);
 //Control whether the framework's internal fragment manager debugging logs are turned on.
 
 abstract boolean executePendingTransactions();
 //After a FragmentTransaction is committed with FragmentTransaction.commit();, it is scheduled to be executed asynchronously on the process's main thread.
 
-//abstract Fragment findFragmentById(int id);
+abstract Fragment findFragmentById(int id);
 //Finds a fragment that was identified by the given id either when inflated from XML or as the container ID when added in a transaction.
 
 abstract Fragment findFragmentByTag(String tag);
 //Finds a fragment that was identified by the given tag either when inflated from XML or as supplied when added in a transaction.
 
-//abstract FragmentManager.BackStackEntry getBackStackEntryAt(int index);
+abstract FragmentManager.BackStackEntry getBackStackEntryAt(int index);
 //Return the BackStackEntry at index index in the back stack; entries start index 0 being the bottom of the stack.
 
-//abstract int getBackStackEntryCount();
+abstract int getBackStackEntryCount();
 //Return the number of entries currently in the back stack.
 
 abstract Fragment getFragment(Bundle bundle, String key);
@@ -753,19 +1575,19 @@ abstract void popBackStack(String name, int flags);
 abstract void popBackStack(int id, int flags);
 //Pop all back stack states up to the one with the given identifier.
 
-//abstract boolean popBackStackImmediate(int id, int flags);
+abstract boolean popBackStackImmediate(int id, int flags);
 //Like popBackStack(int, int);, but performs the operation immediately inside of the call.
 
-//abstract boolean popBackStackImmediate(String name, int flags);
+abstract boolean popBackStackImmediate(String name, int flags);
 //Like popBackStack(String, int);, but performs the operation immediately inside of the call.
 
-//abstract boolean popBackStackImmediate();
+abstract boolean popBackStackImmediate();
 //Like popBackStack();, but performs the operation immediately inside of the call.
 
 abstract void putFragment(Bundle bundle, String key, Fragment fragment);
 //Put a reference to a fragment in a Bundle.
 
-//abstract void removeOnBackStackChangedListener(FragmentManager.OnBackStackChangedListener listener);
+abstract void removeOnBackStackChangedListener(FragmentManager.OnBackStackChangedListener listener);
 //Remove a listener that was previously added with addOnBackStackChangedListener(OnBackStackChangedListener);.
 
 abstract Fragment.SavedState saveFragmentInstanceState(Fragment f);
@@ -854,44 +1676,70 @@ class IntentService{
         protected void onHandleIntent(@Source(FlowPermission.INTENT) Intent arg0);
 }
 
-class ListActivity{
-        ListActivity();
-        protected void onListItemClick(ListView l, View v, int position, long id);
-        void setListAdapter(ListAdapter adapter);
-        ListView getListView();
-        ListAdapter getListAdapter();
+class ListActivity {
+
+ListAdapter getListAdapter();
+//Get the ListAdapter associated with this activity's ListView.
+
+ListView getListView();
+//Get the activity's list view widget.
+
+long getSelectedItemId();
+//Get the cursor row ID of the currently selected list item.
+
+int getSelectedItemPosition();
+//Get the position of the currently selected list item.
+
+void onContentChanged();
+//Updates the screen state (current list and other views); when the content changes.
+
+void setListAdapter(ListAdapter adapter);
+//Provide the cursor for the list view.
+
+void setSelection(int position);
+//Set the currently selected list item to the specified position with the adapter's data
+
+//Protected Methods
+void onDestroy();
+//Perform any final cleanup before an activity is destroyed.
+
+void onListItemClick(ListView l, View v, int position, long id);
+//This method will be called when an item in the list is selected.
+
+void onRestoreInstanceState(Bundle state);
+//Ensures the list view has been created before Activity restores all of the view states.
+
+    
 }
 
 class ListFragment {
-//CSH: in spreadsheet, not found in API
-//ensureList
     
-
-//ListAdapter getListAdapter();
+    
+ListAdapter getListAdapter();
 //Get the ListAdapter associated with this activity's ListView.
 
-//ListView getListView();
+ListView getListView();
 //Get the activity's list view widget.
 
-//long getSelectedItemId();
+long getSelectedItemId();
 //Get the cursor row ID of the currently selected list item.
 
-//int getSelectedItemPosition();
+int getSelectedItemPosition();
 //Get the position of the currently selected list item.
 
-//View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 //Provide default implementation to return a simple list view.
 
-//void onDestroyView();
+void onDestroyView();
 //Detach from list view.
 
-//void onListItemClick(ListView l, View v, int position, long id);
+void onListItemClick(ListView l, View v, int position, long id);
 //This method will be called when an item in the list is selected.
 
-//void onViewCreated(View view, Bundle savedInstanceState);
+void onViewCreated(View view, Bundle savedInstanceState);
 //Attach to list view once the view hierarchy has been created.
 
-//void setEmptyText(CharSequence text);
+void setEmptyText(CharSequence text);
 //The default content for a ListFragment has a TextView that can be shown when the list is empty.
 
 void setListAdapter(ListAdapter adapter);
@@ -900,31 +1748,120 @@ void setListAdapter(ListAdapter adapter);
 void setListShown(boolean shown);
 //Control whether the list is being displayed.
 
-//void setListShownNoAnimation(boolean shown);
+void setListShownNoAnimation(boolean shown);
 //Like setListShown(boolean);, but no animation is used when transitioning from the previous state.
 
-//void setSelection(int position);
+void setSelection(int position);
 //Set the currently selected list item to the specified position with the adapter's data
+
+
 }
 
-class Notification{
-    Notification();
-            Notification(int icon, @Sink(DISPLAY) CharSequence tickerText, long when);
-            void setLatestEventInfo(Context context, @Sink(DISPLAY) CharSequence contentTitle, @Sink(DISPLAY) CharSequence contentText, PendingIntent contentIntent);
+class LoaderManager {
+    
+abstract void destroyLoader(int id);
+//Stops and removes the loader with the given ID.
+
+abstract void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+//Print the LoaderManager's state into the given stream.
+
+static void enableDebugLogging(boolean enabled);
+//Control whether the framework's internal loader manager debugging logs are turned on.
+
+abstract <D> Loader<D> getLoader(int id);
+//Return the Loader with the given id or null if no matching Loader is found.
+
+abstract <D> Loader<D> initLoader(int id, Bundle args, LoaderCallbacks<D> callback);
+//Ensures a loader is initialized and active.
+
+abstract <D> Loader<D> restartLoader(int id, Bundle args, LoaderCallbacks<D> callback);
+//Starts a new or restarts an existing Loader in this manager, registers the callbacks to it, and (if the activity/fragment is currently started); starts loading it.
+
+
+
 }
 
+class Notification {
+    
+Notification clone();
+//Creates and returns a copy of this Object.
 
-class NotificationManager{
-            void cancel(int id);
-            void notify(int id, @Sink(DISPLAY) Notification notification);
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+void setLatestEventInfo(Context context, @Sink(DISPLAY) CharSequence contentTitle, @Sink(DISPLAY) CharSequence contentText, PendingIntent contentIntent);
+//This method was deprecated in API level 11. Use Notification.Builder instead.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel parcel, int flags);
+//Flatten this notification from a parcel.
+
+
+
+}
+
+class Notification$BigPictureStyle {
+    
+    
+Notification.BigPictureStyle bigLargeIcon(@Sink(DISPLAY) Bitmap b);
+//Override the large icon when the big notification is shown.
+
+Notification.BigPictureStyle bigPicture(@Sink(DISPLAY) Bitmap b);
+//Provide the bitmap to be used as the payload for the BigPicture notification.
+
+Notification build();
+
+Notification.BigPictureStyle setBigContentTitle(@Sink(DISPLAY) CharSequence title);
+//Overrides ContentTitle in the big form of the template.
+
+Notification.BigPictureStyle setSummaryText(@Sink(DISPLAY) CharSequence cs);
+//Set the first line of text after the detail section in the big form of the template.
+
+
+
+}
+
+class Notification$BigTextStyle {
+    
+Notification.BigTextStyle bigText(@Sink(DISPLAY) CharSequence cs);
+//Provide the longer text to be displayed in the big form of the template in place of the content text.
+
+Notification build();
+
+Notification.BigTextStyle setBigContentTitle(@Sink(DISPLAY) CharSequence title);
+//Overrides ContentTitle in the big form of the template.
+
+Notification.BigTextStyle setSummaryText(@Sink(DISPLAY) CharSequence cs);
+//Set the first line of text after the detail section in the big form of the template.
+
+
+
+}
+
+class Notification$InboxStyle {
+    
+Notification.InboxStyle addLine(@Sink(DISPLAY) CharSequence cs);
+//Append a line to the digest section of the Inbox notification.
+
+Notification build();
+
+Notification.InboxStyle setBigContentTitle(@Sink(DISPLAY) CharSequence title);
+//Overrides ContentTitle in the big form of the template.
+
+Notification.InboxStyle setSummaryText(@Sink(DISPLAY) CharSequence cs);
+//Set the first line of text after the detail section in the big form of the template.
+
+
+
+
+
 }
 
 
 class Notification$Builder {
-
-        Builder(Context context);
-
-Notification.Builder addAction(@Sink(FlowPermission.DISPLAY) int icon, @Sink(FlowPermission.DISPLAY) CharSequence title, PendingIntent intent);
+Notification.Builder addAction(@Sink(DISPLAY) int icon, @Sink(DISPLAY) CharSequence title, PendingIntent intent);
 //Add an action to this notification.
 
 Notification build();
@@ -936,19 +1873,19 @@ Notification getNotification();
 Notification.Builder setAutoCancel(boolean autoCancel);
 //Make this notification automatically dismissed when the user touches it.
 
-Notification.Builder setContent(@Sink(FlowPermission.DISPLAY) RemoteViews views);
+Notification.Builder setContent(@Sink(DISPLAY) RemoteViews views);
 //Supply a custom RemoteViews to use instead of the platform template.
 
-Notification.Builder setContentInfo(@Sink(FlowPermission.DISPLAY) CharSequence info);
+Notification.Builder setContentInfo(@Sink(DISPLAY) CharSequence info);
 //A small piece of additional information pertaining to this notification.
 
 Notification.Builder setContentIntent(PendingIntent intent);
 //Supply a PendingIntent to be sent when the notification is clicked.
 
-Notification.Builder setContentText(@Sink(FlowPermission.DISPLAY) CharSequence text);
+Notification.Builder setContentText(@Sink(DISPLAY) CharSequence text);
 //Set the second line of text in the platform notification template.
 
-Notification.Builder setContentTitle(@Sink(FlowPermission.DISPLAY) CharSequence title);
+Notification.Builder setContentTitle(@Sink(DISPLAY) CharSequence title);
 //Set the first line of text in the platform notification template.
 
 Notification.Builder setDefaults(int defaults);
@@ -960,13 +1897,13 @@ Notification.Builder setDeleteIntent(PendingIntent intent);
 Notification.Builder setFullScreenIntent(PendingIntent intent, boolean highPriority);
 //An intent to launch instead of posting the notification to the status bar.
 
-Notification.Builder setLargeIcon(@Sink(FlowPermission.DISPLAY) Bitmap icon);
+Notification.Builder setLargeIcon(@Sink(DISPLAY) Bitmap icon);
 //Add a large icon to the notification (and the ticker on some devices);.
 
 Notification.Builder setLights(int argb, int onMs, int offMs);
 //Set the desired color for the indicator LED on the device, as well as the blink duty cycle (specified in milliseconds);.
 
-Notification.Builder setNumber(int number);
+Notification.Builder setNumber(@Sink(DISPLAY) int number);
 //Set the large number at the right-hand side of the notification.
 
 Notification.Builder setOngoing(boolean ongoing);
@@ -978,16 +1915,16 @@ Notification.Builder setOnlyAlertOnce(boolean onlyAlertOnce);
 Notification.Builder setPriority(int pri);
 //Set the priority of this notification.
 
-Notification.Builder setProgress(@Sink(FlowPermission.DISPLAY) int max, @Sink(FlowPermission.DISPLAY) int progress, boolean indeterminate);
+Notification.Builder setProgress(@Sink(DISPLAY) int max, @Sink(DISPLAY) int progress, boolean indeterminate);
 //Set the progress this notification represents.
 
-//Notification.Builder setShowWhen(boolean show);
+Notification.Builder setShowWhen(boolean show);
 //Control whether the timestamp set with setWhen is shown in the content view.
 
-Notification.Builder setSmallIcon(@Sink(FlowPermission.DISPLAY) int icon, int level);
+Notification.Builder setSmallIcon(@Sink(DISPLAY) int icon, int level);
 //A variant of setSmallIcon(int); that takes an additional level parameter for when the icon is a LevelListDrawable.
 
-Notification.Builder setSmallIcon(@Sink(FlowPermission.DISPLAY) int icon);
+Notification.Builder setSmallIcon(@Sink(DISPLAY) int icon);
 //Set the small icon resource, which will be used to represent the notification in the status bar.
 
 Notification.Builder setSound(Uri sound);
@@ -1001,13 +1938,13 @@ Notification.Builder setSound(Uri sound, int streamType);
 //Notification.Builder setStyle(Notification.Style style);
 //Add a rich notification style to be applied at build time.
 
-Notification.Builder setSubText(@Sink(FlowPermission.DISPLAY) CharSequence text);
+Notification.Builder setSubText(@Sink(DISPLAY) CharSequence text);
 //Set the third line of text in the platform notification template.
 
-Notification.Builder setTicker(@Sink(FlowPermission.DISPLAY) CharSequence tickerText, @Sink(FlowPermission.DISPLAY) RemoteViews views);
+Notification.Builder setTicker(@Sink(DISPLAY) CharSequence tickerText, @Sink(DISPLAY) RemoteViews views);
 //Set the text that is displayed in the status bar when the notification first arrives, and also a RemoteViews object that may be displayed instead on some devices.
 
-Notification.Builder setTicker(@Sink(FlowPermission.DISPLAY) CharSequence tickerText);
+Notification.Builder setTicker(@Sink(DISPLAY) CharSequence tickerText);
 //Set the "ticker" text which is displayed in the status bar when the notification first arrives.
 
 Notification.Builder setUsesChronometer(boolean b);
@@ -1020,62 +1957,349 @@ Notification.Builder setWhen(long when);
 //Add a timestamp pertaining to the notification (usually the time the event occurred);.
 
 }
-class PendingIntent{
 
-    static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags);
-       static PendingIntent getActivities(Context context, int requestCode, Intent[] intents, int flags);
-            static PendingIntent getActivity(Context context, int requestCode, @Source(FlowPermission.INTENT) Intent intent, int flags);
-            static PendingIntent getBroadcast(Context context, int requestCode, @Source(FlowPermission.INTENT) Intent intent, int flags);
-        void cancel();
+class NotificationManager{
+            void cancel(int id);
+            void notify(int id, @Sink(DISPLAY) Notification notification);
+}
+
+class PendingIntent {
+    
+void cancel();
+//Cancel a currently active PendingIntent.
+
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+boolean equals(Object otherObj);
+//Comparison operator on two PendingIntent objects, such that true is returned then they both represent the same operation from the same package.
+
+static PendingIntent getActivities(Context context, int requestCode, Intent[] intents, int flags);
+//Like getActivity(Context, int, Intent, int);, but allows an array of Intents to be supplied.
+
+static PendingIntent getActivities(Context context, int requestCode, Intent[] intents, int flags, Bundle options);
+//Like getActivity(Context, int, Intent, int);, but allows an array of Intents to be supplied.
+
+static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags);
+//Retrieve a PendingIntent that will start a new activity, like calling Context.startActivity(Intent);.
+
+static PendingIntent getActivity(Context context, int requestCode, Intent intent, int flags, Bundle options);
+//Retrieve a PendingIntent that will start a new activity, like calling Context.startActivity(Intent);.
+
+static PendingIntent getBroadcast(Context context, int requestCode, Intent intent, int flags);
+//Retrieve a PendingIntent that will perform a broadcast, like calling Context.sendBroadcast();.
+
+String getCreatorPackage();
+//Return the package name of the application that created this PendingIntent, that is the identity under which you will actually be sending the Intent.
+
+int getCreatorUid();
+//Return the uid of the application that created this PendingIntent, that is the identity under which you will actually be sending the Intent.
+
+UserHandle getCreatorUserHandle();
+//Return the user handle of the application that created this PendingIntent, that is the user under which you will actually be sending the Intent.
+
+IntentSender getIntentSender();
+//Retrieve a IntentSender object that wraps the existing sender of the PendingIntent
+
+static PendingIntent getService(Context context, int requestCode, Intent intent, int flags);
+//Retrieve a PendingIntent that will start a service, like calling Context.startService();.
+
+String getTargetPackage();
+//This method was deprecated in API level 17. Renamed to getCreatorPackage();.
+
+int hashCode();
+//Returns an integer hash code for this object.
+
+static PendingIntent readPendingIntentOrNullFromParcel(Parcel in);
+//Convenience function for reading either a Messenger or null pointer from a Parcel.
+
+void send(int code);
+//Perform the operation associated with this PendingIntent.
+
+void send(Context context, int code, Intent intent, PendingIntent.OnFinished onFinished, Handler handler, String requiredPermission);
+//Perform the operation associated with this PendingIntent, allowing the caller to specify information about the Intent to use and be notified when the send has completed.
+
+void send(int code, PendingIntent.OnFinished onFinished, Handler handler);
+//Perform the operation associated with this PendingIntent, allowing the caller to be notified when the send has completed.
+
+void send(Context context, int code, Intent intent, PendingIntent.OnFinished onFinished, Handler handler);
+//Perform the operation associated with this PendingIntent, allowing the caller to specify information about the Intent to use and be notified when the send has completed.
+
+void send();
+//Perform the operation associated with this PendingIntent.
+
+void send(Context context, int code, Intent intent);
+//Perform the operation associated with this PendingIntent, allowing the caller to specify information about the Intent to use.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+static void writePendingIntentOrNullToParcel(@Sink(PARCEL) PendingIntent sender, Parcel out);
+//Convenience function for writing either a PendingIntent or null pointer to a Parcel.
+
+void writeToParcel(Parcel out, int flags);
+//Flatten this object in to a Parcel.
+
 }
 
 class ProgressDialog {
-ProgressDialog(Context context);
-static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message);
-static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message, boolean indeterminate, boolean cancelable);
-static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message, boolean indeterminate, boolean cancelable, DialogInterface.OnCancelListener cancelListener);
-static ProgressDialog show(Context context, @Sink(FlowPermission.DISPLAY) CharSequence title, @Sink(FlowPermission.DISPLAY) CharSequence message, boolean indeterminate);
-void setMessage(@Sink(FlowPermission.DISPLAY) CharSequence message);
-void setProgress(@Sink(FlowPermission.DISPLAY) int value);
-void setMax(@Sink(FlowPermission.DISPLAY) int max);
+
+int getMax();
+
+int getProgress();
+
+int getSecondaryProgress();
+
+void incrementProgressBy(@Sink(DISPLAY) int diff);
+
+void incrementSecondaryProgressBy(@Sink(DISPLAY) int diff);
+
+boolean isIndeterminate();
+
+void onStart();
+//Called when the dialog is starting.
+
+void setIndeterminate(@Sink(DISPLAY) boolean indeterminate);
+
+void setIndeterminateDrawable(@Sink(DISPLAY) Drawable d);
+
+void setMax(@Sink(DISPLAY) int max);
+
+void setMessage(@Sink(DISPLAY) CharSequence message);
+
+void setProgress(@Sink(DISPLAY) int value);
+
+void setProgressDrawable(@Sink(DISPLAY) Drawable d);
+
+void setProgressNumberFormat(String format);
+//Change the format of the small text showing current and maximum units of progress.
+
+void setProgressPercentFormat(NumberFormat format);
+//Change the format of the small text showing the percentage of progress.
+
 void setProgressStyle(int style);
 
+void setSecondaryProgress(@Sink(DISPLAY) int secondaryProgress);
 
-// UNUSED AND UNANNOTATED
-// int getMax();
-// int getProgress();
-// int getSecondaryProgress();
-// void incrementProgressBy(int diff);
-// void incrementSecondaryProgressBy(int diff);
-// boolean isIndeterminate();
-// void onStart();
-// Called when the dialog is starting.
-// void setIndeterminate(boolean indeterminate);
-// void setIndeterminateDrawable(Drawable d);
-// void setProgressDrawable(Drawable d);
-// void setProgressNumberFormat(String format);
-// Change the format of the small text showing current and maximum units of progress.
-// void setProgressPercentFormat(NumberFormat format);
-// Change the format of the small text showing the percentage of progress.
-// void setSecondaryProgress(int secondaryProgress);
+static ProgressDialog show(Context context, @Sink(DISPLAY) CharSequence title, @Sink(DISPLAY) CharSequence message);
+
+static ProgressDialog show(Context context, @Sink(DISPLAY) CharSequence title, @Sink(DISPLAY) CharSequence message, @Sink(DISPLAY) boolean indeterminate, boolean cancelable);
+
+static ProgressDialog show(Context context, @Sink(DISPLAY) CharSequence title, @Sink(DISPLAY) CharSequence message, @Sink(DISPLAY) boolean indeterminate, boolean cancelable, DialogInterface.OnCancelListener cancelListener);
+
+static ProgressDialog show(Context context, @Sink(DISPLAY) CharSequence title, @Sink(DISPLAY) CharSequence message, @Sink(DISPLAY) boolean indeterminate);
+
+//Protected Methods
+void onCreate(Bundle savedInstanceState);
+//Similar to onCreate(Bundle);, you should initialize your dialog in this method, including calling setContentView(View);.
+
+void onStop();
+//Called to tell you that you're stopping.
+
 
 }
 
-class Service{
-            IBinder onBind(Intent arg0);
-            void onStart(Intent intent, int startId);
-            Service();
-            void onDestroy();
-            void onCreate();
-            int onStartCommand(Intent intent, int flags, int startId);
-      	  void stopSelf();
-       	 Application getApplication();
+class SearchManager {
+    
+ComponentName getGlobalSearchActivity();
+//Gets the name of the global search activity.
+
+SearchableInfo getSearchableInfo(ComponentName componentName);
+//Gets information about a searchable activity.
+
+List<SearchableInfo> getSearchablesInGlobalSearch();
+//Returns a list of the searchable activities that can be included in global search.
+
+void onCancel(DialogInterface dialog);
+//This method was deprecated in API level 4. This method is an obsolete internal implementation detail. Do not use.
+
+void onDismiss(DialogInterface dialog);
+//This method was deprecated in API level 4. This method is an obsolete internal implementation detail. Do not use.
+
+void setOnCancelListener(SearchManager.OnCancelListener listener);
+//Set or clear the callback that will be invoked whenever the search UI is canceled.
+
+void setOnDismissListener(SearchManager.OnDismissListener listener);
+//Set or clear the callback that will be invoked whenever the search UI is dismissed.
+
+void startSearch(String initialQuery, boolean selectInitialQuery, ComponentName launchActivity, Bundle appSearchData, boolean globalSearch);
+//Launch search UI.
+
+void stopSearch();
+//Terminate search UI.
+
+void triggerSearch(String query, ComponentName launchActivity, Bundle appSearchData);
+//Similar to startSearch(String, boolean, ComponentName, Bundle, boolean); but actually fires off the search query after invoking the search dialog.
+
+
+
 }
 
-class TabActivity{
-            TabHost getTabHost();
-            TabActivity();
+class Service {
+    
+    
+final Application getApplication();
+//Return the application that owns this service.
+
+abstract IBinder onBind(Intent intent);
+//Return the communication channel to the service.
+
+void onConfigurationChanged(Configuration newConfig);
+//Called by the system when the device configuration changes while your component is running.
+
+void onCreate();
+//Called by the system when the service is first created.
+
+void onDestroy();
+//Called by the system to notify a Service that it is no longer used and is being removed.
+
+void onLowMemory();
+//This is called when the overall system is running low on memory, and would like actively running process to try to tighten their belt.
+
+void onRebind(Intent intent);
+//Called when new clients have connected to the service, after it had previously been notified that all had disconnected in its onUnbind(Intent);.
+
+void onStart(Intent intent, int startId);
+//This method was deprecated in API level 5. Implement onStartCommand(Intent, int, int); instead.
+
+int onStartCommand(Intent intent, int flags, int startId);
+//Called by the system every time a client explicitly starts the service by calling startService(Intent);, providing the arguments it supplied and a unique integer token representing the start request.
+
+void onTaskRemoved(Intent rootIntent);
+//This is called if the service is currently running and the user has removed a task that comes from the service's application.
+
+void onTrimMemory(int level);
+//Called when the operating system has determined that it is a good time for a process to trim unneeded memory from its process.
+
+boolean onUnbind(Intent intent);
+//Called when all clients have disconnected from a particular interface published by the service.
+
+final void startForeground(int id, Notification notification);
+//Make this service run in the foreground, supplying the ongoing notification to be shown to the user while in this state.
+
+final void stopForeground(boolean removeNotification);
+//Remove this service from foreground state, allowing it to be killed if more memory is needed.
+
+final void stopSelf();
+//Stop the service, if it was previously started.
+
+final void stopSelf(int startId);
+//Old version of stopSelfResult(int); that doesn't return a result.
+
+final boolean stopSelfResult(int startId);
+//Stop the service if the most recent time it was started was startId.
+
+//Protected Methods
+void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+//Print the Service's state into the given stream.
+
+
+
 }
 
+class TabActivity {
+    
+    
+TabHost getTabHost();
+//Returns the TabHost the activity is using to host its tabs.
+
+TabWidget getTabWidget();
+//Returns the TabWidget the activity is using to draw the actual tabs.
+
+void onContentChanged();
+//Updates the screen state (current list and other views); when the content changes.
+
+void setDefaultTab(String tag);
+//Sets the default tab that is the first tab highlighted.
+
+void setDefaultTab(int index);
+//Sets the default tab that is the first tab highlighted.
+
+//Protected Methods
+void onChildTitleChanged(Activity childActivity, CharSequence title);
+
+void onPostCreate(Bundle icicle);
+//Called when activity start-up is complete (after onStart(); and onRestoreInstanceState(Bundle); have been called);.
+
+void onRestoreInstanceState(Bundle state);
+//This method is called after onStart(); when the activity is being re-initialized from a previously saved state, given here in savedInstanceState.
+
+void onSaveInstanceState(Bundle outState);
+//Called to retrieve per-instance state from an activity before being killed so that the state can be restored in onCreate(Bundle); or onRestoreInstanceState(Bundle); (the Bundle populated by this method will be passed to both);.
+
+    
+    
+}
+
+package android.app.backup;
+
+class BackupAgentHelper {
+    
+void addHelper(String keyPrefix, BackupHelper helper);
+//Add a helper for a given data subset to the agent's configuration.
+
+void onBackup(ParcelFileDescriptor oldState, BackupDataOutput data, ParcelFileDescriptor newState);
+//Run the backup process on each of the configured handlers.
+
+void onRestore(BackupDataInput data, int appVersionCode, ParcelFileDescriptor newState);
+//Run the restore process on each of the configured handlers.
 
 
+
+}
+
+class BackupManager {
+    
+    void dataChanged();
+//Notifies the Android backup system that your application wishes to back up new changes to its data.
+
+static void dataChanged(String packageName);
+//Convenience method for callers who need to indicate that some other package needs a backup pass.
+//CSH:  This method requires that the application hold the "android.permission.BACKUP" permission if the package named in the argument does not run under the same uid as the caller.
+//BACKUP doesn't exist in the list
+
+int requestRestore(RestoreObserver observer);
+//Restore the calling application from backup.
+
+
+
+}
+
+class FileBackupHelper {
+    
+void performBackup(ParcelFileDescriptor oldState, BackupDataOutput data, ParcelFileDescriptor newState);
+//Based on oldState, determine which of the files from the application's data directory need to be backed up, write them to the data stream, and fill in newState with the state as it exists now.
+
+void restoreEntity(BackupDataInputStream data);
+//Restore one record [representing a single file] from the restore dataset.
+
+void writeNewStateDescription(ParcelFileDescriptor fd);
+//Called by BackupAgentHelper after a restore operation to write the backup state file corresponding to the data as processed by the helper.
+
+//Protected Methods
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+
+
+}
+
+class SharedPreferencesBackupHelper {
+    
+    
+void performBackup(ParcelFileDescriptor oldState, BackupDataOutput data, ParcelFileDescriptor newState);
+//Backs up the configured SharedPreferences groups.
+
+void restoreEntity(BackupDataInputStream data);
+//Restores one entity from the restore data stream to its proper shared preferences file store.
+
+void writeNewStateDescription(ParcelFileDescriptor fd);
+//Called by BackupAgentHelper after a restore operation to write the backup state file corresponding to the data as processed by the helper.
+
+//Protected Methods
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+
+
+}

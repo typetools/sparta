@@ -1,12 +1,175 @@
 package android.net;
 
-class ConnectivityManager{
-    //CSH: this is just whether it's connected or not, so no real information flow
-            NetworkInfo getNetworkInfo(int networkType);
+class ConnectivityManager {
+
+@Source(ACCESS_NETWORK_STATE) NetworkInfo getActiveNetworkInfo();
+//Returns details about the currently active data network.
+
+NetworkInfo[] getAllNetworkInfo();
+
+boolean getBackgroundDataSetting();
+//This method was deprecated in API level 14. As of ICE_CREAM_SANDWICH, availability of background data depends on several combined factors, and this method will always return true. Instead, when background data is unavailable, getActiveNetworkInfo(); will now appear disconnected.
+
+NetworkInfo getNetworkInfo(int networkType);
+
+int getNetworkPreference();
+
+boolean isActiveNetworkMetered();
+//Returns if the currently active data network is metered.
+
+static boolean isNetworkTypeValid(int networkType);
+
+boolean requestRouteToHost(@Sink(CHANGE_NETWORK_STATE) int networkType, @Sink(CHANGE_NETWORK_STATE) int hostAddress);
+//Ensure that a network route exists to deliver traffic to the specified host via the specified network interface.
+
+void setNetworkPreference(int preference);
+
+int startUsingNetworkFeature(@Sink(CHANGE_NETWORK_STATE) int networkType, @Sink(CHANGE_NETWORK_STATE) String feature);
+//Tells the underlying networking system that the caller wants to begin using the named feature.
+
+int stopUsingNetworkFeature(@Sink(CHANGE_NETWORK_STATE) int networkType, @Sink(CHANGE_NETWORK_STATE) String feature);
+//Tells the underlying networking system that the caller is finished using the named feature.
+
 }
 
-class NetworkInfo{
-            boolean isConnected();
+class NetworkInfo {
+
+
+NetworkInfo.DetailedState getDetailedState();
+//Reports the current fine-grained state of the network.
+
+String getExtraInfo();
+//Report the extra information about the network state, if any was provided by the lower networking layers., if one is available.
+
+String getReason();
+//Report the reason an attempt to establish connectivity failed, if one is available.
+
+NetworkInfo.State getState();
+//Reports the current coarse-grained state of the network.
+
+int getSubtype();
+//Return a network-type-specific integer describing the subtype of the network.
+
+String getSubtypeName();
+//Return a human-readable name describing the subtype of the network.
+
+int getType();
+//Reports the type of network to which the info in this NetworkInfo pertains.
+
+String getTypeName();
+//Return a human-readable name describe the type of the network, for example "WIFI" or "MOBILE".
+
+boolean isAvailable();
+//Indicates whether network connectivity is possible.
+
+boolean isConnected();
+//Indicates whether network connectivity exists and it is possible to establish connections and pass data.
+
+boolean isConnectedOrConnecting();
+//Indicates whether network connectivity exists or is in the process of being established.
+
+boolean isFailover();
+//Indicates whether the current attempt to connect to the network resulted from the ConnectivityManager trying to fail over to this network following a disconnect from another network.
+
+boolean isRoaming();
+//Indicates whether the device is currently roaming on this network.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+}
+
+class NetworkInfo$State {
+    
+static NetworkInfo.State valueOf(String name);
+
+final static State[] values();
+
+
+}
+
+class TrafficStats {
+    
+static void clearThreadStatsTag();
+
+static long getMobileRxBytes();
+//Get the total number of bytes received through the mobile interface.
+
+static long getMobileRxPackets();
+//Get the total number of packets received through the mobile interface.
+
+static long getMobileTxBytes();
+//Get the total number of bytes transmitted through the mobile interface.
+
+static long getMobileTxPackets();
+//Get the total number of packets transmitted through the mobile interface.
+
+static int getThreadStatsTag();
+//Get the active tag used when accounting Socket traffic originating from the current thread.
+
+static long getTotalRxBytes();
+//Get the total number of bytes received through all network interfaces.
+
+static long getTotalRxPackets();
+//Get the total number of packets received through all network interfaces.
+
+static long getTotalTxBytes();
+//Get the total number of bytes sent through all network interfaces.
+
+static long getTotalTxPackets();
+//Get the total number of packets sent through all network interfaces.
+
+static long getUidRxBytes(int uid);
+//Get the number of bytes received through the network for this UID.
+
+static long getUidRxPackets(int uid);
+//Get the number of packets (TCP segments + UDP); received through the network for this UID.
+
+static long getUidTcpRxBytes(int uid);
+//Get the number of TCP payload bytes received for this UID.
+
+static long getUidTcpRxSegments(int uid);
+//Get the number of TCP segments received for this UID.
+
+static long getUidTcpTxBytes(int uid);
+//Get the number of TCP payload bytes sent for this UID.
+
+static long getUidTcpTxSegments(int uid);
+//Get the number of TCP segments sent for this UID.
+
+static long getUidTxBytes(int uid);
+//Get the number of bytes sent through the network for this UID.
+
+static long getUidTxPackets(int uid);
+//Get the number of packets (TCP segments + UDP); sent through the network for this UID.
+
+static long getUidUdpRxBytes(int uid);
+//Get the number of UDP payload bytes received for this UID.
+
+static long getUidUdpRxPackets(int uid);
+//Get the number of UDP packets received for this UID.
+
+static long getUidUdpTxBytes(int uid);
+//Get the number of UDP payload bytes sent for this UID.
+
+static long getUidUdpTxPackets(int uid);
+//Get the number of UDP packets sent for this UID.
+
+static void incrementOperationCount(int tag, int operationCount);
+//Increment count of network operations performed under the given accounting tag.
+
+static void incrementOperationCount(int operationCount);
+//Increment count of network operations performed under the accounting tag currently active on the calling thread.
+
+static void setThreadStatsTag(int tag);
+//Set active tag to use when accounting Socket traffic originating from the current thread.
+
+static void tagSocket(Socket socket);
+//Tag the given Socket with any statistics parameters active for the current thread.
+
+static void untagSocket(Socket socket);
+//Remove any statistics parameters from the given Socket.
+
 }
 
 class Uri {
@@ -15,10 +178,10 @@ class Uri {
 abstract Uri.Builder buildUpon();
 //Constructs a new builder, copying the attributes from this Uri.
 
-//int compareTo(Uri other);
+int compareTo(Uri other);
 //Compares the string representation of this Uri with that of another.
 
-//static String decode(String s);
+static String decode(String s);
 //Decodes '%'-escaped octets in the given string using the UTF-8 scheme.
 
 static String encode(String s, String allow);
@@ -30,94 +193,94 @@ static String encode(String s);
 boolean equals(Object o);
 //Compares this Uri to another object for equality.
 
-static Uri fromFile(@Source({FlowPermission.FILESYSTEM, FlowPermission.READ_EXTERNAL_STORAGE}) File file);
+static Uri fromFile(@Source({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) File file);
 //Creates a Uri from a file.
 
 static Uri fromParts(String scheme, String ssp, String fragment);
 //Creates an opaque Uri from the given components.
 
-//abstract String getAuthority();
+abstract String getAuthority();
 //Gets the decoded authority part of this URI.
 
-//boolean getBooleanQueryParameter(String key, boolean defaultValue);
+boolean getBooleanQueryParameter(String key, boolean defaultValue);
 //Searches the query string for the first value with the given key and interprets it as a boolean value.
 
-//abstract String getEncodedAuthority();
+abstract String getEncodedAuthority();
 //Gets the encoded authority part of this URI.
 
-//abstract String getEncodedFragment();
+abstract String getEncodedFragment();
 //Gets the encoded fragment part of this URI, everything after the '#'.
 
-//abstract String getEncodedPath();
+abstract String getEncodedPath();
 //Gets the encoded path.
 
-//abstract String getEncodedQuery();
+abstract String getEncodedQuery();
 //Gets the encoded query component from this URI.
 
-//abstract String getEncodedSchemeSpecificPart();
+abstract String getEncodedSchemeSpecificPart();
 //Gets the scheme-specific part of this URI, i.e.
 
-//abstract String getEncodedUserInfo();
+abstract String getEncodedUserInfo();
 //Gets the encoded user information from the authority.
 
-//abstract String getFragment();
+abstract String getFragment();
 //Gets the decoded fragment part of this URI, everything after the '#'.
 
-//abstract String getHost();
+abstract String getHost();
 //Gets the encoded host from the authority for this URI.
 
 abstract String getLastPathSegment();
 //Gets the decoded last segment in the path.
-@PolyFlowReceiver
+
 abstract String getPath();
 //Gets the decoded path.
 
-@PolySource @PolySink List<@PolySource @PolySink String> getPathSegments() @PolySource @PolySink;
+abstract List<String> getPathSegments();
 //Gets the decoded path segments.
 
-//abstract int getPort();
+abstract int getPort();
 //Gets the port from the authority for this URI.
 
-//abstract String getQuery();
+abstract String getQuery();
 //Gets the decoded query component from this URI.
 
 String getQueryParameter(String key);
 //Searches the query string for the first value with the given key.
 
-//Set<String> getQueryParameterNames();
+Set<String> getQueryParameterNames();
 //Returns a set of the unique names of all query parameters.
 
-//List<String> getQueryParameters(String key);
+List<String> getQueryParameters(String key);
 //Searches the query string for parameter values with the given key.
 
 abstract String getScheme();
 //Gets the scheme of this URI.
 
-//abstract String getSchemeSpecificPart();
+abstract String getSchemeSpecificPart();
 //Gets the scheme-specific part of this URI, i.e.
 
-//abstract String getUserInfo();
+abstract String getUserInfo();
 //Gets the decoded user information from the authority.
 
-//int hashCode();
+int hashCode();
 //Hashes the encoded string represention of this Uri consistently with equals(Object);.
 
-//boolean isAbsolute();
+boolean isAbsolute();
 //Returns true if this URI is absolute, i.e.
 
-//abstract boolean isHierarchical();
+abstract boolean isHierarchical();
 //Returns true if this URI is hierarchical like "http://google.com".
 
-//boolean isOpaque();
+boolean isOpaque();
 //Returns true if this URI is opaque like "mailto:nobody@google.com".
 
-//abstract boolean isRelative();
+abstract boolean isRelative();
 //Returns true if this URI is relative, i.e.
 
-//Uri normalizeScheme();
+Uri normalizeScheme();
 //Return an equivalent URI with a lowercase scheme component.
 
-static @PolyFlow Uri parse(String uriString);
+static Uri parse(String uriString);
 //Creates a Uri which parses the given encoded URI string.
 
 abstract String toString();
@@ -129,4 +292,198 @@ static Uri withAppendedPath(Uri baseUri, String pathSegment);
 static void writeToParcel(Parcel out, Uri uri);
 //Writes a Uri to a Parcel.
 
+}
+
+package android.net.rtp;
+
+class AudioStream {
+//CSH: using this class requires INTERNET permission
+    
+AudioCodec getCodec() @Source(INTERNET);
+//Returns the AudioCodec, or null if it is not set.
+
+int getDtmfType() @Source(INTERNET);
+//Returns the RTP payload type for dual-tone multi-frequency (DTMF); digits, or -1 if it is not enabled.
+
+AudioGroup getGroup() @Source(INTERNET);
+//Returns the joined AudioGroup.
+
+final boolean isBusy() @Source(INTERNET);
+//Returns true if the stream has already joined an AudioGroup.
+
+void join(AudioGroup group) @Source(INTERNET);
+//Joins an AudioGroup.
+
+void setCodec(AudioCodec codec) @Source(INTERNET);
+//Sets the AudioCodec.
+
+void setDtmfType(int type) @Source(INTERNET);
+//Sets the RTP payload type for dual-tone multi-frequency (DTMF); digits.
+
+
+
+}
+
+package android.net.sip;
+
+class SipAudioCall {
+    //CSH:  Note: Using this class require the INTERNET and USE_SIP permissions. In addition, startAudio() requires the RECORD_AUDIO, ACCESS_WIFI_STATE, and WAKE_LOCK permissions; and setSpeakerMode() requires the MODIFY_AUDIO_SETTINGS permission.
+    
+    SipAudioCall(Context arg0, SipProfile arg1);
+    void setListener(Listener arg0);
+    void setListener(Listener arg0, boolean arg1);
+    @Source(USE_SIP) boolean isInCall();
+    @Source(USE_SIP) boolean isOnHold();
+    void close();
+    @Source(USE_SIP) SipProfile getLocalProfile();
+    @Source(USE_SIP) SipProfile getPeerProfile();
+    @Source(USE_SIP) int getState();
+    void attachCall(SipSession arg0, String arg1) throws SipException;
+    void makeCall(SipProfile arg0, SipSession arg1, int arg2) throws SipException;
+    void endCall() throws SipException;
+    void holdCall(int arg0) throws SipException;
+    void answerCall(int arg0) throws SipException;
+    void continueCall(int arg0) throws SipException;
+    void toggleMute();
+    @Source(USE_SIP) boolean isMuted();
+    void setSpeakerMode(@Sink(SET_AUDIO_SETTINGS) boolean arg0);
+    void sendDtmf(@SINK({USE_SIP, INTERNET}) int arg0);
+    void sendDtmf(@SINK({USE_SIP, INTERNET}) int arg0, @SINK({USE_SIP, INTERNET}) Message arg1);
+    void startAudio() @Source({RECORD_AUDIO, ACCESS_WIFI_STATE, WAKE_LOCK, USE_SIP, INTERNET});
+}
+class SipAudioCall$Listener {
+    Listener();
+    void onReadyToCall(@Source(USE_SIP) SipAudioCall arg0);
+    void onCalling(@Source(USE_SIP) SipAudioCall arg0);
+    void onRinging(@Source(USE_SIP) SipAudioCall arg0, SipProfile arg1);
+    void onRingingBack(@Source(USE_SIP) SipAudioCall arg0);
+    void onCallEstablished(@Source(USE_SIP) SipAudioCall arg0);
+    void onCallEnded(@Source(USE_SIP) SipAudioCall arg0);
+    void onCallBusy(@Source(USE_SIP) SipAudioCall arg0);
+    void onCallHeld(@Source(USE_SIP) SipAudioCall arg0);
+    void onError(@Source(USE_SIP) SipAudioCall arg0, int arg1, String arg2);
+    void onChanged(@Source(USE_SIP) SipAudioCall arg0);
+}
+
+class SipErrorCode {
+    final int NO_ERROR;
+    final int SOCKET_ERROR;
+    final int SERVER_ERROR;
+    final int TRANSACTION_TERMINTED;
+    final int CLIENT_ERROR;
+    final int TIME_OUT;
+    final int INVALID_REMOTE_URI;
+    final int PEER_NOT_REACHABLE;
+    final int INVALID_CREDENTIALS;
+    final int IN_PROGRESS;
+    final int DATA_CONNECTION_LOST;
+    final int CROSS_DOMAIN_AUTHENTICATION;
+    final int SERVER_UNREACHABLE;
+    static String toString(int arg0);
+}
+
+class SipException extends Exception {
+    SipException();
+    SipException(String arg0);
+    SipException(String arg0, Throwable arg1);
+}
+
+class SipManager {
+    //CSH:  Your application must also request the INTERNET and USE_SIP permissions.
+    final int INCOMING_CALL_RESULT_CODE;
+    final String EXTRA_CALL_ID;
+    final String EXTRA_OFFER_SD;
+    static SipManager newInstance(Context arg0);
+    static boolean isApiSupported(Context arg0);
+    static boolean isVoipSupported(Context arg0);
+    static boolean isSipWifiOnly(Context arg0);
+    void open(SipProfile arg0) throws SipException;
+    void open(SipProfile arg0, PendingIntent arg1, SipRegistrationListener arg2) throws SipException;
+    void setRegistrationListener(String arg0, SipRegistrationListener arg1) throws SipException;
+    void close(String arg0) throws SipException;
+    boolean isOpened(String arg0) throws SipException;
+    boolean isRegistered(String arg0) throws SipException;
+    @Source(USE_SIP) SipAudioCall makeAudioCall(@Sink({USE_SIP, INTERNET}) SipProfile arg0, @Sink({USE_SIP, INTERNET}) SipProfile arg1, @Sink({USE_SIP, INTERNET}) Listener arg2, @Sink({USE_SIP, INTERNET}) int arg3) throws SipException;
+    @Source(USE_SIP) SipAudioCall makeAudioCall(@Sink({USE_SIP, INTERNET}) String arg0, @Sink({USE_SIP, INTERNET}) String arg1, @Sink({USE_SIP, INTERNET}) Listener arg2, @Sink({USE_SIP, INTERNET}) int arg3) throws SipException;
+    @Source(USE_SIP) SipAudioCall takeAudioCall(@Sink({USE_SIP, INTERNET}) Intent arg0, @Sink({USE_SIP, INTERNET}) Listener arg1) throws SipException;
+    static boolean isIncomingCallIntent(Intent arg0);
+    static @Source(USE_SIP) String getCallId(Intent arg0);
+    static String getOfferSessionDescription(Intent arg0);
+    void register(SipProfile arg0, int arg1, SipRegistrationListener arg2) throws SipException;
+    void unregister(SipProfile arg0, SipRegistrationListener arg1) throws SipException;
+    @Source(USE_SIP) SipSession getSessionFor(Intent arg0) throws SipException;
+    @Source(USE_SIP) SipSession createSipSession(SipProfile arg0, Listener arg1) throws SipException;
+}
+
+class SipProfile implements Parcelable, Serializable, Cloneable {
+    final Creator<SipProfile> CREATOR;
+    void writeToParcel(Parcel arg0, int arg1);
+    int describeContents();
+    String getUriString();
+    String getDisplayName();
+    String getUserName();
+    String getAuthUserName();
+    String getPassword();
+    String getSipDomain();
+    int getPort();
+    String getProtocol();
+    String getProxyAddress();
+    String getProfileName();
+    boolean getSendKeepAlive();
+    boolean getAutoRegistration();
+}
+class SipProfile$Builder {
+    Builder(SipProfile arg0);
+    Builder(String arg0) throws ParseException;
+    Builder(String arg0, String arg1) throws ParseException;
+    Builder setAuthUserName(String arg0);
+    Builder setProfileName(String arg0);
+    Builder setPassword(String arg0);
+    Builder setPort(int arg0) throws IllegalArgumentException;
+    Builder setProtocol(String arg0) throws IllegalArgumentException;
+    Builder setOutboundProxy(String arg0);
+    Builder setDisplayName(String arg0);
+    Builder setSendKeepAlive(boolean arg0);
+    Builder setAutoRegistration(boolean arg0);
+    SipProfile build();
+}
+
+interface SipRegistrationListener {
+    void onRegistering(String arg0);
+    void onRegistrationDone(String arg0, long arg1);
+    void onRegistrationFailed(String arg0, int arg1, String arg2);
+}
+
+class SipSession {
+    String getLocalIp();
+    SipProfile getLocalProfile();
+    SipProfile getPeerProfile();
+    int getState();
+    boolean isInCall();
+    String getCallId();
+    void setListener(Listener arg0);
+    void register(int arg0);
+    void unregister();
+    void makeCall(SipProfile arg0, String arg1, int arg2);
+    void answerCall(String arg0, int arg1);
+    void endCall();
+    void changeCall(String arg0, int arg1);
+}
+class SipSession$Listener {
+    Listener();
+    void onCalling(@Source(USE_SIP) SipSession arg0);
+    void onRinging(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) SipProfile arg1, @Source(USE_SIP) String arg2);
+    void onRingingBack(@Source(USE_SIP) SipSession arg0);
+    void onCallEstablished(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) String arg1);
+    void onCallEnded(@Source(USE_SIP) SipSession arg0);
+    void onCallBusy(@Source(USE_SIP) SipSession arg0);
+    void onError(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) int arg1, @Source(USE_SIP) String arg2);
+    void onCallChangeFailed(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) int arg1, @Source(USE_SIP) String arg2);
+    void onRegistering(@Source(USE_SIP) SipSession arg0);
+    void onRegistrationDone(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) int arg1);
+    void onRegistrationFailed(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) int arg1, @Source(USE_SIP) String arg2);
+    void onRegistrationTimeout(@Source(USE_SIP) SipSession arg0);
+}
+class SipSession$State {
+    static String toString(int arg0);
 }

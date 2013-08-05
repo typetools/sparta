@@ -2,25 +2,83 @@
 package android.os;
 
 class AsyncTask {
-    @Source(FlowPermission.ANY) Result doInBackground(@Source(FlowPermission.ANY) Params... params);
-        protected void onCancelled();
-        AsyncTask<Params,Progress,Result> execute(@Source(FlowPermission.ANY) Params[] params);
-        protected void onProgressUpdate(@Source(FlowPermission.ANY) Progress[] values);
-        boolean cancel(boolean mayInterruptIfRunning);
-        protected void publishProgress(@Source(FlowPermission.ANY) Progress[] values);
-        Status getStatus();
-        protected void onPostExecute(@Source(FlowPermission.ANY) Result result);
-        protected void onPreExecute();
-        AsyncTask();
+    
+final boolean cancel(boolean mayInterruptIfRunning);
+//Attempts to cancel execution of this task.
+
+static void execute(Runnable runnable);
+//Convenience version of execute(Object); for use with a simple Runnable object.
+
+final AsyncTask<Params, Progress, Result> execute(Params... params);
+//Executes the task with the specified parameters.
+
+final AsyncTask<Params, Progress, Result> executeOnExecutor(Executor exec, Params... params);
+//Executes the task with the specified parameters.
+
+final Result get(long timeout, TimeUnit unit);
+//Waits if necessary for at most the given time for the computation to complete, and then retrieves its result.
+
+final Result get();
+//Waits if necessary for the computation to complete, and then retrieves its result.
+
+final AsyncTask.Status getStatus();
+//Returns the current status of this task.
+
+final boolean isCancelled();
+//Returns true if this task was cancelled before it completed normally.
+
+//Protected Methods
+abstract Result doInBackground(Params... params);
+//Override this method to perform a computation on a background thread.
+
+void onCancelled(Result result);
+//Runs on the UI thread after cancel(boolean); is invoked and doInBackground(Object[]); has finished.
+
+void onCancelled();
+//Applications should preferably override onCancelled(Object);.
+
+void onPostExecute(Result result);
+//Runs on the UI thread after doInBackground(Params...);.
+
+void onPreExecute();
+//Runs on the UI thread before doInBackground(Params...);.
+
+void onProgressUpdate(Progress... values);
+//Runs on the UI thread after publishProgress(Progress...); is invoked.
+
+final void publishProgress(Progress... values);
+//This method can be invoked from doInBackground(Params...); to publish updates on the UI thread while the background computation is still running.
+
+    
 }
 
 class Environment {
-    static @Source(FlowPermission.FILESYSTEM) File 
-    getExternalStoragePublicDirectory(@Sink(FlowPermission.FILESYSTEM) String type);
-	static @Source(FlowPermission.FILESYSTEM) File getExternalStorageDirectory() ;
+    
+static @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getDataDirectory();
+//Gets the Android data directory.
 
-    @Source(FlowPermission.READ_EXTERNAL_STORAGE) static String getExternalStorageState();
-                static @Source(FILESYSTEM) File getDataDirectory();
+static @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getDownloadCacheDirectory();
+//Gets the Android download/cache content directory.
+
+static @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getExternalStorageDirectory();
+//Gets the Android external storage directory.
+
+static @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getExternalStoragePublicDirectory(String type);
+//Get a top-level public external storage directory for placing files of a particular type.
+
+static String getExternalStorageState();
+//Gets the current state of the primary "external" storage device.
+
+static @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getRootDirectory();
+//Gets the Android root directory.
+
+static boolean isExternalStorageEmulated();
+//Returns whether the device has an external storage device which is emulated.
+
+static boolean isExternalStorageRemovable();
+//Returns whether the primary "external" storage device is removable.
+
+
 
 }
 
@@ -47,136 +105,431 @@ class IBinder {
     // abstract boolean pingBinder();
     // abstract boolean unlinkToDeath(IBinder.DeathRecipient recipient, int flags);
     }
-class Binder{
-            protected boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException;
-            void attachInterface(IInterface owner, String descriptor);
-            Binder();
+class Binder {
+    
+void attachInterface(IInterface owner, String descriptor);
+//Convenience method for associating a specific interface with the Binder.
+
+final static long clearCallingIdentity();
+//Reset the identity of the incoming IPC on the current thread.
+
+void dump(FileDescriptor fd, String[] args);
+//Implemented to call the more convenient version dump(FileDescriptor, PrintWriter, String[]);.
+
+void dumpAsync(FileDescriptor fd, String[] args);
+//Like dump(FileDescriptor, String[]);, but ensures the target executes asynchronously.
+
+final static void flushPendingCommands();
+//Flush any Binder commands pending in the current thread to the kernel driver.
+
+final static int getCallingPid();
+//Return the ID of the process that sent you the current transaction that is being processed.
+
+final static int getCallingUid();
+//Return the Linux uid assigned to the process that sent you the current transaction that is being processed.
+
+final static UserHandle getCallingUserHandle();
+//Return the UserHandle assigned to the process that sent you the current transaction that is being processed.
+
+String getInterfaceDescriptor();
+//Default implementation returns an empty interface name.
+
+boolean isBinderAlive();
+//Check to see if the process that the binder is in is still alive. Note that if you're calling on a local binder, this always returns true because your process is alive if you're calling it.
+
+final static void joinThreadPool();
+//Add the calling thread to the IPC thread pool.
+
+void linkToDeath(IBinder.DeathRecipient recipient, int flags);
+//Local implementation is a no-op.
+
+boolean pingBinder();
+//Default implementation always returns true -- if you got here, the object is alive.
+
+IInterface queryLocalInterface(String descriptor);
+//Use information supplied to attachInterface(); to return the associated IInterface if it matches the requested descriptor.
+
+final static void restoreCallingIdentity(long token);
+//Restore the identity of the incoming IPC on the current thread back to a previously identity that was returned by clearCallingIdentity();.
+
+final boolean transact(int code, Parcel data, Parcel reply, int flags);
+//Default implementation rewinds the parcels and calls onTransact.
+
+boolean unlinkToDeath(IBinder.DeathRecipient recipient, int flags);
+//Local implementation is a no-op.
+
+//Protected Methods
+void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter fout, String[] args);
+//Print the object's state into the given stream.
+
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+boolean onTransact(int code, Parcel data, Parcel reply, int flags);
+//Default implementation is a stub that returns false.
+
+
+
+
 }
     
-    class Bundle {
-        //Added by Carl Hartung
-        //This class will need a qualifier  parameter
-        //TODO:  Bundles are often from intents, so all of these receivers
-        //should be of type @Source({LITERAL,INTENT})
-                    Bundle();
+class Bundle {
+  void clear();
+//Removes all elements from the mapping of this Bundle.
 
-    void writeToParcel(@Source(FlowPermission.PARCEL) Parcel parcel, int flags);
-    //Writes the Bundle contents to a Parcel, typically in order for it to be passed through an IBinder connection .
-    
-    @Source(BUNDLE) String getString(String key, String defaultValue);
-    //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
-    
-    @Source(BUNDLE) String getString(String key)@Source({LITERAL,INTENT});
-    //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
-    
-    <T extends Parcelable> T getParcelable(String key);
-    //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
-    
-    @Source(BUNDLE) int getInt(String key, int defaultValue);
-    //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
-    
-    @Source(BUNDLE) int getInt(String key);
-    //Returns the value associated with the given key, or 0 if no mapping of the desired type exists for the given key .
-    
-    void putInt(String key, @Source(BUNDLE) int value);
-    //Inserts an int value into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    @PolyFlow Object get(String key);
-    //Returns the entry with the given key as an object .
-    
-    void putParcelable(String key, @Source(PARCEL) Parcelable value);
-    //Inserts a Parcelable value into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    void putBoolean(String key, @Source(BUNDLE) boolean value);
-    //Inserts a Boolean value into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    @Source(BUNDLE) long getLong(String key);
-    //Returns the value associated with the given key, or 0L if no mapping of the desired type exists for the given key .
-    
-    @Source(BUNDLE) long getLong(String key, long defaultValue);
-    //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
-    
-    void setClassLoader(ClassLoader loader);
-    //Changes the ClassLoader this Bundle uses when instantiating objects .
-    
-    void putString(String key, @Source(BUNDLE) String value);
-    //Inserts a String value into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    @Source(BUNDLE) boolean getBoolean(String key);
-    //Returns the value associated with the given key, or false if no mapping of the desired type exists for the given key .
-    
-    @Source(BUNDLE) boolean getBoolean(String key, boolean defaultValue);
-    //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
-    
-    @Source(BUNDLE) double getDouble(String key);
-    //Returns the value associated with the given key, or 0.0 if no mapping of the desired type exists for the given key .
-    
-    @Source(BUNDLE) double getDouble(String key, double defaultValue);
-    //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key .
-    
-    boolean containsKey(String key);
-    //Returns true if the given key is contained in the mapping of this Bundle .
-    
-    void putDouble(String key, @Source(BUNDLE) double value);
-    //Inserts a double value into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    void putLong(String key, @Source(BUNDLE) long value);
-    //Inserts a long value into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    void putBundle(String key, @Source(BUNDLE) Bundle value);
-    //Inserts a Bundle value into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    void readFromParcel(@Source(PARCEL) Parcel parcel);
-    //Reads the Parcel contents into this Bundle, typically in order for it to be passed through an IBinder connection .
-    
-    void putAll(@Source(BUNDLE) Bundle map);
-    //Inserts all mappings from the given Bundle into this Bundle .
-    
-    //TODO: annotate getSparseParcelableArray
-    <T extends Parcelable> SparseArray<T> getSparseParcelableArray(String key);
-    //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
-    
-     Parcelable @Source(PARCEL)[] getParcelableArray(String key);
-    //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
-    
-    @Source(BUNDLE) Bundle getBundle(String key);
-    //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
-    
-    void putSparseParcelableArray(String key, SparseArray<? extends Parcelable> value);
-    //Inserts a SparceArray of Parcelable values into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    void putShort(String key, @Source(BUNDLE) short value);
-    //Inserts a short value into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    void putParcelableArray(String key, Parcelable @Source(PARCEL) [] value);
-    //Inserts an array of Parcelable values into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    void putFloat(String key, @Source(BUNDLE) float value);
-    //Inserts a float value into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    void putCharSequence(String key, @Source(BUNDLE) CharSequence value);
-    //Inserts a CharSequence value into the mapping of this Bundle, replacing any existing value for the given key .
-    
-    Set<String> keySet();
-    //Returns a Set containing the Strings used as keys in this Bundle .
-    
-    boolean isEmpty();
-    //Returns true if the mapping of this Bundle is empty, false otherwise .
-    
-    String @Source(BUNDLE) [] getStringArray(String key);
-    //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key .
-    
-    Object clone();
-    //Clones the current Bundle .
+Object clone();
+//Clones the current Bundle.
+
+boolean containsKey(String key);
+//Returns true if the given key is contained in the mapping of this Bundle.
+
+int describeContents();
+//Report the nature of this Parcelable's contents
+
+Object get(String key);
+//Returns the entry with the given key as an object.
+
+boolean getBoolean(String key);
+//Returns the value associated with the given key, or false if no mapping of the desired type exists for the given key.
+
+boolean getBoolean(String key, boolean defaultValue);
+//Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
+
+boolean[] getBooleanArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+Bundle getBundle(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+byte getByte(String key);
+//Returns the value associated with the given key, or (byte); 0 if no mapping of the desired type exists for the given key.
+
+Byte getByte(String key, byte defaultValue);
+//Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
+
+byte[] getByteArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+char getChar(String key);
+//Returns the value associated with the given key, or (char); 0 if no mapping of the desired type exists for the given key.
+
+char getChar(String key, char defaultValue);
+//Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
+
+char[] getCharArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+CharSequence getCharSequence(String key, CharSequence defaultValue);
+//Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
+
+CharSequence getCharSequence(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+CharSequence[] getCharSequenceArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+ArrayList<CharSequence> getCharSequenceArrayList(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+ClassLoader getClassLoader();
+//Return the ClassLoader currently associated with this Bundle.
+
+double getDouble(String key);
+//Returns the value associated with the given key, or 0.0 if no mapping of the desired type exists for the given key.
+
+double getDouble(String key, double defaultValue);
+//Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
+
+double[] getDoubleArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+float getFloat(String key);
+//Returns the value associated with the given key, or 0.0f if no mapping of the desired type exists for the given key.
+
+float getFloat(String key, float defaultValue);
+//Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
+
+float[] getFloatArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+int getInt(String key, int defaultValue);
+//Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
+
+int getInt(String key);
+//Returns the value associated with the given key, or 0 if no mapping of the desired type exists for the given key.
+
+int[] getIntArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+ArrayList<Integer> getIntegerArrayList(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+long getLong(String key);
+//Returns the value associated with the given key, or 0L if no mapping of the desired type exists for the given key.
+
+long getLong(String key, long defaultValue);
+//Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
+
+long[] getLongArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+<T extends Parcelable> T getParcelable(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+Parcelable[] getParcelableArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+<T extends Parcelable> ArrayList<T> getParcelableArrayList(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+Serializable getSerializable(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+short getShort(String key);
+//Returns the value associated with the given key, or (short); 0 if no mapping of the desired type exists for the given key.
+
+short getShort(String key, short defaultValue);
+//Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
+
+short[] getShortArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+<T extends Parcelable> SparseArray<T> getSparseParcelableArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+String getString(String key, String defaultValue);
+//Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
+
+String getString(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+String[] getStringArray(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+ArrayList<String> getStringArrayList(String key);
+//Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
+
+boolean hasFileDescriptors();
+//Reports whether the bundle contains any parcelled file descriptors.
+
+boolean isEmpty();
+//Returns true if the mapping of this Bundle is empty, false otherwise.
+
+Set<String> keySet();
+//Returns a Set containing the Strings used as keys in this Bundle.
+
+void putAll(Bundle map);
+//Inserts all mappings from the given Bundle into this Bundle.
+
+void putBoolean(String key, boolean value);
+//Inserts a Boolean value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putBooleanArray(String key, boolean[] value);
+//Inserts a boolean array value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putBundle(String key, Bundle value);
+//Inserts a Bundle value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putByte(String key, byte value);
+//Inserts a byte value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putByteArray(String key, byte[] value);
+//Inserts a byte array value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putChar(String key, char value);
+//Inserts a char value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putCharArray(String key, char[] value);
+//Inserts a char array value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putCharSequence(String key, CharSequence value);
+//Inserts a CharSequence value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putCharSequenceArray(String key, CharSequence[] value);
+//Inserts a CharSequence array value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putCharSequenceArrayList(String key, ArrayList<CharSequence> value);
+//Inserts an ArrayList value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putDouble(String key, double value);
+//Inserts a double value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putDoubleArray(String key, double[] value);
+//Inserts a double array value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putFloat(String key, float value);
+//Inserts a float value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putFloatArray(String key, float[] value);
+//Inserts a float array value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putInt(String key, int value);
+//Inserts an int value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putIntArray(String key, int[] value);
+//Inserts an int array value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putIntegerArrayList(String key, ArrayList<Integer> value);
+//Inserts an ArrayList value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putLong(String key, long value);
+//Inserts a long value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putLongArray(String key, long[] value);
+//Inserts a long array value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putParcelable(String key, Parcelable value);
+//Inserts a Parcelable value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putParcelableArray(String key, Parcelable[] value);
+//Inserts an array of Parcelable values into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putParcelableArrayList(String key, ArrayList<? extends Parcelable> value);
+//Inserts a List of Parcelable values into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putSerializable(String key, Serializable value);
+//Inserts a Serializable value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putShort(String key, short value);
+//Inserts a short value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putShortArray(String key, short[] value);
+//Inserts a short array value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putSparseParcelableArray(String key, SparseArray<? extends Parcelable> value);
+//Inserts a SparceArray of Parcelable values into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putString(String key, String value);
+//Inserts a String value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putStringArray(String key, String[] value);
+//Inserts a String array value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void putStringArrayList(String key, ArrayList<String> value);
+//Inserts an ArrayList value into the mapping of this Bundle, replacing any existing value for the given key.
+
+void readFromParcel(Parcel parcel);
+//Reads the Parcel contents into this Bundle, typically in order for it to be passed through an IBinder connection.
+
+void remove(String key);
+//Removes any entry with the given key from the mapping of this Bundle.
+
+void setClassLoader(ClassLoader loader);
+//Changes the ClassLoader this Bundle uses when instantiating objects.
+
+int size();
+//Returns the number of mappings contained in this Bundle.
+
+synchronized String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel parcel, int flags);
+//Writes the Bundle contents to a Parcel, typically in order for it to be passed through an IBinder connection.
 }
 
-class Message{
-            static Message obtain(Handler h, int what);
-}
+class Message {
+    
+void copyFrom(Message o);
+//Make this message like o.
 
-class Looper{
-            static Looper myLooper();
-            static void prepare();
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+Runnable getCallback();
+//Retrieve callback object that will execute when this message is handled.
+
+Bundle getData();
+//Obtains a Bundle of arbitrary data associated with this event, lazily creating it if necessary.
+
+Handler getTarget();
+//Retrieve the a Handler implementation that will receive this message.
+
+long getWhen();
+//Return the targeted delivery time of this message, in milliseconds.
+
+static Message obtain(Handler h, int what, int arg1, int arg2, Object obj);
+//Same as obtain();, but sets the values of the target, what, arg1, arg2, and obj members.
+
+static Message obtain(Handler h, int what, Object obj);
+//Same as obtain();, but sets the values of the target, what, and obj members.
+
+static Message obtain(Handler h, int what);
+//Same as obtain();, but sets the values for both target and what members on the Message.
+
+static Message obtain(Handler h);
+//Same as obtain();, but sets the value for the target member on the Message returned.
+
+static Message obtain(Handler h, Runnable callback);
+//Same as obtain(Handler);, but assigns a callback Runnable on the Message that is returned.
+
+static Message obtain();
+//Return a new Message instance from the global pool.
+
+static Message obtain(Handler h, int what, int arg1, int arg2);
+//Same as obtain();, but sets the values of the target, what, arg1, and arg2 members.
+
+static Message obtain(Message orig);
+//Same as obtain();, but copies the values of an existing message (including its target); into the new one.
+
+Bundle peekData();
+//Like getData();, but does not lazily create the Bundle.
+
+void recycle();
+//Return a Message instance to the global pool.
+
+void sendToTarget();
+//Sends this Message to the Handler specified by getTarget();.
+
+void setData(Bundle data);
+//Sets a Bundle of arbitrary data values.
+
+void setTarget(Handler target);
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel dest, int flags);
+//Flatten this object in to a Parcel.
+
+}
+class Looper {
+    
+    
+void dump(Printer pw, String prefix);
+
+static Looper getMainLooper();
+//Returns the application's main looper, which lives in the main thread of the application.
+
+Thread getThread();
+//Return the Thread associated with this Looper.
+
+static void loop();
+//Run the message queue in this thread.
+
+static Looper myLooper();
+//Return the Looper object associated with the current thread.
+
+static MessageQueue myQueue();
+//Return the MessageQueue object associated with the current thread.
+
+static void prepare();
+//Initialize the current thread as a looper.
+
+static void prepareMainLooper();
+//Initialize the current thread as a looper, marking it as an application's main looper.
+
+void quit();
+//Quits the looper.
+
+void setMessageLogging(Printer printer);
+//Control logging of messages as they are processed by this Looper.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+
+
+
 }
 
 
@@ -187,78 +540,465 @@ class FileObserver{
 }
 
 class Handler {
-       boolean sendEmptyMessageAtTime(int what, long uptimeMillis);
-    Handler(Looper looper);
-final Looper getLooper();
+    
+void dispatchMessage(Message msg);
+//Handle system messages here.
+
+final void dump(Printer pw, String prefix);
+//final Looper getLooper();
+//String getMessageName(Message message);
+//Returns a string representing the name of the specified message.
+
 void handleMessage(Message msg);
-//Subclasses must implement this to receive messages .
+//Subclasses must implement this to receive messages.
 
 final boolean hasMessages(int what, Object object);
-//Check if there are any pending posts of messages with code 'what' and whose obj is 'object' in the message queue .
+//Check if there are any pending posts of messages with code 'what' and whose obj is 'object' in the message queue.
 
 final boolean hasMessages(int what);
-//Check if there are any pending posts of messages with code 'what' in the message queue .
+//Check if there are any pending posts of messages with code 'what' in the message queue.
 
 final Message obtainMessage(int what, int arg1, int arg2);
-//Same as obtainMessage();, except that it also sets the what, arg1 and arg2 members of the returned Message .
+//Same as obtainMessage();, except that it also sets the what, arg1 and arg2 members of the returned Message.
 
 final Message obtainMessage();
-//Returns a new Message from the global message pool .
+//Returns a new Message from the global message pool.
 
 final Message obtainMessage(int what, int arg1, int arg2, Object obj);
-//Same as obtainMessage();, except that it also sets the what, obj, arg1,and arg2 values on the returned Message .
+//Same as obtainMessage();, except that it also sets the what, obj, arg1,and arg2 values on the returned Message.
 
 final Message obtainMessage(int what);
-//Same as obtainMessage();, except that it also sets the what member of the returned Message .
+//Same as obtainMessage();, except that it also sets the what member of the returned Message.
 
 final Message obtainMessage(int what, Object obj);
-//Same as obtainMessage();, except that it also sets the what and obj members of the returned Message .
+//Same as obtainMessage();, except that it also sets the what and obj members of the returned Message.
 
 final boolean post(Runnable r);
-//Causes the Runnable r to be added to the message queue .
+//Causes the Runnable r to be added to the message queue.
+
+final boolean postAtFrontOfQueue(Runnable r);
+//Posts a message to an object that implements Runnable.
 
 final boolean postAtTime(Runnable r, Object token, long uptimeMillis);
-//Causes the Runnable r to be added to the message queue, to be run at a specific time given by uptimeMillis .
+//Causes the Runnable r to be added to the message queue, to be run at a specific time given by uptimeMillis.
 
 final boolean postAtTime(Runnable r, long uptimeMillis);
-//Causes the Runnable r to be added to the message queue, to be run at a specific time given by uptimeMillis .
+//Causes the Runnable r to be added to the message queue, to be run at a specific time given by uptimeMillis.
 
 final boolean postDelayed(Runnable r, long delayMillis);
-//Causes the Runnable r to be added to the message queue, to be run after the specified amount of time elapses .
+//Causes the Runnable r to be added to the message queue, to be run after the specified amount of time elapses.
 
 final void removeCallbacks(Runnable r);
-//Remove any pending posts of Runnable r that are in the message queue .
+//Remove any pending posts of Runnable r that are in the message queue.
 
 final void removeCallbacks(Runnable r, Object token);
-//Remove any pending posts of Runnable r with Object token that are in the message queue .
+//Remove any pending posts of Runnable r with Object token that are in the message queue.
+
+final void removeCallbacksAndMessages(Object token);
+//Remove any pending posts of callbacks and sent messages whose obj is token.
 
 final void removeMessages(int what);
-//Remove any pending posts of messages with code 'what' that are in the message queue .
+//Remove any pending posts of messages with code 'what' that are in the message queue.
 
 final void removeMessages(int what, Object object);
-//Remove any pending posts of messages with code 'what' and whose obj is 'object' that are in the message queue .
+//Remove any pending posts of messages with code 'what' and whose obj is 'object' that are in the message queue.
 
 final boolean sendEmptyMessage(int what);
-//Sends a Message containing only the what value .
+//Sends a Message containing only the what value.
+
+final boolean sendEmptyMessageAtTime(int what, long uptimeMillis);
+//Sends a Message containing only the what value, to be delivered at a specific time.
 
 final boolean sendEmptyMessageDelayed(int what, long delayMillis);
-//Sends a Message containing only the what value, to be delivered after the specified amount of time elapses .
+//Sends a Message containing only the what value, to be delivered after the specified amount of time elapses.
 
 final boolean sendMessage(Message msg);
-//Pushes a message onto the end of the message queue after all pending messages before the current time .
+//Pushes a message onto the end of the message queue after all pending messages before the current time.
 
-        Handler();
-        void dispatchMessage(Message msg);
-//UNUSED AND UNANNOTATED    
-// final void dump(Printer pw, String prefix);
-// String getMessageName(Message message);
-// final boolean postAtFrontOfQueue(Runnable r);
-// final void removeCallbacksAndMessages(Object token);
-// final boolean sendEmptyMessageAtTime(int what, long uptimeMillis);
-// final boolean sendMessageAtFrontOfQueue(Message msg);
-// boolean sendMessageAtTime(Message msg, long uptimeMillis);
-// final boolean sendMessageDelayed(Message msg, long delayMillis);
-// String toString();
+final boolean sendMessageAtFrontOfQueue(Message msg);
+//Enqueue a message at the front of the message queue, to be processed on the next iteration of the message loop.
+
+boolean sendMessageAtTime(Message msg, long uptimeMillis);
+//Enqueue a message into the message queue after all pending messages before the absolute time (in milliseconds); uptimeMillis.
+
+final boolean sendMessageDelayed(Message msg, long delayMillis);
+//Enqueue a message into the message queue after all pending messages before (current time + delayMillis);.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+}
+
+
+class Messenger{
+            Messenger(Handler target);
+            IBinder getBinder();
+}
+class Message{
+    Bundle getData();
+    void sendToTarget();
+}
+
+
+
+class Parcel {
+    
+final void appendFrom(Parcel parcel, int offset, int length);
+
+final IBinder[] createBinderArray();
+
+final ArrayList<IBinder> createBinderArrayList();
+//Read and return a new ArrayList containing IBinder objects from the parcel that was written with writeBinderList(List); at the current dataPosition();.
+
+final boolean[] createBooleanArray();
+
+final byte[] createByteArray();
+//Read and return a byte[] object from the parcel.
+
+final char[] createCharArray();
+
+final double[] createDoubleArray();
+
+final float[] createFloatArray();
+
+final int[] createIntArray();
+
+final long[] createLongArray();
+
+final String[] createStringArray();
+
+final ArrayList<String> createStringArrayList();
+//Read and return a new ArrayList containing String objects from the parcel that was written with writeStringList(List); at the current dataPosition();.
+
+final <T> T[] createTypedArray(Creator<T> c);
+//Read and return a new array containing a particular object type from the parcel at the current dataPosition();.
+
+final <T> ArrayList<T> createTypedArrayList(Creator<T> c);
+//Read and return a new ArrayList containing a particular object type from the parcel that was written with writeTypedList(List); at the current dataPosition();.
+
+final int dataAvail();
+//Returns the amount of data remaining to be read from the parcel.
+
+final int dataCapacity();
+//Returns the total amount of space in the parcel.
+
+final int dataPosition();
+//Returns the current position in the parcel data.
+
+final int dataSize();
+//Returns the total amount of data contained in the parcel.
+
+final void enforceInterface(String interfaceName);
+
+final boolean hasFileDescriptors();
+//Report whether the parcel contains any marshalled file descriptors.
+
+final byte[] marshall();
+//Returns the raw bytes of the parcel.
+
+static Parcel obtain();
+//Retrieve a new Parcel object from the pool.
+
+final Object[] readArray(ClassLoader loader);
+//Read and return a new Object array from the parcel at the current dataPosition();.
+
+final ArrayList readArrayList(ClassLoader loader);
+//Read and return a new ArrayList object from the parcel at the current dataPosition();.
+
+final void readBinderArray(IBinder[] val);
+
+final void readBinderList(List<IBinder> list);
+//Read into the given List items IBinder objects that were written with writeBinderList(List); at the current dataPosition();.
+
+final void readBooleanArray(boolean[] val);
+
+final Bundle readBundle(ClassLoader loader);
+//Read and return a new Bundle object from the parcel at the current dataPosition();, using the given class loader to initialize the class loader of the Bundle for later retrieval of Parcelable objects.
+
+final Bundle readBundle();
+//Read and return a new Bundle object from the parcel at the current dataPosition();.
+
+final byte readByte();
+//Read a byte value from the parcel at the current dataPosition();.
+
+final void readByteArray(byte[] val);
+//Read a byte[] object from the parcel and copy it into the given byte array.
+
+final void readCharArray(char[] val);
+
+final double readDouble();
+//Read a double precision floating point value from the parcel at the current dataPosition();.
+
+final void readDoubleArray(double[] val);
+
+final void readException(int code, String msg);
+//Use this function for customized exception handling.
+
+final void readException();
+//Special function for reading an exception result from the header of a parcel, to be used after receiving the result of a transaction.
+
+final ParcelFileDescriptor readFileDescriptor();
+//Read a FileDescriptor from the parcel at the current dataPosition();.
+
+final float readFloat();
+//Read a floating point value from the parcel at the current dataPosition();.
+
+final void readFloatArray(float[] val);
+
+final HashMap readHashMap(ClassLoader loader);
+//Please use readBundle(ClassLoader); instead (whose data must have been written with writeBundle(Bundle);.
+
+final int readInt();
+//Read an integer value from the parcel at the current dataPosition();.
+
+final void readIntArray(int[] val);
+
+final void readList(List outVal, ClassLoader loader);
+//Read into an existing List object from the parcel at the current dataPosition();, using the given class loader to load any enclosed Parcelables.
+
+final long readLong();
+//Read a long integer value from the parcel at the current dataPosition();.
+
+final void readLongArray(long[] val);
+//final void readMap(Map outVal, ClassLoader loader);
+//Please use readBundle(ClassLoader); instead (whose data must have been written with writeBundle(Bundle);.
+
+final <T extends Parcelable> T readParcelable(ClassLoader loader);
+//Read and return a new Parcelable from the parcel.
+
+final Parcelable[] readParcelableArray(ClassLoader loader);
+//Read and return a new Parcelable array from the parcel.
+
+final Serializable readSerializable();
+//Read and return a new Serializable object from the parcel.
+
+final SparseArray readSparseArray(ClassLoader loader);
+//Read and return a new SparseArray object from the parcel at the current dataPosition();.
+
+final SparseBooleanArray readSparseBooleanArray();
+//Read and return a new SparseBooleanArray object from the parcel at the current dataPosition();.
+
+final String readString();
+//Read a string value from the parcel at the current dataPosition();.
+
+final void readStringArray(String[] val);
+
+final void readStringList(List<String> list);
+//Read into the given List items String objects that were written with writeStringList(List); at the current dataPosition();.
+
+final IBinder readStrongBinder();
+//Read an object from the parcel at the current dataPosition();.
+
+final <T> void readTypedArray(T[] val, Creator<T> c);
+
+final <T> void readTypedList(List<T> list, Creator<T> c);
+//Read into the given List items containing a particular object type that were written with writeTypedList(List); at the current dataPosition();.
+
+final Object readValue(ClassLoader loader);
+//Read a typed object from a parcel.
+
+final void recycle();
+//Put a Parcel object back into the pool.
+
+final void setDataCapacity(int size);
+//Change the capacity (current available space); of the parcel.
+
+final void setDataPosition(int pos);
+//Move the current read/write position in the parcel.
+
+final void setDataSize(int size);
+//Change the amount of data in the parcel.
+
+final void unmarshall(byte[] data, int offest, int length);
+//Set the bytes in data to be the raw bytes of this Parcel.
+
+final void writeArray(Object[] val);
+//Flatten an Object array into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeBinderArray(IBinder[] val);
+
+final void writeBinderList(List<IBinder> val);
+//Flatten a List containing IBinder objects into the parcel, at the current dataPosition(); and growing dataCapacity(); if needed.
+
+final void writeBooleanArray(boolean[] val);
+
+final void writeBundle(Bundle val);
+//Flatten a Bundle into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeByte(byte val);
+//Write a byte value into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeByteArray(byte[] b, int offset, int len);
+//Write a byte array into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeByteArray(byte[] b);
+//Write a byte array into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeCharArray(char[] val);
+
+final void writeDouble(double val);
+//Write a double precision floating point value into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeDoubleArray(double[] val);
+
+final void writeException(Exception e);
+//Special function for writing an exception result at the header of a parcel, to be used when returning an exception from a transaction.
+
+final void writeFileDescriptor(FileDescriptor val);
+//Write a FileDescriptor into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeFloat(float val);
+//Write a floating point value into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeFloatArray(float[] val);
+
+final void writeInt(int val);
+//Write an integer value into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeIntArray(int[] val);
+
+final void writeInterfaceToken(String interfaceName);
+//Store or read an IBinder interface token in the parcel at the current dataPosition();.
+
+final void writeList(List val);
+//Flatten a List into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeLong(long val);
+//Write a long integer value into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeLongArray(long[] val);
+
+final void writeMap(Map val);
+//Please use writeBundle(Bundle); instead.
+
+final void writeNoException();
+//Special function for writing information at the front of the Parcel indicating that no exception occurred.
+
+final void writeParcelable(Parcelable p, int parcelableFlags);
+//Flatten the name of the class of the Parcelable and its contents into the parcel.
+
+final <T extends Parcelable> void writeParcelableArray(T[] value, int parcelableFlags);
+//Write a heterogeneous array of Parcelable objects into the Parcel.
+
+final void writeSerializable(Serializable s);
+//Write a generic serializable object in to a Parcel.
+
+final void writeSparseArray(SparseArray<Object> val);
+//Flatten a generic SparseArray into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeSparseBooleanArray(SparseBooleanArray val);
+
+final void writeString(String val);
+//Write a string value into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeStringArray(String[] val);
+
+final void writeStringList(List<String> val);
+//Flatten a List containing String objects into the parcel, at the current dataPosition(); and growing dataCapacity(); if needed.
+
+final void writeStrongBinder(IBinder val);
+//Write an object into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final void writeStrongInterface(IInterface val);
+//Write an object into the parcel at the current dataPosition();, growing dataCapacity(); if needed.
+
+final <T extends Parcelable> void writeTypedArray(T[] val, int parcelableFlags);
+//Flatten a heterogeneous array containing a particular object type into the parcel, at the current dataPosition(); and growing dataCapacity(); if needed.
+
+final <T extends Parcelable> void writeTypedList(List<T> val);
+//Flatten a List containing a particular object type into the parcel, at the current dataPosition(); and growing dataCapacity(); if needed.
+
+final void writeValue(Object v);
+//Flatten a generic object in to a parcel.
+
+//Protected Methods
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+final static Parcel obtain(int obj);
+//    
+    
+    
+    
+}
+
+class Parcelable{
+            void writeToParcel(Parcel arg0, int arg1);
+            int describeContents();
+}
+class Parcelable$Creator {
+    
+    
+abstract T createFromParcel(Parcel source);
+//Create a new instance of the Parcelable class, instantiating it from the given Parcel whose data had previously been written by Parcelable.writeToParcel();.
+
+abstract T[] newArray(int size);
+//Create a new array of the Parcelable class.
+
+
+}
+class Parcelable$ClassLoaderCreator{
+            T createFromParcel(Parcel arg0, ClassLoader arg1);
+}
+
+class ParcelFileDescriptor {
+    
+    
+static ParcelFileDescriptor adoptFd(int fd);
+//Take ownership of a raw native fd in to a new ParcelFileDescriptor.
+
+void close();
+//Close the ParcelFileDescriptor.
+
+static ParcelFileDescriptor[] createPipe();
+//Create two ParcelFileDescriptors structured as a data pipe.
+
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+int detachFd();
+//Return the native fd int for this ParcelFileDescriptor and detach it from the object here.
+
+ParcelFileDescriptor dup();
+//Create a new ParcelFileDescriptor that is a dup of the existing FileDescriptor.
+
+static ParcelFileDescriptor dup(FileDescriptor orig);
+//Create a new ParcelFileDescriptor that is a dup of an existing FileDescriptor.
+
+static ParcelFileDescriptor fromDatagramSocket(DatagramSocket datagramSocket);
+//Create a new ParcelFileDescriptor from the specified DatagramSocket.
+
+static ParcelFileDescriptor fromFd(int fd);
+//Create a new ParcelFileDescriptor from a raw native fd.
+
+static ParcelFileDescriptor fromSocket(Socket socket);
+//Create a new ParcelFileDescriptor from the specified Socket.
+
+int getFd();
+//Return the native fd int for this ParcelFileDescriptor.
+
+FileDescriptor getFileDescriptor();
+//Retrieve the actual FileDescriptor associated with this object.
+
+long getStatSize();
+//Return the total size of the file representing this fd, as determined by stat();.
+
+static ParcelFileDescriptor open(File file, int mode);
+//Create a new ParcelFileDescriptor accessing a given file.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel out, int flags);
+//Flatten this object in to a Parcel. If PARCELABLE_WRITE_RETURN_VALUE is set in flags, the file descriptor will be closed after a copy is written to the Parcel.
+
+//Protected Methods
+void finalize();
+//Invoked when the garbage collector has detected that this instance is no longer reachable.
+
+
+
+
 }
 
 class PowerManager{
@@ -270,69 +1010,70 @@ class PowerManager$WakeLock{
         void release();
 }
 
+class Process {
+    
+    
+final static long getElapsedCpuTime();
+//Returns elapsed milliseconds of the time this process has run.
+
+final static int getGidForName(String name);
+//Returns the GID assigned to a particular user name, or -1 if there is none.
+
+final static int getThreadPriority(int tid);
+//Return the current priority of a thread, based on Linux priorities.
+
+final static int getUidForName(String name);
+//Returns the UID assigned to a particular user name, or -1 if there is none.
+
+final static void killProcess(int pid);
+//Kill the process with the given PID.
+
+final static int myPid();
+//Returns the identifier of this process, which can be used with killProcess(int); and sendSignal(int, int);.
+
+final static int myTid();
+//Returns the identifier of the calling thread, which be used with setThreadPriority(int, int);.
+
+final static int myUid();
+//Returns the identifier of this process's uid.
+
+final static UserHandle myUserHandle();
+//Returns this process's user handle.
+
+final static void sendSignal(int pid, int signal);
+//Send a signal to the given process.
+
+final static void setThreadPriority(int tid, int priority);
+//Set the priority of a thread, based on Linux priorities.
+
+final static void setThreadPriority(int priority);
+//Set the priority of the calling thread, based on Linux priorities.
+
+final static boolean supportsProcesses();
+//This method was deprecated in API level 14. This method always returns true. Do not use.
+
+
+
+}
+
 class SystemClock {
-//static long currentThreadTimeMillis();
+static @Source(READ_TIME) long currentThreadTimeMillis();
 //Returns milliseconds running in the current thread.
 
-static @Source(FlowPermission.READ_TIME) long elapsedRealtime();
+static @Source(READ_TIME) long elapsedRealtime();
 //Returns milliseconds since boot, including time spent in sleep.
 
-//static long elapsedRealtimeNanos();
+static @Source(READ_TIME) long elapsedRealtimeNanos();
 //Returns nanoseconds since boot, including time spent in sleep.
 
-//static boolean setCurrentTimeMillis(long millis);
+static boolean setCurrentTimeMillis(@Sink(WRITE_TIME) long millis);
 //Sets the current wall time, in milliseconds.
 
 static void sleep(long ms);
 //Waits a given number of milliseconds (of uptimeMillis); before returning.
 
-static @Source(FlowPermission.READ_TIME) long uptimeMillis();
+static @Source(READ_TIME) long uptimeMillis();
 //Returns milliseconds since boot, not counting time spent in deep sleep.
 
 
-}
-class Messenger{
-            Messenger(Handler target);
-            IBinder getBinder();
-}
-class Message{
-    Bundle getData();
-    void sendToTarget();
-}
-class Process{
-            static void setThreadPriority(int arg0) throws IllegalArgumentException,SecurityException;
-}
-class Parcelable{
-            void writeToParcel(Parcel arg0, int arg1);
-            int describeContents();
-}
-class Parcelable$Creator{
-            T[] newArray(int arg0);
-            T createFromParcel(Parcel arg0);
-}
-class Parcelable$ClassLoaderCreator{
-            T createFromParcel(Parcel arg0, ClassLoader arg1);
-}
-
-class Parcel{
-            <T> T readParcelable(ClassLoader loader);
-            void enforceInterface(String arg0);
-            <T> T[] createTypedArray(Creator<T> c);
-            void writeInt(int arg0);
-            int[] createIntArray();
-            <T> void writeTypedArray(T[] val, int parcelableFlags);
-            Bundle readBundle();
-            void writeParcelable(Parcelable p, int parcelableFlags);
-            void writeBundle(Bundle val);
-            void writeInterfaceToken(String arg0);
-            static Parcel obtain();
-            Object readValue(ClassLoader loader);
-            int readInt();
-            String readString();
-            void recycle();
-            void writeIntArray(int[] val);
-            void writeNoException();
-            void writeValue(Object v);
-            void readException();
-            void writeString(String arg0);
 }

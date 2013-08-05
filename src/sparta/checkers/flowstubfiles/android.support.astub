@@ -8,17 +8,16 @@ class FragmentActivity {
 // viewToString
 
 
-void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the Activity's state into the given stream.
-//CSH: I think this is right?
 
 Object getLastCustomNonConfigurationInstance();
 //Return the value previously returned from onRetainCustomNonConfigurationInstance();.
 
-//FragmentManager getSupportFragmentManager();
+FragmentManager getSupportFragmentManager();
 //Return the FragmentManager for interacting with fragments associated with this activity.
 
-//LoaderManager getSupportLoaderManager();
+LoaderManager getSupportLoaderManager();
 //Return the LoaderManager for this fragment, creating it if needed.
 
 void onAttachFragment(Fragment fragment);
@@ -27,37 +26,37 @@ void onAttachFragment(Fragment fragment);
 void onBackPressed();
 //Take care of popping the fragment back stack or finishing the activity as appropriate.
 
-//void onConfigurationChanged(Configuration newConfig);
+void onConfigurationChanged(Configuration newConfig);
 //Dispatch configuration change to all fragments.
 
 boolean onCreatePanelMenu(int featureId, Menu menu);
 //Dispatch to Fragment.onCreateOptionsMenu();.
 
-//View onCreateView(String name, Context context, AttributeSet attrs);
+View onCreateView(String name, Context context, AttributeSet attrs);
 //Add support for inflating the <fragment> tag.
 
-//boolean onKeyDown(int keyCode, KeyEvent event);
+boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Take care of calling onBackPressed(); for pre-Eclair platforms.
 
-//void onLowMemory();
+void onLowMemory();
 //Dispatch onLowMemory(); to all fragments.
 
-//boolean onMenuItemSelected(int featureId, MenuItem item);
+boolean onMenuItemSelected(int featureId, MenuItem item);
 //Dispatch context and options menu to fragments.
 
-//void onPanelClosed(int featureId, Menu menu);
+void onPanelClosed(int featureId, Menu menu);
 //Call onOptionsMenuClosed(); on fragments.
 
-//boolean onPreparePanel(int featureId, View view, Menu menu);
+boolean onPreparePanel(int featureId, View view, Menu menu);
 //Dispatch onPrepareOptionsMenu(); to fragments.
 
 Object onRetainCustomNonConfigurationInstance();
 //Use this instead of onRetainNonConfigurationInstance();.
 
-//final Object onRetainNonConfigurationInstance();
+final Object onRetainNonConfigurationInstance();
 //This method was deprecated in API level . Use the new Fragment API setRetainInstance(boolean); instead; this is also available on older platforms through the Android compatibility package.
 
-//void startActivityForResult(Intent intent, int requestCode);
+void startActivityForResult(Intent intent, int requestCode);
 //Modifies the standard behavior to allow results to be delivered to fragments.
 
 void startActivityFromFragment(Fragment fragment, Intent intent, int requestCode);
@@ -68,22 +67,22 @@ void supportInvalidateOptionsMenu();
 
 
 //Protected Methods
-//void onActivityResult(int requestCode, int resultCode, Intent data);
+void onActivityResult(int requestCode, int resultCode, Intent data);
 //Dispatch incoming result to the correct fragment.
 
 void onCreate(Bundle savedInstanceState);
 //Perform initialization of all fragments and loaders.
 
-//void onDestroy();
+void onDestroy();
 //Destroy all fragments and loaders.
 
-//void onNewIntent(Intent intent);
+void onNewIntent(Intent intent);
 //Handle onNewIntent(); to inform the fragment manager that the state is not saved.
 
 void onPause();
 //Dispatch onPause(); to fragments.
 
-//void onPostResume();
+void onPostResume();
 //Dispatch onResume(); to fragments.
 
 void onResume();
@@ -92,13 +91,13 @@ void onResume();
 void onResumeFragments();
 //This is the fragment-orientated version of onResume(); that you can override to perform operations in the Activity at the same point where its fragments are resumed.
 
-//void onSaveInstanceState(Bundle outState);
+void onSaveInstanceState(Bundle outState);
 //Save all appropriate fragment state.
 
-//void onStart();
+void onStart();
 //Dispatch onStart(); to all fragments.
 
-//void onStop();
+void onStop();
 //Dispatch onStop(); to all fragments.
 }
 
@@ -222,14 +221,13 @@ void put(long key, E value);
 }
 
 class SparseArrayCompat {
-
 // CSH: specified in spreadsheet but not found in class or parents
 // binarySearch
 // gc
 // idealByteArraySize
 // idealIntArraySize
 
-//void append(int key, E value);
+void append(int key, E value);
 //Puts a key/value pair into the array, optimizing for the case where the key is greater than all existing keys in the array.
 
 void clear();
@@ -262,10 +260,10 @@ void remove(int key);
 void removeAt(int index);
 //Removes the mapping at the specified index.
 
-//void removeAtRange(int index, int size);
+void removeAtRange(int index, int size);
 //Remove a range of mappings as a batch.
 
-//void setValueAt(int index, E value);
+void setValueAt(int index, E value);
 //Given an index in the range 0...size();-1, sets a new value for the indexth key-value mapping that this SparseArray stores.
 
 int size();
@@ -273,7 +271,6 @@ int size();
 
 E valueAt(int index);
 //Given an index in the range 0...size();-1, returns the value from the indexth key-value mapping that this SparseArray stores.
-
 }
 
 package android.support.v4.view;
@@ -371,7 +368,7 @@ Object instantiateItem(View container, int position);
 abstract boolean isViewFromObject(View view, Object object);
 //Determines whether a page View is associated with a specific key object as returned by instantiateItem(ViewGroup, int);.
 
-//void notifyDataSetChanged();
+void notifyDataSetChanged();
 //This method should be called by the application if the data backing this adapter has changed and associated views should update.
 
 void registerDataSetObserver(DataSetObserver observer);
@@ -453,13 +450,13 @@ int getTextSpacing();
 void requestLayout();
 //Call this when something has changed which has invalidated the layout of this view.
 
-//void setGravity(int gravity);
+void setGravity(int gravity);
 //Set the Gravity used to position text within the title strip.
 
 void setNonPrimaryAlpha(float alpha);
 //Set the alpha value used for non-primary page titles.
 
-//void setTextColor(int color);
+void setTextColor(int color);
 //Set the color value used as the base color for all displayed page titles.
 
 void setTextSize(int unit, float size);
@@ -469,16 +466,16 @@ void setTextSpacing(int spacingPixels);
 //Set the required spacing between title segments.
 
 //Protected Methods
-//void onAttachedToWindow();
+void onAttachedToWindow();
 //This is called when the view is attached to a window.
 
-//void onDetachedFromWindow();
+void onDetachedFromWindow();
 //This is called when the view is detached from a window.
 
-//void onLayout(boolean changed, int l, int t, int r, int b);
+void onLayout(boolean changed, int l, int t, int r, int b);
 //Called from layout when this view should assign a size and position to each of its children.
 
-//void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 //Measure the view and its content to determine the measured width and the measured height.
 
 }
@@ -521,24 +518,90 @@ class ViewPager {
 // access$000
 //isGutterDrag
  
-int getCurrentItem(); 
+void addFocusables(ArrayList<View> views, int direction, int focusableMode);
+//We only want the current page that is being shown to be focusable.
 
-void setCurrentItem(int item, boolean smoothScroll);
-//Set the currently selected page.
+void addTouchables(ArrayList<View> views);
+//We only want the current page that is being shown to be touchable.
+
+void addView(@Sink(DISPLAY) View child, int index, ViewGroup.LayoutParams params);
+//Adds a child view with the specified layout parameters.
 
 boolean arrowScroll(int direction);
+
+boolean beginFakeDrag();
+//Start a fake drag of the pager.
+
+void computeScroll();
+//Called by a parent to request that a child update its values for mScrollX and mScrollY if necessary.
+
+boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
+//Dispatch a key event to the next view on the focus path.
+
+boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
+//Dispatches an AccessibilityEvent to the View first and then to its children for adding their text content to the event.
+
+void draw(Canvas canvas);
+//Manually render this view (and all of its children); to the given Canvas.
+
+void endFakeDrag();
+//End a fake drag of the pager.
+
+boolean executeKeyEvent(@Source(USER_INPUT) KeyEvent event);
+//You can call this function yourself to have the scroll view perform scrolling from a key event, just as if the event had been dispatched to it by the view hierarchy.
+
+void fakeDragBy(float xOffset);
+//Fake drag by an offset in pixels.
+
+ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs);
+//Returns a new set of layout parameters based on the supplied attributes set.
 
 PagerAdapter getAdapter();
 //Retrieve the current adapter supplying pages.
 
-void onPageScrolled(int position, float offset, int offsetPixels);
-//This method will be invoked when the current page is scrolled, either as part of a programmatically initiated smooth scroll or a user initiated touch scroll.
+int getCurrentItem();
+
+int getOffscreenPageLimit();
+//Returns the number of pages that will be retained to either side of the current page in the view hierarchy in an idle state.
+
+int getPageMargin();
+//Return the margin between pages.
+
+boolean isFakeDragging();
+//Returns true if a fake drag is in progress.
+
+boolean onInterceptTouchEvent(MotionEvent ev);
+//Implement this method to intercept all touch screen motion events.
+
+void onRestoreInstanceState(Parcelable state);
+//Hook allowing a view to re-apply a representation of its internal state that had previously been generated by onSaveInstanceState();.
+
+Parcelable onSaveInstanceState();
+//Hook allowing a view to generate a representation of its internal state that can later be used to create a new instance with that same state.
+
+boolean onTouchEvent(MotionEvent ev);
+//Implement this method to handle touch screen motion events.
+
+void removeView(View view);
+//Note: do not invoke this method from draw(android.graphics.Canvas);, onDraw(android.graphics.Canvas);, dispatchDraw(android.graphics.Canvas); or any related method.
 
 void setAdapter(PagerAdapter adapter);
 //Set a PagerAdapter that will supply views for this pager as needed.
 
-void addView(@Sink(FlowPermission.DISPLAY) View child, int index, ViewGroup.LayoutParams params);
-//Adds a child view with the specified layout parameters.
+void setCurrentItem(int item, boolean smoothScroll);
+//Set the currently selected page.
+
+void setCurrentItem(int item);
+//Set the currently selected page.
+
+void setOffscreenPageLimit(int limit);
+//Set the number of pages that should be retained to either side of the current page in the view hierarchy in an idle state.
+
+void setOnPageChangeListener(ViewPager.OnPageChangeListener listener);
+//Set a listener that will be invoked whenever the page changes or is incrementally scrolled.
+
+void setPageMargin(int marginPixels);
+//Set the margin between pages.
 
 void setPageMarginDrawable(int resId);
 //Set a drawable that will be used to fill the margin between pages.
@@ -546,60 +609,53 @@ void setPageMarginDrawable(int resId);
 void setPageMarginDrawable(Drawable d);
 //Set a drawable that will be used to fill the margin between pages.
 
-void setOnPageChangeListener(ViewPager.OnPageChangeListener listener);
-//Set a listener that will be invoked whenever the page changes or is incrementally scrolled.
+void setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer);
+//Set a ViewPager.PageTransformer that will be called for each attached page whenever the scroll position is changed.
 
-void removeView(View view);
-//Note: do not invoke this method from draw(android.graphics.Canvas);, onDraw(android.graphics.Canvas);, dispatchDraw(android.graphics.Canvas); or any related method.
+//Protected Methods
+boolean canScroll(View v, boolean checkV, int dx, int x, int y);
+//Tests scrollability within child views of v given a delta of dx.
 
-ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs);
-//Returns a new set of layout parameters based on the supplied attributes set.
+boolean checkLayoutParams(ViewGroup.LayoutParams p);
 
-protected ViewGroup.LayoutParams generateDefaultLayoutParams();
-// Returns a set of default layout parameters.
+void drawableStateChanged();
+//This function is called whenever the state of the view changes in such a way that it impacts the state of drawables being shown.
 
-boolean executeKeyEvent(@Source(FlowPermission.USER_INPUT) KeyEvent event);
-//You can call this function yourself to have the scroll view perform scrolling from a key event, just as if the event had been dispatched to it by the view hierarchy.
+ViewGroup.LayoutParams generateDefaultLayoutParams();
+//Returns a set of default layout parameters.
 
-protected boolean checkLayoutParams(ViewGroup.LayoutParams p);
+ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
+//Returns a safe set of layout parameters based on the supplied layout params.
 
+int getChildDrawingOrder(int childCount, int i);
+//Returns the index of the child to draw for this iteration.
 
- 
-//UNUSED and UNANNOTATED 
-// void addFocusables(ArrayList<View> views, int direction, int focusableMode);
-// void addTouchables(ArrayList<View> views);
-// boolean beginFakeDrag();
-// void computeScroll();
-// boolean dispatchKeyEvent(KeyEvent event);
-// boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event);
-// void draw(Canvas canvas);
-// void endFakeDrag();
-// void fakeDragBy(float xOffset);
-// int getOffscreenPageLimit();
-// int getPageMargin();
-// boolean isFakeDragging();
-// boolean onInterceptTouchEvent(MotionEvent ev);
-// void onRestoreInstanceState(Parcelable state);
-// Parcelable onSaveInstanceState();
-// boolean onTouchEvent(MotionEvent ev);
-// void setCurrentItem(int item);
-// void setOffscreenPageLimit(int limit);
-// void setPageMargin(int marginPixels);
-// void setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer);
+void onAttachedToWindow();
+//This is called when the view is attached to a window.
 
-//PROTECTED (and unused)
-// boolean canScroll(View v, boolean checkV, int dx, int x, int y);
-// void drawableStateChanged();
-// ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p);
-// int getChildDrawingOrder(int childCount, int i);
-// void onAttachedToWindow();
-// void onDetachedFromWindow();
-// void onDraw(Canvas canvas);
-// void onLayout(boolean changed, int l, int t, int r, int b);
-// void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
-// boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect);
-// void onSizeChanged(int w, int h, int oldw, int oldh);
-// boolean verifyDrawable(Drawable who);
+void onDetachedFromWindow();
+//This is called when the view is detached from a window.
+
+void onDraw(Canvas canvas);
+//Implement this to do your drawing.
+
+void onLayout(boolean changed, int l, int t, int r, int b);
+//Called from layout when this view should assign a size and position to each of its children.
+
+void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+//Measure the view and its content to determine the measured width and the measured height.
+
+void onPageScrolled(int position, float offset, int offsetPixels);
+//This method will be invoked when the current page is scrolled, either as part of a programmatically initiated smooth scroll or a user initiated touch scroll.
+
+boolean onRequestFocusInDescendants(int direction, Rect previouslyFocusedRect);
+//We only want the current page that is being shown to be focusable.
+
+void onSizeChanged(int w, int h, int oldw, int oldh);
+//This is called during layout when the size of this view has changed.
+
+boolean verifyDrawable(Drawable who);
+//If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
 }
 
 package android.support.v4.view.accessibility;

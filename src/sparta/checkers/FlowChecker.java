@@ -1,5 +1,9 @@
 package sparta.checkers;
 
+/*>>>
+import checkers.compilermsgs.quals.CompilerMessageKey;
+*/
+
 import static sparta.checkers.FlowUtil.createAnnoFromSink;
 import static sparta.checkers.FlowUtil.createAnnoFromSource;
 
@@ -42,9 +46,6 @@ import checkers.util.MultiGraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import checkers.util.QualifierPolymorphism;
 import checkers.util.stub.StubGenerator;
-/*>>>
-import checkers.compilermsgs.quals.CompilerMessageKey;
-*/
 
 @TypeQualifiers({Source.class, Sink.class,
     PolySource.class, PolySink.class,
@@ -59,7 +60,7 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
     public static final String IGNORE_NOT_REVIEWED = "ignorenr";
     public boolean IGNORENR = false;
 
-	protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES, POLYFLOWSOURCES;
+    protected AnnotationMirror NOFLOWSOURCES, ANYFLOWSOURCES, POLYFLOWSOURCES;
     protected AnnotationMirror NOFLOWSINKS, ANYFLOWSINKS, POLYFLOWSINKS;
     protected AnnotationMirror POLYALL;
     protected AnnotationMirror LITERALFLOWSOURCE;
@@ -74,6 +75,8 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
     //Methods that are not in a stub file
     protected final Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
 
+    // FlowVisitor uses these to hold flow state
+    private FlowAnalizer flowAnalizer;
 
     public FlowChecker() {
         super();
@@ -140,6 +143,8 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
                 unfilteredMessages = null;
             }
         }
+
+        flowAnalizer = new FlowAnalizer(getFlowPolicy());
     }
 
     protected ExecutableElement sourceValue;
@@ -168,15 +173,19 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         }
     }
 
+    @Override
     public void typeProcessingOver() {
         printMethods();
+        flowAnalizer.printImpliedFlowsVerbose();
+        flowAnalizer.printImpliedFlowsForbidden();
+        flowAnalizer.printAllFlows();
         super.typeProcessingOver();
     }
 
     //TODO: would be nice if you could pass a file name
     private final String printMissMethod = "missingAPI.astub";
     //TODO: would be nice if there was a command line argument to turn this on and off
-    private boolean printFrequency = true;
+    private final boolean printFrequency = true;
 
     private void printMethods() {
         if (notInStubFile.isEmpty()) return;
@@ -274,28 +283,27 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
                 return null; // dead code
             }
         }
-        @Override
-        public boolean isSubtype(Collection<AnnotationMirror> rhs, Collection<AnnotationMirror> lhs) {
-        	if(rhs.isEmpty() ^ lhs.isEmpty()){
-        		//TODO: more general fix
-        		//This happens when casting:
-				/**
-				 * class TypeAsKeyHashMap<T> {
-				 *    public <S extends T> S get(T type) {
-				 *       return (S) type; 
-				 *    }
-				 * }
-				 */
-        		
-        		//super will give this error
-        		// error: MultiGraphQualifierHierarchy: empty annotations in lhs: or rhs: 
-        		
-        		return false;
-        	}
-        	return super.isSubtype(rhs, lhs);
-        }
 
-        	
+        @Override
+        public boolean isSubtype(Collection<? extends AnnotationMirror> rhs, Collection<? extends AnnotationMirror> lhs) {
+            if (rhs.isEmpty() ^ lhs.isEmpty()){
+                //TODO: more general fix
+                //This happens when casting:
+                /**
+                 * class TypeAsKeyHashMap<T> {
+                 *    public <S extends T> S get(T type) {
+                 *       return (S) type;
+                 *    }
+                 * }
+                 */
+
+                //super will give this error
+                // error: MultiGraphQualifierHierarchy: empty annotations in lhs: or rhs:
+
+                return false;
+            }
+            return super.isSubtype(rhs, lhs);
+        }
 
         @Override
         public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
@@ -407,42 +415,41 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
                 return a1;
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
-                if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
+                if (AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES)) {
                     final Set<FlowPermission> superset = FlowUtil.getSource(a1, true);
                     superset.addAll(FlowUtil.getSource(a2, true));
                     FlowUtil.allToAnySource(superset, true);
                     return boundSource(superset);
 
-                } else if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
+                } else if (AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS)) {
                     final Set<FlowPermission> intersection =  FlowUtil.getSink(a1, true);
                     intersection.retainAll(FlowUtil.getSink(a2, true));
                     FlowUtil.allToAnySink(intersection, true);
                     return boundSink(intersection);
 
                 }
-                //Poly Flows must be handled as if they are Top Type   
-            } else if(AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
-                if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS) ) {
+                //Poly Flows must be handled as if they are Top Type
+            } else if (AnnotationUtils.areSame(a1, POLYFLOWSINKS)) {
+                if (AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS)) {
                     return boundSink(new HashSet<FlowPermission>());
                 }
-            } else if(AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
-                if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
+            } else if (AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
+                if (AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS)) {
                     return boundSink(new HashSet<FlowPermission>());
                 }
-            } else if(AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
-                if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES) ) {
+            } else if (AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
+                if (AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES)) {
                     Set<FlowPermission> top = new HashSet<FlowPermission>();
                     top.add(FlowPermission.ANY);
                     return boundSource(top);
                 }
-            } else if(AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
-                if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
+            } else if (AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
+                if (AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES)) {
                     Set<FlowPermission> top = new HashSet<FlowPermission>();
                     top.add(FlowPermission.ANY);
                     return boundSource(top);
                 }
             }
-
 
             return super.leastUpperBound(a1, a2);
         }
@@ -450,42 +457,42 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         @Override
         public AnnotationMirror greatestLowerBound(AnnotationMirror a1, AnnotationMirror a2) {
 
-            if( AnnotationUtils.areSame(a1, a2) )
+            if (AnnotationUtils.areSame(a1, a2))
                 return a1;
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
-                if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
+                if (AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES)) {
                     final Set<FlowPermission> intersection = FlowUtil.getSource(a1, true);
                     intersection.retainAll(FlowUtil.getSource(a2, true));
                     FlowUtil.allToAnySource(intersection, true);
                     return boundSource(intersection);
 
-                } else if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
+                } else if (AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS)) {
                     final Set<FlowPermission> superSet =  FlowUtil.getSink(a1, true);
                     superSet.addAll(FlowUtil.getSink(a2, true));
                     FlowUtil.allToAnySink(superSet, true);
                     return boundSink(superSet);
 
                 }
-             //Poly Flows must be handled as if they are Bottom Type   
-            } else if(AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
-                if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS) ) {
+             //Poly Flows must be handled as if they are Bottom Type
+            } else if (AnnotationUtils.areSame(a1, POLYFLOWSINKS)){
+                if (AnnotationUtils.areSameIgnoringValues(a2, FLOW_SINKS)) {
                     Set<FlowPermission> bottom = new HashSet<FlowPermission>();
                     bottom.add(FlowPermission.ANY);
                     return boundSink(bottom);
                 }
-            } else if(AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
-                if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS) ) {
+            } else if (AnnotationUtils.areSame(a2, POLYFLOWSINKS)){
+                if (AnnotationUtils.areSameIgnoringValues(a1, FLOW_SINKS)) {
                     Set<FlowPermission> bottom = new HashSet<FlowPermission>();
                     bottom.add(FlowPermission.ANY);
                     return boundSink(bottom);
                 }
-            } else if(AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
-                if( AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES) ) {
+            } else if (AnnotationUtils.areSame(a1, POLYFLOWSOURCES)){
+                if (AnnotationUtils.areSameIgnoringValues(a2, FLOW_SOURCES)) {
                     return boundSource(new HashSet<FlowPermission>());
                 }
             } else if(AnnotationUtils.areSame(a2, POLYFLOWSOURCES)){
-                if( AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES) ) {
+                if (AnnotationUtils.areSameIgnoringValues(a1, FLOW_SOURCES)) {
                     return boundSource(new HashSet<FlowPermission>());
                 }
             }
@@ -496,9 +503,9 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         private AnnotationMirror boundSource(final Set<FlowPermission> flowSource) {
 
             final AnnotationMirror am;
-            if( flowSource.contains(FlowPermission.ANY) ) { //contains all Source
+            if (flowSource.contains(FlowPermission.ANY)) { //contains all Source
                 am = getTopAnnotation(FLOW_SOURCES);
-            } else if(flowSource.isEmpty()) {
+            } else if (flowSource.isEmpty()) {
                 am = getBottomAnnotation(FLOW_SOURCES);
             } else {
                 am = createAnnoFromSource( processingEnv, flowSource );
@@ -508,9 +515,9 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
 
         private AnnotationMirror boundSink(final Set<FlowPermission> flowSink) {
             final AnnotationMirror am;
-            if( flowSink.isEmpty() ) {
+            if (flowSink.isEmpty()) {
                 am = getTopAnnotation(FLOW_SINKS);
-            } else if( flowSink.contains(FlowPermission.ANY) ) { //contains all Sink
+            } else if (flowSink.contains(FlowPermission.ANY)) { //contains all Sink
                 am = getBottomAnnotation(FLOW_SINKS);
             } else {
                 am = createAnnoFromSink( processingEnv, flowSink );
@@ -523,10 +530,14 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         return flowPolicy;
     }
 
+    public FlowAnalizer getFlowAnalizer() {
+        return flowAnalizer;
+    }
+
     @Override
     protected void message(Diagnostic.Kind kind, Object source, /*@CompilerMessageKey*/ String msgKey,
                            Object... args) {
-        if( unfilteredMessages == null || unfilteredMessages.contains(msgKey)) {
+        if (unfilteredMessages == null || unfilteredMessages.contains(msgKey)) {
             super.message(kind, source, msgKey, args);
         }
     }

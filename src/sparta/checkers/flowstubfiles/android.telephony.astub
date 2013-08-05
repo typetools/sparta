@@ -9,13 +9,25 @@ class TelephonyManager{
 }
 
 
-class SmsManager{
-//Add by SOM
+class SmsManager {
+    
+ArrayList<String> divideMessage(String text);
+//Divide a message text into several fragments, none bigger than the maximum SMS message size.
 
-        @PolyFlow
-        ArrayList<@PolySource @PolySink String> divideMessage(String text);
-        void sendTextMessage(@Sink(SEND_SMS) String destinationAddress, @Sink(SEND_SMS) String scAddress, @Sink(SEND_SMS) String text, @Sink(SEND_SMS) PendingIntent sentIntent, @Sink(SEND_SMS) PendingIntent deliveryIntent);
-        static SmsManager getDefault();
+static SmsManager getDefault();
+//Get the default instance of the SmsManager
+
+void sendDataMessage(@Sink(SEND_SMS) String destinationAddress, @Sink(SEND_SMS) String scAddress, @Sink(SEND_SMS) short destinationPort, @Sink(SEND_SMS) byte[] data, PendingIntent sentIntent, PendingIntent deliveryIntent);
+//Send a data based SMS to a specific application port.
+
+void sendMultipartTextMessage(@Sink(SEND_SMS) String destinationAddress, @Sink(SEND_SMS) String scAddress, @Sink(SEND_SMS) ArrayList<String> parts, ArrayList<PendingIntent> sentIntents, ArrayList<PendingIntent> deliveryIntents);
+//Send a multi-part text based SMS.
+
+void sendTextMessage(@Sink(SEND_SMS) String destinationAddress, @Sink(SEND_SMS) String scAddress, @Sink(SEND_SMS) String text, PendingIntent sentIntent, PendingIntent deliveryIntent);
+//Send a text based SMS.
+
+
+
 }
 
 

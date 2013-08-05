@@ -1,6 +1,123 @@
 package android.animation;
-class ValueAnimator{
-        static long getFrameDelay();
+class ValueAnimator {
+
+void addUpdateListener(ValueAnimator.AnimatorUpdateListener listener);
+//Adds a listener to the set of listeners that are sent update events through the life of an animation.
+
+void cancel();
+//Cancels the animation.
+
+ValueAnimator clone();
+//Creates and returns a copy of this Object.
+
+void end();
+//Ends the animation.
+
+float getAnimatedFraction();
+//Returns the current animation fraction, which is the elapsed/interpolated fraction used in the most recent frame update on the animation.
+
+Object getAnimatedValue();
+//The most recent value calculated by this ValueAnimator when there is just one property being animated.
+
+Object getAnimatedValue(String propertyName);
+//The most recent value calculated by this ValueAnimator for propertyName.
+
+long getCurrentPlayTime();
+//Gets the current position of the animation in time, which is equal to the current time minus the time that the animation started.
+
+long getDuration();
+//Gets the length of the animation.
+
+static long getFrameDelay();
+//The amount of time, in milliseconds, between each frame of the animation.
+
+TimeInterpolator getInterpolator();
+//Returns the timing interpolator that this ValueAnimator uses.
+
+int getRepeatCount();
+//Defines how many times the animation should repeat.
+
+int getRepeatMode();
+//Defines what this animation should do when it reaches the end.
+
+long getStartDelay();
+//The amount of time, in milliseconds, to delay starting the animation after start(); is called.
+
+PropertyValuesHolder[] getValues();
+//Returns the values that this ValueAnimator animates between.
+
+boolean isRunning();
+//Returns whether this Animator is currently running (having been started and gone past any initial startDelay period and not yet ended);.
+
+boolean isStarted();
+//Returns whether this Animator has been started and not yet ended.
+
+static ValueAnimator ofFloat(float... values);
+//Constructs and returns a ValueAnimator that animates between float values.
+
+static ValueAnimator ofInt(int... values);
+//Constructs and returns a ValueAnimator that animates between int values.
+
+static ValueAnimator ofObject(TypeEvaluator evaluator, Object... values);
+//Constructs and returns a ValueAnimator that animates between Object values.
+
+static ValueAnimator ofPropertyValuesHolder(PropertyValuesHolder... values);
+//Constructs and returns a ValueAnimator that animates between the values specified in the PropertyValuesHolder objects.
+
+void removeAllUpdateListeners();
+//Removes all listeners from the set listening to frame updates for this animation.
+
+void removeUpdateListener(ValueAnimator.AnimatorUpdateListener listener);
+//Removes a listener from the set listening to frame updates for this animation.
+
+void reverse();
+//Plays the ValueAnimator in reverse.
+
+void setCurrentPlayTime(long playTime);
+//Sets the position of the animation to the specified point in time.
+
+ValueAnimator setDuration(long duration);
+//Sets the length of the animation.
+
+void setEvaluator(TypeEvaluator value);
+//The type evaluator to be used when calculating the animated values of this animation.
+
+void setFloatValues(float... values);
+//Sets float values that will be animated between.
+
+static void setFrameDelay(long frameDelay);
+//The amount of time, in milliseconds, between each frame of the animation.
+
+void setIntValues(int... values);
+//Sets int values that will be animated between.
+
+void setInterpolator(TimeInterpolator value);
+//The time interpolator used in calculating the elapsed fraction of this animation.
+
+void setObjectValues(Object... values);
+//Sets the values to animate between for this animation.
+
+void setRepeatCount(int value);
+//Sets how many times the animation should be repeated.
+
+void setRepeatMode(int value);
+//Defines what this animation should do when it reaches the end.
+
+void setStartDelay(long startDelay);
+//The amount of time, in milliseconds, to delay starting the animation after start(); is called.
+
+void setValues(PropertyValuesHolder... values);
+//Sets the values, per property, being animated between.
+
+void start() @Sink(DISPLAY);
+//Starts this animation.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+
+
+
 }
 class TimeInterpolator{
         float getInterpolation(float arg0);
