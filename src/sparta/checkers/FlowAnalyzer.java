@@ -30,7 +30,7 @@ import com.sun.tools.javac.util.DiagnosticSource;
  * Flows are categorized as either type flows or assignment flows. Type flows
  * are the flows corresponding to a single type (which has a source and sink).
  * 
- * Assignment flows are generated from assignment statments (or method calls) by
+ * Assignment flows are generated from assignment statements (or method calls) by
  * taking the source of the value argument and the sinks of the variable
  * argument.
  * 
@@ -96,20 +96,24 @@ public class FlowAnalyzer {
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(new FileOutputStream(impliedFlowsVerboseFile));
-            printFlows(writer, getFlowStrList(groupFlowsOnSource(typeFlows)),
+            printFlows(writer, getFlowStrList(
+                    groupFlowsOnSource(typeFlows)),
                     "# Type Flows Grouped");
 
-            printFlows(
-                    writer,
-                    getFlowStrList(groupFlowsOnSource(getForbiddenFlowsPairwise(groupFlowsOnSource(forbiddenTypeFlows)))),
+            printFlows(writer, getFlowStrList(
+                    groupFlowsOnSource(
+                    getForbiddenFlowsPairwise(
+                    groupFlowsOnSource(forbiddenTypeFlows)))),
                     "# Forbidden Type Flows Grouped");
 
-            printFlows(writer, getFlowStrList(groupFlowsOnSource(assignmentFlows)),
+            printFlows(writer, getFlowStrList(
+                    groupFlowsOnSource(assignmentFlows)),
                     "# Assignment Flows Grouped");
 
-            printFlows(
-                    writer,
-                    getFlowStrList(groupFlowsOnSource(getForbiddenFlowsPairwise(groupFlowsOnSource(forbiddenAssignmentFlows)))),
+            printFlows(writer, getFlowStrList(
+                    groupFlowsOnSource(
+                    getForbiddenFlowsPairwise(
+                    groupFlowsOnSource(forbiddenAssignmentFlows)))),
                     "# Forbidden Assignment Flows Grouped");
 
             printFlows(writer, getFlowStrList(typeFlows), "# Type Flows (as written)");
