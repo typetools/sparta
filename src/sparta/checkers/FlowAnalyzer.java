@@ -112,11 +112,11 @@ public class FlowAnalyzer {
                     getFlowStrList(groupFlowsOnSource(getForbiddenFlowsPairwise(groupFlowsOnSource(forbiddenAssignmentFlows)))),
                     "# Forbidden Assignment Flows Grouped");
 
-            printFlows(writer, getFlowStrList(typeFlows), "# Type Flows");
-            printFlows(writer, getFlowStrList(forbiddenTypeFlows), "# Forbidden Type Flows");
-            printFlows(writer, getFlowStrList(assignmentFlows), "# Assignment Flows");
+            printFlows(writer, getFlowStrList(typeFlows), "# Type Flows (as written)");
+            printFlows(writer, getFlowStrList(forbiddenTypeFlows), "# Forbidden Type Flows (as written)");
+            printFlows(writer, getFlowStrList(assignmentFlows), "# Assignment Flows (as written)");
             printFlows(writer, getFlowStrList(forbiddenAssignmentFlows),
-                    "# Forbidden Assignment Flows");
+                    "# Forbidden Assignment Flows (as written)");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -166,9 +166,7 @@ public class FlowAnalyzer {
                     forbiddenSinks.add(sink);
                 }
             }
-            if (forbiddenSinks != null) {
-                results.add(new Flow(flow.sources, forbiddenSinks));
-            }
+            results.add(new Flow(flow.sources, forbiddenSinks));
         }
         return results;
     }
