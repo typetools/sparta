@@ -43,16 +43,16 @@ void onSetInitialValue(@Sink(SHARED_PREFERENCES) boolean restoreValue, @Sink(SHA
 class Preference {
     
     
-@Source(SHARED_PREFERENCE) int compareTo(@Sink(SHARED_PREFERENCE) Preference another);
+@Source(SHARED_PREFERENCES) int compareTo(@Sink(SHARED_PREFERENCES) Preference another);
 //Compares Preference objects based on order (if set);, otherwise alphabetically on the titles.
 
 Context getContext();
 //Returns the Context of this Preference.
 
-@Source(SHARED_PREFERENCE) String getDependency();
+@Source(SHARED_PREFERENCES) String getDependency();
 //Returns the key of the dependency on this Preference.
 
-@Source(SHARED_PREFERENCE) SharedPreferences.Editor getEditor();
+@Source(SHARED_PREFERENCES) SharedPreferences.Editor getEditor();
 //Returns an SharedPreferences.Editor where this Preference can save its value(s);.
 
 Bundle getExtras();
@@ -67,7 +67,7 @@ Drawable getIcon();
 Intent getIntent();
 //Return the Intent associated with this Preference.
 
-@Source(SHARED_PREFERENCE) String getKey();
+@Source(SHARED_PREFERENCES) String getKey();
 //Gets the key for this Preference, which is also the key used for storing values into SharedPreferences.
 
 int getLayoutResource();
@@ -79,22 +79,22 @@ Preference.OnPreferenceChangeListener getOnPreferenceChangeListener();
 Preference.OnPreferenceClickListener getOnPreferenceClickListener();
 //Returns the callback to be invoked when this Preference is clicked.
 
-@Source(SHARED_PREFERENCE) int getOrder();
+@Source(SHARED_PREFERENCES) int getOrder();
 //Gets the order of this Preference with respect to other Preference objects on the same level.
 
-@Source(SHARED_PREFERENCE) PreferenceManager getPreferenceManager();
+@Source(SHARED_PREFERENCES) PreferenceManager getPreferenceManager();
 //Gets the PreferenceManager that manages this Preference object's tree.
 
-@Source(SHARED_PREFERENCE) SharedPreferences getSharedPreferences();
+@Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences();
 //Returns the SharedPreferences where this Preference can read its value(s);.
 
 boolean getShouldDisableView();
 //Checks whether this Preference should disable its view when it's action is disabled.
 
-@Source(SHARED_PREFERENCE) CharSequence getSummary();
+@Source(SHARED_PREFERENCES) CharSequence getSummary();
 //Returns the summary of this Preference.
 
-@Source(SHARED_PREFERENCE) CharSequence getTitle();
+@Source(SHARED_PREFERENCES) CharSequence getTitle();
 //Returns the title of this Preference.
 
 int getTitleRes();
@@ -106,13 +106,13 @@ View getView(View convertView, ViewGroup parent);
 int getWidgetLayoutResource();
 //Gets the layout resource for the controllable widget portion of this Preference.
 
-@Source(SHARED_PREFERENCE) boolean hasKey();
+@Source(SHARED_PREFERENCES) boolean hasKey();
 //Checks whether this Preference has a valid key.
 
 boolean isEnabled();
 //Checks whether this Preference should be enabled in the list.
 
-@Source(SHARED_PREFERENCE) boolean isPersistent();
+@Source(SHARED_PREFERENCES) boolean isPersistent();
 //Checks whether this Preference is persistent.
 
 boolean isSelectable();
@@ -136,7 +136,7 @@ void saveHierarchyState(Bundle container);
 void setDefaultValue(Object defaultValue);
 //Sets the default value for this Preference, which will be set either if persistence is off or persistence is on and the preference is not found in the persistent storage.
 
-void setDependency(@Sink(SHARED_PREFERENCE) String dependencyKey);
+void setDependency(@Sink(SHARED_PREFERENCES) String dependencyKey);
 //Sets the key of a Preference that this Preference will depend on.
 
 void setEnabled(boolean enabled);
@@ -154,7 +154,7 @@ void setIcon(int iconResId);
 void setIntent(Intent intent);
 //Sets an Intent to be used for startActivity(Intent); when this Preference is clicked.
 
-void setKey(@Sink(SHARED_PREFERENCE) String key);
+void setKey(@Sink(SHARED_PREFERENCES) String key);
 //Sets the key for this Preference, which is used as a key to the SharedPreferences.
 
 void setLayoutResource(int layoutResId);
@@ -181,13 +181,13 @@ void setShouldDisableView(boolean shouldDisableView);
 void setSummary(int summaryResId);
 //Sets the summary for this Preference with a resource ID.
 
-void setSummary(@Sink(SHARED_PREFERENCE) CharSequence summary);
+void setSummary(@Sink(SHARED_PREFERENCES) CharSequence summary);
 //Sets the summary for this Preference with a CharSequence.
 
 void setTitle(int titleResId);
 //Sets the title for this Preference with a resource ID.
 
-void setTitle(@Sink(SHARED_PREFERENCE) CharSequence title);
+void setTitle(@Sink(SHARED_PREFERENCES) CharSequence title);
 //Sets the title for this Preference with a CharSequence.
 
 void setWidgetLayoutResource(int widgetLayoutResId);
@@ -257,22 +257,22 @@ void onRestoreInstanceState(Parcelable state);
 Parcelable onSaveInstanceState();
 //Hook allowing a Preference to generate a representation of its internal state that can later be used to create a new instance with that same state.
 
-void onSetInitialValue(@Sink(SHARED_PREFERENCE) boolean restorePersistedValue, @Sink(SHARED_PREFERENCE) Object defaultValue);
+void onSetInitialValue(@Sink(SHARED_PREFERENCES) boolean restorePersistedValue, @Sink(SHARED_PREFERENCES) Object defaultValue);
 //Implement this to set the initial value of the Preference.
 
-boolean persistBoolean(@Sink(SHARED_PREFERENCE) boolean value);
+boolean persistBoolean(@Sink(SHARED_PREFERENCES) boolean value);
 //Attempts to persist a boolean to the SharedPreferences.
 
-boolean persistFloat(@Sink(SHARED_PREFERENCE) float value);
+boolean persistFloat(@Sink(SHARED_PREFERENCES) float value);
 //Attempts to persist a float to the SharedPreferences.
 
-boolean persistInt(@Sink(SHARED_PREFERENCE) int value);
+boolean persistInt(@Sink(SHARED_PREFERENCES) int value);
 //Attempts to persist an int to the SharedPreferences.
 
-boolean persistLong(@Sink(SHARED_PREFERENCE) long value);
+boolean persistLong(@Sink(SHARED_PREFERENCES) long value);
 //Attempts to persist a long to the SharedPreferences.
 
-boolean persistString(@Sink(SHARED_PREFERENCE) String value);
+boolean persistString(@Sink(SHARED_PREFERENCES) String value);
 //Attempts to persist a String to the SharedPreferences.
 
 boolean shouldPersist();
@@ -418,13 +418,13 @@ void addPreferencesFromIntent(Intent intent);
 void addPreferencesFromResource(int preferencesResId);
 //Inflates the given XML resource and adds the preference hierarchy to the current preference hierarchy.
 
-@Source(SHARED_PREFERNCES) Preference findPreference(CharSequence key);
+@Source(SHARED_PREFERENCES) Preference findPreference(CharSequence key);
 //Finds a Preference based on its key.
 
-@Source(SHARED_PREFERNCES) PreferenceManager getPreferenceManager();
+@Source(SHARED_PREFERENCES) PreferenceManager getPreferenceManager();
 //Returns the PreferenceManager used by this fragment.
 
-@Source(SHARED_PREFERNCES) PreferenceScreen getPreferenceScreen();
+@Source(SHARED_PREFERENCES) PreferenceScreen getPreferenceScreen();
 //Gets the root of the preference hierarchy that this fragment is showing.
 
 void onActivityCreated(Bundle savedInstanceState);

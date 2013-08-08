@@ -250,7 +250,7 @@ boolean dispatchTouchEvent(MotionEvent ev);
 boolean dispatchTrackballEvent(MotionEvent ev);
 //Called to process trackball events.
 
-void dump(String prefix, @Sink({INTERNET, FILESYSTEM, EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the Activity's state into the given stream.
 
 View findViewById(int id);

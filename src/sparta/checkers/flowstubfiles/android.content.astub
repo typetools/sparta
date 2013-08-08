@@ -6,7 +6,7 @@ class AsyncTaskLoader {
 void cancelLoadInBackground();
 //Called on the main thread to abort a load in progress.
 
-void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_FILESYSTEM, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the Loader's state into the given stream.
 
 boolean isLoadInBackgroundCanceled();
@@ -200,14 +200,97 @@ class ComponentName{
 }
 
 class ContentProvider {
-    final @Source(FlowPermission.ANY) Context getContext() @Source(FlowPermission.ANY);
-                @Source(DATABASE) Uri insert(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) ContentValues arg1);
-            int update(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) ContentValues arg1, @Sink(DATABASE) String arg2, @Sink(DATABASE) String @Sink(DATABASE)[] arg3);
-            @Source(DATABASE) Cursor query(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) String @Sink(DATABASE) [] arg1, @Sink(DATABASE) String arg2, @Sink(DATABASE) String @Sink(DATABASE)[] arg3, @Sink(DATABASE) String arg4);
-            @Source(DATABASE) String getType(@Sink(DATABASE) Uri arg0);
-            ContentProvider();
-            int delete(@Sink(DATABASE) Uri arg0, @Sink(DATABASE) String arg1, @Sink(DATABASE) String @Sink(DATABASE)[] arg2);
-            boolean onCreate();
+
+//CSH: content providers are tricky because they look like SQL queries, but can be implemented with anything, files, in-memory objects, databases, etc... not quite sure what to do here
+    
+ContentProviderResult[] applyBatch(ArrayList<ContentProviderOperation> operations);
+//Override this to handle requests to perform a batch of operations, or the default implementation will iterate over the operations and call apply(ContentProvider, ContentProviderResult[], int); on each of them.
+
+void attachInfo(Context context, ProviderInfo info);
+//After being instantiated, this is called to tell the content provider about itself.
+
+int bulkInsert(Uri uri, ContentValues[] values);
+//Override this to handle requests to insert a set of new rows, or the default implementation will iterate over the values and call insert(Uri, ContentValues); on each of them.
+
+Bundle call(String method, String arg, Bundle extras);
+//Call a provider-defined method.
+
+abstract int delete(Uri uri, String selection, String[] selectionArgs);
+//Implement this to handle requests to delete one or more rows.
+
+final Context getContext();
+//Retrieves the Context this provider is running in.
+
+final PathPermission[] getPathPermissions();
+//Return the path-based permissions required for read and/or write access to this content provider.
+
+final String getReadPermission();
+//Return the name of the permission required for read-only access to this content provider.
+
+String[] getStreamTypes(Uri uri, String mimeTypeFilter);
+//Called by a client to determine the types of data streams that this content provider supports for the given URI.
+
+abstract String getType(Uri uri);
+//Implement this to handle requests for the MIME type of the data at the given URI.
+
+final String getWritePermission();
+//Return the name of the permission required for read/write access to this content provider.
+
+abstract Uri insert(Uri uri, ContentValues values);
+//Implement this to handle requests to insert a new row.
+
+void onConfigurationChanged(Configuration newConfig);
+//Called by the system when the device configuration changes while your component is running. This method is always called on the application main thread, and must not perform lengthy operations.
+
+abstract boolean onCreate();
+//Implement this to initialize your content provider on startup.
+
+void onLowMemory();
+//This is called when the overall system is running low on memory, and would like actively running process to try to tighten their belt. This method is always called on the application main thread, and must not perform lengthy operations.
+
+void onTrimMemory(int level);
+//Called when the operating system has determined that it is a good time for a process to trim unneeded memory from its process.
+
+AssetFileDescriptor openAssetFile(Uri uri, String mode);
+//This is like openFile(Uri, String);, but can be implemented by providers that need to be able to return sub-sections of files, often assets inside of their .apk.
+
+ParcelFileDescriptor openFile(Uri uri, String mode);
+//Override this to handle requests to open a file blob.
+
+<T> ParcelFileDescriptor openPipeHelper(Uri uri, String mimeType, Bundle opts, T args, PipeDataWriter<T> func);
+//A helper function for implementing openTypedAssetFile(Uri, String, Bundle);, for creating a data pipe and background thread allowing you to stream generated data back to the client.
+
+AssetFileDescriptor openTypedAssetFile(Uri uri, String mimeTypeFilter, Bundle opts);
+//Called by a client to open a read-only stream containing data of a particular MIME type.
+
+abstract Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
+//Implement this to handle query requests from clients.
+
+Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal);
+//Implement this to handle query requests from clients with support for cancellation.
+
+void shutdown();
+//Implement this to shut down the ContentProvider instance.
+
+abstract int update(Uri uri, ContentValues values, String selection, String[] selectionArgs);
+//Implement this to handle requests to update one or more rows.
+
+//Protected Methods
+boolean isTemporary();
+//Returns true if this instance is a temporary content provider.
+
+final ParcelFileDescriptor openFileHelper(Uri uri, String mode);
+//Convenience for subclasses that wish to implement openFile(Uri, String); by looking up a column named "_data" at the given URI.
+
+final void setPathPermissions(PathPermission[] permissions);
+//Change the path-based permission required to read and/or write data in the content provider.
+
+final void setReadPermission(String permission);
+//Change the permission required to read data from the content provider.
+
+final void setWritePermission(String permission);
+//Change the permission required to read and write data in the content provider.
+
 }
 
 class ContentResolver {
@@ -474,18 +557,85 @@ void writeToParcel(Parcel parcel, int flags);
 }
 
 
-class ContentProviderOperation{
-        static Builder newUpdate(Uri uri);
-        static Builder newInsert(Uri uri);
+class ContentProviderOperation {
+    
+ContentProviderResult apply(ContentProvider provider, ContentProviderResult[] backRefs, int numBackRefs);
+//Applies this operation using the given provider.
+
+int describeContents();
+//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+
+Uri getUri();
+
+boolean isReadOperation();
+
+boolean isWriteOperation();
+
+boolean isYieldAllowed();
+
+static ContentProviderOperation.Builder newAssertQuery(Uri uri);
+//Create a ContentProviderOperation.Builder suitable for building a ContentProviderOperation to assert a set of values as provided through withValues(ContentValues);.
+
+static ContentProviderOperation.Builder newDelete(Uri uri);
+//Create a ContentProviderOperation.Builder suitable for building a delete ContentProviderOperation.
+
+static ContentProviderOperation.Builder newInsert(Uri uri);
+//Create a ContentProviderOperation.Builder suitable for building an insert ContentProviderOperation.
+
+static ContentProviderOperation.Builder newUpdate(Uri uri);
+//Create a ContentProviderOperation.Builder suitable for building an update ContentProviderOperation.
+
+String[] resolveSelectionArgsBackReferences(ContentProviderResult[] backRefs, int numBackRefs);
+//The Selection Arguments back references are represented as a Map of Integer->Integer where the key is an index into the selection argument array (see withSelection(String, String[]);); and the value is the index of the previous result that should be used for that selection argument array slot.
+
+ContentValues resolveValueBackReferences(ContentProviderResult[] backRefs, int numBackRefs);
+//The ContentValues back references are represented as a ContentValues object where the key refers to a column and the value is an index of the back reference whose valued should be associated with the column.
+
+String toString();
+//Returns a string containing a concise, human-readable description of this object.
+
+void writeToParcel(Parcel dest, int flags);
+//Flatten this object in to a Parcel.
+
+
+
+    
+    
 }
 
-class ContentProviderOperation$Builder{
-        Builder withValues(ContentValues values);
-        Builder withSelection(String selection, String[] selectionArgs);
-        ContentProviderOperation build();
-        Builder withValue(String key, Object value);
-        Builder withValueBackReference(String key, int previousResult);
+class ContentProviderOperation$Builder {
+    
+    
+ContentProviderOperation build();
+//Create a ContentProviderOperation from this ContentProviderOperation.Builder.
+
+ContentProviderOperation.Builder withExpectedCount(int count);
+//If set then if the number of rows affected by this operation do not match this count OperationApplicationException will be throw.
+
+ContentProviderOperation.Builder withSelection(String selection, String[] selectionArgs);
+//The selection and arguments to use.
+
+ContentProviderOperation.Builder withSelectionBackReference(int selectionArgIndex, int previousResult);
+//Add a back references as a selection arg.
+
+ContentProviderOperation.Builder withValue(String key, Object value);
+//A value to insert or update.
+
+ContentProviderOperation.Builder withValueBackReference(String key, int previousResult);
+//Add a ContentValues back reference.
+
+ContentProviderOperation.Builder withValueBackReferences(ContentValues backReferences);
+//Add a ContentValues of back references.
+
+ContentProviderOperation.Builder withValues(ContentValues values);
+//The ContentValues to use.
+
+ContentProviderOperation.Builder withYieldAllowed(boolean yieldAllowed);
+//
+
+
 }
+
 
 class ContentResolver{
         //Uri insert(Uri url, ContentValues values);
@@ -592,7 +742,7 @@ abstract ContentResolver getContentResolver();
 abstract @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getDatabasePath(@Sink(DATABASE) String name);
 //Returns the absolute path on the filesystem where a database created with openOrCreateDatabase(String, int, SQLiteDatabase.CursorFactory); is stored.
 
-abstract @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getDir(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String name, int mode);
+abstract @Source({FILESYSTEM}) File getDir(@Sink({FILESYSTEM}) String name, int mode);
 //Retrieve, creating if needed, a new directory in which the application can place its own custom data files.
 
 abstract @Source({READ_EXTERNAL_STORAGE}) File getExternalCacheDir();
@@ -1506,7 +1656,7 @@ class UriMatcher {
 
 class SharedPreferences {
     
-abstract @Source(SHARED_PREFERENCES) boolean contains(@Sink(SHARED_PREFERNCES) String key);
+abstract @Source(SHARED_PREFERENCES) boolean contains(@Sink(SHARED_PREFERENCES) String key);
 //Checks whether the preferences contains a preference.
 
 abstract @Source(SHARED_PREFERENCES) SharedPreferences.Editor edit();
@@ -1515,22 +1665,22 @@ abstract @Source(SHARED_PREFERENCES) SharedPreferences.Editor edit();
 abstract @Source(SHARED_PREFERENCES) Map<String, ?> getAll();
 //Retrieve all values from the preferences.
 
-abstract @Source(SHARED_PREFERENCES) boolean getBoolean(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) boolean defValue);
+abstract @Source(SHARED_PREFERENCES) boolean getBoolean(@Sink(SHARED_PREFERENCES) String key, @Sink(SHARED_PREFERENCES) boolean defValue);
 //Retrieve a boolean value from the preferences.
 
-abstract @Source(SHARED_PREFERENCES) float getFloat(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) float defValue);
+abstract @Source(SHARED_PREFERENCES) float getFloat(@Sink(SHARED_PREFERENCES) String key, @Sink(SHARED_PREFERENCES) float defValue);
 //Retrieve a float value from the preferences.
 
-abstract @Source(SHARED_PREFERENCES) int getInt(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) int defValue);
+abstract @Source(SHARED_PREFERENCES) int getInt(@Sink(SHARED_PREFERENCES) String key, @Sink(SHARED_PREFERENCES) int defValue);
 //Retrieve an int value from the preferences.
 
-abstract @Source(SHARED_PREFERENCES) long getLong(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) long defValue);
+abstract @Source(SHARED_PREFERENCES) long getLong(@Sink(SHARED_PREFERENCES) String key, @Sink(SHARED_PREFERENCES) long defValue);
 //Retrieve a long value from the preferences.
 
-abstract @Source(SHARED_PREFERENCES) String getString(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) String defValue);
+abstract @Source(SHARED_PREFERENCES) String getString(@Sink(SHARED_PREFERENCES) String key, @Sink(SHARED_PREFERENCES) String defValue);
 //Retrieve a String value from the preferences.
 
-abstract @Source(SHARED_PREFERENCES) Set<String> getStringSet(@Sink(SHARED_PREFERNCES) String key, @Sink(SHARED_PREFERNCES) Set<String> defValues);
+abstract @Source(SHARED_PREFERENCES) Set<String> getStringSet(@Sink(SHARED_PREFERENCES) String key, @Sink(SHARED_PREFERENCES) Set<String> defValues);
 //Retrieve a set of String values from the preferences.
 
 abstract void registerOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener);

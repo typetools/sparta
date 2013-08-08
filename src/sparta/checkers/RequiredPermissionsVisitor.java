@@ -7,7 +7,6 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 
-import sparta.checkers.quals.DependentPermissions;
 import sparta.checkers.quals.MayRequiredPermissions;
 import sparta.checkers.quals.RequiredPermissions;
 import checkers.basetype.BaseTypeVisitor;
@@ -29,64 +28,13 @@ import com.sun.source.tree.VariableTree;
  * TODO: should we propagate required permissions from (anonymous) inner classes
  * to the outside?
  */
-public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker, BasicAnnotatedTypeFactory<PermissionsChecker>> {
+public class RequiredPermissionsVisitor extends BaseTypeVisitor<RequiredPermissionsChecker,BasicAnnotatedTypeFactory<RequiredPermissionsChecker>> {
 
-    public PermissionsVisitor(PermissionsChecker checker,
-            CompilationUnitTree root) {
-    	super(checker, root);
-    }
-
-
-	@Override
-	public Void visitVariable(VariableTree node, Void p) {
-		// Checking for annotation on variable declaration
-		if (node != null) {
-			ExpressionTree et = node.getInitializer();
-			if (et != null) {
-				Element elt = TreeUtils.elementFromUse(et);
-				if (elt != null) {
-					AnnotationMirror reqP = atypeFactory.getDeclAnnotation(elt,
-							DependentPermissions.class);
-					if (reqP != null) {
-						List<String> depPerms = AnnotationUtils
-								.getElementValueArray(reqP, "value",
-										String.class, false);
-						if (!depPerms.isEmpty()) {
-							ExecutableElement callerElt = TreeUtils
-									.elementFromDeclaration(TreeUtils
-											.enclosingMethod(getCurrentPath()));
-							AnnotationMirror callerReq = atypeFactory
-									.getDeclAnnotation(callerElt,
-											DependentPermissions.class);
-							List<String> callerPerms;
-							List<String> missing = new LinkedList<String>();
-							if (callerReq == null) {
-								missing.addAll(depPerms);
-								callerPerms = new LinkedList<String>();
-							} else {
-								callerPerms = AnnotationUtils
-										.getElementValueArray(callerReq,
-												"value", String.class, false);
-								for (String perm : depPerms) {
-									if (!callerPerms.contains(perm)) {
-										missing.add(perm);
-									}
-								}
-							}
-							if (!missing.isEmpty()) {
-								checker.report(Result.failure(
-										"dependent.permissions",
-										node.getName(), depPerms), node);
-							}
-
-						}
-					}
-
-				}
-			}
-		}
-		return super.visitVariable(node, p);
+	public RequiredPermissionsVisitor(RequiredPermissionsChecker checker,
+			CompilationUnitTree root) {
+		super(checker, root);
 	}
+
 
 	@Override
 	public Void visitMethodInvocation(MethodInvocationTree node, Void p) {
@@ -94,7 +42,7 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker, Basi
 		visitMethodMayRequirePermissions(node, methodElt);
 		return super.visitMethodInvocation(node, p);
 	}
-
+	
 	private void visitMethodMayRequirePermissions(MethodInvocationTree node,
 			ExecutableElement methodElt) {
 		// Look for @MayRequiredPermissions on the enclosing method
@@ -132,7 +80,7 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker, Basi
 			}
 
 		}
-    }
+	}
 
 	private ExecutableElement visitMethodRequiredPermissions(
 			MethodInvocationTree node) {
@@ -172,9 +120,9 @@ public class PermissionsVisitor extends BaseTypeVisitor<PermissionsChecker, Basi
 		return methodElt;
 	}
 
-    @Override
-    public Void visitMethod(MethodTree node, Void p) {
-        // Ensure that all constants in @RequiredPermissions are in Manifest
-        return super.visitMethod(node, p);
-    }
+	@Override
+	public Void visitMethod(MethodTree node, Void p) {
+		// Ensure that all constants in @RequiredPermissions are in Manifest
+		return super.visitMethod(node, p);
+	}
 }

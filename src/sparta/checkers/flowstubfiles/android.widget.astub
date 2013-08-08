@@ -632,9 +632,7 @@ void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
 //Initializes an AccessibilityNodeInfo with information about this view.
 
 }
-class ContextThemeWrapper{
-            void setTheme(int resid);
-}
+
 
 interface Checkable {
 abstract boolean isChecked();
@@ -2741,9 +2739,6 @@ void addView(View child);
 ScrollView(Context context);
 }
 
-class SurfaceHolder{
-            Surface getSurface();
-}
 
 class SeekBar{
         void setOnSeekBarChangeListener(OnSeekBarChangeListener l);

@@ -275,7 +275,7 @@ void writeToParcel(Parcel parcel, int flags);
 class LocationListener {
     
     
-abstract void onLocationChanged(@Source({ACCESS_FINE_LOCATION, ACCESS_COURSE_LOCATION}) Location location);
+abstract void onLocationChanged(@Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Location location);
 //Called when the location has changed.
 
 abstract void onProviderDisabled(String provider);

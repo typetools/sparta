@@ -20,6 +20,8 @@
       </classpath>-->
     </javac>
     </presetdef>
+    
+    
     <!--depends="-set-release-mode, -release-obfuscation-check, -package, -post-package, -release-prompt-for-password, -release-nosign, -release-sign, -post-build"-->
 
     <!-- Apply a type processor to all files in the project. -->
@@ -51,7 +53,7 @@
             <!-- Option to enforce stricter checks, in particular for casts. -->
             <!-- Note that only one -Alint argument can be provided. -->
             <condition property="lintoptions"
-                   value="-Alint=cast:strict,arrays,strict-conditional:invariant"
+                   value="-Alint=cast:strict,strict-conditional,arrays:invariant"
                    else="">
                 <or>
                     <equals arg1="${stricter}" arg2="true" />
@@ -191,11 +193,24 @@
         <property name="build.target" value="reqperms" />
     </target>
 
+    <target name="check-permissions"
+                depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="check for both required permissions and dependent permissions.">
+        <process-proj processor="sparta.checkers.PermissionsChecker"/>
+    </target>
+
     <target name="reqperms"
                 depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for required permissions.">
-        <process-proj processor="sparta.checkers.PermissionsChecker"/>
+        <process-proj processor="sparta.checkers.RequiredPermissionsChecker"/>
     </target>
+
+    <target name="reqdependentperms"
+                depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="check for dependent permissions.">
+        <process-proj processor="sparta.checkers.DependentPermissionsChecker"/>
+    </target>
+
 
 
     <target name="flowshow"
@@ -254,5 +269,6 @@
                 description="report binary-only method calls and field accesses.">
         <process-proj processor="sparta.checkers.ReportBinaryChecker"/>
     </target>
+    
 
 </project>

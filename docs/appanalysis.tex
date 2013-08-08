@@ -28,7 +28,7 @@ More specifically, the recommended workflow is:
 % 
 % \begin{enumerate}
 % \item ant reportsuspicious (also runs sparta-code/suspicious.pl)
-% \item ant reqperms
+% \item ant check-permissions
 % \item ant reportapiusage
 % \item ant check-flow
 % \end{enumerate}
@@ -77,13 +77,8 @@ Look at the \<AndroidManifest.xml> file and:
   If an application uses certain permissions that are not justified
   in the description, this indicates suspicious code. 
   (To determine where these permissions are used in the application,
-   see \ref{sec:appanalysis/reqperms})
+   see \ref{sec:appanalysis/check-permissions})
 
-  (Permissions are not one-to-one with sinks and sources, but the name of the permission should give 
-  a clue about which sources and sinks are involved.)  For example, if the SEND\_SMS permission is 
-  requested, then SMS should be listed as a flow sink somewhere in the policy file.  If this is not the 
-  case, do not add it to the policy file, but pay close attention to how this permission is used in the 
-  code.
 
 \item Determine the entry points into the source code. (This may also give
   a hint about the architecture or overall modular structure of the
@@ -165,18 +160,18 @@ inform the SPARTA developers so they can add them to the
 
 
 \subsection{Review where permissions are used in the application}
-\label{sec:appanalysis/reqperms}
+\label{sec:appanalysis/check-permissions}
 
 
 Run
 
 \begin{Verbatim}
-  ant reqperms
+  ant check-permissions
 \end{Verbatim}
 
 \noindent
 to see where the application calls API methods that may require some Android permissions.  
-The \<ant reqperms> tool will help you gain an understanding of how your
+The \<ant check-permissions> tool will help you gain an understanding of how your
 app first obtains information from a sensitive source, or how your app
 finally sends information to a sensitive sink.  This may help you decide
 what parts of the app to further investigate, or where to start your
@@ -225,7 +220,7 @@ You should use
 notes=java.lang.String)> in case the permission may be required and you should 
 explain the reason on the \<notes> argument.
 However, it is not necessary to eliminate all the errors from RequiredPermissions.   
-The \<reqperms> tool is only a tool to guide your annotation and manual analysis effort. 
+The \<check-permissions> tool is only a tool to guide your annotation and manual analysis effort. 
 
 Any permission that is required should already be listed in the
 \<AndroidManifest.xml> file.
@@ -240,43 +235,6 @@ The permissions required by the Android API appear in file
  information. Explain the caveat of Android 4.0 changes and the issue
  with "entry-method" checks versus correct checking on all
  possible paths into an API.}
-
-
-\subsection{Review what APIs are used where in the application}
-
-Run
-
-\begin{alltt}
-  ant reportapiusage
-\end{alltt}
-
-\noindent
-to get a report of Android and other APIs used in the application.
-These APIs are not
-suspicious in general (see \ref{sec:appanalysis/suspicious} for reports
-about suspicious API use). However, they do help the analyst to better
-understand the structure of the code not just with respect to its standard
-module structure, but in terms of how it interacts with Android interfaces.
-
-The
-\<ant reportapiusage> target only reports about APIs that appear in the file:
-\<sparta-code/src/sparta/checkers/apiusage.astub>.
-Additional \<.astub> files can be passed using the \<-Astubs=...> argument in the
-build file.
-
-The following example from \<apiusage.astub> causes \<ant reportapiusage>
-to report the use of all entities in the package 
-\verb|com.android|:
-
-\begin{Verbatim}
-@ReportUse                                                         
-package com.android;
-\end{Verbatim}
-
-As you work, enhance the \<apiusage.astub> to add the entities that are
-most crucial to understand the behavior of an application.  Contact the
-SPARTA developers to tell them of additions that should appear in the file.
-
 
 \section{Verify information flow security\label{verify-information-flow-security}}
 
@@ -297,7 +255,6 @@ that information.  You may need to enhance those stub files, if they do not
 yet contain information about the library APIs that your application uses.
 (Over time, the stub files will become more complete, and you will have to
 do less work in this step for each new app.)
-
 
 Run \<ant check-flow> to create the missingAPI.astub file. For each method in the 
 file do the following.  
@@ -537,7 +494,7 @@ This option will also use the stricter conditional rule. (LITERAL
 %%% End: 
 
 %  LocalWords:  App xml env basename sparta dir app check-flow Dstrict SDK
-%  LocalWords:  reportsuspicious reqperms reportapiusage buildfile dirname
+%  LocalWords:  reportsuspicious check-permissions reportapiusage buildfile dirname
 %  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
 %  LocalWords:  RequiredPermissions Source Sink apiusage Dstubs
 %  LocalWords:  flowstubfiles TelephonyManager getLine1Number flowshow url

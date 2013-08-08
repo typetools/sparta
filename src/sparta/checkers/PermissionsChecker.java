@@ -1,11 +1,21 @@
 package sparta.checkers;
 
-import checkers.basetype.BaseTypeChecker;
-import checkers.quals.StubFiles;
-import checkers.quals.TypeQualifiers;
-import checkers.quals.Unqualified;
-import checkers.types.BasicAnnotatedTypeFactory;
 
-@TypeQualifiers(Unqualified.class)
-@StubFiles("permission.astub")
-public class PermissionsChecker extends BaseTypeChecker<BasicAnnotatedTypeFactory<PermissionsChecker>> {}
+import java.util.ArrayList;
+import java.util.Collection;
+
+
+import checkers.source.AggregateChecker;
+import checkers.source.SourceChecker;
+
+public class PermissionsChecker extends AggregateChecker {
+
+    @Override
+    protected Collection<Class<? extends SourceChecker<?>>> getSupportedCheckers(){
+        Collection<Class<? extends SourceChecker<?>>> checkers = new ArrayList<>();
+        checkers.add(RequiredPermissionsChecker.class);
+        checkers.add(DependentPermissionsChecker.class);
+
+        return checkers;
+    }
+}

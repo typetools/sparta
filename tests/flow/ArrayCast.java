@@ -1,14 +1,14 @@
+import static sparta.checkers.quals.FlowPermission.*;
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.PolySink;
-import sparta.checkers.quals.PolySource;
 
 class ArrayCast {
-
+void bar(){
+    @Source(INTERNET) byte /*@Source(CAMERA)*/ [] ba;
+}
+    
     void foo() {
         //:: error: (assignment.type.incompatible)
-        @Sink(FlowPermission.INTERNET) Object @Source(FlowPermission.ACCELEROMETER) [] params = new /*@Sink(FlowPermission.INTERNET)*/ Object[1];
+        @Sink(INTERNET) Object @Source(FlowPermission.ACCELEROMETER) [] params = new /*@Sink(INTERNET)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
 
         //strict:: warning: (cast.unsafe)
@@ -20,20 +20,20 @@ class ArrayCast {
         callStart(result);
         callFinished(result);
 
-        @Sink(FlowPermission.INTERNET) Object [] otherOne = getObjs();
+        @Sink(INTERNET) Object [] otherOne = getObjs();
         callStart(getObjs());
     }
 
-    @Source(FlowPermission.INTERNET) @Sink(FlowPermission.INTERNET) Object call(
-            @Source(FlowPermission.LITERAL) String method, @Sink(FlowPermission.INTERNET) Object[] params) {
-        @Source(FlowPermission.INTERNET) @Sink(FlowPermission.INTERNET) Object a = params[0];
+    @Source(INTERNET) @Sink(INTERNET) Object call(
+            @Source(FlowPermission.LITERAL) String method, @Sink(INTERNET) Object[] params) {
+        @Source(INTERNET) @Sink(INTERNET) Object a = params[0];
         return a;
     }
 
-    void callStart(@Source(FlowPermission.INTERNET) @Sink(FlowPermission.INTERNET) Object []  result) {}
-    void callFinished(Object @Source(FlowPermission.INTERNET) @Sink(FlowPermission.INTERNET) [] result) {}
+    void callStart(@Source(INTERNET) @Sink(INTERNET) Object []  result) {}
+    void callFinished(Object @Source(INTERNET) @Sink(INTERNET) [] result) {}
 
-    @Sink(FlowPermission.INTERNET) Object [] getObjs() {
+    @Sink(INTERNET) Object [] getObjs() {
         return null;
     }
 }

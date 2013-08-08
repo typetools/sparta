@@ -471,13 +471,6 @@ interface CharSequence {
     char charAt(int arg0);
     CharSequence subSequence(int arg0, int arg1);
     String toString();
-                boolean isAssignableFrom(Class<?> arg0);
-            boolean isInstance(Object arg0);
-            static Class<?> forName(String arg0) throws ClassNotFoundException;
-            Method getMethod(String arg0, Class<?>[] arg1) throws NoSuchMethodException,SecurityException;
-            T cast(Object arg0);
-            String getName();
-
 }
 
 class Class{
@@ -956,9 +949,7 @@ class ProcessBuilder$Redirect {
     boolean equals(Object arg0);
     int hashCode();
 }
-class Runnable{
-            void run();
-}
+
 
 @PolyFlowReceiver
 class Runtime {
@@ -1687,6 +1678,3 @@ class Modifier {
     static int fieldModifiers();
 }
 
-class Runnable {
-    void run();
-}

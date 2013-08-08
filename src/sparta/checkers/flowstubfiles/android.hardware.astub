@@ -5,22 +5,22 @@ class Camera {
 final void addCallbackBuffer(byte[] callbackBuffer);
 //Adds a pre-allocated buffer to the preview callback buffer queue.
 
-final void autoFocus(@Sink(CAMERA) Camera.AutoFocusCallback cb);
+final void autoFocus( Camera.AutoFocusCallback cb);
 //Starts camera auto-focus and registers a callback function to run when the camera is focused.
 
 final void cancelAutoFocus();
 //Cancels any auto-focus function in progress.
 
-final boolean enableShutterSound(@Sink(CAMERA) boolean enabled);
+final boolean enableShutterSound(@Sink(CAMERA_SETTINGS) boolean enabled);
 //Enable or disable the default shutter sound when taking a picture.
 
-static void getCameraInfo(@SINK(CAMERA) int cameraId, @Source(CAMERA) Camera.CameraInfo cameraInfo);
+static void getCameraInfo( int cameraId, @Source(CAMERA) Camera.CameraInfo cameraInfo);
 //Returns the information about a particular camera.
 
-static @Source(CAMERA) int getNumberOfCameras();
+static int getNumberOfCameras();
 //Returns the number of physical cameras available on this device.
 
-@Source(CAMERA) Camera.Parameters getParameters();
+@Source(CAMERA_SETTINGS) Camera.Parameters getParameters();
 //Returns the current settings for this Camera service.
 
 final void lock();
@@ -53,7 +53,7 @@ final void setFaceDetectionListener(Camera.FaceDetectionListener listener);
 final void setOneShotPreviewCallback(Camera.PreviewCallback cb);
 //Installs a callback to be invoked for the next preview frame in addition to displaying it on the screen.
 
-void setParameters(@Sink(CAMERA) Camera.Parameters params);
+void setParameters(@Sink(CAMERA_SETTINGS) Camera.Parameters params);
 //Changes the settings for this Camera service.
 
 final void setPreviewCallback(Camera.PreviewCallback cb);
@@ -62,10 +62,10 @@ final void setPreviewCallback(Camera.PreviewCallback cb);
 final void setPreviewCallbackWithBuffer(Camera.PreviewCallback cb);
 //Installs a callback to be invoked for every preview frame, using buffers supplied with addCallbackBuffer(byte[]);, in addition to displaying them on the screen.
 
-final void setPreviewDisplay(@Sink(CAMERA) SurfaceHolder holder);
+final void setPreviewDisplay(@Source(CAMERA) SurfaceHolder holder);
 //Sets the Surface to be used for live preview.
 
-final void setPreviewTexture(@Sink(CAMERA) SurfaceTexture surfaceTexture);
+final void setPreviewTexture(@Source(CAMERA) SurfaceTexture surfaceTexture);
 //Sets the SurfaceTexture to be used for live preview.
 
 final void setZoomChangeListener(Camera.OnZoomChangeListener listener);
@@ -105,7 +105,7 @@ void finalize();
 interface Camera$PictureCallback {
     void onPictureTaken(@Source(FlowPermission.CAMERA) byte @Source(FlowPermission.CAMERA) [] arg0, @Source(FlowPermission.CAMERA) Camera arg1);
 }
-
+ 
 class Camera$Parameters {
     
 String flatten();

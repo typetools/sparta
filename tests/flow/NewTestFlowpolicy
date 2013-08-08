@@ -1,2 +1,8 @@
 CAMERA  -> INTERNET, FILESYSTEM
 LITERAL -> INTERNET, FILESYSTEM
+#This flow is to catch issues with defaulting
+#If flow completion fails when a source is given, the sink is inferred 
+#to be whatever literal is allowed to flow to.
+#If this happens and the source is not allowed to flow to BIND_ACCESSIBILITY_SERVICE
+#, we will get a forbidden flow error
+LITERAL->BIND_ACCESSIBILITY_SERVICE
