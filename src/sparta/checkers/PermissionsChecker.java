@@ -1,10 +1,10 @@
 package sparta.checkers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import checkers.source.AggregateChecker;
 import checkers.source.SourceChecker;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class PermissionsChecker extends AggregateChecker {
 

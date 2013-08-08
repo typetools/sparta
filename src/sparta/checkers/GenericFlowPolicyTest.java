@@ -1,12 +1,15 @@
 package sparta.checkers;
 
 import checkers.util.test.CheckerTest;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
-import java.io.File;
-import java.util.*;
 
 @RunWith(Parameterized.class)
 public class GenericFlowPolicyTest extends CheckerTest {

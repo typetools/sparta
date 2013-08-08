@@ -1,25 +1,24 @@
 package sparta.checkers;
 
+import checkers.basetype.BaseTypeVisitor;
+import checkers.source.Result;
+import checkers.types.BasicAnnotatedTypeFactory;
+
+import javacutils.AnnotationUtils;
+import javacutils.TreeUtils;
+
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 
 import sparta.checkers.quals.MayRequiredPermissions;
 import sparta.checkers.quals.RequiredPermissions;
-import checkers.basetype.BaseTypeVisitor;
-import checkers.source.Result;
-import checkers.types.BasicAnnotatedTypeFactory;
-import javacutils.AnnotationUtils;
-import javacutils.TreeUtils;
 
 import com.sun.source.tree.CompilationUnitTree;
-import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
-import com.sun.source.tree.VariableTree;
 
 /**
  * Propagate required permissions up the call stack. Require that they are

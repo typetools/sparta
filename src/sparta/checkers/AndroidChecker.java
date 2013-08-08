@@ -1,10 +1,10 @@
 package sparta.checkers;
 
+import checkers.source.AggregateChecker;
+import checkers.source.SourceChecker;
+
 import java.util.ArrayList;
 import java.util.Collection;
-
-import checkers.source.*;
-import checkers.source.AggregateChecker;
 
 /**
  * An aggregate checker calling all Android type checkers.

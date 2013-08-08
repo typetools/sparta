@@ -1,12 +1,12 @@
 package sparta.checkers;
 
-import java.util.Properties;
-
-import javax.annotation.processing.SupportedOptions;
-
 import checkers.quals.TypeQualifiers;
 import checkers.quals.Unqualified;
 import checkers.util.report.ReportChecker;
+
+import java.util.Properties;
+
+import javax.annotation.processing.SupportedOptions;
 
 //Keep qualifiers & options in sync with superclass.
 @TypeQualifiers({ Unqualified.class })

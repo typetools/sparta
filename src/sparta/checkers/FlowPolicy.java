@@ -1,25 +1,35 @@
 package sparta.checkers;
 
+import static sparta.checkers.quals.FlowPermission.NOT_REVIEWED;
+
 import checkers.quals.PolyAll;
 import checkers.types.AnnotatedTypeMirror;
+
 import javacutils.Pair;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
-import sparta.checkers.quals.PolySink;
-import sparta.checkers.quals.PolySource;
-
-import javax.lang.model.element.AnnotationMirror;
-
-import static sparta.checkers.quals.FlowPermission.*;
-import sparta.checkers.quals.FlowPermission;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.lang.model.element.AnnotationMirror;
+
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.PolySink;
+import sparta.checkers.quals.PolySource;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
 
 /*>>>
  import checkers.nullness.quals.Nullable;

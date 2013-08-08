@@ -1,5 +1,7 @@
 package sparta.checkers;
 
+import checkers.util.test.ParameterizedCheckerTest;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -7,8 +9,6 @@ import java.util.Collection;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized.Parameters;
-
-import checkers.util.test.ParameterizedCheckerTest;
 
 /**
  * JUnit tests for the SPARTA Checkers.

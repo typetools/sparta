@@ -1,32 +1,26 @@
 package sparta.checkers;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.ExecutableElement;
-
-import sparta.checkers.quals.DependentPermissions;
-
 import checkers.basetype.BaseTypeChecker;
 import checkers.fenum.quals.FenumTop;
 import checkers.fenum.quals.FenumUnqualified;
 import checkers.quals.DefaultLocation;
-import checkers.quals.Unqualified;
-import checkers.source.Result;
-import checkers.types.AnnotatedTypeFactory;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.BasicAnnotatedTypeFactory;
 import checkers.types.TreeAnnotator;
 import checkers.util.AnnotationBuilder;
-import javacutils.AnnotationUtils;
-import javacutils.TreeUtils;
 
-import com.sun.source.tree.AssignmentTree;
+import javacutils.AnnotationUtils;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+
+import javax.lang.model.element.AnnotationMirror;
+
+import sparta.checkers.quals.DependentPermissions;
+
 import com.sun.source.tree.CompilationUnitTree;
-import com.sun.source.tree.ExpressionTree;
-import com.sun.source.tree.Tree;
 import com.sun.source.tree.LiteralTree;
+import com.sun.source.tree.Tree;
 import com.sun.tools.javac.util.Pair;
 
 public class DependentPermissionsAnnotatedTypeFactory extends

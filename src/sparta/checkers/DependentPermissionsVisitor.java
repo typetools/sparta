@@ -1,15 +1,14 @@
 package sparta.checkers;
 
-import java.util.List;
-import sparta.checkers.quals.DependentPermissions;
 import checkers.basetype.BaseTypeVisitor;
-import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
-import checkers.util.AnnotatedTypes;
 
-import com.sun.source.tree.*;
+import sparta.checkers.quals.DependentPermissions;
+
+import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.Tree;
 
 public class DependentPermissionsVisitor extends
         BaseTypeVisitor<DependentPermissionsChecker, DependentPermissionsAnnotatedTypeFactory> {

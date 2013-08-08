@@ -1,28 +1,29 @@
 package sparta.checkers;
 
-import java.util.List;
-
-import javax.lang.model.type.TypeKind;
-
-import com.sun.source.tree.AnnotationTree;
-import com.sun.source.tree.CompilationUnitTree;
-import com.sun.source.tree.Tree;
-import com.sun.source.util.Trees;
-
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
 import checkers.source.SourceVisitor;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
+
 import javacutils.AnnotationUtils;
 import javacutils.TreeUtils;
 
-import sparta.checkers.quals.Sink;
+import java.util.List;
+
+import javax.lang.model.type.TypeKind;
+
 import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.Source;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
+
+import com.sun.source.tree.AnnotationTree;
+import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.Tree;
+import com.sun.source.util.Trees;
 
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class })
 @StubFiles("flow.astub")

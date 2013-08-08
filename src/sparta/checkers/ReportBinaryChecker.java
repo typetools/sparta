@@ -4,11 +4,15 @@ import checkers.basetype.BaseTypeChecker;
 import checkers.source.Result;
 import checkers.source.SourceVisitor;
 import checkers.types.BasicAnnotatedTypeFactory;
+
 import javacutils.ElementUtils;
 import javacutils.TreeUtils;
 
-import com.sun.source.tree.*;
 import javax.lang.model.element.Element;
+
+import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.MemberSelectTree;
+import com.sun.source.tree.MethodInvocationTree;
 
 /**
  * A utility class for displaying all method calls and field accesses of

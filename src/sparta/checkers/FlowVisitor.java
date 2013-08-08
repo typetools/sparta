@@ -4,21 +4,6 @@ package sparta.checkers;
  import checkers.compilermsgs.quals.*;
  */
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javacutils.Pair;
-
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.Element;
-
-import sparta.checkers.quals.DependentPermissions;
-import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.MayRequiredPermissions;
-import sparta.checkers.quals.RequiredPermissions;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
 import checkers.basetype.BaseTypeChecker;
 import checkers.basetype.BaseTypeValidator;
 import checkers.basetype.BaseTypeVisitor;
@@ -32,6 +17,22 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedNoType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
+
+import javacutils.Pair;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
+
+import sparta.checkers.quals.DependentPermissions;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.MayRequiredPermissions;
+import sparta.checkers.quals.RequiredPermissions;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.CaseTree;

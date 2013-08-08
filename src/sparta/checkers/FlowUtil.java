@@ -2,15 +2,21 @@ package sparta.checkers;
 
 import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationBuilder;
+
 import javacutils.AnnotationUtils;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
-import sparta.checkers.quals.FlowPermission;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 
-import java.util.*;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
 
 public class FlowUtil {
 

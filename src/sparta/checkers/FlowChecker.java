@@ -7,6 +7,21 @@ package sparta.checkers;
 import static sparta.checkers.FlowUtil.createAnnoFromSink;
 import static sparta.checkers.FlowUtil.createAnnoFromSource;
 
+import checkers.basetype.BaseTypeChecker;
+import checkers.quals.PolyAll;
+import checkers.quals.StubFiles;
+import checkers.quals.TypeQualifiers;
+import checkers.source.SupportedLintOptions;
+import checkers.types.AnnotatedTypeMirror;
+import checkers.types.QualifierHierarchy;
+import checkers.util.MultiGraphQualifierHierarchy;
+import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
+import checkers.util.QualifierPolymorphism;
+import checkers.util.stub.StubGenerator;
+
+import javacutils.AnnotationUtils;
+import javacutils.TreeUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -18,9 +33,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javacutils.AnnotationUtils;
-import javacutils.TreeUtils;
 
 import javax.annotation.processing.SupportedOptions;
 import javax.lang.model.element.AnnotationMirror;
@@ -35,17 +47,6 @@ import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
-import checkers.basetype.BaseTypeChecker;
-import checkers.quals.PolyAll;
-import checkers.quals.StubFiles;
-import checkers.quals.TypeQualifiers;
-import checkers.source.SupportedLintOptions;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.QualifierHierarchy;
-import checkers.util.MultiGraphQualifierHierarchy;
-import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
-import checkers.util.QualifierPolymorphism;
-import checkers.util.stub.StubGenerator;
 
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolyAll.class })
 @StubFiles("flow.astub")
