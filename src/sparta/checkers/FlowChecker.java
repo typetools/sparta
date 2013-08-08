@@ -60,7 +60,9 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
     public static final String IGNORE_NOT_REVIEWED = "ignorenr";
     public boolean IGNORENR = false;
 
+
     protected AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
+
     protected AnnotationMirror NOSINK, ANYSINK, POLYSINK;
     protected AnnotationMirror POLYALL;
     protected AnnotationMirror LITERALSOURCE;
@@ -90,10 +92,12 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         NOSOURCE = AnnotationUtils.fromClass(elements, Source.class);
         NOSINK = AnnotationUtils.fromClass(elements, Sink.class);
 
+
         POLYSOURCE = AnnotationUtils.fromClass(elements, PolySource.class);
         POLYSINK = AnnotationUtils.fromClass(elements, PolySink.class);
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
 
+        
         NR_SOURCE = FlowUtil.createAnnoFromSource(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
         NR_SINK = FlowUtil.createAnnoFromSink(processingEnv, new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
 
@@ -369,23 +373,24 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
             }
         }
 
-        private void checkAny(AnnotationMirror anm) throws Exception {
-            boolean isPolySink = AnnotationUtils.areSame(anm, POLYSINK);
-            boolean isPolySource = AnnotationUtils.areSame(anm, POLYSOURCE);
 
-            if (!isPolySource && isSourceQualifier(anm)) {
-                List<FlowPermission> sources = FlowUtil.getSource(anm);
-                if (sources.contains(FlowPermission.ANY) && sources.size() > 1) {
-                    throw new Exception(
-                            "Found FlowPermission.ANY and something else");
-                }
-            }
-            if (!isPolySink && isSinkQualifier(anm)) {
-                List<FlowPermission> sinks = FlowUtil.getSink(anm);
-                if (sinks.contains(FlowPermission.ANY) && sinks.size() > 1) {
-                    throw new Exception("Found FlowPermission.ANY and something else");
-                }
-            }
+	private void checkAny(AnnotationMirror anm) throws Exception {
+	    boolean isPolySink = AnnotationUtils.areSame(anm, POLYSINK);
+	    boolean isPolySource = AnnotationUtils.areSame(anm, POLYSOURCE);
+	  
+	    if (!isPolySource && isSourceQualifier(anm)) {
+		List<FlowPermission> sources = FlowUtil.getSource(anm);
+		if (sources.contains(FlowPermission.ANY) && sources.size() > 1) {
+		    throw new Exception(
+			    "Found FlowPermission.ANY and something else");
+		}
+	    }
+	    if (!isPolySink && isSinkQualifier(anm)) {
+		List<FlowPermission> sinks = FlowUtil.getSink(anm);
+		if (sinks.contains(FlowPermission.ANY) && sinks.size() > 1) {
+		    throw new Exception("Found FlowPermission.ANY and something else");
+		}
+	    }
 
         }
 
@@ -415,36 +420,39 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
                 return a1;
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
-                if (AnnotationUtils.areSameIgnoringValues(a1, SOURCE)) {
+                if( AnnotationUtils.areSameIgnoringValues(a1, SOURCE) ) {
+
                     final Set<FlowPermission> superset = FlowUtil.getSource(a1, true);
                     superset.addAll(FlowUtil.getSource(a2, true));
                     FlowUtil.allToAnySource(superset, true);
                     return boundSource(superset);
 
-                } else if (AnnotationUtils.areSameIgnoringValues(a1, SINK)) {
+                } else if( AnnotationUtils.areSameIgnoringValues(a1, SINK) ) {
                     final Set<FlowPermission> intersection =  FlowUtil.getSink(a1, true);
                     intersection.retainAll(FlowUtil.getSink(a2, true));
                     FlowUtil.allToAnySink(intersection, true);
                     return boundSink(intersection);
 
                 }
-                //Poly Flows must be handled as if they are Top Type
-            } else if (AnnotationUtils.areSame(a1, POLYSINK)) {
-                if (AnnotationUtils.areSameIgnoringValues(a2, SINK)) {
-                    return boundSink(new HashSet<FlowPermission>());
-                }
-            } else if (AnnotationUtils.areSame(a2, POLYSINK)){
-                if (AnnotationUtils.areSameIgnoringValues(a1, SINK)) {
-                    return boundSink(new HashSet<FlowPermission>());
-                }
-            } else if (AnnotationUtils.areSame(a1, POLYSOURCE)){
-                if (AnnotationUtils.areSameIgnoringValues(a2, SOURCE)) {
+      //Poly Flows must be handled as if they are Top Type   
+            }else if(AnnotationUtils.areSame(a1, POLYSINK)){
+        	if( AnnotationUtils.areSameIgnoringValues(a2, SINK) ) {
+        	    return boundSink(new HashSet<FlowPermission>());
+        	}
+        	
+            }else if(AnnotationUtils.areSame(a2, POLYSINK)){
+        	if( AnnotationUtils.areSameIgnoringValues(a1, SINK) ) {
+        	    return boundSink(new HashSet<FlowPermission>());
+        	}
+            }else if(AnnotationUtils.areSame(a1, POLYSOURCE)){
+        	if( AnnotationUtils.areSameIgnoringValues(a2, SOURCE) ) {
                     Set<FlowPermission> top = new HashSet<FlowPermission>();
                     top.add(FlowPermission.ANY);
                     return boundSource(top);
                 }
-            } else if (AnnotationUtils.areSame(a2, POLYSOURCE)){
-                if (AnnotationUtils.areSameIgnoringValues(a1, SOURCE)) {
+        	
+            }else if(AnnotationUtils.areSame(a2, POLYSOURCE)){
+        	if( AnnotationUtils.areSameIgnoringValues(a1, SOURCE) ) {
                     Set<FlowPermission> top = new HashSet<FlowPermission>();
                     top.add(FlowPermission.ANY);
                     return boundSource(top);
@@ -461,38 +469,41 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
                 return a1;
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
-                if (AnnotationUtils.areSameIgnoringValues(a1, SOURCE)) {
+                if( AnnotationUtils.areSameIgnoringValues(a1, SOURCE) ) {
                     final Set<FlowPermission> intersection = FlowUtil.getSource(a1, true);
                     intersection.retainAll(FlowUtil.getSource(a2, true));
                     FlowUtil.allToAnySource(intersection, true);
                     return boundSource(intersection);
 
-                } else if (AnnotationUtils.areSameIgnoringValues(a1, SINK)) {
+
+                } else if( AnnotationUtils.areSameIgnoringValues(a1, SINK) ) {
                     final Set<FlowPermission> superSet =  FlowUtil.getSink(a1, true);
                     superSet.addAll(FlowUtil.getSink(a2, true));
                     FlowUtil.allToAnySink(superSet, true);
                     return boundSink(superSet);
 
                 }
-             //Poly Flows must be handled as if they are Bottom Type
-            } else if (AnnotationUtils.areSame(a1, POLYSINK)){
-                if (AnnotationUtils.areSameIgnoringValues(a2, SINK)) {
-                    Set<FlowPermission> bottom = new HashSet<FlowPermission>();
-                    bottom.add(FlowPermission.ANY);
-                    return boundSink(bottom);
-                }
-            } else if (AnnotationUtils.areSame(a2, POLYSINK)){
-                if (AnnotationUtils.areSameIgnoringValues(a1, SINK)) {
-                    Set<FlowPermission> bottom = new HashSet<FlowPermission>();
-                    bottom.add(FlowPermission.ANY);
-                    return boundSink(bottom);
-                }
-            } else if (AnnotationUtils.areSame(a1, POLYSOURCE)){
-                if (AnnotationUtils.areSameIgnoringValues(a2, SOURCE)) {
+             //Poly Flows must be handled as if they are Bottom Type   
+            }else if(AnnotationUtils.areSame(a1, POLYSINK)){
+        	if( AnnotationUtils.areSameIgnoringValues(a2, SINK) ) {
+        	    Set<FlowPermission> bottom = new HashSet<FlowPermission>();
+        	    bottom.add(FlowPermission.ANY);
+        	    return boundSink(bottom);
+        	}
+        	
+            }else if(AnnotationUtils.areSame(a2, POLYSINK)){
+        	if( AnnotationUtils.areSameIgnoringValues(a1, SINK) ) {
+        	    Set<FlowPermission> bottom = new HashSet<FlowPermission>();
+        	    bottom.add(FlowPermission.ANY);
+        	    return boundSink(bottom);
+        	}
+            }else if(AnnotationUtils.areSame(a1, POLYSOURCE)){
+        	if( AnnotationUtils.areSameIgnoringValues(a2, SOURCE) ) {
                     return boundSource(new HashSet<FlowPermission>());
                 }
-            } else if(AnnotationUtils.areSame(a2, POLYSOURCE)){
-                if (AnnotationUtils.areSameIgnoringValues(a1, SOURCE)) {
+        	
+            }else if(AnnotationUtils.areSame(a2, POLYSOURCE)){
+        	if( AnnotationUtils.areSameIgnoringValues(a1, SOURCE) ) {
                     return boundSource(new HashSet<FlowPermission>());
                 }
             }
@@ -503,9 +514,9 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         private AnnotationMirror boundSource(final Set<FlowPermission> flowSource) {
 
             final AnnotationMirror am;
-            if (flowSource.contains(FlowPermission.ANY)) { //contains all Source
+            if( flowSource.contains(FlowPermission.ANY) ) { //contains all Source
                 am = getTopAnnotation(SOURCE);
-            } else if (flowSource.isEmpty()) {
+            } else if(flowSource.isEmpty()) {
                 am = getBottomAnnotation(SOURCE);
             } else {
                 am = createAnnoFromSource( processingEnv, flowSource );
@@ -515,9 +526,9 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
 
         private AnnotationMirror boundSink(final Set<FlowPermission> flowSink) {
             final AnnotationMirror am;
-            if (flowSink.isEmpty()) {
+            if( flowSink.isEmpty() ) {
                 am = getTopAnnotation(SINK);
-            } else if (flowSink.contains(FlowPermission.ANY)) { //contains all Sink
+            } else if( flowSink.contains(FlowPermission.ANY) ) { //contains all Sink
                 am = getBottomAnnotation(SINK);
             } else {
                 am = createAnnoFromSink( processingEnv, flowSink );
