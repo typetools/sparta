@@ -43,41 +43,41 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         super(checker, root);
 
         // Use the bottom type as default for everything but local variables.
-        defaults.addAbsoluteDefault(checker.LITERALFLOWSOURCE, DefaultLocation.OTHERWISE);
+        defaults.addAbsoluteDefault(checker.LITERALSOURCE, DefaultLocation.OTHERWISE);
         // Use the top type for local variables and let flow refine the type.
-        defaults.addAbsoluteDefault(checker.ANYFLOWSOURCES, DefaultLocation.LOCALS);
+        defaults.addAbsoluteDefault(checker.ANYSOURCE, DefaultLocation.LOCALS);
 
         // Default is LITERAL -> (ALL MAPPED SINKS) for everything but local variables.
-        defaults.addAbsoluteDefault(checker.FROMLITERALFLOWSINK, DefaultLocation.OTHERWISE);
+        defaults.addAbsoluteDefault(checker.FROMLITERALSINK, DefaultLocation.OTHERWISE);
         // Use the top type for local variables and let flow refine the type.
-        defaults.addAbsoluteDefault(checker.NOFLOWSINKS, DefaultLocation.LOCALS);
+        defaults.addAbsoluteDefault(checker.NOSINK, DefaultLocation.LOCALS);
 
         //Top Type for Receivers
-        defaults.addAbsoluteDefault(checker.NOFLOWSINKS, DefaultLocation.RECEIVERS);
-        defaults.addAbsoluteDefault(checker.ANYFLOWSOURCES, DefaultLocation.RECEIVERS);
+        defaults.addAbsoluteDefault(checker.NOSINK, DefaultLocation.RECEIVERS);
+        defaults.addAbsoluteDefault(checker.ANYSOURCE, DefaultLocation.RECEIVERS);
 
         // But let's send null down any sink and give it no sources.
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.ANYFLOWSINKS);
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.NOFLOWSOURCES);
+        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.ANYSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.NOSOURCE);
 
         // Literals, other than null are different too
         // There are no Byte or Short literal types in java (0b is treated as an int),
         //   so there does not need to be a mapping for them here.
-        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, checker.LITERALFLOWSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, checker.LITERALFLOWSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, checker.LITERALFLOWSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, checker.LITERALFLOWSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, checker.LITERALFLOWSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, checker.LITERALFLOWSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.LITERALFLOWSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, checker.LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, checker.LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, checker.LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, checker.LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, checker.LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, checker.LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.LITERALSOURCE);
 
-        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, checker.FROMLITERALFLOWSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, checker.FROMLITERALFLOWSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, checker.FROMLITERALFLOWSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, checker.FROMLITERALFLOWSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, checker.FROMLITERALFLOWSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, checker.FROMLITERALFLOWSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.FROMLITERALFLOWSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, checker.FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, checker.FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, checker.FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, checker.FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, checker.FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, checker.FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.FROMLITERALSINK);
 
         this.notInStubFile = checker.notInStubFile;
 
@@ -121,8 +121,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                     if (!checker.IGNORENR) {
                         //TODO:instead of not reviewed we could issue a new error
                         //Something like Error: ByteCode method, method, has not been reviewed
-                        applier.apply(checker.NRSINK, DefaultLocation.OTHERWISE);
-                        applier.apply(checker.NRSOURCE, DefaultLocation.OTHERWISE);
+                        applier.apply(checker.NR_SINK, DefaultLocation.OTHERWISE);
+                        applier.apply(checker.NR_SOURCE, DefaultLocation.OTHERWISE);
                     }
                 }
 
@@ -130,27 +130,27 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
             } else if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
                 // Use poly flow sources and sinks for return types .
-                applier.apply(checker.POLYFLOWSOURCES, DefaultLocation.RETURNS);
-                applier.apply(checker.POLYFLOWSINKS, DefaultLocation.RETURNS);
+                applier.apply(checker.POLYSOURCE, DefaultLocation.RETURNS);
+                applier.apply(checker.POLYSINK, DefaultLocation.RETURNS);
 
                 // Use poly flow sources and sinks for Parameter types (This is excluding receivers)
-                applier.apply(checker.POLYFLOWSINKS, DefaultLocation.PARAMETERS);
-                applier.apply(checker.POLYFLOWSOURCES, DefaultLocation.PARAMETERS);
+                applier.apply(checker.POLYSINK, DefaultLocation.PARAMETERS);
+                applier.apply(checker.POLYSOURCE, DefaultLocation.PARAMETERS);
 
                 return;
 
             } else if (this.getDeclAnnotation(iter, PolyFlowReceiver.class) != null) {
                 // Use poly flow sources and sinks for return types .
-                applier.apply(checker.POLYFLOWSOURCES, DefaultLocation.RETURNS);
-                applier.apply(checker.POLYFLOWSINKS, DefaultLocation.RETURNS);
+                applier.apply(checker.POLYSOURCE, DefaultLocation.RETURNS);
+                applier.apply(checker.POLYSINK, DefaultLocation.RETURNS);
 
                 // Use poly flow sources and sinks for Parameter types (This is excluding receivers)
-                applier.apply(checker.POLYFLOWSINKS, DefaultLocation.PARAMETERS);
-                applier.apply(checker.POLYFLOWSOURCES, DefaultLocation.PARAMETERS);
+                applier.apply(checker.POLYSINK, DefaultLocation.PARAMETERS);
+                applier.apply(checker.POLYSOURCE, DefaultLocation.PARAMETERS);
 
                 // Use poly flow sources and sinks for receiver types
-                applier.apply(checker.POLYFLOWSINKS, DefaultLocation.RECEIVERS);
-                applier.apply(checker.POLYFLOWSOURCES, DefaultLocation.RECEIVERS);
+                applier.apply(checker.POLYSINK, DefaultLocation.RECEIVERS);
+                applier.apply(checker.POLYSOURCE, DefaultLocation.RECEIVERS);
 
                 return;
 
@@ -274,13 +274,13 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             AnnotationMirror flowSourceQual = null;
             AnnotationMirror flowSinkQuals  = null;
             for (final AnnotationMirror am : explicitAnnos) {
-                if (flowSourceQual == null && AnnotationUtils.areSameIgnoringValues(am, checker.FLOW_SOURCES) ) {
+                if (flowSourceQual == null && AnnotationUtils.areSameIgnoringValues(am, checker.SOURCE) ) {
                     flowSourceQual = am;
-                } else if (flowSourceQual == null && AnnotationUtils.areSameIgnoringValues(am, checker.POLYFLOWSOURCES) ) {
+                } else if (flowSourceQual == null && AnnotationUtils.areSameIgnoringValues(am, checker.POLYSOURCE) ) {
                     flowSourceQual = am;
-                } else if (flowSinkQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.FLOW_SINKS) ) {
+                } else if (flowSinkQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.SINK) ) {
                     flowSinkQuals = am;
-                } else if (flowSinkQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.POLYFLOWSINKS) ) {
+                } else if (flowSinkQuals == null && AnnotationUtils.areSameIgnoringValues(am, checker.POLYSINK) ) {
                     flowSinkQuals = am;
                 }
 
@@ -294,8 +294,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
         protected Pair<Set<FlowPermission>, Set<FlowPermission>> getNewSourceOrSink(final Pair<AnnotationMirror, AnnotationMirror> sourceToSinkQuals) {
             final FlowPolicy flowPolicy = checker.getFlowPolicy();
-            if (AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.first, checker.POLYFLOWSOURCES)  ||
-                    AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.second, checker.POLYFLOWSINKS) ) {
+            if (AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.first, checker.POLYSOURCE)  ||
+                    AnnotationUtils.areSameIgnoringValues(sourceToSinkQuals.second, checker.POLYSINK) ) {
                 return Pair.of(null, null);
             }
             final Set<FlowPermission> sources = FlowUtil.getSourceOrEmpty(sourceToSinkQuals.first, false);
