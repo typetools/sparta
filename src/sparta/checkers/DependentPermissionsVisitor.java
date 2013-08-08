@@ -13,8 +13,7 @@ import com.sun.source.tree.*;
 
 public class DependentPermissionsVisitor extends
         BaseTypeVisitor<DependentPermissionsChecker, DependentPermissionsAnnotatedTypeFactory> {
-    public DependentPermissionsVisitor(DependentPermissionsChecker checker,
-            CompilationUnitTree root) {
+    public DependentPermissionsVisitor(DependentPermissionsChecker checker, CompilationUnitTree root) {
         super(checker, root);
     }
 
@@ -28,7 +27,8 @@ public class DependentPermissionsVisitor extends
                 && varType.getAnnotation(DependentPermissions.class) == null) {
             return;
         } else {
-            super.commonAssignmentCheck(varType, valueType, valueTree, errorKey, isLocalVariableAssignement);
+            super.commonAssignmentCheck(varType, valueType, valueTree, errorKey,
+                    isLocalVariableAssignement);
         }
     }
 
@@ -42,8 +42,7 @@ public class DependentPermissionsVisitor extends
     // TODO: should we require a match between switch expression and cases?
 
     @Override
-    public boolean isValidUse(AnnotatedDeclaredType declarationType,
-            AnnotatedDeclaredType useType) {
+    public boolean isValidUse(AnnotatedDeclaredType declarationType, AnnotatedDeclaredType useType) {
         // The checker calls this method to compare the annotation used in a
         // type to the modifier it adds to the class declaration. As our default
         // modifier is Unqualified, this results in an error when a non-subtype

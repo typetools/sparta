@@ -9,4 +9,6 @@ import checkers.util.PurityChecker;
 
 @TypeQualifiers(Unqualified.class)
 @StubFiles("permission.astub")
-public class RequiredPermissionsChecker extends BaseTypeChecker<BasicAnnotatedTypeFactory<RequiredPermissionsChecker>> {}
+public class RequiredPermissionsChecker extends
+        BaseTypeChecker<BasicAnnotatedTypeFactory<RequiredPermissionsChecker>> {
+}

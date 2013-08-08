@@ -9,9 +9,9 @@ import checkers.quals.Unqualified;
 import checkers.util.report.ReportChecker;
 
 //Keep qualifiers & options in sync with superclass.
-@TypeQualifiers({Unqualified.class})
-@SupportedOptions({"reportTreeKinds", "reportModifiers"})
-//@StubFiles({"report.astub", "reflection.astub"})
+@TypeQualifiers({ Unqualified.class })
+@SupportedOptions({ "reportTreeKinds", "reportModifiers" })
+// @StubFiles({"report.astub", "reflection.astub"})
 public class AndroidReportChecker extends ReportChecker {
 
     // TODO: provide an annotation on the Checker class to change the

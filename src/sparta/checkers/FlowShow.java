@@ -24,8 +24,7 @@ import sparta.checkers.quals.Source;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 
-@TypeQualifiers({Source.class, Sink.class,
-    PolySource.class, PolySink.class})
+@TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class })
 @StubFiles("flow.astub")
 public class FlowShow extends FlowChecker {
     @Override
@@ -38,7 +37,8 @@ public class FlowShow extends FlowChecker {
         return new FlowShowVisitor(this, root);
     }
 
-    protected class FlowShowVisitor extends SourceVisitor<FlowChecker, FlowAnnotatedTypeFactory, Void, Void> {
+    protected class FlowShowVisitor extends
+            SourceVisitor<FlowChecker, FlowAnnotatedTypeFactory, Void, Void> {
 
         private final Trees treemsg;
 
@@ -50,14 +50,13 @@ public class FlowShow extends FlowChecker {
         @Override
         public Void scan(Tree tree, Void p) {
             super.scan(tree, p);
-            if (TreeUtils.isExpressionTree(tree) &&
-                    !(tree instanceof AnnotationTree) &&
-                    !(tree.getKind()==Tree.Kind.NULL_LITERAL)) {
+            if (TreeUtils.isExpressionTree(tree) && !(tree instanceof AnnotationTree)
+                    && !(tree.getKind() == Tree.Kind.NULL_LITERAL)) {
                 AnnotatedTypeMirror type = this.atypeFactory.getAnnotatedType(tree);
                 if (type.getKind() == TypeKind.WILDCARD) {
-                    type = ((AnnotatedWildcardType)type).getEffectiveExtendsBound();
+                    type = ((AnnotatedWildcardType) type).getEffectiveExtendsBound();
                 } else if (type.getKind() == TypeKind.TYPEVAR) {
-                    type = ((AnnotatedTypeVariable)type).getEffectiveUpperBound();
+                    type = ((AnnotatedTypeVariable) type).getEffectiveUpperBound();
                 }
 
                 boolean show = false;
@@ -73,10 +72,8 @@ public class FlowShow extends FlowChecker {
                     String stsrc = src.isEmpty() ? "NONE" : src.toString();
                     List<FlowPermission> snk = getSink(type);
                     String stsnk = snk.isEmpty() ? "NONE" : snk.toString();
-                    String msg = "FLOW TREE " + tree +
-                            " KIND " + tree.getKind() +
-                            " SOURCES " + stsrc +
-                            " SINKS " + stsnk;
+                    String msg = "FLOW TREE " + tree + " KIND " + tree.getKind() + " SOURCES "
+                            + stsrc + " SINKS " + stsnk;
                     treemsg.printMessage(javax.tools.Diagnostic.Kind.OTHER, msg, tree, currentRoot);
                 }
             }

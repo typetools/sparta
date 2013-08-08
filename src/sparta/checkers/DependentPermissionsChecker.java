@@ -40,10 +40,10 @@ import checkers.basetype.BaseTypeChecker;
  * @author edwardwu
  * 
  */
-@TypeQualifiers({ DependentPermissions.class, FenumTop.class,
-        FenumUnqualified.class, Bottom.class })
+@TypeQualifiers({ DependentPermissions.class, FenumTop.class, FenumUnqualified.class, Bottom.class })
 @StubFiles("permission.astub")
-public class DependentPermissionsChecker extends BaseTypeChecker<DependentPermissionsAnnotatedTypeFactory> {
+public class DependentPermissionsChecker extends
+        BaseTypeChecker<DependentPermissionsAnnotatedTypeFactory> {
     protected AnnotationMirror DP, BOTTOM;
 
     @Override
@@ -56,7 +56,9 @@ public class DependentPermissionsChecker extends BaseTypeChecker<DependentPermis
 
     /*
      * Used to overwrite the warning messages through by the source checker
-     * @see checkers.source.SourceChecker#report(checkers.source.Result, java.lang.Object)
+     * 
+     * @see checkers.source.SourceChecker#report(checkers.source.Result,
+     * java.lang.Object)
      */
     @Override
     public void report(final Result r, final Object src) {
@@ -68,18 +70,13 @@ public class DependentPermissionsChecker extends BaseTypeChecker<DependentPermis
 
             String s = ((String) (msg.getArgs()[0]));
 
-            super.report(
-                    Result.failure(
-                            "dependent.permissions",
-                            src.toString(),
-                            s.contains("[") ? s.substring(s.indexOf('[') + 1,
-                                    s.indexOf(']')) : s.subSequence(
-                                    s.indexOf('(') + 2, s.indexOf(')') - 1)),
-                    src);
+            super.report(Result.failure(
+                    "dependent.permissions",
+                    src.toString(),
+                    s.contains("[") ? s.substring(s.indexOf('[') + 1, s.indexOf(']')) : s
+                            .subSequence(s.indexOf('(') + 2, s.indexOf(')') - 1)), src);
         }
     }
-
-
 
     @Override
     public QualifierHierarchy createQualifierHierarchy(MultiGraphFactory factory) {

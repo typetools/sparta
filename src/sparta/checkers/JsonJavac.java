@@ -21,7 +21,6 @@ import javax.tools.ToolProvider;
 
 //import com.google.gson.Gson;
 
-
 /* Data classes that contain the information that will
  * be output as JSON.
  * For each report kind we introduce a separate Data subtype.
@@ -44,24 +43,31 @@ abstract class Data {
         return "file: " + filename + ":" + line;
     }
 }
+
 class ReadWriteData extends Data {
     String part;
 }
+
 class WriteData extends Data {
     String part;
 }
+
 class CallData extends Data {
     String part;
 }
+
 class NewData extends Data {
     String part;
 }
+
 class InheritData extends Data {
     String part;
 }
+
 class OverrideData extends Data {
     String part;
 }
+
 class UseData extends Data {
     // The name of the used Element.
     String useof;
@@ -74,10 +80,11 @@ class UseData extends Data {
 
     @Override
     public String toString() {
-    	return super.toString() + "\n    useof: " + useof + " (" + useofkind +
-    			")\n    useby: " + useby + " (" + usebykind + ")";
+        return super.toString() + "\n    useof: " + useof + " (" + useofkind + ")\n    useby: "
+                + useby + " (" + usebykind + ")";
     }
 }
+
 class FlowData extends Data {
     // The Tree at which the flow occurred.
     String tree;
@@ -93,14 +100,15 @@ class FlowData extends Data {
 }
 
 /**
- * This tool converts the diagnostic messages of the {@link AndroidReportChecker}
- * into first JSON representation.
- * The Java source files to compile are given as only command-line arguments.
- *
+ * This tool converts the diagnostic messages of the
+ * {@link AndroidReportChecker} into first JSON representation. The Java source
+ * files to compile are given as only command-line arguments.
+ * 
  * @author wmdietl
  */
 public abstract class JsonJavac {
-	abstract String getProcessorName();
+    abstract String getProcessorName();
+
     public void run(String[] args) {
         List<Diagnostic<? extends JavaFileObject>> diagnostics = compile(args);
         // System.out.println("Here: " + diagnostics);
@@ -111,13 +119,12 @@ public abstract class JsonJavac {
     protected List<Diagnostic<? extends JavaFileObject>> compile(String[] args) {
         String cpath = System.getenv("CLASSPATH");
 
-        String[] compArgs = new String[] {"-Xbootclasspath/p:" + cpath,
-                "-processor", this.getProcessorName(),
-                "-proc:only", // don't compile classes to save time
-                "-encoding", "ISO8859-1", // TODO: needed for JabRef only, make optional
-                "-Xmaxwarns", "100000",
-                "-AprintErrorStack",
-                "-Awarns"};
+        String[] compArgs = new String[] { "-Xbootclasspath/p:" + cpath, "-processor",
+                this.getProcessorName(), "-proc:only", // don't compile classes
+                                                       // to save time
+                "-encoding", "ISO8859-1", // TODO: needed for JabRef only, make
+                                          // optional
+                "-Xmaxwarns", "100000", "-AprintErrorStack", "-Awarns" };
 
         // Non-diagnostic compiler output will end up here.
         StringWriter javacoutput = new StringWriter();
@@ -127,15 +134,17 @@ public abstract class JsonJavac {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
-        Iterable<? extends JavaFileObject> files = fileManager.getJavaFileObjectsFromStrings(Arrays.asList(args));
+        Iterable<? extends JavaFileObject> files = fileManager.getJavaFileObjectsFromStrings(Arrays
+                .asList(args));
 
-        JavaCompiler.CompilationTask task = compiler.getTask(javacoutput, fileManager,
-                  diagnostics, Arrays.asList(compArgs), null, files);
+        JavaCompiler.CompilationTask task = compiler.getTask(javacoutput, fileManager, diagnostics,
+                Arrays.asList(compArgs), null, files);
 
         // Run the compiler.
         task.call();
 
-        // Just in case there are other messages. Put into error stream to allow separation.
+        // Just in case there are other messages. Put into error stream to allow
+        // separation.
         if (!javacoutput.toString().isEmpty()) {
             System.err.println("javac output: " + javacoutput);
         }
@@ -144,13 +153,12 @@ public abstract class JsonJavac {
     }
 
     /**
-     * Go through the provided diagnostics, parse the message, and create
-     * the a list of Data objects.
-     *
+     * Go through the provided diagnostics, parse the message, and create the a
+     * list of Data objects.
+     * 
      * @param diagnostics
      */
-    protected List<Data> filter(
-            List<Diagnostic<? extends JavaFileObject>> diagnostics) {
+    protected List<Data> filter(List<Diagnostic<? extends JavaFileObject>> diagnostics) {
         List<Data> datas = new LinkedList<Data>();
 
         for (Diagnostic<? extends JavaFileObject> diag : diagnostics) {
@@ -165,7 +173,7 @@ public abstract class JsonJavac {
                 Matcher match = READWRITE_Pattern.matcher(msg);
                 if (match.matches()) {
                     data = new ReadWriteData();
-                    ((ReadWriteData)data).part = match.group(1);
+                    ((ReadWriteData) data).part = match.group(1);
                 }
                 break;
             }
@@ -173,7 +181,7 @@ public abstract class JsonJavac {
                 Matcher match = WRITE_Pattern.matcher(msg);
                 if (match.matches()) {
                     data = new WriteData();
-                    ((WriteData)data).part = match.group(1);
+                    ((WriteData) data).part = match.group(1);
                 }
                 break;
             }
@@ -181,7 +189,7 @@ public abstract class JsonJavac {
                 Matcher match = CALL_Pattern.matcher(msg);
                 if (match.matches()) {
                     data = new CallData();
-                    ((CallData)data).part = match.group(1);
+                    ((CallData) data).part = match.group(1);
                 }
                 break;
             }
@@ -189,7 +197,7 @@ public abstract class JsonJavac {
                 Matcher match = NEW_Pattern.matcher(msg);
                 if (match.matches()) {
                     data = new NewData();
-                    ((NewData)data).part = match.group(1);
+                    ((NewData) data).part = match.group(1);
                 }
                 break;
             }
@@ -197,7 +205,7 @@ public abstract class JsonJavac {
                 Matcher match = INHERIT_Pattern.matcher(msg);
                 if (match.matches()) {
                     data = new InheritData();
-                    ((InheritData)data).part = match.group(1);
+                    ((InheritData) data).part = match.group(1);
                 }
                 break;
             }
@@ -205,7 +213,7 @@ public abstract class JsonJavac {
                 Matcher match = OVERRIDE_Pattern.matcher(msg);
                 if (match.matches()) {
                     data = new OverrideData();
-                    ((OverrideData)data).part = match.group(1);
+                    ((OverrideData) data).part = match.group(1);
                 }
                 break;
             }
@@ -235,7 +243,7 @@ public abstract class JsonJavac {
             }
             }
 
-            if (data!=null) {
+            if (data != null) {
                 data.filename = diag.getSource().getName();
                 data.line = diag.getLineNumber();
                 datas.add(data);
@@ -248,9 +256,9 @@ public abstract class JsonJavac {
     abstract protected void print(List<Data> datas);
 
     /*
-     * The following fields are the regular expression strings and their respecitve
-     * compiled patterns for the diagnostic messages.
-     * Also see file json-report-messages.properties for the strings.
+     * The following fields are the regular expression strings and their
+     * respecitve compiled patterns for the diagnostic messages. Also see file
+     * json-report-messages.properties for the strings.
      */
     private final static String READWRITE_String = "READWRITE (.*)";
     private final static Pattern READWRITE_Pattern = Pattern.compile(READWRITE_String);
@@ -278,7 +286,7 @@ public abstract class JsonJavac {
 
     public static abstract class JsonPrint extends JsonJavac {
         protected void print(List<Data> datas) {
-            //Gson gson = new Gson();
+            // Gson gson = new Gson();
             String json = datas.toString();
             System.out.println(json);
         }
@@ -321,7 +329,7 @@ public abstract class JsonJavac {
         Map<String, Set<UseData>> uses = new HashMap<>();
 
         protected void print(List<Data> datas) {
-            for (Data d: datas) {
+            for (Data d : datas) {
                 if (d instanceof UseData) {
                     addMapping(uses, ((UseData) d).useby, (UseData) d);
                 }

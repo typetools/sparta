@@ -12,10 +12,10 @@ import java.lang.annotation.*;
 import checkers.fenum.quals.FenumTop;
 import checkers.quals.*;
 
-
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER, ElementType.CONSTRUCTOR, ElementType.METHOD })
+@Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER, ElementType.CONSTRUCTOR,
+        ElementType.METHOD })
 @TypeQualifier
 @SubtypeOf(FenumTop.class)
 public @interface DependentPermissions {
