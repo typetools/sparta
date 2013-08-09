@@ -15,7 +15,12 @@
     <!-- Use the environment variable, if nothing was set yet. -->
     <property name="android.home" value="${env.ANDROID_HOME}"/>
 
-    <property name="android.jar" value="${android.home}/platforms/${android.version}/android.jar"/>
+    <property name="android.jar" value="${android.home}/platforms/${android.version}/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar" />
+
+    <condition property="latestAndroid.jar" value="${android.home}/platforms/android-18/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar">
+	<available file="${android.home}/platforms/android-18/android.jar"/>
+	</condition>
+    <property name="latestAndroid.jar" value="${android.home}/platforms/${android.version}/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar" />
 
     <property name="src" value="src"/>
     <property name="flow.stubfiles" value="src/sparta/checkers/flowstubfiles"/>
@@ -159,7 +164,7 @@ ${build.version} of the 'javac.jar' library."/>
         <java fork="true"
             jar="${checkers.lib}"
             failonerror="true" >
-            <arg line="-cp ${build}:${android.jar}" />
+            <arg line="-cp ${build}:${latestAndroid.jar}" />
             <arg value="-g"/>
             <arg line="-d ${build}"/>
             <arg line="-AstubWarnIfNotFound"/>
