@@ -260,7 +260,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
     }
 
     private boolean areFlowsValid(final AnnotatedTypeMirror atm) {
-//TODO: Is atm local?
+//TODO: Only allow top for locals and upper bounds
         boolean isLocal = false;//atm.getKind() != null
 //                && atm.getKind() == TypeKind.LOCAL_VARIABLE;
         if ((isLocal || this.topAllowed) && FlowUtil.isTop(atm)) {

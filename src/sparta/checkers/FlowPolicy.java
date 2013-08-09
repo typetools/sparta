@@ -104,13 +104,13 @@ public class FlowPolicy {
         HashMap<FlowPermission, Set<FlowPermission>> defaultAllowedFlows = new HashMap<FlowPermission, Set<FlowPermission>>();
         HashSet<FlowPermission> sinkSet = new HashSet<FlowPermission>(1);
         sinkSet.add(FlowPermission.CONDITIONAL);
-
+        
         if (strictConditionals) {
             defaultAllowedFlows.put(FlowPermission.LITERAL, sinkSet);
         } else {
             defaultAllowedFlows.put(FlowPermission.ANY, sinkSet);
         }
-
+        
         return defaultAllowedFlows;
     }
 
@@ -189,7 +189,10 @@ public class FlowPolicy {
     public boolean areFlowsAllowed(final Pair<Set<FlowPermission>, Set<FlowPermission>> flows) {
         final Set<FlowPermission> sources = flows.first;
         final Set<FlowPermission> sinks = flows.second;
-
+        if (sinks.isEmpty() && sources.contains(FlowPermission.ANY)) {
+          //TODO: Top should only be allowed for locals and upper bounds
+            return true;
+        }
         if (sources.isEmpty() || sinks.isEmpty()) {
             return false;
         }
