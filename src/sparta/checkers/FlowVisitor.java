@@ -1,5 +1,8 @@
 package sparta.checkers;
 
+/*>>>
+import checkers.compilermsgs.quals.*;
+*/
 
 import checkers.basetype.BaseTypeChecker;
 import checkers.basetype.BaseTypeValidator;
