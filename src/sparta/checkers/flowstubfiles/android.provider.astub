@@ -49,12 +49,6 @@ static InputStream openContactPhotoInputStream(ContentResolver cr, Uri contactUr
 }
 
 
-
-
-class MediaStore {
-static final @Source(FlowPermission.MEDIA) String CONTENT_AUTHORITY_SLASH;
-}
-
 class MediaStore$Audio$Playlists$Members{
         static @Source(FlowPermission.MEDIA) Uri getContentUri(String volumeName, long playlistId);
 }

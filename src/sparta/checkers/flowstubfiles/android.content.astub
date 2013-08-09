@@ -1650,7 +1650,6 @@ class UriMatcher {
     void addURI(@PolySource @PolySink String authority, @PolySource @PolySink String path, @PolySource @PolySink int code) @PolySource @PolySink;
     @PolyFlow int match(Uri uri);
     @Source(FlowPermission.INTENT) UriMatcher(@Source(FlowPermission.LITERAL) @Sink({}) int code);
-    @Source(FlowPermission.INTENT) Uri getData();
 }
 
 

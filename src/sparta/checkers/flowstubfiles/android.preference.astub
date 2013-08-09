@@ -284,7 +284,7 @@ boolean shouldPersist();
 class Preference$OnPreferenceChangeListener{
         boolean onPreferenceChange(Preference arg0, Object arg1);
 }
-class PreferenceActiviy {
+class PreferenceActivity {
     
 void addPreferencesFromIntent(Intent intent);
 //This method was deprecated in API level 11. This function is not relevant for a modern fragment-based PreferenceActivity.
