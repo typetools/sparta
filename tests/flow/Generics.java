@@ -75,7 +75,7 @@ class TestUpperObject{
 class TypeAsKeyHashMap<T> {
 
 	public <S extends T> S get(T type) {
-		//:: warning: (cast.unsafe)
+		//:: warning: [unchecked] unchecked cast :: warning: (cast.unsafe)
 		return (S) type;
 	}
 }
