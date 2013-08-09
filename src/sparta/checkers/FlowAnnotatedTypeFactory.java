@@ -280,10 +280,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                         }
                     }
                 }
-                // Note this only works because TreeAnnotator does not add any
-                // defaults besides literals
-                completePolicyFlows(type,
-                        (isLocal) ? type.getExplicitAnnotations() : type.getAnnotations());
+           
+                completePolicyFlows(type, type.getAnnotations());
             }
         }
 

@@ -230,10 +230,10 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- Make sure to add all individual tests as dependency. -->
-    <target name="all-tests" depends="jar,build-tests,reqperms-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests"
+    <target name="all-tests" depends="jar,build-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests"
       description="Run tests for all checkers"/>
 
-    <target name="reqperms-tests" depends="jar,build-tests"
+    <target name="permissions-tests" depends="jar,build-tests"
       description="Run tests for the Permissions Checker">
         <antcall target="-run-tests">
             <param name="testclass" value="sparta.checkers.AndroidTests$AndroidPermissionsCheckerTests"/>
