@@ -18,5 +18,5 @@ import java.lang.annotation.Target;
 @Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
 public @interface RequiredPermissions {
     // TODO: the annotation is not recognized if it's in a comment!
-    /* @Permission */String[] value() default {};
+    /*@Permission*/String[] value() default {};
 }

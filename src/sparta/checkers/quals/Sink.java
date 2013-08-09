@@ -21,6 +21,7 @@ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_
 @TypeQualifier
 @SubtypeOf({})
 public @interface Sink {
+
     /**
      * By default we allow no sinks. There is always a @Sink annotation and this
      * default ensures that the annotation has no effect.

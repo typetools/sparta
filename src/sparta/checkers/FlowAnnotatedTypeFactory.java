@@ -6,6 +6,8 @@ import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 import checkers.types.BasicAnnotatedTypeFactory;
+
+
 import checkers.util.QualifierDefaults;
 import checkers.util.QualifierDefaults.DefaultApplierElement;
 
@@ -14,8 +16,10 @@ import javacutils.ElementUtils;
 import javacutils.InternalUtils;
 import javacutils.Pair;
 
+
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,17 +40,9 @@ import com.sun.source.tree.Tree;
 
 public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChecker> {
 
-    private final Map<String, Map<String, Map<Element, Integer>>> notInStubFile; // List
-                                                                                 // of
-                                                                                 // methods
-                                                                                 // that
-                                                                                 // are
-                                                                                 // not
-                                                                                 // in
-                                                                                 // a
-                                                                                 // stub
-                                                                                 // file
 
+    // List of methods that are not in a stub file
+    private final Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
     public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
         super(checker, root);
 
@@ -185,7 +181,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
      *            element that needs to be reviewed
      */
     private void notAnnotated(final Element element) {
-        if (!element.getEnclosingElement().getKind().isClass())
+
+        if (!(element.getEnclosingElement() instanceof TypeElement))
             return;
 
         TypeElement clssEle = (TypeElement) element.getEnclosingElement();
@@ -214,6 +211,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             Integer i = elementmap.get(element);
             i++;
             elementmap.put(element, i);
+
         } else {
             elementmap.put(element, 1);
         }
@@ -237,7 +235,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
             boolean isLocal = (element == null || element.getKind() == ElementKind.LOCAL_VARIABLE);
 
-            if (!isLocal /* && element != null */
+
+            if (!isLocal /*&& element != null*/
                     && (element.getKind() == ElementKind.METHOD || element.getKind() == ElementKind.CONSTRUCTOR)
                     && type.getKind() == TypeKind.EXECUTABLE) {
                 final AnnotatedExecutableType exeType = (AnnotatedExecutableType) type;
@@ -251,8 +250,11 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             } else {
                 if (type instanceof AnnotatedTypeMirror.AnnotatedDeclaredType) {
                     AnnotatedDeclaredType dec = ((AnnotatedTypeMirror.AnnotatedDeclaredType) type);
-                    for (final AnnotatedTypeMirror atm : dec.getTypeArguments()) {
-                        completePolicyFlows(false, atm);
+                    List<AnnotatedTypeMirror> typArgs = dec.getTypeArguments();
+                    if (typArgs != null) {
+                        for (final AnnotatedTypeMirror atm : typArgs ) {
+                            completePolicyFlows(false, atm);
+                        }
                     }
                 }
                 completePolicyFlows(isLocal, type);
@@ -271,8 +273,11 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             } else {
                 if (type instanceof AnnotatedTypeMirror.AnnotatedDeclaredType) {
                     AnnotatedDeclaredType dec = ((AnnotatedTypeMirror.AnnotatedDeclaredType) type);
-                    for (final AnnotatedTypeMirror atm : dec.getTypeArguments()) {
-                        completePolicyFlows(false, atm);
+                    List<AnnotatedTypeMirror> typArgs = dec.getTypeArguments();
+                    if (typArgs != null) {
+                        for (final AnnotatedTypeMirror atm : typArgs ) {
+                            completePolicyFlows(false, atm);
+                        }
                     }
                 }
                 // Note this only works because TreeAnnotator does not add any

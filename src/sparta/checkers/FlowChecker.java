@@ -1,9 +1,5 @@
 package sparta.checkers;
 
-/*>>>
- import checkers.compilermsgs.quals.CompilerMessageKey;
- */
-
 import static sparta.checkers.FlowUtil.createAnnoFromSink;
 import static sparta.checkers.FlowUtil.createAnnoFromSource;
 
@@ -11,16 +7,18 @@ import checkers.basetype.BaseTypeChecker;
 import checkers.quals.PolyAll;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
+
+import checkers.source.SourceChecker;
 import checkers.source.SupportedLintOptions;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.QualifierHierarchy;
+
+import javacutils.AnnotationUtils;
 import checkers.util.MultiGraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import checkers.util.QualifierPolymorphism;
-import checkers.util.stub.StubGenerator;
-
-import javacutils.AnnotationUtils;
 import javacutils.TreeUtils;
+import checkers.util.stub.StubGenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,18 +46,23 @@ import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
+/*>>>
+import checkers.compilermsgs.quals.CompilerMessageKey;
+*/
+
+
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolyAll.class })
 @StubFiles("flow.astub")
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, FlowChecker.MSG_FILTER_OPTION,
         FlowChecker.IGNORE_NOT_REVIEWED })
 @SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })
+
 public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
     public static final String MSG_FILTER_OPTION = "msgFilter";
     public static final String IGNORE_NOT_REVIEWED = "ignorenr";
     public boolean IGNORENR = false;
 
     protected AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
-
     protected AnnotationMirror NOSINK, ANYSINK, POLYSINK;
     protected AnnotationMirror POLYALL;
     protected AnnotationMirror LITERALSOURCE;
@@ -195,12 +198,11 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
     private final String printMissMethod = "missingAPI.astub";
     // TODO: would be nice if there was a command line argument to turn this on
     // and off
-    private final boolean printFrequency = true;
+    private boolean printFrequency = true;
 
     private void printMethods() {
         if (notInStubFile.isEmpty())
             return;
-
         PrintStream out;
         int methodCount = 0;
         try {
@@ -441,7 +443,6 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, SOURCE)) {
-
                     final Set<FlowPermission> superset = FlowUtil.getSource(a1, true);
                     superset.addAll(FlowUtil.getSource(a2, true));
                     FlowUtil.allToAnySource(superset, true);
@@ -566,10 +567,8 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
     }
 
     @Override
-    protected void message(Diagnostic.Kind kind, Object source, /*
-                                                                 * @
-                                                                 * CompilerMessageKey
-                                                                 */String msgKey, Object... args) {
+    protected void message(Diagnostic.Kind kind, Object source, /*@CompilerMessageKey*/
+            String msgKey, Object... args) {
         if (unfilteredMessages == null || unfilteredMessages.contains(msgKey)) {
             super.message(kind, source, msgKey, args);
         }

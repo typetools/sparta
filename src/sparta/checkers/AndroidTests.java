@@ -54,8 +54,9 @@ public class AndroidTests {
 
     public static class AndroidReportCheckerTests extends ParameterizedCheckerTest {
         public AndroidReportCheckerTests(File testFile) {
-            super(testFile, AndroidReportChecker.class, "sparta.checkers", "-Anomsgtext",
+            super(testFile, AndroidReportChecker.class.getName(), "sparta.checkers", "-Anomsgtext",
                     "-Astubs=apiusage.astub:suspicious.astub");
+
         }
 
         @Parameters
@@ -66,12 +67,12 @@ public class AndroidTests {
 
     public static class FlowCheckerTests extends ParameterizedCheckerTest {
         public FlowCheckerTests(File testFile) {
-            super(testFile, FlowChecker.class, "sparta.checkers", "-Anomsgtext",
+            super(testFile, FlowChecker.class.getName(), "sparta.checkers", "-Anomsgtext",
                     "-Astubs=tests/flow/flowtests.astub");
             // Uncomment the line below to see the full errors in the JUnit
             // tests
-            // super(testFile, FlowChecker.class, "sparta.checkers",
-            // "stubWarnIfNotFound", "-Astubs=tests/flow/flowtests.astub");
+            // super(testFile, FlowChecker.class.getName(), "sparta.checkers",
+            // "-Astubs=tests/flow/flowtests.astub");
         }
 
         @Parameters
@@ -132,7 +133,8 @@ public class AndroidTests {
             final File flowPolicyFile = getFlowPolicy(testFile);
             final File stubFile = getStubfile(testFile);
             final String[] optionsWithPf;
-            // int length = checkerOptions.length;
+
+            int length = checkerOptions.length;
 
             if (flowPolicyFile.exists() && !stubFile.exists()) {
                 optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 2);

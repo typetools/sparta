@@ -52,7 +52,7 @@ public class FlowPolicy {
     private final Map<FlowPermission, Set<FlowPermission>> allowedFlows;
     private final Map<FlowPermission, Set<FlowPermission>> reversedAllowedFlows;
 
-    private final/* @Nullable */Set<FlowPermission> sinksFromAnySource;
+    private final/*@Nullable*/Set<FlowPermission> sinksFromAnySource;
 
     // True: LITERAL->CONDITIONAL is added,
     // False: ANY->CONDITIONAL is added

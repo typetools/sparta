@@ -108,7 +108,11 @@ public class FlowUtil {
     }
 
     /**
+<<<<<<< local
      * Returns the set of flow sinks for the given annotation mirror
+=======
+     * REturn the set of flow sinks for the given annoation mirror
+>>>>>>> other
      * 
      * @param annotationMirror
      *            if null, then the empty set is returned

@@ -76,7 +76,6 @@ public class RequiredPermissionsVisitor
                                             false)), node);
                 }
             }
-
         }
     }
 

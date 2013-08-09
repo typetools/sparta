@@ -11,7 +11,14 @@ import checkers.types.QualifierHierarchy;
 import checkers.util.GraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 
+
 import javacutils.AnnotationUtils;
+
+import java.lang.annotation.Annotation;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.util.Elements;

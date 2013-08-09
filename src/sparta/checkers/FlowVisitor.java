@@ -1,8 +1,5 @@
 package sparta.checkers;
 
-/*>>>
- import checkers.compilermsgs.quals.*;
- */
 
 import checkers.basetype.BaseTypeChecker;
 import checkers.basetype.BaseTypeValidator;
@@ -19,6 +16,35 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
 
 import javacutils.Pair;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+
+import sparta.checkers.quals.DependentPermissions;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.MayRequiredPermissions;
+import sparta.checkers.quals.RequiredPermissions;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
+
+import com.sun.source.tree.AnnotationTree;
+import com.sun.source.tree.CaseTree;
+import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.ConditionalExpressionTree;
+import com.sun.source.tree.DoWhileLoopTree;
+import com.sun.source.tree.ExpressionTree;
+import com.sun.source.tree.ForLoopTree;
+import com.sun.source.tree.IfTree;
+import com.sun.source.tree.MethodInvocationTree;
+import com.sun.source.tree.SwitchTree;
+import com.sun.source.tree.Tree;
+import com.sun.source.tree.WhileLoopTree;
+import com.sun.tools.javac.tree.JCTree;
+import com.sun.tools.javac.tree.TreeInfo;
 
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +52,7 @@ import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.type.TypeKind;
 
 import sparta.checkers.quals.DependentPermissions;
 import sparta.checkers.quals.FlowPermission;
@@ -59,6 +86,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
 
     @Override
     public boolean isValidUse(AnnotatedDeclaredType declarationType, AnnotatedDeclaredType useType) {
+        
         return areFlowsValid(useType);
         // && areFlowsValid(declarationType);
     }
@@ -177,9 +205,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
 
     @Override
     protected void commonAssignmentCheck(AnnotatedTypeMirror varType,
-            AnnotatedTypeMirror valueType, Tree valueTree, /*
-                                                            * @CompilerMessageKey
-                                                            */String errorKey,
+            AnnotatedTypeMirror valueType, Tree valueTree, /*@CompilerMessageKey*/String errorKey,
             boolean isLocalVariableAssignement) {
 
         super.commonAssignmentCheck(varType, valueType, valueTree, errorKey,
@@ -197,8 +223,13 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
     }
 
     private boolean warnForbiddenFlows(final AnnotatedTypeMirror type, final Tree tree) {
+
         if (!areFlowsValid(type)) {
-            reportError(type, tree);
+            StringBuffer buf = new StringBuffer();
+            for (Flow flow : checker.getFlowPolicy().forbiddenFlows(type)) {
+                buf.append(flow.toString() + "\n");
+            }
+            checker.report(Result.failure("forbidden.flow", type.toString(), buf.toString()), tree);
             return false;
         }
         return true;
@@ -213,8 +244,10 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
     }
 
     private boolean areFlowsValid(final AnnotatedTypeMirror atm) {
-
-        if (this.topAllowed && FlowUtil.isTop(atm)) {
+//TODO: Is atm local?
+        boolean isLocal = false;//atm.getKind() != null
+//                && atm.getKind() == TypeKind.LOCAL_VARIABLE;
+        if ((isLocal || this.topAllowed) && FlowUtil.isTop(atm)) {
             // Local variables are allowed to be top type so a more specific
             // type can
             // be inferred.
@@ -245,7 +278,6 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
 
     protected class FlowTypeValidator extends BaseTypeValidator {
         private final FlowVisitor flowVisitor;
-
         public FlowTypeValidator(BaseTypeChecker<?> checker, FlowVisitor visitor,
                 AnnotatedTypeFactory atypeFactory) {
             super(checker, visitor, atypeFactory);
@@ -286,8 +318,20 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
 
         @Override
         protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
-            FlowVisitor.this.reportError(type, p);
+            StringBuffer buf = new StringBuffer();
+            for (Flow flow : ((FlowChecker) checker).getFlowPolicy().forbiddenFlows(type)) {
+                buf.append(flow.toString() + "\n");
+            }
+            checker.report(Result.failure("forbidden.flow", type.toString(), buf.toString()), p);
 
+            isValid = false;
+        }
+
+        @Override
+        protected void reportValidityResult(final String errorType, final AnnotatedTypeMirror type,
+                final Tree p) {
+
+            checker.report(Result.failure(errorType, type.toString()), p);
             isValid = false;
         }
 
@@ -303,5 +347,6 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
      */
     public void setAllowTop(boolean topAllowed) {
         this.topAllowed = topAllowed;
+
     }
 }

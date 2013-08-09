@@ -3,12 +3,14 @@ package sparta.checkers;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
 import checkers.source.SourceVisitor;
+
+import checkers.types.AnnotatedTypeFactory;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
-
 import javacutils.AnnotationUtils;
 import javacutils.TreeUtils;
+
 
 import java.util.List;
 
