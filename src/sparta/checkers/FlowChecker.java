@@ -78,7 +78,7 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
     protected final Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
 
     // FlowVisitor uses these to hold flow state
-    private FlowAnalizer flowAnalizer;
+    private FlowAnalyzer flowAnalizer;
 
     public FlowChecker() {
         super();
@@ -152,7 +152,7 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
             }
         }
 
-        flowAnalizer = new FlowAnalizer(getFlowPolicy());
+        flowAnalizer = new FlowAnalyzer(getFlowPolicy());
     }
 
     protected ExecutableElement sourceValue;
@@ -562,7 +562,7 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         return flowPolicy;
     }
 
-    public FlowAnalizer getFlowAnalizer() {
+    public FlowAnalyzer getFlowAnalizer() {
         return flowAnalizer;
     }
 

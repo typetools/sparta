@@ -15,7 +15,12 @@
     <!-- Use the environment variable, if nothing was set yet. -->
     <property name="android.home" value="${env.ANDROID_HOME}"/>
 
-    <property name="android.jar" value="${android.home}/platforms/${android.version}/android.jar"/>
+    <property name="android.jar" value="${android.home}/platforms/${android.version}/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar" />
+
+    <condition property="latestAndroid.jar" value="${android.home}/platforms/android-18/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar">
+	<available file="${android.home}/platforms/android-18/android.jar"/>
+	</condition>
+    <property name="latestAndroid.jar" value="${android.home}/platforms/${android.version}/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar" />
 
     <property name="src" value="src"/>
     <property name="flow.stubfiles" value="src/sparta/checkers/flowstubfiles"/>
@@ -159,11 +164,10 @@ ${build.version} of the 'javac.jar' library."/>
         <java fork="true"
             jar="${checkers.lib}"
             failonerror="true" >
-            <arg line="-cp ${build}:${android.jar}" />
+            <arg line="-cp ${build}:${latestAndroid.jar}" />
             <arg value="-g"/>
             <arg line="-d ${build}"/>
             <arg line="-AstubWarnIfNotFound"/>
-            <arg line="-AprintErrorStack"/>
             <arg line="-processor sparta.checkers.FlowChecker" /> 
             <!-- Arbitrary file to compile. -->
             <arg line="${tests}/Test.java" />
@@ -226,7 +230,7 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- Make sure to add all individual tests as dependency. -->
-    <target name="all-tests" depends="jar,build-tests,reqperms-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, reflection-tests"
+    <target name="all-tests" depends="jar,build-tests,reqperms-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests"
       description="Run tests for all checkers"/>
 
     <target name="reqperms-tests" depends="jar,build-tests"
@@ -270,15 +274,6 @@ ${build.version} of the 'javac.jar' library."/>
             <param name="testclass" value="sparta.checkers.AndroidTests$StubfileTests"/>
         </antcall>
     </target>
-
-    <target name="reflection-tests" depends="jar,build-tests"
-      description="Run reflection tests for the Flow Checker">
-        <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$ReflectionTests"/>
-        </antcall>
-    </target>
-
-
     <target name="tags" depends="prep" description="Create Emacs TAGS table">
         <exec executable="/bin/sh" failonerror="true">
             <arg value="-c"/>

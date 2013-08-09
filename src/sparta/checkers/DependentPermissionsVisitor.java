@@ -42,6 +42,7 @@ public class DependentPermissionsVisitor extends
 
     @Override
     public boolean isValidUse(AnnotatedDeclaredType declarationType, AnnotatedDeclaredType useType) {
+        //TODO: this was copied from the Fenum Checker.  Does this vistor need this hack??
         // The checker calls this method to compare the annotation used in a
         // type to the modifier it adds to the class declaration. As our default
         // modifier is Unqualified, this results in an error when a non-subtype

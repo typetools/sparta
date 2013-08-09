@@ -47,11 +47,11 @@ Write a flow-policy file.  \secref{sec:flow-policy} describes flow policies.
 \label{sec:read-the-app-description}
 
 Read the App description and user documentation, looking for clues about
-the permissions , sensitive sources, and sinks and how information
+the permissions, sensitive sources, and sinks and how information
 flows between them.  For example,
 if this is a map app, does the description say anything about sending your location data over the
  network?  If so, then you should add \<LOCATION\flowsto INTERNET> to the flow-policy file.  Where
-else does the description say LOCATION data can go?   
+else does the description say location data can go?   
 
 Theoretically, you should be able to write a complete Flow Policy from the
 description if the description is well-written and the app does not contain
@@ -238,12 +238,21 @@ The permissions required by the Android API appear in file
 
 \section{Verify information flow security\label{verify-information-flow-security}}
 
-It is most effective to write information flow annotations from the bottom
-up:  first annotate libraries your code uses, then your packages and
-classes that use those libraries, and so forth up to the entry points of
-your application.
-\secref{flow-task-annotate-apis} describes how to annotate libraries, and
-the remainder of this section describes how to annotate your own code.
+When the goal is to completely annotate an application it is
+most effective to write information flow annotations in a bottom up approach:
+first annotate libraries your code uses, then your packages and classes
+that use those libraries, and so forth up to the entry points of your application.
+Alternatively, when the goal is to investigate specific information flows, it is
+more effective to trace and annotate only the flows of interest.
+Libraries should still be annotated first for all flows types.
+A bottom up approach can be used as a first pass to annotate large portions of an
+application while tracing can be then used to find and fix remaining Flow Checker warnings.
+Both approaches use the flow-policy create in \secref{sec:write-flow-policy}.
+
+\secref{flow-task-annotate-apis} describes how to annotate libraries,
+\secref{flow-task-annotate-app} and \secref{sec:run-type-checker} describe how to
+annotate your own code in a bottom up approach, and \secref{sec:trace-types} describes
+how to iteratively trace sensitive sources in your application.
 
 
 \subsection{Write information flow types for library APIs\label{flow-task-annotate-apis}}
@@ -256,7 +265,7 @@ yet contain information about the library APIs that your application uses.
 (Over time, the stub files will become more complete, and you will have to
 do less work in this step for each new app.)
 
-Run \<ant check-flow> to create the missingAPI.astub file. For each method in the 
+Run \<ant check-flow> to create the \<missingAPI.astub> file. For each method in the 
 file do the following.  
 \begin{itemize}
 \item
@@ -275,8 +284,8 @@ and a \<@Sink> annotation.
 If the method does is not directly related to information flow (its inputs
 and outputs could be anything and are not required to have a specific
 \<@Source> annotation), then either added the method to the stub file with no 
-annotations, which is the same as annotating the returns and parameters with 
-\<@Source(LITERAL)> or to annotate it with @PolyFlow or @PolyFlowReceiver, 
+annotations, which is the same as annotating the returns and parameters with
+\<@Source(LITERAL)> or to annotate it with \<@PolyFlow> or \<@PolyFlowReceiver>, 
 which essentially says that the
 output can have all the flow sources and sinks of the inputs..
 (See Section \secref{sec:addtionalanno} for more details.)
@@ -422,7 +431,7 @@ type-checking (\secref{sec:run-type-checker}).
 
 \subsection{Type-check the information flow types in the application\label{sec:run-type-checker}}
 
-Run
+Run the Flow Checker:
 
 \begin{Verbatim}
   ant check-flow
@@ -458,8 +467,8 @@ After you have corrected some of the errors, re-run \<ant check-flow>.
 Repeat the process until there are no more errors, or until you find bad
 code (malicious, or buggy and prone to abuse).
 
-Note: If you want to suppress the \<NOT\_REVIEWED> warnings you can run the check-flow
-in the following way:
+Note: If you want to suppress the \<NOT\_REVIEWED> warnings you can run the Flow Checker
+in the following ways:
 
 \begin{alltt}
     ant check-flow-ignorenr
@@ -468,6 +477,79 @@ or
 \begin{alltt}
     ant -Dignorenr=on check-flow
 \end{alltt}
+
+
+\subsection{Trace information flows\label{sec:trace-types}}
+
+On execution, the Flow Checker creates a file called \<forbiddenFlows.txt> in the current
+working directory. This file contains a summary of all of the information flows
+in the app that did not have a flow-policy entry when the Flow Checker was ran.
+\<forbiddenFlows.txt> is recreated on every execution.
+
+The Flow Checker caches the warning for each use of a forbidden flow.
+This cache of flow warnings can be filtered, called flow-filtering, using the command:
+
+\begin{Verbatim}
+  ant command filter-flows -Dflow-filter="SOURCE -> SINK"
+\end{Verbatim}
+
+\begin{itemize}
+
+\item \<SOURCE> and \<SINK> should be replaced with the desired sensitive flow
+permission to search for.
+
+\item \<SOURCE> and \<SINK> can be the exact name of a flow permission or a regular
+expression.
+
+\item The -> is required. However only one of \<SOURCE> or \<SINK> are required.
+\end{itemize}
+
+To start tracing information flows, begin by running the Flow Checker:
+
+\begin{Verbatim}
+  ant check-flow
+\end{Verbatim}
+
+Next, inspect the \<forbiddenFlows.txt> file. Concrete flows are flows that do not have
+\<\{\}> or \<CONDITIONAL> sinks. Each concrete flow should be evaluated:
+
+\begin{itemize}
+\item
+If the flow is a desired information flow, add it to the flow-policy file.
+\item
+If the flow is a undesired information flow, do not add it to the flow-policy,
+but record both in the source code and elsewhere that you have found a security flaw.
+\end{itemize}
+
+After evaluating concrete flows, select a source from the \<forbiddenFlows.txt> to trace.
+\<LITERAL> sources should be traced last because the unannotated variables have
+a default source of \<LITERAL> which may be revised. Use flow filtering to display
+all forbidden flow locations for the selected source.
+
+For example, if \<forbiddenFlows.txt> contains an entry \<CAMERA\flowsto \{\}>
+this would indicate that a type \<@Source(CAMERA)> flows to a type that had no declared sinks,
+\<@Sink(\{\})>. \<CAMERA> would be a candidate for tracing. The following command
+could be used to perform flow-filtering for any flow with a source \<CAMERA>.
+
+\begin{Verbatim}
+  ant command filter-flows -Dflow-filter="CAMERA ->"
+\end{Verbatim}
+
+Flow-filtering displays the source code locations of forbidden flows in the app.
+Inspect each source location and resolve the forbidden flow by adding annotations
+or suppressing warnings as described in \secref{sec:run-type-checker}.
+
+Iteratively run the flow-checker, check the \<forbiddenFlows.txt> file, and use flow-filtering
+to trace forbidden flows throughout the app.  Eventually the selected source will flow
+to one or more concrete sinks. Again, determine if these flow should be added to the flow-policy
+or marked as malicious.
+
+After adding a flow to the flow-policy and rerunning the Flow Checker, the flow
+will no longer appear in the \<forbiddenFlows.txt> file. Select another sensitive
+source file to trace and begin the process again.
+
+Repeat the tracing process until there are no more errors, or until you find bad code
+(malicious, or buggy and prone to abuse).
 
 \subsection{Type-check with stricter checking}
 
@@ -483,8 +565,8 @@ required for soundness, but would be disruptive to enable initially.
 In particular, the tests for casts and array subtyping are stricter.
 See the discussion in \chapterpageref{flow-checker}.
 
-This option will also use the stricter conditional rule. (LITERAL
-\flowsto{} CONDITIONAL rather than the relaxed ANY \flowsto{} CONDITIONAL)
+This option will also use the stricter conditional rule. (\<LITERAL
+\flowsto{} CONDITIONAL> rather than the relaxed \<ANY \flowsto{} CONDITIONAL>)
 
 
 %%% Local Variables: 

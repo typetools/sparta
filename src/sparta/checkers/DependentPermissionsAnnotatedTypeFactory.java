@@ -10,18 +10,31 @@ import checkers.types.TreeAnnotator;
 import checkers.util.AnnotationBuilder;
 
 import javacutils.AnnotationUtils;
+import javacutils.Pair;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import sparta.checkers.quals.DependentPermissions;
+import sparta.checkers.quals.*;
+
+import checkers.basetype.BaseTypeChecker;
+import checkers.quals.DefaultLocation;
+import checkers.quals.Unqualified;
+import checkers.source.Result;
+import checkers.types.AnnotatedTypeFactory;
+import checkers.types.AnnotatedTypeMirror;
+import checkers.types.BasicAnnotatedTypeFactory;
+import checkers.types.TreeAnnotator;
+import checkers.util.AnnotationBuilder;
+
+
+import com.sun.source.tree.AssignmentTree;
 
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.LiteralTree;
 import com.sun.source.tree.Tree;
-import com.sun.tools.javac.util.Pair;
 
 public class DependentPermissionsAnnotatedTypeFactory extends
         BasicAnnotatedTypeFactory<DependentPermissionsChecker> {
@@ -30,9 +43,8 @@ public class DependentPermissionsAnnotatedTypeFactory extends
     public static final LinkedList<Pair<String, String>> contentURIPatternList = new LinkedList<Pair<String, String>>();
     public static final LinkedList<Pair<String, String>> contentURIConstList = new LinkedList<Pair<String, String>>();
 
-    public static void initConstantTables() {
-
-        if (intentConstTable.size() == 0) {
+    static {
+       
             // intent constant tables
             // sed command used to convert intent constant strings from pscout
             // format
@@ -211,212 +223,214 @@ public class DependentPermissionsAnnotatedTypeFactory extends
             // contentURIPatternList
             // grep "pathPrefix" | sed "s/ . /\.\*\",\"/" | sed
             // "s/ pathPrefix/\"));/" | sed "s/ /\.\*\",\"/" | sed
-            // "s/^/contentURIPatternList.add(new Pair<String, String>(\"\^/"
-            contentURIPatternList.add(new Pair<String, String>(
+            // "s/^/contentURIPatternList.add(Pair.of(\"\^/"
+            
+            contentURIPatternList.add(Pair.of(
                     "^content://com.android.contacts/search_suggest_query.*",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://com.android.contacts/search_suggest_shortcut.*",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://com.android.mms.SuggestionsProvider/search_suggest_query.*",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://com.android.mms.SuggestionsProvider/search_suggest_shortcut.*",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://contacts/search_suggest_query.*",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://contacts/search_suggest_shortcut.*",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://ctspermissionwithsignaturepath/foo.*",
                     "com.android.cts.permissionWithSignature"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://ctspermissionwithsignaturepath/yes.*",
                     "com.android.cts.permissionWithSignature"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://downloads/all_downloads/.*", "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://downloads/all_downloads.*",
                     "android.permission.ACCESS_ALL_DOWNLOADS"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://downloads/all_downloads.*",
                     "android.permission.ACCESS_ALL_DOWNLOADS"));
-            contentURIPatternList.add(new Pair<String, String>("^content://downloads/download.*",
+            contentURIPatternList.add(Pair.of("^content://downloads/download.*",
                     "android.permission.INTERNET"));
-            contentURIPatternList.add(new Pair<String, String>("^content://downloads/download.*",
+            contentURIPatternList.add(Pair.of("^content://downloads/download.*",
                     "android.permission.INTERNET"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://downloads/my_downloads.*", "android.permission.INTERNET"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://downloads/my_downloads.*", "android.permission.INTERNET"));
-            contentURIPatternList.add(new Pair<String, String>("^content://mms/drm/.*",
+            contentURIPatternList.add(Pair.of("^content://mms/drm/.*",
                     "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>("^content://mms/part/.*",
+            contentURIPatternList.add(Pair.of("^content://mms/part/.*",
                     "grant-uri-permission"));
 
             // grep "Pattern" | sed "s/ pathPattern/\"));/" | sed "s/ . / /" |
             // sed "s/ /\",\"/" | sed "s/^/contentURIPatternList.add(new
             // Pair<String, String>(\"\^/"
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://com.android.contacts/contacts/.*/photo",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList.add(new Pair<String, String>("^content://com.android.contacts.*",
+            contentURIPatternList.add(Pair.of("^content://com.android.contacts.*",
                     "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://com.google.provider.NotePad.*", "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://contacts/contacts/.*/photo", "android.permission.GLOBAL_SEARCH"));
-            contentURIPatternList.add(new Pair<String, String>("^content://contacts.*",
+            contentURIPatternList.add(Pair.of("^content://contacts.*",
                     "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://ctspermissionwithsignaturegranting/foo.*", "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://ctspermissionwithsignaturegranting/yes.*", "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://ctspermissionwithsignaturepath.*", "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://ctsprivateprovidergranting/foo.*", "grant-uri-permission"));
-            contentURIPatternList.add(new Pair<String, String>(
+            contentURIPatternList.add(Pair.of(
                     "^content://ctsprivateprovidergranting/yes.*", "grant-uri-permission"));
 
             // contentURIConstList
             // grep -v "Pattern" | grep -v "Prefix" | sed "s/ path//" | sed
             // "s/$/\"));/" | sed "s/ . / /" | sed "s/ /\",\"/" | sed
-            // "s/^/contentURIConstList.add(new Pair<String, String>(\"/"
-            contentURIConstList.add(new Pair<String, String>(
+            // "s/^/contentURIConstList.add(Pair.of(\"/"
+            contentURIConstList.add(Pair.of(
                     "content://browser/bookmarks/search_suggest_query",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIConstList.add(new Pair<String, String>("content://browser",
+            contentURIConstList.add(Pair.of("content://browser",
                     "com.android.browser.permission.READ_HISTORY_BOOKMARKS"));
-            contentURIConstList.add(new Pair<String, String>("content://browser",
+            contentURIConstList.add(Pair.of("content://browser",
                     "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS"));
-            contentURIConstList.add(new Pair<String, String>("content://call_log",
+            contentURIConstList.add(Pair.of("content://call_log",
                     "android.permission.READ_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>("content://call_log",
+            contentURIConstList.add(Pair.of("content://call_log",
                     "android.permission.WRITE_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.bluetooth.opp/btopp",
                     "android.permission.ACCESS_BLUETOOTH_SHARE"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.bluetooth.opp/btopp",
                     "android.permission.ACCESS_BLUETOOTH_SHARE"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.browser/bookmarks/search_suggest_query",
                     "android.permission.GLOBAL_SEARCH"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.browser.home",
+            contentURIConstList.add(Pair.of("content://com.android.browser.home",
                     "com.android.browser.permission.READ_HISTORY_BOOKMARKS"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.browser",
+            contentURIConstList.add(Pair.of("content://com.android.browser",
                     "com.android.browser.permission.READ_HISTORY_BOOKMARKS"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.browser",
+            contentURIConstList.add(Pair.of("content://com.android.browser",
                     "com.android.browser.permission.WRITE_HISTORY_BOOKMARKS"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.calendar",
+            contentURIConstList.add(Pair.of("content://com.android.calendar",
                     "android.permission.READ_CALENDAR"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.calendar",
+            contentURIConstList.add(Pair.of("content://com.android.calendar",
                     "android.permission.WRITE_CALENDAR"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.contacts",
+            contentURIConstList.add(Pair.of("content://com.android.contacts",
                     "android.permission.READ_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.contacts",
+            contentURIConstList.add(Pair.of("content://com.android.contacts",
                     "android.permission.WRITE_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.email.attachmentprovider",
                     "com.android.email.permission.READ_ATTACHMENT"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.email.notifier",
                     "com.android.email.permission.ACCESS_PROVIDER"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.email.notifier",
                     "com.android.email.permission.ACCESS_PROVIDER"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.email.provider",
                     "com.android.email.permission.ACCESS_PROVIDER"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.email.provider",
                     "com.android.email.permission.ACCESS_PROVIDER"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.exchange.directory.provider",
                     "android.permission.READ_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.launcher2.settings",
                     "com.android.launcher.permission.READ_SETTINGS"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://com.android.launcher2.settings",
                     "com.android.launcher.permission.WRITE_SETTINGS"));
             contentURIConstList
-                    .add(new Pair<String, String>("content://com.android.mms.SuggestionsProvider",
+                    .add(Pair.of("content://com.android.mms.SuggestionsProvider",
                             "android.permission.READ_SMS"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.social",
+            contentURIConstList.add(Pair.of("content://com.android.social",
                     "android.permission.READ_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.social",
+            contentURIConstList.add(Pair.of("content://com.android.social",
                     "android.permission.WRITE_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.voicemail",
+            contentURIConstList.add(Pair.of("content://com.android.voicemail",
                     "com.android.voicemail.permission.ADD_VOICEMAIL"));
-            contentURIConstList.add(new Pair<String, String>("content://com.android.voicemail",
+            contentURIConstList.add(Pair.of("content://com.android.voicemail",
                     "com.android.voicemail.permission.ADD_VOICEMAIL"));
-            contentURIConstList.add(new Pair<String, String>("content://contacts",
+            contentURIConstList.add(Pair.of("content://contacts",
                     "android.permission.READ_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>("content://contacts",
+            contentURIConstList.add(Pair.of("content://contacts",
                     "android.permission.WRITE_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://ctspermissionwithsignaturegranting",
                     "com.android.cts.permissionWithSignature"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://ctspermissionwithsignaturegranting",
                     "com.android.cts.permissionWithSignature"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://ctspermissionwithsignaturepath",
                     "com.android.cts.permissionNotUsedWithSignature"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://ctspermissionwithsignaturepath",
                     "com.android.cts.permissionNotUsedWithSignature"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://ctspermissionwithsignature",
                     "com.android.cts.permissionWithSignature"));
-            contentURIConstList.add(new Pair<String, String>(
+            contentURIConstList.add(Pair.of(
                     "content://ctspermissionwithsignature",
                     "com.android.cts.permissionWithSignature"));
-            contentURIConstList.add(new Pair<String, String>("content://icc",
+            contentURIConstList.add(Pair.of("content://icc",
                     "android.permission.READ_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>("content://icc",
+            contentURIConstList.add(Pair.of("content://icc",
                     "android.permission.WRITE_CONTACTS"));
-            contentURIConstList.add(new Pair<String, String>("content://mms",
+            contentURIConstList.add(Pair.of("content://mms",
                     "android.permission.READ_SMS"));
-            contentURIConstList.add(new Pair<String, String>("content://mms-sms",
+            contentURIConstList.add(Pair.of("content://mms-sms",
                     "android.permission.READ_SMS"));
-            contentURIConstList.add(new Pair<String, String>("content://mms-sms",
+            contentURIConstList.add(Pair.of("content://mms-sms",
                     "android.permission.WRITE_SMS"));
-            contentURIConstList.add(new Pair<String, String>("content://mms",
+            contentURIConstList.add(Pair.of("content://mms",
                     "android.permission.WRITE_SMS"));
-            contentURIConstList.add(new Pair<String, String>("content://settings",
+            contentURIConstList.add(Pair.of("content://settings",
                     "android.permission.WRITE_SETTINGS"));
-            contentURIConstList.add(new Pair<String, String>("content://sms",
+            contentURIConstList.add(Pair.of("content://sms",
                     "android.permission.READ_SMS"));
-            contentURIConstList.add(new Pair<String, String>("content://sms",
+            contentURIConstList.add(Pair.of("content://sms",
                     "android.permission.WRITE_SMS"));
-            contentURIConstList.add(new Pair<String, String>("content://user_dictionary",
+            contentURIConstList.add(Pair.of("content://user_dictionary",
                     "android.permission.READ_USER_DICTIONARY"));
-            contentURIConstList.add(new Pair<String, String>("content://user_dictionary",
+            contentURIConstList.add(Pair.of("content://user_dictionary",
                     "android.permission.WRITE_USER_DICTIONARY"));
         }
-    }
 
     public DependentPermissionsAnnotatedTypeFactory(DependentPermissionsChecker checker,
             CompilationUnitTree root) {
         super(checker, root);
 
-        // init ConstantTables
-        initConstantTables();
 
         // Reuse the framework Bottom annotation and make it the default for the
         // null literal.
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.BOTTOM);
-        typeAnnotator.addTypeName(java.lang.Void.class, checker.BOTTOM);
+      //  typeAnnotator.addTypeName(java.lang.Void.class, checker.BOTTOM);
 
-        defaults.addAbsoluteDefault(AnnotationUtils.fromClass(elements, FenumTop.class),
+
+        defaults.addAbsoluteDefault(
+                AnnotationUtils.fromClass(elements, DependentPermissionsTop.class),
                 DefaultLocation.LOCALS);
-        defaults.addAbsoluteDefault(AnnotationUtils.fromClass(elements, FenumUnqualified.class),
+
+        defaults.addAbsoluteDefault(
+                AnnotationUtils.fromClass(elements, DependentPermissionsUnqualified.class),
                 DefaultLocation.OTHERWISE);
 
         this.postInit();
@@ -461,15 +475,15 @@ public class DependentPermissionsAnnotatedTypeFactory extends
                         // iterate through patterns List
                         LinkedList<String> perms = new LinkedList<String>();
                         for (Pair<String, String> p : contentURIPatternList) {
-                            if (s.matches(p.fst)) {
-                                perms.add(p.snd);
+                            if (s.matches(p.first)) {
+                                perms.add(p.second);
 
                             }
                         }
 
                         for (Pair<String, String> p : contentURIConstList) {
-                            if (s.equalsIgnoreCase(p.fst)) {
-                                perms.add(p.snd);
+                            if (s.equalsIgnoreCase(p.first)) {
+                                perms.add(p.second);
 
                             }
                         }

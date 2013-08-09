@@ -18,6 +18,7 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
 
+
 import javacutils.Pair;
 import java.util.HashSet;
 import java.util.List;
@@ -204,6 +205,18 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
         }
         super.checkMethodInvocability(method, node);
 
+        AnnotatedTypeMirror methodReceiver = method.getReceiverType().getErased();
+        AnnotatedTypeMirror treeReceiver = methodReceiver.getCopy(false);
+        AnnotatedTypeMirror rcv = atypeFactory.getReceiverType(node);
+        treeReceiver.addAnnotations(rcv.getEffectiveAnnotations());
+
+        if (!checker.getTypeHierarchy().isSubtype(treeReceiver, methodReceiver)) {
+            Set<FlowPermission> sinks = new HashSet<FlowPermission>(FlowUtil.getSink(methodReceiver));
+            Set<FlowPermission> sources = new HashSet<FlowPermission>(FlowUtil.getSource(treeReceiver));
+            Flow flow = new Flow(sources, sinks);
+            checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
+            checker.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
+        }
     }
 
     @Override
@@ -218,9 +231,9 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
         Set<FlowPermission> sources = new HashSet<FlowPermission>(FlowUtil.getSource(valueType));
         Flow flow = new Flow(sources, sinks);
         checker.getFlowAnalizer().getAssignmentFlows().add(flow);
-        checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
         boolean success = checker.getTypeHierarchy().isSubtype(valueType, varType);
         if (!success) {
+            checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
             checker.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
         }
     }
@@ -261,12 +274,12 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
         Set<FlowPermission> sources = new HashSet<FlowPermission>(FlowUtil.getSource(atm));
         Flow flow = new Flow(sources, sinks);
         checker.getFlowAnalizer().getTypeFlows().add(flow);
-        checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
 
         final FlowPolicy flowPolicy = checker.getFlowPolicy();
         if (flowPolicy != null) {
             boolean allowed = checker.getFlowPolicy().areFlowsAllowed(atm);
             if (!allowed) {
+                checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
                 checker.getFlowAnalizer().getForbiddenTypeFlows().add(flow);
             }
             return allowed;

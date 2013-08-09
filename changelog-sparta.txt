@@ -1,3 +1,10 @@
+Version 0.9.3 1 August 2013
+
+Flow Checker Changes
+   Flow Checker now writes a file called missingAPI.astub that list all
+   the methods that need to be annotated in a stub file.
+   Stub file defaulting has changed.  See Section 3.5 Annotating methods in stub
+   files in the manual for more details
 
 More Flow Analysis
    The Flow Checker now creates summary files of flows found in the application.
@@ -5,11 +12,11 @@ More Flow Analysis
    Current flow files include:
        foundFlows.txt - A summary of found and forbidden flows
        forbiddenFlows.txt - A flow-policy consisting of forbidden flows
-       allFlows.txt - A machine searchable file of all flows in the system that
+       forbiddenFlowLocations.txt - A machine searchable file of all flows in the system that
        can be indexed using filter-flows.
 
 String Comparison
-   Sparta now contains and build targets and perl scripts for finding strings
+   Sparta now contains ant build targets and perl scripts for finding strings
    shared between multiple applications, which is useful for detecting collusion.
    String literals are first captured using capture-strings for each application.
    The captured strings are placed in sparta_strings.txt.  An application under
@@ -18,28 +25,20 @@ String Comparison
    by using the -Dcompare.root= command line parameter.
 
 Dependent Permissions Checker
-   Intents and URIs use different permissions depending on the string value of one of 
-   its arguments. Dependent Permissions checker tracks special string literals and
-   string constants that will require some permission if used to initialize an Intent
+   Intents and URIs use different permissions depending on what they access. 
+   Dependent Permissions checker tracks special string literals and
+   string constants that will require some permission if used to in an Intent
    or URI.
 
-Unified Permissions Checker
-   A unified permissions checker has been added that will run RequiredPermissions
-   checker and DependentPermissions checker. Users should now use ant check-permissions
-   instead of reqperms.
-
-
-Version 0.9.3 1 August 2013
-
-Flow Checker Changes
-   Flow Checker now writes a file called missingAPI.astub that list all
-   the methods that need to be annotated in a stub file.
-   Stub file defaulting has changed.  See Section 3.5 Annotating methods in stub
-   files in the manual for more details
 RequiredPermission Changes
     A new annotation, @MayRequiredPermission, was added.  It is used to indicate 
     that a method method require a permission.  The notes field discribes when the
     permission may be required.
+
+Unified Permissions Checker
+   A unified permissions checker has been added that will run the Required 
+   Permissions checker and the Dependent Permissions Checker. Users should now use
+   ant check-permissions instead of reqperms.
 
 ----------------------------------------------------------------------
 Version 0.9.2 1 June 2013

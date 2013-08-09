@@ -30,18 +30,18 @@ import com.sun.tools.javac.util.DiagnosticSource;
  * Flows are categorized as either type flows or assignment flows. Type flows
  * are the flows corresponding to a single type (which has a source and sink).
  * 
- * Assignment flows are generated from assignment statments (or method calls) by
+ * Assignment flows are generated from assignment statements (or method calls) by
  * taking the source of the value argument and the sinks of the variable
  * argument.
  * 
  * @author mcarthur
  */
 
-public class FlowAnalizer {
+public class FlowAnalyzer {
 
     private static final String IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT = "forbiddenFlows.txt";
     private static final String IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT = "foundFlows.txt";
-    private static final String ALL_FLOWS_FILE_DEFAULT = "allFlows.txt";
+    private static final String ALL_FLOWS_FILE_DEFAULT = "forbiddenFlowLocations.txt";
 
     // TODO: would be nice if you could pass a file name
     private String impliedFlowsForbiddenFile = IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT;
@@ -56,7 +56,7 @@ public class FlowAnalizer {
 
     private final FlowPolicy flowPolicy;
 
-    public FlowAnalizer(FlowPolicy flowPolicy) {
+    public FlowAnalyzer(FlowPolicy flowPolicy) {
         this.flowPolicy = flowPolicy;
         assignmentFlows = new HashSet<Flow>();
         typeFlows = new HashSet<Flow>();
@@ -96,27 +96,31 @@ public class FlowAnalizer {
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(new FileOutputStream(impliedFlowsVerboseFile));
-            printFlows(writer, getFlowStrList(groupFlowsOnSource(typeFlows)),
+            printFlows(writer, getFlowStrList(
+                    groupFlowsOnSource(typeFlows)),
                     "# Type Flows Grouped");
 
-            printFlows(
-                    writer,
-                    getFlowStrList(groupFlowsOnSource(getForbiddenFlowsPairwise(groupFlowsOnSource(forbiddenTypeFlows)))),
+            printFlows(writer, getFlowStrList(
+                    groupFlowsOnSource(
+                    getForbiddenFlowsPairwise(
+                    groupFlowsOnSource(forbiddenTypeFlows)))),
                     "# Forbidden Type Flows Grouped");
 
-            printFlows(writer, getFlowStrList(groupFlowsOnSource(assignmentFlows)),
+            printFlows(writer, getFlowStrList(
+                    groupFlowsOnSource(assignmentFlows)),
                     "# Assignment Flows Grouped");
 
-            printFlows(
-                    writer,
-                    getFlowStrList(groupFlowsOnSource(getForbiddenFlowsPairwise(groupFlowsOnSource(forbiddenAssignmentFlows)))),
+            printFlows(writer, getFlowStrList(
+                    groupFlowsOnSource(
+                    getForbiddenFlowsPairwise(
+                    groupFlowsOnSource(forbiddenAssignmentFlows)))),
                     "# Forbidden Assignment Flows Grouped");
 
-            printFlows(writer, getFlowStrList(typeFlows), "# Type Flows");
-            printFlows(writer, getFlowStrList(forbiddenTypeFlows), "# Forbidden Type Flows");
-            printFlows(writer, getFlowStrList(assignmentFlows), "# Assignment Flows");
+            printFlows(writer, getFlowStrList(typeFlows), "# Type Flows (as written)");
+            printFlows(writer, getFlowStrList(forbiddenTypeFlows), "# Forbidden Type Flows (as written)");
+            printFlows(writer, getFlowStrList(assignmentFlows), "# Assignment Flows (as written)");
             printFlows(writer, getFlowStrList(forbiddenAssignmentFlows),
-                    "# Forbidden Assignment Flows");
+                    "# Forbidden Assignment Flows (as written)");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -166,9 +170,7 @@ public class FlowAnalizer {
                     forbiddenSinks.add(sink);
                 }
             }
-            if (forbiddenSinks != null) {
-                results.add(new Flow(flow.sources, forbiddenSinks));
-            }
+            results.add(new Flow(flow.sources, forbiddenSinks));
         }
         return results;
     }

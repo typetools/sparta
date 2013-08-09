@@ -1,8 +1,23 @@
 package sparta.checkers;
 
+import java.lang.annotation.Annotation;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.processing.SupportedOptions;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
+import javax.lang.model.util.Elements;
+import javax.tools.Diagnostic;
+
+import com.sun.source.tree.Tree;
+
+import sparta.checkers.quals.*;
+
 import checkers.basetype.BaseTypeChecker;
-import checkers.fenum.quals.FenumTop;
-import checkers.fenum.quals.FenumUnqualified;
+
 import checkers.quals.Bottom;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
@@ -27,11 +42,15 @@ import sparta.checkers.quals.DependentPermissions;
 
 /**
  * Checker for dependentpermissions, based on the fenum checker
+ * It examines constant strings used as URIs and Intent actions to 
+ * determine if the method call would require additional permissions.
  * 
  * @author edwardwu
  * 
  */
-@TypeQualifiers({ DependentPermissions.class, FenumTop.class, FenumUnqualified.class, Bottom.class })
+
+@TypeQualifiers({ DependentPermissions.class, DependentPermissionsTop.class,
+    DependentPermissionsUnqualified.class, Bottom.class })
 @StubFiles("permission.astub")
 public class DependentPermissionsChecker extends
         BaseTypeChecker<DependentPermissionsAnnotatedTypeFactory> {
@@ -68,6 +87,7 @@ public class DependentPermissionsChecker extends
                             .subSequence(s.indexOf('(') + 2, s.indexOf(')') - 1)), src);
         }
     }
+
 
     @Override
     public QualifierHierarchy createQualifierHierarchy(MultiGraphFactory factory) {
