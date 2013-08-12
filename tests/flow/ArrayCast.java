@@ -1,9 +1,29 @@
 import static sparta.checkers.quals.FlowPermission.*;
+
+import java.io.ByteArrayOutputStream;
+
 import sparta.checkers.quals.*;
 
 class ArrayCast {
 void bar(){
     @Source(INTERNET) byte /*@Source(CAMERA)*/ [] ba;
+    @Source(CAMERA) byte /*@Source(CAMERA)*/ [] ba2;
+
+    @Source(CAMERA) ByteArrayOutputStream bytes = getBAOS();
+    @Source(CAMERA) byte /*@Source(CAMERA)*/ [] bas = bytes.toByteArray();
+    
+    //Make sure the current work around for the constructor bug is working:
+    @SuppressWarnings("flow")
+    ByteArrayOutputStream bytes2 = (/*@Source(CAMERA)@Sink({CONDITIONAL, DISPLAY})*/ ByteArrayOutputStream) new ByteArrayOutputStream();
+    @Source(CAMERA) byte /*@Source(CAMERA)*/ [] bas2 = bytes2.toByteArray();
+
+
+}
+
+@Source(CAMERA) ByteArrayOutputStream getBAOS(){    
+    @SuppressWarnings("flow")
+    @Source(CAMERA) ByteArrayOutputStream baos = ( @Source(CAMERA) ByteArrayOutputStream)  new ByteArrayOutputStream();
+    return baos;
 }
     
     void foo() {

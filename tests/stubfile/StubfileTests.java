@@ -17,8 +17,6 @@ public class StubfileTests {
 		
 
 		api.polyFlow();
-		//It doesn't make sense to only have polyflow on the return.
-//::error: (forbidden.flow)
 		x = api.polyFlow1();
 		api.polyFlow2(s);
 		x = api.polyFlow3(s);

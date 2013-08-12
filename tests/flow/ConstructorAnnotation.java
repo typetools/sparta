@@ -45,7 +45,7 @@ class ConstructorAnnotation {
 		new TestParamConstructor("hello");
 		
 		// BUG? Class annotations dont seem to do anything.
-		//:: error: (assignment.type.incompatible)
+		//:: error: (constructor.invocation.invalid)
 		@Source(INTERNET) @Sink(CAMERA) TestClassAnnotationType classAnnotation = new TestClassAnnotationType();
 		
 		// BUG? Constructor annotations
