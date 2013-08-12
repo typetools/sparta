@@ -312,7 +312,7 @@ void drawPoints(float[] pts, Paint paint);
 void drawPosText(@Sink(DISPLAY) char[] text, int index, int count, float[] pos, Paint paint);
 //Draw the text in the array, with each character's origin specified by the pos array.
 
-void drawPosText(@Sink(DISPLAY) tring text, float[] pos, Paint paint);
+void drawPosText(@Sink(DISPLAY) String text, float[] pos, Paint paint);
 //Draw the text in the array, with each character's origin specified by the pos array.
 
 void drawRGB(int r, int g, int b);
