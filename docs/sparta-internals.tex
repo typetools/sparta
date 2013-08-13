@@ -1,28 +1,46 @@
 \htmlhr
 \chapter{SPARTA internals\label{sparta-internals}}
 
-This document contains details that are only relevant for
-SPARTA developers.
+This document contains details that are only relevant to
+SPARTA developers.  Also see the developer-docs directory in the sparta-code repository. 
+Join the SPARTA dev list here:
+\url{https://mailman.cs.washington.edu/mailman/listinfo/sparta} 
 
-The SPARTA team uses four Mercurial repositories:
-\<sparta-code> for the source code of the SPARTA toolset,
-\<sparta-subjects> for test applications (case studies),
-\<sparta-meetings> for notes about UW team meetings, and
-\<apac-meetings> for notes about DARPA meetings.
-
-To get a copy do:
+\section{Repositories\label{sec:sparta-repositories}}
+The SPARTA team uses several Mercurial repositories.
+Two on DADA:
+\begin{itemize}
+\item[] \<sparta-code> for the source code of the SPARTA toolset
+\item[] \<sparta-sample-apps> for test applications (case studies)
+\end{itemize}
 
 \begin{alltt}
-hg clone https://dada.cs.washington.edu/hgweb/sparta-code
+hg clone https://dada.cs.washington.edu/hgweb/<name>
 \end{alltt}
 
-\noindent
-and similarly for the other three repositories.
+To access  to the DADA repositories  you need to be in 
+the \<sparta> web group. (See \url{https://wasp.cs.washington.edu/Internal/hg.html})
 
-To push your changes to the repository you need to be in the \<sparta> Unix
-group. Contact Werner or Mike to get the permission.  Also, if you are
-going to push changes, please add a \<.hgrc> file to your home directory on
-the server.  The \<.hgrc> file should contain:
+And several via SSH
+\begin{itemize}
+\item[] \<sparta-meetings> for notes about UW team meetings
+\item[] \<apac-meetings> for notes about DARPA meetings
+\item[] \<apac-engamentX> where X is 0-2, for APAC engagement applications
+\end{itemize}
+
+
+\begin{alltt}
+hg clone ssh://buffalo.cs.washington.edu//projects/swlab1/darpa-apac/<name>
+\end{alltt}
+
+
+To access  to the filesystem repositories  you need to be in 
+the \<sparta> Unix group. Contact Mike to get the permission.  
+
+
+Also, if you are going to push changes, please add a \<.hgrc> file 
+to your home directory on the server.  
+The \<.hgrc> file should contain:
 
 \begin{verbatim} 
 [trusted]
@@ -35,30 +53,81 @@ This allows emails to be sent when you push changes.
 Note that SPARTA as well as the Checker Framework are evolving
 rapidly.
 Thus you should periodically get the latest version of the source code (by
-running \<hg fetch>) and
-rebuild the projects.
+running \<hg fetch>) and rebuild the projects.
 
+\section{Cheat sheet for building dependancies\label{sec:cheat-sheet}}
 
-After installing your copy, try to run \<ant> in \<sparta-subjects/Sky>:
+The instructions in this section are only provide as a cheat sheet.  Please see the relevant manuals for
+more information and complete instructions.
 
-\begin{Verbatim}
-$ ant check-flow
-\end{Verbatim}
+\subsection{Repositories}
+Clone the following into a directory called jsr308:
 
-If it gives results like this, you're ready to work on annotating!
-
-\begin{smaller}
 \begin{alltt}
-[jsr308.javac] .../sparta-subjects/Sky/src/org/jsharkey/sky/WebserviceHelper.java:308: error: incompatible types.
-[jsr308.javac]             HttpGet request = new HttpGet(String.format(WEBSERVICE_URL, lat, lon, days));
-[jsr308.javac]                                                        ^
-[jsr308.javac]   found   : @Sink @Source String
-[jsr308.javac]   required: @sparta.checkers.quals.Sink({sparta.checkers.quals.FlowPermission.INTERNET}) @Source String
+hg clone https://code.google.com/p/jsr308-langtools/ jsr308-langtools
+hg clone https://code.google.com/p/checker-framework/ checker-framework
+hg clone https://code.google.com/p/annotation-tools/ annotation-tools
+hg clone https://plume-bib.googlecode.com/hg/ bib  
 \end{alltt}
-\end{smaller}
 
-If you want to add a new application, put it under the
-\<sparta-subjects> directory.
+ No password for cloning/pulling, will need google account for pushing.
+ 
+ \subsection{Building}
+ 
+ \paragraph{JSR308 langtools}
+ \begin{alltt}
+cd $JSR308/jsr308-langtools/make
+ant clean clean-and-build-all-tools
+export PATH=$JSR308/jsr308-langtools/dist/bin:${PATH}
+\end{alltt}
+
+ \paragraph{Annotation Tools}
+\begin{alltt}
+cd $JSR308/annotation-tools
+ant clean
+ant
+\end{alltt}
+
+ \paragraph{Checker Framework}
+\begin{alltt}
+cd $JSR308/checker-framework/checkers
+ant clean
+ant 
+\end{alltt}
+
+To build the Checker Framework without rebuilding the annotated JDKs:
+\begin{alltt}
+ant bindist-nojdk
+\end{alltt}
+
+
+
+\section{Required Software\label{sec:software}}
+
+\subsection{Ant}
+\url{http://ant.apache.org/bindownload.cgi}
+\subsection{Android SDK}
+\url{http://developer.android.com/sdk/index.html}
+Install android-15 either in your IDE or from the command line run android
+\subsection{\LaTeX}
+We use \LaTeX plus Makefiles to create our webpages and manuals. 
+\url{http://latex-project.org/ftp.html}
+You also need \hevea \url{http://hevea.inria.fr/}
+You may have to copy hevea.sty into sparta-code/docs 
+New to  \LaTeX?   \url{http://en.wikibooks.org/wiki/LaTeX/Introduction} 
+
+\subsection{IDE (Optional)}
+Install your favorite.  Eclipse or VIM/EMACS are the most popular 
+
+\subsection{Eclipse Plugins (Optional)}
+Help -> Install New Software\\
+Android ADT Plugin: Add new site: \url{https://dl-ssl.google.com/android/eclipse}\\
+MercurialEclipse: Add new site: \url{http://cbes.javaforge.com/update} \\
+Checker Framework Plugin: \url{http://types.cs.washington.edu/checker-framework/eclipse}\\
+
+
+\subsection{Android Source code\label{sec:android-source-code}}
+
 
 You may need to get Android source code to get sense of what API returns (or
 gets) what type of data. See \url{http://source.android.com/source/index.html}
@@ -72,14 +141,38 @@ Hints to add annotations could be permissionmap (which permission is required
 to call which functions):
 \url{http://www.android-permissions.org/permissionmap.html}.
 
-\paragraph{Eclipse Setup Instructions}
+\section{Pushing Changes \label{pushing-changes}}
+
+Typically for your first commit or for a large change, we review the changes first before you push.  After the review, there will likely be several changes you will need to make before you may push your changes.  
+
+Before your code is reviewed, the follow should be true:
+
+  \begin{itemize}
+\item Your code is well formatted\footnote{ We following the Oracle code conventions: \url{http://www.oracle.com/technetwork/java/javase/documentation/codeconvtoc-136057.html}. You can also find an Eclipse formatter in the eclipse directory of sparta-code.}
+\item You have comments on at least all public methods and classes.
+\item Your code builds (make sure you fetch or pull/update checker framework, langtools and sparta-code first)
+\item Your code pass ant all-tests
+\item You added some tests JUnit tests.  (See sparta-code/tests/)
+\item You updated the manual to reflect your changes. 
+  \end{itemize}
+
+Once you are ready for a review, send a patch or diff of the changes to be reviewed along with some words describing your changes.  To make a patch first \<hg add> all new files then follow the instructions at this link: 
+\url{http://mercurial.selenic.com/wiki/QuickStart#Exporting_a_patch}
+
+\section{Eclipse Instructions for SPARTA development\label{eclipse-instructions}}
+
+Eclipse is the dominate IDE in our group.  Typically, Eclipse is used to navigate and debug the code but not build the tools.  This sections explains how to develop the 
+SPARTA tools using Eclipse.  
+
+\paragraph{Setup}
+
+
 \begin{itemize}
 \item Follow Section 25.3 from the Checker Framework manual 
 (Building from source.)
 \item As described in the installation instructions, set the \<CHECKERS>
 environment variable to \<.../checker-framework/checkers/>
-\item We recommend that you create a new workspace for that. 
-Open Eclipse and import the following projects: \<jsr308-langtools,
+\item Import the following projects: \<jsr308-langtools,
 sparta-code, checkers, javaparser>. The last 2 are both on the
 \<checker-framework> folder.
 \item The \<checkers> project should import \<javaparser> and \<jsr308-langtools>. 
@@ -89,6 +182,7 @@ $\rightarrow$ Installed JREs> and add the binaries \<.../checkers/binary/javac.j
 and \<.../checkers/binary/jdk7.jar> to the default JRE you are using.
 \item Clean the projects on Eclipse. There should be no errors. 
 \end{itemize}
+
 \paragraph{Using tools on Eclipse}
 
 \begin{itemize}
@@ -107,6 +201,31 @@ and create a new \<Ant Build>.
 Arguments. For example: \<check-flow>.
 \end{itemize}
 
+
+\section{Helpful links\label{dev-links}}
+
+\begin{itemize}
+\item \url{http://types.cs.washington.edu/sparta/release/} (Do not publish)
+\item \url{http://types.cs.washington.edu/checker-framework/  }
+
+\item \url{http://homes.cs.washington.edu/~mernst/advice/version-control.html}
+\item \url{https://wasp.cs.washington.edu/Internal/joining-plse.html}
+\end{itemize}
+
+Join the progress report mailing list, \url{https://mailman.cs.washington.edu/mailman/listinfo/progress-reports}.
+ Instructions for writing progress reports can be found here, \url{http://homes.cs.washington.edu/~mernst/advice/progress-report.html}.
+
+SPARTA on Jenkins (continuous integration server) \url{http://buffalo.cs.washington.edu:8080/view/SPARTA/}
+
+Create a username for Jenkins \url{http://buffalo.cs.washington.edu:8080/securityRealm/addUser}
+
+Checker Framework mailing list: \url{https://groups.google.com/forum/?fromgroups#!forum/checker-framework-dev}
+
+Android permission maps:
+\begin{itemize}
+\item \url{http://www.android-permissions.org/}
+\item \url{http://pscout.csl.toronto.edu}
+\end{itemize}
 
 %%% Local Variables: 
 %%% mode: latex
