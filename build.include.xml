@@ -74,7 +74,7 @@
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
                 <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} -Aignorenr=@{ignorenr} ${checkerFrameworkOpts}"/>
-                <compilerarg line="-encoding ISO8859-1 -AprintErrorStack -AstubWarnIfNotFound" />
+                <compilerarg line="-encoding ISO8859-1 -AprintErrorStack " />
             </jsr308.javac>
             <more-tasks/>
         </sequential>
