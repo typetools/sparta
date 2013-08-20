@@ -78,7 +78,7 @@ class ByteArrayInputStream extends InputStream {
 @PolyFlowReceiver
 class ByteArrayOutputStream extends OutputStream {
 //Added by SOM
-    @Source({}) @Sink(FlowPermission.ANY) ByteArrayOutputStream();
+     ByteArrayOutputStream();
     @PolySource @PolySink byte @PolySource @PolySink [] toByteArray() @PolySource @PolySink;
     void close() @Source(FlowPermission.ANY) @Sink({});
     protected byte[] buf;
