@@ -346,17 +346,8 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
                     }
                     List<FlowPermission> lhssrc = FlowUtil.getSource(lhs);
                     List<FlowPermission> rhssrc = FlowUtil.getSource(rhs);
-                    return AnnotationUtils.areSame(lhs, ANYSOURCE) || // TODO:
-                                                                      // Remove
-                                                                      // the ANY
-                                                                      // below
-                                                                      // when we
-                                                                      // start
-                                                                      // warning
-                                                                      // about
-                                                                      // Source(ANY,
-                                                                      // Something
-                                                                      // else)
+                 // TODO: Remove the ANY below when we start warning about Source(ANY, Something else)
+                    return AnnotationUtils.areSame(lhs, ANYSOURCE) || 
                             lhssrc.containsAll(rhssrc) || lhssrc.contains(FlowPermission.ANY);
                 }
             } else if (isSinkQualifier(rhs)) {
