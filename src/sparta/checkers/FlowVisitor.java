@@ -89,20 +89,21 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
     }
 
     @Override
-    public boolean isValidUse(AnnotatedDeclaredType declarationType, AnnotatedDeclaredType useType) {
+    public boolean isValidUse(AnnotatedDeclaredType declarationType,
+            AnnotatedDeclaredType useType, Tree tree) {
         
-        return areFlowsValid(useType);
+        return areFlowsValid(useType, tree);
         // && areFlowsValid(declarationType);
     }
 
     @Override
-    public boolean isValidUse(AnnotatedPrimitiveType type) {
-        return areFlowsValid(type);
+    public boolean isValidUse(AnnotatedPrimitiveType type, Tree tree) {
+        return areFlowsValid(type, tree);
     }
 
     @Override
-    public boolean isValidUse(AnnotatedArrayType type) {
-        return areFlowsValid(type);
+    public boolean isValidUse(AnnotatedArrayType type, Tree tree) {
+        return areFlowsValid(type, tree);
     }
 
     private void ensureConditionalSink(ExpressionTree tree) {
@@ -238,9 +239,9 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
         }
     }
 
-    private boolean warnForbiddenFlows(final AnnotatedTypeMirror type, final Tree tree) {
+    private boolean warnForbiddenFlows(final AnnotatedTypeMirror type,  Tree tree) {
 
-        if (!areFlowsValid(type)) {
+        if (!areFlowsValid(type, tree)) {
             StringBuffer buf = new StringBuffer();
             for (Flow flow : checker.getFlowPolicy().forbiddenFlows(type)) {
                 buf.append(flow.toString() + "\n");
@@ -259,7 +260,8 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
         checker.report(Result.failure("forbidden.flow", type.toString(), buf.toString()), tree);
     }
 
-    private boolean areFlowsValid(final AnnotatedTypeMirror atm) {
+    private boolean areFlowsValid(final AnnotatedTypeMirror atm, Tree tree) {
+        
 //TODO: Only allow top for locals and upper bounds
         boolean isLocal = false;//atm.getKind() != null
 //                && atm.getKind() == TypeKind.LOCAL_VARIABLE;

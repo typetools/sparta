@@ -49,13 +49,13 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         // Use the bottom type as default for everything but local variables.
         defaults.addAbsoluteDefault(checker.LITERALSOURCE, DefaultLocation.OTHERWISE);
         // Use the top type for local variables and let flow refine the type.
-        defaults.addAbsoluteDefault(checker.ANYSOURCE, DefaultLocation.LOCALS);
+        defaults.addAbsoluteDefault(checker.ANYSOURCE, DefaultLocation.LOCAL_VARIABLE);
 
         // Default is LITERAL -> (ALL MAPPED SINKS) for everything but local
         // variables.
         defaults.addAbsoluteDefault(checker.FROMLITERALSINK, DefaultLocation.OTHERWISE);
         // Use the top type for local variables and let flow refine the type.
-        defaults.addAbsoluteDefault(checker.NOSINK, DefaultLocation.LOCALS);
+        defaults.addAbsoluteDefault(checker.NOSINK, DefaultLocation.LOCAL_VARIABLE);
 
         // Top Type for Receivers
         defaults.addAbsoluteDefault(checker.NOSINK, DefaultLocation.RECEIVERS);

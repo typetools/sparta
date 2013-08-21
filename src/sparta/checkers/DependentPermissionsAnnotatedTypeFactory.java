@@ -427,7 +427,7 @@ public class DependentPermissionsAnnotatedTypeFactory extends
 
         defaults.addAbsoluteDefault(
                 AnnotationUtils.fromClass(elements, DependentPermissionsTop.class),
-                DefaultLocation.LOCALS);
+                DefaultLocation.LOCAL_VARIABLE);
 
         defaults.addAbsoluteDefault(
                 AnnotationUtils.fromClass(elements, DependentPermissionsUnqualified.class),

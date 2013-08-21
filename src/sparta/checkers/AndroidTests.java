@@ -32,7 +32,9 @@ public class AndroidTests {
 
     public static class AndroidFenumCheckerTests extends ParameterizedCheckerTest {
         public AndroidFenumCheckerTests(File testFile) {
-            super(testFile, AndroidFenumChecker.class, "sparta.checkers", "-Anomsgtext");
+            super(testFile, AndroidFenumChecker.class, "sparta.checkers", "-Anomsgtext", "-AprintErrorStack");
+//            super(testFile, AndroidFenumChecker.class, "sparta.checkers", "-Astubs=apiusage.astub");
+
         }
 
         @Parameters

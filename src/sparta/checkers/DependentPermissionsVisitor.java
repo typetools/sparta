@@ -41,7 +41,7 @@ public class DependentPermissionsVisitor extends
     // TODO: should we require a match between switch expression and cases?
 
     @Override
-    public boolean isValidUse(AnnotatedDeclaredType declarationType, AnnotatedDeclaredType useType) {
+    public boolean isValidUse(AnnotatedDeclaredType declarationType, AnnotatedDeclaredType useType, Tree tree) {
         //TODO: this was copied from the Fenum Checker.  Does this vistor need this hack??
         // The checker calls this method to compare the annotation used in a
         // type to the modifier it adds to the class declaration. As our default
