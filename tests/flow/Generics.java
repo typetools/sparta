@@ -59,13 +59,13 @@ class TestUpperObject{
     void test(){
         UpperObject<Object> lit;
         UpperObject<@Source(LITERAL) @Sink(CONDITIONAL) Object> lit2;
-        //TODO: there should be an error here, but there's not because we have to allow ANY->{}
-        ////:: error: (forbidden.flow)
+
+        //:: error: (forbidden.flow)
         UpperObject<@Source(ANY) @Sink({}) Object> lit3;
         //:: error: (type.argument.type.incompatible)
         GenObject<Object> gen;
-        //TODO: there should be an error here, but there's not because we have to allow ANY->{}
-        ////:: error: (forbidden.flow)
+        
+        //:: error: (forbidden.flow)
         GenObject<@Source(ANY) @Sink({}) Object> gen2;
         GenObjectLit<String> o;
     }

@@ -14,8 +14,7 @@ import sparta.checkers.quals.FlowPermission;
  */
 class TestLiteralDefaults {
     
-    //TODO: there should be an error here, but there's not because we have to allow ANY->{}
-    ////:: error: (forbidden.flow)
+    //:: error: (forbidden.flow)
     @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) float ntop;
     @PolySource @PolySink float npoly;
 
@@ -32,8 +31,7 @@ class TestLiteralDefaults {
         nunqual = 2f;
     }
 
-    //TODO: there should be an error here, but there's not because we have to allow ANY->{}
-    ////:: error: (forbidden.flow)
+    //:: error: (forbidden.flow)
     @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) Object rtop;
     @PolySource @PolySink Object rpoly;
 
@@ -57,8 +55,7 @@ class TestLiteralDefaults {
         runqual = new Object();
     }
 
-    //TODO: there should be an error here, but there's not because we have to allow ANY->{}
-    ////:: error: (forbidden.flow)
+    //:: error: (forbidden.flow)
     @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) char ctop;
     @PolySource @PolySink char cpoly;
     //:: error: (forbidden.flow)

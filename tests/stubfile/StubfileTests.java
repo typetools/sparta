@@ -17,6 +17,7 @@ public class StubfileTests {
 		
 
 		api.polyFlow();
+		//:: error: (forbidden.flow)
 		x = api.polyFlow1();
 		api.polyFlow2(s);
 		x = api.polyFlow3(s);

@@ -18,8 +18,9 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
 
-
+import javacutils.InternalUtils;
 import javacutils.Pair;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,36 +28,6 @@ import java.util.Set;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
-
-import sparta.checkers.quals.DependentPermissions;
-import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.MayRequiredPermissions;
-import sparta.checkers.quals.RequiredPermissions;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
-
-import com.sun.source.tree.AnnotationTree;
-import com.sun.source.tree.CaseTree;
-import com.sun.source.tree.CompilationUnitTree;
-import com.sun.source.tree.ConditionalExpressionTree;
-import com.sun.source.tree.DoWhileLoopTree;
-import com.sun.source.tree.ExpressionTree;
-import com.sun.source.tree.ForLoopTree;
-import com.sun.source.tree.IfTree;
-import com.sun.source.tree.MethodInvocationTree;
-import com.sun.source.tree.SwitchTree;
-import com.sun.source.tree.Tree;
-import com.sun.source.tree.WhileLoopTree;
-import com.sun.tools.javac.tree.JCTree;
-import com.sun.tools.javac.tree.TreeInfo;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.Element;
-import javax.lang.model.type.TypeKind;
 
 import sparta.checkers.quals.DependentPermissions;
 import sparta.checkers.quals.FlowPermission;
@@ -261,14 +232,13 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
     }
 
     private boolean areFlowsValid(final AnnotatedTypeMirror atm, Tree tree) {
+       
+        Element ele = InternalUtils.symbol(tree);
+        boolean isLocal = (ele != null && ele.getKind() == ElementKind.LOCAL_VARIABLE);
         
-//TODO: Only allow top for locals and upper bounds
-        boolean isLocal = false;//atm.getKind() != null
-//                && atm.getKind() == TypeKind.LOCAL_VARIABLE;
         if ((isLocal || this.topAllowed) && FlowUtil.isTop(atm)) {
             // Local variables are allowed to be top type so a more specific
-            // type can
-            // be inferred.
+            // type can be inferred.
             return true;
         }
 
