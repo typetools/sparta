@@ -3,23 +3,6 @@ package sparta.checkers;
 import static sparta.checkers.FlowUtil.createAnnoFromSink;
 import static sparta.checkers.FlowUtil.createAnnoFromSource;
 
-import checkers.basetype.BaseTypeChecker;
-import checkers.quals.PolyAll;
-import checkers.quals.StubFiles;
-import checkers.quals.TypeQualifiers;
-
-import checkers.source.SourceChecker;
-import checkers.source.SupportedLintOptions;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.QualifierHierarchy;
-
-import javacutils.AnnotationUtils;
-import checkers.util.MultiGraphQualifierHierarchy;
-import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
-import checkers.util.QualifierPolymorphism;
-import javacutils.TreeUtils;
-import checkers.util.stub.StubGenerator;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -31,6 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javacutils.AnnotationUtils;
+import javacutils.TreeUtils;
 
 import javax.annotation.processing.SupportedOptions;
 import javax.lang.model.element.AnnotationMirror;
@@ -45,6 +31,17 @@ import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
+import checkers.basetype.BaseTypeChecker;
+import checkers.quals.PolyAll;
+import checkers.quals.StubFiles;
+import checkers.quals.TypeQualifiers;
+import checkers.source.SupportedLintOptions;
+import checkers.types.AnnotatedTypeMirror;
+import checkers.types.QualifierHierarchy;
+import checkers.util.MultiGraphQualifierHierarchy;
+import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
+import checkers.util.QualifierPolymorphism;
+import checkers.util.stub.StubGenerator;
 
 /*>>>
 import checkers.compilermsgs.quals.CompilerMessageKey;
@@ -116,14 +113,14 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         super.initChecker();
         // Must call super.initChecker before the lint option can be checked.
         final boolean scArg = getLintOption(FlowPolicy.STRICT_CONDITIONALS_OPTION, false);
-        final String pfArg = processingEnv.getOptions().get(FlowPolicy.POLICY_FILE_OPTION);
+        final String pfArg = getOption(FlowPolicy.POLICY_FILE_OPTION);
         if (pfArg == null || pfArg.trim().isEmpty()) {
             flowPolicy = new FlowPolicy(scArg);
         } else {
             flowPolicy = new FlowPolicy(new File(pfArg), scArg);
         }
 
-        final String ignoreArg = processingEnv.getOptions().get(FlowChecker.IGNORE_NOT_REVIEWED);
+        final String ignoreArg = getOption(FlowChecker.IGNORE_NOT_REVIEWED);
         if (ignoreArg != null && ignoreArg.trim().equals("on")) {
             IGNORENR = true;
         }
@@ -135,7 +132,7 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
                 flowPolicy.getSinkFromSource(FlowPermission.LITERAL, true));
         FROMLITERALSINK = FlowUtil.createAnnoFromSink(processingEnv, literalSink);
 
-        String unfilteredStr = processingEnv.getOptions().get(MSG_FILTER_OPTION);
+        String unfilteredStr = getOption(MSG_FILTER_OPTION);
         if (unfilteredStr == null) {
             unfilteredMessages = null;
         } else {
@@ -198,7 +195,7 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
     private final String printMissMethod = "missingAPI.astub";
     // TODO: would be nice if there was a command line argument to turn this on
     // and off
-    private boolean printFrequency = true;
+    private final boolean printFrequency = true;
 
     private void printMethods() {
         if (notInStubFile.isEmpty())
@@ -347,7 +344,7 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
                     List<FlowPermission> lhssrc = FlowUtil.getSource(lhs);
                     List<FlowPermission> rhssrc = FlowUtil.getSource(rhs);
                  // TODO: Remove the ANY below when we start warning about Source(ANY, Something else)
-                    return AnnotationUtils.areSame(lhs, ANYSOURCE) || 
+                    return AnnotationUtils.areSame(lhs, ANYSOURCE) ||
                             lhssrc.containsAll(rhssrc) || lhssrc.contains(FlowPermission.ANY);
                 }
             } else if (isSinkQualifier(rhs)) {
