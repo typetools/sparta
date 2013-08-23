@@ -1,27 +1,15 @@
 package sparta.checkers;
 
-import checkers.quals.DefaultLocation;
-import checkers.types.AnnotatedTypeFactory;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
-import checkers.types.BasicAnnotatedTypeFactory;
-
-
-import checkers.util.QualifierDefaults;
-import checkers.util.QualifierDefaults.DefaultApplierElement;
-
-import javacutils.AnnotationUtils;
-import javacutils.ElementUtils;
-import javacutils.InternalUtils;
-import javacutils.Pair;
-
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javacutils.AnnotationUtils;
+import javacutils.ElementUtils;
+import javacutils.InternalUtils;
+import javacutils.Pair;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
@@ -34,6 +22,14 @@ import javax.lang.model.util.Elements;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PolyFlow;
 import sparta.checkers.quals.PolyFlowReceiver;
+import checkers.quals.DefaultLocation;
+import checkers.types.AnnotatedTypeFactory;
+import checkers.types.AnnotatedTypeMirror;
+import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
+import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
+import checkers.types.BasicAnnotatedTypeFactory;
+import checkers.util.QualifierDefaults;
+import checkers.util.QualifierDefaults.DefaultApplierElement;
 
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
@@ -50,12 +46,14 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         defaults.addAbsoluteDefault(checker.LITERALSOURCE, DefaultLocation.OTHERWISE);
         // Use the top type for local variables and let flow refine the type.
         defaults.addAbsoluteDefault(checker.ANYSOURCE, DefaultLocation.LOCAL_VARIABLE);
+        defaults.addAbsoluteDefault(checker.ANYSOURCE, DefaultLocation.RESOURCE_VARIABLE);
 
         // Default is LITERAL -> (ALL MAPPED SINKS) for everything but local
         // variables.
         defaults.addAbsoluteDefault(checker.FROMLITERALSINK, DefaultLocation.OTHERWISE);
         // Use the top type for local variables and let flow refine the type.
         defaults.addAbsoluteDefault(checker.NOSINK, DefaultLocation.LOCAL_VARIABLE);
+        defaults.addAbsoluteDefault(checker.NOSINK, DefaultLocation.RESOURCE_VARIABLE);
 
         // Top Type for Receivers
         defaults.addAbsoluteDefault(checker.NOSINK, DefaultLocation.RECEIVERS);
@@ -176,7 +174,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
     /**
      * Adds the element to list of methods that need to be added to the stub
      * file and reviewed
-     * 
+     *
      * @param element
      *            element that needs to be reviewed
      */
@@ -233,7 +231,8 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 return;
             }
 
-            boolean isLocal = (element == null || element.getKind() == ElementKind.LOCAL_VARIABLE);
+            boolean isLocal = (element == null || element.getKind() == ElementKind.LOCAL_VARIABLE ||
+                    element.getKind() == ElementKind.RESOURCE_VARIABLE);
 
 
             if (!isLocal /*&& element != null*/
@@ -280,7 +279,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                         }
                     }
                 }
-           
+
                 completePolicyFlows(type, type.getAnnotations());
             }
         }
