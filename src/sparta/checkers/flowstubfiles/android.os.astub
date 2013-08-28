@@ -2,14 +2,17 @@
 package android.os;
 
 class AsyncTask {
+
+AsyncTask();
+//Init    
     
 final boolean cancel(boolean mayInterruptIfRunning);
 //Attempts to cancel execution of this task.
 
-static void execute(Runnable runnable);
+static void execute(@PolySource @PolySink Runnable runnable);
 //Convenience version of execute(Object); for use with a simple Runnable object.
 
-final AsyncTask<Params, Progress, Result> execute(Params... params);
+final AsyncTask<Params, Progress, Result> execute(@PolySource @PolySink Params... params);
 //Executes the task with the specified parameters.
 
 final AsyncTask<Params, Progress, Result> executeOnExecutor(Executor exec, Params... params);

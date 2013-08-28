@@ -217,6 +217,9 @@ abstract ActionBar.Tab setText(@Sink(DISPLAY) CharSequence text);
 }
 
 class Activity{
+
+Activity();
+//init
 void addContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
 //Add an additional content view to the activity.
 

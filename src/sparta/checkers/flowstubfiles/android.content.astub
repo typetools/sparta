@@ -392,7 +392,7 @@ final OutputStream openOutputStream(Uri uri, String mode);
 final AssetFileDescriptor openTypedAssetFileDescriptor(Uri uri, String mimeType, Bundle opts);
 //Open a raw file descriptor to access (potentially type transformed); data from a "content:" URI.
 
-final Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
+final Cursor query(Uri uri, String[] projection, @PolySource String selection, String[] selectionArgs, String sortOrder);
 //Query the given URI, returning a Cursor over the result set.
 
 final Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal);
