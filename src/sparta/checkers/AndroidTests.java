@@ -56,7 +56,7 @@ public class AndroidTests {
 
     public static class AndroidReportCheckerTests extends ParameterizedCheckerTest {
         public AndroidReportCheckerTests(File testFile) {
-            super(testFile, AndroidReportChecker.class.getName(), "sparta.checkers", "-Anomsgtext",
+            super(testFile, AndroidReportChecker.class, "sparta.checkers", "-Anomsgtext",
                     "-Astubs=apiusage.astub:suspicious.astub");
 
         }
@@ -69,10 +69,14 @@ public class AndroidTests {
 
     public static class FlowCheckerTests extends ParameterizedCheckerTest {
         public FlowCheckerTests(File testFile) {
-            super(testFile, FlowChecker.class.getName(), "sparta.checkers", "-Anomsgtext","-Astubs=tests/flow/flowtests.astub");
+            super(testFile, FlowChecker.class, "sparta.checkers", "-Anomsgtext");
 //             Uncomment the line below to see the full errors in the JUnit
             // tests
-//             super(testFile, FlowChecker.class.getName(), "sparta.checkers", "-Astubs=tests/flow/flowtests.astub");
+//             super(testFile, FlowChecker.class.getName(), "sparta.checkers");
+        }
+
+        private FlowCheckerTests(File testFile, String... checkerOptions) {
+            super(testFile, FlowChecker.class, "sparta.checkers", checkerOptions);
         }
 
         @Parameters
@@ -117,10 +121,23 @@ public class AndroidTests {
             return getFile(javaFile, "Flowpolicy");
         }
     }
+    public static class FlowStrictTests extends FlowCheckerTests {
 
+        public FlowStrictTests(File testFile) {
+             super(testFile,
+                     "-Alint=cast:strict,strict-conditional,arrays:invariant",
+                     "-Anomsgtext",
+                     "-Astubs=tests/flow/flowtests.astub");
+        }
+
+        @Parameters
+        public static Collection<Object[]> data() {
+            return testFiles("strict");
+        }
+    }
     public static class StubfileTests extends FlowCheckerTests {
         public StubfileTests(File testFile) {
-            super(testFile);
+            super(testFile, "-Anomsgtext","-Astubs=tests/flow/flowtests.astub");
         }
 
         @Parameters
