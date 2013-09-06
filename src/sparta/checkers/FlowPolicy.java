@@ -5,6 +5,7 @@ import static sparta.checkers.quals.FlowPermission.NOT_REVIEWED;
 import checkers.quals.PolyAll;
 import checkers.types.AnnotatedTypeMirror;
 
+import javacutils.AnnotationUtils;
 import javacutils.Pair;
 
 import java.io.BufferedReader;
@@ -49,8 +50,8 @@ public class FlowPolicy {
     public static final String EMPTY = "{}";
     public static final String EMPTY_REGEX = "\\{\\}";
 
-    private final Map<FlowPermission, Set<FlowPermission>> allowedFlows;
-    private final Map<FlowPermission, Set<FlowPermission>> reversedAllowedFlows;
+    private final Map<FlowPermission, Set<FlowPermission>> allowedSourceToSinks;
+    private final Map<FlowPermission, Set<FlowPermission>> allowedSinkToSources;
 
     private final/*@Nullable*/Set<FlowPermission> sinksFromAnySource;
 
@@ -59,8 +60,8 @@ public class FlowPolicy {
     private final boolean strictConditionals;
 
     public FlowPolicy(final Map<FlowPermission, Set<FlowPermission>> allowedFlows) {
-        this.allowedFlows = allowedFlows;
-        this.reversedAllowedFlows = reverse(allowedFlows);
+        this.allowedSourceToSinks = allowedFlows;
+        this.allowedSinkToSources = reverse(allowedFlows);
         this.sinksFromAnySource = allowedFlows.get(FlowPermission.ANY);
         this.strictConditionals = false;
     }
@@ -74,12 +75,12 @@ public class FlowPolicy {
      */
     public FlowPolicy(final File flowPolicyFile, boolean strictConditionals) {
         this.strictConditionals = strictConditionals;
-        this.allowedFlows = getDefaultAllowedFlows();
+        this.allowedSourceToSinks = getDefaultAllowedFlows();
         if (flowPolicyFile != null && flowPolicyFile.exists()) {
             readPolicyFile(flowPolicyFile);
         }
-        this.sinksFromAnySource = allowedFlows.get(FlowPermission.ANY);
-        this.reversedAllowedFlows = reverse(allowedFlows);
+        this.sinksFromAnySource = allowedSourceToSinks.get(FlowPermission.ANY);
+        this.allowedSinkToSources = reverse(allowedSourceToSinks);
     }
 
     public FlowPolicy(final File flowPolicyFile) {
@@ -104,27 +105,21 @@ public class FlowPolicy {
         HashMap<FlowPermission, Set<FlowPermission>> defaultAllowedFlows = new HashMap<FlowPermission, Set<FlowPermission>>();
         HashSet<FlowPermission> sinkSet = new HashSet<FlowPermission>(1);
         sinkSet.add(FlowPermission.CONDITIONAL);
-        
+
         if (strictConditionals) {
             defaultAllowedFlows.put(FlowPermission.LITERAL, sinkSet);
         } else {
             defaultAllowedFlows.put(FlowPermission.ANY, sinkSet);
         }
-        
+
         return defaultAllowedFlows;
     }
 
     public static Pair<Set<FlowPermission>, Set<FlowPermission>> annotatedTypeMirrorToFlows(
             final AnnotatedTypeMirror atm) {
 
-        final AnnotationMirror sourceAnno = atm.getAnnotation(Source.class);
-        final AnnotationMirror sinkAnno = atm.getAnnotation(Sink.class);
-
-        final Set<FlowPermission> sources = FlowUtil.getSource(sourceAnno, true);
-        final Set<FlowPermission> sinks = FlowUtil.getSink(sinkAnno, true);
-        ;
-        FlowUtil.allToAnySource(sources, true);
-        FlowUtil.allToAnySink(sinks, true);
+        final Set<FlowPermission> sources = Flow.getSources(atm);
+        final Set<FlowPermission> sinks = Flow.getSinks(atm);
 
         return Pair.of(sources, sinks);
     }
@@ -149,9 +144,6 @@ public class FlowPolicy {
     public List<Flow> forbiddenFlows(final Pair<Set<FlowPermission>, Set<FlowPermission>> flows) {
         final Set<FlowPermission> sources = flows.first;
         final Set<FlowPermission> sinks = flows.second;
-
-        FlowUtil.allToAnySink(sinks, true);
-        FlowUtil.allToAnySource(sources, true);
         List<Flow> forflows = new ArrayList<Flow>();
 
         if (sources.isEmpty() || sinks.isEmpty()) {
@@ -164,7 +156,7 @@ public class FlowPolicy {
         }
 
         for (final FlowPermission source : sources) {
-            final Set<FlowPermission> allowedSink = allowedFlows.get(source);
+            final Set<FlowPermission> allowedSink = allowedSourceToSinks.get(source);
 
             if (allowedSink == null) {
                 forflows.add(new Flow(source, sinks));
@@ -189,21 +181,21 @@ public class FlowPolicy {
     public boolean areFlowsAllowed(final Pair<Set<FlowPermission>, Set<FlowPermission>> flows) {
         final Set<FlowPermission> sources = flows.first;
         final Set<FlowPermission> sinks = flows.second;
-        
+
         if (sources.isEmpty() || sinks.isEmpty()) {
             return false;
         }
 
         if (sinksFromAnySource != null) {
             sinks.removeAll(sinksFromAnySource);
+            if (sinks.isEmpty()) {
+                return true;
+            }
         }
 
-        if (sinks.isEmpty()) {
-            return true;
-        }
 
         for (final FlowPermission source : sources) {
-            final Set<FlowPermission> allowedSink = allowedFlows.get(source);
+            final Set<FlowPermission> allowedSink = allowedSourceToSinks.get(source);
 
             if (allowedSink == null
                     || !(allowedSink.contains(FlowPermission.ANY) || allowedSink.containsAll(sinks))) {
@@ -240,18 +232,30 @@ public class FlowPolicy {
         return out;
     }
 
-    private final List<FlowPermission> allSink = Collections.unmodifiableList(Arrays
-            .asList(FlowPermission.values()));
-    private final List<FlowPermission> allSource = Collections.unmodifiableList(Arrays
-            .asList(FlowPermission.values()));
 
-    public Set<FlowPermission> getIntersectingSink(final Collection<FlowPermission> sources) {
-        return getIntersectingValueSets(FlowPermission.class, allowedFlows, allSink, sources);
+    public Set<FlowPermission> getIntersectionAllowedSinks(final Set<FlowPermission> sources) {
+        //Start with all sinks and remove those that are not allowed
+        Set<FlowPermission> sinks =  Flow.getSetOfAllSinks();
+        
+        for (FlowPermission source : sources) {
+            final Set<FlowPermission> curSinks = allowedSourceToSinks.get(source);
+            sinks = Flow.intersectSinks(sinks, curSinks);
+        }
+        sinks.addAll(getSinkFromSource(FlowPermission.ANY, false));
+        return sinks;
     }
+    
+    public Set<FlowPermission> getIntersectionAllowedSources(final Collection<FlowPermission> sinks) {
+        //Start with all sources and remove those that are not allowed
+        Set<FlowPermission> sources =  Flow.getSetOfAllSources();
+        
+        for (FlowPermission sink : sinks) {
+            final Set<FlowPermission> curSources = allowedSinkToSources.get(sink);
+            sources = Flow.intersectSources(sources, curSources);
+        }
+        sources.addAll(getSourceFromSink(FlowPermission.ANY, false));
 
-    public Set<FlowPermission> getIntersectingSource(final Collection<FlowPermission> sinks) {
-        return getIntersectingValueSets(FlowPermission.class, reversedAllowedFlows, allSource,
-                sinks);
+        return  sources;
     }
 
     /**
@@ -327,10 +331,10 @@ public class FlowPolicy {
                             try {
                                 source = FlowPermission.valueOf(sourceStr);
 
-                                sinks = allowedFlows.get(source);
+                                sinks = allowedSourceToSinks.get(source);
                                 if (sinks == null && source != null) {
                                     sinks = new HashSet<FlowPermission>(sinkStrs.length);
-                                    allowedFlows.put(source, sinks);
+                                    allowedSourceToSinks.put(source, sinks);
                                 }
                             } catch (final IllegalArgumentException iaExc) {
 
@@ -443,11 +447,12 @@ public class FlowPolicy {
     }
 
     public Set<FlowPermission> getSinkFromSource(final FlowPermission source, boolean includeAny) {
-        return getSet(FlowPermission.class, source, allowedFlows, includeAny);
+        return getSet(FlowPermission.class, source, allowedSourceToSinks, includeAny);
     }
 
     public Set<FlowPermission> getSourceFromSink(final FlowPermission sink, boolean includeAny) {
-        return getSet(FlowPermission.class, sink, reversedAllowedFlows, includeAny);
+        return getSet(FlowPermission.class, sink, allowedSinkToSources, includeAny);
+
     }
 
     private <KEY extends Enum<KEY>, VALUE extends Enum<VALUE>> Set<VALUE> getSet(
@@ -471,53 +476,6 @@ public class FlowPolicy {
         }
     }
 
-    public static <KEY, VALUE extends Enum<VALUE>> Set<VALUE> getIntersectingValueSets(
-            final Class<VALUE> vc, final Map<KEY, Set<VALUE>> kToV,
-            final Collection<VALUE> allValues, final Collection<KEY> keys) {
-        if (keys.isEmpty()) {
-            return new HashSet<VALUE>();
-        }
-
-        final List<KEY> keyList = new ArrayList<KEY>(keys);
-
-        final VALUE any = VALUE.valueOf(vc, "ANY");
-        Set<VALUE> initial = kToV.get(keyList.get(0));
-
-        final Set<VALUE> values;
-        if (initial != null) {
-
-            if (initial.contains(any)) {
-                values = new HashSet<VALUE>(allValues);
-                values.remove(any);
-            } else {
-                values = new HashSet<VALUE>(initial);
-            }
-        } else {
-            values = new HashSet<VALUE>();
-        }
-
-        for (int i = 1; i < keyList.size() && !values.isEmpty(); i++) {
-            final KEY key = keyList.get(i);
-            final Set<VALUE> curValues = kToV.get(key);
-
-            if (curValues != null) {
-                if (!curValues.contains(any)) {
-                    values.retainAll(curValues);
-                } // else retain what we currently have as they will be in the
-                  // intersection with any
-            } else {
-                values.clear();
-            }
-        }
-
-        if (values.size() == (allValues.size() - 1)) { // (allValues - any)
-            values.clear();
-            values.add(any);
-        }
-
-        return values;
-    }
-
     private <KEY, VALUE> Map<VALUE, Set<KEY>> reverse(final Map<KEY, Set<VALUE>> mapToReverse) {
         final Map<VALUE, Set<KEY>> reversed = new HashMap<VALUE, Set<KEY>>();
 
@@ -536,5 +494,7 @@ public class FlowPolicy {
 
         return reversed;
     }
+
+
 
 }

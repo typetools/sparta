@@ -42,8 +42,8 @@ class Generics {
 
 }
 
-class UpperObject<T extends @Source(ANY) @Sink({}) Object>{
-	public void testWildCard(java.util.List<? extends @Source(ANY) @Sink({}) Number> list) {
+class UpperObject<T extends Object>{
+	public void testWildCard(java.util.List<? extends Number> list) {
 	}   
 	void callWildCard(java.util.List<Integer> list){
 		testWildCard(list);

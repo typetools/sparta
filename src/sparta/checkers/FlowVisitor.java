@@ -14,6 +14,7 @@ import javacutils.Pair;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.type.TypeKind;
 
 import sparta.checkers.quals.DependentPermissions;
 import sparta.checkers.quals.FlowPermission;
@@ -78,9 +79,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
 
     private void ensureConditionalSink(ExpressionTree tree) {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
-
-        final AnnotationMirror sinkAnno = type.getAnnotation(Sink.class);
-        final Set<FlowPermission> sinks = FlowUtil.getSink(sinkAnno, false);
+        final Set<FlowPermission> sinks = Flow.getSinks(type);
         if (!sinks.contains(FlowPermission.ANY) && !sinks.contains(FlowPermission.CONDITIONAL)) {
             checker.report(Result.failure("condition.flow", type.getAnnotations()), tree);
         }
@@ -182,8 +181,8 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
         treeReceiver.addAnnotations(rcv.getEffectiveAnnotations());
 
         if (!checker.getTypeHierarchy().isSubtype(treeReceiver, methodReceiver)) {
-            Set<FlowPermission> sinks = new HashSet<FlowPermission>(FlowUtil.getSink(methodReceiver));
-            Set<FlowPermission> sources = new HashSet<FlowPermission>(FlowUtil.getSource(treeReceiver));
+            Set<FlowPermission> sinks = Flow.getSinks(methodReceiver);
+            Set<FlowPermission> sources = Flow.getSources(treeReceiver);
             Flow flow = new Flow(sources, sinks);
             checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
             checker.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
@@ -198,8 +197,8 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
         super.commonAssignmentCheck(varType, valueType, valueTree, errorKey,
                 isLocalVariableAssignement);
 
-        Set<FlowPermission> sinks = new HashSet<FlowPermission>(FlowUtil.getSink(varType));
-        Set<FlowPermission> sources = new HashSet<FlowPermission>(FlowUtil.getSource(valueType));
+        Set<FlowPermission> sinks = Flow.getSinks(varType);
+        Set<FlowPermission> sources = Flow.getSources(valueType);
         Flow flow = new Flow(sources, sinks);
         checker.getFlowAnalizer().getAssignmentFlows().add(flow);
         boolean success = checker.getTypeHierarchy().isSubtype(valueType, varType);
@@ -209,17 +208,10 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
         }
     }
 
-    private boolean warnForbiddenFlows(final AnnotatedTypeMirror type,  Tree tree) {
-
+    private void warnForbiddenFlows(final AnnotatedTypeMirror type,  Tree tree) {
         if (!areFlowsValid(type, tree)) {
-            StringBuffer buf = new StringBuffer();
-            for (Flow flow : checker.getFlowPolicy().forbiddenFlows(type)) {
-                buf.append(flow.toString() + "\n");
-            }
-            checker.report(Result.failure("forbidden.flow", type.toString(), buf.toString()), tree);
-            return false;
+           reportError(type, tree);
         }
-        return true;
     }
 
     void reportError(AnnotatedTypeMirror type, Tree tree) {
@@ -234,16 +226,20 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
 
         Element ele = InternalUtils.symbol(tree);
         boolean isLocal = (ele != null && ele.getKind() == ElementKind.LOCAL_VARIABLE);
+        boolean isWild = atm.getKind() == TypeKind.WILDCARD;
+        boolean isTypeVar = atm.getKind() == TypeKind.TYPEVAR;
+        boolean isTypePara = (ele != null && ele.getKind() == ElementKind.TYPE_PARAMETER);
 
-        if ((isLocal || this.topAllowed) && FlowUtil.isTop(atm)) {
+
+
+        if ((isLocal || this.topAllowed || isTypePara|| isTypeVar|| isWild) && Flow.isTop(atm)) {
             // Local variables are allowed to be top type so a more specific
             // type can be inferred.
             return true;
         }
 
-        Set<FlowPermission> sinks = new HashSet<FlowPermission>(FlowUtil.getSink(atm));
-        Set<FlowPermission> sources = new HashSet<FlowPermission>(FlowUtil.getSource(atm));
-        Flow flow = new Flow(sources, sinks);
+     
+        Flow flow = new Flow(atm);
         checker.getFlowAnalizer().getTypeFlows().add(flow);
 
         final FlowPolicy flowPolicy = checker.getFlowPolicy();

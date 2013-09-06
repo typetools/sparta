@@ -36,9 +36,15 @@ class SupressWarningsAssignment {
         ByteArrayOutputStream bytesCast = (@Source(CAMERA) @Sink({CONDITIONAL, DISPLAY, FILESYSTEM})  ByteArrayOutputStream) getBAOS();
 
         int icast = bytesCast.size();
+        
+        /*Casting does not have this problem:*/
+        @SuppressWarnings("flow")
+        ByteArrayOutputStream bytesCast2 = (@Source(CAMERA)  ByteArrayOutputStream) getBAOS();
+
+        int icast2 = bytesCast.size();
 
     }
-    @Source(READ_SMS) @Sink({CONDITIONAL, DISPLAY,WRITE_LOGS, FILESYSTEM}) ByteArrayOutputStream getBAOS(){
+    @Source(READ_SMS) ByteArrayOutputStream getBAOS(){
         return null;
         }
   }

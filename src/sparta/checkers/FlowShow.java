@@ -13,6 +13,7 @@ import javacutils.TreeUtils;
 
 
 import java.util.List;
+import java.util.Set;
 
 import javax.lang.model.type.TypeKind;
 
@@ -71,9 +72,9 @@ public class FlowShow extends FlowChecker {
                     show = true;
                 }
                 if (show) {
-                    List<FlowPermission> src = getSource(type);
+                    Set<FlowPermission> src = Flow.getSources(type);
                     String stsrc = src.isEmpty() ? "NONE" : src.toString();
-                    List<FlowPermission> snk = getSink(type);
+                    Set<FlowPermission> snk = Flow.getSinks(type);
                     String stsnk = snk.isEmpty() ? "NONE" : snk.toString();
                     String msg = "FLOW TREE " + tree + " KIND " + tree.getKind() + " SOURCES "
                             + stsrc + " SINKS " + stsnk;

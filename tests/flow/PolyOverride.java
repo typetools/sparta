@@ -4,7 +4,7 @@ import sparta.checkers.quals.FlowPermission;
 
 class PolyOverride {
 
-    interface Comparator<T extends @Source(FlowPermission.ANY) Object> {
+    interface Comparator<T extends Object> {
         @PolySource @PolySink int compare(@PolySource @PolySink T lhs, @PolySource @PolySink T rhs);
     }
 

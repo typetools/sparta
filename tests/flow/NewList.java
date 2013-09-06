@@ -5,7 +5,7 @@ import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
 
-class MyList<T extends @Source(sparta.checkers.quals.FlowPermission.ANY) Object> {
+class MyList<T extends Object> {
 }
 
 class NewList {
