@@ -126,9 +126,8 @@ public class AndroidTests {
         public FlowStrictTests(File testFile) {
              super(testFile,
                      "-Alint=cast:strict,strict-conditional,arrays:invariant",
-                     "-Anomsgtext",
-                     "-Astubs=tests/flow/flowtests.astub");
-        }
+                     "-Anomsgtext");
+             }
 
         @Parameters
         public static Collection<Object[]> data() {
@@ -137,7 +136,7 @@ public class AndroidTests {
     }
     public static class StubfileTests extends FlowCheckerTests {
         public StubfileTests(File testFile) {
-            super(testFile, "-Anomsgtext","-Astubs=tests/flow/flowtests.astub");
+            super(testFile, "-Anomsgtext");
         }
 
         @Parameters
