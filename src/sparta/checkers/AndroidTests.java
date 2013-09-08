@@ -150,23 +150,23 @@ public class AndroidTests {
             final File stubFile = getStubfile(testFile);
             final String[] optionsWithPf;
 
-            int length = checkerOptions.length;
+            final int length = checkerOptions.length;
 
             if (flowPolicyFile.exists() && !stubFile.exists()) {
-                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 2);
+                optionsWithPf = Arrays.copyOf(checkerOptions, length + 2);
                 optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy="
                         + flowPolicyFile.getAbsolutePath();
                 optionsWithPf[optionsWithPf.length - 2] = "-AprintErrorStack";
 
                 // AprintErrorStack
             } else if (!flowPolicyFile.exists() && stubFile.exists()) {
-                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 2);
+                optionsWithPf = Arrays.copyOf(checkerOptions, length + 2);
                 optionsWithPf[optionsWithPf.length - 1] = "-Astubs=" + stubFile.getAbsolutePath();
                 optionsWithPf[optionsWithPf.length - 2] = "-AprintErrorStack";
 
                 // AprintErrorStack
             } else if (flowPolicyFile.exists() && stubFile.exists()) {
-                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 3);
+                optionsWithPf = Arrays.copyOf(checkerOptions, length + 3);
                 optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy="
                         + flowPolicyFile.getAbsolutePath();
                 optionsWithPf[optionsWithPf.length - 2] = "-Astubs=" + stubFile.getAbsolutePath();
@@ -174,7 +174,7 @@ public class AndroidTests {
 
                 // AprintErrorStack
             } else {
-                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 1);
+                optionsWithPf = Arrays.copyOf(checkerOptions, length + 1);
                 optionsWithPf[optionsWithPf.length - 1] = "-AprintErrorStack";
 
             }

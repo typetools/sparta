@@ -2,17 +2,17 @@ package sparta.checkers.quals;
 
 /**
  * This enum contains the possible sources or sinks.
- * 
+ *
  * Most of them are exactly the Android permission used to grant access to
  * sensitive system resources. The rest of them govern the access to source or
  * sinks determined to be sensitive for security purposes.
- * 
+ *
  * Each permission is either a source of sensitive information or a sensitive
  * sink. Some permissions are both. Tip: you can statically import the enum
  * constants so that you don't have to write FlowPermission in the annotations.
  * (@Sink(EMAIL) rather than @Sink(FlowPermission.EMAIL)) import static
  * sparta.checkers.quals.FlowPermission.*;
- * 
+ *
  */
 public enum FlowPermission {
 
@@ -399,7 +399,7 @@ public enum FlowPermission {
      TIME (T.SOURCE), now READ_TIME or SET_TIME
      SERIAL_NUMBER (T.SOURCE), now READ_PHONE_STATE
      IMEI (T.SOURCE), now  READ_PHONE_STATE
-     MICROPHONE (T.SOURCE), now RECORD_AUDIO 
+     MICROPHONE (T.SOURCE), now RECORD_AUDIO
      APP_TOKENS (T.UNKNOWN), now MANAGE_APP_TOKENS
      AUDIO_SETTINGS (T.UNKNOWN), now MODIFY_AUDIO_SETTINGS
      AUDIO (T.UNKNOWN), now RECORD_AUDIO
@@ -417,7 +417,7 @@ public enum FlowPermission {
      INPUT_STATE (T.UNKNOWN), now READ_INPUT_STATE
      LOCATION_EXTRA_COMMANDS (T.UNKNOWN), now ACCESS_LOCATION_EXTRA_COMMANDS
      LOCATION (T.UNKNOWN), now ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION
-    
+
      MMS (T.UNKNOWN), now RECEIVE_MMS
      MOCK_LOCATION (T.UNKNOWN), now ACCESS_MOCK_LOCATION
      NETWORK_STATE (T.UNKNOWN), now ACCESS_NETWORK_STATE or CHANGE_NETWORK_STATE
@@ -428,7 +428,7 @@ public enum FlowPermission {
     ,
      PHONE_STATE (T.UNKNOWN), now MODIFY_PHONE_STATE or READ_PHONE_STATE
      PROFILE (T.UNKNOWN), now READ_PROFILE or WRITE_PROFILE
-     
+
      SIP (T.UNKNOWN), now USE_SIP
      SMS (T.UNKNOWN), now BROADCAST_SMS or READ_SMS or WRITE_SMS or RECEIVE_SMS or SEND_SMS
      SOCIAL_STREAM (T.UNKNOWN), now READ_SOCIAL_STREAM or WRITE_SOCIAL_STREAM
@@ -440,7 +440,7 @@ public enum FlowPermission {
      USER_DICTIONARY (T.UNKNOWN), now READ_USER_DICTIONARY or WRITE_USER_DICTIONARY
      WAP_PUSH (T.UNKNOWN), now BROADCAST_WAP_PUSH or RECEIVE_WAP_PUSH
      WIFI_STATE (T.UNKNOWN), now CHANGE_WIFI_STATE or ACCESS_WIFI_STATE
-    
+
      ACTIVITY_WATCHER (T.UNKNOWN), now SET_ACTIVITY_WATCHER
      ALARM (T.UNKNOWN), now SET_ALARM
      ALWAYS_FINISH (T.UNKNOWN), now SET_ALWAYS_FINISH
@@ -466,17 +466,19 @@ public enum FlowPermission {
      */
 
     ;
-    private final T sourceOrSink;
+
+    // TODO: implement checks using this.
+    // private final T sourceOrSink;
 
     FlowPermission(T sourceOrSink) {
-        this.sourceOrSink = sourceOrSink;
+        // this.sourceOrSink = sourceOrSink;
     }
 
- 
+
 
     /**
      * enum used to indicate if a permission is a source, sink, both, neither.
-     * 
+     *
      */
     enum T {
         /**

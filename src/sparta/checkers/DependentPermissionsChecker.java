@@ -1,23 +1,6 @@
 package sparta.checkers;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.processing.SupportedOptions;
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.Element;
-import javax.lang.model.util.Elements;
-import javax.tools.Diagnostic;
-
-import com.sun.source.tree.Tree;
-
-import sparta.checkers.quals.*;
-
 import checkers.basetype.BaseTypeChecker;
-
 import checkers.quals.Bottom;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
@@ -26,27 +9,22 @@ import checkers.types.QualifierHierarchy;
 import checkers.util.GraphQualifierHierarchy;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 
-
 import javacutils.AnnotationUtils;
-
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.util.Elements;
 
 import sparta.checkers.quals.DependentPermissions;
+import sparta.checkers.quals.DependentPermissionsTop;
+import sparta.checkers.quals.DependentPermissionsUnqualified;
 
 /**
  * Checker for dependentpermissions, based on the fenum checker
- * It examines constant strings used as URIs and Intent actions to 
+ * It examines constant strings used as URIs and Intent actions to
  * determine if the method call would require additional permissions.
- * 
+ *
  * @author edwardwu
- * 
+ *
  */
 
 @TypeQualifiers({ DependentPermissions.class, DependentPermissionsTop.class,
@@ -66,7 +44,7 @@ public class DependentPermissionsChecker extends
 
     /*
      * Used to overwrite the warning messages through by the source checker
-     * 
+     *
      * @see checkers.source.SourceChecker#report(checkers.source.Result,
      * java.lang.Object)
      */

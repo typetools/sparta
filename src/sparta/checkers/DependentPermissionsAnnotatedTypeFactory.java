@@ -1,8 +1,6 @@
 package sparta.checkers;
 
 import checkers.basetype.BaseTypeChecker;
-import checkers.fenum.quals.FenumTop;
-import checkers.fenum.quals.FenumUnqualified;
 import checkers.quals.DefaultLocation;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.BasicAnnotatedTypeFactory;
@@ -17,20 +15,9 @@ import java.util.LinkedList;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import sparta.checkers.quals.*;
-
-import checkers.basetype.BaseTypeChecker;
-import checkers.quals.DefaultLocation;
-import checkers.quals.Unqualified;
-import checkers.source.Result;
-import checkers.types.AnnotatedTypeFactory;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.BasicAnnotatedTypeFactory;
-import checkers.types.TreeAnnotator;
-import checkers.util.AnnotationBuilder;
-
-
-import com.sun.source.tree.AssignmentTree;
+import sparta.checkers.quals.DependentPermissions;
+import sparta.checkers.quals.DependentPermissionsTop;
+import sparta.checkers.quals.DependentPermissionsUnqualified;
 
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.LiteralTree;
@@ -44,7 +31,7 @@ public class DependentPermissionsAnnotatedTypeFactory extends
     public static final LinkedList<Pair<String, String>> contentURIConstList = new LinkedList<Pair<String, String>>();
 
     static {
-       
+
             // intent constant tables
             // sed command used to convert intent constant strings from pscout
             // format
@@ -224,7 +211,7 @@ public class DependentPermissionsAnnotatedTypeFactory extends
             // grep "pathPrefix" | sed "s/ . /\.\*\",\"/" | sed
             // "s/ pathPrefix/\"));/" | sed "s/ /\.\*\",\"/" | sed
             // "s/^/contentURIPatternList.add(Pair.of(\"\^/"
-            
+
             contentURIPatternList.add(Pair.of(
                     "^content://com.android.contacts/search_suggest_query.*",
                     "android.permission.GLOBAL_SEARCH"));
@@ -451,7 +438,7 @@ public class DependentPermissionsAnnotatedTypeFactory extends
 
     private class DPTreeAnnotator extends TreeAnnotator {
 
-        public DPTreeAnnotator(BaseTypeChecker checker) {
+        public DPTreeAnnotator(BaseTypeChecker<?> checker) {
             super(checker, DependentPermissionsAnnotatedTypeFactory.this);
             // TODO Auto-generated constructor stub
         }

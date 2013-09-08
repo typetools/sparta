@@ -5,7 +5,6 @@ import static sparta.checkers.quals.FlowPermission.NOT_REVIEWED;
 import checkers.quals.PolyAll;
 import checkers.types.AnnotatedTypeMirror;
 
-import javacutils.AnnotationUtils;
 import javacutils.Pair;
 
 import java.io.BufferedReader;
@@ -29,8 +28,6 @@ import javax.lang.model.element.AnnotationMirror;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
 
 /*>>>
  import checkers.nullness.quals.Nullable;
@@ -67,7 +64,7 @@ public class FlowPolicy {
     }
 
     /**
-     * 
+     *
      * @param flowPolicyFile
      * @param strictConditionals
      *            if true LITERAL->CONDITIONAL is added, otherwise
@@ -92,7 +89,7 @@ public class FlowPolicy {
     }
 
     /**
-     * 
+     *
      * @param strictConditionals
      *            if true LITERAL->CONDITIONAL is added, otherwise
      *            ANY->CONDITIONAL is added
@@ -210,7 +207,7 @@ public class FlowPolicy {
      * If # appears in the line remove all text from # to the end of the string
      * trim the string (this is important in order to recognize empty lines)
      * else return the original line
-     * 
+     *
      * @param input
      *            Line that may contain a comment
      * @return Line that does not contain a comment
@@ -236,7 +233,7 @@ public class FlowPolicy {
     public Set<FlowPermission> getIntersectionAllowedSinks(final Set<FlowPermission> sources) {
         //Start with all sinks and remove those that are not allowed
         Set<FlowPermission> sinks =  Flow.getSetOfAllSinks();
-        
+
         for (FlowPermission source : sources) {
             final Set<FlowPermission> curSinks = allowedSourceToSinks.get(source);
             sinks = Flow.intersectSinks(sinks, curSinks);
@@ -244,11 +241,11 @@ public class FlowPolicy {
         sinks.addAll(getSinkFromSource(FlowPermission.ANY, false));
         return sinks;
     }
-    
+
     public Set<FlowPermission> getIntersectionAllowedSources(final Collection<FlowPermission> sinks) {
         //Start with all sources and remove those that are not allowed
         Set<FlowPermission> sources =  Flow.getSetOfAllSources();
-        
+
         for (FlowPermission sink : sinks) {
             final Set<FlowPermission> curSources = allowedSinkToSources.get(sink);
             sources = Flow.intersectSources(sources, curSources);
@@ -262,29 +259,29 @@ public class FlowPolicy {
      * Read the given file return a one to many Map of FlowPermission -> Sink
      * where each entry indicates what sinks a source is given blanket access to
      * reach
-     * 
-     * 
+     *
+     *
      * Format: A flow policy file is read line by line where each line has the
      * following format FlowPermissionName -> FlowPermissionName,
      * FlowPermissionName, FlowPermissionName
-     * 
+     *
      * FlowPermissionName = One of the names of the enums in FlowPermission
      * FlowPermissionName<x> = One of the names of the enums in FlowPermission
-     * 
+     *
      * A source can appear twice, the output Sink for that given source will
      * contain the union of the two entries.
-     * 
+     *
      * E.g. MICROPHONE -> NETWORK, TEXT_MESSAGE MICROPHONE -> FILESYSTEM
      * TEXT_MESSAGE -> NETWORK
-     * 
+     *
      * In this case there would be the following entry in the Map
      * Key(MICROPHONE) => Entries(NETWORK, TEXT_MESSAGE, FILESYSTEM)
      * Key(TEXT_MESSAGE) => Entries(NETWORK)
-     * 
+     *
      * Comments are permitted and start with a # Blank lines are ignored (as is
      * white space between symbols) A runtime error will be thrown if ANY line
      * is malformed (All errors will be reported via standard out before hand)
-     * 
+     *
      * @param policyFile
      *            A file formatted as above
      * @return

@@ -1,7 +1,6 @@
 package sparta.checkers;
 
 import checkers.types.AnnotatedTypeMirror;
-import checkers.util.AnnotationBuilder;
 
 import javacutils.AnnotationUtils;
 
@@ -10,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 
 import sparta.checkers.quals.FlowPermission;
@@ -56,6 +54,7 @@ public class Flow {
         sources.add(source);
     }
 
+    @Override
     public String toString() {
         StringBuffer flow = new StringBuffer();
         if (sources.isEmpty()) {
@@ -301,7 +300,7 @@ public class Flow {
         a1Set.retainAll(a2Set);
         return convertToAnySink(a1Set, false);
     }
-    
+
     /**
      * Returns the union of a1 and a2.
      * If the union is {ANY, ...} then just {ANY} is returned

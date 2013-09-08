@@ -1,5 +1,24 @@
 package sparta.checkers;
 
+/*>>>
+import checkers.compilermsgs.quals.CompilerMessageKey;
+*/
+
+
+import checkers.basetype.BaseTypeChecker;
+import checkers.quals.PolyAll;
+import checkers.quals.StubFiles;
+import checkers.quals.TypeQualifiers;
+import checkers.source.SupportedLintOptions;
+import checkers.types.QualifierHierarchy;
+import checkers.util.AnnotationBuilder;
+import checkers.util.MultiGraphQualifierHierarchy;
+import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
+import checkers.util.QualifierPolymorphism;
+import checkers.util.stub.StubGenerator;
+
+import javacutils.AnnotationUtils;
+import javacutils.TreeUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,17 +28,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javacutils.AnnotationUtils;
-import javacutils.TreeUtils;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.SupportedOptions;
 import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.util.Elements;
@@ -30,22 +44,6 @@ import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
-import checkers.basetype.BaseTypeChecker;
-import checkers.quals.PolyAll;
-import checkers.quals.StubFiles;
-import checkers.quals.TypeQualifiers;
-import checkers.source.SupportedLintOptions;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.QualifierHierarchy;
-import checkers.util.AnnotationBuilder;
-import checkers.util.MultiGraphQualifierHierarchy;
-import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
-import checkers.util.QualifierPolymorphism;
-import checkers.util.stub.StubGenerator;
-
-/*>>>
-import checkers.compilermsgs.quals.CompilerMessageKey;
-*/
 
 
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolyAll.class })
@@ -147,7 +145,7 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
 
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
     }
-    
+
     private static <T, E> AnnotationMirror createAnnoFromEnumArray(
             final ProcessingEnvironment processingEnv, final Class<T> qualClass, final E[] enumVals) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
