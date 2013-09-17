@@ -146,22 +146,19 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
     }
 
-    private static <T, E> AnnotationMirror createAnnoFromEnumArray(
-            final ProcessingEnvironment processingEnv, final Class<T> qualClass, final E[] enumVals) {
+
+    public  AnnotationMirror createAnnoFromSink(final Set<FlowPermission> sinks) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
-                qualClass.getCanonicalName());
-        builder.setValue("value", enumVals);
+                Sink.class);
+        builder.setValue("value", sinks.toArray(new FlowPermission[sinks.size()]));
         return builder.build();
     }
 
-    public  AnnotationMirror createAnnoFromSink(final Set<FlowPermission> sinks) {
-        return createAnnoFromEnumArray(processingEnv, Sink.class,
-                sinks.toArray(new FlowPermission[sinks.size()]));
-    }
-
     public  AnnotationMirror createAnnoFromSource(Set<FlowPermission> sources) {
-        return createAnnoFromEnumArray(processingEnv, Source.class,
-                sources.toArray(new FlowPermission[sources.size()]));
+        final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
+                Source.class);
+        builder.setValue("value", sources.toArray(new FlowPermission[sources.size()]));
+        return builder.build();
     }
 
     protected ExecutableElement sourceValue;

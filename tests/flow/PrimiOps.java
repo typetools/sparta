@@ -24,7 +24,6 @@ class PrimiOps {
         top = top / unqual;
         unqual = unqual / bot;
 
-        //:: error: (assignment.type.incompatible)
         poly = poly / bot;
 
         // This does not work, because unqualified is
