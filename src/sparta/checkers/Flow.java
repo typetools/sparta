@@ -220,7 +220,7 @@ public class Flow {
      * @param inPlace
      * @return
      */
-    private static Set<FlowPermission> convertToAnySource(final Set<FlowPermission> sources,
+    public static Set<FlowPermission> convertToAnySource(final Set<FlowPermission> sources,
             boolean inPlace) {
         final Set<FlowPermission> retSet = (inPlace) ? sources : new HashSet<FlowPermission>(sources);
         if(sources.equals(getSetOfAllSources())) {
@@ -240,7 +240,7 @@ public class Flow {
      * @param inPlace
      * @return either {ANY} or sinks
      */
-    private static Set<FlowPermission> convertToAnySink(final Set<FlowPermission> sinks, boolean inPlace) {
+    public static Set<FlowPermission> convertToAnySink(final Set<FlowPermission> sinks, boolean inPlace) {
             final Set<FlowPermission> retSet = (inPlace) ? sinks : new HashSet<FlowPermission>(sinks);
             if(sinks.equals(getSetOfAllSinks())) {
                 retSet.clear();

@@ -444,11 +444,11 @@ public class FlowPolicy {
     }
 
     public Set<FlowPermission> getSinkFromSource(final FlowPermission source, boolean includeAny) {
-        return getSet(FlowPermission.class, source, allowedSourceToSinks, includeAny);
+        return Flow.convertToAnySink(getSet(FlowPermission.class, source, allowedSourceToSinks, includeAny), true);
     }
 
     public Set<FlowPermission> getSourceFromSink(final FlowPermission sink, boolean includeAny) {
-        return getSet(FlowPermission.class, sink, allowedSinkToSources, includeAny);
+        return Flow.convertToAnySource(getSet(FlowPermission.class, sink, allowedSinkToSources, includeAny), true);
 
     }
 
