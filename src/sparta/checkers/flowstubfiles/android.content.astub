@@ -272,7 +272,7 @@ Cursor query(Uri uri, String[] projection, String selection, String[] selectionA
 void shutdown();
 //Implement this to shut down the ContentProvider instance.
 
-abstract int update(Uri uri, ContentValues values, String selection, String[] selectionArgs);
+abstract int update(@PolySink @PolySource Uri uri, @PolySink @PolySource ContentValues values, String selection, String[] selectionArgs);
 //Implement this to handle requests to update one or more rows.
 
 //Protected Methods
@@ -392,10 +392,10 @@ final OutputStream openOutputStream(Uri uri, String mode);
 final AssetFileDescriptor openTypedAssetFileDescriptor(Uri uri, String mimeType, Bundle opts);
 //Open a raw file descriptor to access (potentially type transformed); data from a "content:" URI.
 
-final Cursor query(Uri uri, String[] projection, @PolySource String selection, String[] selectionArgs, String sortOrder);
+final @PolySource @PolySink Cursor query(@PolySource @PolySink Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 //Query the given URI, returning a Cursor over the result set.
 
-final Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal);
+final @PolySource @PolySink Cursor query(@PolySource @PolySink Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal);
 //Query the given URI, returning a Cursor over the result set.
 
 final void registerContentObserver(Uri uri, boolean notifyForDescendents, ContentObserver observer);
@@ -425,7 +425,7 @@ void startSync(Uri uri, Bundle extras);
 final void unregisterContentObserver(ContentObserver observer);
 //Unregisters a change observer.
 
-final int update(Uri uri, ContentValues values, String where, String[] selectionArgs);
+final int update(@PolySource @PolySink Uri uri, @PolySource @PolySink ContentValues values, String where, String[] selectionArgs);
 //Update row(s); in a content URI.
 
 static void validateSyncExtrasBundle(Bundle extras);
@@ -457,6 +457,7 @@ static Uri withAppendedId(Uri contentUri, long id);
 
 }
 
+@PolyFlowReceiver
 class ContentValues {
     
 void clear();
