@@ -52,8 +52,8 @@
 
             <!-- Option to enforce stricter checks, in particular for casts. -->
             <!-- Note that only one -Alint argument can be provided. -->
-            <condition property="lintoptions"
-                   value="-Alint=cast:strict,strict-conditional,arrays:invariant"
+            <condition property="strictoptions"
+                   value="-AcheckCastElementType -AinvariantArrays -Alint=strict-conditional"
                    else="">
                 <or>
                     <equals arg1="${stricter}" arg2="true" />
@@ -72,7 +72,7 @@
                     <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
                     <pathelement location="${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
                 </classpath>
-                <compilerarg line="${java.compilerargs} ${showchecks} ${lintoptions}" />
+                <compilerarg line="${java.compilerargs} ${showchecks} ${strictoptions}" />
                 <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} -Aignorenr=@{ignorenr} ${checkerFrameworkOpts}"/>
                 <compilerarg line="-encoding ISO8859-1 -AprintErrorStack " />
             </jsr308.javac>
