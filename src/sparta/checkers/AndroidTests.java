@@ -125,7 +125,8 @@ public class AndroidTests {
 
         public FlowStrictTests(File testFile) {
              super(testFile,
-                     "-Alint=cast:strict,strict-conditional,arrays:invariant",
+                     "-Alint=strict-conditional",
+                     "-AcheckCastElementType","-AinvariantArrays",
                      "-Anomsgtext");
              }
 
