@@ -3,7 +3,7 @@ package sparta.checkers;
 import checkers.basetype.BaseTypeChecker;
 import checkers.quals.DefaultLocation;
 import checkers.types.AnnotatedTypeMirror;
-import checkers.types.BasicAnnotatedTypeFactory;
+import checkers.types.SubtypingAnnotatedTypeFactory;
 import checkers.types.TreeAnnotator;
 import checkers.util.AnnotationBuilder;
 
@@ -24,7 +24,7 @@ import com.sun.source.tree.LiteralTree;
 import com.sun.source.tree.Tree;
 
 public class DependentPermissionsAnnotatedTypeFactory extends
-        BasicAnnotatedTypeFactory<DependentPermissionsChecker> {
+        SubtypingAnnotatedTypeFactory<DependentPermissionsChecker> {
 
     public static final HashMap<String, String> intentConstTable = new HashMap<String, String>();
     public static final LinkedList<Pair<String, String>> contentURIPatternList = new LinkedList<Pair<String, String>>();

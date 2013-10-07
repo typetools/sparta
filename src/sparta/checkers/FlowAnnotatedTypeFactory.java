@@ -16,7 +16,7 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedUnionType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
-import checkers.types.BasicAnnotatedTypeFactory;
+import checkers.types.SubtypingAnnotatedTypeFactory;
 import checkers.types.TypeAnnotator;
 import checkers.util.QualifierDefaults.DefaultApplierElement;
 
@@ -45,7 +45,7 @@ import sparta.checkers.quals.Source;
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
 
-public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChecker> {
+public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<FlowChecker> {
 
 
     // List of methods that are not in a stub file

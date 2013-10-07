@@ -3,7 +3,7 @@ package sparta.checkers;
 import checkers.basetype.BaseTypeChecker;
 import checkers.source.Result;
 import checkers.source.SourceVisitor;
-import checkers.types.BasicAnnotatedTypeFactory;
+import checkers.types.SubtypingAnnotatedTypeFactory;
 
 import javacutils.ElementUtils;
 import javacutils.TreeUtils;
@@ -25,7 +25,7 @@ import com.sun.source.tree.MethodInvocationTree;
  * compilation after annotation processing.
  */
 public class ReportBinaryChecker extends
-        BaseTypeChecker<BasicAnnotatedTypeFactory<ReportBinaryChecker>> {
+        BaseTypeChecker<SubtypingAnnotatedTypeFactory<ReportBinaryChecker>> {
 
     private static final String[] ignorePackages = { "java", "javax", "android", "com.android" };
 
@@ -45,7 +45,7 @@ public class ReportBinaryChecker extends
 
     public static class ReportBinaryVisitor
             extends
-            SourceVisitor<ReportBinaryChecker, BasicAnnotatedTypeFactory<ReportBinaryChecker>, Void, Void> {
+            SourceVisitor<ReportBinaryChecker, SubtypingAnnotatedTypeFactory<ReportBinaryChecker>, Void, Void> {
         public ReportBinaryVisitor(ReportBinaryChecker checker, CompilationUnitTree root) {
             super(checker, root);
         }

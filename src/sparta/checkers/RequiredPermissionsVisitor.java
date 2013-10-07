@@ -2,7 +2,7 @@ package sparta.checkers;
 
 import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
-import checkers.types.BasicAnnotatedTypeFactory;
+import checkers.types.SubtypingAnnotatedTypeFactory;
 
 import javacutils.AnnotationUtils;
 import javacutils.TreeUtils;
@@ -29,7 +29,7 @@ import com.sun.source.tree.MethodTree;
  */
 public class RequiredPermissionsVisitor
         extends
-        BaseTypeVisitor<RequiredPermissionsChecker, BasicAnnotatedTypeFactory<RequiredPermissionsChecker>> {
+        BaseTypeVisitor<RequiredPermissionsChecker, SubtypingAnnotatedTypeFactory<RequiredPermissionsChecker>> {
 
     public RequiredPermissionsVisitor(RequiredPermissionsChecker checker, CompilationUnitTree root) {
         super(checker, root);
