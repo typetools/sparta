@@ -1,0 +1,17 @@
+package android.accounts;
+class AccountManager{
+        AuthenticatorDescription[] getAuthenticatorTypes();
+        void addOnAccountsUpdatedListener(OnAccountsUpdateListener listener, Handler handler, boolean updateImmediately);
+        void removeOnAccountsUpdatedListener(OnAccountsUpdateListener listener);
+        static AccountManager get(Context context);
+}
+public class Account implements Parcelable {
+    public final @Source(GET_ACCOUNTS) String name;
+}
+
+
+class OnAccountsUpdateListener{
+        void onAccountsUpdated(@Source(GET_ACCOUNTS) Account[] arg0);
+}
+
+

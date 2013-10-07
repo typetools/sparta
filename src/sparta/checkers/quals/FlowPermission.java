@@ -72,6 +72,7 @@ public enum FlowPermission {
                              // permission.
     PARCEL(T.BOTH),
     SECURE_HASH(T.BOTH), // Use only for one way hashes (MD5 for example)
+    CONTENT_PROVIDER(T.BOTH),
 
     /**
      * Android Manifest.permissions (Do not add new permissions below here) I

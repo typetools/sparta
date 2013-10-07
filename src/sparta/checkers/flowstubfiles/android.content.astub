@@ -590,7 +590,8 @@ String[] resolveSelectionArgsBackReferences(ContentProviderResult[] backRefs, in
 //The Selection Arguments back references are represented as a Map of Integer->Integer where the key is an index into the selection argument array (see withSelection(String, String[]);); and the value is the index of the previous result that should be used for that selection argument array slot.
 
 ContentValues resolveValueBackReferences(ContentProviderResult[] backRefs, int numBackRefs);
-//The ContentValues back references are represented as a ContentValues object where the key refers to a column and the value is an index of the back reference whose valued should be associated with the column.
+//The ContentValues back references are represented as a ContentValues object where the key refers to a column and the 
+//value is an index of the back reference whose valued should be associated with the column.
 
 String toString();
 //Returns a string containing a concise, human-readable description of this object.
@@ -619,16 +620,16 @@ ContentProviderOperation.Builder withSelection(String selection, String[] select
 ContentProviderOperation.Builder withSelectionBackReference(int selectionArgIndex, int previousResult);
 //Add a back references as a selection arg.
 
-ContentProviderOperation.Builder withValue(String key, Object value);
+ContentProviderOperation.Builder withValue(String key, @Sink(CONTENT_PROVIDER) Object value);
 //A value to insert or update.
 
 ContentProviderOperation.Builder withValueBackReference(String key, int previousResult);
 //Add a ContentValues back reference.
 
-ContentProviderOperation.Builder withValueBackReferences(ContentValues backReferences);
+ContentProviderOperation.Builder withValueBackReferences(@Sink(CONTENT_PROVIDER) ContentValues backReferences);
 //Add a ContentValues of back references.
 
-ContentProviderOperation.Builder withValues(ContentValues values);
+ContentProviderOperation.Builder withValues(@Sink(CONTENT_PROVIDER) ContentValues values);
 //The ContentValues to use.
 
 ContentProviderOperation.Builder withYieldAllowed(boolean yieldAllowed);
@@ -1451,7 +1452,7 @@ class Intent implements Parcelable, Cloneable {
     Intent(@Sink(INTENT) Intent arg0);
     Intent(@Sink(INTENT)  String arg0);
     Intent(@Sink(INTENT) String arg0, @Sink(INTENT)  Uri arg1);
-    Intent(@Sink(INTENT) Context arg0, @Sink(INTENT) Class<?> arg1);
+    Intent(@Source(ANY) @Sink Context arg0, Class<?> arg1);
     Intent(@Sink(INTENT) String arg0, @Sink(INTENT) Uri arg1, @Sink(INTENT)  Context arg2,@Sink(INTENT)  Class<?> arg3);
    @Source(INTENT) static Intent createChooser(@Sink(INTENT) Intent arg0, @Sink(INTENT) CharSequence arg1);
     Object clone();

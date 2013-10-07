@@ -369,7 +369,7 @@ boolean isFinishing();
 boolean isTaskRoot();
 //Return whether this activity is the root of a task.
 
-final @Source(DATABASE) Cursor managedQuery(@Sink(DATABASE) Uri uri, @Sink(DATABASE) String[] projection, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String sortOrder);
+final @Source(CONTENT_PROVIDER) Cursor managedQuery(@Sink(CONDITIONAL) Uri uri, @Sink(CONDITIONAL) String[] projection, @Sink(CONDITIONAL) String selection, @Sink(CONDITIONAL) String[] selectionArgs, @Sink(CONDITIONAL) String sortOrder);
 //This method was deprecated in API level 11. Use CursorLoader instead.
 
 boolean moveTaskToBack(boolean nonRoot);
