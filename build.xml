@@ -24,7 +24,7 @@
 
     <property name="src" value="src"/>
     <property name="flow.stubfiles" value="src/sparta/checkers/flowstubfiles"/>
-    <property name="flow.astub" value="src/sparta/checkers/flow.astub"/>
+    <property name="flow.astub" value="src/sparta/checkers/information_flow.astub"/>
 
     <property name="tests" value="tests"/>
     <property name="stub.jar" value="tests/stubfile/stub.jar"/>
@@ -42,7 +42,7 @@
         <contains string="${java.version}" substring="1.7"/>
     </condition>
 
-    <target name="merge-stubfiles" description= "Merge stubfiles in src/sparta/checkers/flowstubfiles/ into flow.astub">
+    <target name="merge-stubfiles" description= "Merge stubfiles in src/sparta/checkers/flowstubfiles/ into information_flow.astub">
         <concat destfile="${flow.astub}">
              <fileset dir="${flow.stubfiles}" includes="*.astub"/>
         </concat> 
