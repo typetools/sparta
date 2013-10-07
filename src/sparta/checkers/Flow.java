@@ -1,6 +1,7 @@
 package sparta.checkers;
 
 import checkers.types.AnnotatedTypeMirror;
+import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 
 import javacutils.AnnotationUtils;
 
@@ -257,6 +258,11 @@ public class Flow {
         Set<FlowPermission> sinks = getSinks(atm);
         return sources.contains(FlowPermission.ANY) && sinks.isEmpty();
     }
+    public static boolean isBottom(AnnotatedDeclaredType atm) {
+        Set<FlowPermission> sources = getSources(atm);
+        Set<FlowPermission> sinks = getSinks(atm);
+        return sinks.contains(FlowPermission.ANY) && sources.isEmpty();
+    }
     /**
      * Return the set of sources that both annotations have.
      * If the intersection is all possible sources, {ANY} is returned
@@ -327,4 +333,6 @@ public class Flow {
         convertToAnySink(superset, true);
         return superset;
     }
+
+
 }

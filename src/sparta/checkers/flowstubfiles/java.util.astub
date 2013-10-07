@@ -98,7 +98,7 @@ class ArrayDeque<E> extends AbstractCollection<E> implements Deque<E>, Cloneable
     ArrayDeque<E> clone();
 } 
  
-class ArrayList<E extends @Sink({}) @Source(FlowPermission.ANY) Object> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
+class ArrayList<E> { 
 //Added by smillst
     ArrayList(int arg0);
     ArrayList();
@@ -121,8 +121,7 @@ class ArrayList<E extends @Sink({}) @Source(FlowPermission.ANY) Object> extends 
     Object[] toArray();
     @PolyFlowReceiver
     <T> T[] toArray(T[] arg0);
-    @PolyFlowReceiver
-    E get(int arg0);
+    @Source(LITERAL) E get(int arg0) ;
     @PolyFlowReceiver
     E set(int arg0, E arg1);
     @PolyFlowReceiver
