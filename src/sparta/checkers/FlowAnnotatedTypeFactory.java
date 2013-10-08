@@ -57,8 +57,7 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
         
         // Use the top type for local variables and let flow refine the type.
         //Upper bounds should be top too.
-        //TODO: should receivers really be top?
-        DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS, RECEIVERS}; 
+        DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS}; 
 
         defaults.addAbsoluteDefaults(checker.ANYSOURCE, topLocations);
         defaults.addAbsoluteDefaults(checker.NOSINK, topLocations);
@@ -123,9 +122,12 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
             reviewed = this.isFromStubFile(iter);
 
             if (this.isFromByteCode(iter)) {
-                // Only apply these annotations if this method has not been
-                // marked as not reviewed.
-                if (!reviewed) {
+                if (reviewed) {
+                    //Receivers are TOP in stubfiles so that API methods can 
+                    //invoked on any objects, by default
+                    applier.apply(checker.ANYSOURCE, RECEIVERS);
+                    applier.apply(checker.NOSINK, RECEIVERS);
+                } else {
                     notAnnotated(element);
                     // Checking if ignoring NOT_REVIEWED warnings
                     if (!checker.IGNORENR) {
