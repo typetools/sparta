@@ -1,4 +1,5 @@
 
+
 import java.util.HashMap;
 
 import sparta.checkers.quals.*;
@@ -75,7 +76,7 @@ class TestUpperObject{
 class TypeAsKeyHashMap<T> {
 
 	public <S extends T> S get(T type) {
-		//:: warning: [unchecked] unchecked cast :: warning: (cast.unsafe)
+		//:: warning: [unchecked] unchecked cast
 		return (S) type;
 	}
 }

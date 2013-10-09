@@ -57,7 +57,7 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
         
         // Use the top type for local variables and let flow refine the type.
         //Upper bounds should be top too.
-        DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS}; 
+        DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS, RECEIVERS}; 
 
         defaults.addAbsoluteDefaults(checker.ANYSOURCE, topLocations);
         defaults.addAbsoluteDefaults(checker.NOSINK, topLocations);
@@ -113,31 +113,20 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
 
     protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
         Element iter = element;
-        boolean reviewed = false;
-
         DefaultApplierElement applier = new DefaultApplierElement(this, element, type);
 
         while (iter != null) {
-            // If a method is from a stub file, it is considered reviewed.
-            reviewed = this.isFromStubFile(iter);
-
             if (this.isFromByteCode(iter)) {
-                if (reviewed) {
-                    //Receivers are TOP in stubfiles so that API methods can 
-                    //invoked on any objects, by default
-                    applier.apply(checker.ANYSOURCE, RECEIVERS);
-                    applier.apply(checker.NOSINK, RECEIVERS);
-                } else {
-                    notAnnotated(element);
-                    // Checking if ignoring NOT_REVIEWED warnings
-                    if (!checker.IGNORENR) {
-                        // TODO:instead of not reviewed we could issue a new
-                        // error
-                        // Something like Error: ByteCode method, method, has
-                        // not been reviewed
-                        applier.apply(checker.NR_SINK, DefaultLocation.OTHERWISE);
-                        applier.apply(checker.NR_SOURCE, DefaultLocation.OTHERWISE);
-                    }
+                notAnnotated(element);
+                // Checking if ignoring NOT_REVIEWED warnings
+                if (!checker.IGNORENR) {
+                    // TODO:instead of not reviewed we could issue a new
+                    // error
+                    // Something like Error: ByteCode method, method, has
+                    // not been reviewed
+                    applier.apply(checker.NR_SINK, DefaultLocation.OTHERWISE);
+                    applier.apply(checker.NR_SOURCE, DefaultLocation.OTHERWISE);
+
                 }
 
             } else if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
@@ -168,6 +157,11 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
 
                 return;
 
+            } else if (!this.isFromStubFile(iter)){
+                //Receivers are TOP in stubfiles so that API methods can 
+                //invoked on any objects, by default
+                applier.apply(checker.LITERALSOURCE, RECEIVERS);
+                applier.apply(checker.FROMLITERALSINK, RECEIVERS);
             }
 
             if (iter instanceof PackageElement) {
