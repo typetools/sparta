@@ -17,6 +17,7 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedUnionType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
 import checkers.types.SubtypingAnnotatedTypeFactory;
+import checkers.types.TreeAnnotator;
 import checkers.types.TypeAnnotator;
 import checkers.util.QualifierDefaults.DefaultApplierElement;
 
@@ -42,8 +43,13 @@ import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
+import com.sun.source.tree.BinaryTree;
 import com.sun.source.tree.CompilationUnitTree;
+import com.sun.source.tree.CompoundAssignmentTree;
+import com.sun.source.tree.NewArrayTree;
 import com.sun.source.tree.Tree;
+import com.sun.source.tree.TypeCastTree;
+import com.sun.source.tree.UnaryTree;
 
 public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<FlowChecker> {
 
@@ -158,10 +164,20 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
                 return;
 
             } else if (!this.isFromStubFile(iter)){
-                //Receivers are TOP in stubfiles so that API methods can 
-                //invoked on any objects, by default
-                applier.apply(checker.LITERALSOURCE, RECEIVERS);
-                applier.apply(checker.FROMLITERALSINK, RECEIVERS);
+                //Flow completion has not happened, so make there are not 
+                //explicit annotations source or sink annotations
+                if(type.getKind() == TypeKind.EXECUTABLE){
+                   AnnotatedDeclaredType receiver = ( (AnnotatedExecutableType) type).getReceiverType();
+                   Set<FlowPermission> sources = Flow.getSources(receiver);
+                   Set<FlowPermission> sinks = Flow.getSinks(receiver);
+                   if(sources.isEmpty() && sinks.isEmpty()){
+                   //Receivers are TOP in stubfiles so that API methods can 
+                   //invoked on any objects, by default
+                   applier.apply(checker.LITERALSOURCE, RECEIVERS);
+                   applier.apply(checker.FROMLITERALSINK, RECEIVERS);
+                }
+
+                }
             }
 
             if (iter instanceof PackageElement) {
@@ -219,8 +235,58 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
 
         
     @Override
+    protected TreeAnnotator createTreeAnnotator(FlowChecker checker) {
+        return new FlowPolicyTreeAnnotator(checker, this);
+    }
+    
+    class FlowPolicyTreeAnnotator extends TreeAnnotator {
+
+        public FlowPolicyTreeAnnotator(FlowChecker checker, FlowAnnotatedTypeFactory atypeFactory) {
+            super(checker, atypeFactory);
+        }
+
+        @Override
+        public Void defaultAction(Tree tree, AnnotatedTypeMirror type) {
+            completePolicyFlows(type, checker);
+            return super.defaultAction(tree, type);
+        }
+
+        @Override
+        public Void visitTypeCast(TypeCastTree node, AnnotatedTypeMirror type) {
+            // TODO should super do this call?
+            defaultAction(node, type);
+            return super.visitTypeCast(node, type);
+        }
+
+        public Void visitUnary(UnaryTree node, AnnotatedTypeMirror type) {
+            // TODO should super do this call?
+            defaultAction(node, type);
+            return super.visitUnary(node, type);
+        }
+
+        public Void visitBinary(BinaryTree node, AnnotatedTypeMirror type) {
+            // TODO should super do this call?
+            defaultAction(node, type);
+            return super.visitBinary(node, type);
+        }
+
+        public Void visitCompoundAssignment(CompoundAssignmentTree node, AnnotatedTypeMirror type) {
+            // TODO should super do this call?
+            defaultAction(node, type);
+            return super.visitCompoundAssignment(node, type);
+        }
+
+        public Void visitNewArray(NewArrayTree tree, AnnotatedTypeMirror type) {
+            // TODO should super do this call?
+            defaultAction(tree, type);
+            return super.visitNewArray(tree, type);
+        }
+       
+   }
+
+    @Override
     protected TypeAnnotator createTypeAnnotator(FlowChecker checker) {
-        return new FlowCompletionAnnotator(checker, this);
+        return new FlowPolicyTypeAnnotator(checker, this);
     }
 
     /**
@@ -230,37 +296,45 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
      * @author smillst
      *
      */
-    class FlowCompletionAnnotator extends TypeAnnotator {
+    class FlowPolicyTypeAnnotator extends TypeAnnotator {
 
         FlowChecker checker;
-        public FlowCompletionAnnotator(FlowChecker checker,FlowAnnotatedTypeFactory factory) {
+        public FlowPolicyTypeAnnotator(FlowChecker checker,FlowAnnotatedTypeFactory factory) {
             super(checker, factory);
             this.checker = checker;
         }
+        
         @Override
         public Void visitArray(AnnotatedArrayType type, Element p) {
-            completePolicyFlows(type);
+            completePolicyFlows(type, checker);
             return super.visitArray(type, p);
         }
         @Override
         public Void visitDeclared(AnnotatedDeclaredType type, Element p) {
-            completePolicyFlows(type);
+            completePolicyFlows(type, checker);
             return super.visitDeclared(type, p);
         }
         @Override
         public Void visitExecutable(AnnotatedExecutableType t, Element elem) {
-            completePolicyFlows(t);
-            return super.visitExecutable(t, elem);
+            completePolicyFlows(t, checker);
+            
+            //Don't call super because it skips the receiver type for some reason
+            scan(t.getReturnType(), elem);
+            scanAndReduce(t.getReceiverType(), elem, null);
+            scanAndReduce(t.getParameterTypes(), elem, null);
+            scanAndReduce(t.getThrownTypes(), elem, null);
+            scanAndReduce(t.getTypeVariables(), elem, null);
+            return null;
         }
         @Override
         public Void visitIntersection(AnnotatedIntersectionType type, Element p) {
-            completePolicyFlows(type);
+            completePolicyFlows(type, checker);
             return super.visitIntersection(type, p);
         }
 
         @Override
         public Void visitPrimitive(AnnotatedPrimitiveType type, Element p) {
-            completePolicyFlows(type);
+            completePolicyFlows(type, checker);
             return super.visitPrimitive(type, p);
         }
         @Override
@@ -271,12 +345,12 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
             //So visit call super, visit the extends 
             //and then complete the policy flow
             Void r = super.visitTypeVariable(type, p);
-            completePolicyFlows(type);
+            completePolicyFlows(type, checker);
             return r;
         }
         @Override
         public Void visitUnion(AnnotatedUnionType type, Element p) {
-            completePolicyFlows(type);
+            completePolicyFlows(type, checker);
             return super.visitUnion(type, p);
         }
         @Override
@@ -287,60 +361,60 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
             //So visit call super, visit the extends 
             //and then complete the policy flow
             Void r =  super.visitWildcard(type, p);
-            completePolicyFlows(type);
+            completePolicyFlows(type, checker);
             return r;
-        }
-
-
-        /**
-         * Only complete flows if one of the annotations is missing. (Do not 
-         * complete flows if the source or sinks is {}.  Defaulting or the user 
-         * may add @Source({}) and @Sink({}).)
-         * 
-         * Also don't complete if this is a void type
-         * @param type
-         * @return
-         */
-        private boolean shouldNotComplete(AnnotatedTypeMirror type) {
-            if (type.getKind() == TypeKind.VOID) return true;
-            boolean hasSource = false;
-            boolean hasSink = false;
-           for(AnnotationMirror anno : type.getEffectiveAnnotations()){
-               if(AnnotationUtils.areSameByClass(anno, Source.class)){
-                   hasSource = true;
-               }else if (AnnotationUtils.areSameByClass(anno, Sink.class)){
-                   hasSink = true;
-               }else if (AnnotationUtils.areSameByClass(anno, PolySource.class)){
-                   hasSource = true;
-               }else if (AnnotationUtils.areSameByClass(anno, PolySink.class)){
-                   hasSink = true;
-               }
-           }
-            return (hasSink == hasSource);
-        }
-
-        protected void completePolicyFlows(final AnnotatedTypeMirror type) {
-            if(shouldNotComplete(type)){
-                return ;
-            }
-            
-            final Set<FlowPermission> sources = Flow.getSources(type);
-            final Set<FlowPermission> sinks = Flow.getSinks(type);
-
-            AnnotationMirror newAnno;
-            if (!sources.isEmpty()) {
-                Set<FlowPermission> newSink = checker.getFlowPolicy().getIntersectionAllowedSinks(sources);
-                newAnno=  checker.createAnnoFromSink(newSink);
-                type.replaceAnnotation(newAnno);
-            } else if (!sinks.isEmpty()) {
-                Set<FlowPermission> newSource = checker.getFlowPolicy().getIntersectionAllowedSources(sinks);                
-                newAnno=  checker.createAnnoFromSource(newSource);
-                type.replaceAnnotation(newAnno);
-            } 
-
         }
 
     }
   
+    protected static void completePolicyFlows(final AnnotatedTypeMirror type, final FlowChecker checker) {
+        if(shouldNotComplete(type)){
+            return ;
+        }
+        
+        final Set<FlowPermission> sources = Flow.getSources(type);
+        final Set<FlowPermission> sinks = Flow.getSinks(type);
+
+        AnnotationMirror newAnno;
+        if (!sources.isEmpty()) {
+            Set<FlowPermission> newSink = checker.getFlowPolicy().getIntersectionAllowedSinks(sources);
+            newAnno=  checker.createAnnoFromSink(newSink);
+            type.replaceAnnotation(newAnno);
+        } else if (!sinks.isEmpty()) {
+            Set<FlowPermission> newSource = checker.getFlowPolicy().getIntersectionAllowedSources(sinks);                
+            newAnno=  checker.createAnnoFromSource(newSource);
+            type.replaceAnnotation(newAnno);
+        } 
+
+    }
+
+    /**
+     * Only complete flows if one of the annotations is missing. (Do not 
+     * complete flows if the source or sinks is {}.  Defaulting or the user 
+     * may add @Source({}) and @Sink({}).)
+     * 
+     * Also don't complete if this is a void type
+     * @param type
+     * @return
+     */
+    private static boolean shouldNotComplete(AnnotatedTypeMirror type) {
+        if (type.getKind() == TypeKind.VOID) return true;
+        boolean hasSource = false;
+        boolean hasSink = false;
+       for(AnnotationMirror anno : type.getEffectiveAnnotations()){
+           if(AnnotationUtils.areSameByClass(anno, Source.class)){
+               hasSource = true;
+           }else if (AnnotationUtils.areSameByClass(anno, Sink.class)){
+               hasSink = true;
+           }else if (AnnotationUtils.areSameByClass(anno, PolySource.class)){
+               hasSource = true;
+           }else if (AnnotationUtils.areSameByClass(anno, PolySink.class)){
+               hasSink = true;
+           }
+       }
+        return (hasSink == hasSource);
+    }
+
+
 
 }
