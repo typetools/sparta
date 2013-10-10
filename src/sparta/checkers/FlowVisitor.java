@@ -224,16 +224,20 @@ public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeF
     private boolean areFlowsValid(final AnnotatedTypeMirror atm, Tree tree) {
 
         Element ele = InternalUtils.symbol(tree);
-        boolean isLocal = (ele != null && ele.getKind() == ElementKind.LOCAL_VARIABLE);
-        boolean isWild = atm.getKind() == TypeKind.WILDCARD;
-        boolean isTypeVar = atm.getKind() == TypeKind.TYPEVAR;
-        boolean isTypePara = (ele != null && ele.getKind() == ElementKind.TYPE_PARAMETER);
+        boolean local = (ele != null && ele.getKind() == ElementKind.LOCAL_VARIABLE);
+        boolean wild = atm.getKind() == TypeKind.WILDCARD;
+        boolean typeVar = atm.getKind() == TypeKind.TYPEVAR;
+        boolean typePara = (ele != null && ele.getKind() == ElementKind.TYPE_PARAMETER);
 
-
-
-        if ((isLocal || this.topAllowed || isTypePara|| isTypeVar|| isWild) && Flow.isTop(atm)) {
+        if ((local || this.topAllowed || typePara|| typeVar|| wild) && Flow.isTop(atm)) 
+        {
             // Local variables are allowed to be top type so a more specific
             // type can be inferred.
+            return true;
+        }  
+        
+        if(Flow.isBottom(atm)) {
+            //TODO constructor hack 
             return true;
         }
 

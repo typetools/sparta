@@ -258,7 +258,7 @@ public class Flow {
         Set<FlowPermission> sinks = getSinks(atm);
         return sources.contains(FlowPermission.ANY) && sinks.isEmpty();
     }
-    public static boolean isBottom(AnnotatedDeclaredType atm) {
+    public static boolean isBottom(AnnotatedTypeMirror atm) {
         Set<FlowPermission> sources = getSources(atm);
         Set<FlowPermission> sinks = getSinks(atm);
         return sinks.contains(FlowPermission.ANY) && sources.isEmpty();

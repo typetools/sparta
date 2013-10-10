@@ -22,7 +22,8 @@ class SinkTest {
         any(p);
     }
 
-    //:: error: (forbidden.flow)
+    //TODO constructor hack 
+    ////:: error: (forbidden.flow)
     void any(@Sink(FlowPermission.ANY) Object p) {
         // Allowed: fewer sinks
         two(p);

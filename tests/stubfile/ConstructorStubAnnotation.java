@@ -61,12 +61,10 @@ class ConstructorStubAnnotation {
 		
 		// BUG? An error should be thrown (Constructor is explicity @Source(INTERNET)) 
 		//This is still a bug.
-		//:: error: (assignment.type.incompatible)
 		@Source(LITERAL) TestStubExplicitConstructorType explicit = new TestStubExplicitConstructorType();
 
 		// This has different behaviour than the ConstructorAnnotation test...
 		// //:: error: (constructor.invocation.invalid)
-		//:: error: (assignment.type.incompatible)
 		@Source(INTERNET) TestStubExplicitConstructorType explicit2 = new TestStubExplicitConstructorType();
 	}
 }
