@@ -165,7 +165,7 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
 
                 return;
 
-            } else if (!this.isFromStubFile(iter)){
+            } else if (!this.isFromStubFile(iter) && this.isFromByteCode(iter)){
                 //Flow completion has not happened, so make there are not 
                 //explicit annotations source or sink annotations
                 if (type.getKind() == TypeKind.EXECUTABLE) {
