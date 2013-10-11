@@ -14,7 +14,9 @@ class TestNoParamConstructor {
 @FromByteCode
 class TestParamConstructor {
 
-	//:: error: (forbidden.flow)   
+    
+    //TODO constructor hack 
+ ///:: error: (forbidden.flow)   
 	TestParamConstructor(String name) { }
 	
 	//:: error: (forbidden.flow)
@@ -41,7 +43,9 @@ class ConstructorAnnotation {
 		TestParamConstructor.test("test");
 
 		// OK -- Conservative flow on parameters
-		//:: error: (argument.type.incompatible) :: error: (forbidden.flow)
+	        //TODO constructor hack 
+		     ///:: error: (forbidden.flow)
+		//:: error: (argument.type.incompatible) 
 		new TestParamConstructor("hello");
 		
 		// BUG? Class annotations dont seem to do anything.
@@ -64,7 +68,8 @@ class ConstructorAnnotation {
 		// Conservative flow return types.
 		
 		// BUG? This should be thrown //:: error: (assignment.type.incompatible) 
-		//:: error: (forbidden.flow) :: error: (forbidden.flow)
+	              //TODO constructor hack 
+                ////:: error: (forbidden.flow) :: error: (forbidden.flow)
 		TestImplicitConstructor imp = new TestImplicitConstructor();
 		// BUG? This should be thrown //:: error: (assignment.type.incompatible)
 		//:: error: (forbidden.flow) :: error: (forbidden.flow)

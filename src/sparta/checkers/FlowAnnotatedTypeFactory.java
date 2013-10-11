@@ -186,8 +186,14 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
                 }
             } else if (iter.getKind() == ElementKind.CONSTRUCTOR){
                 //TODO constructor hack 
-                type.addAnnotation(checker.NOSOURCE);
-                type.addAnnotation(checker.ANYSINK);
+                Set<FlowPermission> sources = Flow.getSources(type);
+                Set<FlowPermission> sinks = Flow.getSinks(type);
+                AnnotationMirror polysink = type.getAnnotation(PolySink.class);
+                AnnotationMirror polysource = type.getAnnotation(PolySource.class);
+                if(sources.isEmpty() && sinks.isEmpty() && polysink == null && polysource == null){
+                    type.addAnnotation(checker.NOSOURCE);
+                    type.addAnnotation(checker.ANYSINK);
+                }
             }
             
 

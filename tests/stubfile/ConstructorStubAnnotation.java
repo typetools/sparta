@@ -18,7 +18,8 @@ class TestStubNoParamConstructor {
 
 class TestStubParamConstructor {
 	
-	//:: error: (forbidden.flow)   
+    //TODO constructor hack 
+ ////:: error: (forbidden.flow)   
 	TestStubParamConstructor(String name) { }
 	
 	//:: error: (forbidden.flow)
@@ -48,15 +49,21 @@ class ConstructorStubAnnotation {
 		TestStubExplicitConstructorType.stubSanity("test");
 		
 		// BUG? This should be thrown 
-		//:: error: (assignment.type.incompatible) 
+	        //TODO constructor hack 
+		     ////:: error: (assignment.type.incompatible) 
 		@Source(LITERAL) TestStubImplicitConstructor imp = new TestStubImplicitConstructor();
 		// BUG? This should be thrown 
-		//:: error: (assignment.type.incompatible)
+	        //TODO constructor hack 
+		     ////:: error: (assignment.type.incompatible)
 		@Source(LITERAL) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
-		
-		//:: error: (argument.type.incompatible) :: error: (assignment.type.incompatible)
+	        //TODO constructor hack 
+		     ////:: error: (assignment.type.incompatible)
+
+		//:: error: (argument.type.incompatible) 
 		@Source(LITERAL) TestStubParamConstructor param = new TestStubParamConstructor("hello");
-		//:: error: (argument.type.incompatible) :: error: (forbidden.flow)
+                //TODO constructor hack 
+            ////:: error: (forbidden.flow)
+		//:: error: (argument.type.incompatible) 
 		new TestStubParamConstructor("hello");
 		
 		// BUG? An error should be thrown (Constructor is explicity @Source(INTERNET)) 

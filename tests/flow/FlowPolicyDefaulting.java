@@ -38,10 +38,12 @@ class FlowPoilcyDefaulting {
         UpperObject<@Source(INTERNET)  Object> uo = new UpperObject<>();
         sendToInternet(uo.getT());
         RecieverTest rt = new RecieverTest();
-        //:: error: (method.invocation.invalid)
+        //TODO constructor hack 
+        ////:: error: (method.invocation.invalid)
         rt.internetReciever();
         
-        //:: warning: (cast.unsafe)
+        //TODO constructor hack 
+        ////:: warning: (cast.unsafe)
         RecieverTest uo2 = (@Source(INTERNET) RecieverTest) new RecieverTest();
         uo2.internetReciever();
 
