@@ -937,7 +937,7 @@ void finalize();
 
 class SurfaceView{
 //SOM
- @Sink(FlowPermission.DISPLAY) SurfaceHolder getHolder ();
+ @Sink({DISPLAY, CONDITIONAL}) SurfaceHolder getHolder ();
 }        
      
 class SoundEffectConstants {

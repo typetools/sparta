@@ -60,9 +60,10 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
     protected AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
     protected AnnotationMirror NOSINK, ANYSINK, POLYSINK;
     protected AnnotationMirror POLYALL;
-    protected AnnotationMirror LITERALSOURCE;
-    protected AnnotationMirror FROMLITERALSINK;
+    protected AnnotationMirror LITERALSOURCE,  FROMLITERALSINK;
     protected AnnotationMirror NR_SOURCE, NR_SINK;
+    protected AnnotationMirror CONDITIONALSINK, FROMCONDITIONALSOURCE;
+
 
     protected AnnotationMirror SOURCE;
     protected AnnotationMirror SINK;
@@ -125,6 +126,13 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         final Set<FlowPermission> literalSink = new HashSet<FlowPermission>(
                 flowPolicy.getSinkFromSource(FlowPermission.LITERAL, true));
         FROMLITERALSINK = createAnnoFromSink(literalSink);
+        
+        CONDITIONALSINK = createAnnoFromSink(new HashSet<FlowPermission>(
+                Arrays.asList(FlowPermission.CONDITIONAL)));
+
+        final Set<FlowPermission> condtionalSource = new HashSet<FlowPermission>(
+                flowPolicy.getSourceFromSink(FlowPermission.CONDITIONAL, true));
+        FROMCONDITIONALSOURCE = createAnnoFromSource(condtionalSource);
 
         String unfilteredStr = getOption(MSG_FILTER_OPTION);
         if (unfilteredStr == null) {

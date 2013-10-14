@@ -64,17 +64,20 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
         
         // Use the top type for local variables and let flow refine the type.
         //Upper bounds should be top too.
-        DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS, RECEIVERS}; 
+        DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS}; 
         
-
         defaults.addAbsoluteDefaults(checker.ANYSOURCE, topLocations);
         defaults.addAbsoluteDefaults(checker.NOSINK, topLocations);
 
+        //Default for receivers is (All sources allowed) -> CONDITIONAL
+        defaults.addAbsoluteDefault(checker.CONDITIONALSINK, RECEIVERS);
+        defaults.addAbsoluteDefault(checker.FROMCONDITIONALSOURCE, RECEIVERS);
+        
         // Default is LITERAL -> (ALL MAPPED SINKS) for everything else
         defaults.addAbsoluteDefault(checker.FROMLITERALSINK, OTHERWISE);
         defaults.addAbsoluteDefault(checker.LITERALSOURCE, OTHERWISE);
 
-
+        
         // But let's send null down any sink and give it no sources.
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.ANYSINK);
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.NOSOURCE);
@@ -164,26 +167,6 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
                 applier.apply(checker.POLYSOURCE, DefaultLocation.RECEIVERS);
 
                 return;
-
-            } else if (!this.isFromStubFile(iter) && this.isFromByteCode(iter)){
-                //Flow completion has not happened, so make there are not 
-                //explicit annotations source or sink annotations
-                if (type.getKind() == TypeKind.EXECUTABLE) {
-                    AnnotatedDeclaredType receiver = ((AnnotatedExecutableType) type)
-                            .getReceiverType();
-                    Set<FlowPermission> sources = Flow.getSources(receiver);
-                    Set<FlowPermission> sinks = Flow.getSinks(receiver);
-                    if (sources.isEmpty() && sinks.isEmpty()) {
-                        //Receivers are TOP in stubfiles so that API methods can 
-                        //invoked on any objects, by default
-                        
-                        //Note this applies @Source(LITERAL) @Sink(...) to all
-                        //parameters and returns, not just the receiver
-                        applier.apply(checker.LITERALSOURCE, RECEIVERS);
-                        applier.apply(checker.FROMLITERALSINK, RECEIVERS);
-
-                    }
-                }
             } else if (iter.getKind() == ElementKind.CONSTRUCTOR){
                 //TODO constructor hack 
                 Set<FlowPermission> sources = Flow.getSources(type);
