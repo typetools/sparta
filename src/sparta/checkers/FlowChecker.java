@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.SupportedOptions;
@@ -92,11 +93,11 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
         POLYSINK = AnnotationUtils.fromClass(elements, PolySink.class);
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
 
-        NR_SOURCE = createAnnoFromSource( new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
-        NR_SINK = createAnnoFromSink( new HashSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
+        NR_SOURCE = createAnnoFromSource( new TreeSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
+        NR_SINK = createAnnoFromSink( new TreeSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
 
-        ANYSOURCE = createAnnoFromSource( new HashSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
-        ANYSINK = createAnnoFromSink(  new HashSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
+        ANYSOURCE = createAnnoFromSource( new TreeSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
+        ANYSINK = createAnnoFromSink(  new TreeSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
 
         SOURCE = AnnotationUtils.fromClass(elements, Source.class);
         SINK = AnnotationUtils.fromClass(elements, Sink.class);
@@ -120,17 +121,17 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
             IGNORENR = true;
         }
 
-        LITERALSOURCE = createAnnoFromSource(new HashSet<FlowPermission>(
+        LITERALSOURCE = createAnnoFromSource(new TreeSet<FlowPermission>(
                 Arrays.asList(FlowPermission.LITERAL)));
 
-        final Set<FlowPermission> literalSink = new HashSet<FlowPermission>(
+        final Set<FlowPermission> literalSink = new TreeSet<FlowPermission>(
                 flowPolicy.getSinkFromSource(FlowPermission.LITERAL, true));
         FROMLITERALSINK = createAnnoFromSink(literalSink);
         
-        CONDITIONALSINK = createAnnoFromSink(new HashSet<FlowPermission>(
+        CONDITIONALSINK = createAnnoFromSink(new TreeSet<FlowPermission>(
                 Arrays.asList(FlowPermission.CONDITIONAL)));
 
-        final Set<FlowPermission> condtionalSource = new HashSet<FlowPermission>(
+        final Set<FlowPermission> condtionalSource = new TreeSet<FlowPermission>(
                 flowPolicy.getSourceFromSink(FlowPermission.CONDITIONAL, true));
         FROMCONDITIONALSOURCE = createAnnoFromSource(condtionalSource);
 
@@ -432,23 +433,23 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
                 // Poly Flows must be handled as if they are Top Type
             } else if (AnnotationUtils.areSame(a1, POLYSINK)) {
                 if (AnnotationUtils.areSameIgnoringValues(a2, SINK)) {
-                    return boundSink(new HashSet<FlowPermission>());
+                    return boundSink(new TreeSet<FlowPermission>());
                 }
 
             } else if (AnnotationUtils.areSame(a2, POLYSINK)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, SINK)) {
-                    return boundSink(new HashSet<FlowPermission>());
+                    return boundSink(new TreeSet<FlowPermission>());
                 }
             } else if (AnnotationUtils.areSame(a1, POLYSOURCE)) {
                 if (AnnotationUtils.areSameIgnoringValues(a2, SOURCE)) {
-                    Set<FlowPermission> top = new HashSet<FlowPermission>();
+                    Set<FlowPermission> top = new TreeSet<FlowPermission>();
                     top.add(FlowPermission.ANY);
                     return boundSource(top);
                 }
 
             } else if (AnnotationUtils.areSame(a2, POLYSOURCE)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, SOURCE)) {
-                    Set<FlowPermission> top = new HashSet<FlowPermission>();
+                    Set<FlowPermission> top = new TreeSet<FlowPermission>();
                     top.add(FlowPermission.ANY);
                     return boundSource(top);
                 }
@@ -476,25 +477,25 @@ public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
                 // Poly Flows must be handled as if they are Bottom Type
             } else if (AnnotationUtils.areSame(a1, POLYSINK)) {
                 if (AnnotationUtils.areSameIgnoringValues(a2, SINK)) {
-                    Set<FlowPermission> bottom = new HashSet<FlowPermission>();
+                    Set<FlowPermission> bottom = new TreeSet<FlowPermission>();
                     bottom.add(FlowPermission.ANY);
                     return boundSink(bottom);
                 }
 
             } else if (AnnotationUtils.areSame(a2, POLYSINK)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, SINK)) {
-                    Set<FlowPermission> bottom = new HashSet<FlowPermission>();
+                    Set<FlowPermission> bottom = new TreeSet<FlowPermission>();
                     bottom.add(FlowPermission.ANY);
                     return boundSink(bottom);
                 }
             } else if (AnnotationUtils.areSame(a1, POLYSOURCE)) {
                 if (AnnotationUtils.areSameIgnoringValues(a2, SOURCE)) {
-                    return boundSource(new HashSet<FlowPermission>());
+                    return boundSource(new TreeSet<FlowPermission>());
                 }
 
             } else if (AnnotationUtils.areSame(a2, POLYSOURCE)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, SOURCE)) {
-                    return boundSource(new HashSet<FlowPermission>());
+                    return boundSource(new TreeSet<FlowPermission>());
                 }
             }
             return super.greatestLowerBound(a1, a2);

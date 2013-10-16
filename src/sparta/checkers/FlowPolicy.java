@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -100,7 +100,7 @@ public class FlowPolicy {
 
     private HashMap<FlowPermission, Set<FlowPermission>> getDefaultAllowedFlows() {
         HashMap<FlowPermission, Set<FlowPermission>> defaultAllowedFlows = new HashMap<FlowPermission, Set<FlowPermission>>();
-        HashSet<FlowPermission> sinkSet = new HashSet<FlowPermission>(1);
+        TreeSet<FlowPermission> sinkSet = new TreeSet<FlowPermission>();
         sinkSet.add(FlowPermission.CONDITIONAL);
 
         if (strictConditionals) {
@@ -293,7 +293,7 @@ public class FlowPolicy {
 
         final List<String> errors = new ArrayList<String>();
 
-        final Set<FlowPermission> allSinkButAny = new HashSet<FlowPermission>(
+        final Set<FlowPermission> allSinkButAny = new TreeSet<FlowPermission>(
                 Arrays.asList(FlowPermission.values()));
         allSinkButAny.remove(FlowPermission.ANY);
 
@@ -330,7 +330,7 @@ public class FlowPolicy {
 
                                 sinks = allowedSourceToSinks.get(source);
                                 if (sinks == null && source != null) {
-                                    sinks = new HashSet<FlowPermission>(sinkStrs.length);
+                                    sinks = new TreeSet<FlowPermission>();
                                     allowedSourceToSinks.put(source, sinks);
                                 }
                             } catch (final IllegalArgumentException iaExc) {
@@ -458,7 +458,7 @@ public class FlowPolicy {
         Set<VALUE> values = data.get(key);
         if (includeAny) {
             final KEY any = KEY.valueOf(vc, "ANY");
-            Set<VALUE> results = new HashSet<VALUE>();
+            Set<VALUE> results = new TreeSet<VALUE>();
             if (values != null) {
                 results.addAll(values);
             }
@@ -466,7 +466,7 @@ public class FlowPolicy {
             return results;
         } else {
             if (values == null) {
-                values = new HashSet<VALUE>();
+                values = new TreeSet<VALUE>();
             }
 
             return Collections.unmodifiableSet(values);
@@ -482,7 +482,7 @@ public class FlowPolicy {
             for (VALUE keyInReverse : keyToValues.getValue()) {
                 Set<KEY> newValues = reversed.get(keyInReverse);
                 if (newValues == null) {
-                    newValues = new HashSet<KEY>();
+                    newValues = new TreeSet<KEY>();
                     reversed.put(keyInReverse, newValues);
                 }
                 newValues.add(valueInReverse);

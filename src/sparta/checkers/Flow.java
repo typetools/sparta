@@ -1,14 +1,13 @@
 package sparta.checkers;
 
 import checkers.types.AnnotatedTypeMirror;
-import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 
 import javacutils.AnnotationUtils;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.lang.model.element.AnnotationMirror;
 
@@ -26,7 +25,7 @@ public class Flow {
     }
 
     public Flow(FlowPermission source, Set<FlowPermission> sinks) {
-        this.sources = new HashSet<FlowPermission>();
+        this.sources = new TreeSet<FlowPermission>();
         if (source != null) {
             sources.add(source);
         }
@@ -35,7 +34,7 @@ public class Flow {
 
     public Flow(Set<FlowPermission> sources, FlowPermission sink) {
         this.sources = convertToAnySource(sources, false);
-        this.sinks = new HashSet<FlowPermission>();
+        this.sinks = new TreeSet<FlowPermission>();
         sinks.add(sink);
     }
 
@@ -45,13 +44,13 @@ public class Flow {
     }
 
     public Flow() {
-        this.sinks = new HashSet<FlowPermission>();
-        this.sources = new HashSet<FlowPermission>();
+        this.sinks = new TreeSet<FlowPermission>();
+        this.sources = new TreeSet<FlowPermission>();
     }
 
     public Flow(FlowPermission source) {
-        this.sinks = new HashSet<FlowPermission>();
-        this.sources = new HashSet<FlowPermission>();
+        this.sinks = new TreeSet<FlowPermission>();
+        this.sources = new TreeSet<FlowPermission>();
         sources.add(source);
     }
 
@@ -124,7 +123,7 @@ public class Flow {
                return getSinks(anno);
             }
         }
-        return new HashSet<FlowPermission>();
+        return new TreeSet<FlowPermission>();
     }
 
     public static Set<FlowPermission> getSources(final AnnotatedTypeMirror type) {
@@ -133,27 +132,27 @@ public class Flow {
                return getSources( anno);
             }
         }
-        return new HashSet<FlowPermission>();
+        return new TreeSet<FlowPermission>();
     }
 
     public static Set<FlowPermission> getSinks(final AnnotationMirror am) {
         if (am == null) {
-            return new HashSet<FlowPermission>();
+            return new TreeSet<FlowPermission>();
         }
 
         List<FlowPermission> sinks = AnnotationUtils.getElementValueEnumArray(am, "value",
                 FlowPermission.class, true);
-        Set<FlowPermission> set = convertToAnySink(new HashSet<FlowPermission>(sinks), false);
+        Set<FlowPermission> set = convertToAnySink(new TreeSet<FlowPermission>(sinks), false);
         return set;
     }
 
     public static Set<FlowPermission> getSources(final AnnotationMirror am) {
         if (am == null) {
-            return new HashSet<FlowPermission>();
+            return new TreeSet<FlowPermission>();
         }
         List<FlowPermission> sources = AnnotationUtils.getElementValueEnumArray(am, "value",
                 FlowPermission.class, true);
-        Set<FlowPermission> set = convertToAnySource(new HashSet<FlowPermission>(sources),
+        Set<FlowPermission> set = convertToAnySource(new TreeSet<FlowPermission>(sources),
                 false);
         return set;
     }
@@ -166,7 +165,7 @@ public class Flow {
      */
     private static Set<FlowPermission> convertAnyToAllSinks(final Set<FlowPermission> sinks,
             boolean inPlace) {
-        final Set<FlowPermission> retSet = (inPlace) ? sinks : new HashSet<FlowPermission>(sinks);
+        final Set<FlowPermission> retSet = (inPlace) ? sinks : new TreeSet<FlowPermission>(sinks);
         if (retSet.contains(FlowPermission.ANY)) {
             retSet.addAll(getSetOfAllSinks());
             retSet.remove(FlowPermission.ANY);
@@ -182,7 +181,7 @@ public class Flow {
      */
     private static Set<FlowPermission> convertAnytoAllSources(final Set<FlowPermission> sources,
             boolean inPlace) {
-        final Set<FlowPermission> retSet = (inPlace) ? sources : new HashSet<FlowPermission>(
+        final Set<FlowPermission> retSet = (inPlace) ? sources : new TreeSet<FlowPermission>(
                 sources);
         if (retSet.contains(FlowPermission.ANY)) {
             retSet.addAll(getSetOfAllSources());
@@ -198,7 +197,7 @@ public class Flow {
      * @return
      */
     public static Set<FlowPermission> getSetOfAllSources() {
-        Set<FlowPermission> set = new HashSet<>(Arrays.asList(FlowPermission.values()));
+        Set<FlowPermission> set = new TreeSet<>(Arrays.asList(FlowPermission.values()));
         set.remove(FlowPermission.ANY);
         return set;
     }
@@ -209,7 +208,7 @@ public class Flow {
      * @return
      */
     public static Set<FlowPermission> getSetOfAllSinks() {
-        Set<FlowPermission> set = new HashSet<>(Arrays.asList(FlowPermission.values()));
+        Set<FlowPermission> set = new TreeSet<>(Arrays.asList(FlowPermission.values()));
         set.remove(FlowPermission.ANY);
         return set;
     }
@@ -223,7 +222,7 @@ public class Flow {
      */
     public static Set<FlowPermission> convertToAnySource(final Set<FlowPermission> sources,
             boolean inPlace) {
-        final Set<FlowPermission> retSet = (inPlace) ? sources : new HashSet<FlowPermission>(sources);
+        final Set<FlowPermission> retSet = (inPlace) ? sources : new TreeSet<FlowPermission>(sources);
         if(sources.equals(getSetOfAllSources())) {
             retSet.clear();
             retSet.add(FlowPermission.ANY);
@@ -242,7 +241,7 @@ public class Flow {
      * @return either {ANY} or sinks
      */
     public static Set<FlowPermission> convertToAnySink(final Set<FlowPermission> sinks, boolean inPlace) {
-            final Set<FlowPermission> retSet = (inPlace) ? sinks : new HashSet<FlowPermission>(sinks);
+            final Set<FlowPermission> retSet = (inPlace) ? sinks : new TreeSet<FlowPermission>(sinks);
             if(sinks.equals(getSetOfAllSinks())) {
                 retSet.clear();
                 retSet.add(FlowPermission.ANY);
@@ -278,7 +277,7 @@ public class Flow {
     }
     public static Set<FlowPermission> intersectSources(Set<FlowPermission> a1Set,
             Set<FlowPermission> a2Set) {
-        if(a1Set == null || a2Set == null) return new HashSet<>();
+        if(a1Set == null || a2Set == null) return new TreeSet<>();
         convertAnytoAllSources(a1Set, true);
         convertAnytoAllSources(a2Set, true);
         a1Set.retainAll(a2Set);
@@ -300,7 +299,7 @@ public class Flow {
     }
     public static Set<FlowPermission> intersectSinks(Set<FlowPermission> a1Set,
             Set<FlowPermission> a2Set) {
-        if(a1Set == null || a2Set == null) return new HashSet<>();
+        if(a1Set == null || a2Set == null) return new TreeSet<>();
         a1Set = convertAnyToAllSinks(a1Set, false);
         a2Set = convertAnyToAllSinks(a2Set, false);
         a1Set.retainAll(a2Set);
