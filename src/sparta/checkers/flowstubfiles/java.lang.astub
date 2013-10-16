@@ -619,6 +619,7 @@ class Float extends Number implements Comparable<Float> {
     final Class<Float> TYPE;
     static String toString(float arg0);
     static String toHexString(float arg0);
+    @PolyFlow
     static Float valueOf(String arg0) throws NumberFormatException;
     static Float valueOf(float arg0);
     static float parseFloat(String arg0) throws NumberFormatException;

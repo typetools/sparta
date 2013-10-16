@@ -1,0 +1,22 @@
+package android.speech.tts;
+
+class TextToSpeech {
+void shutdown();
+//Releases the resources used by the TextToSpeech engine. It is good practice for instance to call this method in the onDestroy() method of an Activity so the TextToSpeech engine can be cleanly stopped.
+
+int setLanguage(Locale loc);
+//Sets the text-to-speech language.
+
+TextToSpeech(Context context, OnInitListener listener);
+//The constructor for the TextToSpeech class, using the default TTS engine.
+
+boolean isSpeaking();
+//Checks whether the TTS engine is busy speaking.
+
+int speak(@Sink(SPEAKER) String text, int queueMode, HashMap<String,String> params);
+//Speaks the string using the specified queuing strategy and speech parameters.
+}
+
+class TextToSpeech$OnInitListener{
+        void onInit(int arg0);
+}

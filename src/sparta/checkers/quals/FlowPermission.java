@@ -51,6 +51,7 @@ public enum FlowPermission {
     WRITE_EMAIL(T.SINK),
     WRITE_CLIPBOARD(T.SINK),
     READ_CLIPBOARD(T.SOURCE),
+    SPEAKER(T.SINK), // Physical speaker / headphones 
 
     /**
      * These are old sources or sinks that may or may not be of use

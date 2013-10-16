@@ -415,6 +415,16 @@ String toString();
 
 }
 
+class SensorEventListener {
+
+void onSensorChanged(SensorEvent arg0);
+//Called when sensor values have changed.
+
+void onAccuracyChanged(Sensor arg0, int arg1);
+//Called when the accuracy of a sensor has changed.
+}
+
+
 class SensorManager {
     
     

@@ -109,7 +109,10 @@ class IBinder {
     // abstract boolean unlinkToDeath(IBinder.DeathRecipient recipient, int flags);
     }
 class Binder {
-    
+
+Binder();    
+//Creates a new Binder
+
 void attachInterface(IInterface owner, String descriptor);
 //Convenience method for associating a specific interface with the Binder.
 
@@ -543,7 +546,10 @@ class FileObserver{
 }
 
 class Handler {
-    
+ 
+Handler();
+//Creates a new Handler
+   
 void dispatchMessage(Message msg);
 //Handle system messages here.
 
@@ -1079,4 +1085,8 @@ static @Source(READ_TIME) long uptimeMillis();
 //Returns milliseconds since boot, not counting time spent in deep sleep.
 
 
+}
+
+class Vibrator{
+        void vibrate(@Sink(VIBRATE) long arg0);
 }

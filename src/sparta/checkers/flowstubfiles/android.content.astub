@@ -38,6 +38,8 @@ class BroadcastReceiver {
     
 //CSH:  Not sure how to do this class.  It's probably ANY/ANY, since you sometimes need permissions to use this...  
 
+BroadcastReceiver();
+//New BraodcastReceiver
 
 final void abortBroadcast();
 //Sets the flag indicating that this receiver should abort the current broadcast; only works with broadcasts sent through Context.sendOrderedBroadcast.
@@ -964,7 +966,17 @@ class ContextWrapper {
             @Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences(String name, int mode);
                         ContentResolver getContentResolver();
 
+void unregisterReceiver(BroadcastReceiver receiver);
+//Unregister a previously registered BroadcastReceiver.
 
+boolean stopService(Intent name);
+//Request that a given application service be stopped.
+
+boolean bindService(Intent service, ServiceConnection conn, int flags);
+//Connect to an application service, creating it if needed.
+
+void unbindService(ServiceConnection conn);
+//Disconnect from an application service.
 
 //boolean bindService(Intent service, ServiceConnection conn, int flags);
 //Connect to an application service, creating it if needed.
@@ -1313,6 +1325,9 @@ class DialogInterface$OnDismissListener{
 
 class IntentFilter {
 
+IntentFilter(String action);
+//New IntentFilter that matches a single action with no data.
+
 final Iterator<String> actionsIterator();
 //Return an iterator over the filter's actions.
 
@@ -1650,6 +1665,14 @@ void onStopLoading();
 
 }
 
+class ServiceConnection {
+    void onServiceDisconnected(ComponentName arg0);
+    //Called when a connection to the Service has been lost.
+
+    void onServiceConnected(ComponentName arg0, IBinder arg1);
+    //Called when a connection to the Service has been established, with the IBinder of the communication channel to the Service.
+}
+
 class UriMatcher {
     void addURI(@PolySource @PolySink String authority, @PolySource @PolySink String path, @PolySource @PolySink int code) @PolySource @PolySink;
     @PolyFlow int match(Uri uri);
@@ -1706,13 +1729,13 @@ abstract SharedPreferences.Editor clear() @Sink(SHARED_PREFERENCES);
 abstract boolean commit() @Sink(SHARED_PREFERENCES);
 //Commit your preferences changes back from this Editor to the SharedPreferences object it is editing.
 
-abstract SharedPreferences.Editor putBoolean(String key, boolean value);
+abstract SharedPreferences.Editor putBoolean(String key, @Sink(SHARED_PREFERENCES) boolean value);
 //Set a boolean value in the preferences editor, to be written back once commit(); or apply(); are called.
 
-abstract SharedPreferences.Editor putFloat(String key, float value);
+abstract SharedPreferences.Editor putFloat(String key, @Sink(SHARED_PREFERENCES) float value);
 //Set a float value in the preferences editor, to be written back once commit(); or apply(); are called.
 
-abstract SharedPreferences.Editor putInt(String key, int value);
+abstract SharedPreferences.Editor putInt(String key, @Sink(SHARED_PREFERENCES) int value);
 //Set an int value in the preferences editor, to be written back once commit(); or apply(); are called.
 
 abstract SharedPreferences.Editor putLong(String key, long value);

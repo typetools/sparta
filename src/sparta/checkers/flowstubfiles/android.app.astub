@@ -1786,6 +1786,9 @@ abstract <D> Loader<D> restartLoader(int id, Bundle args, LoaderCallbacks<D> cal
 
 class Notification {
     
+Notification(int icon, CharSequence tickerText, long when);
+//This constructor was deprecated in API level 11. Use Notification.Builder instead.
+
 Notification clone();
 //Creates and returns a copy of this Object.
 
@@ -2139,7 +2142,9 @@ void triggerSearch(String query, ComponentName launchActivity, Bundle appSearchD
 }
 
 class Service {
-    
+
+Service();    
+//Creates a new Service
     
 final Application getApplication();
 //Return the application that owns this service.

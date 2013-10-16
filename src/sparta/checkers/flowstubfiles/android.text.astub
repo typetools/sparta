@@ -192,6 +192,19 @@ class TextWatcher {
     void beforeTextChanged(@Source(FlowPermission.USER_INPUT)CharSequence arg0, @Source(FlowPermission.USER_INPUT)int arg1, @Source(FlowPermission.USER_INPUT)int arg2, @Source(FlowPermission.USER_INPUT)int arg3);
 }
 
+package android.text.format;
+class Time{
+
+void setToNow();
+//Sets the time of the given Time object to the current time.
+
+Time();
+//Construct a Time object in the default timezone.
+
+long toMillis(boolean arg0);
+//Converts this time to milliseconds.
+}
+
 package android.text.method;
 
 class LinkMovementMethod {

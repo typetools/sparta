@@ -1,7 +1,27 @@
 package android.preference;
 
+class DialogPreference{
+void setDialogTitle(CharSequence dialogTitle);
+//Sets the title of the dialog. This will be shown on subsequent dialogs.
+
+protected void onDialogClosed(boolean positiveResult);
+//Called when the dialog is dismissed and should be used to save data to the SharedPreferences
+
+protected void showDialog(Bundle state);
+//Shows the dialog associated with this Preference.
+}
+
 class EditTextPreference {
-    
+
+EditTextPreference(Context context);
+//New EditTextPreference
+
+EditTextPreference(Context context, AttributeSet attrs);
+//New EditTextPreference
+
+EditTextPreference(Context context, AttributeSet attrs, int defStyle);
+//New EditTextPreference
+
 EditText getEditText();
 //Returns the EditText widget that will be shown in the dialog.
 
@@ -286,6 +306,9 @@ class Preference$OnPreferenceChangeListener{
 }
 class PreferenceActivity {
     
+PreferenceActivity();
+//New PreferenceActivity
+
 void addPreferencesFromIntent(Intent intent);
 //This method was deprecated in API level 11. This function is not relevant for a modern fragment-based PreferenceActivity.
 
@@ -405,8 +428,12 @@ void onStop();
 
 }
 class PreferenceManager{
-        static SharedPreferences getDefaultSharedPreferences(Context context);
-         static void setDefaultValues(Context context, int resId, boolean readAgain);
+@PolyFlow
+static SharedPreferences getDefaultSharedPreferences(Context context);
+//Gets a SharedPreferences instance that points to the default file that is used by the preference framework in the given context.
+
+static void setDefaultValues(Context context, int resId, boolean readAgain);
+//Similar to setDefaultValues(Context, int, boolean) but allows the client to provide the filename and mode of the shared preferences file.
 }
 
 
