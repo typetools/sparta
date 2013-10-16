@@ -15,8 +15,7 @@ class TestNoParamConstructor {
 class TestParamConstructor {
 
     
-    //TODO constructor hack 
- ///:: error: (forbidden.flow)   
+  //:: error: (forbidden.flow)   
 	TestParamConstructor(String name) { }
 	
 	//:: error: (forbidden.flow)
@@ -72,7 +71,8 @@ class ConstructorAnnotation {
                 ////:: error: (forbidden.flow) :: error: (forbidden.flow)
 		TestImplicitConstructor imp = new TestImplicitConstructor();
 		// BUG? This should be thrown //:: error: (assignment.type.incompatible)
-		//:: error: (forbidden.flow) :: error: (forbidden.flow)
+                //TODO constructor hack 
+		////:: error: (forbidden.flow) :: error: (forbidden.flow)
 		TestNoParamConstructor noParam = new TestNoParamConstructor();
 
 	}

@@ -18,8 +18,8 @@ class TestStubNoParamConstructor {
 
 class TestStubParamConstructor {
 	
-    //TODO constructor hack 
- ////:: error: (forbidden.flow)   
+
+    //:: error: (forbidden.flow)   
 	TestStubParamConstructor(String name) { }
 	
 	//:: error: (forbidden.flow)

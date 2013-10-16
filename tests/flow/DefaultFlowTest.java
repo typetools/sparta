@@ -21,8 +21,8 @@ class DefaultFlowTest {
 	}
 	//test on return, receiver, and whole class
 	void testParameter() {
-              //:: error: (argument.type.incompatible)
-		testMethod(source);
+
+	        testMethod(source);
 		 //:: error: (argument.type.incompatible)
 		testMethod(sink);
 		 //:: error: (argument.type.incompatible)
@@ -46,7 +46,6 @@ class DefaultFlowTest {
 	
 	
 	void testClass() {
-		//:: error: (argument.type.incompatible)
 		source = classNone.testClassMethod(source);
 		//:: error: (argument.type.incompatible)
 		none = classNone.testClassMethod(sink);

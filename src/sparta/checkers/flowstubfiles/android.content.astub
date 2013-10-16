@@ -263,9 +263,11 @@ ParcelFileDescriptor openFile(Uri uri, String mode);
 AssetFileDescriptor openTypedAssetFile(Uri uri, String mimeTypeFilter, Bundle opts);
 //Called by a client to open a read-only stream containing data of a particular MIME type.
 
+@PolyFlowReceiver
 abstract Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
 //Implement this to handle query requests from clients.
 
+@PolyFlowReceiver
 Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal);
 //Implement this to handle query requests from clients with support for cancellation.
 

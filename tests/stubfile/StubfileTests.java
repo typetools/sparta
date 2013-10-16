@@ -6,7 +6,10 @@ public class StubfileTests {
     void constructorTest() {
         ExampleApi api = new ExampleApi();
         ExampleApi api1 = new ExampleApi("hello");
-        //:: error: (argument.type.incompatible) :: error: (forbidden.flow) :: error: (forbidden.flow)
+        
+        //TODO constructor hack
+        //
+        //:: error: (argument.type.incompatible) 
         ExampleApi api2 = new ExampleApi(2);
     }
 

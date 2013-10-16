@@ -551,7 +551,7 @@ Context getContext();
 
 int getCount();
 
-View getDropDownView(int position, View convertView, ViewGroup parent);
+@Sink(CONDITIONAL) View getDropDownView(int position, View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
 Filter getFilter();
@@ -591,7 +591,7 @@ class BaseAdapter {
 boolean areAllItemsEnabled();
 //Indicates whether all the items in this adapter are enabled.
 
-View getDropDownView(int position, View convertView, ViewGroup parent);
+@Sink(CONDITIONAL)  View getDropDownView(int position, View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
 int getItemViewType(int position);
@@ -737,7 +737,7 @@ int getCount();
 Cursor getCursor();
 //Returns the cursor.
 
-View getDropDownView(int position, View convertView, ViewGroup parent);
+@Sink(CONDITIONAL) View getDropDownView(int position, View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
 Filter getFilter();
@@ -2761,7 +2761,7 @@ class Spinner {
 int getBaseline();
 //Return the offset of the widget's text baseline from the widget's top boundary.
 
-int getDropDownHorizontalOffset();
+ int getDropDownHorizontalOffset();
 //Get the configured horizontal offset in pixels for the spinner's popup window of choices.
 
 int getDropDownVerticalOffset();
@@ -3233,7 +3233,7 @@ class TabHost$TabContentFactory{
         View createTabContent(String arg0);
 }
 class SpinnerAdapter{
-        View getDropDownView(int arg0, View arg1, ViewGroup arg2);
+        @Sink(CONDITIONAL) View getDropDownView(int arg0, View arg1, ViewGroup arg2);
 }
 class TabWidget{
         TabWidget(Context context);

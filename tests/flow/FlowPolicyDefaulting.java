@@ -20,7 +20,6 @@ class FlowPoilcyDefaulting {
 
         netok.add(neto);
         neto = netok.get(4);
-        //:: error: (assignment.type.incompatible)
         o = netok.get(4);
     }
 

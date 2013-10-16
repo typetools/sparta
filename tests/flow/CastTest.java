@@ -9,7 +9,6 @@ class CastTest {
 
     void m() {
         result = bar(x);
-        //:: error: (argument.type.incompatible)
         result = foo(x);
     }
 
@@ -17,8 +16,7 @@ class CastTest {
         return (double) x;
     }
 
-    //int x will now have type LITERAL -> CONDITIONAL which is different from ANY -> CONDITIONAL
-    //which cannot be coerced down to ACCESS_FINE_LOCATION -> CONDITIONAL
+
     public @Source(FlowPermission.ACCESS_FINE_LOCATION) double foo(int x) {
         //:: warning: (cast.unsafe)
         return (@Source(FlowPermission.ACCESS_FINE_LOCATION) double) x;

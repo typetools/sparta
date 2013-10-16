@@ -32,7 +32,6 @@ class Generics {
 
         netok.addF(neto);
         neto = netok.getF(4);
-        //:: error: (assignment.type.incompatible)
         o = netok.getF(4);
     }
 

@@ -27,12 +27,12 @@ void bar(){
 }
     
     void foo() {
+        
         //:: error: (assignment.type.incompatible)
         @Sink(INTERNET) Object @Source(FlowPermission.ACCELEROMETER) [] params = new /*@Sink(INTERNET)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
 
         //strict:: warning: (cast.unsafe)
-        //:: error: (argument.type.incompatible)
         Object[] result = (Object[]) call("method", params);
 
         // The annotations are on the array type, not on the array component type.

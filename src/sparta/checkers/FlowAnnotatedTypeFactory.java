@@ -59,8 +59,6 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
     private final Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
     public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
         super(checker, root);
-
-  
         
         // Use the top type for local variables and let flow refine the type.
         //Upper bounds should be top too.
@@ -69,9 +67,11 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
         defaults.addAbsoluteDefaults(checker.ANYSOURCE, topLocations);
         defaults.addAbsoluteDefaults(checker.NOSINK, topLocations);
 
-        //Default for receivers is (All sources allowed) -> CONDITIONAL
-        defaults.addAbsoluteDefault(checker.CONDITIONALSINK, RECEIVERS);
-        defaults.addAbsoluteDefault(checker.FROMCONDITIONALSOURCE, RECEIVERS);
+        //Default for receivers and parameters is (All sources allowed) -> CONDITIONAL
+        DefaultLocation[] conditionalSinkLocs = {RECEIVERS, DefaultLocation.PARAMETERS};
+        defaults.addAbsoluteDefaults(checker.CONDITIONALSINK, conditionalSinkLocs);
+        defaults.addAbsoluteDefaults(checker.FROMCONDITIONALSOURCE, conditionalSinkLocs);
+
         
         // Default is LITERAL -> (ALL MAPPED SINKS) for everything else
         defaults.addAbsoluteDefault(checker.FROMLITERALSINK, OTHERWISE);
@@ -125,7 +125,19 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
     protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
         Element iter = element;
         DefaultApplierElement applier = new DefaultApplierElement(this, element, type);
-
+        
+        if (iter != null && iter.getKind() == ElementKind.CONSTRUCTOR
+                && type !=null && type.getKind() == TypeKind.DECLARED){
+            //TODO constructor hack 
+            Set<FlowPermission> sources = Flow.getSources(type);
+            Set<FlowPermission> sinks = Flow.getSinks(type);
+            AnnotationMirror polysink = type.getAnnotation(PolySink.class);
+            AnnotationMirror polysource = type.getAnnotation(PolySource.class);
+            if(sources.isEmpty() && sinks.isEmpty() && polysink == null && polysource == null){
+                type.addAnnotation(checker.NOSOURCE);
+                type.addAnnotation(checker.ANYSINK);
+            }
+        }
         while (iter != null) {
             if (this.isFromByteCode(iter)) {
                 notAnnotated(element);
@@ -167,17 +179,7 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
                 applier.apply(checker.POLYSOURCE, DefaultLocation.RECEIVERS);
 
                 return;
-            } else if (iter.getKind() == ElementKind.CONSTRUCTOR){
-                //TODO constructor hack 
-                Set<FlowPermission> sources = Flow.getSources(type);
-                Set<FlowPermission> sinks = Flow.getSinks(type);
-                AnnotationMirror polysink = type.getAnnotation(PolySink.class);
-                AnnotationMirror polysource = type.getAnnotation(PolySource.class);
-                if(sources.isEmpty() && sinks.isEmpty() && polysink == null && polysource == null){
-                    type.addAnnotation(checker.NOSOURCE);
-                    type.addAnnotation(checker.ANYSINK);
-                }
-            }
+            } 
             
 
             if (iter instanceof PackageElement) {

@@ -121,7 +121,7 @@ class ArrayList<E> {
     Object[] toArray();
     @PolyFlowReceiver
     <T> T[] toArray(T[] arg0);
-    @Source(LITERAL) E get(int arg0) ;
+    E get(int arg0) ;
     @PolyFlowReceiver
     E set(int arg0, E arg1);
     @PolyFlowReceiver
