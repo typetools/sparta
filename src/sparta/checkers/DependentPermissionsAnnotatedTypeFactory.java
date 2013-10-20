@@ -1,11 +1,14 @@
 package sparta.checkers;
 
-import checkers.basetype.BaseTypeChecker;
+import checkers.basetype.BaseAnnotatedTypeFactory;
+import checkers.quals.Bottom;
 import checkers.quals.DefaultLocation;
 import checkers.types.AnnotatedTypeMirror;
-import checkers.types.BasicAnnotatedTypeFactory;
+import checkers.types.QualifierHierarchy;
 import checkers.types.TreeAnnotator;
 import checkers.util.AnnotationBuilder;
+import checkers.util.GraphQualifierHierarchy;
+import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 
 import javacutils.AnnotationUtils;
 import javacutils.Pair;
@@ -22,7 +25,8 @@ import sparta.checkers.quals.DependentPermissionsUnqualified;
 import com.sun.source.tree.LiteralTree;
 import com.sun.source.tree.Tree;
 
-public class DependentPermissionsAnnotatedTypeFactory extends BasicAnnotatedTypeFactory {
+public class DependentPermissionsAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
+    protected final AnnotationMirror DP, BOTTOM;
 
     public static final HashMap<String, String> intentConstTable = new HashMap<String, String>();
     public static final LinkedList<Pair<String, String>> contentURIPatternList = new LinkedList<Pair<String, String>>();
@@ -402,12 +406,15 @@ public class DependentPermissionsAnnotatedTypeFactory extends BasicAnnotatedType
     public DependentPermissionsAnnotatedTypeFactory(DependentPermissionsChecker checker) {
         super(checker);
 
+        BOTTOM = AnnotationUtils.fromClass(elements, Bottom.class);
+        DP = AnnotationUtils.fromClass(elements, DependentPermissions.class);
+
+        this.postInit();
 
         // Reuse the framework Bottom annotation and make it the default for the
         // null literal.
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.BOTTOM);
-      //  typeAnnotator.addTypeName(java.lang.Void.class, checker.BOTTOM);
-
+        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, BOTTOM);
+        //  typeAnnotator.addTypeName(java.lang.Void.class, checker.BOTTOM);
 
         defaults.addAbsoluteDefault(
                 AnnotationUtils.fromClass(elements, DependentPermissionsTop.class),
@@ -417,13 +424,12 @@ public class DependentPermissionsAnnotatedTypeFactory extends BasicAnnotatedType
                 AnnotationUtils.fromClass(elements, DependentPermissionsUnqualified.class),
                 DefaultLocation.OTHERWISE);
 
-        this.postInit();
         // flow.setDebug(System.err);
     }
 
     @Override
-    public TreeAnnotator createTreeAnnotator(DependentPermissionsChecker checker) {
-        return new DPTreeAnnotator(checker);
+    public TreeAnnotator createTreeAnnotator() {
+        return new DPTreeAnnotator(this);
     }
 
     AnnotationMirror createDependentPermAnnotation(String s) {
@@ -435,15 +441,15 @@ public class DependentPermissionsAnnotatedTypeFactory extends BasicAnnotatedType
 
     private class DPTreeAnnotator extends TreeAnnotator {
 
-        public DPTreeAnnotator(BaseTypeChecker checker) {
-            super(checker, DependentPermissionsAnnotatedTypeFactory.this);
+        public DPTreeAnnotator(DependentPermissionsAnnotatedTypeFactory atypeFactory) {
+            super(atypeFactory);
             // TODO Auto-generated constructor stub
         }
 
         @Override
         public Void visitLiteral(LiteralTree tree, AnnotatedTypeMirror type) {
 
-            if (!type.hasAnnotation(checker.DP)) {
+            if (!type.hasAnnotation(((DependentPermissionsAnnotatedTypeFactory)atypeFactory).DP)) {
                 if (tree.getKind() == Tree.Kind.STRING_LITERAL) {
                     String s = (String) tree.getValue();
 
@@ -481,6 +487,39 @@ public class DependentPermissionsAnnotatedTypeFactory extends BasicAnnotatedType
             return super.visitLiteral(tree, type);
         }
 
+    }
+
+    @Override
+    public QualifierHierarchy createQualifierHierarchy(MultiGraphFactory factory) {
+        return new DPQualifierHierarchy(factory);
+    }
+
+    protected class DPQualifierHierarchy extends GraphQualifierHierarchy {
+
+        /*
+         * We use the constructor of GraphQualifierHierarchy that allows us to
+         * set a dedicated bottom qualifier.
+         */
+        public DPQualifierHierarchy(MultiGraphFactory factory) {
+            super(factory, BOTTOM);
+        }
+
+        @Override
+        public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
+            if (AnnotationUtils.areSameIgnoringValues(lhs, DP)
+                    && AnnotationUtils.areSameIgnoringValues(rhs, DP)) {
+                return AnnotationUtils.areSame(lhs, rhs);
+            }
+            // Ignore annotation values to ensure that annotation is in
+            // supertype map.
+            if (AnnotationUtils.areSameIgnoringValues(lhs, DP)) {
+                lhs = DP;
+            }
+            if (AnnotationUtils.areSameIgnoringValues(rhs, DP)) {
+                rhs = DP;
+            }
+            return super.isSubtype(rhs, lhs);
+        }
     }
 
 }

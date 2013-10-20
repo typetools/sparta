@@ -1,8 +1,8 @@
 package sparta.checkers;
 
+import checkers.basetype.BaseAnnotatedTypeFactory;
 import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
-import checkers.types.BasicAnnotatedTypeFactory;
 
 import javacutils.AnnotationUtils;
 import javacutils.TreeUtils;
@@ -26,7 +26,7 @@ import com.sun.source.tree.MethodTree;
  * TODO: should we propagate required permissions from (anonymous) inner classes
  * to the outside?
  */
-public class RequiredPermissionsVisitor extends BaseTypeVisitor<BasicAnnotatedTypeFactory> {
+public class RequiredPermissionsVisitor extends BaseTypeVisitor<BaseAnnotatedTypeFactory> {
 
     public RequiredPermissionsVisitor(RequiredPermissionsChecker checker) {
         super(checker);

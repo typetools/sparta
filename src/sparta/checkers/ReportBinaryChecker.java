@@ -1,9 +1,9 @@
 package sparta.checkers;
 
+import checkers.basetype.BaseAnnotatedTypeFactory;
 import checkers.basetype.BaseTypeChecker;
 import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
-import checkers.types.BasicAnnotatedTypeFactory;
 
 import javacutils.ElementUtils;
 import javacutils.TreeUtils;
@@ -41,7 +41,7 @@ public class ReportBinaryChecker extends BaseTypeChecker {
         return new ReportBinaryVisitor(this);
     }
 
-    public static class ReportBinaryVisitor extends BaseTypeVisitor<BasicAnnotatedTypeFactory> {
+    public static class ReportBinaryVisitor extends BaseTypeVisitor<BaseAnnotatedTypeFactory> {
         public ReportBinaryVisitor(ReportBinaryChecker checker) {
             super(checker);
         }

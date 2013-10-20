@@ -21,16 +21,11 @@ import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.AnnotationTree;
-import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
 
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class })
 @StubFiles("flow.astub")
 public class FlowShow extends FlowChecker {
-    @Override
-    public FlowAnnotatedTypeFactory createFactory(CompilationUnitTree root) {
-        return new FlowAnnotatedTypeFactory(this, root);
-    }
 
     @Override
     protected BaseTypeVisitor<?> createSourceVisitor() {
@@ -41,6 +36,11 @@ public class FlowShow extends FlowChecker {
 
         public FlowShowVisitor(FlowShow checker) {
             super(checker);
+        }
+
+        @Override
+        public FlowAnnotatedTypeFactory createTypeFactory() {
+            return new FlowAnnotatedTypeFactory(FlowShow.this);
         }
 
         @Override
@@ -57,10 +57,10 @@ public class FlowShow extends FlowChecker {
 
                 boolean show = false;
 
-                if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(NOSOURCE), NOSOURCE)) {
+                if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(atypeFactory.NOSOURCE), atypeFactory.NOSOURCE)) {
                     show = true;
                 }
-                if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(NOSINK), NOSINK)) {
+                if (!AnnotationUtils.areSame(type.getAnnotationInHierarchy(atypeFactory.NOSINK), atypeFactory.NOSINK)) {
                     show = true;
                 }
                 if (show) {

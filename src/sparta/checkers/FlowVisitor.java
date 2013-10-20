@@ -178,12 +178,12 @@ public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
         AnnotatedTypeMirror rcv = atypeFactory.getReceiverType(node);
         treeReceiver.addAnnotations(rcv.getEffectiveAnnotations());
 
-        if (!checker.getTypeHierarchy().isSubtype(treeReceiver, methodReceiver)) {
+        if (!atypeFactory.getTypeHierarchy().isSubtype(treeReceiver, methodReceiver)) {
             Set<FlowPermission> sinks = Flow.getSinks(methodReceiver);
             Set<FlowPermission> sources = Flow.getSources(treeReceiver);
             Flow flow = new Flow(sources, sinks);
-            checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
-            checker.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
+            atypeFactory.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
+            atypeFactory.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
         }
     }
 
@@ -198,11 +198,11 @@ public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
         Set<FlowPermission> sinks = Flow.getSinks(varType);
         Set<FlowPermission> sources = Flow.getSources(valueType);
         Flow flow = new Flow(sources, sinks);
-        checker.getFlowAnalizer().getAssignmentFlows().add(flow);
-        boolean success = checker.getTypeHierarchy().isSubtype(valueType, varType);
+        atypeFactory.getFlowAnalizer().getAssignmentFlows().add(flow);
+        boolean success = atypeFactory.getTypeHierarchy().isSubtype(valueType, varType);
         if (!success) {
-            checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
-            checker.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
+            atypeFactory.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
+            atypeFactory.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
         }
     }
 
@@ -214,7 +214,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
 
     void reportError(AnnotatedTypeMirror type, Tree tree) {
         StringBuffer buf = new StringBuffer();
-        for (Flow flow : checker.getFlowPolicy().forbiddenFlows(type)) {
+        for (Flow flow : atypeFactory.getFlowPolicy().forbiddenFlows(type)) {
             buf.append(flow.toString() + "\n");
         }
         checker.report(Result.failure("forbidden.flow", type.toString(), buf.toString()), tree);
@@ -228,28 +228,28 @@ public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
         boolean typeVar = atm.getKind() == TypeKind.TYPEVAR;
         boolean typePara = (ele != null && ele.getKind() == ElementKind.TYPE_PARAMETER);
 
-        if ((local || this.topAllowed || typePara|| typeVar|| wild) && Flow.isTop(atm)) 
+        if ((local || this.topAllowed || typePara|| typeVar|| wild) && Flow.isTop(atm))
         {
             // Local variables are allowed to be top type so a more specific
             // type can be inferred.
             return true;
-        }  
-        
+        }
+
         if(Flow.isBottom(atm)) {
-            //TODO constructor hack 
+            //TODO constructor hack
             return true;
         }
 
 
         Flow flow = new Flow(atm);
-        checker.getFlowAnalizer().getTypeFlows().add(flow);
+        atypeFactory.getFlowAnalizer().getTypeFlows().add(flow);
 
-        final FlowPolicy flowPolicy = checker.getFlowPolicy();
+        final FlowPolicy flowPolicy = atypeFactory.getFlowPolicy();
         if (flowPolicy != null) {
-            boolean allowed = checker.getFlowPolicy().areFlowsAllowed(atm);
+            boolean allowed = flowPolicy.areFlowsAllowed(atm);
             if (!allowed) {
-                checker.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
-                checker.getFlowAnalizer().getForbiddenTypeFlows().add(flow);
+                atypeFactory.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
+                atypeFactory.getFlowAnalizer().getForbiddenTypeFlows().add(flow);
             }
             return allowed;
         }
@@ -263,7 +263,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
 
     protected class FlowTypeValidator extends BaseTypeValidator {
         private final FlowVisitor flowVisitor;
-        public FlowTypeValidator(BaseTypeChecker<?> checker, FlowVisitor visitor,
+        public FlowTypeValidator(BaseTypeChecker checker, FlowVisitor visitor,
                 AnnotatedTypeFactory atypeFactory) {
             super(checker, visitor, atypeFactory);
             this.flowVisitor = visitor;
@@ -304,7 +304,7 @@ public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
         @Override
         protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
             StringBuffer buf = new StringBuffer();
-            for (Flow flow : ((FlowChecker) checker).getFlowPolicy().forbiddenFlows(type)) {
+            for (Flow flow : ((FlowAnnotatedTypeFactory)atypeFactory).getFlowPolicy().forbiddenFlows(type)) {
                 buf.append(flow.toString() + "\n");
             }
             checker.report(Result.failure("forbidden.flow", type.toString(), buf.toString()), p);
