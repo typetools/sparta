@@ -19,12 +19,10 @@ import sparta.checkers.quals.DependentPermissions;
 import sparta.checkers.quals.DependentPermissionsTop;
 import sparta.checkers.quals.DependentPermissionsUnqualified;
 
-import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.LiteralTree;
 import com.sun.source.tree.Tree;
 
-public class DependentPermissionsAnnotatedTypeFactory extends
-        BasicAnnotatedTypeFactory<DependentPermissionsChecker> {
+public class DependentPermissionsAnnotatedTypeFactory extends BasicAnnotatedTypeFactory {
 
     public static final HashMap<String, String> intentConstTable = new HashMap<String, String>();
     public static final LinkedList<Pair<String, String>> contentURIPatternList = new LinkedList<Pair<String, String>>();
@@ -401,9 +399,8 @@ public class DependentPermissionsAnnotatedTypeFactory extends
                     "android.permission.WRITE_USER_DICTIONARY"));
         }
 
-    public DependentPermissionsAnnotatedTypeFactory(DependentPermissionsChecker checker,
-            CompilationUnitTree root) {
-        super(checker, root);
+    public DependentPermissionsAnnotatedTypeFactory(DependentPermissionsChecker checker) {
+        super(checker);
 
 
         // Reuse the framework Bottom annotation and make it the default for the
@@ -438,7 +435,7 @@ public class DependentPermissionsAnnotatedTypeFactory extends
 
     private class DPTreeAnnotator extends TreeAnnotator {
 
-        public DPTreeAnnotator(BaseTypeChecker<?> checker) {
+        public DPTreeAnnotator(BaseTypeChecker checker) {
             super(checker, DependentPermissionsAnnotatedTypeFactory.this);
             // TODO Auto-generated constructor stub
         }

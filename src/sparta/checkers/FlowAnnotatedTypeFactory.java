@@ -42,23 +42,22 @@ import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
-import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
 
-public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChecker> {
+public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory {
 
 
     // List of methods that are not in a stub file
     private final Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
-    public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
-        super(checker, root);
+    public FlowAnnotatedTypeFactory(FlowChecker checker) {
+        super(checker);
 
-  
-        
+        postInit();
+
         // Use the top type for local variables and let flow refine the type.
         //Upper bounds should be top too.
         //TODO: should receivers really be top?
-        DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS, RECEIVERS}; 
+        DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS, RECEIVERS};
 
         defaults.addAbsoluteDefaults(checker.ANYSOURCE, topLocations);
         defaults.addAbsoluteDefaults(checker.NOSINK, topLocations);
@@ -94,8 +93,6 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
         this.notInStubFile = checker.notInStubFile;
 
-        postInit();
-
     }
 
 
@@ -128,7 +125,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 if (!reviewed) {
                     notAnnotated(element);
                     // Checking if ignoring NOT_REVIEWED warnings
-                    if (!checker.IGNORENR) {
+                    if (!atypeFactory.IGNORENR) {
                         // TODO:instead of not reviewed we could issue a new
                         // error
                         // Something like Error: ByteCode method, method, has
@@ -221,7 +218,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
     }
 
 
-        
+
     @Override
     protected TypeAnnotator createTypeAnnotator(FlowChecker checker) {
         return new FlowCompletionAnnotator(checker, this);
@@ -269,10 +266,10 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         }
         @Override
         public Void visitTypeVariable(AnnotatedTypeVariable type, Element p) {
-            //Calling type.getEffectiveAnnotations() expands 
+            //Calling type.getEffectiveAnnotations() expands
             //the upper bounds causing an infinite loop for types like
             // E extends Enum<E>
-            //So visit call super, visit the extends 
+            //So visit call super, visit the extends
             //and then complete the policy flow
             Void r = super.visitTypeVariable(type, p);
             completePolicyFlows(type);
@@ -285,10 +282,10 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
         }
         @Override
         public Void visitWildcard(AnnotatedWildcardType type, Element p) {
-            //Calling type.getEffectiveAnnotations() expands 
+            //Calling type.getEffectiveAnnotations() expands
             //the upper bounds causing an infinite loop for types like
             // ? extends Enum<?>
-            //So visit call super, visit the extends 
+            //So visit call super, visit the extends
             //and then complete the policy flow
             Void r =  super.visitWildcard(type, p);
             completePolicyFlows(type);
@@ -297,10 +294,10 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
 
 
         /**
-         * Only complete flows if one of the annotations is missing. (Do not 
-         * complete flows if the source or sinks is {}.  Defaulting or the user 
+         * Only complete flows if one of the annotations is missing. (Do not
+         * complete flows if the source or sinks is {}.  Defaulting or the user
          * may add @Source({}) and @Sink({}).)
-         * 
+         *
          * Also don't complete if this is a void type
          * @param type
          * @return
@@ -327,7 +324,7 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
             if(shouldNotComplete(type)){
                 return ;
             }
-            
+
             final Set<FlowPermission> sources = Flow.getSources(type);
             final Set<FlowPermission> sinks = Flow.getSinks(type);
 
@@ -337,14 +334,14 @@ public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory<FlowChec
                 newAnno=  checker.createAnnoFromSink(newSink);
                 type.replaceAnnotation(newAnno);
             } else if (!sinks.isEmpty()) {
-                Set<FlowPermission> newSource = checker.getFlowPolicy().getIntersectionAllowedSources(sinks);                
+                Set<FlowPermission> newSource = checker.getFlowPolicy().getIntersectionAllowedSources(sinks);
                 newAnno=  checker.createAnnoFromSource(newSource);
                 type.replaceAnnotation(newAnno);
-            } 
+            }
 
         }
 
     }
-  
+
 
 }

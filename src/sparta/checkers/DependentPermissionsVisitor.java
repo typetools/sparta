@@ -7,13 +7,12 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 
 import sparta.checkers.quals.DependentPermissions;
 
-import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
 
 public class DependentPermissionsVisitor extends
-        BaseTypeVisitor<DependentPermissionsChecker, DependentPermissionsAnnotatedTypeFactory> {
-    public DependentPermissionsVisitor(DependentPermissionsChecker checker, CompilationUnitTree root) {
-        super(checker, root);
+        BaseTypeVisitor<DependentPermissionsAnnotatedTypeFactory> {
+    public DependentPermissionsVisitor(DependentPermissionsChecker checker) {
+        super(checker);
     }
 
     // filter out other warnings that has nothing to do with

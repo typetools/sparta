@@ -37,7 +37,6 @@ import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.CaseTree;
-import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.ConditionalExpressionTree;
 import com.sun.source.tree.DoWhileLoopTree;
 import com.sun.source.tree.ExpressionTree;
@@ -50,12 +49,12 @@ import com.sun.source.tree.WhileLoopTree;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.tree.TreeInfo;
 
-public class FlowVisitor extends BaseTypeVisitor<FlowChecker, FlowAnnotatedTypeFactory> {
+public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
 
     private boolean topAllowed = false;
 
-    public FlowVisitor(FlowChecker checker, CompilationUnitTree root) {
-        super(checker, root);
+    public FlowVisitor(BaseTypeChecker checker) {
+        super(checker);
     }
 
     @Override

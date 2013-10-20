@@ -1,8 +1,8 @@
 package sparta.checkers;
 
+import checkers.basetype.BaseTypeVisitor;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
-import checkers.source.SourceVisitor;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
@@ -23,7 +23,6 @@ import sparta.checkers.quals.Source;
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.Tree;
-import com.sun.source.util.Trees;
 
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class })
 @StubFiles("flow.astub")
@@ -34,18 +33,14 @@ public class FlowShow extends FlowChecker {
     }
 
     @Override
-    protected SourceVisitor<?, ?, ?, ?> createSourceVisitor(CompilationUnitTree root) {
-        return new FlowShowVisitor(this, root);
+    protected BaseTypeVisitor<?> createSourceVisitor() {
+        return new FlowShowVisitor(this);
     }
 
-    protected class FlowShowVisitor extends
-            SourceVisitor<FlowChecker, FlowAnnotatedTypeFactory, Void, Void> {
+    protected class FlowShowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
 
-        private final Trees treemsg;
-
-        public FlowShowVisitor(FlowShow checker, CompilationUnitTree root) {
-            super(checker, root);
-            treemsg = Trees.instance(processingEnv);
+        public FlowShowVisitor(FlowShow checker) {
+            super(checker);
         }
 
         @Override
@@ -75,7 +70,7 @@ public class FlowShow extends FlowChecker {
                     String stsnk = snk.isEmpty() ? "NONE" : snk.toString();
                     String msg = "FLOW TREE " + tree + " KIND " + tree.getKind() + " SOURCES "
                             + stsrc + " SINKS " + stsnk;
-                    treemsg.printMessage(javax.tools.Diagnostic.Kind.OTHER, msg, tree, currentRoot);
+                    trees.printMessage(javax.tools.Diagnostic.Kind.OTHER, msg, tree, currentRoot);
                 }
             }
             return null;
