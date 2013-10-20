@@ -30,8 +30,7 @@ import sparta.checkers.quals.DependentPermissionsUnqualified;
 @TypeQualifiers({ DependentPermissions.class, DependentPermissionsTop.class,
     DependentPermissionsUnqualified.class, Bottom.class })
 @StubFiles("permission.astub")
-public class DependentPermissionsChecker extends
-        BaseTypeChecker<DependentPermissionsAnnotatedTypeFactory> {
+public class DependentPermissionsChecker extends BaseTypeChecker {
     protected AnnotationMirror DP, BOTTOM;
 
     @Override

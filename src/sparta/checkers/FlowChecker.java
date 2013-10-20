@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.SupportedOptions;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
@@ -53,7 +52,7 @@ import sparta.checkers.quals.Source;
         FlowChecker.IGNORE_NOT_REVIEWED })
 @SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })
 
-public class FlowChecker extends BaseTypeChecker<FlowAnnotatedTypeFactory> {
+public class FlowChecker extends BaseTypeChecker {
     public static final String MSG_FILTER_OPTION = "msgFilter";
     public static final String IGNORE_NOT_REVIEWED = "ignorenr";
     public boolean IGNORENR = false;

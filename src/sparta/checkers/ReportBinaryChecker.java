@@ -1,31 +1,29 @@
 package sparta.checkers;
 
 import checkers.basetype.BaseTypeChecker;
+import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
-import checkers.source.SourceVisitor;
-import checkers.types.SubtypingAnnotatedTypeFactory;
+import checkers.types.BasicAnnotatedTypeFactory;
 
 import javacutils.ElementUtils;
 import javacutils.TreeUtils;
 
 import javax.lang.model.element.Element;
 
-import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.MemberSelectTree;
 import com.sun.source.tree.MethodInvocationTree;
 
 /**
  * A utility class for displaying all method calls and field accesses of
  * methods/fields for which the source code is not available.
- * 
+ *
  * <p>
  * The class is an annotation processor; in order to use it, invoke the compiler
  * on the source file(s) for which you wish to view the binary-only fields and
  * method. You may also wish to use the {@code -proc:only} javac option to stop
  * compilation after annotation processing.
  */
-public class ReportBinaryChecker extends
-        BaseTypeChecker<SubtypingAnnotatedTypeFactory<ReportBinaryChecker>> {
+public class ReportBinaryChecker extends BaseTypeChecker {
 
     private static final String[] ignorePackages = { "java", "javax", "android", "com.android" };
 
@@ -39,15 +37,13 @@ public class ReportBinaryChecker extends
     }
 
     @Override
-    protected SourceVisitor<?, ?, ?, ?> createSourceVisitor(CompilationUnitTree root) {
-        return new ReportBinaryVisitor(this, root);
+    protected BaseTypeVisitor<?> createSourceVisitor() {
+        return new ReportBinaryVisitor(this);
     }
 
-    public static class ReportBinaryVisitor
-            extends
-            SourceVisitor<ReportBinaryChecker, SubtypingAnnotatedTypeFactory<ReportBinaryChecker>, Void, Void> {
-        public ReportBinaryVisitor(ReportBinaryChecker checker, CompilationUnitTree root) {
-            super(checker, root);
+    public static class ReportBinaryVisitor extends BaseTypeVisitor<BasicAnnotatedTypeFactory> {
+        public ReportBinaryVisitor(ReportBinaryChecker checker) {
+            super(checker);
         }
 
         @Override

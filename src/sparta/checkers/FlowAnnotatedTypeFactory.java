@@ -16,8 +16,7 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedUnionType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
-import checkers.types.SubtypingAnnotatedTypeFactory;
-import checkers.types.TreeAnnotator;
+import checkers.types.BasicAnnotatedTypeFactory;
 import checkers.types.TypeAnnotator;
 import checkers.util.QualifierDefaults.DefaultApplierElement;
 
@@ -45,25 +44,26 @@ import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.BinaryTree;
-import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.CompoundAssignmentTree;
 import com.sun.source.tree.NewArrayTree;
 import com.sun.source.tree.Tree;
 import com.sun.source.tree.TypeCastTree;
 import com.sun.source.tree.UnaryTree;
 
-public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<FlowChecker> {
+public class FlowAnnotatedTypeFactory extends BasicAnnotatedTypeFactory {
 
 
     // List of methods that are not in a stub file
     private final Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
-    public FlowAnnotatedTypeFactory(FlowChecker checker, CompilationUnitTree root) {
-        super(checker, root);
-        
+    public FlowAnnotatedTypeFactory(FlowChecker checker) {
+        super(checker);
+
+        postInit();
+
         // Use the top type for local variables and let flow refine the type.
         //Upper bounds should be top too.
         DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS}; 
-        
+
         defaults.addAbsoluteDefaults(checker.ANYSOURCE, topLocations);
         defaults.addAbsoluteDefaults(checker.NOSINK, topLocations);
 
@@ -77,7 +77,7 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
         defaults.addAbsoluteDefault(checker.FROMLITERALSINK, OTHERWISE);
         defaults.addAbsoluteDefault(checker.LITERALSOURCE, OTHERWISE);
 
-        
+
         // But let's send null down any sink and give it no sources.
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.ANYSINK);
         treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, checker.NOSOURCE);
@@ -103,8 +103,6 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
         treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, checker.FROMLITERALSINK);
 
         this.notInStubFile = checker.notInStubFile;
-
-        postInit();
 
     }
 
@@ -179,8 +177,7 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
                 applier.apply(checker.POLYSOURCE, DefaultLocation.RECEIVERS);
 
                 return;
-            } 
-            
+            }
 
             if (iter instanceof PackageElement) {
                 iter = ElementUtils.parentPackage(this.elements, (PackageElement) iter);
@@ -235,7 +232,6 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
     }
 
 
-        
     @Override
     protected TreeAnnotator createTreeAnnotator(FlowChecker checker) {
         return new FlowPolicyTreeAnnotator(checker, this);
@@ -305,7 +301,6 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
             super(checker, factory);
             this.checker = checker;
         }
-        
         @Override
         public Void visitArray(AnnotatedArrayType type, Element p) {
             completePolicyFlows(type, checker);
@@ -341,10 +336,10 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
         }
         @Override
         public Void visitTypeVariable(AnnotatedTypeVariable type, Element p) {
-            //Calling type.getEffectiveAnnotations() expands 
+            //Calling type.getEffectiveAnnotations() expands
             //the upper bounds causing an infinite loop for types like
             // E extends Enum<E>
-            //So visit call super, visit the extends 
+            //So visit call super, visit the extends
             //and then complete the policy flow
             Void r = super.visitTypeVariable(type, p);
             completePolicyFlows(type, checker);
@@ -357,10 +352,10 @@ public class FlowAnnotatedTypeFactory extends SubtypingAnnotatedTypeFactory<Flow
         }
         @Override
         public Void visitWildcard(AnnotatedWildcardType type, Element p) {
-            //Calling type.getEffectiveAnnotations() expands 
+            //Calling type.getEffectiveAnnotations() expands
             //the upper bounds causing an infinite loop for types like
             // ? extends Enum<?>
-            //So visit call super, visit the extends 
+            //So visit call super, visit the extends
             //and then complete the policy flow
             Void r =  super.visitWildcard(type, p);
             completePolicyFlows(type, checker);

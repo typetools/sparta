@@ -2,7 +2,7 @@ package sparta.checkers;
 
 import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
-import checkers.types.SubtypingAnnotatedTypeFactory;
+import checkers.types.BasicAnnotatedTypeFactory;
 
 import javacutils.AnnotationUtils;
 import javacutils.TreeUtils;
@@ -16,23 +16,20 @@ import javax.lang.model.element.ExecutableElement;
 import sparta.checkers.quals.MayRequiredPermissions;
 import sparta.checkers.quals.RequiredPermissions;
 
-import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
 
 /**
  * Propagate required permissions up the call stack. Require that they are
  * declared in the manifest.
- * 
+ *
  * TODO: should we propagate required permissions from (anonymous) inner classes
  * to the outside?
  */
-public class RequiredPermissionsVisitor
-        extends
-        BaseTypeVisitor<RequiredPermissionsChecker, SubtypingAnnotatedTypeFactory<RequiredPermissionsChecker>> {
+public class RequiredPermissionsVisitor extends BaseTypeVisitor<BasicAnnotatedTypeFactory> {
 
-    public RequiredPermissionsVisitor(RequiredPermissionsChecker checker, CompilationUnitTree root) {
-        super(checker, root);
+    public RequiredPermissionsVisitor(RequiredPermissionsChecker checker) {
+        super(checker);
     }
 
     @Override
