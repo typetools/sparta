@@ -86,7 +86,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
     public final boolean IGNORENR;
 
-    public FlowAnnotatedTypeFactory(FlowChecker checker) {
+    public FlowAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
 
         NOSOURCE = AnnotationUtils.fromClass(elements, Source.class);
@@ -181,8 +181,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
         treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
 
-        this.notInStubFile = checker.notInStubFile;
-
+        this.notInStubFile = ((FlowChecker)checker).notInStubFile;
     }
 
 
