@@ -7,6 +7,7 @@ import static checkers.quals.DefaultLocation.RESOURCE_VARIABLE;
 import static checkers.quals.DefaultLocation.UPPER_BOUNDS;
 
 import checkers.basetype.BaseAnnotatedTypeFactory;
+import checkers.basetype.BaseTypeChecker;
 import checkers.quals.DefaultLocation;
 import checkers.quals.PolyAll;
 import checkers.types.AnnotatedTypeMirror;
