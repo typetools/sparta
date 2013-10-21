@@ -51,6 +51,7 @@ public class FlowChecker extends BaseTypeChecker {
 
     @Override
     public void initChecker() {
+        super.initChecker();
 
         String unfilteredStr = getOption(MSG_FILTER_OPTION);
         if (unfilteredStr == null) {
