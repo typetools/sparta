@@ -1,6 +1,7 @@
 package sparta.checkers;
 
 import checkers.basetype.BaseAnnotatedTypeFactory;
+import checkers.basetype.BaseTypeChecker;
 import checkers.quals.Bottom;
 import checkers.quals.DefaultLocation;
 import checkers.types.AnnotatedTypeMirror;
@@ -403,7 +404,7 @@ public class DependentPermissionsAnnotatedTypeFactory extends BaseAnnotatedTypeF
                     "android.permission.WRITE_USER_DICTIONARY"));
         }
 
-    public DependentPermissionsAnnotatedTypeFactory(DependentPermissionsChecker checker) {
+    public DependentPermissionsAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
 
         BOTTOM = AnnotationUtils.fromClass(elements, Bottom.class);
