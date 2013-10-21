@@ -42,7 +42,7 @@ public class ReportBinaryChecker extends BaseTypeChecker {
     }
 
     public static class ReportBinaryVisitor extends BaseTypeVisitor<BaseAnnotatedTypeFactory> {
-        public ReportBinaryVisitor(ReportBinaryChecker checker) {
+        public ReportBinaryVisitor(BaseTypeChecker checker) {
             super(checker);
         }
 

@@ -1,5 +1,6 @@
 package sparta.checkers;
 
+import checkers.basetype.BaseTypeChecker;
 import checkers.basetype.BaseTypeVisitor;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
@@ -34,7 +35,7 @@ public class FlowShow extends FlowChecker {
 
     protected class FlowShowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
 
-        public FlowShowVisitor(FlowShow checker) {
+        public FlowShowVisitor(BaseTypeChecker checker) {
             super(checker);
         }
 

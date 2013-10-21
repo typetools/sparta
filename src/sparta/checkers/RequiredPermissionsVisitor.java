@@ -1,6 +1,7 @@
 package sparta.checkers;
 
 import checkers.basetype.BaseAnnotatedTypeFactory;
+import checkers.basetype.BaseTypeChecker;
 import checkers.basetype.BaseTypeVisitor;
 import checkers.source.Result;
 
@@ -28,7 +29,7 @@ import com.sun.source.tree.MethodTree;
  */
 public class RequiredPermissionsVisitor extends BaseTypeVisitor<BaseAnnotatedTypeFactory> {
 
-    public RequiredPermissionsVisitor(RequiredPermissionsChecker checker) {
+    public RequiredPermissionsVisitor(BaseTypeChecker checker) {
         super(checker);
     }
 

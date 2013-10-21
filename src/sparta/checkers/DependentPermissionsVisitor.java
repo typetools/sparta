@@ -1,5 +1,6 @@
 package sparta.checkers;
 
+import checkers.basetype.BaseTypeChecker;
 import checkers.basetype.BaseTypeVisitor;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
@@ -11,7 +12,7 @@ import com.sun.source.tree.Tree;
 
 public class DependentPermissionsVisitor extends
         BaseTypeVisitor<DependentPermissionsAnnotatedTypeFactory> {
-    public DependentPermissionsVisitor(DependentPermissionsChecker checker) {
+    public DependentPermissionsVisitor(BaseTypeChecker checker) {
         super(checker);
     }
 
