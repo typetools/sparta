@@ -24,6 +24,7 @@ import checkers.types.TreeAnnotator;
 import checkers.types.TypeAnnotator;
 import checkers.util.AnnotationBuilder;
 import checkers.util.MultiGraphQualifierHierarchy;
+import checkers.util.QualifierDefaults;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import checkers.util.QualifierDefaults.DefaultApplierElement;
 import checkers.util.QualifierPolymorphism;
@@ -137,9 +138,15 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         FROMCONDITIONALSOURCE = createAnnoFromSource(condtionalSource);
 
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
-
+        this.notInStubFile = new HashMap<String, Map<String,Map<Element,Integer>>>();
         postInit();
+        if (checker != null)
+        ((FlowChecker)checker).notInStubFile.putAll(notInStubFile);
 
+    }
+    @Override
+    protected QualifierDefaults createQualifierDefaults() {
+        QualifierDefaults defaults =  super.createQualifierDefaults();
         // Use the top type for local variables and let flow refine the type.
         //Upper bounds should be top too.
         DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS};
@@ -157,32 +164,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         defaults.addAbsoluteDefault(FROMLITERALSINK, OTHERWISE);
         defaults.addAbsoluteDefault(LITERALSOURCE, OTHERWISE);
 
-
-        // But let's send null down any sink and give it no sources.
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, ANYSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, NOSOURCE);
-
-        // Literals, other than null are different too
-        // There are no Byte or Short literal types in java (0b is treated as an
-        // int),
-        // so there does not need to be a mapping for them here.
-        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, LITERALSOURCE);
-
-        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
-
-        this.notInStubFile = ((FlowChecker)checker).notInStubFile;
+        return defaults;
     }
 
 
@@ -332,7 +314,32 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
     @Override
     protected TreeAnnotator createTreeAnnotator() {
-        return new FlowPolicyTreeAnnotator(this);
+       FlowPolicyTreeAnnotator treeAnnotator = new FlowPolicyTreeAnnotator(this);
+
+        // But let's send null down any sink and give it no sources.
+        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, ANYSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, NOSOURCE);
+
+        // Literals, other than null are different too
+        // There are no Byte or Short literal types in java (0b is treated as an
+        // int),
+        // so there does not need to be a mapping for them here.
+        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, LITERALSOURCE);
+
+        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
+        return treeAnnotator;
     }
 
     class FlowPolicyTreeAnnotator extends TreeAnnotator {
