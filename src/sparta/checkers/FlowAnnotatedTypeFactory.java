@@ -137,9 +137,12 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         FROMCONDITIONALSOURCE = createAnnoFromSource(condtionalSource);
 
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
-
-        postInit();
-
+        //Commenting this otherwise it does not build. 
+        //But the defaults below are not being added correctly because of that.
+//        if (this.getClass().equals(FlowAnnotatedTypeFactory.class)) {
+            this.postInit();
+//        }
+        
         // Use the top type for local variables and let flow refine the type.
         //Upper bounds should be top too.
         DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS};
@@ -181,7 +184,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, FROMLITERALSINK);
         treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
         treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
-
+        
         this.notInStubFile = ((FlowChecker)checker).notInStubFile;
     }
 
@@ -525,7 +528,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         return new FlowQualifierHierarchy(factory);
     }
 
-    private class FlowQualifierHierarchy extends MultiGraphQualifierHierarchy {
+    protected class FlowQualifierHierarchy extends MultiGraphQualifierHierarchy {
 
         protected FlowQualifierHierarchy(MultiGraphFactory f) {
             super(f);
@@ -549,21 +552,21 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             return newtops;
         }
 
-        private boolean isSourceQualifier(AnnotationMirror anno) {
+        protected boolean isSourceQualifier(AnnotationMirror anno) {
             return NOSOURCE.getAnnotationType().equals(anno.getAnnotationType())
                     || isPolySourceQualifier(anno);
         }
 
-        private boolean isPolySourceQualifier(AnnotationMirror anno) {
+        protected boolean isPolySourceQualifier(AnnotationMirror anno) {
             return POLYSOURCE.getAnnotationType().equals(anno.getAnnotationType());
         }
 
-        private boolean isSinkQualifier(AnnotationMirror anno) {
+        protected boolean isSinkQualifier(AnnotationMirror anno) {
             return NOSINK.getAnnotationType().equals(anno.getAnnotationType())
                     || isPolySinkQualifier(anno);
         }
 
-        private boolean isPolySinkQualifier(AnnotationMirror anno) {
+        protected boolean isPolySinkQualifier(AnnotationMirror anno) {
             return POLYSINK.getAnnotationType().equals(anno.getAnnotationType());
         }
 
@@ -666,7 +669,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             }
         }
 
-        private void checkAny(AnnotationMirror anm) throws Exception {
+        protected void checkAny(AnnotationMirror anm) throws Exception {
             boolean isPolySink = AnnotationUtils.areSame(anm, POLYSINK);
             boolean isPolySource = AnnotationUtils.areSame(anm, POLYSOURCE);
 
@@ -796,7 +799,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             return super.greatestLowerBound(a1, a2);
         }
 
-        private AnnotationMirror boundSource(final Set<FlowPermission> flowSource) {
+        protected AnnotationMirror boundSource(final Set<FlowPermission> flowSource) {
 
             final AnnotationMirror am;
             if (flowSource.contains(FlowPermission.ANY)) { // contains all
@@ -810,7 +813,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             return am;
         }
 
-        private AnnotationMirror boundSink(final Set<FlowPermission> flowSink) {
+        protected AnnotationMirror boundSink(final Set<FlowPermission> flowSink) {
             final AnnotationMirror am;
             if (flowSink.isEmpty()) {
                 am = getTopAnnotation(SINK);

@@ -137,7 +137,7 @@ ${build.version} of the 'javac.jar' library."/>
         <java fork="true"
               failonerror="true"
               jar="${checkers.lib}">
-            <arg line="-cp ${junit.jar}:${gson.jar}" />
+            <arg line="-cp ${junit.jar}:${gson.jar}:${latestAndroid.jar}" />
             <arg value="-g"/>
             <arg line="-sourcepath ${src}"/>
             <arg line="-d ${build}"/>
@@ -251,6 +251,13 @@ ${build.version} of the 'javac.jar' library."/>
       description="Run tests for the Flow Checker">
         <antcall target="-run-tests">
             <param name="testclass" value="sparta.checkers.AndroidTests$FlowCheckerTests"/>
+        </antcall>
+    </target>
+    
+    <target name="intent-tests" depends="jar,build-tests"
+      description="Run tests for the Intent Checker">
+        <antcall target="-run-tests">
+            <param name="testclass" value="sparta.checkers.AndroidTests$IntentCheckerTests"/>
         </antcall>
     </target>
 
