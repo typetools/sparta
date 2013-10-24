@@ -143,8 +143,9 @@ public class IntentVisitor extends FlowVisitor {
 					.getAnnotatedType(getIntentCall);
 			AnnotationMirror lhsIntentExtras = lhs
 					.getAnnotation(IntentExtras.class);
-			//TODO: This should be calling isCopyable instead of isSubtype
-			if (atypeFactory.getQualifierHierarchy().isSubtype(rhsIntentExtras, lhsIntentExtras)) {
+			// TODO: This should be calling isCopyable instead of isSubtype
+			if (!atypeFactory.getQualifierHierarchy().isSubtype(
+					rhsIntentExtras, lhsIntentExtras)) {
 				checker.report(Result.failure("send.intent"), node);
 			}
 		}
@@ -152,6 +153,7 @@ public class IntentVisitor extends FlowVisitor {
 
 	/**
 	 * Get MethodSymbol based on class name, method name, and parameter length.
+	 * Note: This code was reused from the Reflection analysis.
 	 * 
 	 * @return the corresponding method symbol or <code>null</code> if the
 	 *         method is not unique or cannot be determined
@@ -354,13 +356,11 @@ public class IntentVisitor extends FlowVisitor {
 	}
 
 	/**
-	 * Method used to change the return type annotations of a
-	 * intent.getExtra(...) method call (@Source and @Sink), to the annotations
-	 * that can be found in the intent's @IntentExtras annotation.
+	 * Method used to type-check a intent.getExtra(...) method call (@Source and
+	 * @Sink)
 	 * 
 	 * @param method
-	 *            Actual getExtra method whose return type annotation will be
-	 *            updated
+	 *            Actual getExtra method
 	 * @param node
 	 *            Tree of the getExtra() method call, used only to show where a
 	 *            warning is being raised, in case it is.
@@ -388,35 +388,7 @@ public class IntentVisitor extends FlowVisitor {
 				String key = AnnotationUtils.getElementValue(iExtra, "key",
 						String.class, true);
 				if (key.equals(keyName)) {
-					// Now that we found the @IExtra that containts the key in
-					// the
-					// @IntentExtras annotation,
-					// we need to change the return type of getExtra to the
-					// @Source and @Sink annotations from this @IExtra element
-					Set<FlowPermission> annotatedSources = new HashSet<FlowPermission>(
-							AnnotationUtils.getElementValueEnumArray(iExtra,
-									"source", FlowPermission.class, true));
-					Set<FlowPermission> annotatedSinks = new HashSet<FlowPermission>(
-							AnnotationUtils.getElementValueEnumArray(iExtra,
-									"sink", FlowPermission.class, true));
 
-					AnnotationMirror sourceAnnotation = atypeFactory
-							.createAnnoFromSource(annotatedSources);
-					AnnotationMirror sinkAnnotation = atypeFactory
-							.createAnnoFromSink(annotatedSinks);
-					method.clearAnnotations();
-
-					AnnotatedTypeMirror methodReturnType = method
-							.getReturnType();
-					// Clearing and adding the new annotations
-					methodReturnType.clearAnnotations();
-					methodReturnType.addAnnotation(sourceAnnotation);
-					methodReturnType.addAnnotation(sinkAnnotation);
-
-					if (!methodReturnType.hasAnnotation(IntentExtras.class)) {
-						methodReturnType
-								.addAnnotation(((IntentAnnotatedTypeFactory) atypeFactory).EMPTYINTENTEXTRAS);
-					}
 					return;
 				}
 			}
@@ -537,11 +509,6 @@ public class IntentVisitor extends FlowVisitor {
 		}
 	}
 
-	/**
-	 * For some reason, the FlowPermission[] passed to @Source or @Sink is
-	 * annotated and causes a type error. TODO: we should figure out why this is
-	 * happening in the first place and try to fix it.
-	 */
 	@Override
 	public Void visitAnnotation(AnnotationTree node, Void p) {
 		List<? extends ExpressionTree> args = node.getArguments();
@@ -551,14 +518,9 @@ public class IntentVisitor extends FlowVisitor {
 		}
 
 		Element anno = TreeInfo.symbol((JCTree) node.getAnnotationType());
-		if (anno.toString().equals(Sink.class.getName())
-				|| anno.toString().equals(Source.class.getName())
-				|| anno.toString().equals(RequiredPermissions.class.getName())
-				|| anno.toString().equals(
-						MayRequiredPermissions.class.getName())
-				|| anno.toString().equals(DependentPermissions.class.getName())
-				|| anno.toString().equals(IntentExtras.class.getName())
-				|| anno.toString().equals(IExtra.class.getName())) {
+		if (anno.toString().equals(
+				anno.toString().equals(IntentExtras.class.getName())
+						|| anno.toString().equals(IExtra.class.getName()))) {
 			return null;
 		}
 		return super.visitAnnotation(node, p);

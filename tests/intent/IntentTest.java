@@ -94,8 +94,8 @@ public class IntentTest extends Activity {
         @SuppressWarnings("")
         @IntentExtras({@IExtra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
         Intent senderIntent2 = new Intent();
-        //Failing because we are using isSubtype instead of isCopyable to
         startActivity(senderIntent1);
+        //Failing because we are using isSubtype instead of isCopyable to
         startActivity(senderIntent2);
     }
     

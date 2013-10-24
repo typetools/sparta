@@ -124,7 +124,7 @@ public class AndroidTests {
 
     public static class FlowCheckerTests extends ParameterizedCheckerTest {
         public FlowCheckerTests(File testFile) {
-            super(testFile, FlowChecker.class, "sparta.checkers", "-AprintErrorStack");
+            super(testFile, FlowChecker.class, "sparta.checkers", "-Anomsgtext");
 //             Uncomment the line below to see the full errors in the JUnit
             // tests
 //             super(testFile, FlowChecker.class, "sparta.checkers");

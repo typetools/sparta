@@ -47,19 +47,29 @@ import com.sun.source.tree.Tree;
 
 public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
-	protected final AnnotationMirror INTENTEXTRAS, IEXTRA, EMPTYINTENTEXTRAS;
+	protected final AnnotationMirror INTENTEXTRAS, IEXTRA, EMPTYINTENTEXTRAS,
+			INTENTEXTRASALL;
 
 	public IntentAnnotatedTypeFactory(BaseTypeChecker checker) {
 		super(checker);
 		INTENTEXTRAS = AnnotationUtils.fromClass(elements, IntentExtras.class);
 		IEXTRA = AnnotationUtils.fromClass(elements, IExtra.class);
-		EMPTYINTENTEXTRAS = createEmptyIntentExtras();
+		EMPTYINTENTEXTRAS = createEmptyIntentExtras(); // top
+		INTENTEXTRASALL = createAllIntentExtras(); // bottom
 		if (this.getClass().equals(IntentAnnotatedTypeFactory.class)) {
 			this.postInit();
 		}
 	}
 
-	public AnnotationMirror createEmptyIntentExtras() {
+	private AnnotationMirror createAllIntentExtras() {
+		// TODO: Define the bottom type of @IntentExtras
+		final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
+				IntentExtras.class);
+
+		return builder.build();
+	}
+
+	private AnnotationMirror createEmptyIntentExtras() {
 		final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
 				IntentExtras.class);
 		return builder.build();
@@ -69,7 +79,10 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 	 * This method modifies the @Source(INTENT) and @Sink(INTENT) to
 	 * 
 	 * @Source(ANY), @Sink({}) and modifies the @Source and @Sink from the
-	 *               return type of getExtra calls.
+	 *               return type of getExtra calls. This is necessary because
+	 *               the stub files will maintain @Source(INTENT) and
+	 *               @Sink(INTENT) annotations to perform flow check analysis
+	 *               without the intent analysis.
 	 */
 	@Override
 	public Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> methodFromUse(
@@ -160,9 +173,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 		protected Set<AnnotationMirror> findBottoms(
 				Map<AnnotationMirror, Set<AnnotationMirror>> supertypes) {
 			Set<AnnotationMirror> newBottoms = super.findBottoms(supertypes);
-			newBottoms.add(EMPTYINTENTEXTRAS); // TODO: fix this. What is the
-												// real Bottom of the
-												// IntentExtras type?
+			newBottoms.add(INTENTEXTRASALL);
 			return newBottoms;
 		}
 
@@ -191,9 +202,9 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 		@Override
 		public AnnotationMirror getTopAnnotation(AnnotationMirror start) {
 			if (isIntentExtrasQualifier(start)) {
-				return INTENTEXTRAS;
+				return EMPTYINTENTEXTRAS;
 			} else if (isIExtraQualifier(start)) {
-				return IEXTRA;
+				return IEXTRA; // What to do here?
 			} else {
 				return super.getTopAnnotation(start);
 			}
@@ -202,7 +213,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 		@Override
 		public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
 			if (isIExtraQualifier(rhs)) {
-				checker.errorAbort("FlowChecker: unexpected AnnotationMirrors: "
+				checker.errorAbort("IntentChecker: unexpected AnnotationMirrors: "
 						+ rhs + " and " + lhs);
 				return false;
 			} else if (isIntentExtrasQualifier(rhs)) {
@@ -218,6 +229,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 				if (lhsIExtrasList.isEmpty()) {
 					return true;
 				}
+
 				for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
 					boolean found = false;
 					String leftKey = AnnotationUtils.getElementValue(lhsIExtra,
@@ -227,6 +239,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 								rhsIExtra, "key", String.class, true);
 						if (rightKey.equals(leftKey)) {
 							found = true;
+
 							Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
 									AnnotationUtils.getElementValueEnumArray(
 											lhsIExtra, "source",
@@ -243,6 +256,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 									AnnotationUtils.getElementValueEnumArray(
 											rhsIExtra, "sink",
 											FlowPermission.class, true));
+
 							if (!(lhsAnnotatedSources
 									.containsAll(rhsAnnotatedSources)
 									&& rhsAnnotatedSources
@@ -278,7 +292,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 			if (lhsIExtrasList.isEmpty()) {
 				return true;
 			}
-			// TODO: Fix where to put this after changes on CF.
+			// TODO: Fix where to put this method after changes on CF.
 			// for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
 			// boolean found = false;
 			// String leftKey = AnnotationUtils.getElementValue(lhsIExtra,
@@ -389,7 +403,10 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 														a2IExtra, "sink",
 														FlowPermission.class,
 														true));
-								if(a1AnnotatedSources.containsAll(a2AnnotatedSources) && a1AnnotatedSinks.containsAll(a2AnnotatedSinks)) {
+								if (a1AnnotatedSources
+										.containsAll(a2AnnotatedSources)
+										&& a1AnnotatedSinks
+												.containsAll(a2AnnotatedSinks)) {
 									IExtraOutputSet.add(a1IExtra);
 									break;
 								}
@@ -398,7 +415,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
 					}
 					AnnotationMirror output = EMPTYINTENTEXTRAS;
-					for(AnnotationMirror iExtra : IExtraOutputSet) {
+					for (AnnotationMirror iExtra : IExtraOutputSet) {
 						output = addIExtraToIntentExtras(output, iExtra);
 					}
 					return output;
@@ -407,13 +424,14 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 				}
 			}
 
-			return super.leastUpperBound(a1, a2); 
+			return super.leastUpperBound(a1, a2);
 		}
 
 		@Override
 		public AnnotationMirror greatestLowerBound(AnnotationMirror a1,
 				AnnotationMirror a2) {
-			//What would be the GLB between (Key k1, source s1) and (Key k1, source s2) ?
+			// What would be the GLB between (Key k1, source s1) and (Key k1,
+			// source s2) ?
 			// (Key k1, source empty) ? I think so. Need to do the same on LUB.
 			return super.greatestLowerBound(a1, a2); // TODO: do this for
 														// intents.
@@ -422,13 +440,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 	}
 
 	/**
-	 * This method changes the return type of a Intent.getExtra() call
-	 * 
-	 * @param tree
-	 * @param origResult
+	 * This method changes the return type of a getExtra() call from 
+	 * @param tree The method tree 
+	 * @param origResult The original result
 	 * @return
 	 */
-
+	
 	public Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> changeMethodReturnType(
 			MethodInvocationTree tree,
 			Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> origResult) {
@@ -439,11 +456,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 			// Removing "" from key. "key" -> key
 			keyName = keyName.substring(1, keyName.length() - 1);
 			if (receiverType.hasAnnotation(IntentExtras.class)) {
+				
 				AnnotationMirror receiverIntentAnnotation = receiverType
 						.getAnnotation(IntentExtras.class);
 				List<AnnotationMirror> iExtrasList = AnnotationUtils
 						.getElementValueArray(receiverIntentAnnotation,
 								"value", AnnotationMirror.class, true);
+				
 				for (AnnotationMirror iExtra : iExtrasList) {
 					String key = AnnotationUtils.getElementValue(iExtra, "key",
 							String.class, true);
@@ -456,6 +475,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 								AnnotationUtils.getElementValueEnumArray(
 										iExtra, "sink", FlowPermission.class,
 										true));
+						
 						AnnotationMirror sourceAnnotation = createAnnoFromSource(annotatedSources);
 						AnnotationMirror sinkAnnotation = createAnnoFromSink(annotatedSinks);
 						origResult.first.getReturnType().clearAnnotations();
@@ -463,6 +483,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 								sourceAnnotation);
 						origResult.first.getReturnType().addAnnotation(
 								sinkAnnotation);
+						
 						if (!origResult.first.getReturnType().hasAnnotation(
 								IntentExtras.class)) {
 							origResult.first.getReturnType().addAnnotation(
@@ -474,7 +495,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 			}
 		}
 		/*
-		 * Return original result if resolution of reflective call failed
+		 * Return original result if resolution failed
 		 */
 		return origResult;
 	}

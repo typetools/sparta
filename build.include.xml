@@ -135,12 +135,6 @@
                 description="check for check-intent.">
         <process-proj processor="sparta.checkers.IntentChecker"/>
     </target>
-    
-    <target name="check-intent"
-                depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="check for check-intent.">
-        <process-proj processor="sparta.checkers.IntentChecker"/>
-    </target>
 
     <target name="check-flow"
                 depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
@@ -148,12 +142,6 @@
         <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
     
-    <target name="check-intent"
-                depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="check for check-intent.">
-        <process-proj processor="sparta.checkers.IntentChecker"/>
-    </target>
-
     <target name="filter-flows">
         <property name="filter.flow_file" value="./forbiddenFlowLocations.txt" />
         <property name="filter" value="" />
@@ -270,6 +258,21 @@
 
     <target name="reportusage-text"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="report interesting API usage as text.">
+        <javamain-proj classname="sparta.checkers.JsonJavac$ReportUsageText"
+            output="reportusage.txt"/>
+    </target>
+-->
+
+    <target name="reportbinaryonly"
+                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="report binary-only method calls and field accesses.">
+        <process-proj processor="sparta.checkers.ReportBinaryChecker"/>
+    </target>
+    
+
+</project>
+p,-set-release-mode,-code-gen, -post-package" 
                 description="report interesting API usage as text.">
         <javamain-proj classname="sparta.checkers.JsonJavac$ReportUsageText"
             output="reportusage.txt"/>
