@@ -4000,12 +4000,12 @@ class Intent implements Parcelable, Cloneable {
     @Source(INTENT)  Rect getSourceBounds();
     @Source(INTENT)  ComponentName resolveActivity(@Sink(INTENT) PackageManager arg0);
     @Source(INTENT)  ActivityInfo resolveActivityInfo(@Sink(INTENT) PackageManager arg0, int arg1);
-    Intent setAction(String arg0);
-    Intent setData(Uri arg0);
-    Intent setType(String arg0);
-    Intent setDataAndType(Uri arg0, String arg1);
-    Intent addCategory(String arg0);
-    void removeCategory( String arg0);
+    Intent setAction(@Sink(INTENT) String arg0);
+    Intent setData(@Sink(INTENT) Uri arg0);
+    Intent setType(@Sink(INTENT) String arg0);
+    Intent setDataAndType(@Sink(INTENT) Uri arg0, @Sink(INTENT) String arg1);
+    Intent addCategory(@Sink(INTENT) String arg0);
+    void removeCategory(@Sink(INTENT) String arg0);
     void setSelector(@Sink(INTENT) Intent arg0);
     Intent putExtra(@Sink(INTENT) String arg0, @Sink(INTENT) boolean arg1);
     Intent putExtra(@Sink(INTENT) String arg0, @Sink(INTENT) byte arg1);

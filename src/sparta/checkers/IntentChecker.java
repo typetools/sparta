@@ -86,13 +86,21 @@ public class IntentChecker extends FlowChecker {
 		intentPolicy = new IntentPolicy(new File("intent-policy")); //TODO: Remove this, load intent policy from command line
 		super.initChecker();
 	}
+	
+	/**
+	 * Returns true if the MethodInvocationTree corresponds to one of the <code>Intent.getExtra()</code> calls
+	 * @param tree
+	 * @return
+	 */
 
 	public boolean isGetExtraMethod(MethodInvocationTree tree) {
-		for (String s : GETEXTRA_SIGNATURES) {
+		for (String getExtraSignature : GETEXTRA_SIGNATURES) {
+			//The getExtra call can have 1 or 2 parameters,
+			//2 when there is a use of default parameter, 1 otherwise.
 			ExecutableElement getExtra = TreeUtils.getMethod(
-					"android.content.Intent", s, 1, processingEnv);
+					"android.content.Intent", getExtraSignature, 1, processingEnv);
 			ExecutableElement getExtraWithDefault = TreeUtils.getMethod(
-					"android.content.Intent", s, 2, processingEnv);
+					"android.content.Intent", getExtraSignature, 2, processingEnv);
 			if (getExtra != null
 					&& TreeUtils.isMethodInvocation(tree, getExtra,
 							processingEnv)) {
@@ -106,29 +114,40 @@ public class IntentChecker extends FlowChecker {
 		}
 		return false;
 	}
+	
+	/**
+	 * Returns true if the MethodInvocationTree corresponds to one of the <code>Intent.putExtra()</code> calls
+	 * TODO: The problem is that there are several putExtra signatures with the same amount of parameters and name
+	 * and the TreeUtils.getMethod() cannot differentiate between them, it always returns the putExtra(String,boolean).
+	 * If tree is putExtra(String,String) it won't pass this method. I also think the isMethodAccess() is not working.
+	 * Isn't it supposed to return true if the tree is a method call?
+	 * @param tree
+	 * @return
+	 */
 
+	//TODO: Fix this method! isMethodAccess not working as intended?
 	public boolean isPutExtraMethod(MethodInvocationTree tree) {
 		//isMethodAccess bugged?
-//		if (TreeUtils.isMethodAccess(tree)) {
-//			String methodName = TreeUtils.getMethodName(tree);
-//			for (String s : PUTEXTRA_SIGNATURES) {
-//				if (s.equals(methodName)) {
-//					return true;
-//				}
-//				// correct way to do it. the problem is that there are several
-//				// putExtra methods with the same name and all
-//				// of them has the same number of paremeters. How to get each
-//				// one of them? TreeUtils.getMethod returns only
-//				// the first one.
-//				// ExecutableElement putExtra = TreeUtils.getMethod(
-//				// "android.content.Intent", s, 2, processingEnv);
-//				// if (putExtra != null
-//				// && TreeUtils.isMethodInvocation(tree, putExtra,
-//				// processingEnv)) {
-//				// return true;
-//				// }
-//			}
-//		}
+		if (TreeUtils.isMethodAccess(tree)) {
+			String methodName = TreeUtils.getMethodName(tree);
+			for (String s : PUTEXTRA_SIGNATURES) {
+				if (s.equals(methodName)) {
+					return true;
+				}
+				// correct way to do it. the problem is that there are several
+				// putExtra methods with the same name and all
+				// of them has the same number of paremeters. How to get each
+				// one of them? TreeUtils.getMethod returns only
+				// the first one.
+				// ExecutableElement putExtra = TreeUtils.getMethod(
+				// "android.content.Intent", s, 2, processingEnv);
+				// if (putExtra != null
+				// && TreeUtils.isMethodInvocation(tree, putExtra,
+				// processingEnv)) {
+				// return true;
+				// }
+			}
+		}
 		return false;
 	}
 

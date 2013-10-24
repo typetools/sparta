@@ -62,11 +62,11 @@ import com.sun.tools.javac.util.Names;
 
 public class IntentVisitor extends FlowVisitor {
 
-	private static List<String> PUTEXTRA_SIGNATURES = (List<String>) Arrays
+	private static List<String> PUTEXTRA_SIGNATURES = Arrays
 			.asList(new String[] { "putCharSequenceArrayListExtra", "putExtra",
 					"putIntegerArrayListExtra", "putParcelableArrayListExtra",
 					"putStringArrayListExtra" });
-	private static List<String> GETEXTRA_SIGNATURES = (List<String>) Arrays
+	private static List<String> GETEXTRA_SIGNATURES = Arrays
 			.asList(new String[] { "getStringExtra", "getStringArrayListExtra",
 					"getStringArrayExtra", "getShortExtra",
 					"getShortArrayExtra", "getSerializableExtra",
@@ -143,8 +143,9 @@ public class IntentVisitor extends FlowVisitor {
 					.getAnnotatedType(getIntentCall);
 			AnnotationMirror lhsIntentExtras = lhs
 					.getAnnotation(IntentExtras.class);
-			// TODO: This should be calling isCopyable instead of isSubtype
-			if (!atypeFactory.getQualifierHierarchy().isSubtype(
+			IntentAnnotatedTypeFactory intentAnnotatedTypeFactory = (IntentAnnotatedTypeFactory) atypeFactory;
+			
+			if (!intentAnnotatedTypeFactory.isCopyableTo(
 					rhsIntentExtras, lhsIntentExtras)) {
 				checker.report(Result.failure("send.intent"), node);
 			}
