@@ -21,13 +21,8 @@ import java.util.regex.Pattern;
 
 public class IntentPolicy {
 
-    public static void main(String[] args) {
-        File intentPolicy = new File("intent-policy");
-        IntentPolicy ip = new IntentPolicy(intentPolicy);
-        ip.readPolicyFile(intentPolicy);
-        System.out.println(ip.intentMap.toString());
-    }
-    
+	public static final String INTENT_POLICY_FILE_OPTION = "intentPolicy";
+	
     public static final String EMPTY = "{}";
     public static final String EMPTY_REGEX = "\\{\\}";
 

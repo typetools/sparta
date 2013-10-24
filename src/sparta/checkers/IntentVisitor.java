@@ -144,7 +144,7 @@ public class IntentVisitor extends FlowVisitor {
 			AnnotationMirror lhsIntentExtras = lhs
 					.getAnnotation(IntentExtras.class);
 			IntentAnnotatedTypeFactory intentAnnotatedTypeFactory = (IntentAnnotatedTypeFactory) atypeFactory;
-			
+			TreeUtils.firstStatement(getIntentCall);
 			if (!intentAnnotatedTypeFactory.isCopyableTo(
 					rhsIntentExtras, lhsIntentExtras)) {
 				checker.report(Result.failure("send.intent"), node);
@@ -273,11 +273,10 @@ public class IntentVisitor extends FlowVisitor {
 				.getProcessingEnvironment()).getContext();
 		// Return the sender intent in the String format. Check method @Javadoc.
 		String senderString = resolveIntentFilters(tree);
-		IntentChecker intentChecker = (IntentChecker) checker;
-
-		// Getting the receivers components in the String format from the Intent
-		// policy
-		Set<String> receiversStrList = intentChecker
+		// Getting the receivers components in the String format from the 
+		// Intent policy
+		IntentAnnotatedTypeFactory intentAnnotatedTypeFactory = (IntentAnnotatedTypeFactory)atypeFactory;
+		Set<String> receiversStrList = intentAnnotatedTypeFactory
 				.getReceiversFromSender(senderString);
 		List<MethodInvocationTree> receiversList = new ArrayList<MethodInvocationTree>();
 		// Here, we have the intent receivers set in the String format, and we

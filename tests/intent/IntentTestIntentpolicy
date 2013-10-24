@@ -1,0 +1,3 @@
+#Intent policy used in the tests for the intent analysis.
+IntentTest(action1,[cat1,cat2],data1) -> sparta.checkers.IntentReceiverStub
+IntentTest -> sparta.checkers.IntentReceiverStub

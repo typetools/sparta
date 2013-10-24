@@ -87,14 +87,26 @@ public class AndroidTests {
         @Override
         protected void test(final File testFile) {
             final File flowPolicyFile = getFlowPolicy(testFile);
+            final File intentPolicyFile = getIntentPolicy(testFile);
             final String[] optionsWithPf;
 
-            if (flowPolicyFile.exists()) {
+            if(flowPolicyFile.exists() && intentPolicyFile.exists()) {
+            	optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 3);
+                optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy="
+                        + flowPolicyFile.getAbsolutePath();
+                if(intentPolicyFile.exists()) {
+                	optionsWithPf[optionsWithPf.length - 2] = "-AintentPolicy="
+                            + intentPolicyFile.getAbsolutePath();
+                }
+                optionsWithPf[optionsWithPf.length - 3] = "-AprintErrorStack";
+                // AprintErrorStack
+            }
+            
+            else if (flowPolicyFile.exists()) {
                 optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 2);
                 optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy="
                         + flowPolicyFile.getAbsolutePath();
                 optionsWithPf[optionsWithPf.length - 2] = "-AprintErrorStack";
-
                 // AprintErrorStack
             } else {
                 optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 1);
@@ -119,6 +131,10 @@ public class AndroidTests {
 
         protected File getFlowPolicy(final File javaFile) {
             return getFile(javaFile, "Flowpolicy");
+        }
+        
+        protected File getIntentPolicy(final File javaFile) {
+            return getFile(javaFile, "Intentpolicy");
         }
     }
 
