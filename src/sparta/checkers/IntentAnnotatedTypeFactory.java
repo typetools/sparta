@@ -144,8 +144,6 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 		return defaults;
 	}
 
-	
-
 	@Override
 	protected TreeAnnotator createTreeAnnotator() {
 		TreeAnnotator treeAnnotator = super.createTreeAnnotator();
@@ -365,8 +363,14 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 			}
 			return true;
 		}
-		
-		//TODO: LUB not correct yet
+
+		/**
+		 * The LUB between 2 @IntentExtras is an @IntentExtras containing 
+		 * all the @IExtra with keys both have in common. For each pair of 2
+		 * @IExtra with the same key in the 2 @IntentExtras, the resulting @Source 
+		 * is the union of the @Source of both @IExtra, and the resulting @Sink 
+		 * is the intersection of @Sink in both @IExtra.
+		 */
 
 		@Override
 		public AnnotationMirror leastUpperBound(AnnotationMirror a1,
@@ -381,57 +385,28 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 					List<AnnotationMirror> a1IExtrasList = AnnotationUtils
 							.getElementValueArray(a1, "value",
 									AnnotationMirror.class, true);
-					List<AnnotationMirror> a2IExtrasList = AnnotationUtils
-							.getElementValueArray(a2, "value",
-									AnnotationMirror.class, true);
 					List<AnnotationMirror> IExtraOutputSet = new ArrayList<AnnotationMirror>();
+					
 					for (AnnotationMirror a1IExtra : a1IExtrasList) {
 						String a1IExtraKey = AnnotationUtils.getElementValue(
 								a1IExtra, "key", String.class, true);
-						for (AnnotationMirror a2IExtra : a2IExtrasList) {
-							String a2IExtraKey = AnnotationUtils
-									.getElementValue(a2IExtra, "key",
-											String.class, true);
-							if (a1IExtraKey.equals(a2IExtraKey)) {
-								Set<FlowPermission> a1AnnotatedSources = new HashSet<FlowPermission>(
-										AnnotationUtils
-												.getElementValueEnumArray(
-														a1IExtra, "source",
-														FlowPermission.class,
-														true));
-								Set<FlowPermission> a1AnnotatedSinks = new HashSet<FlowPermission>(
-										AnnotationUtils
-												.getElementValueEnumArray(
-														a1IExtra, "sink",
-														FlowPermission.class,
-														true));
-								Set<FlowPermission> a2AnnotatedSources = new HashSet<FlowPermission>(
-										AnnotationUtils
-												.getElementValueEnumArray(
-														a2IExtra, "source",
-														FlowPermission.class,
-														true));
-								Set<FlowPermission> a2AnnotatedSinks = new HashSet<FlowPermission>(
-										AnnotationUtils
-												.getElementValueEnumArray(
-														a2IExtra, "sink",
-														FlowPermission.class,
-														true));
-								if (a1AnnotatedSources
-										.containsAll(a2AnnotatedSources)
-										&& a1AnnotatedSinks
-												.containsAll(a2AnnotatedSinks)) {
-									IExtraOutputSet.add(a1IExtra);
-									break;
-								}
-							}
+						if(IntentUtils.hasKey(a2, a1IExtraKey)) {
+							AnnotationMirror a2IExtra = IntentUtils.getIExtraWithKey(a2, a1IExtraKey);
+							//Here we have found matching keys.
+							//First do the union of sources:
+							Set<FlowPermission> unionSources = IntentUtils.unionSourcesIExtras(a1IExtra, a2IExtra);
+
+							//Intersection of sinks:
+							Set<FlowPermission> intersectedSinks = IntentUtils.intersectionSinksIExtras(a1IExtra, a2IExtra);
+							
+							//Create a new IExtra with the results of sources and sinks
+							AnnotationMirror newIExtra = IntentUtils.createIExtraAnno(a1IExtraKey, createAnnoFromSource(unionSources), createAnnoFromSink(intersectedSinks),processingEnv);
+							IExtraOutputSet.add(newIExtra);
+							break;
 						}
 
 					}
-					AnnotationMirror output = EMPTYINTENTEXTRAS;
-					for (AnnotationMirror iExtra : IExtraOutputSet) {
-						output = addIExtraToIntentExtras(output, iExtra);
-					}
+					AnnotationMirror output = IntentUtils.addIExtrasToIntentExtras(EMPTYINTENTEXTRAS, IExtraOutputSet,processingEnv);
 					return output;
 				} else if (AnnotationUtils.areSameIgnoringValues(a1, IEXTRA)) {
 					// is this one necessary?
@@ -440,6 +415,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
 			return super.leastUpperBound(a1, a2);
 		}
+		
+		/**
+		 * The GLB between 2 @IntentExtras will contain the union of keys
+		 * that these annotations contain, and the @Source of the @IExtra
+		 * with this key will be the intersection of sources and the @Sink
+		 * will be the union of sinks.
+		 */
 
 		@Override
 		public AnnotationMirror greatestLowerBound(AnnotationMirror a1,
@@ -447,8 +429,59 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 			// What would be the GLB between (Key k1, source s1) and (Key k1,
 			// source s2) ?
 			// (Key k1, source empty) ? I think so. Need to do the same on LUB.
-			return super.greatestLowerBound(a1, a2); // TODO: do this for
-														// intents.
+			if (AnnotationUtils.areSame(a1, a2))
+                return a1;
+			
+			if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
+				if (AnnotationUtils.areSameIgnoringValues(a1, INTENTEXTRAS)) {
+					List<AnnotationMirror> a1IExtrasList = AnnotationUtils
+							.getElementValueArray(a1, "value",
+									AnnotationMirror.class, true);
+					List<AnnotationMirror> a2IExtrasList = AnnotationUtils
+							.getElementValueArray(a2, "value",
+									AnnotationMirror.class, true);
+					List<AnnotationMirror> IExtraOutputSet = new ArrayList<AnnotationMirror>();
+					for (AnnotationMirror a1IExtra : a1IExtrasList) {
+						String a1IExtraKey = AnnotationUtils.getElementValue(
+								a1IExtra, "key", String.class, true);
+						if(IntentUtils.hasKey(a2, a1IExtraKey)) {
+							AnnotationMirror a2IExtra = IntentUtils.getIExtraWithKey(a2, a1IExtraKey);
+							//If we have found matching keys:
+							//First do the intersection of sources:
+							Set<FlowPermission> intersectedSources = IntentUtils.intersectionSourcesIExtras(a1IExtra, a2IExtra);
+
+							//Union of sinks:
+							Set<FlowPermission> unionSinks = IntentUtils.unionSinksIExtras(a1IExtra, a2IExtra);
+							
+							//Create a new IExtra with the results of sources and sinks
+							AnnotationMirror newIExtra = IntentUtils.createIExtraAnno(a1IExtraKey, createAnnoFromSource(intersectedSources), createAnnoFromSink(unionSinks),processingEnv);
+							IExtraOutputSet.add(newIExtra);
+							break;
+						} else {
+						//If we could not find a key in a2, add the @IExtra with
+						//this key to the resulting @IntentExtras
+							IExtraOutputSet.add(a1IExtra);
+						}
+
+					}
+					//Now we need to fill the resulting set with @IExtra containing keys 
+					//that are in a2 but not in a1.
+					for (AnnotationMirror a2IExtra : a2IExtrasList) {
+						String a2IExtraKey = AnnotationUtils.getElementValue(
+								a2IExtra, "key", String.class, true);
+						if(!IntentUtils.hasKey(a1, a2IExtraKey)) {
+							IExtraOutputSet.add(a2IExtra);
+						}
+					}
+					
+					AnnotationMirror output = IntentUtils.addIExtrasToIntentExtras(EMPTYINTENTEXTRAS, IExtraOutputSet,processingEnv);
+					return output;
+				} else if (AnnotationUtils.areSameIgnoringValues(a1, IEXTRA)) {
+					// is this one necessary?
+				}
+			}
+			
+			return super.greatestLowerBound(a1, a2);
 		}
 
 	}
@@ -523,36 +556,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 		return origResult;
 	}
 
-	public AnnotationMirror createIExtraAnno(String key,
-			AnnotationMirror sources, AnnotationMirror sinks) {
-		final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
-				IExtra.class);
-		Set<FlowPermission> sourcesSet = Flow.getSources(sources);
-		Set<FlowPermission> sinksSet = Flow.getSinks(sinks);
-		builder.setValue("key", key);
-		builder.setValue("source",
-				sourcesSet.toArray(new FlowPermission[sourcesSet.size()]));
-		builder.setValue("sink",
-				sinksSet.toArray(new FlowPermission[sinksSet.size()]));
-		return builder.build();
-	}
-
-	public AnnotationMirror addIExtraToIntentExtras(
-			AnnotationMirror intentExtras, AnnotationMirror iExtra) {
-		final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
-				IntentExtras.class);
-		List<AnnotationMirror> iExtrasList = AnnotationUtils
-				.getElementValueArray(intentExtras, "value",
-						AnnotationMirror.class, true);
-		iExtrasList.add(iExtra);
-		builder.setValue("value", iExtrasList.toArray());
-		return builder.build();
-	}
 	
 	/**
-	 * TODO: This method is duplicated in the IntentQualifierHierarchy. It should
-	 * only be there, but I need the IntentVisitor to have visibility of this method
-	 * in order to type-check a send intent call, this is why it is also here now.
+	 * TODO: This method is duplicated in the IntentQualifierHierarchy. It
+	 * should only be there, but I need the IntentVisitor to have visibility of
+	 * this method in order to type-check a send intent call, this is why it is
+	 * also here now.
 	 * 
 	 * This method receives annotations of 2 Intents and returns true if rhs can
 	 * be sent to lsh. For that to happen, every key in lhs need to exists in
