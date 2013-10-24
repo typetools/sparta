@@ -87,9 +87,6 @@ public class IntentChecker extends FlowChecker {
 		super.initChecker();
 	}
 
-	
-	
-
 	public boolean isGetExtraMethod(MethodInvocationTree tree) {
 		for (String s : GETEXTRA_SIGNATURES) {
 			ExecutableElement getExtra = TreeUtils.getMethod(
@@ -159,70 +156,6 @@ public class IntentChecker extends FlowChecker {
 	// }
 	// }
 
-	public boolean isCopyableTo(AnnotationMirror rhs, AnnotationMirror lhs,
-			FlowAnnotatedTypeFactory factory) {
-		if (rhs == null || lhs == null) {
-			return false;
-		}
-		List<AnnotationMirror> rhsIExtrasList = AnnotationUtils
-				.getElementValueArray(rhs, "value", AnnotationMirror.class,
-						true);
-		List<AnnotationMirror> lhsIExtrasList = AnnotationUtils
-				.getElementValueArray(lhs, "value", AnnotationMirror.class,
-						true);
-		if (lhsIExtrasList.isEmpty()) {
-			return true;
-		}
-		for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
-			boolean found = false;
-			String leftKey = AnnotationUtils.getElementValue(lhsIExtra, "key",
-					String.class, true);
-			for (AnnotationMirror rhsIExtra : rhsIExtrasList) {
-				String rightKey = AnnotationUtils.getElementValue(rhsIExtra,
-						"key", String.class, true);
-				if (rightKey.equals(leftKey)) {
-					found = true;
-					Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
-							AnnotationUtils.getElementValueEnumArray(lhsIExtra,
-									"source", FlowPermission.class, true));
-					Set<FlowPermission> lhsAnnotatedSinks = new HashSet<FlowPermission>(
-							AnnotationUtils.getElementValueEnumArray(lhsIExtra,
-									"sink", FlowPermission.class, true));
-					Set<FlowPermission> rhsAnnotatedSources = new HashSet<FlowPermission>(
-							AnnotationUtils.getElementValueEnumArray(rhsIExtra,
-									"source", FlowPermission.class, true));
-					Set<FlowPermission> rhsAnnotatedSinks = new HashSet<FlowPermission>(
-							AnnotationUtils.getElementValueEnumArray(rhsIExtra,
-									"sink", FlowPermission.class, true));
-					TypeMirror dummy = processingEnv.getTypeUtils()
-							.getPrimitiveType(TypeKind.BOOLEAN);
-					AnnotatedTypeMirror lhsAnnotatedType = AnnotatedTypeMirror
-							.createType(dummy, factory);
-					AnnotatedTypeMirror rhsAnnotatedType = AnnotatedTypeMirror
-							.createType(dummy, factory);
-					AnnotationMirror lhsSourceAnnotation = factory.createAnnoFromSource(lhsAnnotatedSources);
-					AnnotationMirror lhsSinkAnnotation = factory.createAnnoFromSink(lhsAnnotatedSinks);
-					AnnotationMirror rhsSourceAnnotation = factory.createAnnoFromSource(rhsAnnotatedSources);
-					AnnotationMirror rhsSinkAnnotation = factory.createAnnoFromSink(rhsAnnotatedSinks);
-					lhsAnnotatedType.addAnnotation(lhsSourceAnnotation);
-					lhsAnnotatedType.addAnnotation(lhsSinkAnnotation);
-					rhsAnnotatedType.addAnnotation(rhsSourceAnnotation);
-					rhsAnnotatedType.addAnnotation(rhsSinkAnnotation);
-					lhsAnnotatedType.addAnnotation(EMPTYINTENTEXTRAS);
-					rhsAnnotatedType.addAnnotation(EMPTYINTENTEXTRAS);
-					if (!factory.getTypeHierarchy().isSubtype(rhsAnnotatedType,
-							lhsAnnotatedType)) {
-						return false;
-					} else {
-						break;
-					}
-				}
-			}
-			if (!found) {
-				return false;
-			}
-		}
-		return true;
-	}
+	
 
 }

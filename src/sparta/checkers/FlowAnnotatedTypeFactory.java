@@ -24,6 +24,7 @@ import checkers.types.TreeAnnotator;
 import checkers.types.TypeAnnotator;
 import checkers.util.AnnotationBuilder;
 import checkers.util.MultiGraphQualifierHierarchy;
+import checkers.util.QualifierDefaults;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import checkers.util.QualifierDefaults.DefaultApplierElement;
 import checkers.util.QualifierPolymorphism;
@@ -137,12 +138,18 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         FROMCONDITIONALSOURCE = createAnnoFromSource(condtionalSource);
 
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
-        //Commenting this otherwise it does not build. 
-        //But the defaults below are not being added correctly because of that.
-//        if (this.getClass().equals(FlowAnnotatedTypeFactory.class)) {
+        this.notInStubFile = new HashMap<String, Map<String,Map<Element,Integer>>>();
+     // Every subclass must call postInit!
+        if (this.getClass().equals(FlowAnnotatedTypeFactory.class)) {
             this.postInit();
-//        }
-        
+        }
+        if (checker != null)
+        ((FlowChecker)checker).notInStubFile.putAll(notInStubFile);
+
+    }
+    @Override
+    protected QualifierDefaults createQualifierDefaults() {
+        QualifierDefaults defaults =  super.createQualifierDefaults();
         // Use the top type for local variables and let flow refine the type.
         //Upper bounds should be top too.
         DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS};
@@ -160,32 +167,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         defaults.addAbsoluteDefault(FROMLITERALSINK, OTHERWISE);
         defaults.addAbsoluteDefault(LITERALSOURCE, OTHERWISE);
 
-
-        // But let's send null down any sink and give it no sources.
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, ANYSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, NOSOURCE);
-
-        // Literals, other than null are different too
-        // There are no Byte or Short literal types in java (0b is treated as an
-        // int),
-        // so there does not need to be a mapping for them here.
-        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, LITERALSOURCE);
-
-        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
-        
-        this.notInStubFile = ((FlowChecker)checker).notInStubFile;
+        return defaults;
     }
 
 
@@ -335,7 +317,32 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
     @Override
     protected TreeAnnotator createTreeAnnotator() {
-        return new FlowPolicyTreeAnnotator(this);
+       FlowPolicyTreeAnnotator treeAnnotator = new FlowPolicyTreeAnnotator(this);
+
+        // But let's send null down any sink and give it no sources.
+        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, ANYSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, NOSOURCE);
+
+        // Literals, other than null are different too
+        // There are no Byte or Short literal types in java (0b is treated as an
+        // int),
+        // so there does not need to be a mapping for them here.
+        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, LITERALSOURCE);
+        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, LITERALSOURCE);
+
+        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
+        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
+        return treeAnnotator;
     }
 
     class FlowPolicyTreeAnnotator extends TreeAnnotator {
@@ -552,21 +559,21 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             return newtops;
         }
 
-        protected boolean isSourceQualifier(AnnotationMirror anno) {
+        private boolean isSourceQualifier(AnnotationMirror anno) {
             return NOSOURCE.getAnnotationType().equals(anno.getAnnotationType())
                     || isPolySourceQualifier(anno);
         }
 
-        protected boolean isPolySourceQualifier(AnnotationMirror anno) {
+        private boolean isPolySourceQualifier(AnnotationMirror anno) {
             return POLYSOURCE.getAnnotationType().equals(anno.getAnnotationType());
         }
 
-        protected boolean isSinkQualifier(AnnotationMirror anno) {
+        private boolean isSinkQualifier(AnnotationMirror anno) {
             return NOSINK.getAnnotationType().equals(anno.getAnnotationType())
                     || isPolySinkQualifier(anno);
         }
 
-        protected boolean isPolySinkQualifier(AnnotationMirror anno) {
+        private boolean isPolySinkQualifier(AnnotationMirror anno) {
             return POLYSINK.getAnnotationType().equals(anno.getAnnotationType());
         }
 
@@ -669,7 +676,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             }
         }
 
-        protected void checkAny(AnnotationMirror anm) throws Exception {
+        private void checkAny(AnnotationMirror anm) throws Exception {
             boolean isPolySink = AnnotationUtils.areSame(anm, POLYSINK);
             boolean isPolySource = AnnotationUtils.areSame(anm, POLYSOURCE);
 
@@ -799,7 +806,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             return super.greatestLowerBound(a1, a2);
         }
 
-        protected AnnotationMirror boundSource(final Set<FlowPermission> flowSource) {
+        private AnnotationMirror boundSource(final Set<FlowPermission> flowSource) {
 
             final AnnotationMirror am;
             if (flowSource.contains(FlowPermission.ANY)) { // contains all
@@ -813,7 +820,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             return am;
         }
 
-        protected AnnotationMirror boundSink(final Set<FlowPermission> flowSink) {
+        private AnnotationMirror boundSink(final Set<FlowPermission> flowSink) {
             final AnnotationMirror am;
             if (flowSink.isEmpty()) {
                 am = getTopAnnotation(SINK);
