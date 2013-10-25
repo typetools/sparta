@@ -1,4 +1,4 @@
-package sparta.checkers;
+package tests;
 
 import static sparta.checkers.quals.FlowPermission.ACCESS_FINE_LOCATION;
 import static sparta.checkers.quals.FlowPermission.DISPLAY;

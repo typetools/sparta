@@ -33,8 +33,6 @@ import com.sun.source.tree.MethodInvocationTree;
 @SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })
 public class IntentChecker extends FlowChecker {
 
-	protected AnnotationMirror INTENTEXTRAS, IEXTRA, EMPTYINTENTEXTRAS;
-	
 	// Uncomment below to only report intent type checks.
 	// @Override
 	// public void report(Result r, Object src) {

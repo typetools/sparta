@@ -131,6 +131,9 @@ ${build.version} of the 'javac.jar' library."/>
                 <fileset dir="${src}">
                     <include name="**/*.java"/>
                 </fileset>
+                <fileset dir="${tests}">
+                    <include name="**/intent/*ReceiverStub.java"/>
+                </fileset>
             </path>
         </pathconvert>
 

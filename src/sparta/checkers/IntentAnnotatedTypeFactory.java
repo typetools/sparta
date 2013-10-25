@@ -103,7 +103,6 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 				// calls
 				removeIntentFlowPermission(mfuPair.first.getParameterTypes());
 			} else if (IntentUtils.isPutExtraMethod(tree)) {
-				// TODO: isPutExtraMethod is not working!
 				// Modifying @Source and @Sink types for parameters in putExtra
 				// calls
 				removeIntentFlowPermission(mfuPair.first.getParameterTypes());
@@ -225,57 +224,48 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 				if (rhs == null || lhs == null || !isIntentExtrasQualifier(lhs)) {
 					return false;
 				}
-				List<AnnotationMirror> rhsIExtrasList = AnnotationUtils
-						.getElementValueArray(rhs, "value",
-								AnnotationMirror.class, true);
 				List<AnnotationMirror> lhsIExtrasList = AnnotationUtils
 						.getElementValueArray(lhs, "value",
 								AnnotationMirror.class, true);
 				if (lhsIExtrasList.isEmpty()) {
 					return true;
 				}
-
 				for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
-					boolean found = false;
 					String leftKey = AnnotationUtils.getElementValue(lhsIExtra,
 							"key", String.class, true);
-					for (AnnotationMirror rhsIExtra : rhsIExtrasList) {
-						String rightKey = AnnotationUtils.getElementValue(
-								rhsIExtra, "key", String.class, true);
-						if (rightKey.equals(leftKey)) {
-							found = true;
+					
+					if(IntentUtils.hasKey(rhs, leftKey)) {
+						
+						AnnotationMirror rhsIExtra = IntentUtils.getIExtraWithKey(rhs, leftKey);
+						
+						Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
+								AnnotationUtils.getElementValueEnumArray(
+										lhsIExtra, "source",
+										FlowPermission.class, true));
+						Set<FlowPermission> lhsAnnotatedSinks = new HashSet<FlowPermission>(
+								AnnotationUtils.getElementValueEnumArray(
+										lhsIExtra, "sink",
+										FlowPermission.class, true));
+						Set<FlowPermission> rhsAnnotatedSources = new HashSet<FlowPermission>(
+								AnnotationUtils.getElementValueEnumArray(
+										rhsIExtra, "source",
+										FlowPermission.class, true));
+						Set<FlowPermission> rhsAnnotatedSinks = new HashSet<FlowPermission>(
+								AnnotationUtils.getElementValueEnumArray(
+										rhsIExtra, "sink",
+										FlowPermission.class, true));
 
-							Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
-									AnnotationUtils.getElementValueEnumArray(
-											lhsIExtra, "source",
-											FlowPermission.class, true));
-							Set<FlowPermission> lhsAnnotatedSinks = new HashSet<FlowPermission>(
-									AnnotationUtils.getElementValueEnumArray(
-											lhsIExtra, "sink",
-											FlowPermission.class, true));
-							Set<FlowPermission> rhsAnnotatedSources = new HashSet<FlowPermission>(
-									AnnotationUtils.getElementValueEnumArray(
-											rhsIExtra, "source",
-											FlowPermission.class, true));
-							Set<FlowPermission> rhsAnnotatedSinks = new HashSet<FlowPermission>(
-									AnnotationUtils.getElementValueEnumArray(
-											rhsIExtra, "sink",
-											FlowPermission.class, true));
-
-							if (!(lhsAnnotatedSources
-									.containsAll(rhsAnnotatedSources)
-									&& rhsAnnotatedSources
-											.containsAll(lhsAnnotatedSources)
-									&& lhsAnnotatedSinks
-											.containsAll(rhsAnnotatedSinks) && rhsAnnotatedSinks
-										.containsAll(lhsAnnotatedSinks))) {
-								return false;
-							} else {
-								break;
-							}
+						if (!(lhsAnnotatedSources
+								.containsAll(rhsAnnotatedSources)
+								&& rhsAnnotatedSources
+										.containsAll(lhsAnnotatedSources)
+								&& lhsAnnotatedSinks
+										.containsAll(rhsAnnotatedSinks) && rhsAnnotatedSinks
+									.containsAll(lhsAnnotatedSinks))) {
+							return false;
 						}
-					}
-					if (!found) {
+						
+					} else {
 						return false;
 					}
 				}
@@ -507,6 +497,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 		return intentPolicy;
 	}
 
+	/**
+	 * Read the intent policy file and returns the receivers from a sender
+	 * @param sender sender name
+	 * @return
+	 */
+	
 	public Set<String> getReceiversFromSender(String sender) {
 		Set<String> receivers = getIntentPolicy().getIntentMap().get(sender);
 		if (receivers == null || receivers.isEmpty()) {

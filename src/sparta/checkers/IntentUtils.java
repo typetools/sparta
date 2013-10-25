@@ -14,7 +14,9 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 
+import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.MethodInvocationTree;
+import com.sun.source.util.TreePath;
 
 import checkers.util.AnnotationBuilder;
 
@@ -285,6 +287,56 @@ public class IntentUtils {
 //				// processingEnv)) {
 //				// return true;
 //				// }
+	}
+	
+	/**
+	 * This method receives a tree for a sendIntent(intent) call and returns the
+	 * Component name with its action,category and parameter, if any. The format
+	 * is "Component(Action,[Category1,Category2],Data)". If there is none of
+	 * these elements, returns only "Component".
+	 * 
+	 * @param tree
+	 *            the sendIntent() tree
+	 * @param treePath 
+	 * @param atypeFactory 
+	 * @return intent being sent in a String format, with Action,Category and
+	 *         Data, if any.
+	 */
+	public static String resolveIntentFilters(MethodInvocationTree tree, FlowAnnotatedTypeFactory atypeFactory, TreePath treePath) {
+		String senderString = "";
+		ClassTree classTree = TreeUtils.enclosingClass(treePath);
+		senderString += classTree.getSimpleName().toString();
+		AnnotationMirror am = atypeFactory.getAnnotatedType(
+				tree.getArguments().get(0)).getAnnotation(IntentExtras.class);
+		String action = AnnotationUtils.getElementValue(am, "action",
+				String.class, true);
+		List<String> categories = AnnotationUtils.getElementValueArray(am,
+				"categories", String.class, true);
+		String data = AnnotationUtils.getElementValue(am, "data", String.class,
+				true);
+		if (action.length() == 0 && categories.size() == 0
+				&& data.length() == 0) {
+			return senderString;
+		} else {
+			// action
+			senderString += "(" + action;
+			// categories
+			if (!categories.isEmpty()) {
+				senderString += ",[";
+				for (String category : categories) {
+					senderString += category + ",";
+				}
+				senderString = senderString.substring(0,
+						senderString.length() - 1); // removing last comma
+				senderString += "]";
+			}
+			// data
+			if (data.length() > 0) {
+				senderString += "," + data;
+			}
+			senderString += ")";
+		}
+		return senderString;
 	}
 	
 }
