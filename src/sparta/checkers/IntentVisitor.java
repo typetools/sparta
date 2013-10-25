@@ -18,31 +18,23 @@ import javacutils.TreeUtils;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
-import sparta.checkers.quals.DependentPermissions;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
-import sparta.checkers.quals.MayRequiredPermissions;
-import sparta.checkers.quals.RequiredPermissions;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import checkers.basetype.BaseTypeChecker;
 import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
-import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
-import checkers.units.quals.A;
 
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.ClassTree;
-import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
-import com.sun.source.tree.Tree;
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.api.JavacScope;
 import com.sun.tools.javac.code.Symbol;
@@ -143,9 +135,7 @@ public class IntentVisitor extends FlowVisitor {
 					.getAnnotatedType(getIntentCall);
 			AnnotationMirror lhsIntentExtras = lhs
 					.getAnnotation(IntentExtras.class);
-			IntentAnnotatedTypeFactory intentAnnotatedTypeFactory = (IntentAnnotatedTypeFactory) atypeFactory;
-			TreeUtils.firstStatement(getIntentCall);
-			if (!intentAnnotatedTypeFactory.isCopyableTo(
+			if (!isCopyableTo(
 					rhsIntentExtras, lhsIntentExtras)) {
 				checker.report(Result.failure("send.intent"), node);
 			}
@@ -435,7 +425,6 @@ public class IntentVisitor extends FlowVisitor {
 					.getElementValueArray(receiverIntentAnnotation, "value",
 							AnnotationMirror.class, true);
 
-			boolean found = false;
 			for (AnnotationMirror iExtra : iExtrasList) {
 				String key = AnnotationUtils.getElementValue(iExtra, "key",
 						String.class, true);
@@ -445,7 +434,6 @@ public class IntentVisitor extends FlowVisitor {
 					// If it is, the @IExtra flow of the annotation needs to be
 					// a supertype
 					// of the flow of the object being inserted on the hashmap.
-					found = true;
 					Set<FlowPermission> annotatedSources = new HashSet<FlowPermission>(
 							AnnotationUtils.getElementValueEnumArray(iExtra,
 									"source", FlowPermission.class, true));
@@ -525,5 +513,108 @@ public class IntentVisitor extends FlowVisitor {
 		}
 		return super.visitAnnotation(node, p);
 	}
+	
+	/**
+	 * TODO: This method is duplicated in the IntentQualifierHierarchy. It
+	 * should only be there, but I need the IntentVisitor to have visibility of
+	 * this method in order to type-check a send intent call, this is why it is
+	 * also here now.
+	 * 
+	 * This method receives annotations of 2 Intents and returns true if rhs can
+	 * be sent to lsh. For that to happen, every key in lhs need to exists in
+	 * rhs, and the @Source and @Sink with that key in rhs needs to be a subtype
+	 * of the
+	 * 
+	 * @Source and @Sink with that same key in lhs.
+	 * @param rhs
+	 *            Sender intent annotations
+	 * @param lhs
+	 *            Receiver intent annotations
+	 * @return true if the intent with annotations rhs can be sent to the intent
+	 *         with annotations lhs.
+	 */
+
+	public boolean isCopyableTo(AnnotationMirror rhs, AnnotationMirror lhs) {
+		if (rhs == null || lhs == null) {
+			return false;
+		}
+		List<AnnotationMirror> rhsIExtrasList = AnnotationUtils
+				.getElementValueArray(rhs, "value", AnnotationMirror.class,
+						true);
+		List<AnnotationMirror> lhsIExtrasList = AnnotationUtils
+				.getElementValueArray(lhs, "value", AnnotationMirror.class,
+						true);
+		if (lhsIExtrasList.isEmpty()) {
+			return true;
+		}
+
+		// Iterating on the @IExtra from lhs
+		for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
+			boolean found = false;
+			String leftKey = AnnotationUtils.getElementValue(lhsIExtra, "key",
+					String.class, true);
+			for (AnnotationMirror rhsIExtra : rhsIExtrasList) {
+				String rightKey = AnnotationUtils.getElementValue(rhsIExtra,
+						"key", String.class, true);
+				if (rightKey.equals(leftKey)) {
+					// Found 2 @IExtra with same keys in rhs and lhs.
+					// Now we need to make sure that @Source and @Sink of
+					// the @IExtra in rhs are subtypes of @Source and @Sink
+					// of @IExtra in lhs.
+
+					found = true;
+					Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
+							AnnotationUtils.getElementValueEnumArray(lhsIExtra,
+									"source", FlowPermission.class, true));
+					Set<FlowPermission> lhsAnnotatedSinks = new HashSet<FlowPermission>(
+							AnnotationUtils.getElementValueEnumArray(lhsIExtra,
+									"sink", FlowPermission.class, true));
+					Set<FlowPermission> rhsAnnotatedSources = new HashSet<FlowPermission>(
+							AnnotationUtils.getElementValueEnumArray(rhsIExtra,
+									"source", FlowPermission.class, true));
+					Set<FlowPermission> rhsAnnotatedSinks = new HashSet<FlowPermission>(
+							AnnotationUtils.getElementValueEnumArray(rhsIExtra,
+									"sink", FlowPermission.class, true));
+
+					//Creating dummy type to add annotations to it and check if isSubtype
+					TypeMirror dummy = atypeFactory.getProcessingEnv().getTypeUtils()
+							.getPrimitiveType(TypeKind.BOOLEAN);
+					AnnotatedTypeMirror lhsAnnotatedType = AnnotatedTypeMirror
+							.createType(dummy, atypeFactory);
+					AnnotatedTypeMirror rhsAnnotatedType = AnnotatedTypeMirror
+							.createType(dummy, atypeFactory);
+
+					AnnotationMirror lhsSourceAnnotation = atypeFactory.createAnnoFromSource(lhsAnnotatedSources);
+					AnnotationMirror lhsSinkAnnotation = atypeFactory.createAnnoFromSink(lhsAnnotatedSinks);
+					AnnotationMirror rhsSourceAnnotation = atypeFactory.createAnnoFromSource(rhsAnnotatedSources);
+					AnnotationMirror rhsSinkAnnotation = atypeFactory.createAnnoFromSink(rhsAnnotatedSinks);
+
+					lhsAnnotatedType.addAnnotation(lhsSourceAnnotation);
+					lhsAnnotatedType.addAnnotation(lhsSinkAnnotation);
+					rhsAnnotatedType.addAnnotation(rhsSourceAnnotation);
+					rhsAnnotatedType.addAnnotation(rhsSinkAnnotation);
+					
+					//Why is this necessary? 
+					//How to set atypeFactory to IntentAnnotatedTypeFactory instead of FlowAnnotatedTypeFactory?
+					IntentAnnotatedTypeFactory intentAnnotatedTypeFactory = (IntentAnnotatedTypeFactory) atypeFactory;
+					lhsAnnotatedType.addAnnotation(intentAnnotatedTypeFactory.EMPTYINTENTEXTRAS);
+					rhsAnnotatedType.addAnnotation(intentAnnotatedTypeFactory.EMPTYINTENTEXTRAS);
+					if (!atypeFactory.getTypeHierarchy().isSubtype(rhsAnnotatedType,lhsAnnotatedType)) {
+						return false;
+					} else {
+						// if it is a subtype, exit the inner loop and
+						// check another @IExtra in lhs
+						break;
+					}
+				}
+			}
+			if (!found) {
+				// If key is missing in the rhs, return false
+				return false;
+			}
+		}
+		return true;
+	}
+
 
 }

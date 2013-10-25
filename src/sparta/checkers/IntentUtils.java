@@ -1,13 +1,20 @@
 package sparta.checkers;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javacutils.AnnotationUtils;
+import javacutils.InternalUtils;
+import javacutils.TreeUtils;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
+
+import com.sun.source.tree.MethodInvocationTree;
 
 import checkers.util.AnnotationBuilder;
 
@@ -16,6 +23,26 @@ import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
 
 public class IntentUtils {
+	
+	private static List<String> GETEXTRA_SIGNATURES = Arrays
+			.asList(new String[] { "getStringExtra", "getStringArrayListExtra",
+					"getStringArrayExtra", "getShortExtra",
+					"getShortArrayExtra", "getSerializableExtra",
+					"getParcelableExtra", "getParcelableArrayListExtra",
+					"getParcelableArrayExtra", "getLongExtra",
+					"getLongArrayExtra", "getIntegerArrayListExtra",
+					"getIntExtra", "getIntArrayExtra", "getFloatExtra",
+					"getFloatArrayExtra", "getDoubleExtra",
+					"getDoubleArrayExtra", "getCharSequenceExtra",
+					"getCharSequenceArrayListExtra",
+					"getCharSequenceArrayExtra", "getCharExtra",
+					"getCharArrayExtra", "getByteExtra", "getByteArrayExtra",
+					"getBundleExtra", "getBooleanExtra", "getBooleanArrayExtra" });
+
+	private static List<String> PUTEXTRA_SIGNATURES = Arrays
+			.asList(new String[] { "putExtra", "putCharSequenceArrayListExtra",
+					"putIntegerArrayListExtra", "putParcelableArrayListExtra",
+					"putStringArrayListExtra" });
 
 	/**
 	 * Method that receives an @IntentExtras and a <code> key </code>
@@ -201,5 +228,63 @@ public class IntentUtils {
 		return result;
 	}
 	
+	/**
+	 * Returns true if the MethodInvocationTree corresponds to one of the <code>Intent.getExtra()</code> calls
+	 * @param tree
+	 * @return
+	 */
+
+	public static boolean isGetExtraMethod(MethodInvocationTree tree, ProcessingEnvironment processingEnv) {
+		for (String getExtraSignature : GETEXTRA_SIGNATURES) {
+			//The getExtra call can have 1 or 2 parameters,
+			//2 when there is a use of default parameter, 1 otherwise.
+			ExecutableElement getExtra = TreeUtils.getMethod(
+					"android.content.Intent", getExtraSignature, 1, processingEnv);
+			ExecutableElement getExtraWithDefault = TreeUtils.getMethod(
+					"android.content.Intent", getExtraSignature, 2, processingEnv);
+			if (getExtra != null
+					&& TreeUtils.isMethodInvocation(tree, getExtra,
+							processingEnv)) {
+				return true;
+			}
+			if (getExtraWithDefault != null
+					&& TreeUtils.isMethodInvocation(tree, getExtraWithDefault,
+							processingEnv)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Returns true if the MethodInvocationTree corresponds to one of the <code>Intent.putExtra()</code> calls
+	 * TODO: It cannot be implemented the same way the isGetExtraMethod() was implemented.
+	 * The problem is that there are several putExtra signatures with the same amount of parameters and name
+	 * and the TreeUtils.getMethod() cannot differentiate between them, it always returns the putExtra(String,boolean).
+	 * If tree is putExtra(String,String) it won't pass this method.
+	 * @param tree
+	 * @return
+	 */
+
+	public static boolean isPutExtraMethod(MethodInvocationTree tree) {
+		Element ele = (Element) InternalUtils.symbol(tree);
+        if(ele instanceof ExecutableElement){
+            ExecutableElement method = (ExecutableElement) ele;
+            return PUTEXTRA_SIGNATURES.contains(method.getSimpleName().toString());
+        }
+        return false;
+//				// correct way to do it. the problem is that there are several
+//				// putExtra methods with the same name and all
+//				// of them has the same number of paremeters. How to get each
+//				// one of them? TreeUtils.getMethod returns only
+//				// the first one.
+//				// ExecutableElement putExtra = TreeUtils.getMethod(
+//				// "android.content.Intent", s, 2, processingEnv);
+//				// if (putExtra != null
+//				// && TreeUtils.isMethodInvocation(tree, putExtra,
+//				// processingEnv)) {
+//				// return true;
+//				// }
+	}
 	
 }

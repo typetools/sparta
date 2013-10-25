@@ -48,8 +48,7 @@ import com.sun.source.tree.Tree;
 
 public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
-	protected final AnnotationMirror INTENTEXTRAS, IEXTRA, EMPTYINTENTEXTRAS,
-			INTENTEXTRASALL;
+	protected final AnnotationMirror INTENTEXTRAS, IEXTRA, EMPTYINTENTEXTRAS, INTENTEXTRASALL;
 	protected final IntentPolicy intentPolicy;
 
 	public IntentAnnotatedTypeFactory(BaseTypeChecker checker) {
@@ -97,14 +96,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 		Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> mfuPair = super
 				.methodFromUse(tree);
 		if (checker instanceof IntentChecker) {
-			IntentChecker intentChecker = (IntentChecker) checker;
-			if (intentChecker.isGetExtraMethod(tree)) {
+			if (IntentUtils.isGetExtraMethod(tree,getProcessingEnv())) {
 				// Modifying type of getExtra call
 				mfuPair = changeMethodReturnType(tree, mfuPair);
 				// Modifying @Source and @Sink types for parameters in getExtra
 				// calls
 				removeIntentFlowPermission(mfuPair.first.getParameterTypes());
-			} else if (intentChecker.isPutExtraMethod(tree)) {
+			} else if (IntentUtils.isPutExtraMethod(tree)) {
 				// TODO: isPutExtraMethod is not working!
 				// Modifying @Source and @Sink types for parameters in putExtra
 				// calls
@@ -284,91 +282,6 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 				return true;
 			}
 			return super.isSubtype(rhs, lhs);
-		}
-
-		/**
-		 * This method receives annotations of 2 Intents and returns true if rhs
-		 * can be sent to lsh. For that to happen, every key in lhs need to
-		 * exists in rhs, and the @Source and @Sink with that key in rhs needs
-		 * to be a subtype of the
-		 * 
-		 * @Source and @Sink with that same key in lhs.
-		 * @param rhs
-		 *            Sender intent annotations
-		 * @param lhs
-		 *            Receiver intent annotations
-		 * @return true if the intent with annotations rhs can be sent to the
-		 *         intent with annotations lhs.
-		 */
-
-		public boolean isCopyableTo(AnnotationMirror rhs, AnnotationMirror lhs) {
-			if (rhs == null || lhs == null) {
-				return false;
-			}
-			List<AnnotationMirror> rhsIExtrasList = AnnotationUtils
-					.getElementValueArray(rhs, "value", AnnotationMirror.class,
-							true);
-			List<AnnotationMirror> lhsIExtrasList = AnnotationUtils
-					.getElementValueArray(lhs, "value", AnnotationMirror.class,
-							true);
-			if (lhsIExtrasList.isEmpty()) {
-				return true;
-			}
-
-			// Iterating on the @IExtra from lhs
-			for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
-				boolean found = false;
-				String leftKey = AnnotationUtils.getElementValue(lhsIExtra,
-						"key", String.class, true);
-				for (AnnotationMirror rhsIExtra : rhsIExtrasList) {
-					String rightKey = AnnotationUtils.getElementValue(
-							rhsIExtra, "key", String.class, true);
-					if (rightKey.equals(leftKey)) {
-						// Found 2 @IExtra with same keys in rhs and lhs.
-						// Now we need to make sure that @Source and @Sink of
-						// the @IExtra in rhs are subtypes of @Source and @Sink
-						// of @IExtra in lhs.
-
-						found = true;
-						Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
-								AnnotationUtils.getElementValueEnumArray(
-										lhsIExtra, "source",
-										FlowPermission.class, true));
-						Set<FlowPermission> lhsAnnotatedSinks = new HashSet<FlowPermission>(
-								AnnotationUtils.getElementValueEnumArray(
-										lhsIExtra, "sink",
-										FlowPermission.class, true));
-						Set<FlowPermission> rhsAnnotatedSources = new HashSet<FlowPermission>(
-								AnnotationUtils.getElementValueEnumArray(
-										rhsIExtra, "source",
-										FlowPermission.class, true));
-						Set<FlowPermission> rhsAnnotatedSinks = new HashSet<FlowPermission>(
-								AnnotationUtils.getElementValueEnumArray(
-										rhsIExtra, "sink",
-										FlowPermission.class, true));
-
-						AnnotationMirror lhsSourceAnnotation = createAnnoFromSource(lhsAnnotatedSources);
-						AnnotationMirror lhsSinkAnnotation = createAnnoFromSink(lhsAnnotatedSinks);
-						AnnotationMirror rhsSourceAnnotation = createAnnoFromSource(rhsAnnotatedSources);
-						AnnotationMirror rhsSinkAnnotation = createAnnoFromSink(rhsAnnotatedSinks);
-
-						if (isSubtype(rhsSourceAnnotation, lhsSourceAnnotation)
-								&& isSubtype(rhsSinkAnnotation,
-										lhsSinkAnnotation)) {
-							return false;
-						} else {
-							// if it is a subtype, exit the last loop and
-							// check another @IExtra in lhs
-							break;
-						}
-					}
-				}
-				if (!found) {
-					// If key is missing on the rhs, return false
-					return false;
-				}
-			}
-			return true;
 		}
 
 		/**
@@ -588,104 +501,6 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 		 * Return original result if resolution failed
 		 */
 		return origResult;
-	}
-
-	/**
-	 * TODO: This method is duplicated in the IntentQualifierHierarchy. It
-	 * should only be there, but I need the IntentVisitor to have visibility of
-	 * this method in order to type-check a send intent call, this is why it is
-	 * also here now.
-	 * 
-	 * This method receives annotations of 2 Intents and returns true if rhs can
-	 * be sent to lsh. For that to happen, every key in lhs need to exists in
-	 * rhs, and the @Source and @Sink with that key in rhs needs to be a subtype
-	 * of the
-	 * 
-	 * @Source and @Sink with that same key in lhs.
-	 * @param rhs
-	 *            Sender intent annotations
-	 * @param lhs
-	 *            Receiver intent annotations
-	 * @return true if the intent with annotations rhs can be sent to the intent
-	 *         with annotations lhs.
-	 */
-
-	public boolean isCopyableTo(AnnotationMirror rhs, AnnotationMirror lhs) {
-		if (rhs == null || lhs == null) {
-			return false;
-		}
-		List<AnnotationMirror> rhsIExtrasList = AnnotationUtils
-				.getElementValueArray(rhs, "value", AnnotationMirror.class,
-						true);
-		List<AnnotationMirror> lhsIExtrasList = AnnotationUtils
-				.getElementValueArray(lhs, "value", AnnotationMirror.class,
-						true);
-		if (lhsIExtrasList.isEmpty()) {
-			return true;
-		}
-
-		// Iterating on the @IExtra from lhs
-		for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
-			boolean found = false;
-			String leftKey = AnnotationUtils.getElementValue(lhsIExtra, "key",
-					String.class, true);
-			for (AnnotationMirror rhsIExtra : rhsIExtrasList) {
-				String rightKey = AnnotationUtils.getElementValue(rhsIExtra,
-						"key", String.class, true);
-				if (rightKey.equals(leftKey)) {
-					// Found 2 @IExtra with same keys in rhs and lhs.
-					// Now we need to make sure that @Source and @Sink of
-					// the @IExtra in rhs are subtypes of @Source and @Sink
-					// of @IExtra in lhs.
-
-					found = true;
-					Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
-							AnnotationUtils.getElementValueEnumArray(lhsIExtra,
-									"source", FlowPermission.class, true));
-					Set<FlowPermission> lhsAnnotatedSinks = new HashSet<FlowPermission>(
-							AnnotationUtils.getElementValueEnumArray(lhsIExtra,
-									"sink", FlowPermission.class, true));
-					Set<FlowPermission> rhsAnnotatedSources = new HashSet<FlowPermission>(
-							AnnotationUtils.getElementValueEnumArray(rhsIExtra,
-									"source", FlowPermission.class, true));
-					Set<FlowPermission> rhsAnnotatedSinks = new HashSet<FlowPermission>(
-							AnnotationUtils.getElementValueEnumArray(rhsIExtra,
-									"sink", FlowPermission.class, true));
-
-					TypeMirror dummy = processingEnv.getTypeUtils()
-							.getPrimitiveType(TypeKind.BOOLEAN);
-					AnnotatedTypeMirror lhsAnnotatedType = AnnotatedTypeMirror
-							.createType(dummy, this);
-					AnnotatedTypeMirror rhsAnnotatedType = AnnotatedTypeMirror
-							.createType(dummy, this);
-
-					AnnotationMirror lhsSourceAnnotation = createAnnoFromSource(lhsAnnotatedSources);
-					AnnotationMirror lhsSinkAnnotation = createAnnoFromSink(lhsAnnotatedSinks);
-					AnnotationMirror rhsSourceAnnotation = createAnnoFromSource(rhsAnnotatedSources);
-					AnnotationMirror rhsSinkAnnotation = createAnnoFromSink(rhsAnnotatedSinks);
-
-					lhsAnnotatedType.addAnnotation(lhsSourceAnnotation);
-					lhsAnnotatedType.addAnnotation(lhsSinkAnnotation);
-					rhsAnnotatedType.addAnnotation(rhsSourceAnnotation);
-					rhsAnnotatedType.addAnnotation(rhsSinkAnnotation);
-					lhsAnnotatedType.addAnnotation(EMPTYINTENTEXTRAS);
-					rhsAnnotatedType.addAnnotation(EMPTYINTENTEXTRAS);
-					if (!getTypeHierarchy().isSubtype(rhsAnnotatedType,
-							lhsAnnotatedType)) {
-						return false;
-					} else {
-						// if it is a subtype, exit the inner loop and
-						// check another @IExtra in lhs
-						break;
-					}
-				}
-			}
-			if (!found) {
-				// If key is missing in the rhs, return false
-				return false;
-			}
-		}
-		return true;
 	}
 
 	public IntentPolicy getIntentPolicy() {
