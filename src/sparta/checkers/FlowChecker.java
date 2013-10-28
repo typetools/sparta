@@ -70,16 +70,13 @@ public class FlowChecker extends BaseTypeChecker {
             }
         }
     }
-
-
     @Override
-    public void typeProcessingOver() {
+public void typeProcessingOver() {
         printMethods();
-        FlowAnnotatedTypeFactory factory = ((FlowVisitor)visitor).getTypeFactory();
+        FlowAnnotatedTypeFactory factory = ((FlowVisitor) visitor).getTypeFactory();
         factory.flowAnalizer.printImpliedFlowsVerbose();
         factory.flowAnalizer.printImpliedFlowsForbidden();
         factory.flowAnalizer.printAllFlows();
-        super.typeProcessingOver();
     }
 
     // TODO: would be nice if you could pass a file name
@@ -91,32 +88,32 @@ public class FlowChecker extends BaseTypeChecker {
     private void printMethods() {
         if (notInStubFile.isEmpty())
             return;
-        PrintStream out;
+       
         int methodCount = 0;
-        try {
-            out = new PrintStream(new File(printMissMethod));
+        try( PrintStream out = new PrintStream(new File(printMissMethod))) {
+            for (String pack : notInStubFile.keySet()) {
+                out.println("package " + pack + ";");
+                for (String clss : notInStubFile.get(pack).keySet()) {
+                    out.println("class " + clss + "{");
+                    Map<Element, Integer> map = notInStubFile.get(pack).get(clss);
+                    for (Element element : map.keySet()) {
+                        StubGenerator stubGen = new StubGenerator(out);
+                        if (printFrequency)
+                            out.println("    //" + map.get(element) + " (" + element.getSimpleName()
+                                    + ")");
+                        stubGen.skeletonFromMethod(element);
+                        methodCount++;
+                    }
+                    out.println("}");
+                }
+            }
+            System.err.println(methodCount + " methods to annotate.");
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return;
         }
-        for (String pack : notInStubFile.keySet()) {
-            out.println("package " + pack + ";");
-            for (String clss : notInStubFile.get(pack).keySet()) {
-                out.println("class " + clss + "{");
-                Map<Element, Integer> map = notInStubFile.get(pack).get(clss);
-                for (Element element : map.keySet()) {
-                    StubGenerator stubGen = new StubGenerator(out);
-                    if (printFrequency)
-                        out.println("    //" + map.get(element) + " (" + element.getSimpleName()
-                                + ")");
-                    stubGen.skeletonFromMethod(element);
-                    methodCount++;
-                }
-                out.println("}");
-            }
-        }
-        System.err.println(methodCount + " methods to annotate.");
+       
     }
 
     @Override

@@ -84,7 +84,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     protected final FlowAnalyzer flowAnalizer;
 
     // List of methods that are not in a stub file
-    private final Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
+    private Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
 
     public final boolean IGNORENR;
 
@@ -140,8 +140,9 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
         this.notInStubFile = new HashMap<String, Map<String,Map<Element,Integer>>>();
         postInit();
-        if (checker != null)
+
         ((FlowChecker)checker).notInStubFile.putAll(notInStubFile);
+        notInStubFile = ((FlowChecker)checker).notInStubFile;
 
     }
     @Override
