@@ -19,19 +19,19 @@ import java.util.regex.Pattern;
  import checkers.nullness.quals.Nullable;
  */
 
-public class IntentPolicy {
+public class ComponentMap {
 
-	public static final String INTENT_POLICY_FILE_OPTION = "intentPolicy";
+	public static final String COMPONENT_MAP_FILE_OPTION = "componentMap";
 	
     public static final String EMPTY = "{}";
     public static final String EMPTY_REGEX = "\\{\\}";
 
-    private final Map<String, Set<String>> intentMap;
+    private final Map<String, Set<String>> componentMap;
 
-    public IntentPolicy(final File intentPolicyFile) {
-        intentMap = getAndroidSystemComponents();
-        if (intentPolicyFile != null && intentPolicyFile.exists()) {
-            readPolicyFile(intentPolicyFile);
+    public ComponentMap(final File componentMapFile) {
+        componentMap = getAndroidSystemComponents();
+        if (componentMapFile != null && componentMapFile.exists()) {
+            readComponentMapFile(componentMapFile);
         }
     }
 
@@ -60,17 +60,17 @@ public class IntentPolicy {
     }
 
 
-    private void readPolicyFile(final File policyFile) {
+    private void readComponentMapFile(final File mapFile) {
 
-        final Pattern linePattern = Pattern.compile("^\\s*((?:\\S+|" + EMPTY_REGEX
-                + "))\\s*->\\s*((?:\\S+)(?:\\s*,\\s*\\S+)*)\\s*$");
+        final Pattern linePattern = Pattern.compile("^\\s*((?:\\S+|" + 
+            EMPTY_REGEX + "))\\s*->\\s*((?:\\S+)(?:\\s*,\\s*\\S+)*)\\s*$");
 
         final List<String> errors = new ArrayList<String>();
 
         BufferedReader bufferedReader = null;
         try {
             int lineNum = 1;
-            bufferedReader = new BufferedReader(new FileReader(policyFile));
+            bufferedReader = new BufferedReader(new FileReader(mapFile));
             String originalLine = bufferedReader.readLine().trim();
 
             while (originalLine != null) {
@@ -86,7 +86,8 @@ public class IntentPolicy {
                         final String senderStr = matcher.group(1).trim();
                         final String[] receiversStrs = matcher.group(2).split(",");
                         if (senderStr.equals(EMPTY)) {
-                            errors.add(formatPolicyFileError(policyFile, lineNum, "Sender missing.", originalLine));
+                            errors.add(formatComponentMapError(mapFile, 
+                                lineNum, "Sender missing.", originalLine));
                             receivers = null;
 
                         } else {
@@ -96,19 +97,19 @@ public class IntentPolicy {
                                     receivers.add(s);
                                 }
                                 if (receivers != null && !receivers.isEmpty()) {
-                                    intentMap.put(senderStr, receivers);
+                                    componentMap.put(senderStr, receivers);
                                 }
                             } catch (final IllegalArgumentException iaExc) {
-                                errors.add(formatPolicyFileError(policyFile, lineNum,
-                                        "Unrecognized class: " + iaExc.getMessage(),
-                                        originalLine));
+                                errors.add(formatComponentMapError(mapFile, lineNum,
+                                    "Unrecognized class: " + iaExc.getMessage(),
+                                    originalLine));
                                 receivers = null;
                             }
                         }
 
                     } else {
-                        errors.add(formatPolicyFileError(
-                                policyFile,
+                        errors.add(formatComponentMapError(
+                                mapFile,
                                 lineNum,
                                 "Syntax error, Lines are of the form: Sender -> Receiver1, Receiver2, ..., ReceiverN ",
                                 originalLine));
@@ -131,15 +132,15 @@ public class IntentPolicy {
         }
 
         if (!errors.isEmpty()) {
-            System.out.println("\nErrors parsing policy file:");
+            System.out.println("\nErrors parsing map file:");
             for (final String error : errors) {
                 System.out.println(error);
                 System.out.println();
             }
 
             System.out.flush();
-            throw new RuntimeException("Errors parsing policy file: "
-                    + policyFile.getAbsolutePath());
+            throw new RuntimeException("Errors parsing map file: "
+                    + mapFile.getAbsolutePath());
         }
     }
 
@@ -149,13 +150,13 @@ public class IntentPolicy {
         return WHITE_SPACE_PATTERN.matcher(line).matches();
     }
 
-    private static String formatPolicyFileError(final File file, final int lineNum,
+    private static String formatComponentMapError(final File file, final int lineNum,
             final String message, final String line) {
         return file.getAbsolutePath() + ":" + lineNum + ": " + message + "\n" + line;
     }
     
     public Map<String, Set<String>> getIntentMap() {
-        return intentMap;
+        return componentMap;
     }
 
   }
