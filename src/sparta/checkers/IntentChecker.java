@@ -28,7 +28,7 @@ import com.sun.source.tree.MethodInvocationTree;
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class,
 		PolyAll.class, IntentExtras.class, IExtra.class })
 @StubFiles("flow.astub")
-@SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, IntentPolicy.INTENT_POLICY_FILE_OPTION,
+@SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, ComponentMap.COMPONENT_MAP_FILE_OPTION,
 		FlowChecker.MSG_FILTER_OPTION, FlowChecker.IGNORE_NOT_REVIEWED })
 @SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })
 public class IntentChecker extends FlowChecker {

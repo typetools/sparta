@@ -87,16 +87,16 @@ public class AndroidTests {
         @Override
         protected void test(final File testFile) {
             final File flowPolicyFile = getFlowPolicy(testFile);
-            final File intentPolicyFile = getIntentPolicy(testFile);
+            final File componentMapFile = getComponentMap(testFile);
             final String[] optionsWithPf;
 
-            if(flowPolicyFile.exists() && intentPolicyFile.exists()) {
+            if(flowPolicyFile.exists() && componentMapFile.exists()) {
             	optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 3);
                 optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy="
                         + flowPolicyFile.getAbsolutePath();
-                if(intentPolicyFile.exists()) {
-                	optionsWithPf[optionsWithPf.length - 2] = "-AintentPolicy="
-                            + intentPolicyFile.getAbsolutePath();
+                if(componentMapFile.exists()) {
+                	optionsWithPf[optionsWithPf.length - 2] = "-AcomponentMap="
+                            + componentMapFile.getAbsolutePath();
                 }
                 optionsWithPf[optionsWithPf.length - 3] = "-AprintErrorStack";
                 // AprintErrorStack
@@ -133,8 +133,8 @@ public class AndroidTests {
             return getFile(javaFile, "Flowpolicy");
         }
         
-        protected File getIntentPolicy(final File javaFile) {
-            return getFile(javaFile, "Intentpolicy");
+        protected File getComponentMap(final File javaFile) {
+            return getFile(javaFile, "Componentmap");
         }
     }
 

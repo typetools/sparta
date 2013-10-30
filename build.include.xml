@@ -31,7 +31,7 @@
         <attribute name="processor"/>
         <attribute name="stub" default="${stubs}"/>
          <attribute name="flowPolicy" default="${flowPolicy}"/>
-         <attribute name="intentPolicy" default="${intentPolicy}"/>
+         <attribute name="componentMap" default="${componentMap}"/>
          <attribute name="ignorenr" default="${ignorenr}"/>
         <!-- Optional additional tasks to perform at the end. -->
         <element name="more-tasks" optional="yes"/>
@@ -75,7 +75,7 @@
                     <pathelement location="${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks} ${strictoptions}" />
-                <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} -AintentPolicy=@{intentPolicy} -Aignorenr=@{ignorenr} ${checkerFrameworkOpts}"/>
+                <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} -AcomponentMap=@{componentMap} -Aignorenr=@{ignorenr} ${checkerFrameworkOpts}"/>
                 <compilerarg line="-encoding ISO8859-1 -AprintErrorStack " />
             </jsr308.javac>
             <more-tasks/>
