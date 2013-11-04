@@ -449,6 +449,7 @@ class SQLiteException {
 }
 
 class SQLiteOpenHelper {
+        SQLiteOpenHelper(Context context, String name, CursorFactory factory, int version);
     
 synchronized void close();
 //Close any open database object.

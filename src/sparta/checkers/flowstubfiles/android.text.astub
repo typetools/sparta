@@ -60,6 +60,10 @@ static String toHtml(Spanned text);
 
 }
 
+class SpannableStringBuilder{
+        SpannableStringBuilder();
+}
+
 class Spanned {
     
 abstract int getSpanEnd(Object tag);
@@ -193,6 +197,11 @@ class TextWatcher {
 }
 
 package android.text.format;
+
+class DateUtils{
+        static String getDayOfWeekString(int dayOfWeek, int abbrev);
+}
+
 class Time{
 
 void setToNow();
