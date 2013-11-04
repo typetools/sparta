@@ -12,15 +12,30 @@
     <property file="build.${os.name}.properties"/>
     <property file="build.properties"/>
 
+    <!-- Check whether android.home or ANDROID_HOME is set -->
+    <fail message="Neither android.home nor ANDROID_HOME is set!">
+        <condition>
+            <and>
+                <not> <isset property="android.home"/> </not>
+                <not> <isset property="env.ANDROID_HOME"/> </not>
+            </and>
+        </condition>
+    </fail>
+    
     <!-- Use the environment variable, if nothing was set yet. -->
     <property name="android.home" value="${env.ANDROID_HOME}"/>
 
-    <property name="android.jar" value="${android.home}/platforms/${android.version}/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar" />
+    <!-- Determine newest android platform installed on the machine -->
+    <path id="android.latest.platform">
+        <last>
+            <sort>
+                <dirset dir="${android.home}/platforms" includes="*" />
+            </sort>
+        </last>
+    </path>
 
-    <condition property="latestAndroid.jar" value="${android.home}/platforms/android-18/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar">
-	<available file="${android.home}/platforms/android-18/android.jar"/>
-	</condition>
-    <property name="latestAndroid.jar" value="${android.home}/platforms/${android.version}/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar" />
+    <property name="android.jar" value="${android.home}/platforms/${android.version}/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar" />
+    <property name="latestAndroid.jar" value="${toString:android.latest.platform}/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar" />
 
     <property name="src" value="src"/>
     <property name="flow.stubfiles" value="src/sparta/checkers/flowstubfiles"/>
