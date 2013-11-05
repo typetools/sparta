@@ -1829,6 +1829,17 @@ synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 
 }
 
+class RemoteViews{
+        void setTextViewText(int viewId, @Sink(DISPLAY) CharSequence text);
+        RemoteViews(String packageName, int layoutId);
+        void setViewVisibility(int viewId, int visibility);
+        void setOnClickPendingIntent(int viewId, PendingIntent pendingIntent);
+        void setImageViewResource(int viewId, int srcId);
+}
+class ResourceCursorAdapter{
+        ResourceCursorAdapter(Context context, int layout, Cursor c);
+}
+
 class ShareActionProvider{
             void setShareIntent(Intent shareIntent);
             void setShareHistoryFileName(String shareHistoryFile);

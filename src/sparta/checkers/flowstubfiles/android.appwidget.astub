@@ -1,0 +1,15 @@
+
+package android.appwidget;
+
+class AppWidgetProvider{
+        void onDeleted(Context context, int[] appWidgetIds);
+        void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds);
+        AppWidgetProvider();
+}
+class AppWidgetManager{
+        int[] getAppWidgetIds(ComponentName provider);
+        void updateAppWidget(int appWidgetId, RemoteViews views);
+        AppWidgetProviderInfo getAppWidgetInfo(int appWidgetId);
+        static AppWidgetManager getInstance(Context context);
+}
+
