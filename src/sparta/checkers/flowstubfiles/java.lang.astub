@@ -1218,9 +1218,9 @@ class StringBuilder extends AbstractStringBuilder implements Serializable, CharS
     @PolyFlowReceiver
     char[] toCharArray();
     @PolyFlow
-    static String format(String arg0, Object[] arg1);
+    static String format(String arg0, @PolySource @PolySink Object[] arg1);
     @PolyFlow
-    static String format(Locale arg0, String arg1, Object[] arg2);
+    static String format(Locale arg0, String arg1, @PolySource @PolySink Object[] arg2);
     @PolyFlow
     static String valueOf(Object arg0);
     @PolyFlow
