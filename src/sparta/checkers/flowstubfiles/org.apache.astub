@@ -156,10 +156,10 @@ class HttpUriRequest{
             boolean isAborted();
 }
 class HttpPut{
-            HttpPut(String uri);
+            HttpPut(@Sink(INTERNET) String uri);
 }
 class HttpGet{
-            HttpGet(String uri);
+            HttpGet(@Sink(INTERNET) String uri);
 }
 
 
