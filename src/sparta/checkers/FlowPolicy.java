@@ -78,6 +78,8 @@ public class FlowPolicy {
         }
         this.sinksFromAnySource = allowedSourceToSinks.get(FlowPermission.ANY);
         this.allowedSinkToSources = reverse(allowedSourceToSinks);
+        checkForTransitivity();
+
     }
 
     public FlowPolicy(final File flowPolicyFile) {
@@ -390,7 +392,7 @@ public class FlowPolicy {
                 ++lineNum;
                 originalLine = bufferedReader.readLine();
             }
-
+          //  checkForTransitivity();
         } catch (final IOException ioExc) {
             throw new RuntimeException(ioExc);
         } finally {
@@ -413,6 +415,23 @@ public class FlowPolicy {
             throw new RuntimeException("Errors parsing policy file: "
                     + policyFile.getAbsolutePath());
         }
+        
+    }
+
+    private void checkForTransitivity() {
+      for(FlowPermission source : allowedSourceToSinks.keySet()){
+          if(source.isSink()){
+              //if the source can be a sink too, then there might be a transitive flow
+              //TODO: handle what about WRITE_EXTERNAL_FILESYSTEM vs READ_EXTERNAL_FILESYSTEM
+              if(allowedSinkToSources.containsKey(source)){
+                  System.out.flush();
+                  System.out.println("Warning, flow policy has transive flow");
+                  System.out.println(allowedSinkToSources.get(source)+"->"+source);
+                  System.out.println(source+"->"+allowedSourceToSinks.get(source));
+                  System.out.flush();
+              }
+          }
+      }
     }
 
     private static final Pattern WHITE_SPACE_PATTERN = Pattern.compile("^\\s*$");

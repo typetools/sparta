@@ -240,6 +240,19 @@
                 description="report interesting API usage.">
         <process-proj processor="sparta.checkers.AndroidReportChecker" stub="apiusage.astub"/>
     </target>
+    
+    
+       <target name="count-locations"
+                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="Counts the number of places that could be annotated.">
+        <process-proj processor="checkers.util.count.Locations" stub=""/>
+       </target>
+          
+               <target name="count-annotations"
+                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="Counts the number of annotations in the app.">
+        <process-proj processor="checkers.util.count.AnnotationsCounter" stub=""/>
+    </target>
 
 <!-- no longer in use
     <target name="reportusage-json"

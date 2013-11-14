@@ -1,5 +1,6 @@
 package sparta.checkers.quals;
 
+
 /**
  * This enum contains the possible sources or sinks.
  *
@@ -470,10 +471,17 @@ public enum FlowPermission {
     ;
 
     // TODO: implement checks using this.
-    // private final T sourceOrSink;
+     private final T sourceOrSink;
 
     FlowPermission(T sourceOrSink) {
-        // this.sourceOrSink = sourceOrSink;
+        this.sourceOrSink = sourceOrSink;
+    }
+    public boolean isSink(){
+        return (sourceOrSink == T.SINK) || sourceOrSink == T.BOTH ;
+    }
+    
+    public boolean isSource(){
+        return (sourceOrSink == T.SOURCE) || sourceOrSink == T.BOTH ;
     }
 
 
