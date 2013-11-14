@@ -425,9 +425,8 @@ public class FlowPolicy {
               //TODO: handle what about WRITE_EXTERNAL_FILESYSTEM vs READ_EXTERNAL_FILESYSTEM
               if(allowedSinkToSources.containsKey(source)){
                   System.out.flush();
-                  System.out.println("Warning, flow policy has transive flow");
-                  System.out.println(allowedSinkToSources.get(source)+"->"+source);
-                  System.out.println(source+"->"+allowedSourceToSinks.get(source));
+                  System.out.println("Warning, flow policy has transive flow\n"
+                  +allowedSinkToSources.get(source)+"->"+allowedSourceToSinks.get(source));
                   System.out.flush();
               }
           }
