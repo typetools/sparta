@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.intents;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +12,9 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Name;
 
+import sparta.checkers.ComponentMap;
+import sparta.checkers.FlowChecker;
+import sparta.checkers.FlowPolicy;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
 import sparta.checkers.quals.PolySink;

@@ -1,47 +1,40 @@
-package sparta.checkers;
+package sparta.checkers.intents;
 
 import static checkers.quals.DefaultLocation.LOCAL_VARIABLE;
 import static checkers.quals.DefaultLocation.OTHERWISE;
-import static checkers.quals.DefaultLocation.RECEIVERS;
 import static checkers.quals.DefaultLocation.RESOURCE_VARIABLE;
 import static checkers.quals.DefaultLocation.UPPER_BOUNDS;
 
-import java.io.File;
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import checkers.basetype.BaseTypeChecker;
+import checkers.quals.DefaultLocation;
+import checkers.types.AnnotatedTypeMirror;
+import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
+import checkers.types.QualifierHierarchy;
+import checkers.types.TreeAnnotator;
+import checkers.util.AnnotationBuilder;
+import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
+import checkers.util.QualifierDefaults;
 
 import javacutils.AnnotationUtils;
 import javacutils.Pair;
 import javacutils.TreeUtils;
 
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.type.TypeKind;
-import javax.lang.model.type.TypeMirror;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import sparta.checkers.FlowAnnotatedTypeFactory.FlowPolicyTreeAnnotator;
+import javax.lang.model.element.AnnotationMirror;
+
+import sparta.checkers.ComponentMap;
+import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
-import checkers.basetype.BaseTypeChecker;
-import checkers.quals.DefaultLocation;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.TreeAnnotator;
-import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
-import checkers.types.QualifierHierarchy;
-import checkers.util.AnnotationBuilder;
-import checkers.util.MultiGraphQualifierHierarchy;
-import checkers.util.QualifierDefaults;
-import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
-import checkers.util.QualifierPolymorphism;
 
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;

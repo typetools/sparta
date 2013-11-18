@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.intents;
 
 /*>>>
  import checkers.compilermsgs.quals.*;
@@ -21,6 +21,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
+import sparta.checkers.FlowVisitor;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;

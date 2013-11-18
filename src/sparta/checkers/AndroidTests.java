@@ -10,6 +10,8 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized.Parameters;
 
+import sparta.checkers.intents.IntentChecker;
+
 /**
  * JUnit tests for the SPARTA Checkers.
  */

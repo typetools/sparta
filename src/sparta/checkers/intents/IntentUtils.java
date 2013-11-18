@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.intents;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -23,6 +23,8 @@ import com.sun.source.util.TreePath;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationBuilder;
 
+import sparta.checkers.Flow;
+import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;

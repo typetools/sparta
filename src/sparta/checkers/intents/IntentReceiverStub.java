@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.intents;
 
 import static sparta.checkers.quals.FlowPermission.ACCESS_FINE_LOCATION;
 import static sparta.checkers.quals.FlowPermission.DISPLAY;
