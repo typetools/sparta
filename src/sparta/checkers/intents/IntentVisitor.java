@@ -4,16 +4,20 @@ package sparta.checkers.intents;
  import checkers.compilermsgs.quals.*;
  */
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import checkers.basetype.BaseTypeChecker;
+import checkers.source.Result;
+import checkers.types.AnnotatedTypeMirror;
+import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 
 import javacutils.AnnotationUtils;
 import javacutils.TreeUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
@@ -27,13 +31,8 @@ import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
-import checkers.basetype.BaseTypeChecker;
-import checkers.source.Result;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 
 import com.sun.source.tree.AnnotationTree;
-import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.util.TreePath;

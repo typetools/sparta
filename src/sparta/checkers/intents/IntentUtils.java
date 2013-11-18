@@ -1,34 +1,32 @@
 package sparta.checkers.intents;
 
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import checkers.types.AnnotatedTypeMirror;
+import checkers.util.AnnotationBuilder;
 
 import javacutils.AnnotationUtils;
 import javacutils.InternalUtils;
 import javacutils.TreeUtils;
+
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 
-import com.sun.source.tree.ClassTree;
-import com.sun.source.tree.MethodInvocationTree;
-import com.sun.source.util.TreePath;
-
-import checkers.types.AnnotatedTypeMirror;
-import checkers.util.AnnotationBuilder;
-
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
-import sparta.checkers.quals.Source;
+
+import com.sun.source.tree.ClassTree;
+import com.sun.source.tree.MethodInvocationTree;
+import com.sun.source.util.TreePath;
 
 public class IntentUtils {
 
