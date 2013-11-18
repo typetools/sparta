@@ -272,11 +272,14 @@ ant -DflowPolicy=\emph{mypolicyfile} check-flow
       \<@Sink($\omega$)>&\<@Source($\alpha$)>
       \<@Sink($\omega$)>, $\alpha$ is the set of  sources allowed to flow to all sinks in $\omega$ \\ 
     Fields &  \<@Source(LITERAL)> \\ 
-    Method parameters &  \<@Source(LITERAL)> \\ 
+    Method parameters &  \<@Sink(CONDITIONAL)> \\ 
+    Method receivers &  \<@Sink(CONDITIONAL)> \\ 
     Return values &  \<@Source(LITERAL)> \\ 
     \<null> &  \<@Source(\ttcbs) @Sink(ANY)>\\ 
-    Literals & \<@Source(LITERAL) @Sink(CONDITIONAL)>\\ 
-   Local variables  &   \<@Source(ANY) @Sink(\ttcbs)> \\ 
+    Literals & \<@Source(LITERAL) >\\ 
+   Local variables &   \<@Source(ANY) @Sink(\ttcbs)> \\ 
+    upper bounds &   \<@Source(ANY) @Sink(\ttcbs)> \\ 
+     resource variables  &   \<@Source(ANY) @Sink(\ttcbs)> \\ 
      
       \bottomrule
     \end{tabular}

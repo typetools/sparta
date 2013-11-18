@@ -279,13 +279,14 @@ abstract boolean isRelative();
 
 Uri normalizeScheme();
 //Return an equivalent URI with a lowercase scheme component.
-
+@PolyFlow
 static Uri parse(String uriString);
 //Creates a Uri which parses the given encoded URI string.
 
 abstract String toString();
 //Returns the encoded string representation of this URI.
 
+@PolyFlow
 static Uri withAppendedPath(Uri baseUri, String pathSegment);
 //Creates a new Uri by appending an already-encoded path segment to a base Uri.
 

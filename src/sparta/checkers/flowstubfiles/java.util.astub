@@ -491,9 +491,9 @@ class Collections {
     static <T> Queue<T> asLifoQueue(Deque<T> arg0);
 }
 
-@PolyFlowReceiver
 interface Comparator<T> {
-    int compare(T arg0, T arg1);
+    
+    int compare(@PolySource @PolySink T arg0, @PolySource @PolySink T arg1);
     boolean equals(Object arg0);
 }
 
