@@ -74,14 +74,14 @@ public class IntentVisitor extends FlowVisitor {
         // {
 
         if (receiverClassName.equals("Intent")) {
-            checkGetExtraOrPutExtraMethods(method, node);
+            checkIntentExtraMethods(method, node);
             return;
         }
         // if (method.getReceiverType().getUnderlyingType()
         // .asElement().getClass().isAssignableFrom(android.app.Activity.class))
         // {
         if (receiverClassName.equals("Activity")) {
-            sendIntentTypeCheck(method, node);
+            checkSendIntent(method, node);
             return;
         }
         super.checkMethodInvocability(method, node);
@@ -94,12 +94,12 @@ public class IntentVisitor extends FlowVisitor {
      * @param method AnnotatedExecutableType
      * @param node MethodInvocationTree
      */
-    private void sendIntentTypeCheck(AnnotatedExecutableType method,
+    private void checkSendIntent(AnnotatedExecutableType method,
             MethodInvocationTree node) {
         // TODO: Find a better way to do that other than using the method name
         String methodName = method.getElement().getSimpleName().toString();
         if (methodName.equals("startActivity")) {
-            startActivityTypeCheck(method, node);
+            checkStartActivity(method, node);
         }
         //Implement for Services and BRReceivers here
 
@@ -111,7 +111,7 @@ public class IntentVisitor extends FlowVisitor {
      * @param node
      */
 
-    private void startActivityTypeCheck(AnnotatedExecutableType method,
+    private void checkStartActivity(AnnotatedExecutableType method,
             MethodInvocationTree node) {
         if (node.getArguments().isEmpty()) {
             // Still need to figure out a better way to treat that. 
@@ -121,11 +121,8 @@ public class IntentVisitor extends FlowVisitor {
         ExpressionTree intentObject = node.getArguments().get(0);
         AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(intentObject);
         AnnotationMirror rhsIntentExtras = rhs.getAnnotation(IntentExtras.class);
-        List<MethodInvocationTree> getIntentCalls = getAllReceiversIntents(node);
-        if (getIntentCalls.isEmpty()) {
-            return;
-        }
-        for (MethodInvocationTree getIntentCall : getIntentCalls) {
+
+        for (MethodInvocationTree getIntentCall : getAllReceiversIntents(node)) {
             AnnotatedTypeMirror lhs = atypeFactory.getAnnotatedType(getIntentCall);
             AnnotationMirror lhsIntentExtras = lhs.getAnnotation(IntentExtras.class);
             if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
@@ -266,7 +263,7 @@ public class IntentVisitor extends FlowVisitor {
      *            The tree of the method call
      */
 
-    private void checkGetExtraOrPutExtraMethods(AnnotatedExecutableType method,
+    private void checkIntentExtraMethods(AnnotatedExecutableType method,
             MethodInvocationTree node) {
         if (node.getArguments().isEmpty()) {
             // If gets here, its not a getExtra nor putExtra.
@@ -279,9 +276,9 @@ public class IntentVisitor extends FlowVisitor {
         ExpressionTree receiver = TreeUtils.getReceiverTree(node);
         AnnotatedTypeMirror receiverType = atypeFactory.getAnnotatedType(receiver);
         if (IntentUtils.isPutExtraMethod(node)) {
-            putExtraTypeCheck(node, keyName, receiver, receiverType);
+            checkPutExtra(node, keyName, receiver, receiverType);
         } else if (IntentUtils.isGetExtraMethod(node, checker.getProcessingEnvironment())) {
-            getExtraTypeCheck(method, node, keyName, receiver, receiverType);
+            checkGetExtra(method, node, keyName, receiver, receiverType);
         }
     }
 
@@ -303,7 +300,7 @@ public class IntentVisitor extends FlowVisitor {
      *            Annotations of the receiver calling intent.getExtra(...).
      */
 
-    private void getExtraTypeCheck(AnnotatedExecutableType method,
+    private void checkGetExtra(AnnotatedExecutableType method,
             MethodInvocationTree node, String keyName, ExpressionTree receiver,
             AnnotatedTypeMirror receiverType) {
         if (receiverType.hasAnnotation(IntentExtras.class)) {
@@ -319,7 +316,7 @@ public class IntentVisitor extends FlowVisitor {
 
     /**
      * Method to type check the putExtra call. In every putExtra("key",value)
-     * call the "key" need to be found in one of the @IExtra elements from the @IntentExtras
+     * call the "key" needs to be found in one of the @IExtra elements from the @IntentExtras
      * of the intent, and the @Source and @Sink from the @IExtra need to be a
      * supertype of the @Source and @Sink of value. TODO In the future, we want
      * to add inference to the putExtra() call. If the key cannot be found in
@@ -336,26 +333,79 @@ public class IntentVisitor extends FlowVisitor {
      * @param receiverType
      *            Annotations of the receiver calling intent.putExtra(...).
      */
-
-    private void putExtraTypeCheck(MethodInvocationTree node, String keyName,
-            ExpressionTree receiver, AnnotatedTypeMirror receiverType) {
-        if (receiverType.hasAnnotation(IntentExtras.class)) {
-            AnnotationMirror receiverIntentAnnotation = receiverType
-                .getAnnotation(IntentExtras.class);
-            
-            if(IntentUtils.hasKey(receiverIntentAnnotation, keyName)) {
-                AnnotationMirror iExtra = IntentUtils.
-                    getIExtraWithKey(receiverIntentAnnotation, keyName);
-                informationFlowPutExtraTypeCheck(node, keyName, receiver, 
-                    receiverIntentAnnotation, iExtra);
-                
-            } else {
-                checker.report(Result.failure("intent.key.notfound", keyName,
-                            receiver.toString()), node);
-            }
+    private void checkPutExtra(MethodInvocationTree node, String keyName, ExpressionTree receiver,
+            AnnotatedTypeMirror receiverType) {
+        AnnotationMirror iExtra = IntentUtils.getIExtra(keyName, receiverType);
+        if (iExtra == null) {
+            checker.report(Result.failure("intent.key.notfound", keyName, receiver.toString()),
+                    node);
         }
+
+        // Getting annotations of the value being added to the intent
+        // bundle.
+        AnnotatedTypeMirror valueType = atypeFactory.getAnnotatedType(node.getArguments().get(1));
+        AnnotatedTypeMirror declaredKeyType = hostGetTypeOfKey(iExtra,
+                valueType.getUnderlyingType());
+
+        // Check if the value being added to the intent bundle is a
+        // subtype
+        // of what the @IntentExtras annotation contains.
+        if (!atypeFactory.getTypeHierarchy().isSubtype(valueType, declaredKeyType)) {
+            checker.report(Result.failure("intent.check.notcompatible", receiver.toString(),
+                    keyName, declaredKeyType.getAnnotation(Source.class),
+                    declaredKeyType.getAnnotation(Sink.class),
+                    valueType.getAnnotation(Source.class), valueType.getAnnotation(Sink.class)),
+                    node);
+        }
+        // TODO: Inference on putExtra
+        // If key couldn't be found, add it to the @IntentExtras with the
+        // flow of the object being inserted on the hashmap.
+        // if(!found) {
+        // IntentChecker intentChecker = (IntentChecker) checker;
+        // AnnotationMirror newIExtra =
+        // intentChecker.createIExtraAnno(keyName,
+        // valueType.getAnnotation(Source.class),
+        // valueType.getAnnotation(Sink.class));
+        // AnnotationMirror newIntentExtras =
+        // intentChecker.addIExtraToIntentExtras(receiverIntentAnnotation,
+        // newIExtra);
+        // receiverType.replaceAnnotation(newIntentExtras);
+        // System.out.println();
+        // }
+
     }
-    
+
+
+
+
+    private AnnotatedTypeMirror hostGetTypeOfKey(AnnotationMirror iExtra, TypeMirror javaType) {
+        Set<FlowPermission> annotatedSources = new HashSet<FlowPermission>(
+            AnnotationUtils.getElementValueEnumArray(iExtra,
+                "source", FlowPermission.class, true));
+        Set<FlowPermission> annotatedSinks = new HashSet<FlowPermission>(
+            AnnotationUtils.getElementValueEnumArray(iExtra,
+                "sink", FlowPermission.class, true));
+
+        // Creating a type with the @Source and @Sink from value in
+        // putExtra(key,value).
+        AnnotationMirror sourceAnnotation = atypeFactory
+            .createAnnoFromSource(annotatedSources);
+        AnnotationMirror sinkAnnotation = atypeFactory
+            .createAnnoFromSink(annotatedSinks);
+        
+
+        // annotatedType is a dummy type containing the @Source and
+        // @Sink
+        // from the IExtra, only to be used in the isSubType() call.
+        AnnotatedTypeMirror annotatedType = AnnotatedTypeMirror
+            .createType(javaType, atypeFactory);
+
+        annotatedType.addAnnotation(sourceAnnotation);
+        annotatedType.addAnnotation(sinkAnnotation);
+        annotatedType.addAnnotation(((IntentAnnotatedTypeFactory) atypeFactory)
+            .EMPTYINTENTEXTRAS);
+        return annotatedType;
+    }
     
 
     @Override
@@ -415,7 +465,7 @@ public class IntentVisitor extends FlowVisitor {
                     // the @IExtra in rhs are subtypes of @Source and @Sink
                     // of @IExtra in lhs.
                     found = true;
-                    if (!informationFlowisCopyableTo(lhsIExtra,rhsIExtra)) {
+                    if (!hostIsCopyableTo(lhsIExtra,rhsIExtra)) {
                         return false;
                     } else {
                         // if it is a subtype, exit the inner loop and
@@ -433,77 +483,6 @@ public class IntentVisitor extends FlowVisitor {
     }
     
     
-    /**
-     * temporary auxiliar method to type-check the putExtra rule for information flow analysis
-     * on intents
-     * @param node
-     * @param keyName
-     * @param receiver
-     * @param receiverIntentAnnotation
-     */
-
-    private void informationFlowPutExtraTypeCheck(MethodInvocationTree node,
-            String keyName, ExpressionTree receiver,
-            AnnotationMirror receiverIntentAnnotation, AnnotationMirror iExtra) {
-            // If it is, the @IExtra flow of the annotation needs to be
-            // a supertype
-            // of the flow of the object being inserted on the hashmap.
-            
-            Set<FlowPermission> annotatedSources = new HashSet<FlowPermission>(
-                AnnotationUtils.getElementValueEnumArray(iExtra,
-                    "source", FlowPermission.class, true));
-            Set<FlowPermission> annotatedSinks = new HashSet<FlowPermission>(
-                AnnotationUtils.getElementValueEnumArray(iExtra,
-                    "sink", FlowPermission.class, true));
-
-            // Getting annotations of the value being added to the intent
-            // bundle.
-            ExpressionTree value = node.getArguments().get(1);
-            AnnotatedTypeMirror valueType = atypeFactory.getAnnotatedType(value);
-
-
-            // Creating a type with the @Source and @Sink from value in
-            // putExtra(key,value).
-            AnnotationMirror sourceAnnotation = atypeFactory
-                .createAnnoFromSource(annotatedSources);
-            AnnotationMirror sinkAnnotation = atypeFactory
-                .createAnnoFromSink(annotatedSinks);
-            // annotatedType is a dummy type containing the @Source and
-            // @Sink
-            // from the IExtra, only to be used in the isSubType() call.
-            AnnotatedTypeMirror annotatedType = AnnotatedTypeMirror
-                .createType(valueType.getUnderlyingType(), atypeFactory);
-
-            annotatedType.addAnnotation(sourceAnnotation);
-            annotatedType.addAnnotation(sinkAnnotation);
-            annotatedType.addAnnotation(((IntentAnnotatedTypeFactory) atypeFactory)
-                .EMPTYINTENTEXTRAS);
-
-            // Check if the value being added to the intent bundle is a
-            // subtype
-            // of what the @IntentExtras annotation contains.
-            if (!atypeFactory.getTypeHierarchy().isSubtype(valueType, annotatedType)) {
-                checker.report(Result.failure("intent.check.notcompatible",
-                        receiver.toString(), keyName,sourceAnnotation.toString(),
-                        sinkAnnotation.toString(),valueType.getAnnotation(Source.class),
-                        valueType.getAnnotation(Sink.class)), node);
-            }
-     // TODO: Inference on putExtra
-        // If key couldn't be found, add it to the @IntentExtras with the
-        // flow of the object being inserted on the hashmap.
-        // if(!found) {
-        // IntentChecker intentChecker = (IntentChecker) checker;
-        // AnnotationMirror newIExtra =
-        // intentChecker.createIExtraAnno(keyName,
-        // valueType.getAnnotation(Source.class),
-        // valueType.getAnnotation(Sink.class));
-        // AnnotationMirror newIntentExtras =
-        // intentChecker.addIExtraToIntentExtras(receiverIntentAnnotation,
-        // newIExtra);
-        // receiverType.replaceAnnotation(newIntentExtras);
-        // System.out.println();
-        // }
-    }
     
     /**
      * temporary auxiliar method used to type-check the 
@@ -514,7 +493,7 @@ public class IntentVisitor extends FlowVisitor {
      * @return
      */
     
-    private boolean informationFlowisCopyableTo(AnnotationMirror lhsIExtra, 
+    private boolean hostIsCopyableTo(AnnotationMirror lhsIExtra, 
             AnnotationMirror rhsIExtra) {
         Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(lhsIExtra,

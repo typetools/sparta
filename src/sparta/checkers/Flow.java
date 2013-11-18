@@ -314,11 +314,15 @@ public class Flow {
      * @return
      */
     public static Set<FlowPermission> unionSources(AnnotationMirror a1, AnnotationMirror a2){
-        Set<FlowPermission> superset = getSources(a1);
-        superset.addAll(getSources(a2));
-        convertToAnySource(superset, true);
-        return superset;
+        return unionSources(getSources(a1), getSources(a2));
     }
+    public static Set<FlowPermission> unionSources(Set<FlowPermission> a1, Set<FlowPermission> a2){
+        a1.addAll(a2);
+        convertToAnySource(a1, true);
+        return a1;
+    }
+
+    
     /**
      * Returns the union of a1 and a2.
      * If the union is {ANY, ...} then just {ANY} is returned
@@ -327,11 +331,19 @@ public class Flow {
      * @return
      */
     public static Set<FlowPermission> unionSinks(AnnotationMirror a1, AnnotationMirror a2){
-        Set<FlowPermission> superset = getSinks(a1);
-        superset.addAll(getSinks(a2));
-        convertToAnySink(superset, true);
-        return superset;
+        return unionSinks(getSinks(a1), getSinks(a2));
     }
-
+    /**
+     * Returns the union of a1 and a2.
+     * If the union is {ANY, ...} then just {ANY} is returned
+     * @param a1
+     * @param a2
+     * @return
+     */
+    public static Set<FlowPermission> unionSinks(Set<FlowPermission> a1, Set<FlowPermission> a2){
+        a1.addAll(a2);
+        convertToAnySink(a1, true);
+        return a1;
+    }
 
 }

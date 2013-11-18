@@ -1,6 +1,7 @@
 package sparta.checkers;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,7 @@ import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.util.TreePath;
 
+import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationBuilder;
 
 import sparta.checkers.quals.FlowPermission;
@@ -68,6 +70,20 @@ public class IntentUtils {
         }
         return null;
     }
+    public static AnnotationMirror getIExtra(String keyName, AnnotatedTypeMirror receiverType) {
+        AnnotationMirror iExtra = null;
+        AnnotationMirror receiverIntentAnnotation = null;
+        if (receiverType.hasAnnotation(IntentExtras.class)) {
+             receiverIntentAnnotation = receiverType
+                .getAnnotation(IntentExtras.class);
+            
+            if(IntentUtils.hasKey(receiverIntentAnnotation, keyName)) {
+                 iExtra = IntentUtils.
+                    getIExtraWithKey(receiverIntentAnnotation, keyName); 
+            } 
+        }
+        return iExtra;
+    }
 
     /**
      * Return true if @IntentExtras has this key
@@ -93,15 +109,14 @@ public class IntentUtils {
 
     public static Set<FlowPermission> unionSourcesIExtras(AnnotationMirror iExtra1, 
             AnnotationMirror iExtra2) {
-        Set<FlowPermission> a1AnnotatedSources = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra1, "source",
-                FlowPermission.class, true));
-        Set<FlowPermission> a2AnnotatedSources = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra2, "source",
-                FlowPermission.class,true));
-        a1AnnotatedSources.addAll(a2AnnotatedSources);
-        return Flow.convertToAnySource(a1AnnotatedSources,true);
+        return  Flow.unionSources(getSources(iExtra1), getSources(iExtra2));
 
+    }
+
+    private static HashSet<FlowPermission> getSources(AnnotationMirror iExtra) {
+        return new HashSet<FlowPermission>(
+            AnnotationUtils.getElementValueEnumArray(iExtra, "source",
+                FlowPermission.class, true));
     }
 
     /**
@@ -110,15 +125,13 @@ public class IntentUtils {
 
     public static Set<FlowPermission> unionSinksIExtras(AnnotationMirror iExtra1, 
             AnnotationMirror iExtra2) {
-        Set<FlowPermission> a1AnnotatedSinks = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra1, "sink",
-                FlowPermission.class, true));
-        Set<FlowPermission> a2AnnotatedSinks = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra2, "sink",
-                FlowPermission.class, true));
-        a1AnnotatedSinks.addAll(a2AnnotatedSinks);
-        return Flow.convertToAnySink(a1AnnotatedSinks,true);
+        return Flow.unionSinks(getSinks(iExtra1), getSinks(iExtra2));
+    }
 
+    private static HashSet<FlowPermission> getSinks(AnnotationMirror iExtra) {
+        return new HashSet<FlowPermission>(
+            AnnotationUtils.getElementValueEnumArray(iExtra, "sink",
+                FlowPermission.class, true));
     }
 
     /**
@@ -127,14 +140,7 @@ public class IntentUtils {
 
     public static Set<FlowPermission> intersectionSourcesIExtras(AnnotationMirror iExtra1, 
             AnnotationMirror iExtra2) {
-        Set<FlowPermission> a1AnnotatedSources = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra1, "source",
-                FlowPermission.class,true));
-        Set<FlowPermission> a2AnnotatedSources = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra2, "source",
-                FlowPermission.class,true));
-        return Flow.intersectSinks(a1AnnotatedSources, a2AnnotatedSources);
-
+        return Flow.intersectSinks(getSources(iExtra1), getSources(iExtra2));
     }
 
     /**
@@ -143,13 +149,7 @@ public class IntentUtils {
 
     public static Set<FlowPermission> intersectionSinksIExtras(AnnotationMirror iExtra1, 
             AnnotationMirror iExtra2) {
-        Set<FlowPermission> a1AnnotatedSinks = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra1, "sink",
-                FlowPermission.class, true));
-        Set<FlowPermission> a2AnnotatedSinks = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra2, "sink",
-                FlowPermission.class,true));
-        return Flow.intersectSinks(a1AnnotatedSinks, a2AnnotatedSinks);
+        return Flow.intersectSinks(getSinks(iExtra1),  getSinks(iExtra2));
 
     }
 
@@ -169,6 +169,7 @@ public class IntentUtils {
             IExtra.class);
         Set<FlowPermission> sourcesSet = Flow.getSources(sources);
         Set<FlowPermission> sinksSet = Flow.getSinks(sinks);
+        
         builder.setValue("key", key);
         builder.setValue("source",
             sourcesSet.toArray(new FlowPermission[sourcesSet.size()]));

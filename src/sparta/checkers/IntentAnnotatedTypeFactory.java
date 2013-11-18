@@ -82,13 +82,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     }
 
     /**
-     * This method modifies the @Source(INTENT) and @Sink(INTENT) to
-     * 
-     * @Source(ANY), @Sink({}) and modifies the @Source and @Sink from the
-     *               return type of getExtra calls. This is necessary because
-     *               the stub files will maintain @Source(INTENT) and
+     * This method changes @Source(INTENT) and @Sink(INTENT) to
+     * @Source(ANY), @Sink({}) and
+     *  changes the @Source and @Sink from the return type of getExtra calls. 
+     *  This is necessary because the stub files will maintain @Source(INTENT) and
      * @Sink(INTENT) annotations to perform flow check analysis without the
-     *               intent analysis.
+     * intent analysis.
      */
     @Override
     public Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> methodFromUse(
@@ -101,12 +100,11 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 mfuPair = changeMethodReturnType(tree, mfuPair);
                 // Modifying @Source and @Sink types for parameters in getExtra
                 // calls
-                removeIntentFlowPermission(mfuPair.first.getParameterTypes());
+                hostChangeParametersToTop(mfuPair.first.getParameterTypes());
             } else if (IntentUtils.isPutExtraMethod(tree)) {
                 // Modifying @Source and @Sink types for parameters in putExtra
                 // calls
-                removeIntentFlowPermission(mfuPair.first.getParameterTypes());
-
+                hostChangeParametersToTop(mfuPair.first.getParameterTypes());
             }
         }
         return mfuPair;
@@ -114,15 +112,15 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     }
 
     /**
+     * Changes the parameters to TOP in the host type system.
      * 
-     * This method modifies the @Source(INTENT) and @Sink(INTENT) to
-     * 
+     * For the Flow Checker:
+     * This method changes the @Source(INTENT) and @Sink(INTENT) to
      * @Source(ANY) and @Sink({})
-     * 
      * @param parametersAnnotations
      */
 
-    private void removeIntentFlowPermission(
+    private void hostChangeParametersToTop(
             List<AnnotatedTypeMirror> parametersAnnotations) {
         for (AnnotatedTypeMirror parameterAnnotation : parametersAnnotations) {
             if (parameterAnnotation.hasAnnotation(Source.class)) {
@@ -142,7 +140,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     protected QualifierDefaults createQualifierDefaults() {
         QualifierDefaults defaults = super.createQualifierDefaults();
         DefaultLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE,
-            UPPER_BOUNDS, RECEIVERS };
+            UPPER_BOUNDS };
         defaults.addAbsoluteDefaults(EMPTYINTENTEXTRAS, topLocations);
         defaults.addAbsoluteDefault(EMPTYINTENTEXTRAS, OTHERWISE);
         return defaults;
@@ -234,7 +232,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                         "key", String.class, true);
 
                     if(IntentUtils.hasKey(rhs, leftKey)) {
-                        if(!informationFlowIsSubTypeIntents(rhs, lhsIExtra, leftKey)) {
+                        if(!hostIsExactType(rhs, lhsIExtra, leftKey)) {
                             return false;
                         }
                         
@@ -248,14 +246,15 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         }
 
         /**
-         * temporary auxiliar method used to type-check the isSubtype
+         * temporary auxiliary method used to check whether the types
+         * of the keys are the same.
          * rule for information flow analysis on intents.
          * @param rhs
          * @param lhsIExtra
          * @param leftKey
          * @return
          */
-        private boolean informationFlowIsSubTypeIntents(AnnotationMirror rhs,
+        private boolean hostIsExactType(AnnotationMirror rhs,
                 AnnotationMirror lhsIExtra, String leftKey) {
             AnnotationMirror rhsIExtra = IntentUtils.getIExtraWithKey(rhs, leftKey);
 
@@ -314,7 +313,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                             AnnotationMirror a2IExtra = IntentUtils
                                 .getIExtraWithKey(a2, a1IExtraKey);
                             // Here we have found matching keys.
-                            AnnotationMirror newIExtra = informationFlowLUBIntents(
+                            AnnotationMirror newIExtra = hostLeastUpperBounds(
                                 a1IExtra, a1IExtraKey, a2IExtra);
                             IExtraOutputSet.add(newIExtra);
                         }
@@ -332,11 +331,11 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             return super.leastUpperBound(a1, a2);
         }
         /**
-         * temporary auxiliar method used to type-check the calculate the LUB
+         * temporary auxiliary method used to calculate the LUB
          * between 2 @IntentExtras whose @IExtra contains information flow.
          */
 
-        private AnnotationMirror informationFlowLUBIntents(
+        private AnnotationMirror hostLeastUpperBounds(
                 AnnotationMirror a1IExtra, String a1IExtraKey,
                 AnnotationMirror a2IExtra) {
             // First do the union of sources:
@@ -390,7 +389,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                             AnnotationMirror a2IExtra = IntentUtils
                                 .getIExtraWithKey(a2, a1IExtraKey);
                             // If we have found matching keys:
-                            AnnotationMirror newIExtra = informationFlowGLBIntents(
+                            AnnotationMirror newIExtra = hostGreatestLowerBound(
                                 a1IExtra, a1IExtraKey, a2IExtra);
                             IExtraOutputSet.add(newIExtra);
                         } else {
@@ -424,11 +423,11 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         }
 
         /**
-         * temporary auxiliar method used to type-check the calculate the LUB
+         * temporary auxiliary method used to type-check the calculate the LUB
          * between 2 @IntentExtras whose @IExtra contains information flow.
          */
         
-        private AnnotationMirror informationFlowGLBIntents(
+        private AnnotationMirror hostGreatestLowerBound(
                 AnnotationMirror a1IExtra, String a1IExtraKey,
                 AnnotationMirror a2IExtra) {
             // First do the intersection of sources:
@@ -485,7 +484,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     if (key.equals(keyName)) {
                         // Found the key, now change the annotation of the
                         // return of getExtra()
-                        return changeMethodReturnInformationFlow(origResult,
+                        return hostChangeMethodReturn(origResult,
                             iExtra);
                     }
                 }
@@ -497,7 +496,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         return origResult;
     }
 
-    private Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> changeMethodReturnInformationFlow(
+    private Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> hostChangeMethodReturn(
             Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> origResult,
             AnnotationMirror iExtra) {
         // correct @Source and @Sink annotations
