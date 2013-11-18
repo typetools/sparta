@@ -49,4 +49,5 @@ docs/bib
 
 
 src/sparta/checkers/flow.astub 
+src/sparta/checkers/information_flow.astub 
 src/sparta/checkers/flowstubfiles/ex
