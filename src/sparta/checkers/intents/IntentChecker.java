@@ -1,5 +1,6 @@
 package sparta.checkers.intents;
 
+import checkers.basetype.BaseTypeVisitor;
 import checkers.quals.PolyAll;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
@@ -36,5 +37,18 @@ public class IntentChecker extends FlowChecker {
     // super.report(r, src);
     // }
     // }
+    
+ 
+    @Override
+    protected BaseTypeVisitor<?> createSourceVisitor() {
+        try {
+            return new IntentVisitor(this);
+        } catch (Exception e) {
+            //The SourceVisitor cuts off the stack trace, 
+            //so print it here and the throw again.
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
 }

@@ -25,6 +25,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
+import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.FlowVisitor;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IExtra;
@@ -56,6 +57,17 @@ public class IntentVisitor extends FlowVisitor {
 
     public IntentVisitor(BaseTypeChecker checker) {
         super(checker);
+    }
+    @Override
+    protected FlowAnnotatedTypeFactory createTypeFactory() {
+        try{
+            return new IntentAnnotatedTypeFactory(checker);
+        }catch (Exception e){
+            //The SourceVisitor cuts off the stack trace, 
+            //so print it here and the throw again.
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Override
