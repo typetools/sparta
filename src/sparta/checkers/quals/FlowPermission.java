@@ -155,7 +155,7 @@ public enum FlowPermission {
     // confirm the call being placed.
     CALL_PRIVILEGED(T.SINK),
     // Required to be able to access the camera device.
-    CAMERA(T.BOTH),
+    CAMERA(T.SINK),
     // Allows an application to change whether an application component (other
     // than its own) is enabled or not.
     CHANGE_COMPONENT_ENABLED_STATE(T.SINK),

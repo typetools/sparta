@@ -423,12 +423,18 @@ public class FlowPolicy {
           if(source.isSink()){
               //if the source can be a sink too, then there might be a transitive flow
               //TODO: handle what about WRITE_EXTERNAL_FILESYSTEM vs READ_EXTERNAL_FILESYSTEM
-              if(allowedSinkToSources.containsKey(source)){
-                  System.out.flush();
-                  System.out.println("Warning, flow policy has transive flow\n"
-                  +allowedSinkToSources.get(source)+"->"+allowedSourceToSinks.get(source));
-                  System.out.flush();
-              }
+                if (allowedSinkToSources.containsKey(source)) {
+                    Set<FlowPermission> sources = allowedSinkToSources.get(source);
+                    Set<FlowPermission> sinks = allowedSourceToSinks.get(source);
+                    Pair<Set<FlowPermission>, Set<FlowPermission>> flows = Pair.of(sources, sinks);
+                    if (!areFlowsAllowed(flows)) {
+                        System.out.flush();
+                        System.out.println("Warning, flow policy has transive flow\n"
+                                + allowedSinkToSources.get(source) + "->"
+                                + allowedSourceToSinks.get(source));
+                        System.out.flush();
+                    }
+                }
           }
       }
     }
