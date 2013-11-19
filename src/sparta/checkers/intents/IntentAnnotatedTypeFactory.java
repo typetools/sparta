@@ -28,7 +28,6 @@ import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import sparta.checkers.ComponentMap;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IExtra;

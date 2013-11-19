@@ -8,7 +8,6 @@ import checkers.source.SupportedLintOptions;
 
 import javax.annotation.processing.SupportedOptions;
 
-import sparta.checkers.ComponentMap;
 import sparta.checkers.FlowChecker;
 import sparta.checkers.FlowPolicy;
 import sparta.checkers.quals.IExtra;

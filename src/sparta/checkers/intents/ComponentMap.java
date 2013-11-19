@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.intents;
 
 import java.io.BufferedReader;
 import java.io.File;
