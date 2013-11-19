@@ -151,20 +151,20 @@ Our system does not add much complexity:  it only adds 28 permissions to
 Android's standard 130, or 22\% more permissions.  \tabref{tab:perms} lists
 the additional permissions.
 
-Some researchers feel that the Android permission model is already too complicated for
-users to understand~\cite{felt:2011:permissions}.  But our perspective is that of an auditor who
-is trained to analyze an application.  The flow policy is examined once
-per application by a skilled engineer, not on every download by a user, so
-the total human burden is less.  The more detailed flow
-policy file may even be more comprehensible than simple Android permissions,
-because the flow policy makes clear how each resource is used, not just
-that it is used.
+%Some researchers feel that the Android permission model is already too complicated for
+%users to understand~\cite{felt:2011:permissions}.  But our perspective is that of an auditor who
+%is trained to analyze an application.  The flow policy is examined once
+%per application by a skilled engineer, not on every download by a user, so
+%the total human burden is less.  The more detailed flow
+%policy file may even be more comprehensible than simple Android permissions,
+%because the flow policy makes clear how each resource is used, not just
+%that it is used.
 
 \input{permission-table}
 
 We now discuss two permissions, \perm{LITERAL} and \perm{CONDITIONAL}, and empty  whose meaning may not be obvious.
 
-\myparagraph{Literals}
+\subsubsection{Literals}
 The \perm{LITERAL} source is used for programmer-written manifest
 constants, such as \<"Hello world!">.
 This enables \theFlowChecker to distinguish information derived
@@ -175,7 +175,7 @@ The flow policy shows the ways they are used in the program, and they can
 be directly examined by the analyst.
 
 
-\myparagraph{Conditionals}
+\subsubsection{Conditionals \label{sec:conditionals}}
 \TheFlowChecker treats conditional statements as a flow sink
 to enable detection of indirect flows that leak private information.
 For example, without any treatment of conditionals, the following code would
@@ -215,7 +215,7 @@ The auditor must examine the code nearby
 to ensure that the conditional is not being used to indirectly leak information.
 
 
-\myparagraph{Empty Sink or Source\label{sec:emptyflow}}
+\subsubsection{Empty Sink or Source\label{sec:emptyflow}}
 
 Programmers should not use @Source(\ttcbs) or @Sink(\ttcbs) for
 any types except in stub files.
@@ -238,7 +238,7 @@ ensures this; see section \secref{sec:flow-policy}.
 
 Note that this does not mean you must specify both a flow source
 annotation and a flow sink annotation as explained in
-\label{sec:system:defaults}. 
+\secref{sec:system:defaults}. 
 
  
 

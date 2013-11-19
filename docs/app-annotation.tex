@@ -130,7 +130,7 @@ HelloWorld.java:49: error: incompatible types in return.
 \end{Verbatim}
 
 \subsection{Conditionals}
-As explained in Section \ref{sec:conditionals}, any item in a conditional statement must have CONDITIONAL listed as a FlowPermission.  If a variable is only annotated with Source and strict conditionals are not used, then CONDITIONAL is added as a flow sink by default. 
+As explained in \secref{sec:conditionals}, any item in a conditional statement must have CONDITIONAL listed as a FlowPermission.  If a variable is only annotated with Source and strict conditionals are not used, then CONDITIONAL is added as a flow sink by default. 
 
 For example, if input is a parameter in a method and is annotated with @Sink(FlowPermission.INTERNET), the following error will occur.  To fix the error, add CONDITIONAL to the flow sink annotation.  
 
