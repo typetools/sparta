@@ -30,7 +30,13 @@ Do not distribute.
 \newcommand{\sinknone}{\<Sink(\ttcbs)>}
 \newcommand{\sinksome}{\<Sink(\ldots)>}
 \newcommand{\flowsto}{\ensuremath{\rightarrow}}
+\newcommand{\perm}[1]{{\smaller #1}}
+  % A flow between a source and a sink
+ \newcommand{\flow}[2]{%
+   \perm{#1}\discretionary{}{}{}\flowsto\discretionary{}{}{}\perm{#2}}
 
+
+\newcommand{\myparagraph}{\subsubsection*}
 
 %% Comment out one of these two definitions.
 \newcommand{\todo}[1]{\relax}

@@ -1,0 +1,23 @@
+\begin{table}
+\caption{Additional permissions used by \theFlowChecker, beyond the built-in 130 Android permissions.}
+%\setlength{\tabcolsep}{.5\tabcolsep}
+\begin{tabular}{lll}
+\hline
+\textbf{Sources}     &\textbf{Sinks}     &\textbf{Both source and sink}\\
+\hline
+ACCELEROMETER     &CONDITIONAL     &CAMERA\_SETTINGS\\
+BUNDLE     &DISPLAY     &CONTENT\_PROVIDER\\
+LITERAL     &SPEAKER     &DATABASE\\
+MEDIA     &WRITE\_CLIPBOARD     &FILESYSTEM\\
+PHONE\_NUMBER     &WRITE\_EMAIL     &INTENT\\
+RANDOM     &WRITE\_LOGS     &PARCEL\\
+READ\_CLIPBOARD     &&PROCESS\_BUILDER\\
+READ\_EMAIL     &&SECURE\_HASH\\
+READ\_TIME     &&SHARED\_PREFERENCES\\
+REFLECTION     &&SQLITE\_DATABASE\\
+USER\_INPUT     &&SYSTEM\_PROPERTIES\\
+\end{tabular}
+\label{tab:perms}
+\end{table}
+
+%  LocalWords:  FILESYSTEM SQLITE

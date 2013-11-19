@@ -1,4 +1,8 @@
 \htmlhr
+
+\newcommand{\theFlowChecker}{the Flow Checker\xspace}
+\newcommand{\TheFlowChecker}{The Flow Checker\xspace}
+
 \chapter{Flow Checker\label{flow-checker}}
 This chapter describes the Flow Checker, a type-checker that 
 tracks information flow through your program.
@@ -43,41 +47,46 @@ After you read this chapter, see \chapref{app-annotation} for tips about
 writing information-flow annotations.
 
 
-\section{The information-flow type system\label{sec:flow-type-system}}
+\section{Source and Sink Annotations\label{sec:flow-type-system}}
 
-You write the annotation \<@Source> on a variable's
-type to indicate what sensitive sources can affect the variable's value.
-You write the annotation \<@Sink> to indicate where (part of) the
+
+The type qualifier \<@Source> on a variable's
+type indicates what sensitive sources might affect the variable's value.
+The type qualifier \<@Sink> indicates where (information computed from) the
 value might be output.
+These qualifiers can be used on any occurrence
+of a type, including in type parameters, object instantiation, and cast types.
 
-As an example
-\footnote{This example statically imports the enum to avoid writing FlowPermission before LOCATION and INTERNET. (import static sparta.checkers.quals.FlowPermission.*;)}, suppose there is a declaration
+
+As an example, consider the declaration
+
 \begin{Verbatim}
-  @Source(LOCATION) @Sink(INTERNET) double latitude;
+    @Source(LOCATION) @Sink(INTERNET) double loc;
 \end{Verbatim}
+
 \noindent
-The \<@Source(LOCATION)> annotation indicates that the
-value of \<latitude> might have been derived from
-location information.  It does not guarantee that the value came from
-authentic GPS data, but only sets a bound on where the information might
-have come from.
-Similarly, the annotation \<@Sink(FlowPermission.INTERNET)> marks that
-the string \<latitude> might be output to the network.  It is also
+The type of variable \<loc> is \<@Source(LOCATION) @Sink(INTERNET)
+double>.
+The \<@Source(LOCATION)> qualifier indicates that the
+value of \<loc> might have been derived from
+location information.
+Similarly, the qualifier \<@Sink(INTERNET)> indicates that
+\<loc> might be output to the network.
+A programmer typically writes either \<@Source> or \<@Sink>, but not both;
+see \secref{sec:system:defaults}.  It is also
 possible that the data has already been output.
 
-The argument to \<@Source> (and \<@Sink>) is an enum constant, or a
-set of them to indicate that a value might combine information from
-multiple sources (or might flow to multiple locations).
-\todo{Will need to rewrite this section if we agree to merge the enums.  Including explaining how an enum 
-constant is marked as Source, Sink or Both}
-Source specifies data sources such as phone number, location, 
-etc.  Sink specifies sinks, such as files, network, and so on.
-The types of Source and Sink are listed in the
-\<Source.java> and \<Sink.java> files in \<sparta.checkers.quals>.
-Most of them correspond to Android permissions (see 
-\url{http://developer.android.com/reference/android/Manifest.permission.html}),
-and others are new ``permissions'' that provide finer-grained control over
-the behavior of an application.
+The arguments to \<@Source> and \<@Sink> are permissions
+drawn from our enriched permission system (\secref{sec:permissions}).
+The argument may also be a set of permissions to indicate that a value
+might combine information from 
+multiple sources or flow to multiple locations.
+The rarely-used special constant \<ANY> denotes the set of all sources or the set of all
+sinks.
+%Most of them correspond to Android permissions (see 
+%\url{http://developer.android.com/reference/android/Manifest.permission.html}),
+%and others are new ``permissions'' that provide finer-grained control over
+%the behavior of an application.
 
 
 \subsection{Subtyping\label{sec:subtyping}}
@@ -86,61 +95,127 @@ the behavior of an application.
 \centerline{\includegraphics[width=.49\textwidth]{figures/flowsources}%
   \hfill%
   \includegraphics[width=.49\textwidth]{figures/flowsinks}}
-\caption{Partial qualifier hierarchy for \<@Source> and \<@Sink>.}
+\caption{Partial qualifier hierarchy for flow source and flow sink type
+  qualifiers, expressed as Java annotations \<@Source> and \<@Sink>.}
 \label{fig:flow-hierarchy}
 \end{figure}
 
-As with standard Java types, the type annotation hierarchy indicates which
-assignments, method calls, and overriding are legal. \figref{fig:flow-hierarchy} 
-shows part of the \<@Source>
-qualifier hierarchy.  The top type is \<@Source(ANY)>, which is
-shorthand for listing every source.  It would be legal to annotate every
-variable in a program with \<@Source(ANY)>, because every variable is
-derived from some subset of all flow sources.  But, such an annotation
-would be imprecise.  \<@Source(\ttcbs)>  is the
-bottom type, and may only
-be applied to variables whose value does not depend on any sensitive
-source.
 
 
-\figref{fig:flow-hierarchy} shows part of the \<@Sink>
-qualifier hierarchy.  The top type is \<@Sink(\ttcbs)>, which indicates
-that the value is only used locally by the application and never flows to
-any sensitive sink.  The bottom type, \<@Sink(Sink.ANY)>, is a
-value that might be output to any location whatsoever; it can be thought of
-as a completely public value.
-
-Note the different subtyping behavior for sources and sinks.
+A type qualifier hierarchy indicates
+which assignments, method calls, and overridings are legal, according to
+standard object-oriented typing rules.
+\figref{fig:flow-hierarchy} shows parts of the \<@Source> and
+\<@Sink> qualifier hierarchies.
 
 
+\<@Source($B$)> is a subtype of \<@Source($A$)> iff \<$B$> is a subset of \<$A$>.
+For example, \<@Source(INTERNET)> is a subtype of \<@Source(\{INTERNET, LOCATION\})>.
+This rule reflects the fact that the \<@Source> annotation
+places an upper bound on the set of sensitive sources that were actually
+used to compute the value.
+If the type of \<x> contains \<@Source(\{INTERNET, LOCATION\})>, then the value
+in \<x> might have been derived from both \<INTERNET> and \<LOCATION> data, or
+only from \<INTERNET>, or only from \<LOCATION>, or from no
+sensitive source at all.
+% XXX
 
-
-\subsection{Conditionals\label{sec:conditionals}}
-
-The Flow Checker considers conditional expressions to be a flow sink.  If a variable 
-will be used in a conditional, then it must have a flow sink of CONDITIONAL.  By default, 
-any source is allowed flow through a conditional.  That is to say that 
-ANY \flowsto{} CONDITIONAL is added to the flow policy by default. 
-
-Conditionals are treated this way because they can leak information. For example, the given a flow policy of  USER\_INPUT \flowsto{} FILESYSTEM, the following type checks.
-
-\begin{alltt}
-@Source(USER_INPUT) @Sink(FILESYSTEM)
-int creditCard = getCCNumber();
-final int MAX\_CC\_NUM = 9999999999999999;
-for (int i = 0 ; i < MAX\_CC\_NUM ; i++)\{
-   if (i == creditCard)
-        sendToInternet(i);
-\}
-\end{alltt}
-
-To catch this sort of information leak, pass
- \<-Alint=strict-conditional> to change the default from ANY \flowsto{} CONDITIONAL to 
- LITERAL \flowsto{} CONDITIONAL. 
+The opposite rule applies for sinks:
+\<@Sink($B$)> is a subtype of \<@Sink($A$)> iff \<$A$> is a subset of \<$B$>.
+The type \<@Sink(\{INTERNET, LOCATION\})> indicates that
+the value is permitted to flow to both \<INTERNET> and \<FILESYSTEM>.  This
+is a subtype of \<@Sink(INTERNET)>, as the latter type provides fewer routes through which the information may be
+leaked.
 
 
 
-\subsection{Empty Flow Sink or Flow Source\label{sec:emptyflow}}
+
+\subsection{Comparison to Android Permissions}
+\label{sec:permissions}
+
+
+\TheFlowChecker is finer-grained than standard Android manifest permissions
+in two ways.  First, Android permits any flow
+between any pair of permissions in the manifest --- that is, any resource
+mentioned in the manifest may be used in an arbitrary way.  Second,
+\theFlowChecker uses finer-grained permissions than Android does, in
+particular by adding additional permissions.
+Such finer-grained analysis is necessary in order to detect Trojans that would 
+look innocuous, given Android's coarser model.
+For example, \theFlowChecker requires 
+a permission to retrieve data from the accelerometer, which can indicate the user's
+physical activity, and to retrieve the time of day, which can be used
+as a trigger for malicious behavior.
+
+Our system does not add much complexity:  it only adds 28 permissions to
+Android's standard 130, or 22\% more permissions.  \tabref{tab:perms} lists
+the additional permissions.
+
+Some researchers feel that the Android permission model is already too complicated for
+users to understand~\cite{felt:2011:permissions}.  But our perspective is that of an auditor who
+is trained to analyze an application.  The flow policy is examined once
+per application by a skilled engineer, not on every download by a user, so
+the total human burden is less.  The more detailed flow
+policy file may even be more comprehensible than simple Android permissions,
+because the flow policy makes clear how each resource is used, not just
+that it is used.
+
+\input{permission-table}
+
+We now discuss two permissions, \perm{LITERAL} and \perm{CONDITIONAL}, and empty  whose meaning may not be obvious.
+
+\myparagraph{Literals}
+The \perm{LITERAL} source is used for programmer-written manifest
+constants, such as \<"Hello world!">.
+This enables \theFlowChecker to distinguish information derived
+from the program source code from other inputs.
+Manifest literals are used benignly for many 
+purposes, such as configuring default settings.
+The flow policy shows the ways they are used in the program, and they can
+be directly examined by the analyst.
+
+
+\myparagraph{Conditionals}
+\TheFlowChecker treats conditional statements as a flow sink
+to enable detection of indirect flows that leak private information.
+For example, without any treatment of conditionals, the following code would
+be permitted under a flow policy containing \flow{LITERAL}{INTERNET} and \flow{USER\_INPUT}{FILESYSTEM}:
+
+\begin{Verbatim}
+    @Source(USER_INPUT) @Sink(FILESYSTEM)
+    long creditCard = getCCNumber();
+    final long MAX_CC_NUM = 9999999999999999;
+    for (long i = 0 ; i < MAX_CC_NUM ; i++) {
+        if (i == creditCard)
+            sendToInternet(i);
+    }
+\end{Verbatim}
+
+To prevent malicious developers from bypassing the type system in this manner,
+\theFlowChecker requires the type of a
+conditional expression to include the sink \perm{CONDITIONAL}.
+By default, literals are allowed to flow
+to a conditional; that is, \flow{LITERAL}{CONDITIONAL} is added to the flow policy by default.
+
+Data containing sensitive information is often passed through conditional statements for benign reasons.  
+For example, an app might verify that a credit card number entered is valid by checking the number of digits.
+
+\begin{Verbatim}
+    @Source(USER_INPUT) @Sink(FILESYSTEM)
+    long creditCard = getCCNumber();
+    final long MAX_CC_NUM = 9999999999999999;
+
+    if (MAX_CC_NUM < creditCard)
+        reportTooManyDigits();
+\end{Verbatim}
+
+In this case, the credit card number is not indirectly leaked, but \theFlowChecker  
+cannot determine this and will report a false positive.
+The auditor must examine the code nearby
+to ensure that the conditional is not being used to indirectly leak information.
+
+
+\myparagraph{Empty Sink or Source\label{sec:emptyflow}}
 
 Programmers should not use @Source(\ttcbs) or @Sink(\ttcbs) for
 any types except in stub files.
@@ -159,22 +234,23 @@ flow sink that does affect the output of the program comes from an
 abuse of the type system.  Most likely a variable with no source or
 sink would come from an improperly suppressed warning. Therefore it is
 necessary to not allow flows from and to nowhere.  (The flow policy
-ensures this; see section \secref{sec:flow-policy})
+ensures this; see section \secref{sec:flow-policy}.
 
 Note that this does not mean you must specify both a flow source
 annotation and a flow sink annotation as explained in
-\secref{flow-defaults}. 
+\label{sec:system:defaults}. 
 
  
 
 
 \section{Flow Policy\label{sec:flow-policy}}
 
-A flow policy is a list of all the flows that are permitted to occur in an application.
-A flow-policy file is a list 
- of $\langle$flow source, flow sink$\rangle$ pairs.  If a flow is not listed in the flow policy
- or no flow policy is specified, no flows are allowed except for the conditional 
- flows discussed in section \secref{sec:conditionals}.
+A flow policy is a list of all the flows that are permitted to occur
+in an application.
+A flow policy file expresses a flow policy, as a list of $\flow{\|flowsource|^*}{\|flowsink|^*}$ pairs.
+Just as the Android manifest lists all the permissions that an app uses,
+the flow policy file lists the flows among permissions and other sensitive 
+locations. 
 
 \subsection{Semantics of a Flow Policy}
 \label{sec:undsiredflows}
@@ -217,6 +293,22 @@ The following definitions would generate ``forbidden flow'' errors:
   @Sink({EXTERNAL_STORAGE, FILESYSTEM, INTERNET})
 \end{Verbatim}
 
+\myparagraph{Transitivity and the flow policy file}
+\label{sec:flow-policy-transitivity}
+The flow policy file indicates specific permitted information flows.  It
+may be possible to combine these flows.
+For example, a policy that permits
+\flow{CAMERA}{FILESYSTEM} and \flow{FILESYSTEM}{INTERNET}
+will implicitly allow the flow \flow{CAMERA}{INTERNET},
+because the application may record from the camera into a file
+and then send the contents of the file over the network.
+\TheFlowChecker forbids such implied flows:  the developer is required to write
+the transitive flow in the flow policy file, which requires the developer
+to justify its purpose or convince the app store that the flow is not used.
+Finer-grained permissions, as discussed in
+%\secref{sec:future}, would reduce the impact of implied flows.
+\todo{Explain/show warning}
+
 
 \subsection{Syntax of a Flow Policy File}
 
@@ -229,7 +321,7 @@ The source or sink must be a member of the enum
 and sink names should not be preceded by the name of the enumeration which contains them.
 ANY is allowed just as it is in @Source and @Sink, but empty, \ttcbs, is not allowed.
 
-Multiple sources or sinks can appear on the same line if they are separated by commas. 
+Multiple sinks can appear on the same line if they are separated by commas. 
 For example,
 this policy file:
 \begin{alltt}
@@ -259,98 +351,177 @@ Or if you are using the \<check-flow> ant targets, you can pass the option to an
 ant -DflowPolicy=\emph{mypolicyfile} check-flow
 \end{alltt}
 
+ \section{Inference and defaults}
+ \label{sec:system:defaults}
+ 
+ A complete type consists of a \<@Source> qualifier, a \<@Sink> qualifier,
+ and a Java type.  To reduce programmer effort and code clutter, most of the
+ qualifiers are inferred or defaulted.  
+ 
+ A programmer need not write qualifiers within method bodies,
+ because such types are inferred by \theFlowChecker (see \secref{sec:type-inference}).
+ Even for method signatures and
+ fields, a programmer generally writes either \<@Source> or
+ \<@Sink>, but not both; see \secref{sec:infer-from-flow-policy} and 
+\secref{sec:unannotated-types}.
+\subsection{Type inference and flow-sensitivity}
+\label{sec:type-inference}
 
-\section{Default Types\label{flow-defaults}}
+A programmer does not write information flow types within method bodies.  Rather, local
+variable types are inferred.
 
-\begin{table}[h]
-    \begin{tabular}{ll}
-    \toprule
-\bf{Location}&\bf{Default Flow Type}\\
-\midrule 
-   \<@Source($\alpha$)>&\<@Source($\alpha$)>
-   \<@Sink($\omega$)>,  $\omega$ is the set of  sinks allowed to flow from all sources in $\alpha$ \\ 
-      \<@Sink($\omega$)>&\<@Source($\alpha$)>
-      \<@Sink($\omega$)>, $\alpha$ is the set of  sources allowed to flow to all sinks in $\omega$ \\ 
-    Fields &  \<@Source(LITERAL)> \\ 
-    Method parameters &  \<@Sink(CONDITIONAL)> \\ 
-    Method receivers &  \<@Sink(CONDITIONAL)> \\ 
-    Return values &  \<@Source(LITERAL)> \\ 
-    \<null> &  \<@Source(\ttcbs) @Sink(ANY)>\\ 
-    Literals & \<@Source(LITERAL) >\\ 
-   Local variables &   \<@Source(ANY) @Sink(\ttcbs)> \\ 
-    upper bounds &   \<@Source(ANY) @Sink(\ttcbs)> \\ 
-     resource variables  &   \<@Source(ANY) @Sink(\ttcbs)> \\ 
-     
-      \bottomrule
-    \end{tabular}
-    \caption{Default types}\label{table:defaults}
-\end{table}
-
-
-To reduce the number of annotations needed, default types are
-used. Table \ref{table:defaults} shows the default types used by the
-flow checker.
-
-
-The defaults are not applied if the programmer uses annotations.  For
-example, the parameter below is of type
-\<@Source(LOCATION) @Sink(INTERNET)>
-rather than  \<@Source({LITERAL})>.
-
-\begin{alltt}
-public void sendToInternet(
-    @Source(LOCATION) @Sink(INTERNET) String message)\{...\}
-\end{alltt} 
-
-The value \<null> has the bottom type (\<@Sink(ANY)
-@Source(\ttcbs)>),
-so that it can be assigned to any type. For local variables, the
-default applies to the top level of the local variable type, but not
-to generic type arguments and array elements, if any.
-
-The Checker Framework supports flow-sensitive type refinement.  Assignments (such as
-initializers) are used to refine the type to a more precise one.  Thus, in
-general you do not have to write type annotations on local variables.  For
+\TheFlowChecker implements this inference via flow-sensitive type refinement.
+Each local variable declaration defaults to
+the top type, \<@Source(ANY)> \srcnone.
+At every properly-typed assignment statement, the type of the left-hand side
+expression is
+flow-sensitively refined to that of the right-hand side, which must be a
+subtype of the left-hand side's declared type.
+The refined type applies until the next side effect that might invalidate
+it.   For
 details, see section ``\ahref{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#type-refinement}{Automatic type refinement (flow-sensitive type
 qualifier inference)}'' in the Checker Framework Manual.
 
-If the programmer specifies only flow sources, the flow sink is defaulted
-to be the
-sinks that the all the specified flow sources can flow to. This is to say that 
-it is the intersection of the set of sinks each source can flow to.
- In other words, if a type is annotated with 
-\<@Source($\alpha$)>, where $\alpha$ is a set of sources, then the flow sinks are the set 
-$\omega$ where $\omega$ is the intersection of sinks B where A \flowsto{} B and A is a flow source in 
-$\alpha$.  For example, if the flow policy contains the following:
 
-\begin{alltt}
-  A -> X,Y
-  B -> Y
-  C -> Y
-\end{alltt}
+We limit type inference to local variables to ensure that
+each method can be type-checked in isolation,
+with a guarantee that the entire program is type-safe if each method has
+been type-checked.  It would be possible to perform a whole-program type
+inference, but such an approach would not be modular, would be
+heavier-weight, would not deal well with cooperating or communicating
+applications, and would provide fewer documentation benefits.  
+
+
+\subsection{Determining sources from sinks and vice versa}
+\label{sec:infer-from-flow-policy}
+
+If a type contains only a flow source or only a flow sink, the other qualifier is
+filled in with the most general one that is consistent
+with the policy file.
+%
+If the programmer writes 
+\<@Source($\alpha$)>, \theFlowChecker defaults this to
+\<@Source($\alpha$)> \<@Sink($\omega$)> where $\omega$ is the
+set of flow sinks that all sources in $\alpha$ can flow to.
+%
+Similarly,
+\<@Sink($\omega$)> is defaulted to
+\<@Source($\alpha$)> \<@Sink($\omega$)> where $\alpha$ is the
+set of flow sources allowed to flow to all sinks in $\omega$.
+%
+Defaults are not applied if the programmer writes both a source and a
+sink qualifier.
+
+For example, suppose the flow policy contains the following:
+
+\begin{Verbatim}
+    A -> X,Y
+    B -> Y
+    C -> Y
+\end{Verbatim}
   
 \noindent 
-then these are equivalent:
+Then these pairs are equivalent:
+\begin{eqnarray*}
+  \mbox{\<@Source({B,C})>} & = & \mbox{\<@Source({B,C}) @Sink(Y)>} \\
+  \mbox{\<@Sink(Y)>}       & = & \mbox{\<@Source({A,B,C}) @Sink(Y)>}
+\end{eqnarray*}
 
-\begin{alltt}
-  @Source(A)                 ==   @Source(A) @Sink(\{X, Y\})
-  @Source(B)                 ==   @Source(B) @Sink(Y)
-  @Source(\{B,C\})             ==   @Source(\{B,C\}) @Sink(Y)
-  @Source(A) @Sink(Y)   ==   @Source(A) @Sink(Y) 
-  @Source(\{A,B\})             ==   @Source(\{A,B\}) @Sink(Y)
-\end{alltt}
+This mechanism is useful because oftentimes a programmer thinks about a
+computation in terms of only its sources or only its sinks.
+The programmer should not have to consider the rest of the program
+that provides context indicating the other end of the flow.
+
+\newcommand{\FCnumstubmethods}{10,553\xspace}
+\newcommand{\FCnumstubmethodsrounded}{10,000\xspace}
+% Number of stub file methods with explicit @Source and/or @Sink annotations
+% on some argument or the return type or receiver.  (The remaining methods use
+% some variant of @PolyFlow.)
+\newcommand{\FCnumstubmethodswitheither}{915\xspace}
+% Number of stub file methods with both @Source and @Sink annotations
+\newcommand{\FCnumstubmethodswithboth}{76\xspace}
+% numstubmethodswitheither / numstubmethodswithboth, as a percentage
+\newcommand{\FCpercentstubmethodswithboth}{8\%\xspace}
+\newcommand{\FCpercentstubmethodswithone}{92\%\xspace}
+
+This defaulting mechanism is essential for annotating
+libraries.  \TheFlowChecker ships with manual annotations for more than
+\FCnumstubmethodsrounded methods of the Android standard library.
+%% Mike tweaked the wording.  I hope it's still accurate.
+% Of the
+% % \FCnumstubmethodswitheither
+% methods with explicit \<@Source> or \<@Sink> annotations,
+\FCpercentstubmethodswithone of methods use only a
+\<@Source> or \<@Sink> annotation but not both.
+% \todo{These numbers are weird:  if only \FCnumstubmethodswitheither have \<@Source> or \<@Sink>, what about the other 9,000+ methods?  Were they manually-verified to not required any annotation?  That should be clarified here.}
+An example is the \<File> constructor:
+a newly-created readable file should be annotated with
+\<@Source(FILESYSTEM)>, but there is no possible \<@Sink> annotation
+that would be correct for all programs.
+Instead, the \<@Sink> annotation is omitted, and
+our defaulting mechanism provides the correct value
+based on the application's flow policy.
+
+This mechanism can be viewed as another application of type polymorphism.
 
 
-Similarly, if the programmer only specifies flow sinks, the flow sources are defaulted to be the sources 
-that are allowed to flow to all the specified sinks.  In other words, if a type is annotated with 
-\<@Sink($\omega$)>, where $\omega$ is a set of sinks, then the flow sources are the set 
-$\alpha$ where $\alpha$ is the intersection of sources A where A \flowsto{} B and B is a flow sink in 
-$\omega$. For example, using the same policy file as above, the following are equivalent:
+\subsection{Defaults for unannotated types}
+\label{sec:unannotated-types}
 
-\begin{alltt}
-  @Sink(X)                   ==   @Source(A) @Sink(X)
-  @Sink(Y)                   ==   @Source(\{A,B,C\}) @Sink(Y)
-\end{alltt}
+
+\begin{table}
+  \caption{Default information-flow qualifiers for unannotated types}
+  \begin{tabular}{l l}
+  \hline
+    \bf{Location} & \bf{Default Flow Type}\\
+  \hline
+     \<@Source($\alpha$)>&\<@Source($\alpha$)>
+       \<@Sink($\omega$)>,  $\omega$ is the set of  sinks allowed to flow from all sources in $\alpha$ \\
+     \<@Sink($\omega$)>&\<@Source($\alpha$)>
+       \<@Sink($\omega$)>, $\alpha$ is the set of  sources allowed to flow to all sinks in $\omega$ \\
+    Method parameters &  \<@Sink(CONDITIONAL)> \\
+    Method receivers &  \<@Sink(CONDITIONAL)> \\
+    Return types &  \<@Source(LITERAL)> \\
+    Fields &  \<@Source(LITERAL)> \\
+    \<null> &  \<@Source(\{\}) @Sink(ANY)>\\
+    Other literals & \<@Source(LITERAL) >\\
+    Type arguments & \<@Source(LITERAL) >\\
+    Local variables &   \<@Source(ANY) @Sink(\{\})> \\
+    Upper bounds &   \<@Source(ANY) @Sink(\{\})> \\
+    Resource variables  &   \<@Source(ANY) @Sink(\{\})> \\
+  
+  \end{tabular}
+
+  \label{tab:defaults}
+\end{table}
+
+Table \ref{tab:defaults} shows defaults for completely unannotated types.
+\TheFlowChecker allows a developer to choose a different default for a
+particular method, class, or package.
+When the default is only a source or only a sink, the other qualifier is
+inferred from the policy file as explained in
+\secref{sec:infer-from-flow-policy}.
+
+Most unannotated types (including field types, return
+types, generic type arguments, and non-\<null>
+literals) are given the qualifier \<@Source(LITERAL)>.  
+This is so that simple computation involving manifest literals, but not
+depending on Android permissions, does not require 
+annotations. 
+% The type's flow sinks
+% depend on where literals are permitted to flow according to the policy file.
+
+%\todo{@Sink(CONDITIONAL) is not a hole:  uses at method call sites must be consistent.  %Good for computation.}  No idea what the write of this todo wants
+
+As is standard, the \<null> literal is given the bottom type qualifier, which allows it to be assigned to any variable.
+For \theFlowChecker, the bottom type qualifier is \srcnone \<@Sink(ANY)>.
+
+There is a difference between a library method being given no \<@Source>
+annotation and no \<@Sink> annotation (in which case it is defaulted
+exactly as above) and a library method that has not yet been examined by a
+human to write a summary.  Unexamined methods are conservatively given a special
+type that guarantees a type-checking error, thus signaling to the
+developer the need to annotate that library method.
 
 
 \section{Warning Suppression\label{sec:waringsuppression}}
@@ -373,7 +544,9 @@ For details, see section~\ref{flow-task-annotate-apis} of this manual, and also
 chapter
 ``\ahref{\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}}{Annotating
   Libraries}'' in the Checker Framework Manual.  
- The methods that are annotated in stub files are defaulted the same way as methods written in apps, including flow policy inference.  (See the defaulting section, section ~\ref{flow-defaults}.) 
+ The methods that are annotated in stub files are defaulted the same way as methods 
+written in apps, including flow policy inference.  
+(See the defaulting section, \secref{sec:system:defaults}.) 
 
 Any method not written in the stub files or found in source code is not defaulted normally. 
  Instead, their return, receiver, and parameter types are annotated with \<@Sources(NOT\_REVIEWED)> 
@@ -384,15 +557,41 @@ Any method not written in the stub files or found in source code is not defaulte
   a file called \<missingAPI.astub> in the current working directory. It also 
   contains a comment the number of times an API method is used by the app.
 
-\section{Qualifier polymorphism: @PolySource  and @PolySink \label{sec:polyflowsources}}
+\section{Polymorphism \label{sec:polyflowsources}}
 
-Two additional type annotations can be used to annotate polymorphic
-methods: \<@PolySource>, \<@PolySink>.
 
-To make the type system more expressive, the flow type system supports
-qualifier polymorphism, via the type qualifiers \<@PolySource> and
-\<@PolySink>.  These are mostly used when annotating APIs when the
-specific flow sources or flow sinks are not known or can vary. 
+Information flow type qualifiers interact seamlessly with parametric polymorphism (Java
+generics).  For example, a programmer can declare
+
+\begin{Verbatim}
+    List<@Source(CONTACTS) @Sink(SMS) String> myList;
+\end{Verbatim}
+\noindent
+Here, the elements of \<myList> are strings
+that are obtained from \<CONTACTS> and that may flow to \<SMS>.
+
+\TheFlowChecker also supports qualifier polymorphism, in
+which the type qualifiers can change independently of the underlying type.
+This allows a programmer to write a generic method that can operate on values of
+any information flow type.
+For example, if a method is declared as
+\<@PolySource int f(@PolySource int x)>, then it can be called on an \<int>
+with any flow sources, and the result has exactly the same sources as the
+input.  This can be viewed as a declaration and two uses of a type
+qualifier variable.  The implicit type qualifier variables are
+automatically instantiated by \theFlowChecker at the point of use.
+
+For brevity,
+the additional
+annotation \<@PolyFlow> can be written on a class or method declaration to indicate that
+all contained parameters and return types should be annotated as \<@PolySource
+@PolySink>.  \<@PolyFlow> does not override explicitly-written annotations.
+
+
+Parametric polymorphism, qualifier polymorphism, and regular Java types can
+be used together.  The type system combines the
+qualifier variables and the Java types into a complete qualified type.
+
 See section ``\ahref{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#qualifier-polymorphism}{Qualifier polymorphism}'' in the Checker Framework Manual.  
 
 % These range over their respective type hierarchy and can be used to
@@ -432,28 +631,6 @@ This change of defaulting happens to library methods that are not written in stu
  
 
 
-
-
-\todo{generate some more examples.}
-%\subsection{Examples}
-%
-%Below are some examples of policy files and code examples that
-%illustrate their effects.  Only assignment operations are used
-%but remember that the flow-policy applies to all information flows.
-%Comments in the code examples describe a direct effect of the
-%given policy file.  Fake FlowPermission and FlowPermission names are used
-%to aid in clarity.
-%
-%Any variable definition marked "OK" indicates that this
-%definition would  be allowed given the policy file
-%(and consequently also allowed in the absence of any flow-policy
-%file).  Any variable definition marked "FORBIDDEN" indicates that
-%the definition is forbidden by the flow-policy file.
-%
-%Any assignment marked "OK" indicates that this assignment is valid
-%(with or without the policy file).  An assignment
-%marked "FORBIDDEN" indicates that the assignment will still fail
-%with an error.
 
 
 
@@ -497,21 +674,21 @@ expressions depending on the left-hand side.
 \medskip
 
 Enabling stricter checking will also enable the \<-Alint=strict-conditional> option to limit 
-allowed sinks to conditionals. See \secref{sec:conditionals} for more details.
+allowed sinks to conditionals.
 
-\section{Miscellaneous\label{sec:miscellaneous}}
+%\section{Miscellaneous\label{sec:miscellaneous}}
 
-Some methods that are intended to be overridden by subclasses, such as 
-\<Object>'s \<equals()> and \<toString()>, are given the most general
-possible return type, \<@Source(ANY) @Sink({})>.
-\todo{ Is this rationale correct??}
-This permits overriding methods to give them a more specific return type, which
-might depend on fields of the overriding class as well as on the types of
-the arguments.  In fact, an overriding method must give a more specific
-return type, since \<@Sink> prevents the value from being used.
+%Some methods that are intended to be overridden by subclasses, such as 
+%\<Object>'s \<equals()> and \<toString()>, are given the most general
+%possible return type, \<@Source(ANY) @Sink({})>.
+%\todo{ Is this rationale correct??}
+%This permits overriding methods to give them a more specific return type, which
+%might depend on fields of the overriding class as well as on the types of
+%the arguments.  In fact, an overriding method must give a more specific
+%return type, since \<@Sink> prevents the value from being used.
 
-Most binary operations, such as string concatenation and integer addition,
-produce a result whose type is the least upper bound of the two operand types.
+%Most binary operations, such as string concatenation and integer addition,
+%produce a result whose type is the least upper bound of the two operand types.
 
 
 %% Adding on to that, if you try to compute a @FlowPermission{something} int
