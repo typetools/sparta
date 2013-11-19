@@ -1,3 +1,15 @@
+----------------------------------------------------------------------
+Version 0.9.4 22 November 2013
+Sample Apps
+  Three new apps have been fully annotated as examples uses of the 
+  Flow Checker.  
+
+Flow Checker Changes
+  A warning is issued if a flow policy contains a possible transitive flow
+  
+Documentation
+  Improvements to the manual 
+----------------------------------------------------------------------
 Version 0.9.3 1 August 2013
 
 Flow Checker Changes
