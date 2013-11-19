@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------
-Version 0.9.4 22 November 2013
+Version 0.9.4 19 November 2013
 Sample Apps
   Three new apps have been fully annotated as examples uses of the 
   Flow Checker.  
