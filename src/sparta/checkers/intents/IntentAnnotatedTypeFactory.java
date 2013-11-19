@@ -49,7 +49,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         // Must call super.initChecker before the lint option can be checked.
         final String ipArg = checker
             .getOption(ComponentMap.COMPONENT_MAP_FILE_OPTION);
-        componentMap = new ComponentMap(new File(ipArg));
+        componentMap = new ComponentMap(ipArg);
 
         INTENTEXTRAS = AnnotationUtils.fromClass(elements, IntentExtras.class);
         IEXTRA = AnnotationUtils.fromClass(elements, IExtra.class);

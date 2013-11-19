@@ -28,10 +28,15 @@ public class ComponentMap {
 
     private final Map<String, Set<String>> componentMap;
 
-    public ComponentMap(final File componentMapFile) {
-        componentMap = getAndroidSystemComponents();
-        if (componentMapFile != null && componentMapFile.exists()) {
-            readComponentMapFile(componentMapFile);
+    public ComponentMap(final String filename) {
+        if (filename != null) {
+            File componentMapFile = new File(filename);
+            componentMap = getAndroidSystemComponents();
+            if (componentMapFile != null && componentMapFile.exists()) {
+                readComponentMapFile(componentMapFile);
+            }
+        } else {
+            componentMap = new HashMap<String, Set<String>>();
         }
     }
 
