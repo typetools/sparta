@@ -28,9 +28,9 @@ class MiscTests {
 
 
     void test_StringFormat_StringFlowPermission() {
-        double lat = 1.0;
-        double lon = 2.0;
-        int days = 3;
+        Double lat = Double.valueOf(1.0);
+        Double lon = Double.valueOf(2.0);
+        Integer days = Integer.valueOf(3);
         result = String.format(WEBSERVICE_URL, lat, lon, days);
     }
 
@@ -50,9 +50,10 @@ class MiscTests {
     }
 
     void test_StringFormat_ObjectFlowPermissionSource() {
-        @Source({READ_CALENDAR,LITERAL}) double lat = 1.0;
-        @Source({READ_CALENDAR,LITERAL}) double lon = 2.0;
-        @Source({READ_CALENDAR,LITERAL}) int days = 3;
+        Double lat = (@Source({READ_CALENDAR,LITERAL}) Double) Double.valueOf(1.0);
+        Double lon = (@Source({READ_CALENDAR,LITERAL})Double) Double.valueOf(2.0);
+        int days = (@Source({READ_CALENDAR,LITERAL})Integer) Integer.valueOf(3);
+        //::error: (assignment.type.incompatible)
         result = String.format(WEBSERVICE_URL3, lat, lon, days);
     }
 }
