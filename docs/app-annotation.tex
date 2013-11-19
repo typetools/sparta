@@ -8,70 +8,20 @@ libraries need to be annotated. Usually method bodies do not need to be
 annotated.
 
 
-\section{Annotating Application Methods\label{sec:annomethods}}
+\section{Annotating  Methods\label{sec:annomethods}}
 
 Typically, return types should be annotated with just Source so that the Sink can be
- inferred from the policy file as explained in Section \ref{flow-defaults}. Similarly, parameters should
+ inferred from the policy file as explained in \secref{sec:infer-from-flow-policy}. Similarly, parameters should
   only be annotated with Sink, so that the Source can be inferred from  the policy file.
     Local variables should not have to be annotated, because their types can be inferred. Fields 
     must be annotated with  Sink or Source, or sometimes both. 
 
-\section{Annotating APIs in Stub Files\label{sec:annoAPI}}
-\todo{We are changing the defaulting for APIs, so this section will need to be completely  rewritten once that is done.}
-
-\subsection{Methods with Source}
-If you read the Javadoc and the method returns an object from a certain source, then you should annotate
-the return type with that flow source and with \<@Sink(FlowPermission.ANY)>.  (If \<@Sink> is omitted, then it is assumed to be empty
- which means that the object returned cannot be assigned to a variable with a sink.)
-
-The \<getParameters> method is an example of a method that returns an object with a source.
-\begin{Verbatim}
-package android.hardware;
-class Camera {
-    @Source(FlowPermission.CAMERA_SETTINGS) @Sink(FlowPermission.ANY)
-        Camera.Parameters getParameters ();
-    void setParameters (@Source(FlowPermission.ANY) @Sink(CAMERA_SETTINGS) 
-         Camera.Parameters params);
-}
-\end{Verbatim}
-
-
-
-\begin{Verbatim}
-Camera.Parameters parameters
-     = mCamera.getParameters();
-// Change some parameters
-// If the policy file contains: CAMERA_SETTINGS->CAMERA_SETTINGS
-// Then the following statement will not give an error:
-mCamera.setParameters(parameters);
-\end{Verbatim}
-
-
-
-\subsection{Methods with Sink}
-If you read the Javadoc for an API method an it sends some parameters to a FlowPermission, then the parameters
-should be annotated with that flow sink and ANY flow source.  
-
-Example annotation
-\begin{Verbatim}
-package android.database.sqlite;
-class SQLiteDatabase{
-  public void execSQL (@Sink(FlowPermission.DATABASE) @Source(FlowPermission.ANY) String sql);
-}
-\end{Verbatim}
-Use of the API
-\begin{Verbatim}
-@Source(SMS,LITERAL)  String getSMSQuery(){..}
-String mes = getSMSQuery();
-//if SMS,LITERAL->DATABASE is in flow policy
-//Then the following statement will not give an error
-db.execSQL(mes);
-\end{Verbatim}
+\section{Annotating API Methods in Stub Files\label{sec:annoAPI}}
 
 \subsection{Callbacks}
 The Android API frequently uses callbacks.  These are methods that the developer must 
 implement and register.  In stub files, these callbacks should be annotated
-with source information and FlowPermission.ANY.  
+with source information that will be passed when the method is called.  
 
 An example annotation of a callback method
 \begin{Verbatim}
@@ -79,15 +29,15 @@ package android.hardware;
 class Camera$PictureCallback{
   //data: a byte array of the picture data
    void onPictureTaken 
-      (@Source(FlowPermission.CAMERA) @Sink(FlowPermission.ANY) byte[] data, 
-             @Source(FlowPermission.CAMERA) @Sink(FlowPermission.ANY)  Camera camera);
+      (@Source(CAMERA)  byte[] data, 
+             @Source(CAMERA)   Camera camera);
 }
 \end{Verbatim}
 
 An example implementation of a callback
 \begin{Verbatim}
 public void onPictureTaken
-(@Source(FlowPermission.CAMERA) byte[] data, @Source(FlowPermission.CAMERA) Camera camera){
+(@Source(CAMERA) byte[] data, @Source(CAMERA) Camera camera){
    //If CAMERA->FILE_SYSTEM is in policy file
    //Then the following statement will not give an error
     writeToFile(data);
@@ -100,7 +50,7 @@ public void onPictureTaken
 Some methods take the arguments passed, transform them, and then return them.  These sorts of 
 methods should be annotated with \<@PolySource @PloySink>
   to preserve the flow information.  The declaration annotation \<@PolyFlow> can be used instead of
-  annotating all the parameters and return types. See Section \ref{sec:polyflow} for more information 
+  annotating all the parameters and return types. See \secref{sec:polyflowsources} for more information 
   
   Math.min(...) is a good example of these kinds of methods. 
   
@@ -114,9 +64,9 @@ class Math{
 
 Example use of \<@PolyFlow>.
 \begin{Verbatim}
-@Source(FlowPermission.LOCATION) int i1 = getLocation();
-@Source(FlowPermission.INTERNET) int i2 = getLocationForNetwork();
-@Source({FlowPermission.LOCATION,FlowPermission.INTERNET)}) int min = Math.min(i1,i2);
+@Source(LOCATION) int i1 = getLocation();
+@Source(INTERNET) int i2 = getLocationForNetwork();
+@Source({LOCATION,INTERNET)}) int min = Math.min(i1,i2);
  \end{Verbatim}
 
 \section{Common Errors\label{errors}}
