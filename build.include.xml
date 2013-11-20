@@ -286,17 +286,3 @@
     
 
 </project>
-usage as text.">
-        <javamain-proj classname="sparta.checkers.JsonJavac$ReportUsageText"
-            output="reportusage.txt"/>
-    </target>
--->
-
-    <target name="reportbinaryonly"
-                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="report binary-only method calls and field accesses.">
-        <process-proj processor="sparta.checkers.ReportBinaryChecker"/>
-    </target>
-    
-
-</project>
