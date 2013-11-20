@@ -34,7 +34,7 @@ Making a release
 export RELEASE=…
 cd $RELEASE
 hg clone https://dada.cs.washington.edu/hgweb/sparta-code sparta-vX.X.X
-cd sparta-code
+cd sparta-vX.X.X
 
 //Update the version number of SPARTA and CF:
 vi build.properties docs/manual.tex website/release/index.html
@@ -52,23 +52,20 @@ cp docs/manual.html ../
 cp docs/manual.pdf ../
 cp website/release/index.html ../
 
-ant -buildfile sparta-code/release-cleanup.xml clean -DspartaDir=sparta-code
+ant -buildfile release-cleanup.xml clean -DspartaDir=.
 
 cd ../
-# Verify required directory to run the build script from
-rm sparta-code/release-cleanup.xml
-rm sparta-code/developer-docs
-tar -czf sparta-code-X.X.X.tgz sparta-code/
+tar -czf sparta-code-X.X.X.tgz sparta-vX.X.X/
 
-//Prepare sparta-subjects
+//Prepare sparta-sample-apps
 cd $RELEASE
-hg clone https://dada.cs.washington.edu/hgweb/sparta-subjects sparta-samples-v0.9.3
+hg clone https://dada.cs.washington.edu/hgweb/sparta-sample-apps sparta-samples-vX.X.X
 
 ant -buildfile release-cleanup.xml clean -DsubjectsDir=.
-rm sparta-subjects/release-cleanup.xml
-tar -czf sparta-subjects-X.X.X.tgz sparta-subjects/
+rm sparta-sample-apps/release-cleanup.xml
+tar -czf sparta-samples-X.X.X.tgz sparta-sample-apps/
 
-rm -r sparta-subjects-X.X.X/
+rm -r sparta-sample-apps-X.X.X/
 rm -r sparta-code-X.X.X/
 tar -czf release-vX.X.X.tgz *
 
@@ -79,7 +76,7 @@ mkdir /cse/www2/types/sparta/release/versions/vX.X.X
 scp release* buffalo:/cse/www2/types/sparta/release/versions/vX.X.X
 #buffalo
 
-tar -xzf release-v0.9.3.tgz
+tar -xzf release-vX.X.X.tgz
 mv index.html ../../
 chmod 775 .
 chmod 664 *

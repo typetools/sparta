@@ -24,6 +24,7 @@
         
     	<delete dir="${spartaDir}/.hg"/>
     	<delete dir="${spartaDir}/developer-docs"/>
+    	<delete file="${spartaDir}/release-cleanup.xml"/>
 
     
     </target>
