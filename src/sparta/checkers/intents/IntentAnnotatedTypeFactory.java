@@ -90,12 +90,10 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             if (IntentUtils.isGetExtraMethod(tree,getProcessingEnv())) {
                 // Modifying type of getExtra call
                 mfuPair = changeMethodReturnType(tree, mfuPair);
-                // Modifying @Source and @Sink types for parameters in getExtra
-                // calls
+                // Modifying @Source and @Sink types for parameters
                 hostChangeParametersToTop(mfuPair.first.getParameterTypes());
-            } else if (IntentUtils.isPutExtraMethod(tree)) {
-                // Modifying @Source and @Sink types for parameters in putExtra
-                // calls
+            } else if (IntentUtils.isPutExtraMethod(tree) || IntentUtils.isIntentPayloadMethod(tree)) {
+                // Modifying @Source and @Sink types for parameters
                 hostChangeParametersToTop(mfuPair.first.getParameterTypes());
             }
         }

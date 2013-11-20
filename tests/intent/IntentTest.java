@@ -51,7 +51,7 @@ public class IntentTest extends Activity {
     }
 
     void putExtraFail() {
-        //:: error: (intent.check.notcompatible)
+        //:: error: (intent.type.incompatible)
         i1.putExtra("k2", getVal());
         //:: error: (intent.key.notfound)
         i1.putExtra("k3", getVal());

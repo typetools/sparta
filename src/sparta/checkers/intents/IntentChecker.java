@@ -19,7 +19,7 @@ import sparta.checkers.quals.Source;
 
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolyAll.class,
         IntentExtras.class, IExtra.class })
-@StubFiles("flow.astub")
+@StubFiles("../information_flow.astub")
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, ComponentMap.COMPONENT_MAP_FILE_OPTION,
         FlowChecker.MSG_FILTER_OPTION, FlowChecker.IGNORE_NOT_REVIEWED })
 @SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })
@@ -30,7 +30,7 @@ public class IntentChecker extends FlowChecker {
     // public void report(Result r, Object src) {
     // List<String> messageKeys = r.getMessageKeys();
     // if (messageKeys.contains("intent.key.notfound")
-    // || messageKeys.contains("intent.check.notcompatible")
+    // || messageKeys.contains("intent.type.incompatible")
     // || messageKeys.contains("send.intent")
     // || messageKeys.contains("getintent.not.found")) {
     // super.report(r, src);

@@ -351,6 +351,7 @@ public class IntentVisitor extends FlowVisitor {
         if (iExtra == null) {
             checker.report(Result.failure("intent.key.notfound", keyName, receiver.toString()),
                     node);
+            return;
         }
 
         // Getting annotations of the value being added to the intent
@@ -363,7 +364,7 @@ public class IntentVisitor extends FlowVisitor {
         // subtype
         // of what the @IntentExtras annotation contains.
         if (!atypeFactory.getTypeHierarchy().isSubtype(valueType, declaredKeyType)) {
-            checker.report(Result.failure("intent.check.notcompatible", receiver.toString(),
+            checker.report(Result.failure("intent.type.incompatible", receiver.toString(),
                     keyName, declaredKeyType.getAnnotation(Source.class),
                     declaredKeyType.getAnnotation(Sink.class),
                     valueType.getAnnotation(Source.class), valueType.getAnnotation(Sink.class)),

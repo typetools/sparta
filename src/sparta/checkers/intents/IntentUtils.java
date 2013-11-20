@@ -50,6 +50,12 @@ public class IntentUtils {
             "putExtra", "putCharSequenceArrayListExtra",
             "putIntegerArrayListExtra", "putParcelableArrayListExtra",
             "putStringArrayListExtra" });
+    
+    private static List<String> PAYLOAD_SIGNATURES = Arrays
+            .asList(new String[] { 
+                "setAction", "addCategory",
+                "setData", "setType", "setDataAndType",
+                "removeCategory"});
 
     /**
      * Method that receives an @IntentExtras and a <code> key </code>
@@ -276,6 +282,16 @@ public class IntentUtils {
         //				// processingEnv)) {
         //				// return true;
         //				// }
+    }
+    
+    public static boolean isIntentPayloadMethod(MethodInvocationTree tree) {
+        Element ele = (Element) InternalUtils.symbol(tree);
+        if(ele instanceof ExecutableElement) {
+            ExecutableElement method = (ExecutableElement) ele;
+            return PAYLOAD_SIGNATURES.contains(method.getSimpleName().toString());
+        }
+        return false;
+        
     }
 
     /**
