@@ -146,6 +146,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         }
 
         ((FlowChecker)checker).notInStubFile.putAll(notInStubFile);
+        notInStubFile = ((FlowChecker)checker). notInStubFile;
 
     }
     @Override
