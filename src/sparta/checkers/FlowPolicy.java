@@ -428,11 +428,11 @@ public class FlowPolicy {
                     Set<FlowPermission> sinks = allowedSourceToSinks.get(source);
                     Pair<Set<FlowPermission>, Set<FlowPermission>> flows = Pair.of(sources, sinks);
                     if (!areFlowsAllowed(flows)) {
-                        System.out.flush();
-                        System.out.println("Warning, flow policy has transive flow\n"
+                        System.err.flush();
+                        System.err.println("Warning, flow policy has transive flow\n"
                                 + allowedSinkToSources.get(source) + "->"
                                 + allowedSourceToSinks.get(source));
-                        System.out.flush();
+                        System.err.flush();
                     }
                 }
           }
