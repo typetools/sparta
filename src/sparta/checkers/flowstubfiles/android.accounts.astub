@@ -5,13 +5,22 @@ class AccountManager{
         void removeOnAccountsUpdatedListener(OnAccountsUpdateListener listener);
         static AccountManager get(Context context);
 }
-public class Account implements Parcelable {
-    public final @Source(GET_ACCOUNTS) String name;
+
+class Account implements Parcelable {
+    final @Source(GET_ACCOUNTS) String name;
+    final @Source(GET_ACCOUNTS) String type;
+    final Creator<Account> CREATOR;
+    Account(@Source(GET_ACCOUNTS) String arg0, @Source(GET_ACCOUNTS) String arg1);
+    Account(@Source(GET_ACCOUNTS) Parcel arg0);
+    boolean equals(@Source(GET_ACCOUNTS) Object arg0);
+    int hashCode();
+    int describeContents();
+    void writeToParcel(@Source(GET_ACCOUNTS) Parcel arg0, int arg1);
+    @Source(GET_ACCOUNTS) String toString();
 }
 
-
 class OnAccountsUpdateListener{
-        void onAccountsUpdated(@Source(GET_ACCOUNTS) Account[] arg0);
+        void onAccountsUpdated(Account[] arg0);
 }
 
 
