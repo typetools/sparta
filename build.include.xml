@@ -76,7 +76,7 @@
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks} ${strictoptions}" />
                 <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} -AcomponentMap=@{componentMap} -Aignorenr=@{ignorenr} ${checkerFrameworkOpts}"/>
-                <compilerarg line="-encoding ISO8859-1 -AprintErrorStack " />
+                <compilerarg line="-encoding ISO8859-1 -AprintErrorStack -AsuppressWarnings=purity.invalid.overriding " />
             </jsr308.javac>
             <more-tasks/>
         </sequential>
