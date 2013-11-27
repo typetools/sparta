@@ -7,16 +7,16 @@ class AccountManager{
 }
 
 class Account implements Parcelable {
-    final @Source(GET_ACCOUNTS) String name;
-    final @Source(GET_ACCOUNTS) String type;
+    final String name;
+    final String type;
     final Creator<Account> CREATOR;
-    Account(@Source(GET_ACCOUNTS) String arg0, @Source(GET_ACCOUNTS) String arg1);
-    Account(@Source(GET_ACCOUNTS) Parcel arg0);
-    boolean equals(@Source(GET_ACCOUNTS) Object arg0);
+    Account(String arg0, @Source(GET_ACCOUNTS) String arg1);
+    Account(Parcel arg0);
+    boolean equals(Object arg0);
     int hashCode();
     int describeContents();
-    void writeToParcel(@Source(GET_ACCOUNTS) Parcel arg0, int arg1);
-    @Source(GET_ACCOUNTS) String toString();
+    void writeToParcel(Parcel arg0, int arg1);
+    String toString();
 }
 
 class OnAccountsUpdateListener{
