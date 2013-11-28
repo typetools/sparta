@@ -10,6 +10,7 @@ import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 
 import javacutils.AnnotationUtils;
+import javacutils.Pair;
 import javacutils.TreeUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -17,11 +18,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
@@ -36,10 +39,14 @@ import sparta.checkers.quals.Source;
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
+import com.sun.source.tree.Tree;
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.api.JavacScope;
+import com.sun.tools.javac.code.Attribute.Compound;
+import com.sun.tools.javac.code.Attribute.TypeCompound;
 import com.sun.tools.javac.code.Symbol;
 import com.sun.tools.javac.code.Symbol.MethodSymbol;
+import com.sun.tools.javac.code.Symbol.TypeVariableSymbol;
 import com.sun.tools.javac.comp.AttrContext;
 import com.sun.tools.javac.comp.Env;
 import com.sun.tools.javac.comp.Resolve;
@@ -92,7 +99,7 @@ public class IntentVisitor extends FlowVisitor {
         // if (method.getReceiverType().getUnderlyingType()
         // .asElement().getClass().isAssignableFrom(android.app.Activity.class))
         // {
-        if (receiverClassName.equals("Activity")) {
+        if (receiverClassName.equals("Activity") || receiverClassName.equals("ContextWrapper")) {
             checkSendIntent(method, node);
             return;
         }
@@ -112,9 +119,11 @@ public class IntentVisitor extends FlowVisitor {
         String methodName = method.getElement().getSimpleName().toString();
         if (methodName.equals("startActivity")) {
             checkStartActivity(method, node);
+        } else if(methodName.equals("startService")) {
+            checkStartService(method,node);
+        } else if(methodName.equals("sendBroadcast")) {
+            checkBroadcastIntent(method, node);
         }
-        //Implement for Services and BRReceivers here
-
     }
     
     /**
@@ -134,7 +143,7 @@ public class IntentVisitor extends FlowVisitor {
         AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(intentObject);
         AnnotationMirror rhsIntentExtras = rhs.getAnnotation(IntentExtras.class);
 
-        for (MethodInvocationTree getIntentCall : getAllReceiversIntents(node)) {
+        for (MethodInvocationTree getIntentCall : getReceiversMethods(node,IntentUtils.GET_INTENT)) {
             AnnotatedTypeMirror lhs = atypeFactory.getAnnotatedType(getIntentCall);
             AnnotationMirror lhsIntentExtras = lhs.getAnnotation(IntentExtras.class);
             if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
@@ -142,6 +151,62 @@ public class IntentVisitor extends FlowVisitor {
             }
         }
     }
+    
+    /**
+     * Method used to type-check a <code>startService</code> call
+     * @param method
+     * @param node
+     */
+
+    private void checkStartService(AnnotatedExecutableType method,
+            MethodInvocationTree node) {
+        if (node.getArguments().isEmpty()) {
+            // Still need to figure out a better way to treat that. 
+            // Defensive programming.
+            throw new RuntimeException();
+        }
+        ExpressionTree intentObject = node.getArguments().get(0);
+        AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(intentObject);
+        AnnotationMirror rhsIntentExtras = rhs.getAnnotation(IntentExtras.class);
+
+        for (MethodInvocationTree callBackMethod : getReceiversMethods(node,IntentUtils
+                .SERVICE_CALLBACK_METHODS)) {
+            Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> realCallBackMethod = atypeFactory.methodFromUse(callBackMethod);
+            AnnotatedTypeMirror lhs = realCallBackMethod.first.getParameterTypes().get(0);
+            AnnotationMirror lhsIntentExtras = lhs.getAnnotation(IntentExtras.class);
+            if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
+                checker.report(Result.failure("send.intent"), node);
+            }
+        }
+    }
+    
+    /**
+     * Method used to type-check a <code>sendBroadcast</code> call
+     * @param method
+     * @param node
+     */
+    
+    private void checkBroadcastIntent(AnnotatedExecutableType method,
+            MethodInvocationTree node) {
+        if (node.getArguments().isEmpty()) {
+            // Still need to figure out a better way to treat that. 
+            // Defensive programming.
+            throw new RuntimeException();
+        }
+        ExpressionTree intentObject = node.getArguments().get(0);
+        AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(intentObject);
+        AnnotationMirror rhsIntentExtras = rhs.getAnnotation(IntentExtras.class);
+
+        for (MethodInvocationTree callBackMethod : getReceiversMethods(node,IntentUtils.BRECEIVER_CALLBACK_METHODS)) {
+            Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> realCallBackMethod = atypeFactory.methodFromUse(callBackMethod);
+            AnnotatedTypeMirror lhs = realCallBackMethod.first.getParameterTypes().get(1);
+            AnnotationMirror lhsIntentExtras = lhs.getAnnotation(IntentExtras.class);
+            if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
+                checker.report(Result.failure("send.intent"), node);
+            }
+        }
+    }
+
 
     /**
      * Get MethodSymbol based on class name, method name, and parameter length.
@@ -196,19 +261,19 @@ public class IntentVisitor extends FlowVisitor {
     }
 
     /**
-     * This method is responsible for obtaining the list of all getIntent()
+     * This method is responsible for obtaining the list of all receivers
      * methods from all possible receivers from a certain sendIntent() call.
-     * Currently this implementation returns all *Components*, but instead
-     * should return all the *Activities*. There is no getIntent() method in
-     * Service and BroadcastReceiver.
+     * getIntent() method for Activities, and callback methods for Services
+     * and BroadcastReceivers.
      * 
      * @param tree
      *            the Tree of the sendIntent() call
      * @return A list of getIntent() methods
      */
 
-    private List<MethodInvocationTree> getAllReceiversIntents(
-            MethodInvocationTree tree) {
+    
+    private List<MethodInvocationTree> getReceiversMethods(
+            MethodInvocationTree tree, List<String> methodNames) {
 
         JCMethodInvocation methodInvocation = (JCMethodInvocation) tree;
         Context context = ((JavacProcessingEnvironment) checker
@@ -236,8 +301,6 @@ public class IntentVisitor extends FlowVisitor {
         TreePath path = atypeFactory.getPath(tree);
         JavacScope scope = (JavacScope) trees.getScope(path);
         Env<AttrContext> env = scope.getEnv();
-        String methodName = "getIntent";
-        int paramLength = 0;
         // Get receiver, which is always the first argument of the invoke method
         JCExpression receiver = methodInvocation.args.head;
         // The remaining list contains the arguments
@@ -245,20 +308,26 @@ public class IntentVisitor extends FlowVisitor {
 
         // Resolve the Symbol for the current method
         for (String receiverStr : receiversStrList) {
-            Symbol symbol = getMethodSymbolFor(receiverStr, methodName,
-                paramLength, env);
-            if (symbol != null) {
-                JCExpression newMethod = make.Select(receiver, symbol);
-                // Build method invocation tree depending on the number of
-                // parameters
-                JCMethodInvocation syntTree = paramLength > 0 ? make.App(newMethod, args) 
-                                                              : make.App(newMethod);
-                // add method invocation tree to the list of possible methods
-                receiversList.add(syntTree);
-            } else {
-                // If getIntent() method was not overriden in the Activity, a
-                // warning should be raised.
-                checker.report(Result.failure("getintent.not.found", receiverStr),tree);
+            for(String method : methodNames) {
+                String[] methodAndParamLength = method.split(",");
+                if(methodAndParamLength.length != 2) {
+                    throw new RuntimeException("Method not in NAME,#Param format");
+                }
+                String methodName = methodAndParamLength[0];
+                int paramLength = Integer.parseInt(methodAndParamLength[1]);
+                Symbol symbol = getMethodSymbolFor(receiverStr, methodName,
+                        paramLength, env);
+                if (symbol != null) {
+                    JCExpression newMethod = make.Select(receiver, symbol);
+                    // Build method invocation tree depending on the number of
+                    // parameters
+                    JCMethodInvocation syntTree = paramLength > 0 ? make.App(newMethod, args) //TODO: PAULO: Sub args for real args from onBind
+                            : make.App(newMethod);
+                    // add method invocation tree to the list of possible methods
+                    receiversList.add(syntTree);
+                } else if(methodName.equals("getIntent")) {
+                    checker.report(Result.failure("getintent.not.found", receiverStr), tree);
+                }
             }
         }
         return receiversList;
@@ -430,8 +499,8 @@ public class IntentVisitor extends FlowVisitor {
         }
 
         Element anno = TreeInfo.symbol((JCTree) node.getAnnotationType());
-        if (anno.toString().equals(anno.toString().equals(IntentExtras.class.getName())
-                || anno.toString().equals(IExtra.class.getName()))) {
+        if (anno.toString().equals(IntentExtras.class.getName())
+                || anno.toString().equals(IExtra.class.getName())) {
             return null;
         }
         return super.visitAnnotation(node, p);

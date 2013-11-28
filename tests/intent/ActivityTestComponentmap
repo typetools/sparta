@@ -1,0 +1,4 @@
+#Component map used in the tests for the intent analysis.
+ActivityTest(action1,[cat1,cat2],data1) -> tests.ActivityReceiverStub
+ActivityTest -> tests.ActivityReceiverStub
+

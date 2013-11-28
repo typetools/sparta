@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
@@ -30,6 +31,17 @@ import com.sun.source.util.TreePath;
 
 public class IntentUtils {
 
+    //Methods below are on the format NAME,#ofParameters
+    public static List<String> SERVICE_CALLBACK_METHODS = Arrays
+        .asList(new String[] { "onBind,1", "onRebind,1", "onStart,2",
+            "onStartCommand,3", "onTaskRemoved,1", "onUnBind,1"});
+    
+    public static List<String> BRECEIVER_CALLBACK_METHODS = Arrays
+            .asList(new String[] { "onReceive,2", "peekService,2"});
+    
+    public static List<String> GET_INTENT = Arrays
+            .asList(new String[] { "getIntent,0"});
+    
     private static List<String> GETEXTRA_SIGNATURES = Arrays
         .asList(new String[] { "getStringExtra", "getStringArrayListExtra",
             "getStringArrayExtra", "getShortExtra",
