@@ -2848,8 +2848,8 @@ void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 
 }
 class SimpleCursorAdapter{
-            SimpleCursorAdapter(Context context, int layout, @Sink(CONDITIONAL) Cursor c, String[] from, int[] to);
-            void bindView(View view, Context context, Cursor cursor);
+            SimpleCursorAdapter(Context context, int layout, @Sink(DISPLAY) Cursor c, String[] from, int[] to);
+            //void bindView(View view, Context context, Cursor cursor);
 }
 
 class Switch {

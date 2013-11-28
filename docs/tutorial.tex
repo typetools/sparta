@@ -1,0 +1,160 @@
+\htmlhr
+
+\chapter{Using the flow checker with existing app \label{tutorial}}
+
+This chapter demonstrates how to annotate the ContactManger app.  ContactManger 
+allows the user to view and create contacts that are associate with different accounts. 
+
+This app has two public classes: 1) ContactManager, which is the main activity
+and 2) ContactAdder, which handles contacts and account.  The app accesses
+3 sources: \perm{LITERAL}, \perm{USER\_INPUT}, and
+ \perm{CONTENT\_PROVIDER}; and three sinks: \perm{CONTENT\_PROVIDER}, 
+ \perm{DISPLAY}, and \perm{WRITE\_LOGS}.   The content provider source and sink
+ are used to read and write contact information.  (As shown in the AndroidManifest file, this app requests the permission \perm{GET\_ACCOUNTS}, but it does not actually access sensitive account information.  It only looks up the name and description of accounts.) 
+
+This app should conform to the following flow policy:
+\begin{Verbatim}
+LITERAL -> CONTENT_PROVIDER, DISPLAY, WRITE_LOGS
+USER_INPUT -> CONTENT_PROVIDER, DISPLAY, WRITE_LOGS
+CONTENT_PROVIDER -> DISPLAY
+\end{Verbatim}
+
+\section{Set up}
+Download the ContactManager app here: \url{http://homes.cs.washington.edu/~smillst/ContactManager.tgz} \todo{put this on the SPARTA webpage}. Install the Flow Checker and set up ContactManger to use the Flow Checker. 
+See \secref{sec:antsetup}  and \secref{sec:install} for instructions.
+
+Also add the following imports to both source files:
+\begin{Verbatim} 
+import static sparta.checkers.quals.*;
+import sparta.checkers.quals.*;
+\end{Verbatim}
+
+Write the above flow policy to a file named \emph{flow-policy} in the root of the 
+ContactManager directory.  Run the flow checker, \<ant check-flow>, to see ensure  correct
+ set up.  The Flow Checker will produce several warnings.
+
+ 
+\newcommand{\method}[1]{\paragraph{#1}}
+\newcommand{\annomethod}[1]{\small{\texttt{#1}}\newline}
+
+  
+\section{Annotating the ContactManager class}
+
+ContactManager extends Activity and overrides some methods.  These methods must
+ respect the annotations on the superclass method they override.  This can be done by 
+copying the annotations on the method signature in the stub file.   
+
+\method{ void onCreate(Bundle )}
+     Overrides a method that was annotated in the stub files.  The signature in the
+     stub file uses defaults, so this methods does not need annotations.  However,
+     this method creates two anonymous classes that override methods.
+     
+\method{ void onClick(View) }
+    The methods in the stub file is not annotated, so it does not require annotations.
+    
+ \method{void onCheckedChanged(CompoundButton , boolean ) }
+     This method implements a callback methods that receives user input data. 
+     It should be annotated like so:
+      
+       \annomethod{public void onCheckedChanged(CompoundButton buttonView, \textbf{@Source(USER\_INPUT)} boolean isChecked)}
+     
+    \method{   void populateContactList() }
+This method has no types, other than the implicit receiver, so no annotations are 
+needed.
+   
+ \method{private Cursor getContacts()}
+     This method returns data from a the Contacts Content Provider, so the return type must be annotated to reflect that.
+           \annomethod{ private \textbf{@Source(CONTENT\_PROVIDER)}
+             Cursor getContacts()}
+         
+    Without this annotation, the Flow Checker will report the following error:
+\begin{Verbatim}          
+.../ContactManager.java:114: warning: incompatible types in return.
+         return managedQuery(uri, projection, selection, selectionArgs, sortOrder);
+                            ^
+found   : @Sink(CONDITIONAL) @Source(CONTENT_PROVIDER) Cursor
+required: @Sink({CONDITIONAL, DISPLAY, WRITE_LOGS, CONTENT_PROVIDER}) @Source(LITERAL) Cursor
+\end{Verbatim}          
+
+
+ \method{ void launchContactAdder()} 
+ This method has no types, other than the implicit receiver, so no annotations are needed
+ 
+ 
+\section{Annotating ContactAdder.java}
+ All of the following methods override methods and do not require annotations:
+\begin{itemize}
+\item{  void onCreate(Bundle )}
+\item{  void onSaveButtonClicked() }
+\item{  void createContactEntry() }
+\item{   void onDestroy() }
+\item{   void onAccountsUpdated( Account[] ) }
+\end{itemize}
+
+\method{ AuthenticatorDescription getAuthenticatorDescription(String , AuthenticatorDescription[] )}
+This methods returns the AuthenticatorDescription in the dictionary parameter that 
+matches the type passed in.  So the source and sink qualifier of the return must
+be the same as that on the dictionary. (See \secref{sec:polyflowsources})
+
+\annomethod{private static \textbf{@PolySource @PolySink} AuthenticatorDescription getAuthenticatorDescription(String type,
+            \textbf{@PolySource @PolySink} AuthenticatorDescription[] dictionary) }
+             
+        
+\method{ void updateAccountSelection() }
+ This method has not types, other than the implicit receiver, so no annotations are needed
+
+
+\subsection{Annotating inner class AccountData }
+    This class holds information about the accounts the user has, but no information that is
+     sensitive.  It holds the name of the account and the type. 
+
+\method{  AccountData(String , AuthenticatorDescription ) }
+ The first parameter is assigned to a field and accessed through a getter method.  So the 
+ default of \<@Sink(CONDITIONAL)> is not correct.  Instead, \emph{name} should be 
+ annotated with \<@Source(LITERAL)>.  Note that the AuthenticatorDescription is not assigned to a field, so it the default annotation is acceptable.
+
+\annomethod{public AccountData(\textbf{@Source(LITERAL)} String name, AuthenticatorDescription description) }
+
+
+None of the other methods in account data need to be annotated.
+
+
+\subsection{Annotating inner class ArrayAdapter}
+
+       \method{ AccountAdapter(Context , ArrayList<AccountData> )}
+        \method{ View getDropDownView(int , View , ViewGroup )}
+        This method is implementing a call back method, so the annotations need to match 
+        those in the stub file.
+        \annomethod{public View getDropDownView(int position, \textbf{@Source(LITERAL)} View convertView, ViewGroup parent)}
+
+
+\section{Run the Flow Checker}
+
+Now that we have annotated all the methods, run the flow-checker. The default for fields is 
+\<@Source(LITERAL)>.  In most cases this is correct, but in this app, one field holds 
+\perm{USER\_INPUT} data. So, the Flow Checker issues the following warning:
+
+
+\begin{Verbatim}
+ .../ContactManager.java:78: warning: incompatible types in assignment.
+                 mShowInvisible = isChecked;
+                                  ^
+   found   : @Sink({CONDITIONAL, DISPLAY, WRITE_LOGS, CONTENT_PROVIDER}) @Source(USER_INPUT) boolean
+   required: @Sink({CONDITIONAL, DISPLAY, WRITE_LOGS, CONTENT_PROVIDER}) @Source(LITERAL) boolean
+ \end{Verbatim}
+
+Annotate \emph{mShowInvisible} with \<@Source(USER\_INPUT)>, run the flow checker again/
+
+\begin{Verbatim}
+.../ContactManager.java:64: warning: incompatible types in assignment.
+         mShowInvisible = false;
+                          ^
+   found   : @Sink({CONDITIONAL, DISPLAY, WRITE_LOGS, CONTENT_PROVIDER}) @Source(LITERAL) boolean
+   required: @Sink({CONDITIONAL, DISPLAY, WRITE_LOGS, CONTENT_PROVIDER}) @Source(USER_INPUT) boolean
+\end{Verbatim}
+
+So, mShowInvisible  also has information from \perm{LITERAL}, so add that to the list of sources and run the Flow Checker again.  There should be no warnings, which means that the only information flows in the app are those expressed in the flow policy. 
+%
+%
+%
+%
