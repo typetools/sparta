@@ -47,22 +47,9 @@ class ConstructorAnnotation {
         //:: error: (argument.type.incompatible) 
         new TestParamConstructor("hello");
         
-        // BUG? Class annotations dont seem to do anything.
-        //:: error: (constructor.invocation.invalid)
         @Source(INTERNET) @Sink(CAMERA) TestClassAnnotationType classAnnotation = new TestClassAnnotationType();
         
-        // BUG? Constructor annotations
-        // We get invocation.invalid here based on the reciever type.
-        // Is TestExplicitConstructor constructor annotation doing the correct thing?
-        // 
-        // error: creation of @Sink(FlowPermission.CAMERA) @Source(FlowPermission.INTERNET) void 
-        // <init>(@Sink(CONDITIONAL) @Source(LITERAL) TestExplicitConstructorType this) 
-        // not allowed with given receiver;
-        // 
-        // found   : @Sink(FlowPermission.CAMERA) @Source(FlowPermission.INTERNET) TestExplicitConstructorType
-        // required: @Sink(CONDITIONAL) @Source(LITERAL) TestExplicitConstructorType
-        //:: error: (constructor.invocation.invalid)
-        new TestExplicitConstructorType();
+        @Source(INTERNET) @Sink(CAMERA) TestExplicitConstructorType constructorAnnotation = new TestExplicitConstructorType();
         
         // Conservative flow return types.
         

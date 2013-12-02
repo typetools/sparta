@@ -14,7 +14,6 @@ class PolyConstructors {
 
     void testPolyConstructor(@Source(FlowPermission.ACCESS_FINE_LOCATION) @Sink(FlowPermission.INTERNET) String in) {	
     	@Source(FlowPermission.ACCESS_FINE_LOCATION) @Sink(FlowPermission.INTERNET)
-//:: error: (constructor.invocation.invalid)   
     	HttpGet request = new HttpGet(in);
     }
 
