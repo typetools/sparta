@@ -6,6 +6,7 @@ import checkers.compilermsgs.quals.CompilerMessageKey;
 
 
 import checkers.basetype.BaseTypeChecker;
+import checkers.basetype.BaseTypeVisitor;
 import checkers.quals.PolyAll;
 import checkers.quals.StubFiles;
 import checkers.quals.TypeQualifiers;
@@ -47,6 +48,10 @@ public class FlowChecker extends BaseTypeChecker {
     public FlowChecker() {
         super();
         this.notInStubFile = new HashMap<>();
+    }
+    @Override
+    protected BaseTypeVisitor<?> createSourceVisitor() {
+        return new FlowVisitor(this);
     }
 
     @Override

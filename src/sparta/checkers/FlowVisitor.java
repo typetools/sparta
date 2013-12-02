@@ -56,7 +56,10 @@ public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
     public FlowVisitor(BaseTypeChecker checker) {
         super(checker);
     }
-
+@Override
+protected FlowAnnotatedTypeFactory createTypeFactory() {
+    return new FlowAnnotatedTypeFactory(checker);
+}
     @Override
     public boolean isValidUse(AnnotatedDeclaredType declarationType,
             AnnotatedDeclaredType useType, Tree tree) {
