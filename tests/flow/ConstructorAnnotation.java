@@ -41,10 +41,8 @@ class ConstructorAnnotation {
         //:: error: (argument.type.incompatible)
         TestParamConstructor.test("test");
 
-        // OK -- Conservative flow on parameters
-            //TODO constructor hack 
-             ///:: error: (forbidden.flow)
-        //:: error: (argument.type.incompatible) 
+        // OK -- Conservative flow on parameter
+        //:: error: (argument.type.incompatible)  :: error: (forbidden.flow)
         new TestParamConstructor("hello");
         
         @Source(INTERNET) @Sink(CAMERA) TestClassAnnotationType classAnnotation = new TestClassAnnotationType();
@@ -54,12 +52,11 @@ class ConstructorAnnotation {
         // Conservative flow return types.
         
         // BUG? This should be thrown //:: error: (assignment.type.incompatible) 
-                  //TODO constructor hack 
-                ////:: error: (forbidden.flow) :: error: (forbidden.flow)
+
+        //:: error: (forbidden.flow) :: error: (forbidden.flow)
         TestImplicitConstructor imp = new TestImplicitConstructor();
         // BUG? This should be thrown //:: error: (assignment.type.incompatible)
-                //TODO constructor hack 
-        ////:: error: (forbidden.flow) :: error: (forbidden.flow)
+        //:: error: (forbidden.flow) :: error: (forbidden.flow)
         TestNoParamConstructor noParam = new TestNoParamConstructor();
 
     }

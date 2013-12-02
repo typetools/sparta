@@ -56,21 +56,21 @@ class ConstructorStubAnnotation {
         //:: error: (assignment.type.incompatible)
         @Source(LITERAL) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
 
-        //:: error: (assignment.type.incompatible)
-
-        //:: error: (argument.type.incompatible) 
+        //:: error: (argument.type.incompatible) :: error: (assignment.type.incompatible)
         @Source(LITERAL) TestStubParamConstructor param = new TestStubParamConstructor("hello");
 
-        //:: error: (forbidden.flow)
-        //:: error: (argument.type.incompatible) 
+                //:: error: (argument.type.incompatible) :: error: (forbidden.flow)
         new TestStubParamConstructor("hello");
         
         // BUG? An error should be thrown (Constructor is explicity @Source(INTERNET)) 
         //This is still a bug.
+        //:: error: (assignment.type.incompatible)
         @Source(LITERAL) TestStubExplicitConstructorType explicit = new TestStubExplicitConstructorType();
 
         // This has different behaviour than the ConstructorAnnotation test...
         // //:: error: (constructor.invocation.invalid)
+        //BUG still can't anntotate constructors in stub files
+        //:: error: (assignment.type.incompatible)
         @Source(INTERNET) TestStubExplicitConstructorType explicit2 = new TestStubExplicitConstructorType();
     }
 }

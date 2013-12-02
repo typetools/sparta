@@ -209,18 +209,18 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         Element iter = element;
         DefaultApplierElement applier = new DefaultApplierElement(this, element, type);
 
-        if (iter != null && iter.getKind() == ElementKind.CONSTRUCTOR
-                && type !=null && type.getKind() == TypeKind.DECLARED){
-            //TODO constructor hack
-            Set<FlowPermission> sources = Flow.getSources(type);
-            Set<FlowPermission> sinks = Flow.getSinks(type);
-            AnnotationMirror polysink = type.getAnnotation(PolySink.class);
-            AnnotationMirror polysource = type.getAnnotation(PolySource.class);
-            if(sources.isEmpty() && sinks.isEmpty() && polysink == null && polysource == null){
-                type.addAnnotation(NOSOURCE);
-                type.addAnnotation(ANYSINK);
-            }
-        }
+//        if (iter != null && iter.getKind() == ElementKind.CONSTRUCTOR
+//                && type !=null && type.getKind() == TypeKind.DECLARED){
+//            //TODO constructor hack
+//            Set<FlowPermission> sources = Flow.getSources(type);
+//            Set<FlowPermission> sinks = Flow.getSinks(type);
+//            AnnotationMirror polysink = type.getAnnotation(PolySink.class);
+//            AnnotationMirror polysource = type.getAnnotation(PolySource.class);
+//            if(sources.isEmpty() && sinks.isEmpty() && polysink == null && polysource == null){
+//                type.addAnnotation(NOSOURCE);
+//                type.addAnnotation(ANYSINK);
+//            }
+//        }
         while (iter != null) {
             if (this.isFromByteCode(iter)) {
                 notAnnotated(element);

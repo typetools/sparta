@@ -13,12 +13,10 @@ import sparta.checkers.quals.FlowPermission;
  * bottom type?
  */
 class TestLiteralDefaults {
-    
-    //:: error: (forbidden.flow)
+  //:: error: (forbidden.flow)
     @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) float ntop;
     @PolySource @PolySink float npoly;
-    //TODO constructor hack 
-//    //:: error: (forbidden.flow)
+  //:: error: (forbidden.flow)
    @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) float nbot;
     float nunqual;
 
@@ -34,8 +32,8 @@ class TestLiteralDefaults {
     //:: error: (forbidden.flow)
     @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) Object rtop;
     @PolySource @PolySink Object rpoly;
-    //TODO constructor hack 
-    ////:: error: (forbidden.flow)
+
+    //:: error: (forbidden.flow)
     @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) Object rbot;
     Object runqual;
 
@@ -48,11 +46,11 @@ class TestLiteralDefaults {
         runqual = "d";
 
         rtop = new Object();
-        //TODO constructor hack 
-        ////:: error: (assignment.type.incompatible)
+ 
+        //:: error: (assignment.type.incompatible)
         rpoly = new Object();
-        //TODO constructor hack 
-        ////:: error: (assignment.type.incompatible)
+
+        //:: error: (assignment.type.incompatible)
         rbot = new Object();
         runqual = new Object();
     }
@@ -60,8 +58,7 @@ class TestLiteralDefaults {
     //:: error: (forbidden.flow)
     @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) char ctop;
     @PolySource @PolySink char cpoly;
-    //TODO constructor hack 
-    ////:: error: (forbidden.flow)
+  //:: error: (forbidden.flow)
     @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) char cbot;
     char cunqual;
 

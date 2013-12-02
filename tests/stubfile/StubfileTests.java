@@ -7,9 +7,7 @@ public class StubfileTests {
         ExampleApi api = new ExampleApi();
         ExampleApi api1 = new ExampleApi("hello");
         
-        //TODO constructor hack
-        //
-        //:: error: (argument.type.incompatible) 
+        //:: error: (argument.type.incompatible) :: error: (forbidden.flow)
         ExampleApi api2 = new ExampleApi(2);
     }
 
@@ -65,14 +63,13 @@ public class StubfileTests {
         ExampleApi api = new ExampleApi();
         String x = "";
         String s = "";
-        //TODO constructor hack 
-        ////::error: (method.invocation.invalid)
+
+        //::error: (method.invocation.invalid)
         api.notReviewed();
         //::error: (forbidden.flow)
         x = api.notReviewed1();
-        //TODO constructor hack 
-     // //::error: (method.invocation.invalid)
-        //:: error: (argument.type.incompatible) 
+
+        //:: error: (argument.type.incompatible) ::error: (method.invocation.invalid)
         api.notReviewed2(s);
         //::error: (argument.type.incompatible) ::error: (forbidden.flow) 
         x = api.notReviewed3(s);

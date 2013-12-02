@@ -4,6 +4,8 @@ package sparta.checkers;
 import checkers.compilermsgs.quals.*;
 */
 
+import android.text.Annotation;
+
 import checkers.basetype.BaseTypeChecker;
 import checkers.basetype.BaseTypeValidator;
 import checkers.basetype.BaseTypeVisitor;
@@ -18,12 +20,15 @@ import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
 
+import javacutils.AnnotationUtils;
 import javacutils.InternalUtils;
 import javacutils.Pair;
+import javacutils.TreeUtils;
 
 import java.util.List;
 import java.util.Set;
 
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.type.TypeKind;
@@ -45,6 +50,7 @@ import com.sun.source.tree.IfTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.SwitchTree;
 import com.sun.source.tree.Tree;
+import com.sun.source.tree.VariableTree;
 import com.sun.source.tree.WhileLoopTree;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.tree.TreeInfo;
@@ -227,9 +233,11 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
 
         Element ele = InternalUtils.symbol(tree);
         boolean local = (ele != null && ele.getKind() == ElementKind.LOCAL_VARIABLE);
+        boolean field = (ele != null && ele.getKind() == ElementKind.FIELD);
         boolean wild = atm.getKind() == TypeKind.WILDCARD;
         boolean typeVar = atm.getKind() == TypeKind.TYPEVAR;
         boolean typePara = (ele != null && ele.getKind() == ElementKind.TYPE_PARAMETER);
+        boolean nullLiteral = tree.getKind() == Tree.Kind.NULL_LITERAL;
 
         if ((local || this.topAllowed || typePara|| typeVar|| wild) && Flow.isTop(atm))
         {
@@ -238,8 +246,37 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
             return true;
         }
 
-        if(Flow.isBottom(atm)) {
-            //TODO constructor hack
+        //The null literal is allow to be bottom
+        //A variable may be bottom if null is assigned to it
+        //and flow refinement changes the type.
+        if(Flow.isBottom(atm) && (local || nullLiteral || field)) {
+            
+            //Make sure bottom was not explicitly written by the programmer.
+            if (tree instanceof VariableTree) {
+                //Get the annotations written on the type
+                VariableTree vtree = (VariableTree) tree;
+                List<? extends AnnotationTree> annoTrees = vtree.getModifiers().getAnnotations();
+                List<AnnotationMirror> annos = InternalUtils
+                        .annotationsFromTypeAnnotationTrees(annoTrees);
+                
+                //Get the sets of sources and sinks off the annotations
+                Flow flow = new Flow();
+                for (AnnotationMirror anno : annos) {
+                    if (AnnotationUtils.areSameByClass(anno, Source.class)) {
+                        flow.addSource(Flow.getSources(anno));
+                    } else if (AnnotationUtils.areSameByClass(anno, Sink.class)) {
+                        flow.addSink(Flow.getSinks(anno));
+                    }
+                }
+                //If programmer actually wrote {}->ANY, 
+                //then give an error
+                if(flow.isBottom()){
+                    return false; 
+                }
+            }
+            
+            //if the flow is bottom because it is null
+            //or it is a local variable that was inferred to be null
             return true;
         }
 

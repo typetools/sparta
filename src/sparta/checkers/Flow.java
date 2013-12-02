@@ -86,6 +86,16 @@ public class Flow {
 
     }
 
+    public void addSource(FlowPermission source) {
+        sources.add(source);
+    }
+    public void addSource(Set<FlowPermission> source) {
+        this.sources.addAll(convertToAnySource(source, false));
+    }
+    public boolean isBottom(){
+        return sinks.contains(FlowPermission.ANY) && sources.isEmpty();
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
