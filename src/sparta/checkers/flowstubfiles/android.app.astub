@@ -1676,7 +1676,7 @@ abstract FragmentTransaction remove(Fragment fragment);
 
 class IntentService{
         IntentService(String name);
-        protected void onHandleIntent(@Source(FlowPermission.INTENT) Intent arg0);
+        protected void onHandleIntent(Intent arg0);
 }
 
 class ListActivity {
