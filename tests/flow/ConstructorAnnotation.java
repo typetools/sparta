@@ -9,71 +9,71 @@ class TestImplicitConstructor { }
 
 class TestNoParamConstructor {
     @FromByteCode
-	TestNoParamConstructor() { }
+    TestNoParamConstructor() { }
 }
 @FromByteCode
 class TestParamConstructor {
 
     
   //:: error: (forbidden.flow)   
-	TestParamConstructor(String name) { }
-	
-	//:: error: (forbidden.flow)
-	static void test(String test) { }
+    TestParamConstructor(String name) { }
+    
+    //:: error: (forbidden.flow)
+    static void test(String test) { }
 }
 
 class TestExplicitConstructorType {
-	 @Source(INTERNET) @Sink(CAMERA)
-	 TestExplicitConstructorType()  { }
+     @Source(INTERNET) @Sink(CAMERA)
+     TestExplicitConstructorType()  { }
 }
 
 @Source(INTERNET) @Sink(CAMERA)
 class TestClassAnnotationType {
-	TestClassAnnotationType()  { }
+    TestClassAnnotationType()  { }
 }
 
 
 class ConstructorAnnotation {
 
-	void testConstructor() {
-		
-		// Sanity check -- OK
-		//:: error: (argument.type.incompatible)
-		TestParamConstructor.test("test");
+    void testConstructor() {
+        
+        // Sanity check -- OK
+        //:: error: (argument.type.incompatible)
+        TestParamConstructor.test("test");
 
-		// OK -- Conservative flow on parameters
-	        //TODO constructor hack 
-		     ///:: error: (forbidden.flow)
-		//:: error: (argument.type.incompatible) 
-		new TestParamConstructor("hello");
-		
-		// BUG? Class annotations dont seem to do anything.
-		//:: error: (constructor.invocation.invalid)
-		@Source(INTERNET) @Sink(CAMERA) TestClassAnnotationType classAnnotation = new TestClassAnnotationType();
-		
-		// BUG? Constructor annotations
-		// We get invocation.invalid here based on the reciever type.
-		// Is TestExplicitConstructor constructor annotation doing the correct thing?
-		// 
-		// error: creation of @Sink(FlowPermission.CAMERA) @Source(FlowPermission.INTERNET) void 
-		// <init>(@Sink(CONDITIONAL) @Source(LITERAL) TestExplicitConstructorType this) 
-		// not allowed with given receiver;
-		// 
-		// found   : @Sink(FlowPermission.CAMERA) @Source(FlowPermission.INTERNET) TestExplicitConstructorType
-		// required: @Sink(CONDITIONAL) @Source(LITERAL) TestExplicitConstructorType
-		//:: error: (constructor.invocation.invalid)
-		new TestExplicitConstructorType();
-		
-		// Conservative flow return types.
-		
-		// BUG? This should be thrown //:: error: (assignment.type.incompatible) 
-	              //TODO constructor hack 
+        // OK -- Conservative flow on parameters
+            //TODO constructor hack 
+             ///:: error: (forbidden.flow)
+        //:: error: (argument.type.incompatible) 
+        new TestParamConstructor("hello");
+        
+        // BUG? Class annotations dont seem to do anything.
+        //:: error: (constructor.invocation.invalid)
+        @Source(INTERNET) @Sink(CAMERA) TestClassAnnotationType classAnnotation = new TestClassAnnotationType();
+        
+        // BUG? Constructor annotations
+        // We get invocation.invalid here based on the reciever type.
+        // Is TestExplicitConstructor constructor annotation doing the correct thing?
+        // 
+        // error: creation of @Sink(FlowPermission.CAMERA) @Source(FlowPermission.INTERNET) void 
+        // <init>(@Sink(CONDITIONAL) @Source(LITERAL) TestExplicitConstructorType this) 
+        // not allowed with given receiver;
+        // 
+        // found   : @Sink(FlowPermission.CAMERA) @Source(FlowPermission.INTERNET) TestExplicitConstructorType
+        // required: @Sink(CONDITIONAL) @Source(LITERAL) TestExplicitConstructorType
+        //:: error: (constructor.invocation.invalid)
+        new TestExplicitConstructorType();
+        
+        // Conservative flow return types.
+        
+        // BUG? This should be thrown //:: error: (assignment.type.incompatible) 
+                  //TODO constructor hack 
                 ////:: error: (forbidden.flow) :: error: (forbidden.flow)
-		TestImplicitConstructor imp = new TestImplicitConstructor();
-		// BUG? This should be thrown //:: error: (assignment.type.incompatible)
+        TestImplicitConstructor imp = new TestImplicitConstructor();
+        // BUG? This should be thrown //:: error: (assignment.type.incompatible)
                 //TODO constructor hack 
-		////:: error: (forbidden.flow) :: error: (forbidden.flow)
-		TestNoParamConstructor noParam = new TestNoParamConstructor();
+        ////:: error: (forbidden.flow) :: error: (forbidden.flow)
+        TestNoParamConstructor noParam = new TestNoParamConstructor();
 
-	}
+    }
 }
