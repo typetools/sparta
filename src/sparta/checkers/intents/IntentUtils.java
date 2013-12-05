@@ -42,20 +42,21 @@ public class IntentUtils {
     public static List<String> GET_INTENT = Arrays
             .asList(new String[] { "getIntent,0"});
     
-    private static List<String> GETEXTRA_SIGNATURES = Arrays
-        .asList(new String[] { "getStringExtra", "getStringArrayListExtra",
-            "getStringArrayExtra", "getShortExtra",
-            "getShortArrayExtra", "getSerializableExtra",
-            "getParcelableExtra", "getParcelableArrayListExtra",
-            "getParcelableArrayExtra", "getLongExtra",
-            "getLongArrayExtra", "getIntegerArrayListExtra",
-            "getIntExtra", "getIntArrayExtra", "getFloatExtra",
-            "getFloatArrayExtra", "getDoubleExtra",
-            "getDoubleArrayExtra", "getCharSequenceExtra",
-            "getCharSequenceArrayListExtra",
-            "getCharSequenceArrayExtra", "getCharExtra",
-            "getCharArrayExtra", "getByteExtra", "getByteArrayExtra",
-            "getBundleExtra", "getBooleanExtra", "getBooleanArrayExtra" });
+    private static List<String> GETEXTRA_SIGNATURES_NO_DEFAULT = Arrays
+        .asList(new String[]{"getBooleanArrayExtra", "getBundleExtra", 
+            "getByteArrayExtra", "getCharArrayExtra", "getFloatArrayExtra",
+            "getCharSequenceArrayExtra", "getCharSequenceArrayListExtra",
+            "getCharSequenceExtra", "getDoubleArrayExtra", "getIntArrayExtra",
+            "getIntegerArrayListExtra", "getLongArrayExtra", 
+            "getParcelableArrayExtra", "getParcelableArrayListExtra",
+            "getParcelableExtra", "getSerializableExtra", "getShortArrayExtra",
+            "getStringArrayExtra", "getStringArrayListExtra", "getStringExtra",
+            });
+    
+    private static List<String> GETEXTRA_SIGNATURES_WITH_DEFAULT = Arrays
+        .asList(new String[] { "getBooleanExtra", "getByteExtra",
+            "getCharExtra", "getDoubleExtra", "getFloatExtra",
+            "getIntExtra", "getLongExtra", "getShortExtra"});
 
     private static List<String> PUTEXTRA_SIGNATURES = Arrays
         .asList(new String[] { 
@@ -244,20 +245,23 @@ public class IntentUtils {
 
     public static boolean isGetExtraMethod(MethodInvocationTree tree, 
             ProcessingEnvironment processingEnv) {
-        for (String getExtraSignature : GETEXTRA_SIGNATURES) {
-            //The getExtra call can have 1 or 2 parameters,
-            //2 when there is a use of default parameter, 1 otherwise.
-            ExecutableElement getExtra = TreeUtils.getMethod(
-                "android.content.Intent", getExtraSignature, 1, processingEnv);
+        //The getExtra call can have 1 or 2 parameters,
+        //2 when there is a use of default parameter, 1 otherwise.
+        for (String getExtraSignature : GETEXTRA_SIGNATURES_WITH_DEFAULT) {
             ExecutableElement getExtraWithDefault = TreeUtils.getMethod(
                 "android.content.Intent", getExtraSignature, 2, processingEnv);
-            if (getExtra != null
-                    && TreeUtils.isMethodInvocation(tree, getExtra,
+            if (getExtraWithDefault != null
+                    && TreeUtils.isMethodInvocation(tree, getExtraWithDefault,
                         processingEnv)) {
                 return true;
             }
-            if (getExtraWithDefault != null
-                    && TreeUtils.isMethodInvocation(tree, getExtraWithDefault,
+        }
+        
+        for (String getExtraSignature : GETEXTRA_SIGNATURES_NO_DEFAULT) {
+            ExecutableElement getExtra = TreeUtils.getMethod(
+                "android.content.Intent", getExtraSignature, 1, processingEnv);
+            if (getExtra != null
+                    && TreeUtils.isMethodInvocation(tree, getExtra,
                         processingEnv)) {
                 return true;
             }
