@@ -8,6 +8,7 @@ import checkers.basetype.BaseTypeChecker;
 import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
+import checkers.util.AnnotatedTypes;
 
 import javacutils.AnnotationUtils;
 import javacutils.Pair;
@@ -24,6 +25,7 @@ import java.util.Set;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -171,8 +173,10 @@ public class IntentVisitor extends FlowVisitor {
 
         for (MethodInvocationTree callBackMethod : getReceiversMethods(node,IntentUtils
                 .SERVICE_CALLBACK_METHODS)) {
-            Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> realCallBackMethod = atypeFactory.methodFromUse(callBackMethod);
-            AnnotatedTypeMirror lhs = realCallBackMethod.first.getParameterTypes().get(0);
+            ExecutableElement methodElt = TreeUtils.elementFromUse(callBackMethod);
+            AnnotatedTypeMirror receiverType = atypeFactory.getReceiverType(callBackMethod);
+            AnnotatedExecutableType realCallBackMethod = AnnotatedTypes.asMemberOf(types, atypeFactory, receiverType, methodElt);
+            AnnotatedTypeMirror lhs = realCallBackMethod.getParameterTypes().get(0);
             AnnotationMirror lhsIntentExtras = lhs.getAnnotation(IntentExtras.class);
             if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
                 checker.report(Result.failure("send.intent"), node);
@@ -198,8 +202,10 @@ public class IntentVisitor extends FlowVisitor {
         AnnotationMirror rhsIntentExtras = rhs.getAnnotation(IntentExtras.class);
 
         for (MethodInvocationTree callBackMethod : getReceiversMethods(node,IntentUtils.BRECEIVER_CALLBACK_METHODS)) {
-            Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> realCallBackMethod = atypeFactory.methodFromUse(callBackMethod);
-            AnnotatedTypeMirror lhs = realCallBackMethod.first.getParameterTypes().get(1);
+            ExecutableElement methodElt = TreeUtils.elementFromUse(callBackMethod);
+            AnnotatedTypeMirror receiverType = atypeFactory.getReceiverType(callBackMethod);
+            AnnotatedExecutableType realCallBackMethod = AnnotatedTypes.asMemberOf(types, atypeFactory, receiverType, methodElt);
+            AnnotatedTypeMirror lhs = realCallBackMethod.getParameterTypes().get(1);
             AnnotationMirror lhsIntentExtras = lhs.getAnnotation(IntentExtras.class);
             if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
                 checker.report(Result.failure("send.intent"), node);

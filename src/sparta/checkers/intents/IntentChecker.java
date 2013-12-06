@@ -19,7 +19,7 @@ import sparta.checkers.quals.Source;
 
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolyAll.class,
         IntentExtras.class, IExtra.class })
-@StubFiles("../information_flow.astub")
+@StubFiles("information_flow.astub")
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, ComponentMap.COMPONENT_MAP_FILE_OPTION,
         FlowChecker.MSG_FILTER_OPTION, FlowChecker.IGNORE_NOT_REVIEWED })
 @SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })

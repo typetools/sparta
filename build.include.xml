@@ -134,7 +134,7 @@
     <target name="check-intent"
                 depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for check-intent.">
-        <process-proj processor="sparta.checkers.IntentChecker"/>
+        <process-proj processor="sparta.checkers.intents.IntentChecker"/>
     </target>
 
     <target name="check-flow"
