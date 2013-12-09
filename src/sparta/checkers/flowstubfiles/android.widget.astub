@@ -423,7 +423,7 @@ class AdapterView {
 //int getFirstVisiblePosition();
 //Returns the position within the adapter's data set for the first item displayed on screen.
 
-@PolySource @PolySink Object getItemAtPosition(@Sink(FlowPermission.CONDITIONAL) int position) @PolySource @PolySink;
+@PolySource @PolySink Object getItemAtPosition(@Sink(CoarseFlowPermission.CONDITIONAL) int position) @PolySource @PolySink;
 //Gets the data associated with the specified position in the list.
 
 //long getItemIdAtPosition(int position);
@@ -473,7 +473,7 @@ int getSelectedItemPosition();
 //abstract void setAdapter(T adapter);
 //Sets the adapter that provides the data and the views to represent the data in this widget.
 
-void setEmptyView(@Sink(FlowPermission.DISPLAY) View emptyView);
+void setEmptyView(@Sink(CoarseFlowPermission.DISPLAY) View emptyView);
 //Sets the view to show if the adapter is empty
 
 //void setFocusable(boolean focusable);
@@ -520,9 +520,9 @@ void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
 class AdapterView$OnItemSelectedListener{
         void onNothingSelected(AdapterView<?> arg0);
         void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3);
-		void onItemClick(@Source(FlowPermission.USER_INPUT)AdapterView<?> arg0,
-   	 	@Source(FlowPermission.USER_INPUT)View arg1, @Source(FlowPermission.USER_INPUT)int arg2,
-   		@Source(FlowPermission.USER_INPUT)long arg3);
+		void onItemClick(@Source(CoarseFlowPermission.USER_INPUT)AdapterView<?> arg0,
+   	 	@Source(CoarseFlowPermission.USER_INPUT)View arg1, @Source(CoarseFlowPermission.USER_INPUT)int arg2,
+   		@Source(CoarseFlowPermission.USER_INPUT)long arg3);
                     void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
 
 }
@@ -1363,7 +1363,7 @@ boolean removeHeaderView(View v);
 boolean requestChildRectangleOnScreen(View child, Rect rect, boolean immediate);
 //Called when a child of this group wants a particular rectangle to be positioned onto the screen.
 
-void setAdapter(@Sink(FlowPermission.DISPLAY) ListAdapter adapter);
+void setAdapter(@Sink(CoarseFlowPermission.DISPLAY) ListAdapter adapter);
 //Sets the data behind this ListView.
 
 void setCacheColorHint(int color);

@@ -11,15 +11,18 @@ import java.util.TreeSet;
 
 import javax.lang.model.element.AnnotationMirror;
 
+import sparta.checkers.quals.CoarseFlowPermission;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
 public class Flow {
+    private static FlowPermission ANY = new FlowPermission(CoarseFlowPermission.ANY);
+    
     Set<FlowPermission> sources;
     Set<FlowPermission> sinks;
 
-    public Flow(Set<FlowPermission> sources, Set<FlowPermission> sinks) {
+    public Flow(Set<FlowPermission> sources, Set<FlowPermission> sinks) {      
         this.sources = sources;
         this.sinks = sinks;
     }
@@ -144,19 +147,47 @@ public class Flow {
         }
         return new TreeSet<FlowPermission>();
     }
-
+    
     public static Set<FlowPermission> getSinks(final AnnotationMirror am) {
         if (am == null) {
             return new TreeSet<FlowPermission>();
         }
 
-        List<FlowPermission> sinks = AnnotationUtils.getElementValueEnumArray(am, "value",
-                FlowPermission.class, true);
-        Set<FlowPermission> set = convertToAnySink(new TreeSet<FlowPermission>(sinks), false);
-        return set;
+        Set<FlowPermission> sinkFlowPermissions = new TreeSet<FlowPermission>();
+        List<CoarseFlowPermission> sinks = AnnotationUtils.getElementValueEnumArray(am, "value",
+                CoarseFlowPermission.class, true);
+        for (CoarseFlowPermission coarsePermission : sinks)
+            sinkFlowPermissions.add(new FlowPermission(coarsePermission));
+        Set<FlowPermission> retSet = convertToAnySink(sinkFlowPermissions, false);
+        return retSet;
+        
+        /* Old implementation
+         *
+            if (am == null) {
+                return new TreeSet<FlowPermission>();
+            }
+    
+            List<FlowPermission> sinks = AnnotationUtils.getElementValueEnumArray(am, "value",
+                    FlowPermission.class, true);
+            Set<FlowPermission> set = convertToAnySink(new TreeSet<FlowPermission>(sinks), false);
+            return set;
+         */
     }
 
     public static Set<FlowPermission> getSources(final AnnotationMirror am) {
+        if (am == null) {
+            return new TreeSet<FlowPermission>();
+        }
+
+        Set<FlowPermission> sourceFlowPermissions = new TreeSet<FlowPermission>();
+        List<CoarseFlowPermission> sinks = AnnotationUtils.getElementValueEnumArray(am, "value",
+                CoarseFlowPermission.class, true);
+        for (CoarseFlowPermission coarsePermission : sinks)
+            sourceFlowPermissions.add(new FlowPermission(coarsePermission));
+        Set<FlowPermission> retSet = convertToAnySource(sourceFlowPermissions, false);
+        return retSet;
+        
+        /* Old Implementation
         if (am == null) {
             return new TreeSet<FlowPermission>();
         }
@@ -165,6 +196,7 @@ public class Flow {
         Set<FlowPermission> set = convertToAnySource(new TreeSet<FlowPermission>(sources),
                 false);
         return set;
+        */
     }
 
     /**
@@ -175,13 +207,42 @@ public class Flow {
      */
     private static Set<FlowPermission> convertAnyToAllSinks(final Set<FlowPermission> sinks,
             boolean inPlace) {
+        
+        // TODO: Check and make sure .contains still works with static ANY, and change when confirmed
+        boolean addAll = false;
         final Set<FlowPermission> retSet = (inPlace) ? sinks : new TreeSet<FlowPermission>(sinks);
-        if (retSet.contains(FlowPermission.ANY)) {
+        if (sinks.contains(ANY)) {
             retSet.addAll(getSetOfAllSinks());
-            retSet.remove(FlowPermission.ANY);
+            retSet.remove(ANY);
         }
         return retSet;
     }
+    
+        /*
+         * First implementation
+         
+            Set<FlowPermission> allSinks = getSetOfAllSinks();
+            for (FlowPermission fp : retSet) {
+                if (fp.getPermission() == CoarseFlowPermission.ANY) {
+                    addAll = true;
+                }
+                allSinks.remove(fp.getPermission());
+            }
+            if (addAll) {
+                for (FlowPermission permissionToAdd : allSinks) {
+                    retSet.add(permissionToAdd);
+                }
+            }
+            return retSet;
+        */
+        
+        /*
+           OLD IMPLEMENTATION
+           if (retSet.contains(FlowPermission.ANY)) {
+               retSet.addAll(getSetOfAllSinks());
+               retSet.remove(FlowPermission.ANY);
+           }
+        */
 
     /**
      * Replace ANY with the list of all possible sources
@@ -191,14 +252,38 @@ public class Flow {
      */
     private static Set<FlowPermission> convertAnytoAllSources(final Set<FlowPermission> sources,
             boolean inPlace) {
+        boolean addAll = false;
         final Set<FlowPermission> retSet = (inPlace) ? sources : new TreeSet<FlowPermission>(
                 sources);
+        if (sources.contains(ANY)) {
+            retSet.addAll(getSetOfAllSinks());
+            retSet.remove(ANY);
+        }
+        return retSet;
+    }
+        
+        /* First implementation
+            Set<FlowPermission> allSources = getSetOfAllSinks();
+            for (FlowPermission fp : retSet) {
+                if (fp.getPermission() == CoarseFlowPermission.ANY) {
+                    addAll = true;
+                }
+                allSources.remove(fp.getPermission());
+            }
+            if (addAll) {
+                for (FlowPermission permissionToAdd : allSources) {
+                    retSet.add(permissionToAdd);
+                }
+            }
+        */ 
+           
+        /*
+         ORIGINAL IMPLEMENTATION
         if (retSet.contains(FlowPermission.ANY)) {
             retSet.addAll(getSetOfAllSources());
             retSet.remove(FlowPermission.ANY);
         }
-        return retSet;
-    }
+        */
 
 
     /**
@@ -207,9 +292,20 @@ public class Flow {
      * @return
      */
     public static Set<FlowPermission> getSetOfAllSources() {
-        Set<FlowPermission> set = new TreeSet<>(Arrays.asList(FlowPermission.values()));
-        set.remove(FlowPermission.ANY);
-        return set;
+        List<CoarseFlowPermission> coarseFlowList = Arrays.asList(CoarseFlowPermission.values());
+        Set<FlowPermission> flowPermissionSet = new TreeSet<>();
+        for (CoarseFlowPermission permission : coarseFlowList) {
+            if (permission != CoarseFlowPermission.ANY) {
+                flowPermissionSet.add(new FlowPermission(permission)); 
+            }
+        }
+        return flowPermissionSet;
+        
+        /* Old implementation
+            Set<FlowPermission> set = new TreeSet<>(Arrays.asList(CoarseFlowPermission.values()));
+            set.remove(CoarseFlowPermission.ANY);
+            return set;
+        */
     }
 
     /**
@@ -218,9 +314,22 @@ public class Flow {
      * @return
      */
     public static Set<FlowPermission> getSetOfAllSinks() {
-        Set<FlowPermission> set = new TreeSet<>(Arrays.asList(FlowPermission.values()));
-        set.remove(FlowPermission.ANY);
-        return set;
+        List<CoarseFlowPermission> coarseFlowList = Arrays.asList(CoarseFlowPermission.values());
+        // TODO: Ask why this doesn't work
+        // coarseFlowList.remove(CoarseFlowPermission.ANY);
+        Set<FlowPermission> flowPermissionSet = new TreeSet<>();
+        for (CoarseFlowPermission permission : coarseFlowList) {
+            if (permission != CoarseFlowPermission.ANY) {
+                flowPermissionSet.add(new FlowPermission(permission)); 
+            }
+        }
+        return flowPermissionSet;
+        
+        /* Old implementation
+            Set<FlowPermission> set = new TreeSet<>(Arrays.asList(CoarseFlowPermission.values()));
+            set.remove(CoarseFlowPermission.ANY);
+            return set;
+         */
     }
 
     /**
@@ -233,6 +342,23 @@ public class Flow {
     public static Set<FlowPermission> convertToAnySource(final Set<FlowPermission> sources,
             boolean inPlace) {
         final Set<FlowPermission> retSet = (inPlace) ? sources : new TreeSet<FlowPermission>(sources);
+        Set<CoarseFlowPermission> coarsePermissions = new TreeSet<CoarseFlowPermission>();
+        for (FlowPermission flowPermission : sources) {
+            CoarseFlowPermission current = flowPermission.getPermission();
+            if (current == CoarseFlowPermission.ANY) {
+                retSet.clear();
+                retSet.add(new FlowPermission(CoarseFlowPermission.ANY));
+                return retSet;
+            }
+            coarsePermissions.add(current);
+        }
+        if (coarsePermissions.equals(getSetOfAllSources())) {
+            retSet.clear();
+            retSet.add(new FlowPermission(CoarseFlowPermission.ANY, null));
+        }
+        return retSet;
+        
+        /* Old implementation
         if(sources.equals(getSetOfAllSources())) {
             retSet.clear();
             retSet.add(FlowPermission.ANY);
@@ -241,6 +367,7 @@ public class Flow {
             retSet.add(FlowPermission.ANY);
         }
         return retSet;
+        */
     }
 
     /**
@@ -251,26 +378,54 @@ public class Flow {
      * @return either {ANY} or sinks
      */
     public static Set<FlowPermission> convertToAnySink(final Set<FlowPermission> sinks, boolean inPlace) {
-            final Set<FlowPermission> retSet = (inPlace) ? sinks : new TreeSet<FlowPermission>(sinks);
-            if(sinks.equals(getSetOfAllSinks())) {
-                retSet.clear();
-                retSet.add(FlowPermission.ANY);
-            }else if(retSet.contains(FlowPermission.ANY)){
-                retSet.clear();
-                retSet.add(FlowPermission.ANY);
-            }
-            return retSet;
+        final Set<FlowPermission> retSet = (inPlace) ? sinks : new TreeSet<FlowPermission>(sinks);
+        Set<CoarseFlowPermission> coarsePermissions = new TreeSet<CoarseFlowPermission>();
+        if(sinks.equals(getSetOfAllSinks())) {
+            retSet.clear();
+            retSet.add(ANY);
+        }else if(retSet.contains(ANY)){
+            retSet.clear();
+            retSet.add(ANY);
+        }
+        return retSet;
     }
+        /* First implementation
+        for (FlowPermission flowPermission : sinks) {
+            CoarseFlowPermission current = flowPermission.getPermission();
+            if (current == CoarseFlowPermission.ANY) {
+                retSet.clear();
+                retSet.add(new FlowPermission(CoarseFlowPermission.ANY));
+                return retSet;
+            }
+            coarsePermissions.add(current);
+        }
+        if (coarsePermissions.equals(getSetOfAllSinks())) {
+            retSet.clear();
+            retSet.add(new FlowPermission(CoarseFlowPermission.ANY, null));
+        }
+        return retSet;
+        */
+        
+        /*
+        if(sinks.equals(getSetOfAllSinks())) {
+            retSet.clear();
+            retSet.add(FlowPermission.ANY);
+        }else if(retSet.contains(FlowPermission.ANY)){
+            retSet.clear();
+            retSet.add(FlowPermission.ANY);
+        }
+        return retSet;
+        */
 
     public static boolean isTop(AnnotatedTypeMirror atm) {
         Set<FlowPermission> sources = getSources(atm);
         Set<FlowPermission> sinks = getSinks(atm);
-        return sources.contains(FlowPermission.ANY) && sinks.isEmpty();
+        return sources.contains(ANY) && sinks.isEmpty();
     }
     public static boolean isBottom(AnnotatedTypeMirror atm) {
         Set<FlowPermission> sources = getSources(atm);
         Set<FlowPermission> sinks = getSinks(atm);
-        return sinks.contains(FlowPermission.ANY) && sources.isEmpty();
+        return sinks.contains(ANY) && sources.isEmpty();
     }
     /**
      * Return the set of sources that both annotations have.

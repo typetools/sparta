@@ -3,7 +3,7 @@ import sparta.checkers.quals.Source;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.CoarseFlowPermission;
 
 /**
  * Test the defaults for numeric and string literals, and
@@ -13,11 +13,14 @@ import sparta.checkers.quals.FlowPermission;
  * bottom type?
  */
 class TestLiteralDefaults {
-  //:: error: (forbidden.flow)
-    @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) float ntop;
+    
+    //:: error: (forbidden.flow)
+    @Sink({}) @sparta.checkers.quals.Source({CoarseFlowPermission.ANY}) float ntop;
     @PolySource @PolySink float npoly;
-  //:: error: (forbidden.flow)
-   @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) float nbot;
+
+    //:: error: (forbidden.flow)
+    @Sink({CoarseFlowPermission.ANY}) @sparta.checkers.quals.Source({}) float nbot;
+  
     float nunqual;
 
     void testNumeric() {
@@ -30,11 +33,12 @@ class TestLiteralDefaults {
     }
 
     //:: error: (forbidden.flow)
-    @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) Object rtop;
+    @Sink({}) @sparta.checkers.quals.Source({CoarseFlowPermission.ANY}) Object rtop;
     @PolySource @PolySink Object rpoly;
 
     //:: error: (forbidden.flow)
-    @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) Object rbot;
+    @Sink({CoarseFlowPermission.ANY}) @sparta.checkers.quals.Source({}) Object rbot;
+
     Object runqual;
 
     void testReference() {
@@ -56,10 +60,12 @@ class TestLiteralDefaults {
     }
 
     //:: error: (forbidden.flow)
-    @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) char ctop;
+    @Sink({}) @sparta.checkers.quals.Source({CoarseFlowPermission.ANY}) char ctop;
     @PolySource @PolySink char cpoly;
-  //:: error: (forbidden.flow)
-    @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) char cbot;
+ 
+    //:: error: (forbidden.flow)
+    @Sink({CoarseFlowPermission.ANY}) @sparta.checkers.quals.Source({}) char cbot;
+
     char cunqual;
 
     void testChar() {

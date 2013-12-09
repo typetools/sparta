@@ -6,16 +6,16 @@ import android.util.FloatMath;
 
 class MultiplyTest {
 
-    @Source(FlowPermission.ACCESS_FINE_LOCATION) float raRadians;
-    @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float raLitLocRadians;
+    @Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) float raRadians;
+    @Source({CoarseFlowPermission.LITERAL, CoarseFlowPermission.ACCESS_FINE_LOCATION}) float raLitLocRadians;
 
     float x;
-    @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float y;
-    @Source({FlowPermission.ANY}) float z;
+    @Source({CoarseFlowPermission.LITERAL, CoarseFlowPermission.ACCESS_FINE_LOCATION}) float y;
+    @Source({CoarseFlowPermission.ANY}) float z;
 
     void test_Multiply() {
-        @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
-        @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float dec = 2.0f;
+        @Source({CoarseFlowPermission.LITERAL, CoarseFlowPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
+        @Source({CoarseFlowPermission.LITERAL, CoarseFlowPermission.ACCESS_FINE_LOCATION}) float dec = 2.0f;
 
         float dtr = (float) 0.5;
 
@@ -33,7 +33,7 @@ class MultiplyTest {
     }
 
     void test_Cast() {
-        @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
+        @Source({CoarseFlowPermission.LITERAL, CoarseFlowPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
 
         //:: error: (assignment.type.incompatible)
         raRadians       = (float) ra;
@@ -41,7 +41,7 @@ class MultiplyTest {
     }
 
     void test_Unary() {
-        @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
+        @Source({CoarseFlowPermission.LITERAL, CoarseFlowPermission.ACCESS_FINE_LOCATION}) float ra = (float) 1.0;
 
         x = -ra;
 

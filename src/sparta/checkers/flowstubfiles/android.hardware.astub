@@ -103,7 +103,7 @@ void finalize();
 //Invoked when the garbage collector has detected that this instance is no longer reachable.
 }
 interface Camera$PictureCallback {
-    void onPictureTaken(@Source(FlowPermission.CAMERA) byte @Source(FlowPermission.CAMERA) [] arg0, @Source(FlowPermission.CAMERA) Camera arg1);
+    void onPictureTaken(@Source(CoarseFlowPermission.CAMERA) byte @Source(CoarseFlowPermission.CAMERA) [] arg0, @Source(CoarseFlowPermission.CAMERA) Camera arg1);
 }
  
 class Camera$Parameters {

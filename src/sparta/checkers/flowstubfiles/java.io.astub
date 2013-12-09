@@ -80,7 +80,7 @@ class ByteArrayOutputStream extends OutputStream {
 //Added by SOM
      ByteArrayOutputStream();
     @PolySource @PolySink byte @PolySource @PolySink [] toByteArray() @PolySource @PolySink;
-    void close() @Source(FlowPermission.ANY) @Sink({});
+    void close() @Source(CoarseFlowPermission.ANY) @Sink({});
     protected byte[] buf;
     protected int count;
     ByteArrayOutputStream(int arg0);
@@ -183,14 +183,14 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
 @PolyFlowReceiver	
 class File implements Serializable, Comparable<File> {
 //Added by smillst
-   @Source(FlowPermission.LITERAL) final char separatorChar;
-   @Source(FlowPermission.LITERAL)  final String separator;
-   @Source(FlowPermission.LITERAL) final char pathSeparatorChar;
-   @Source(FlowPermission.LITERAL) final String pathSeparator;
+   @Source(CoarseFlowPermission.LITERAL) final char separatorChar;
+   @Source(CoarseFlowPermission.LITERAL)  final String separator;
+   @Source(CoarseFlowPermission.LITERAL) final char pathSeparatorChar;
+   @Source(CoarseFlowPermission.LITERAL) final String pathSeparator;
     
-    @Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) String path);
+    @Source(CoarseFlowPermission.FILESYSTEM) File( @Sink(CoarseFlowPermission.FILESYSTEM) String path);
     File(String arg0, String arg1);
-    @Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) File dir, @Sink(FlowPermission.FILESYSTEM) String path);
+    @Source(CoarseFlowPermission.FILESYSTEM) File( @Sink(CoarseFlowPermission.FILESYSTEM) File dir, @Sink(CoarseFlowPermission.FILESYSTEM) String path);
 
     File(URI arg0);
     String getName();
@@ -232,12 +232,12 @@ class File implements Serializable, Comparable<File> {
     boolean setExecutable(boolean arg0, boolean arg1);
     boolean setExecutable(boolean arg0);
     boolean canExecute();
-    static @Source(FlowPermission.FILESYSTEM) File @Source(FlowPermission.FILESYSTEM) [] listRoots();
+    static @Source(CoarseFlowPermission.FILESYSTEM) File @Source(CoarseFlowPermission.FILESYSTEM) [] listRoots();
     long getTotalSpace();
     long getFreeSpace();
     long getUsableSpace();
-    static @Source(FlowPermission.FILESYSTEM) File createTempFile(@Sink(FlowPermission.FILESYSTEM) String arg0, @Sink(FlowPermission.FILESYSTEM) String arg1, @Sink(FlowPermission.FILESYSTEM) File arg2) throws IOException;
-    static @Source(FlowPermission.FILESYSTEM) File createTempFile(@Sink(FlowPermission.FILESYSTEM) String arg0, @Sink(FlowPermission.FILESYSTEM) String arg1) throws IOException;
+    static @Source(CoarseFlowPermission.FILESYSTEM) File createTempFile(@Sink(CoarseFlowPermission.FILESYSTEM) String arg0, @Sink(CoarseFlowPermission.FILESYSTEM) String arg1, @Sink(CoarseFlowPermission.FILESYSTEM) File arg2) throws IOException;
+    static @Source(CoarseFlowPermission.FILESYSTEM) File createTempFile(@Sink(CoarseFlowPermission.FILESYSTEM) String arg0, @Sink(CoarseFlowPermission.FILESYSTEM) String arg1) throws IOException;
     int compareTo(File arg0);
     boolean equals(Object arg0);
     int hashCode();
@@ -251,18 +251,18 @@ class FileDescriptor{
 
 @PolyFlowReceiver
 class FileInputStream extends InputStream {
-    FileInputStream(@Source(FlowPermission.FILESYSTEM) String arg0) throws FileNotFoundException;
-    FileInputStream(@Source(FlowPermission.FILESYSTEM) File arg0) throws FileNotFoundException;
-    FileInputStream(@Source(FlowPermission.FILESYSTEM) FileDescriptor arg0);
+    FileInputStream(@Source(CoarseFlowPermission.FILESYSTEM) String arg0) throws FileNotFoundException;
+    FileInputStream(@Source(CoarseFlowPermission.FILESYSTEM) File arg0) throws FileNotFoundException;
+    FileInputStream(@Source(CoarseFlowPermission.FILESYSTEM) FileDescriptor arg0);
     int read() throws IOException;
-    int read(@Source(FlowPermission.FILESYSTEM) byte@Source(FlowPermission.FILESYSTEM)[] arg0) throws IOException;
-    int read(@Source(FlowPermission.FILESYSTEM) byte@Source(FlowPermission.FILESYSTEM)[] arg0, int arg1, int arg2) throws IOException;
+    int read(@Source(CoarseFlowPermission.FILESYSTEM) byte@Source(CoarseFlowPermission.FILESYSTEM)[] arg0) throws IOException;
+    int read(@Source(CoarseFlowPermission.FILESYSTEM) byte@Source(CoarseFlowPermission.FILESYSTEM)[] arg0, int arg1, int arg2) throws IOException;
     long skip(long arg0) throws IOException;
     int available() throws IOException;
     void close() throws IOException;
-    @Source(FlowPermission.FILESYSTEM) FileDescriptor getFD() @Source(FlowPermission.FILESYSTEM) throws IOException;
-    @Source(FlowPermission.FILESYSTEM) FileChannel getChannel() @Source(FlowPermission.FILESYSTEM);
-    protected void finalize() @Source(FlowPermission.FILESYSTEM) throws IOException;
+    @Source(CoarseFlowPermission.FILESYSTEM) FileDescriptor getFD() @Source(CoarseFlowPermission.FILESYSTEM) throws IOException;
+    @Source(CoarseFlowPermission.FILESYSTEM) FileChannel getChannel() @Source(CoarseFlowPermission.FILESYSTEM);
+    protected void finalize() @Source(CoarseFlowPermission.FILESYSTEM) throws IOException;
 }
 @PolyFlowReceiver
 class FilterInputStream{
@@ -292,23 +292,23 @@ class FilterOutputStream{
 }
 
 class FilenameFilter{
-        boolean accept(@Source(FlowPermission.FILESYSTEM) File arg0, String arg1);
+        boolean accept(@Source(CoarseFlowPermission.FILESYSTEM) File arg0, String arg1);
 }
 
 class FileOutputStream extends OutputStream {
 //Added by SOM
-    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) String arg0) throws FileNotFoundException;
-    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) String arg0, boolean arg1) throws FileNotFoundException;
-    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) File arg0) throws FileNotFoundException;
-    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) File arg0, boolean arg1) throws FileNotFoundException;
-    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) FileDescriptor arg0);
-    void write(@Sink(FlowPermission.FILESYSTEM) int arg0) @Sink(FlowPermission.FILESYSTEM);
-    void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM) [] arg0) @Sink(FlowPermission.FILESYSTEM);
-    void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM) [] arg0, int arg1, int arg2) @Sink(FlowPermission.FILESYSTEM);
-    void close() @Sink(FlowPermission.FILESYSTEM);
-    @Sink(FlowPermission.FILESYSTEM) FileDescriptor getFD() @Sink(FlowPermission.FILESYSTEM);
-    @Sink(FlowPermission.FILESYSTEM) FileChannel getChannel() @Sink(FlowPermission.FILESYSTEM);
-    protected void finalize() @Sink(FlowPermission.FILESYSTEM);
+    FileOutputStream(@Sink(CoarseFlowPermission.FILESYSTEM) String arg0) throws FileNotFoundException;
+    FileOutputStream(@Sink(CoarseFlowPermission.FILESYSTEM) String arg0, boolean arg1) throws FileNotFoundException;
+    FileOutputStream(@Sink(CoarseFlowPermission.FILESYSTEM) File arg0) throws FileNotFoundException;
+    FileOutputStream(@Sink(CoarseFlowPermission.FILESYSTEM) File arg0, boolean arg1) throws FileNotFoundException;
+    FileOutputStream(@Sink(CoarseFlowPermission.FILESYSTEM) FileDescriptor arg0);
+    void write(@Sink(CoarseFlowPermission.FILESYSTEM) int arg0) @Sink(CoarseFlowPermission.FILESYSTEM);
+    void write(@Sink(CoarseFlowPermission.FILESYSTEM) byte @Sink(CoarseFlowPermission.FILESYSTEM) [] arg0) @Sink(CoarseFlowPermission.FILESYSTEM);
+    void write(@Sink(CoarseFlowPermission.FILESYSTEM) byte @Sink(CoarseFlowPermission.FILESYSTEM) [] arg0, int arg1, int arg2) @Sink(CoarseFlowPermission.FILESYSTEM);
+    void close() @Sink(CoarseFlowPermission.FILESYSTEM);
+    @Sink(CoarseFlowPermission.FILESYSTEM) FileDescriptor getFD() @Sink(CoarseFlowPermission.FILESYSTEM);
+    @Sink(CoarseFlowPermission.FILESYSTEM) FileChannel getChannel() @Sink(CoarseFlowPermission.FILESYSTEM);
+    protected void finalize() @Sink(CoarseFlowPermission.FILESYSTEM);
 }
 
 @PolyFlowReceiver

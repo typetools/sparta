@@ -1217,7 +1217,7 @@ final void setOwnerActivity(Activity activity);
 void setTitle(int titleId);
 //Set the title text for this dialog's window.
 
-void setTitle(@Sink(FlowPermission.DISPLAY) CharSequence title);
+void setTitle(@Sink(CoarseFlowPermission.DISPLAY) CharSequence title);
 //Set the title text for this dialog's window.
 
 final void setVolumeControlStream(int streamType);
@@ -1323,7 +1323,7 @@ class ExpandableListActivity{
 }
 
 class Fragment {
-void dump(String prefix, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({CoarseFlowPermission.FILESYSTEM ,CoarseFlowPermission.INTERNET, CoarseFlowPermission.WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the Fragments's state into the given stream.
 
 final boolean equals(Object o);
@@ -1956,7 +1956,7 @@ Notification.Builder setTicker(@Sink(DISPLAY) CharSequence tickerText);
 Notification.Builder setUsesChronometer(boolean b);
 //Show the when field as a stopwatch.
 
-Notification.Builder setVibrate(@Sink(FlowPermission.VIBRATE) long[] pattern);
+Notification.Builder setVibrate(@Sink(CoarseFlowPermission.VIBRATE) long[] pattern);
 //Set the vibration pattern to use.
 
 Notification.Builder setWhen(long when);

@@ -145,7 +145,7 @@ public class AndroidTests {
             super(testFile, FlowChecker.class, "sparta.checkers", "-Anomsgtext");
 //             Uncomment the line below to see the full errors in the JUnit
             // tests
-//             super(testFile, FlowChecker.class, "sparta.checkers");
+            // super(testFile, FlowChecker.class, "sparta.checkers");
         }
 
         private FlowCheckerTests(File testFile, String... checkerOptions) {

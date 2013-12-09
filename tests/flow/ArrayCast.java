@@ -1,4 +1,4 @@
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.CoarseFlowPermission.*;
 
 import java.io.ByteArrayOutputStream;
 
@@ -29,7 +29,7 @@ void bar(){
     void foo() {
         
         //:: error: (assignment.type.incompatible)
-        @Sink(INTERNET) Object @Source(FlowPermission.ACCELEROMETER) [] params = new /*@Sink(INTERNET)*/ Object[1];
+        @Sink(INTERNET) Object @Source(CoarseFlowPermission.ACCELEROMETER) [] params = new /*@Sink(INTERNET)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
 
         //strict:: warning: (cast.unsafe)
@@ -45,7 +45,7 @@ void bar(){
     }
 
     @Source(INTERNET) @Sink(INTERNET) Object call(
-            @Source(FlowPermission.LITERAL) String method, @Sink(INTERNET) Object[] params) {
+            @Source(CoarseFlowPermission.LITERAL) String method, @Sink(INTERNET) Object[] params) {
         @Source(INTERNET) @Sink(INTERNET) Object a = params[0];
         return a;
     }

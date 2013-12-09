@@ -1,4 +1,4 @@
-  #@Source(FlowPermission.ACCESS_FINE_LOCATION) @Sink(FlowPermission.INTERNET)
+  #@Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) @Sink(CoarseFlowPermission.INTERNET)
 ACCESS_FINE_LOCATION->INTERNET
 #This flow is to catch issues with defaulting
 #If flow completion fails when a source is given, the sink is inferred 

@@ -3,16 +3,16 @@
 import java.util.*;
 
 import sparta.checkers.quals.*;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.CoarseFlowPermission.*;
 
 
 class FlowPoilcyDefaulting {
 
     List<Object> lo = new ArrayList<Object>();
-    List<@Source(FlowPermission.INTERNET) Object> netok = new ArrayList<@Source(FlowPermission.INTERNET) Object>();
+    List<@Source(CoarseFlowPermission.INTERNET) Object> netok = new ArrayList<@Source(CoarseFlowPermission.INTERNET) Object>();
     
    
-    List<@Source(FlowPermission.INTERNET) Object> netok2 = foo();
+    List<@Source(CoarseFlowPermission.INTERNET) Object> netok2 = foo();
  
     //:: error: (assignment.type.incompatible)
     List<@Source(INTERNET) Object> neterr = new ArrayList<Object>();
@@ -23,8 +23,8 @@ class FlowPoilcyDefaulting {
         o = netok.get(4);
     }
 
-    List<@Source(FlowPermission.INTERNET) Object> foo() {
-        return new ArrayList<@Source(FlowPermission.INTERNET) Object>();
+    List<@Source(CoarseFlowPermission.INTERNET) Object> foo() {
+        return new ArrayList<@Source(CoarseFlowPermission.INTERNET) Object>();
     }
     
     void method(@Source(INTERNET) String s){

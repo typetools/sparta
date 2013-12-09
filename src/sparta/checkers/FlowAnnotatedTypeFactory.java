@@ -51,6 +51,7 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 
+import sparta.checkers.quals.CoarseFlowPermission;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PolyFlow;
 import sparta.checkers.quals.PolyFlowReceiver;
@@ -87,23 +88,34 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     private Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
 
     public final boolean IGNORENR;
+    
+    private final FlowPermission ANY;
+    private final FlowPermission NOT_REVIEWED;
+    private final FlowPermission LITERAL;
+    private final FlowPermission CONDITIONAL;
 
     public FlowAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
 
+        ANY = new FlowPermission(CoarseFlowPermission.ANY);
+        NOT_REVIEWED = new FlowPermission(CoarseFlowPermission.NOT_REVIEWED);
+        LITERAL = new FlowPermission(CoarseFlowPermission.LITERAL);
+        CONDITIONAL = new FlowPermission(CoarseFlowPermission.CONDITIONAL);
+        
         NOSOURCE = AnnotationUtils.fromClass(elements, Source.class);
         NOSINK = AnnotationUtils.fromClass(elements, Sink.class);
 
         POLYSOURCE = AnnotationUtils.fromClass(elements, PolySource.class);
         POLYSINK = AnnotationUtils.fromClass(elements, PolySink.class);
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
+        
+        NR_SOURCE = createAnnoFromSource( new TreeSet<FlowPermission>(Arrays.asList(new FlowPermission[] {NOT_REVIEWED})));
+        NR_SINK = createAnnoFromSink( new TreeSet<FlowPermission>(Arrays.asList(new FlowPermission[] {NOT_REVIEWED})));
 
-        NR_SOURCE = createAnnoFromSource( new TreeSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
-        NR_SINK = createAnnoFromSink( new TreeSet<FlowPermission>(Arrays.asList(FlowPermission.NOT_REVIEWED)));
-
-        ANYSOURCE = createAnnoFromSource( new TreeSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
-        ANYSINK = createAnnoFromSink(  new TreeSet<FlowPermission>(Arrays.asList(FlowPermission.ANY)));
-
+        ANYSOURCE = createAnnoFromSource( new TreeSet<FlowPermission>(Arrays.asList(new FlowPermission[] {ANY})));
+        ANYSINK = createAnnoFromSink(  new TreeSet<FlowPermission>(Arrays.asList(new FlowPermission[] {ANY})));
+        
+        
         SOURCE = AnnotationUtils.fromClass(elements, Source.class);
         SINK = AnnotationUtils.fromClass(elements, Sink.class);
 
@@ -122,19 +134,19 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
         final String ignoreArg = checker.getOption(FlowChecker.IGNORE_NOT_REVIEWED);
         IGNORENR = (ignoreArg != null && ignoreArg.trim().equals("on"));
-
+        
         LITERALSOURCE = createAnnoFromSource(new TreeSet<FlowPermission>(
-                Arrays.asList(FlowPermission.LITERAL)));
+                Arrays.asList(LITERAL)));
 
         final Set<FlowPermission> literalSink = new TreeSet<FlowPermission>(
-                flowPolicy.getSinkFromSource(FlowPermission.LITERAL, true));
+                flowPolicy.getSinkFromSource(LITERAL, true));
         FROMLITERALSINK = createAnnoFromSink(literalSink);
 
         CONDITIONALSINK = createAnnoFromSink(new TreeSet<FlowPermission>(
-                Arrays.asList(FlowPermission.CONDITIONAL)));
+                Arrays.asList(CONDITIONAL)));
 
         final Set<FlowPermission> condtionalSource = new TreeSet<FlowPermission>(
-                flowPolicy.getSourceFromSink(FlowPermission.CONDITIONAL, true));
+                flowPolicy.getSourceFromSink(CONDITIONAL, true));
         FROMCONDITIONALSOURCE = createAnnoFromSource(condtionalSource);
 
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
@@ -176,14 +188,43 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     public  AnnotationMirror createAnnoFromSink(final Set<FlowPermission> sinks) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
                 Sink.class);
-        builder.setValue("value", sinks.toArray(new FlowPermission[sinks.size()]));
+        
+        CoarseFlowPermission[] permissionArray = new CoarseFlowPermission[sinks.size()];
+        int i = 0;
+        for (FlowPermission p : sinks) {
+            if (p.getParameters().size() > 0) {
+                System.err.println("WARN: CAUGHT PARAMETERIZED SINK, IGNORING FOR NOW");
+            }
+            permissionArray[i] = p.getPermission();
+            i++;
+        }            
+                
+        builder.setValue("value", permissionArray);
         return builder.build();
+        
+        /* Old implementation 
+         * 
+         * builder.setValue("value", sinks.toArray(new CoarseFlowPermission[sinks.size()]));
+         * return builder.build();
+         */
+        
     }
 
     public  AnnotationMirror createAnnoFromSource(Set<FlowPermission> sources) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
                 Source.class);
-        builder.setValue("value", sources.toArray(new FlowPermission[sources.size()]));
+                
+        CoarseFlowPermission[] permissionArray = new CoarseFlowPermission[sources.size()];
+        int i = 0;
+        for (FlowPermission p : sources) {
+            if (p.getParameters().size() > 0) {
+                System.err.println("WARN: CAUGHT PARAMETERIZED SOURCE, IGNORING FOR NOW");
+            }
+            permissionArray[i] = p.getPermission();
+            i++;
+        }            
+                
+        builder.setValue("value", permissionArray);
         return builder.build();
     }
 
@@ -644,7 +685,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
                     Set<FlowPermission> rhssrc = Flow.getSources(rhs);
                  // TODO: Remove the ANY below when we start warning about Source(ANY, Something else)
                     return AnnotationUtils.areSame(lhs, ANYSOURCE) ||
-                            lhssrc.containsAll(rhssrc) || lhssrc.contains(FlowPermission.ANY);
+                            lhssrc.containsAll(rhssrc) || lhssrc.contains(ANY);
                 }
             } else if (isSinkQualifier(rhs)) {
                 if (isPolySinkQualifier(lhs)) {
@@ -662,7 +703,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
                     Set<FlowPermission> lhssnk = Flow.getSinks(lhs);
                     Set<FlowPermission> rhssnk = Flow.getSinks(rhs);
                     return lhssnk.isEmpty() || rhssnk.containsAll(lhssnk)
-                            || (rhssnk.contains(FlowPermission.ANY) && rhssnk.size() == 1);
+                            || (rhssnk.contains(ANY) && rhssnk.size() == 1);
                 }
             } else if (QualifierPolymorphism.isPolyAll(rhs)) {
                 // If RHS is polyall, the LHS has to be a top qualifier or also
@@ -684,19 +725,19 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
             if (!isPolySource && isSourceQualifier(anm)) {
                 Set<FlowPermission> sources = Flow.getSources(anm);
-                if (sources.contains(FlowPermission.ANY) && sources.size() > 1) {
+                if (FlowPermission.coarsePermissionExists(ANY, sources) && sources.size() > 1) {
                     throw new Exception("Found FlowPermission.ANY and something else");
                 }
             }
             if (!isPolySink && isSinkQualifier(anm)) {
                 Set<FlowPermission> sinks = Flow.getSinks(anm);
-                if (sinks.contains(FlowPermission.ANY) && sinks.size() > 1) {
+                if (FlowPermission.coarsePermissionExists(ANY, sinks) && sinks.size() > 1) {
                     throw new Exception("Found FlowPermission.ANY and something else");
                 }
             }
 
         }
-
+        
         @Override
         protected void addPolyRelations(QualifierHierarchy qualHierarchy,
                 Map<AnnotationMirror, Set<AnnotationMirror>> fullMap,
@@ -750,14 +791,14 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             } else if (AnnotationUtils.areSame(a1, POLYSOURCE)) {
                 if (AnnotationUtils.areSameIgnoringValues(a2, SOURCE)) {
                     Set<FlowPermission> top = new TreeSet<FlowPermission>();
-                    top.add(FlowPermission.ANY);
+                    top.add(ANY);
                     return boundSource(top);
                 }
 
             } else if (AnnotationUtils.areSame(a2, POLYSOURCE)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, SOURCE)) {
                     Set<FlowPermission> top = new TreeSet<FlowPermission>();
-                    top.add(FlowPermission.ANY);
+                    top.add(ANY);
                     return boundSource(top);
                 }
             }
@@ -785,14 +826,14 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             } else if (AnnotationUtils.areSame(a1, POLYSINK)) {
                 if (AnnotationUtils.areSameIgnoringValues(a2, SINK)) {
                     Set<FlowPermission> bottom = new TreeSet<FlowPermission>();
-                    bottom.add(FlowPermission.ANY);
+                    bottom.add(ANY);
                     return boundSink(bottom);
                 }
 
             } else if (AnnotationUtils.areSame(a2, POLYSINK)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, SINK)) {
                     Set<FlowPermission> bottom = new TreeSet<FlowPermission>();
-                    bottom.add(FlowPermission.ANY);
+                    bottom.add(ANY);
                     return boundSink(bottom);
                 }
             } else if (AnnotationUtils.areSame(a1, POLYSOURCE)) {
@@ -811,7 +852,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         private AnnotationMirror boundSource(final Set<FlowPermission> flowSource) {
 
             final AnnotationMirror am;
-            if (flowSource.contains(FlowPermission.ANY)) { // contains all
+            if (FlowPermission.coarsePermissionExists(ANY, flowSource)) { // contains all
                                                            // Source
                 am = getTopAnnotation(SOURCE);
             } else if (flowSource.isEmpty()) {
@@ -826,7 +867,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             final AnnotationMirror am;
             if (flowSink.isEmpty()) {
                 am = getTopAnnotation(SINK);
-            } else if (flowSink.contains(FlowPermission.ANY)) { // contains all
+            } else if (FlowPermission.coarsePermissionExists(ANY, flowSink)) { // contains all
                                                                 // Sink
                 am = getBottomAnnotation(SINK);
             } else {

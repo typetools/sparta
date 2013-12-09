@@ -1,25 +1,25 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.CoarseFlowPermission.*;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 
 class SwitchTest {
     void foo(@Sink(INTERNET) int badInfo) {
-        @Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.LITERAL}) int info = 1;
+        @Source({CoarseFlowPermission.ACCESS_FINE_LOCATION, CoarseFlowPermission.LITERAL}) int info = 1;
 
 
-        @Source(FlowPermission.LITERAL) int noInfo = 1;
+        @Source(CoarseFlowPermission.LITERAL) int noInfo = 1;
 
-        //This field gets FlowPermission.CONDITIONAL added by default
-        final @Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.LITERAL}) int caseInfo = 1;
+        //This field gets CoarseFlowPermission.CONDITIONAL added by default
+        final @Source({CoarseFlowPermission.ACCESS_FINE_LOCATION, CoarseFlowPermission.LITERAL}) int caseInfo = 1;
         final int caseNoInfo = 2;
 
 
-        //Explicitly forbid this field from having FlowPermission.CONDITIONAL
+        //Explicitly forbid this field from having CoarseFlowPermission.CONDITIONAL
         //:: error: (forbidden.flow)
-        final @Source({FlowPermission.ACCESS_FINE_LOCATION, FlowPermission.LITERAL}) @Sink({}) int badCaseInfo = 3;
+        final @Source({CoarseFlowPermission.ACCESS_FINE_LOCATION, CoarseFlowPermission.LITERAL}) @Sink({}) int badCaseInfo = 3;
 
         switch (info) {
 

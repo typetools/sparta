@@ -14,12 +14,12 @@ import sparta.checkers.quals.FlowPermission;
 // Therefore, that method invocation fails.
 // Write your own little test classes to illustrate the point.
 class TestPolyConstructors {
-    @Source(FlowPermission.ACCESS_FINE_LOCATION) HttpResponse response;
-    @Source(FlowPermission.ACCESS_FINE_LOCATION) HttpEntity entity;
-    @Source(FlowPermission.ACCESS_FINE_LOCATION) InputStream tempStream;
+    @Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) HttpResponse response;
+    @Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) HttpEntity entity;
+    @Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) InputStream tempStream;
     Reader responseReader;
 
-    void sdf(@Sink(FlowPermission.INTERNET) @Source(FlowPermission.ACCESS_FINE_LOCATION) HttpGet request) {
+    void sdf(@Sink(CoarseFlowPermission.INTERNET) @Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) HttpGet request) {
         try {
             HttpClient client = new DefaultHttpClient();
             response = client.execute(request);

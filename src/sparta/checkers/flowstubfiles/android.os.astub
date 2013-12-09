@@ -1011,7 +1011,7 @@ void finalize();
 }
 
 class PowerManager{
-        @Source(FlowPermission.WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
+        @Source(CoarseFlowPermission.WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
 }
 
 class PowerManager$WakeLock{

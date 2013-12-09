@@ -3,7 +3,8 @@ import sparta.checkers.quals.FlowPermission;
 import static stubfile.ExampleApi.MyAnnotation;
 import static stubfile.ExampleApi.INET_FIELD;
 import static stubfile.ExampleApi.STATIC_FIELD;
-import static sparta.checkers.quals.FlowPermission.*;
+import sparta.checkers.quals.FlowPermission;
+import static sparta.checkers.quals.CoarseFlowPermission.*;
 
 // These should all issue warnings
 // TODO: Programmatic testing for warnings
@@ -36,7 +37,7 @@ class ExampleApi {
     String reviewed3(String s);
 	
     void reviewedSomeAnnos();
-    @Source(FlowPermission.READ_SMS) String reviewedSomeAnnos1();
+    @Source(READ_SMS) String reviewedSomeAnnos1();
     void reviewedSomeAnnos2(@Sink(INTERNET) String s);
     @Sink(WRITE_SMS) String reviewedSomeAnnos3(@Source(READ_TIME) String s);
 	
@@ -48,7 +49,7 @@ class ExampleApi {
     // Nested annotation
     // Nested compile time constant
     @MyAnnotation({STATIC_FIELD, MISSING_FIELD})
-    @MyAnnotation(FlowPermission.MISSING_MEMEBER)
+    @MyAnnotation(MISSING_MEMEBER)
     @MyAnnotation(MissingClass.Member)
     void staticImport(String s) { }
 }

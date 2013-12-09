@@ -47,7 +47,7 @@ class HttpRequestInterceptor{
 class HttpResponse{
             void setEntity(HttpEntity arg0);
             StatusLine getStatusLine();
-            @Source(FlowPermission.INTERNET) HttpEntity getEntity();
+            @Source(CoarseFlowPermission.INTERNET) HttpEntity getEntity();
 }
 class HttpResponseInterceptor{
             void process(HttpResponse arg0, HttpContext arg1) throws HttpException,IOException;
@@ -132,7 +132,7 @@ class UrlEncodedFormEntity {
     // Added by mcarthur
     // Constructor returns do not work yet.
     // And I have my doubts about Poly for Generic types.
-    @PolySource @PolySink UrlEncodedFormEntity(@Sink(FlowPermission.CONDITIONAL) List<? extends @PolySource @PolySink NameValuePair> parameters) @PolySource @PolySink ; 
+    @PolySource @PolySink UrlEncodedFormEntity(@Sink(CoarseFlowPermission.CONDITIONAL) List<? extends @PolySource @PolySink NameValuePair> parameters) @PolySource @PolySink ; 
         UrlEncodedFormEntity(List<? extends NameValuePair> parameters, String encoding) throws UnsupportedEncodingException;
 }
 
@@ -142,12 +142,12 @@ package org.apache.http.client.methods;
 
 class HttpPost {
 
-    HttpPost(@Sink(FlowPermission.INTERNET) String postUrl);
+    HttpPost(@Sink(CoarseFlowPermission.INTERNET) String postUrl);
 
     // Added by mcarthur
     // I would like for this to actually work, but it does not.
 //    void setEntity(@PolySource @PolySink HttpEntity entity) @PolySource @PolySink;
-    void setEntity(@Sink(FlowPermission.INTERNET) HttpEntity entity) @Sink(FlowPermission.INTERNET);
+    void setEntity(@Sink(CoarseFlowPermission.INTERNET) HttpEntity entity) @Sink(CoarseFlowPermission.INTERNET);
 
 }
 
@@ -168,9 +168,9 @@ package org.apache.http.client;
 class HttpClient {
 
     // Added by mcarthur
-    @Source(FlowPermission.INTERNET)
-    HttpResponse execute(@Sink(FlowPermission.INTERNET) HttpUriRequest request);
-                @Source(FlowPermission.INTERNET) HttpParams getParams();
+    @Source(CoarseFlowPermission.INTERNET)
+    HttpResponse execute(@Sink(CoarseFlowPermission.INTERNET) HttpUriRequest request);
+                @Source(CoarseFlowPermission.INTERNET) HttpParams getParams();
 
 }
 

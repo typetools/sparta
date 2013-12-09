@@ -3,7 +3,7 @@
 import java.util.HashMap;
 
 import sparta.checkers.quals.*;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.CoarseFlowPermission.*;
 
 class ListTest {
     // Simple test to ensure that defaulting on java.util.List works correctly.
@@ -21,10 +21,10 @@ class List<T extends @Sink(CONDITIONAL) @Source(ANY) Object> {
 class Generics {
 
     List<Object> lo = new List<Object>();
-    List<@Source(FlowPermission.INTERNET) Object> netok = new List<@Source(FlowPermission.INTERNET) Object>();
+    List<@Source(CoarseFlowPermission.INTERNET) Object> netok = new List<@Source(CoarseFlowPermission.INTERNET) Object>();
     
    
-    List<@Source(FlowPermission.INTERNET) Object> netok2 = foo();
+    List<@Source(CoarseFlowPermission.INTERNET) Object> netok2 = foo();
  
     //:: error: (assignment.type.incompatible)
     List<@Source(INTERNET) Object> neterr = new List<Object>();
@@ -35,9 +35,9 @@ class Generics {
         o = netok.getF(4);
     }
 
-    List<@Source(FlowPermission.INTERNET) Object> foo() {
+    List<@Source(CoarseFlowPermission.INTERNET) Object> foo() {
 
-    	return new List<@Source(FlowPermission.INTERNET) Object>();
+    	return new List<@Source(CoarseFlowPermission.INTERNET) Object>();
     }
 
 }

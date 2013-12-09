@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import sparta.checkers.quals.CoarseFlowPermission;
 import sparta.checkers.quals.FlowPermission;
 
 import com.sun.source.util.TreePath;
@@ -174,7 +175,7 @@ public class FlowAnalyzer {
         }
         return results;
     }
-
+    
     private Set<Flow> groupFlowsOnSource(Set<Flow> flows) {
         Map<FlowPermission, Flow> grouped = new HashMap<FlowPermission, Flow>();
         for (Flow flow : flows) {

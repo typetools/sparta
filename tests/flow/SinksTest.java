@@ -2,7 +2,7 @@ import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
 
 class SinkTest {
-    void sendData(@Sink(FlowPermission.INTERNET) Object p) {
+    void sendData(@Sink(CoarseFlowPermission.INTERNET) Object p) {
         // Allowed: fewer sinks
         noComm(p);
     }
@@ -14,7 +14,7 @@ class SinkTest {
         sendData(p);
     }
 
-    void two(@Sink({FlowPermission.INTERNET, FlowPermission.WRITE_SMS}) Object p) {
+    void two(@Sink({CoarseFlowPermission.INTERNET, CoarseFlowPermission.WRITE_SMS}) Object p) {
         // Allowed: fewer sinks
         sendData(p);
         // Forbidden: more sinks
@@ -22,9 +22,8 @@ class SinkTest {
         any(p);
     }
 
-
     //:: error: (forbidden.flow)
-    void any(@Sink(FlowPermission.ANY) Object p) {
+    void any(@Sink(CoarseFlowPermission.ANY) Object p) {
         // Allowed: fewer sinks
         two(p);
     }

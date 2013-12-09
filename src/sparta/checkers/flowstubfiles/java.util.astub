@@ -305,50 +305,50 @@ class BitSet implements Cloneable, Serializable {
 @PolyFlowReceiver
 class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
 //Added by pbsf
-    final @Source(FlowPermission.LITERAL) int ERA;
-    final @Source(FlowPermission.LITERAL) int YEAR;
-    final @Source(FlowPermission.LITERAL) int MONTH;
-    final @Source(FlowPermission.LITERAL) int WEEK_OF_YEAR;
-    final @Source(FlowPermission.LITERAL) int WEEK_OF_MONTH;
-    final @Source(FlowPermission.LITERAL) int DATE;
-    final @Source(FlowPermission.LITERAL) int DAY_OF_MONTH;
-    final @Source(FlowPermission.LITERAL) int DAY_OF_YEAR;
-    final @Source(FlowPermission.LITERAL) int DAY_OF_WEEK;
-    final @Source(FlowPermission.LITERAL) int DAY_OF_WEEK_IN_MONTH;
-    final @Source(FlowPermission.LITERAL) int AM_PM;
-    final @Source(FlowPermission.LITERAL) int HOUR;
-    final @Source(FlowPermission.LITERAL) int HOUR_OF_DAY;
-    final @Source(FlowPermission.LITERAL) int MINUTE;
-    final @Source(FlowPermission.LITERAL) int SECOND;
-    final @Source(FlowPermission.LITERAL) int MILLISECOND;
-    final @Source(FlowPermission.LITERAL) int ZONE_OFFSET;
-    final @Source(FlowPermission.LITERAL) int DST_OFFSET;
-    final @Source(FlowPermission.LITERAL) int FIELD_COUNT;
-    final @Source(FlowPermission.LITERAL) int SUNDAY;
-    final @Source(FlowPermission.LITERAL) int MONDAY;
-    final @Source(FlowPermission.LITERAL) int TUESDAY;
-    final @Source(FlowPermission.LITERAL) int WEDNESDAY;
-    final @Source(FlowPermission.LITERAL) int THURSDAY;
-    final @Source(FlowPermission.LITERAL) int FRIDAY;
-    final @Source(FlowPermission.LITERAL) int SATURDAY;
-    final @Source(FlowPermission.LITERAL) int JANUARY;
-    final @Source(FlowPermission.LITERAL) int FEBRUARY;
-    final @Source(FlowPermission.LITERAL) int MARCH;
-    final @Source(FlowPermission.LITERAL) int APRIL;
-    final @Source(FlowPermission.LITERAL) int MAY;
-    final @Source(FlowPermission.LITERAL) int JUNE;
-    final @Source(FlowPermission.LITERAL) int JULY;
-    final @Source(FlowPermission.LITERAL) int AUGUST;
-    final @Source(FlowPermission.LITERAL) int SEPTEMBER;
-    final @Source(FlowPermission.LITERAL) int OCTOBER;
-    final @Source(FlowPermission.LITERAL) int NOVEMBER;
-    final @Source(FlowPermission.LITERAL) int DECEMBER;
-    final @Source(FlowPermission.LITERAL) int UNDECIMBER;
-    final @Source(FlowPermission.LITERAL) int AM;
-    final @Source(FlowPermission.LITERAL) int PM;
-    final @Source(FlowPermission.LITERAL) int ALL_STYLES;
-    final @Source(FlowPermission.LITERAL) int SHORT;
-    final @Source(FlowPermission.LITERAL) int LONG;
+    final @Source(CoarseFlowPermission.LITERAL) int ERA;
+    final @Source(CoarseFlowPermission.LITERAL) int YEAR;
+    final @Source(CoarseFlowPermission.LITERAL) int MONTH;
+    final @Source(CoarseFlowPermission.LITERAL) int WEEK_OF_YEAR;
+    final @Source(CoarseFlowPermission.LITERAL) int WEEK_OF_MONTH;
+    final @Source(CoarseFlowPermission.LITERAL) int DATE;
+    final @Source(CoarseFlowPermission.LITERAL) int DAY_OF_MONTH;
+    final @Source(CoarseFlowPermission.LITERAL) int DAY_OF_YEAR;
+    final @Source(CoarseFlowPermission.LITERAL) int DAY_OF_WEEK;
+    final @Source(CoarseFlowPermission.LITERAL) int DAY_OF_WEEK_IN_MONTH;
+    final @Source(CoarseFlowPermission.LITERAL) int AM_PM;
+    final @Source(CoarseFlowPermission.LITERAL) int HOUR;
+    final @Source(CoarseFlowPermission.LITERAL) int HOUR_OF_DAY;
+    final @Source(CoarseFlowPermission.LITERAL) int MINUTE;
+    final @Source(CoarseFlowPermission.LITERAL) int SECOND;
+    final @Source(CoarseFlowPermission.LITERAL) int MILLISECOND;
+    final @Source(CoarseFlowPermission.LITERAL) int ZONE_OFFSET;
+    final @Source(CoarseFlowPermission.LITERAL) int DST_OFFSET;
+    final @Source(CoarseFlowPermission.LITERAL) int FIELD_COUNT;
+    final @Source(CoarseFlowPermission.LITERAL) int SUNDAY;
+    final @Source(CoarseFlowPermission.LITERAL) int MONDAY;
+    final @Source(CoarseFlowPermission.LITERAL) int TUESDAY;
+    final @Source(CoarseFlowPermission.LITERAL) int WEDNESDAY;
+    final @Source(CoarseFlowPermission.LITERAL) int THURSDAY;
+    final @Source(CoarseFlowPermission.LITERAL) int FRIDAY;
+    final @Source(CoarseFlowPermission.LITERAL) int SATURDAY;
+    final @Source(CoarseFlowPermission.LITERAL) int JANUARY;
+    final @Source(CoarseFlowPermission.LITERAL) int FEBRUARY;
+    final @Source(CoarseFlowPermission.LITERAL) int MARCH;
+    final @Source(CoarseFlowPermission.LITERAL) int APRIL;
+    final @Source(CoarseFlowPermission.LITERAL) int MAY;
+    final @Source(CoarseFlowPermission.LITERAL) int JUNE;
+    final @Source(CoarseFlowPermission.LITERAL) int JULY;
+    final @Source(CoarseFlowPermission.LITERAL) int AUGUST;
+    final @Source(CoarseFlowPermission.LITERAL) int SEPTEMBER;
+    final @Source(CoarseFlowPermission.LITERAL) int OCTOBER;
+    final @Source(CoarseFlowPermission.LITERAL) int NOVEMBER;
+    final @Source(CoarseFlowPermission.LITERAL) int DECEMBER;
+    final @Source(CoarseFlowPermission.LITERAL) int UNDECIMBER;
+    final @Source(CoarseFlowPermission.LITERAL) int AM;
+    final @Source(CoarseFlowPermission.LITERAL) int PM;
+    final @Source(CoarseFlowPermission.LITERAL) int ALL_STYLES;
+    final @Source(CoarseFlowPermission.LITERAL) int SHORT;
+    final @Source(CoarseFlowPermission.LITERAL) int LONG;
     protected int[] fields;
     protected boolean[] isSet;
     protected long time;
@@ -787,7 +787,7 @@ class LinkedList<E> extends AbstractSequentialList<E> implements List<E>, Deque<
     <T> T[] toArray(T[] arg0);
 }
 
-interface List<E extends @Sink({}) @Source(FlowPermission.ANY) Object> {
+interface List<E extends @Sink({}) @Source(CoarseFlowPermission.ANY) Object> {
     @PolyFlowReceiver
     int size();
     boolean isEmpty();
@@ -1063,13 +1063,13 @@ class Random implements Serializable {
     void setSeed(long arg0);
     protected int next(int arg0);
     void nextBytes(byte[] arg0);
-    int nextInt() @Source(FlowPermission.RANDOM);
-    int nextInt(int arg0) @Source(FlowPermission.RANDOM);
-    long nextLong() @Source(FlowPermission.RANDOM);
-    boolean nextBoolean() @Source(FlowPermission.RANDOM);
-    float nextFloat() @Source(FlowPermission.RANDOM);
-    double nextDouble() @Source(FlowPermission.RANDOM);
-    double nextGaussian() @Source(FlowPermission.RANDOM);
+    int nextInt() @Source(CoarseFlowPermission.RANDOM);
+    int nextInt(int arg0) @Source(CoarseFlowPermission.RANDOM);
+    long nextLong() @Source(CoarseFlowPermission.RANDOM);
+    boolean nextBoolean() @Source(CoarseFlowPermission.RANDOM);
+    float nextFloat() @Source(CoarseFlowPermission.RANDOM);
+    double nextDouble() @Source(CoarseFlowPermission.RANDOM);
+    double nextGaussian() @Source(CoarseFlowPermission.RANDOM);
 }
 
 @PolyFlowReceiver

@@ -1,6 +1,6 @@
 import sparta.checkers.quals.Source;
 import stubfile.*;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.CoarseFlowPermission.*;
 
 public class StubfileTests {
     void constructorTest() {

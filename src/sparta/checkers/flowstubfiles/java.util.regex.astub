@@ -21,7 +21,7 @@ class Pattern {
     @PolyFlowReceiver
     Pattern pattern();
 
-    @PolySource @PolySink String [] split(@PolySource @PolySink CharSequence input, @Sink(FlowPermission.CONDITIONAL) int limit);
+    @PolySource @PolySink String [] split(@PolySource @PolySink CharSequence input, @Sink(CoarseFlowPermission.CONDITIONAL) int limit);
 
     @PolyFlow
     static String quote(String s);
@@ -38,14 +38,14 @@ class Matcher {
     @PolyFlowReceiver
     String group();
     
-    @PolySource @PolySink String group(@Sink(FlowPermission.CONDITIONAL) int group) @PolySource @PolySink;
+    @PolySource @PolySink String group(@Sink(CoarseFlowPermission.CONDITIONAL) int group) @PolySource @PolySink;
     
-    @PolySource @PolySink String group(@Sink(FlowPermission.CONDITIONAL) String name) @PolySource @PolySink;
+    @PolySource @PolySink String group(@Sink(CoarseFlowPermission.CONDITIONAL) String name) @PolySource @PolySink;
 
     @PolyFlowReceiver
     boolean find();
 
-    @PolySource @PolySink boolean find(@Sink(FlowPermission.CONDITIONAL) int start) @PolySource @PolySink;
+    @PolySource @PolySink boolean find(@Sink(CoarseFlowPermission.CONDITIONAL) int start) @PolySource @PolySink;
 
     @PolyFlowReceiver
     boolean matches();
@@ -53,12 +53,12 @@ class Matcher {
     @PolyFlowReceiver
     int start();
 
-    @PolySource @PolySink int start(@Sink(FlowPermission.CONDITIONAL) int group) @PolySource @PolySink;
+    @PolySource @PolySink int start(@Sink(CoarseFlowPermission.CONDITIONAL) int group) @PolySource @PolySink;
 
     @PolyFlowReceiver
     int end();
 
-    @PolySource @PolySink int end(@Sink(FlowPermission.CONDITIONAL) int group) @PolySource @PolySink;
+    @PolySource @PolySink int end(@Sink(CoarseFlowPermission.CONDITIONAL) int group) @PolySource @PolySink;
 
     // Don't think this needs one.
     int groupCount();

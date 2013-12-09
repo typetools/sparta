@@ -1,5 +1,5 @@
 
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.CoarseFlowPermission.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

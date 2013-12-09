@@ -50,5 +50,5 @@ static InputStream openContactPhotoInputStream(ContentResolver cr, Uri contactUr
 
 
 class MediaStore$Audio$Playlists$Members{
-        static @Source(FlowPermission.MEDIA) Uri getContentUri(String volumeName, long playlistId);
+        static @Source(CoarseFlowPermission.MEDIA) Uri getContentUri(String volumeName, long playlistId);
 }

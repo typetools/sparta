@@ -2,7 +2,7 @@ import sparta.checkers.quals.Source;
 import  sparta.checkers.quals.FlowPermission;
 
 import sparta.checkers.quals.Sink;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.CoarseFlowPermission.*;
 
 class Arithmetics {
     @Source({ACCELEROMETER}) @Sink({FILESYSTEM, CONDITIONAL}) int accel;
@@ -14,7 +14,7 @@ class Arithmetics {
     }
 
     void m() {
-
+        
         int i = 5;
         if(i > 0) {
         }

@@ -1,30 +1,30 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.CoarseFlowPermission.*;
 
 class MiscTests {
     double clean;
 
     void test() {
 
-        @Sink({FlowPermission.INTERNET}) double lat = 1.0;
+        @Sink({CoarseFlowPermission.INTERNET}) double lat = 1.0;
         clean = lat;
 
-        @Sink({FlowPermission.INTERNET, FlowPermission.CONDITIONAL}) @Source(FlowPermission.LITERAL) double lat2 = 1.0;
+        @Sink({CoarseFlowPermission.INTERNET, CoarseFlowPermission.CONDITIONAL}) @Source(CoarseFlowPermission.LITERAL) double lat2 = 1.0;
         clean = lat2;
     }
 
     @SuppressWarnings("flow")
-    @Sink({FlowPermission.INTERNET, FlowPermission.CONDITIONAL}) String WEBSERVICE_URL = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
+    @Sink({CoarseFlowPermission.INTERNET, CoarseFlowPermission.CONDITIONAL}) String WEBSERVICE_URL = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
 
-    @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) String WEBSERVICE_URL2 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
+    @Source({CoarseFlowPermission.LITERAL, CoarseFlowPermission.ACCESS_FINE_LOCATION}) String WEBSERVICE_URL2 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
 
     String WEBSERVICE_URL3 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
-    @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) String result; //With FP effective Sink(INTERNET,CONDITIONAL}
+    @Source({CoarseFlowPermission.LITERAL, CoarseFlowPermission.ACCESS_FINE_LOCATION}) String result; //With FP effective Sink(INTERNET,CONDITIONAL}
 
-    @Source({FlowPermission.LITERAL}) @Sink({FlowPermission.CONDITIONAL}) String result2;
+    @Source({CoarseFlowPermission.LITERAL}) @Sink({CoarseFlowPermission.CONDITIONAL}) String result2;
 
-    @Sink({FlowPermission.INTERNET}) String result3;
+    @Sink({CoarseFlowPermission.INTERNET}) String result3;
 
 
     void test_StringFormat_StringFlowPermission() {

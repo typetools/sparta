@@ -34,6 +34,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.type.TypeKind;
 
 import sparta.checkers.quals.DependentPermissions;
+import sparta.checkers.quals.CoarseFlowPermission;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.MayRequiredPermissions;
 import sparta.checkers.quals.RequiredPermissions;
@@ -58,9 +59,15 @@ import com.sun.tools.javac.tree.TreeInfo;
 public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
 
     private boolean topAllowed = false;
+    
+    private FlowPermission ANY;
+    private FlowPermission CONDITIONAL;
 
     public FlowVisitor(BaseTypeChecker checker) {
         super(checker);
+        
+        ANY = new FlowPermission(CoarseFlowPermission.ANY);
+        CONDITIONAL = new FlowPermission(CoarseFlowPermission.CONDITIONAL);
     }
 @Override
 protected FlowAnnotatedTypeFactory createTypeFactory() {
@@ -87,7 +94,8 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
     private void ensureConditionalSink(ExpressionTree tree) {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
         final Set<FlowPermission> sinks = Flow.getSinks(type);
-        if (!sinks.contains(FlowPermission.ANY) && !sinks.contains(FlowPermission.CONDITIONAL)) {
+        if (!FlowPermission.coarsePermissionExists(ANY, sinks) && 
+            !FlowPermission.coarsePermissionExists(CONDITIONAL, sinks)) {
             checker.report(Result.failure("condition.flow", type.getAnnotations()), tree);
         }
     }

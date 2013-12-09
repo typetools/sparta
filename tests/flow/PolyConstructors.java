@@ -5,15 +5,16 @@ import sparta.checkers.quals.PolyFlow;
 
 @PolyFlow
 class HttpGet {
-    @Sink(FlowPermission.INTERNET)  HttpGet( 
-            @Sink(FlowPermission.INTERNET)  String uri) {
+    @Sink(CoarseFlowPermission.INTERNET)  HttpGet( 
+            @Sink(CoarseFlowPermission.INTERNET)  String uri) {
     }
 }
 
 class PolyConstructors {
 
-    void testPolyConstructor(@Source(FlowPermission.ACCESS_FINE_LOCATION) @Sink(FlowPermission.INTERNET) String in) {	
-    	@Source(FlowPermission.ACCESS_FINE_LOCATION) @Sink(FlowPermission.INTERNET)
+    void testPolyConstructor(@Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) @Sink(CoarseFlowPermission.INTERNET) String in) {	
+    	@Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) @Sink(CoarseFlowPermission.INTERNET)
+
     	HttpGet request = new HttpGet(in);
     }
 
