@@ -477,13 +477,28 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
     }
 
-    protected void completePolicyFlows(final AnnotatedTypeMirror type) {
-        if(shouldNotComplete(type)){
-            return ;
-        }
 
-        final Set<FlowPermission> sources = Flow.getSources(type);
-        final Set<FlowPermission> sinks = Flow.getSinks(type);
+    protected void completePolicyFlows(final AnnotatedTypeMirror type) {
+        Set<FlowPermission> sources = Collections.<FlowPermission> emptySet();
+        Set<FlowPermission> sinks = Collections.<FlowPermission> emptySet();
+        if ((type instanceof AnnotatedTypeVariable)) {
+            if (shouldNotComplete(type.getAnnotations())) {
+                return;
+            }
+            for (AnnotationMirror anno : type.getAnnotations()) {
+                if (AnnotationUtils.areSameByClass(anno, Source.class)) {
+                    sources = Flow.getSources(anno);
+                } else if (AnnotationUtils.areSameByClass(anno, Sink.class)) {
+                    sinks = Flow.getSinks(anno);
+                }
+            }
+        } else {
+            if (shouldNotComplete(type.getEffectiveAnnotations())) {
+                return;
+            }
+            sources = Flow.getSources(type);
+            sinks = Flow.getSinks(type);
+        }
 
         AnnotationMirror newAnno;
         if (!sources.isEmpty()) {
@@ -504,14 +519,14 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
      * may add @Source({}) and @Sink({}).)
      *
      * Also don't complete if this is a void type
-     * @param type
+     * @param set
      * @return
      */
-    private static boolean shouldNotComplete(AnnotatedTypeMirror type) {
-        if (type.getKind() == TypeKind.VOID) return true;
+    private static boolean shouldNotComplete(Set<AnnotationMirror> set) {
+      //  if (type.getKind() == TypeKind.VOID) return true;
         boolean hasSource = false;
         boolean hasSink = false;
-       for(AnnotationMirror anno : type.getEffectiveAnnotations()){
+       for(AnnotationMirror anno : set){
            if(AnnotationUtils.areSameByClass(anno, Source.class)){
                hasSource = true;
            }else if (AnnotationUtils.areSameByClass(anno, Sink.class)){
