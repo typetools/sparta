@@ -3,7 +3,6 @@ import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.FlowPermission;
 
 class SourceAndSink {
-    //:: error: (forbidden.flow)
     @Source(FlowPermission.RECORD_AUDIO) @Sink({}) Object getPrivateSound() { return null; }
     @Source(FlowPermission.RECORD_AUDIO) @Sink(FlowPermission.ANY) Object getPublicSound() { return null; }
 
@@ -15,7 +14,8 @@ class SourceAndSink {
     void test1() {
         //:: error: (forbidden.flow)
         Object x = getPrivateSound();
-        //:: error: (argument.type.incompatible)
+        //MASKED//:: error: (argument.type.incompatible)
+        //:: error: (forbidden.flow)
         sendData(x);
     }
 
@@ -29,7 +29,8 @@ class SourceAndSink {
     }
 
     void test3() {
-        //:: error: (assignment.type.incompatible)
+        //MASKED//:: error: (assignment.type.incompatible)
+        //:: error: (forbidden.flow)
         @Sink(FlowPermission.INTERNET) Object x = getPrivateSound();
     }
 }

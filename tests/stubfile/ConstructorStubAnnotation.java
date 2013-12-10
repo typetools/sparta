@@ -49,14 +49,17 @@ class ConstructorStubAnnotation {
         TestStubExplicitConstructorType.stubSanity("test");
         
         // BUG? This should be thrown 
-        //:: error: (assignment.type.incompatible) 
+        //MASKED//:: error: (assignment.type.incompatible) 
+        //:: error: (forbidden.flow)
         @Source(LITERAL) TestStubImplicitConstructor imp = new TestStubImplicitConstructor();
         // BUG? This should be thrown 
 
-        //:: error: (assignment.type.incompatible)
+        //MASKED//:: error: (assignment.type.incompatible)
+        //:: error: (forbidden.flow)
         @Source(LITERAL) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
 
-        //:: error: (argument.type.incompatible) :: error: (assignment.type.incompatible)
+        //MASKED//:: error: (argument.type.incompatible) :: error: (assignment.type.incompatible)
+        //:: error: (forbidden.flow) :: error: (argument.type.incompatible)
         @Source(LITERAL) TestStubParamConstructor param = new TestStubParamConstructor("hello");
 
                 //:: error: (argument.type.incompatible) :: error: (forbidden.flow)
@@ -64,13 +67,15 @@ class ConstructorStubAnnotation {
         
         // BUG? An error should be thrown (Constructor is explicity @Source(INTERNET)) 
         //This is still a bug.
-        //:: error: (assignment.type.incompatible)
+        //MASKED//:: error: (assignment.type.incompatible)
+        //:: error: (forbidden.flow)
         @Source(LITERAL) TestStubExplicitConstructorType explicit = new TestStubExplicitConstructorType();
 
         // This has different behaviour than the ConstructorAnnotation test...
         // //:: error: (constructor.invocation.invalid)
         //BUG still can't anntotate constructors in stub files
-        //:: error: (assignment.type.incompatible)
+        //MASKED//:: error: (assignment.type.incompatible)
+        //:: error: (forbidden.flow)
         @Source(INTERNET) TestStubExplicitConstructorType explicit2 = new TestStubExplicitConstructorType();
     }
 }

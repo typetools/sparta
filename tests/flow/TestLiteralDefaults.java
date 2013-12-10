@@ -21,6 +21,7 @@ class TestLiteralDefaults {
     float nunqual;
 
     void testNumeric() {
+        //:: error: (forbidden.flow)
         ntop = 2f;
         //:: error: (assignment.type.incompatible)
         npoly = 2f;
@@ -38,13 +39,14 @@ class TestLiteralDefaults {
     Object runqual;
 
     void testReference() {
+        //:: error: (forbidden.flow)
         rtop = "a";
         //:: error: (assignment.type.incompatible)
         rpoly = "b";
         //:: error: (assignment.type.incompatible)
         rbot = "c";
         runqual = "d";
-
+        //:: error: (forbidden.flow)
         rtop = new Object();
  
         //:: error: (assignment.type.incompatible)
@@ -63,6 +65,7 @@ class TestLiteralDefaults {
     char cunqual;
 
     void testChar() {
+        //:: error: (forbidden.flow)
         rtop = 'a';
         //:: error: (assignment.type.incompatible)
         rpoly = 'b';

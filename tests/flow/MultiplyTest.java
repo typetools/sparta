@@ -25,7 +25,8 @@ class MultiplyTest {
 
         float decRadians = dec * dtr;
 
-        //:: error: (assignment.type.incompatible)
+        //MASKED//:: error: (assignment.type.incompatible)
+        //:: error: (forbidden.flow) :: error: (forbidden.flow)
         x = FloatMath.cos(raRadians) * FloatMath.cos(decRadians);
         y = FloatMath.sin(raRadians) * FloatMath.cos(decRadians);
         y = FloatMath.sin(y);
