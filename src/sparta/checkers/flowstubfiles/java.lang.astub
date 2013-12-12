@@ -474,6 +474,7 @@ interface CharSequence {
 }
 
 class Class{
+		String getCanonicalName();
         Constructor<T> getConstructor(Class<?>[] parameterTypes) throws NoSuchMethodException,SecurityException;
         Field getDeclaredField(String name) throws NoSuchFieldException,SecurityException;
         String getSimpleName();
@@ -485,6 +486,7 @@ class Class{
         T newInstance() throws InstantiationException,IllegalAccessException;
          String getName();
             boolean isInstance(Object arg0);
+            static Class<?> forName(String arg0, boolean arg1, ClassLoader arg2) throws ClassNotFoundException;
 }
 
 @PolyFlowReceiver
@@ -951,6 +953,10 @@ class ProcessBuilder$Redirect {
     int hashCode();
 }
 
+@PolyFlowReceiver
+class Runnable{
+        void run();
+}
 
 @PolyFlowReceiver
 class Runtime {

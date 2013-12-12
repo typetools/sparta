@@ -349,6 +349,12 @@ class InputStreamReader extends Reader {
 }
 
 @PolyFlowReceiver
+class ObjectInput{
+        Object readObject() throws ClassNotFoundException,IOException;
+        void close() throws IOException;
+}
+
+@PolyFlowReceiver
 class ObjectInputStream extends InputStream implements ObjectInput, ObjectStreamConstants {
     ObjectInputStream(InputStream arg0) throws IOException;
     protected ObjectInputStream() throws IOException,SecurityException;
@@ -399,6 +405,12 @@ class ObjectInputStream$GetField {
     float get(String arg0, float arg1) throws IOException;
     double get(String arg0, double arg1) throws IOException;
     Object get(String arg0, Object arg1) throws IOException;
+}
+
+@PolyFlowReceiver
+class ObjectOutput{
+        void close() throws IOException;
+        void writeObject(Object arg0) throws IOException;
 }
 
 @PolyFlowReceiver
@@ -463,6 +475,11 @@ class OutputStream implements Closeable, Flushable {
     void write(byte[] arg0, int arg1, int arg2) throws IOException;
     void flush() throws IOException;
     void close() throws IOException;
+}
+
+@PolyFlowReceiver
+class ObjectStreamClass{
+        String getName();
 }
 
 @PolyFlowReceiver
@@ -573,6 +590,18 @@ class PrintWriter extends Writer {
     PrintWriter append(CharSequence arg0);
     PrintWriter append(CharSequence arg0, int arg1, int arg2);
     PrintWriter append(char arg0);
+}
+
+@PolyFlowReceiver
+class RandomAccessFile{
+        void writeBytes(@Sink(FILESYSTEM) String arg0) throws IOException;
+        void close() throws IOException;
+        RandomAccessFile(String arg0, String arg1) throws FileNotFoundException;
+        void write(@Sink(FILESYSTEM) byte[] arg0) throws IOException;
+        void seek(long arg0) throws IOException;
+        void writeInt(@Sink(FILESYSTEM) int arg0) throws IOException;
+        void writeShort(@Sink(FILESYSTEM) int arg0) throws IOException;
+        void setLength(long arg0) throws IOException;
 }
 
 @PolyFlowReceiver

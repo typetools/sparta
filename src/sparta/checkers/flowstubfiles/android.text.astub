@@ -34,7 +34,7 @@ abstract Editable insert(int where, CharSequence text);
 //Convenience for replace(where, where, text, 0, text.length(););;
 
 abstract Editable replace(int st, int en, CharSequence source, int start, int end);
-//Replaces the specified range (st…en); of text in this Editable with a copy of the slice start…end from source.
+//Replaces the specified range (st���en); of text in this Editable with a copy of the slice start���end from source.
 
 abstract Editable replace(int st, int en, CharSequence text);
 //Convenience for replace(st, en, text, 0, text.length(););
@@ -58,6 +58,14 @@ static Spanned fromHtml(String source, Html.ImageGetter imageGetter, Html.TagHan
 static String toHtml(Spanned text);
 //Returns an HTML representation of the provided Spanned text.
 
+}
+
+class InputFilter{
+        CharSequence filter(CharSequence arg0, int arg1, int arg2, Spanned arg3, int arg4, int arg5);
+}
+
+class Selection{
+        static void setSelection(Spannable text, int index);
 }
 
 class SpannableStringBuilder{
@@ -216,6 +224,10 @@ long toMillis(boolean arg0);
 
 package android.text.method;
 
+class KeyListener{
+        int getInputType();
+}
+
 class LinkMovementMethod {
     
     
@@ -246,6 +258,12 @@ boolean up(TextView widget, Spannable buffer);
 
 
 
+}
+
+class NumberKeyListener{
+        NumberKeyListener();
+        protected char[] getAcceptedChars();
+        CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend);
 }
 
 

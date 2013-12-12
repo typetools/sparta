@@ -369,6 +369,18 @@ void onSizeChanged(int w, int h, int oldw, int oldh);
 
 }
 
+class AbsListView$LayoutParams{
+        LayoutParams(int w, int h);
+}
+
+class AbsSeekBar{
+        protected void onSizeChanged(int w, int h, int oldw, int oldh);
+        protected void onDraw(Canvas canvas);
+        void setMax(int max);
+        boolean onTouchEvent(MotionEvent event);
+        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+}
+
 
 class AbsSpinner{
         void setSelection(int position);
@@ -392,6 +404,7 @@ class Adapter{
 }
 
 class AdapterView {
+	T getAdapter();
         Object getSelectedItem();
       long getItemIdAtPosition(int position);
             int getCount();
@@ -587,6 +600,8 @@ void sort(Comparator<? super T> comparator);
 }
 
 class BaseAdapter {
+
+BaseAdapter();
     
 boolean areAllItemsEnabled();
 //Indicates whether all the items in this adapter are enabled.
@@ -649,6 +664,8 @@ abstract void setChecked(boolean checked);
 }
 
 class CheckBox {
+
+CheckBox(Context context);
 
 //void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
@@ -917,6 +934,8 @@ class FrameLayout$LayoutParams{
 }
 
 class Filter {
+
+Filter();
     
 CharSequence convertResultToString(Object resultValue);
 //Converts a value from the filtered set into a CharSequence.
@@ -1029,7 +1048,18 @@ class FrameLayout$LayoutParams {
     
 }
 
+class GridView{
+        void setColumnWidth(int columnWidth);
+        void setAdapter(ListAdapter adapter);
+}
+
 class ImageButton {
+
+  ImageButton(Context context);
+        
+  ImageButton(Context context, AttributeSet attrs);
+        
+  ImageButton(Context context, AttributeSet attrs, int defStyle);
     
     
 void onInitializeAccessibilityEvent(AccessibilityEvent event);
@@ -1046,6 +1076,8 @@ boolean onSetAlpha(int alpha);
 }
 
 class ImageView {
+
+ImageView(Context context);
 
 final void clearColorFilter();
 
@@ -1190,6 +1222,8 @@ boolean verifyDrawable(Drawable dr);
 
 class LinearLayout {
 
+LinearLayout(Context context, AttributeSet attrs);
+
 LinearLayout.LayoutParams generateLayoutParams(AttributeSet attrs);
 //Returns a new set of layout parameters based on the supplied attributes set.
 
@@ -1296,6 +1330,9 @@ abstract boolean isEnabled(int position);
 }
 
 class ListView {
+
+ListView(Context context);
+
 void addFooterView(@Sink(DISPLAY) View v);
 //Add a fixed view to appear at the bottom of the list.
 
@@ -1618,6 +1655,7 @@ void show() @Sink(DISPLAY);
 
 class ProgressBar {
     
+ProgressBar(Context context);    
     
 Drawable getIndeterminateDrawable();
 //Get the drawable used to draw the progress bar in indeterminate mode.
@@ -2063,6 +2101,9 @@ class TabHost$TabSpec{
 
 
 class TextView {
+
+TextView(Context context);
+
 void addTextChangedListener(TextWatcher watcher);
 //Adds a TextWatcher to the list of those whose methods are called whenever this TextView's text changes.
 
@@ -2756,6 +2797,9 @@ ScrollView(Context context);
 
 
 class SeekBar{
+		SeekBar(Context context, AttributeSet attrs);
+        SeekBar(Context context);
+        SeekBar(Context context, AttributeSet attrs, int defStyle);
         void setOnSeekBarChangeListener(OnSeekBarChangeListener l);
 }
 
@@ -2764,6 +2808,10 @@ class SeekBar$OnSeekBarChangeListener{
         void onStopTrackingTouch(SeekBar arg0);
         void onStartTrackingTouch(SeekBar arg0);
         void onProgressChanged(SeekBar arg0, int arg1, boolean arg2);
+}
+
+class SimpleAdapter{
+        SimpleAdapter(Context context, List<? extends Map<String,?>> data, int resource, String[] from, int[] to);
 }
 
 class Spinner {
@@ -3164,6 +3212,9 @@ void show()  @Sink(DISPLAY);
 
 }
 
+class ToggleButton{
+        void setChecked(boolean checked);
+}
 
 class VideoView{
     

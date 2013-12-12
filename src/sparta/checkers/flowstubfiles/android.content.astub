@@ -463,6 +463,8 @@ static Uri withAppendedId(Uri contentUri, long id);
 
 @PolyFlowReceiver
 class ContentValues {
+
+ContentValues();
     
 void clear();
 //Removes all values.
@@ -951,6 +953,7 @@ class ComponentName{
 }
 
 class ContextWrapper {
+			ApplicationInfo getApplicationInfo();
             File getDir(String name, int mode);
             ContextWrapper(Context base);
              Context createPackageContext(String packageName, int flags) throws NameNotFoundException;            
@@ -1753,7 +1756,16 @@ abstract SharedPreferences.Editor remove(String key);
 
 }
 
+class SharedPreferences$OnSharedPreferenceChangeListener {
+	void onSharedPreferenceChanged(SharedPreferences arg0, String arg1);
+}
+
 package android.content.pm;
+
+class PackageItemInfo{
+        CharSequence loadLabel(PackageManager pm);
+}
+
 class PackageManager {
     
 abstract void addPackageToPreferred(String packageName);

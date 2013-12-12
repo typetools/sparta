@@ -1,3 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/sparta/checkers/flow.astub=UTF-8
+encoding//src/sparta/checkers/flowstubfiles/android.app.astub=UTF-8
+encoding//src/sparta/checkers/flowstubfiles/android.text.astub=UTF-8
 encoding//src/sparta/checkers/information_flow.astub=UTF-8

@@ -1,9 +1,10 @@
 package javax.xml.parsers;
 
+@PolyFlowReceiver
 class DocumentBuilder{
     Document newDocument();
-    @PolyFlowReceiver
     Document parse(File arg0);
+    Document parse(InputStream arg0) throws SAXException,IOException;
 }
 class DocumentBuilderFactory{
     DocumentBuilder newDocumentBuilder();

@@ -12,8 +12,7 @@ import android.os.IBinder;
 public class ServiceReceiverStub extends Service {
 
     @Override
-    public IBinder onBind( @IntentExtras({ @IExtra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) })Intent intent) {
-        // TODO Auto-generated method stub
+    public IBinder onBind(@IntentExtras({ @IExtra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) })Intent intent) {
         return null;
     }
     

@@ -752,7 +752,7 @@ void onSaveInstanceState(Bundle outState);
 //Called to retrieve per-instance state from an activity before being killed so that the state can be restored in onCreate(Bundle); or onRestoreInstanceState(Bundle); (the Bundle populated by this method will be passed to both);.
 
 void onStart();
-//Called after onCreate(Bundle); — or after onRestart(); when the activity had been stopped, but is now again being displayed to the user.
+//Called after onCreate(Bundle); ��� or after onRestart(); when the activity had been stopped, but is now again being displayed to the user.
 
 void onStop();
 //Called when you are no longer visible to the user.
@@ -824,6 +824,8 @@ void setTimeZone(@Sink(SET_TIME_ZONE) String timeZone);
 
 class AlertDialog {
 
+protected AlertDialog(Context context);
+
 Button getButton(int whichButton);
 //Gets one of the buttons used in the dialog.
 
@@ -890,6 +892,10 @@ void onCreate(Bundle savedInstanceState);
 }
 
 class AlertDialog$Builder {
+
+Builder(Context context, int theme);
+
+Builder(Context context);
   
 AlertDialog create();
 //Creates a AlertDialog with the arguments supplied to this builder.
@@ -1004,6 +1010,8 @@ class DatePickerDialog{
 }
 
 class Dialog {
+Dialog(Context context);
+
 void addContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
 //Add an additional content view to the screen.
 
@@ -1677,9 +1685,12 @@ abstract FragmentTransaction remove(Fragment fragment);
 class IntentService{
         IntentService(String name);
         protected void onHandleIntent(Intent arg0);
+        void onStart(Intent intent, int startId);
 }
 
 class ListActivity {
+
+ListActivity();
 
 ListAdapter getListAdapter();
 //Get the ListAdapter associated with this activity's ListView.
@@ -1967,6 +1978,7 @@ Notification.Builder setWhen(long when);
 class NotificationManager{
             void cancel(int id);
             void notify(int id, @Sink(DISPLAY) Notification notification);
+            void cancelAll();
 }
 
 class PendingIntent {
@@ -2237,6 +2249,27 @@ void onSaveInstanceState(Bundle outState);
 
     
     
+}
+
+class TimePickerDialog {
+	TimePickerDialog(Context context, OnTimeSetListener callBack, int hourOfDay, int minute, boolean is24HourView);
+}
+
+class TimePickerDialog$OnTimeSetListener {
+	void onTimeSet(TimePicker arg0, int arg1, int arg2);
+}
+
+package android.app.admin;
+class DevicePolicyManager{
+        void setMaximumTimeToLock(ComponentName admin, long timeMs);
+        long getMaximumTimeToLock(ComponentName admin);
+        void removeActiveAdmin(ComponentName who);
+        boolean isAdminActive(ComponentName who);
+        void lockNow();
+}
+
+class DeviceAdminReceiver{
+        DeviceAdminReceiver();
 }
 
 package android.app.backup;

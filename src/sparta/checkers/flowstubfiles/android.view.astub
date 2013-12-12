@@ -199,6 +199,8 @@ static FocusFinder getInstance();
 
 class GestureDetector {
 
+GestureDetector(OnGestureListener listener);
+
 boolean isLongpressEnabled();
 
 boolean onTouchEvent(MotionEvent ev);
@@ -225,6 +227,11 @@ class GestureDetector$OnGestureListener{
         boolean onSingleTapUp(@Source(USER_INPUT) MotionEvent arg0);
         void onLongPress(@Source(USER_INPUT) MotionEvent arg0);
         boolean onDown(@Source(USER_INPUT) MotionEvent arg0);
+}
+
+class GestureDetector$SimpleOnGestureListener{
+        boolean onFling(@Source(USER_INPUT) MotionEvent e1, @Source(USER_INPUT) MotionEvent e2, float velocityX, float velocityY);
+        SimpleOnGestureListener();
 }
 
 class KeyEvent {
@@ -273,7 +280,7 @@ final int getFlags();
 final KeyCharacterMap getKeyCharacterMap();
 //Gets the KeyCharacterMap associated with the keyboard device.
 
-final int getKeyCode();
+@Source(FlowPermission.USER_INPUT) int getKeyCode();
 //Retrieve the key code of the key event.
 
 boolean getKeyData(KeyCharacterMap.KeyData results);
@@ -401,6 +408,7 @@ void writeToParcel(Parcel out, int flags);
 
 class KeyEvent$Callback{
         boolean onKeyDown(@Source(USER_INPUT) int arg0, @Source(USER_INPUT) KeyEvent arg1);
+        boolean onKeyUp(@Source(USER_INPUT) int arg0, @Source(USER_INPUT) KeyEvent arg1);
 }
 
 class LayoutInflater$Factory{
@@ -673,6 +681,10 @@ abstract MenuItem setVisible(@Sink(DISPLAY) boolean visible);
 
 }
 
+class MenuItem$OnMenuItemClickListener{
+        boolean onMenuItemClick(MenuItem arg0);
+}
+
 class MotionEvent {
     //CSH: all these methods have to do with a user touching the screen, but so far we've decided that touches don't count as USER_INPUT
     
@@ -935,6 +947,10 @@ void finalize();
 
 }
 
+class SubMenu{
+        SubMenu setIcon(int arg0);
+}
+
 class SurfaceView{
 //SOM
  @Sink({DISPLAY, CONDITIONAL}) SurfaceHolder getHolder ();
@@ -1094,6 +1110,9 @@ class ViewManager{
             void removeView(@Sink(DISPLAY) View arg0);
 }
 class View {
+
+View(Context context, AttributeSet attrs);
+
 void addChildrenForAccessibility(ArrayList<View> children);
 //Adds the children of a given View for accessibility.
 
@@ -2399,10 +2418,17 @@ class View$OnClickListener{
         void onClick(View arg0);
 }
 
+class View$OnFocusChangeListener{
+        void onFocusChange(View arg0, boolean arg1);
+}
+
+class View$OnLongClickListener{
+        boolean onLongClick(View arg0);
+}
+
 class View$OnCreateContextMenuListener{
         void onCreateContextMenu(ContextMenu arg0, View arg1, ContextMenuInfo arg2);
 }
-
 
 class View$OnTouchListener{
         boolean onTouch(View arg0, MotionEvent arg1);
@@ -2502,6 +2528,8 @@ class ViewGroup$MarginLayoutParams{
         MarginLayoutParams(LayoutParams source);
 }
 class ViewGroup$LayoutParams {
+
+LayoutParams(int width, int height);
     
 void resolveLayoutDirection(int layoutDirection);
 //Resolve layout parameters depending on the layout direction.
@@ -3219,6 +3247,7 @@ void setDefaultWindowFormat(int format);
 }
 
 class Window$Callback{
+   		void onWindowFocusChanged(boolean arg0);
         boolean onMenuItemSelected(int arg0, MenuItem arg1);
             boolean dispatchKeyEvent(KeyEvent arg0);
 }
@@ -3234,11 +3263,6 @@ abstract void removeViewImmediate(View view);
 
 
 
-}
-
-
-class KeyEvent {
-    @Source(FlowPermission.USER_INPUT) int getKeyCode();
 }
 
 package android.view.animation;
@@ -3523,9 +3547,23 @@ void applyTransformation(float interpolatedTime, Transformation t);
 
 }
 
+class TranslateAnimation{
+        TranslateAnimation(int fromXType, float fromXValue, int toXType, float toXValue, int fromYType, float fromYValue, int toYType, float toYValue);
+}
+
 package android.view.accessibility;
+
+class AccessibilityEvent{
+        CharSequence getPackageName();
+}
+
 class AccessibilityManager$AccessibilityStateChangeListener{
         void onAccessibilityStateChanged(boolean arg0);
+}
+
+class AccessibilityRecord{
+        Parcelable getParcelableData();
+        List<CharSequence> getText();
 }
 
 package android.view.inputmethod;

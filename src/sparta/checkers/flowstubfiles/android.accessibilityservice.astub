@@ -1,0 +1,11 @@
+package android.accessibilityservice;
+class AccessibilityService{
+        void onAccessibilityEvent(AccessibilityEvent arg0);
+        AccessibilityService();
+        void setServiceInfo(AccessibilityServiceInfo info);
+        void onInterrupt();
+        protected void onServiceConnected();
+}
+class AccessibilityServiceInfo{
+        AccessibilityServiceInfo();
+}
