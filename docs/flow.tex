@@ -1,12 +1,12 @@
 \htmlhr
 
-\newcommand{\theFlowChecker}{the Flow Checker\xspace}
-\newcommand{\TheFlowChecker}{The Flow Checker\xspace}
+\newcommand{\theFlowChecker}{the Information Flow Checker\xspace}
+\newcommand{\TheFlowChecker}{The Information Flow Checker\xspace}
 
-\chapter{Flow Checker\label{flow-checker}}
-This chapter describes the Flow Checker, a type-checker that 
+\chapter{Information Flow Checker\label{flow-checker}}
+This chapter describes the Information Flow Checker, a type-checker that 
 tracks information flow through your program.
-The Flow Checker does pluggable type-checking of an information flow type
+The Information Flow Checker does pluggable type-checking of an information flow type
 system.  It is implemented using the Checker Framework.  This chapter is
 logically a chapter of the 
 Checker Framework Manual (\ifhevea\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html}\else\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.pdf}\fi).
@@ -17,7 +17,7 @@ troubleshooting).
 
 
 
-To use the Flow Checker, a programmer must supply two types of
+To use the Information Flow Checker, a programmer must supply two types of
 information:
 
 \begin{itemize}
@@ -35,7 +35,7 @@ type qualifiers indicate where the variable's value came from and where it
 might go to.
 \end{itemize}
 
-When you run the Flow Checker, \todo{ add reference to section that explains how to run Flow Checker}it verifies that the annotations in the
+When you run the Information Flow Checker, \todo{ add reference to section that explains how to run Information Flow Checker}it verifies that the annotations in the
 program are consistent with what the program's code does, and that the
 annotations are consistent with the flow policy.  This gives a guarantee
 that the program has no information flow beyond what is expressed in the
@@ -43,8 +43,7 @@ flow policy and type annotations.
 
 
 
-After you read this chapter, see \chapref{app-annotation} for tips about
-writing information-flow annotations.
+
 
 
 \section{Source and Sink Annotations\label{sec:flow-type-system}}
@@ -71,16 +70,13 @@ The \<@Source(LOCATION)> qualifier indicates that the
 value of \<loc> might have been derived from
 location information.
 Similarly, the qualifier \<@Sink(INTERNET)> indicates that
-\<loc> might be output to the network.
-A programmer typically writes either \<@Source> or \<@Sink>, but not both;
-see \secref{sec:system:defaults}.  It is also
+\<loc> might be output to the network.  It is also
 possible that the data has already been output.
+A programmer typically writes either \<@Source> or \<@Sink>, but not both, as explained
+in  \secref{sec:system:defaults}. 
 
-The arguments to \<@Source> and \<@Sink> are permissions
+The arguments to \<@Source> and \<@Sink> are one or more permissions
 drawn from our enriched permission system (\secref{sec:permissions}).
-The argument may also be a set of permissions to indicate that a value
-might combine information from 
-multiple sources or flow to multiple locations.
 The rarely-used special constant \<ANY> denotes the set of all sources or the set of all
 sinks.
 %Most of them correspond to Android permissions (see 
@@ -130,7 +126,7 @@ leaked.
 
 
 
-\subsection{Comparison to Android Permissions}
+\section{Comparison to Android Permissions}
 \label{sec:permissions}
 
 
@@ -217,25 +213,13 @@ to ensure that the conditional is not being used to indirectly leak information.
 
 \subsubsection{Empty Sink or Source\label{sec:emptyflow}}
 
-Programmers should not use @Source(\ttcbs) or @Sink(\ttcbs) for
-any types except in stub files.
-These types are only needed for top/bottom types which are used in the
-default types: the \<null> literal uses the bottom type in order for
-it to be assignable everywhere; local variables use the top type which
-will be refined by flow sensitivity.
+Programmers may not use @Source(\ttcbs) or @Sink(\ttcbs).
 Every value should either flow from a literal or from some sensitive
 source.  Likewise, every value must flow to a sensitive sink or to a
-conditional expression.  Any variable that does not have a flow source
-or a flow sink does not actually affect the output of the program and
+conditional expression.  Any variable that does not have
+ a flow sink does not actually affect the output of the program and
 should therefore be removed.
   
-This may seem overly strict, but a variable without a flow source or
-flow sink that does affect the output of the program comes from an
-abuse of the type system.  Most likely a variable with no source or
-sink would come from an improperly suppressed warning. Therefore it is
-necessary to not allow flows from and to nowhere.  (The flow policy
-ensures this; see section \secref{sec:flow-policy}.
-
 Note that this does not mean you must specify both a flow source
 annotation and a flow sink annotation as explained in
 \secref{sec:system:defaults}. 
@@ -245,7 +229,7 @@ annotation and a flow sink annotation as explained in
 
 \section{Flow Policy\label{sec:flow-policy}}
 
-A flow policy is a list of all the flows that are permitted to occur
+A flow policy is a list of all the information flows that are permitted to occur
 in an application.
 A flow policy file expresses a flow policy, as a list of $\flow{\|flowsource|^*}{\|flowsink|^*}$ pairs.
 Just as the Android manifest lists all the permissions that an app uses,
@@ -254,9 +238,9 @@ locations.
 
 \subsection{Semantics of a Flow Policy}
 \label{sec:undsiredflows}
-The Flow Checker guarantees that there is no information
+The Information Flow Checker guarantees that there is no information
 flow except for what is explicitly permitted by the policy file. If a user writes a type that is
-not permitted by the policy file, then the flow checker issues a warning
+not permitted by the policy file, then the Information Flow Checker issues a warning
 even if all types in program otherwise typecheck.
 
 For example, this variable declaration
@@ -305,7 +289,7 @@ and then send the contents of the file over the network.
 \TheFlowChecker forbids such implied flows:  the developer is required to write
 the transitive flow in the flow policy file, which requires the developer
 to justify its purpose or convince the app store that the flow is not used.
-Finer-grained permissions, as discussed in
+%Finer-grained permissions, as discussed in
 %\secref{sec:future}, would reduce the impact of implied flows.
 \todo{Explain/show warning}
 
@@ -317,8 +301,7 @@ or more sinks.  For example,
 \code{MICROPHONE -> INTERNET} implies that
 MICROPHONE data is always allowed to flow to INTERNET.
 The source or sink must be a member of the enum
-\<sparta.checkers.quals.FlowPermission>.  The source 
-and sink names should not be preceded by the name of the enumeration which contains them.
+\<sparta.checkers.quals.FlowPermission>.  
 ANY is allowed just as it is in @Source and @Sink, but empty, \ttcbs, is not allowed.
 
 Multiple sinks can appear on the same line if they are separated by commas. 
@@ -340,16 +323,18 @@ a number sign (\<\#>) character.
 
 
 \subsection{Using a flow-policy file}
-To use a flow-policy file when invoking the Flow Checker from the
-command line pass it the option:
+To use a flow-policy file when invoking the Information Flow Checker from the
+command line, pass it the option:
 \begin{alltt}
 -AflowPolicy=\emph{mypolicyfile}
 \end{alltt}
 
-Or if you are using the \<check-flow> ant targets, you can pass the option to ant:
+Or if you are using the \<check-flow> ant target, you can pass the option to ant:
 \begin{alltt}
 ant -DflowPolicy=\emph{mypolicyfile} check-flow
 \end{alltt}
+If the flow policy is named \<flow-policy> and is located the top level app directory, the ant 
+target will use it automatically.
 
  \section{Inference and defaults}
  \label{sec:system:defaults}
@@ -364,24 +349,12 @@ ant -DflowPolicy=\emph{mypolicyfile} check-flow
  fields, a programmer generally writes either \<@Source> or
  \<@Sink>, but not both; see \secref{sec:infer-from-flow-policy} and 
 \secref{sec:unannotated-types}.
-\subsection{Type inference and flow-sensitivity}
+
+\subsection{Local variable type inference}
 \label{sec:type-inference}
 
 A programmer does not write information flow types within method bodies.  Rather, local
 variable types are inferred.
-
-\TheFlowChecker implements this inference via flow-sensitive type refinement.
-Each local variable declaration defaults to
-the top type, \<@Source(ANY)> \srcnone.
-At every properly-typed assignment statement, the type of the left-hand side
-expression is
-flow-sensitively refined to that of the right-hand side, which must be a
-subtype of the left-hand side's declared type.
-The refined type applies until the next side effect that might invalidate
-it.   For
-details, see section ``\ahref{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#type-refinement}{Automatic type refinement (flow-sensitive type
-qualifier inference)}'' in the Checker Framework Manual.
-
 
 We limit type inference to local variables to ensure that
 each method can be type-checked in isolation,
@@ -462,7 +435,6 @@ Instead, the \<@Sink> annotation is omitted, and
 our defaulting mechanism provides the correct value
 based on the application's flow policy.
 
-This mechanism can be viewed as another application of type polymorphism.
 
 
 \subsection{Defaults for unannotated types}
@@ -508,13 +480,9 @@ literals) are given the qualifier \<@Source(LITERAL)>.
 This is so that simple computation involving manifest literals, but not
 depending on Android permissions, does not require 
 annotations. 
-% The type's flow sinks
-% depend on where literals are permitted to flow according to the policy file.
-
-%\todo{@Sink(CONDITIONAL) is not a hole:  uses at method call sites must be consistent.  %Good for computation.}  No idea what the write of this todo wants
 
 As is standard, the \<null> literal is given the bottom type qualifier, which allows it to be assigned to any variable.
-For \theFlowChecker, the bottom type qualifier is \srcnone \<@Sink(ANY)>.
+For \theFlowChecker, the bottom type qualifier is \srcnone\  \<@Sink(ANY)>.
 
 There is a difference between a library method being given no \<@Source>
 annotation and no \<@Sink> annotation (in which case it is defaulted
@@ -527,35 +495,35 @@ developer the need to annotate that library method.
 \section{Warning Suppression\label{sec:waringsuppression}}
  
 Sometimes it might be necessary to suppress warnings or errors produced by
-the Flow Checker.  This can be done by using the
+the Information Flow Checker.  This can be done by using the
 \<@SuppressWarnings("flow")> annotation on a variable, method, or (rarely)
 class declaration.  Because this annotation can be used to subvert the Flow
 Checker, its use is considered suspicious.  Anytime a warning or error is
-suppressed, you must write a brief comment justifying the suppression.
+suppressed, you should write a brief comment justifying the suppression.
 \<@SuppressWarnings("flow")> should only be used if there is no way to
-annotate the code so that an error or warning does not occur.  Most
-programs should not suppress warnings.
+annotate the code so that an error or warning does not occur.  
 
-
-\section{Annotating methods in stub files\label{sec:apispecs}}
+\section{Annotating Library API methods in stub files\label{sec:apispecs}}
 
 Annotations for API methods are found in the stub files in sparta-code/src/sparta/checkers/flowstubfiles.
 For details, see section~\ref{flow-task-annotate-apis} of this manual, and also 
 chapter
 ``\ahref{\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}}{Annotating
   Libraries}'' in the Checker Framework Manual.  
- The methods that are annotated in stub files are defaulted the same way as methods 
+ The methods that appear in stub files are defaulted the same way as methods 
 written in apps, including flow policy inference.  
 (See the defaulting section, \secref{sec:system:defaults}.) 
 
-Any method not written in the stub files or found in source code is not defaulted normally. 
- Instead, their return, receiver, and parameter types are annotated with \<@Sources(NOT\_REVIEWED)> 
- \<@Sinks(NOT\_REVIEWED)>.  The FlowPermission \<NOT\_REVIEWED> is not allowed 
- in a policy file and in no subtype relation.  This way, if such an API method is used, a type error
-  will occur and alert the user to review and annotate the method. Althought it is possible to ignore these kind of warnings as explained in section \secref{sec:run-type-checker}.
-  The Flow Checker also outputs all of the methods missing from the stub files in
+  The Information Flow Checker  outputs all of the methods missing from the stub files in
   a file called \<missingAPI.astub> in the current working directory. It also 
   contains a comment the number of times an API method is used by the app.
+
+Any method not written in the stub files or found in source code is not defaulted normally. 
+ Instead, its return, receiver, and parameter types are annotated with \<@Sources(NOT\_REVIEWED)> 
+ \<@Sinks(NOT\_REVIEWED)>. 
+ This way, if such an API method is used, a type error
+  will occur and alert the user to review and annotate the method. It is possible, but dangerous, to ignore these kind of warnings as explained in \secref{sec:run-type-checker}.
+
 
 \section{Polymorphism \label{sec:polyflowsources}}
 
@@ -585,7 +553,8 @@ For brevity,
 the additional
 annotation \<@PolyFlow> can be written on a class or method declaration to indicate that
 all contained parameters and return types should be annotated as \<@PolySource
-@PolySink>.  \<@PolyFlow> does not override explicitly-written annotations.
+@PolySink>.  \<@PolyFlow> does not override explicitly-written annotations as explained
+in \secref{sec:polyflow}.
 
 
 Parametric polymorphism, qualifier polymorphism, and regular Java types can
@@ -605,19 +574,19 @@ See section ``\ahref{http://types.cs.washington.edu/checker-framework/current/ch
 
 \section{Declaration Annotations to Specify Defaulting\label{sec:addtionalanno}}
 
-The Flow Checker has additional declaration annotations that are shorthand for common 
+The Information Flow Checker has additional declaration annotations that are shorthand for common 
 annotation patterns on method signatures.   They override the usual defaulting of method declarations.
 
 \subsection{@PolyFlow\label{sec:polyflow}}
 
 Annotation \<@PolyFlow> expresses that each contained method should be annotated as \<@PolySource> 
 \<@PolySink> for both the return types and all parameters. It should be used to express a relationship 
-between the parameters and the return types.
+between the return type and the parameter types, but not the receiver type.
 
 
 \subsection{@PolyFlowReceiver\label{sec:polyflowreceiver}}
 
-Annotation \<@PolyFlowReceiver> expresses that each contained method should be annotated as \<@PolySource> \<@PolySink> for the return type, all parameters types and the receiver type.
+Annotation \<@PolyFlowReceiver> expresses that each contained method should be annotated as \<@PolySource> \<@PolySink> for the return type, all parameter types, and the receiver type.
 
 \subsection{Declaration Annotations in Stub Files\label{sec:declannosstubfiles}}
 If \<@PolyFlow> or \<@PolyFlowReceiver> is written on a class or package, then the annotation applies
@@ -637,7 +606,7 @@ This change of defaulting happens to library methods that are not written in stu
 
 \section{Stricter tests\label{sec:stricter}}
 
-By default, the flow checker is unsound.  After getting the basic checks to pass, the
+By default, the Information Flow Checker is unsound.  After getting the basic checks to pass, the
  stricter checks should be enabled, by running \<ant -Dsound=true check-flow>.
 This two-phase approach was chosen to reduce
 the annotation effortand to give two separate phases of
@@ -675,6 +644,11 @@ expressions depending on the left-hand side.
 
 Enabling stricter checking will also enable the \<-Alint=strict-conditional> option to limit 
 allowed sinks to conditionals.
+
+\section{Guidance on writing annotations}
+\chapref{tutorial} is a tutorial on how to annotate an existing application. 
+See \chapref{app-annotation} for tips about
+writing information-flow annotations. 
 
 %\section{Miscellaneous\label{sec:miscellaneous}}
 

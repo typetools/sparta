@@ -5,23 +5,10 @@ If you are presented with an annotated app, you can confirm the work of the
 person who did the annotation by answering affirmatively three questions.
 
 \begin{enumerate}
-\item Does the Flow Checker produce any errors or warnings?
 \item Does the flow-policy file match the application description?
+\item Does the Information Flow Checker produce any errors or warnings?
 \item Does the justification for each \<@SuppressWarnings> make sense?
 \end{enumerate}
-
-\section{Run the Flow Checker}
-
-Run the Flow Checker (\chapref{flow-checker}) to ensure that there is no
-data flow in the application beyond what is expressed in the given flow
-policy:
-
-\begin{alltt}
-ant -DflowPolicy=myflowpolicy check-flow
-\end{alltt}
-
-If the Flow Checker produces any errors or warnings, then the app has not
-been properly annotated and should be rejected.
 
 \section{Review the Flow Policy}
 Does the flow-policy file match the application description? There should
@@ -35,12 +22,27 @@ Sink of EMAIL, SMS, INTERNET, or something else.  Flows that are only
 implied in the description could be grounds for rejection if the
 description is too vague.
 
+\section{Run the Information Flow Checker}
+
+Run the Information Flow Checker (\chapref{flow-checker}) to ensure that there is no
+data flow in the application beyond what is expressed in the given flow
+policy:
+
+\begin{alltt}
+ant -DflowPolicy=myflowpolicy check-flow
+\end{alltt}
+
+If the Information Flow Checker produces any errors or warnings, then the app has not
+been properly annotated and should be rejected.
+
+
+
 \section{Review \<@SuppressWarnings> Justifications}
 Does the justification for every \<@SuppressWarnings> make sense? Search
 for every instance of \<@SuppressWarnings("flow")> and read the
 justification comment.  Compare the justification to the actual code and
-determine if it make sense and should be allowed.  No justification comment
-could be grounds for rejection.
+determine if it make sense and should be allowed.  If some \<@SuppressWarnings> has
+no justification comment, that is for rejection.
   
 
 %%% Local Variables: 

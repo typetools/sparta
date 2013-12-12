@@ -11,17 +11,18 @@ annotated.
 
 \section{Annotating  Methods\label{sec:annomethods}}
 
-Typically, return types should be annotated with just Source so that the Sink can be
+Typically, return types should be annotated with just \<@Source> so that \<@Sink> can be
  inferred from the policy file as explained in \secref{sec:infer-from-flow-policy}. Similarly, parameters should
-  only be annotated with Sink, so that the Source can be inferred from  the policy file.
+  only be annotated with  \<@Sink>, so that the \<@Source> can be inferred from  the policy file.
     Local variables should not have to be annotated, because their types can be inferred. Fields 
-    must be annotated with  Sink or Source, or sometimes both. 
+    must be annotated with   \<@Sink> or \<@Source>, or sometimes both. 
 
 \section{Annotating API Methods in Stub Files\label{sec:annoAPI}}
 
 \subsection{Callbacks}
-The Android API frequently uses callbacks.  These are methods that the developer must 
-implement and register.  In stub files, these callbacks should be annotated
+The Android API frequently uses callbacks, that the developer  
+implements in an implementing class  and then registers through some API.
+ In stub files, these callbacks should be annotated
 with source information that will be passed when the method is called.  
 
 An example annotation of a callback method
@@ -29,18 +30,15 @@ An example annotation of a callback method
 package android.hardware;
 class Camera$PictureCallback{
   //data: a byte array of the picture data
-   void onPictureTaken 
-      (@Source(CAMERA)  byte[] data, 
-             @Source(CAMERA)   Camera camera);
+   void onPictureTaken (@Source(CAMERA) byte[] data, Camera camera);
 }
 \end{Verbatim}
 
 An example implementation of a callback
 \begin{Verbatim}
-public void onPictureTaken
-(@Source(CAMERA) byte[] data, @Source(CAMERA) Camera camera){
+public void onPictureTaken(@Source(CAMERA) byte[] data, Camera camera){
    //If CAMERA->FILE_SYSTEM is in policy file
-   //Then the following statement will not give an error
+   //then the following statement will not give an error
     writeToFile(data);
 }
 \end{Verbatim}
@@ -51,9 +49,9 @@ public void onPictureTaken
 Some methods take the arguments passed, transform them, and then return them.  These sorts of 
 methods should be annotated with \<@PolySource @PloySink>
   to preserve the flow information.  The declaration annotation \<@PolyFlow> can be used instead of
-  annotating all the parameters and return types. See \secref{sec:polyflowsources} for more information 
+  annotating all the parameters and return types. See \secref{sec:polyflowsources} for more information. 
   
-  Math.min(...) is a good example of these kinds of methods. 
+  \<Math.min(...)> is a good example of these kinds of methods. 
   
   \begin{Verbatim}
 package java.lang;
@@ -72,13 +70,13 @@ Example use of \<@PolyFlow>.
 
 \section{Common Errors\label{errors}}
 
-This section explains some common errors issued by the Flow Checker, and
+This section explains some common errors issued by the Information Flow Checker, and
 gives advice about correcting the errors.   
 
 Also see the Checker Framework Manual
 (\ifhevea\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html}\else\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.pdf}\fi),
 which contains information about pluggable type-checking in general.  Many
-of your errors may not be specific to the Flow Checker and are likely to be
+of your errors may not be specific to the Information Flow Checker and are likely to be
 answered in the Checker Framework Manual.
 
 If you encounter a problem you cannot solve, contact the SPARTA developers (\secref{sec:incaseoftrouble}).
@@ -89,7 +87,7 @@ If you encounter a problem you cannot solve, contact the SPARTA developers (\sec
 Every source-sink pair in your code must be listed in the flow policy or else a \emph{forbidden flow} error will occur.
 To correct a forbidden flow error, add the forbidden flow to the policy file. 
   
-For example, fix the error below by adding \code{LITERAL -> FILESYSTEM} to the policy file.
+For example, the warning below can be corrected by adding  \code{LITERAL -> FILESYSTEM} to the policy file, if this flow is justified and innocuous. 
 \begin{Verbatim}
 NewTest.java:43: error: flow forbidden by flow-policy  
         test = new @Sink(FlowPermission.FILESYSTEM)@Source(FlowPermission.LITERAL) TestClass2(fs);
@@ -100,12 +98,11 @@ NewTest.java:43: error: flow forbidden by flow-policy
 \end{Verbatim}
 
 \subsection{Incompatible Types}
-The most common errors are \emph{incompatible types}.  They can be in arguments,  assignment, return, etc.
+The most common error type is \emph{incompatible types}.  They can be in arguments,  assignment, return, etc.
 
 \paragraph{Conservative Typing}
 
-APIs that have not been annotated have been typed so conservatively that they will always produce incompatible types errors where the required is \<@Sink(ANY) @Source({})> or 
-\<@Sink({}) @Source(ANY)>.  These errors can be fixed by annotating the API method; 
+APIs that have not been annotated have been typed so conservatively that they will always produce incompatible types errors where the required is \<@Sink(NOT\_REVIEWED) @Source(NOT\_REVIEWED)>.  These errors can be fixed by annotating the API method; 
 Section \ref{flow-task-annotate-apis} explains how to annotate APIs. 
 Below is an example of this sort of error.
 
@@ -114,12 +111,12 @@ HelloWorld.java:84: error: incompatible types in argument
                  .replace(R.id.container, fragment)
                                           ^
    found   : @Sink(CONDITIONAL) @Source(LITERAL) Fragment
-   required: @Sink(ANY) @Source({}) Fragment
+   required: @Sink(NOT_REVIEWED) @Source(NOT_REVIEWED) Fragment
 \end{Verbatim}
 
 \paragraph{Incompatible Types}
 
-If the incompatible types error is not from conservative defaulting, then the error must be fixed by adding or
+If the error is not because of an unannotated API, then the error must be fixed by adding or
 removing annotations in the application.  For example, the error below can be fixed by adding ACCELEROMETER to the FlowPermission of the return type.  
 
 \begin{Verbatim}
@@ -131,14 +128,15 @@ HelloWorld.java:49: error: incompatible types in return.
 \end{Verbatim}
 
 \subsection{Conditionals}
-As explained in \secref{sec:conditionals}, any item in a conditional statement must have CONDITIONAL listed as a FlowPermission.  If a variable is only annotated with Source and strict conditionals are not used, then CONDITIONAL is added as a flow sink by default. 
+As explained in \secref{sec:conditionals}, any item in a conditional statement must have CONDITIONAL listed as a FlowPermission.  If a variable is only annotated with \<@Source> and strict conditionals are not used, then CONDITIONAL is added as a flow sink by default. 
 
 For example, if input is a parameter in a method and is annotated with @Sink(FlowPermission.INTERNET), the following error will occur.  To fix the error, add CONDITIONAL to the flow sink annotation.  
 
 \begin{Verbatim}
-HelloWorld.java:48: error: Conditions are not allowed to depend on flow information.
-         if(i1 > 2){
-            ^
+.../HelloWorld.java:43: warning: sensitive source information found in a conditional.
+     if(location.equals(WASHINGTON))
+       ^
+   found: [ACCESS_FINE_LOCATION]
 \end{Verbatim}
 
 
