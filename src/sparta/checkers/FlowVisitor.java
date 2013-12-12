@@ -88,7 +88,7 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
         final Set<FlowPermission> sinks = Flow.getSinks(type);
         if (!sinks.contains(FlowPermission.ANY) && !sinks.contains(FlowPermission.CONDITIONAL)) {
-            checker.report(Result.failure("condition.flow", type.getAnnotations()), tree);
+            checker.report(Result.failure("condition.flow", Flow.getSources(type).toString()), tree);
         }
     }
 
