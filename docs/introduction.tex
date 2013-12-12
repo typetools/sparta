@@ -7,11 +7,11 @@ SPARTA is a research project at the University of Washington funded by the DARPA
 
 SPARTA aims to detect certain types of malware in Android applications, or
 to verify that the app contains no such malware.  SPARTA's verification
-approach is type-checking:  the developer states a security property,
+approach is type-checking.  The developer states a security property and
 annotates the source code with type qualifiers that express that security
-property, then runs a pluggable type-checker~\cite{PapiACPE2008,DietlDEMS2011} to verify the type
-qualifiers (and thus to verify that the program satisfies the security
-property).
+property. Then a pluggable type-checker~\cite{PapiACPE2008,DietlDEMS2011} verifies the type
+qualifiers, and thus verifies that the program satisfies the security
+property.
 
 
 %% This feels premature; readers don't know why or what parts of the
@@ -38,22 +38,27 @@ information flow properties.
 
 The reverse engineering tools to find potentially dangerous code can be run on
 arbitrary unannotated Android source code.  Those tools give no guarantees,
-however; they just direct the analyst's attention to suspicious locations
+but they direct the analyst's attention to suspicious locations
 in the source code.
 
 By contrast, the tools to statically verify information flow require a person to write
 the information flow properties of the program, primarily as source code
-annotations.  For instance, an object  that contains data that came from the
+annotations.  For instance, the type of an object  that contains data that came from the
 camera and is destined for the network would be annotated with 
 
 \begin{Verbatim}
 @Source(CAMERA) @Sink(INTERNET)
 \end{Verbatim}
 
+The SPARTA tool set was developed with two different types of users in mind. 
+1.)  Application vendors, who are the original authors of an app that submit the app 
+to an app store for a security review. 2.) App analysts, or verification engineers, 
+who work on behalf of the app store
+to verify that apps meant specific security properties before they are accepted.  
 
 
-There are two different scenarios in which the SPARTA tools might be used.
-\todo{This seems a little too verbose.}
+Depending on the corporation between these two parties, they may use the SPARTA tools 
+in two different ways.
 
 \begin{itemize}
 \item

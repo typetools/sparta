@@ -14,7 +14,7 @@ This chapter demonstrates how to annotate an existing app, ContactManger,
 
 \section{Set up}
 Download the ContactManager app here: \url{http://homes.cs.washington.edu/~smillst/ContactManager.tgz} \todo{put this on the SPARTA webpage}. 
-Install the Flow Checker and set up ContactManger to use the Flow Checker. 
+Install the Information Flow Checker and set up ContactManger to use the Information Flow Checker. 
 See \secref{sec:antsetup}  and \secref{sec:install} for instructions. Also add 
 the following imports to both source files:
 \begin{Verbatim} 
@@ -22,7 +22,7 @@ import static sparta.checkers.quals.*;
 import sparta.checkers.quals.*;
 \end{Verbatim}
 
-Run the flow checker, \<ant check-flow>, if the output is similar to 
+Run the Information Flow Checker, \<ant check-flow>, if the output is similar to 
 the output shown below, then your setup is correct.  (You should get 43 warnings.)
 
 \begin{Verbatim}
@@ -41,9 +41,9 @@ check-flow:
 
 \section{Drafting a flow policy}
 
-The Flow Checker outputs a file, \<forbiddenFlows.txt> that lists all the flows
+The Information Flow Checker outputs a file, \<forbiddenFlows.txt>, that lists all the flows
  it found in the app that are not allowed by the current flow policy.  For this app, 
- \<forbiddenFlows.txt> is shown below. \todo{ref this file}
+ \<forbiddenFlows.txt> is shown below. 
 
 \begin{Verbatim} 
 # Flows currently forbidden
@@ -52,22 +52,22 @@ The Flow Checker outputs a file, \<forbiddenFlows.txt> that lists all the flows
  LITERAL -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
  USER_INPUT -> WRITE_LOGS, CONTENT_PROVIDER 
 \end{Verbatim} 
-Because we have not created a flow policy, this file lists all the flows that the 
-Flow Checker was able to detect.  This is not a complete list of flows in the program,
-because the Flow Checker issued warnings, but it offers a good starting point 
+Because this app does not yet have a flow policy, this file lists all the flows that the 
+Information Flow Checker was able to detect.  This is not a complete list of flows in the program,
+because the Information Flow Checker issued warnings, but it offers a good starting point 
 for the flow policy. 
 
 Create a file named \<flow-policy> in the ContactManger directory.  Copy all the flows that   
-do not use \perm{ANY} or \perm{\{\}}.  These flows should not be copied because 
+do not flow to or from \perm{ANY} or \perm{\{\}}.  These flows should not be copied because 
 they are too permissive.  So, for this app the initial flow policy is shown below.
 \begin{Verbatim} 
  LITERAL -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
  USER_INPUT -> WRITE_LOGS, CONTENT_PROVIDER 
 \end{Verbatim}
 
- Run the Flow Checker again.  (Because you named your flow policy 
-\<flow-policy>, the Flow Checker will automatically read it.)  The Flow Checker should
-now only report 5 warnings.  The \<forbiddenFlows.txt> file will also change as shown
+ Run the Information Flow Checker again.  (Because you named your flow policy 
+\<flow-policy>, the Information Flow Checker will automatically read it.)  The Information Flow Checker should
+now only report 5 warnings.  The \<forbiddenFlows.txt> file should also have changed as shown
 below.
 
 \begin{Verbatim}
@@ -76,9 +76,9 @@ below.
  CONTENT_PROVIDER -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
 \end{Verbatim}
  
-Using the initial flow policy, the Flow Checker was able to find more forbidden flows. 
-So copy the new flows to the flow-policy, but not flows with \perm{ANY} or \perm{\{\}}. 
-So, the flow policy should now contain the following flows:
+Using the initial flow policy, the Information Flow Checker was able to find more forbidden flows. 
+Copy the new flows to the flow-policy,
+so the flow policy should now contain the following flows:
 
 \begin{Verbatim} 
  LITERAL -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
@@ -87,34 +87,33 @@ So, the flow policy should now contain the following flows:
 \end{Verbatim}
 
 
-\todo{What if instead of forbiddenFlows.txt, the Flow Checker output a draft-flow-policy,
- that removed the flows with ANY or \{\}?}  
  
- Run the Flow Checker again. The \<forbiddenFlows.txt> file changed again.
+ Run the Information Flow Checker again. The \<forbiddenFlows.txt> file changed again.
 \begin{Verbatim}
 # Flows currently forbidden
  ANY -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
  CONTENT_PROVIDER -> {}
  \end{Verbatim}
  Since both of these flows contain either \perm{ANY} or \perm{\{\}}, there is nothing to add 
- to the flow policy.  However, the flow policy may not be complete, because the Flow Checker
+ to the flow policy.  However, the flow policy may not be complete, because the Information Flow Checker
  issued 5 warnings.  
 
 
 
 \section{Adding Annotations}
 
-Next, we must annotate the code to ensure the flow policy correctly represents the flows
-in the app.  One way to annotated an unfamiliar app, is to work through each warning
-one by one; correcting it and then re-running the Flow Checker.  In general, 
-Flow Checker warnings are written as shown below.
+Next, annotate the code to ensure the flow policy correctly represents the flows
+in the app.  One way to annotate an unfamiliar app, is to work through each warning
+one by one. Correct it by adding annotations, re-running the Information Flow Checker, 
+and then correct the next warning.  In general, 
+Information Flow Checker warnings are written as shown below.
 
 \begin{Verbatim}  
 ../SomeClass.java:line number: warning: some types are incompatible 
              source code causing warning
                      a caret (^) pointing to the location of the warning.
-   found   : Qualified type found by the Flow Checker
-   required: Qualified type that the Flow Checker was expecting.
+   found   : Qualified type found by the Information Flow Checker
+   required: Qualified type that the Information Flow Checker was expecting.
 \end{Verbatim}
  
 In order to correct a warning and correctly capture the app behavior, answer 
@@ -122,15 +121,15 @@ the following questions for each warning.
 \begin{enumerate}
 \item Why are the found and required annotations those listed in the warning message?
    \begin{itemize}
-    \item Was it explicitly annotated in the source code? \todo{ref}
-    \item Is it from an API method that was annotated in stub file? \todo{ref}
-    \item Was it inferred from an assignment? \todo{ref}
-    \item Was it defaulted? \todo{ref}
+    \item Is the annotation explicitly written in the source code? 
+    \item Is the annotation from an API method that was annotated in stub file? \secref{sec:apispecs}
+    \item Is the annotation inferred? \secref{sec:type-inference}
+    \item Is the annotation defaulted? \secref{sec:unannotated-types}
     \end{itemize}
-\item Why is the found type not a subtype of the required type? \todo{ref}
+\item Why is the found type not a subtype of the required type? \secref{sec:subtyping}
   \begin{itemize}
-   \item Are there more or different found sources than required?
-   \item Are there less or different found sinks than required? 
+   \item Does the found type have more or different found sources than required?
+   \item Does the found type have less or different found sinks than required? 
    \end{itemize}
 \item What annotation or annotations correctly capture the behavior of the app at
   this location? (In other words, what annotation will make the found type a 
@@ -140,11 +139,11 @@ the following questions for each warning.
    \end{itemize}
 \end{enumerate}
 
-This tutorial only covers incompatibility warnings, See section \todo{ref} for 
+This tutorial only covers incompatibility warnings; see section \secref{errors} for 
 other warnings and how to handle them.
 
 \subsection{Warning 1}
-Run the Flow Checker again and start with the first warning:
+Run the Information Flow Checker again.
 
 \begin{Verbatim}  
 .../ContactManager/src/com/example/android/contactmanager/ContactAdder.java:309:
@@ -178,7 +177,8 @@ shown as \emph{required}.
  According to the defaulting rules explained in \todo{secdef defaulting}, fields, like \emph{mName} 
  are annotated with \<@Source(LITERAL)> and the sink annotation is defaulted base on the  
  flow policy.  For this app, literals are allowed to flow to \perm{DISPLAY}, 
- \perm{WRITE\_LOGS}, and\perm{CONTENT\_PROVIDER}. 
+ \perm{WRITE\_LOGS}, and\perm{CONTENT\_PROVIDER}, so the sink annotation is 
+ defaulted to \<@Sink(\{DISPLAY, WRITE\_LOGS, and CONTENT\_PROVIDER\})>.
  
  Method parameters, like \emph{name}, are annotated with \<@Sink(CONDITIONAL)> by 
  default and the source is defaulted base on what is allowed to flow to conditionals.
@@ -187,8 +187,8 @@ shown as \emph{required}.
 
  
  \item\textbf{ Why is the found type not a subtype of the required type?}
-The found type has more sources than the required type; remember that \perm{ANY}
-is the set of all Flow Permissions. Also, the \emph{found} type has fewer sinks 
+The found type has more sources than the required type. (Remember that \perm{ANY}
+is the set of all Flow Permissions). Also, the \emph{found} type has fewer sinks 
 than the required type.
 
 \item\textbf{What annotation or annotations would make the found type a subtype of the required?}
@@ -196,7 +196,7 @@ One of the defaults described above needs to be overridden by annotating the
  either to the type of \<name> or the type of \<mName>. So which type should be 
  annotated? Because the current type of \<name> allows more flows than the type
  of \<mName>, its annotation should be changed so that it is a sub type of \<mName>.
-  The type of \<name> should there for me changed to \<@Source(LITERAL)>. The 
+  The type of \<name> should therefore be changed to \<@Source(LITERAL)>. The 
   sink annotation will be defaulted base on the flow policy and will match the 
   sink annotation from the required type.
 
@@ -207,7 +207,7 @@ One of the defaults described above needs to be overridden by annotating the
    allowed to flow to four sinks, but any source can flow to conditionals, so
  \<@Source(LITERAL)> is less permissive than \<@Sink(CONDITIONAL)>.
  \end{enumerate}
- Run the Flow Checker again.  Only four errors should be issued.
+ Run the Information Flow Checker again.  Only four errors should be issued.
  
  \subsection{Warning 2}
  \begin{Verbatim}
@@ -229,8 +229,8 @@ the required type is the return type of this method. Because there is not an
 annotation on the return type of this method, its type is defaulted to \<@Source(LITERAL)>.
 
   \item\textbf{ Why is the found type not a subtype of the required type?}
-The found type has more sources than the required type; remember that \perm{ANY}
-is the set of all Flow Permissions. Also, the \emph{found} type has fewer sinks 
+The found type has more sources than the required type.
+ Also, the \emph{found} type has fewer sinks 
 than the required type.
 
   \item\textbf{What annotation or annotations would make the found type a
@@ -240,7 +240,7 @@ than the required type.
         \annomethod{public View getDropDownView(int position, \textbf{@Source(LITERAL)} View convertView, ViewGroup parent)}
    \end{enumerate}
 
-   Run the Flow Checker again.  Only three errors should be issued.
+   Run the Information Flow Checker again.  Only three errors should be issued.
 
 
   \subsection{Warning 3 }
@@ -259,8 +259,9 @@ parameter type of the method called, the required type.
 
 \item\textbf{Where do the found and required types come from?}
 The found type is the type of the concatenation of the literal string and \<isChecked>.  The
-resulting type of a concatenation is the least upper bounds, LUB, of the two types.   In other 
-words, the union of sources and the intersection of sinks.  The string literal is of type 
+resulting type of a concatenation is the least upper bounds, LUB, of the two types.   The LUB
+of a flow type is simply 
+ the union of sources and the intersection of sinks.  The string literal is of type 
 \<@Source(LITERAL)>.  \<isChecked> is a parameter of a methods that overrides an
 Android API method.  The types of overriding methods must match those of the overridden
 method, so check the stub files for this method.  \<isChecked> is annotated with 
@@ -269,7 +270,7 @@ method, so check the stub files for this method.  \<isChecked> is annotated with
        \annomethod{public void onCheckedChanged(CompoundButton buttonView, \textbf{@Source(USER\_INPUT)} boolean isChecked)}
  \end{enumerate}
 
-Run the Flow Checker; there should be 2 warnings.
+Run the Information Flow Checker; there should be 2 warnings.
   
   \subsection{Warning 4 }
    \begin{Verbatim}
@@ -289,14 +290,14 @@ warning: incompatible types in assignment.
 \item  \textbf{ Why is the found type not a subtype of the required type?}
   The found source is \perm{USER\_INPUT} and the required source is \perm{LITERAL}. 
 \item  \textbf{What annotation or annotations would make the found type a subtype of the required?}
-  The required type has already been annotated, so it should not be changed; therefore ,the
+  The required type has already been annotated, so it should not be changed; therefore, the
   found type should be annotated with \<@Source(USER\_INPUT)>.\newline
   
   \annomethod{private \textbf{@Source(USER\_INPUT)} boolean mShowInvisible;}
   
    \end{enumerate}
 
-Run the Flow Checker; there should be 3 warnings.  Two of the warnings are because of the
+Run the Information Flow Checker; there should be 3 warnings.  Two of the warnings are because of the
 annotation that was just added.
 
   \subsection{Warning 5}
@@ -322,7 +323,7 @@ warning: incompatible types in assignment.
     \annomethod{    private \textbf{@Source(\{USER\_INPUT, LITERAL\})} boolean mShowInvisible;}
       \end{enumerate}
 
-    Run the Flow Checker; there should be 1 warning.  The last change fixed two warnings.
+    Run the Information Flow Checker; there should be 1 warning.  The last change fixed two warnings.
     
   \subsection{Warning 6}
    \begin{Verbatim}
@@ -349,8 +350,10 @@ warning: incompatible types in return.
              Cursor getContacts()}
               \end{enumerate}
 
-    Run the Flow Checker; there should be no warnings!  This means that the only information 
-    flows in the app are those listed in the flow policy. 
+    Run the Information Flow Checker; there should be no warnings.
+  \section{Correctly annotated app}  
+     Now that the Information Flow Checker no longer reports any warnings, it guarantees that
+     ContactManger only contains the information flows in the flow policy.  
 
  
 %

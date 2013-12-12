@@ -1,0 +1,113 @@
+
+
+
+\section{Flow Policy\label{sec:flow-policy}}
+
+A flow policy is a list of all the information flows that are permitted to occur
+in an application.
+A flow policy file expresses a flow policy, as a list of $\flow{\|flowsource|^*}{\|flowsink|^*}$ pairs.
+Just as the Android manifest lists all the permissions that an app uses,
+the flow policy file lists the flows among permissions and other sensitive 
+locations. 
+
+\subsection{Semantics of a Flow Policy}
+\label{sec:undsiredflows}
+The Information Flow Checker guarantees that there is no information
+flow except for what is explicitly permitted by the policy file. If a user writes a type that is
+not permitted by the policy file, then the Information Flow Checker issues a warning
+even if all types in program otherwise typecheck.
+
+For example, this variable declaration
+
+\begin{alltt}
+@Source(CAMERA) @Sink(INTERNET) Video video = ...
+\end{alltt}
+
+\noindent
+is illegal unless the the policy file contains:
+
+\begin{alltt}
+CAMERA -> INTERNET
+\end{alltt}
+
+Here is another example.
+The flow policy file contains:
+\begin{alltt}
+  ACCOUNTS      -> EXTERNAL_STORAGE, FILESYSTEM
+  ACCELEROMETER -> EXTERNAL_STORAGE, FILESYSTEM, INTERNET
+\end{alltt}
+
+The following variable declarations are permitted:
+\begin{alltt}
+  @Source(ACCOUNTS) @Sink(EXTERNAL_STORAGE) Account acc = ...
+  @Source({ACCELEROMETER, ACCOUNTS})
+  @Sink({EXTERNAL_STORAGE, FILE_SYSTEM}) int accel = ...
+\end{alltt}
+
+The following definitions would generate ``forbidden flow'' errors:
+\begin{Verbatim}
+  @Source(ACCOUNTS) @Sink(@INTERNET) Account acc = ...
+  @Source({ACCELEROMETER, ACCOUNTS})
+  @Sink({EXTERNAL_STORAGE, FILESYSTEM, INTERNET})
+\end{Verbatim}
+
+\myparagraph{Transitivity and the flow policy file}
+\label{sec:flow-policy-transitivity}
+The flow policy file indicates specific permitted information flows.  It
+may be possible to combine these flows.
+For example, a policy that permits
+\flow{CAMERA}{FILESYSTEM} and \flow{FILESYSTEM}{INTERNET}
+will implicitly allow the flow \flow{CAMERA}{INTERNET},
+because the application may record from the camera into a file
+and then send the contents of the file over the network.
+\TheFlowChecker forbids such implied flows:  the developer is required to write
+the transitive flow in the flow policy file, which requires the developer
+to justify its purpose or convince the app store that the flow is not used.
+%Finer-grained permissions, as discussed in
+%\secref{sec:future}, would reduce the impact of implied flows.
+\todo{Explain/show warning}
+
+
+\subsection{Syntax of a Flow Policy File}
+
+Each line of a policy file specifies a permitted flow from a source to one
+or more sinks.  For example,
+\code{MICROPHONE -> INTERNET} implies that
+MICROPHONE data is always allowed to flow to INTERNET.
+The source or sink must be a member of the enum
+\<sparta.checkers.quals.FlowPermission>.  
+ANY is allowed just as it is in @Source and @Sink, but empty, \ttcbs, is not allowed.
+
+Multiple sinks can appear on the same line if they are separated by commas. 
+For example,
+this policy file:
+\begin{alltt}
+   MICROPHONE -> INTERNET, LOG, DISPLAY
+\end{alltt}
+is equivalent to this policy file:
+\begin{alltt}
+   MICROPHONE -> INTERNET
+   MICROPHONE -> LOG
+   MICROPHONE -> DISPLAY, INTERNET
+\end{alltt}
+
+The policy file may contain blank lines and comments that begin with 
+a number sign (\<\#>) character.
+
+
+
+\subsection{Using a flow-policy file}
+To use a flow-policy file when invoking the Information Flow Checker from the
+command line, pass it the option:
+\begin{alltt}
+-AflowPolicy=\emph{mypolicyfile}
+\end{alltt}
+
+Or if you are using the \<check-flow> ant target, you can pass the option to ant:
+\begin{alltt}
+ant -DflowPolicy=\emph{mypolicyfile} check-flow
+\end{alltt}
+If the flow policy is named \<flow-policy> and is located the top level app directory, the ant 
+target will use it automatically.
+
+
