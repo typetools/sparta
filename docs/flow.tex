@@ -133,7 +133,9 @@ leaked.
 \TheFlowChecker is finer-grained than standard Android manifest permissions
 in two ways.  First, Android permits any flow
 between any pair of permissions in the manifest --- that is, any resource
-mentioned in the manifest may be used in an arbitrary way.  Second,
+mentioned in the manifest may be used in an arbitrary way.
+  In contrast, the Information Flow Checker enforces the information flows in the flow policy.
+Second,
 \theFlowChecker uses finer-grained permissions than Android does, in
 particular by adding additional permissions.
 Such finer-grained analysis is necessary in order to detect Trojans that would 
@@ -372,12 +374,6 @@ annotations.
 As is standard, the \<null> literal is given the bottom type qualifier, which allows it to be assigned to any variable.
 For \theFlowChecker, the bottom type qualifier is \srcnone\  \<@Sink(ANY)>.
 
-There is a difference between a library method being given no \<@Source>
-annotation and no \<@Sink> annotation (in which case it is defaulted
-exactly as above) and a library method that has not yet been examined by a
-human to write a summary.  Unexamined methods are conservatively given a special
-type that guarantees a type-checking error, thus signaling to the
-developer the need to annotate that library method.
 
 
 \section{Warning Suppression\label{sec:waringsuppression}}
