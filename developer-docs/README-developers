@@ -43,14 +43,16 @@ hg commit -m "Updated to vX.X.X"
 hg tag sparta-X.X.X
 hg push
 
-//copy the GSON libs in sparta-code/lib
-ant jar 
+ant 
 cd docs; make ;cd ..
 
 cp sparta.jar ../sparta-X.X.X.jar
 cp docs/manual.html ../
 cp docs/manual.pdf ../
 cp website/release/index.html ../
+
+cp docs/figures/flowsources.png  ../manual001.png
+cp docs/figures/flowsinks.png  ../manual002.png
 
 ant -buildfile release-cleanup.xml clean -DspartaDir=.
 
@@ -62,20 +64,20 @@ cd $RELEASE
 hg clone https://dada.cs.washington.edu/hgweb/sparta-sample-apps sparta-samples-vX.X.X
 
 ant -buildfile release-cleanup.xml clean -DsubjectsDir=.
-rm sparta-sample-apps/release-cleanup.xml
-tar -czf sparta-samples-X.X.X.tgz sparta-sample-apps/
+cd ../
+tar -czf sparta-samples-X.X.X.tgz sparta-samples-vX.X.X/
 
-rm -r sparta-sample-apps-X.X.X/
-rm -r sparta-code-X.X.X/
+rm -r sparta-vX.X.X/
+rm -r sparta-samples-vX.X.X/
 tar -czf release-vX.X.X.tgz *
 
 #Copy to server
-ssh buffalo
+ssh buffalo.cs.washington.edu
 mkdir /cse/www2/types/sparta/release/versions/vX.X.X
 #local machine
-scp release* buffalo:/cse/www2/types/sparta/release/versions/vX.X.X
+scp release* buffalo.cs.washington.edu:/cse/www2/types/sparta/release/versions/vX.X.X
 #buffalo
-
+cd /cse/www2/types/sparta/release/versions/vX.X.X
 tar -xzf release-vX.X.X.tgz
 mv index.html ../../
 chmod 775 .
