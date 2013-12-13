@@ -645,19 +645,6 @@ ContentProviderOperation.Builder withYieldAllowed(boolean yieldAllowed);
 }
 
 
-class ContentResolver{
-        //Uri insert(Uri url, ContentValues values);
-        //int delete(Uri url, String where, String[] selectionArgs);
-        ContentProviderResult[] applyBatch(String authority, ArrayList<ContentProviderOperation> operations) throws RemoteException,OperationApplicationException;
-        //Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
-        //int update(Uri uri, ContentValues values, String where, String[] selectionArgs);
-                  int delete(@Sink(DATABASE) Uri url, @Sink(DATABASE) String where, @Sink(DATABASE) String[] selectionArgs);
-            int update(@Sink(DATABASE) Uri uri, @Sink(DATABASE) ContentValues values, @Sink(DATABASE) String where, @Sink(DATABASE) String[] selectionArgs);
-            void notifyChange(Uri uri, ContentObserver observer);
-            @Source(DATABASE) Uri insert(@Sink(DATABASE) Uri url, @Sink(DATABASE) ContentValues values);
-            @Source(DATABASE) Cursor query(@Sink(DATABASE) Uri uri, @Sink(DATABASE) String[] projection, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String sortOrder);
-}
-
 class Context {
 abstract boolean bindService(Intent service, ServiceConnection conn, int flags);
 //Connect to an application service, creating it if needed.
