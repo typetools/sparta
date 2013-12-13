@@ -3,7 +3,6 @@
 
 \newcommand{\method}[1]{\paragraph{#1}}
 \newcommand{\annomethod}[1]{\small{\texttt{#1}}\newline}
-\todo{Reference this chapter else where in the manual.}
 \chapter{Tutorial\label{tutorial}}
 
 This chapter demonstrates how to annotate an existing app, ContactManger,
@@ -174,7 +173,7 @@ shown as \emph{required}.
     \item Was it defaulted? Yes.
     \end{itemize}
 
- According to the defaulting rules explained in \todo{secdef defaulting}, fields, like \emph{mName} 
+ According to the defaulting rules explained in \secref{sec:unannotated-types} fields, like \emph{mName} 
  are annotated with \<@Source(LITERAL)> and the sink annotation is defaulted base on the  
  flow policy.  For this app, literals are allowed to flow to \perm{DISPLAY}, 
  \perm{WRITE\_LOGS}, and\perm{CONTENT\_PROVIDER}, so the sink annotation is 
