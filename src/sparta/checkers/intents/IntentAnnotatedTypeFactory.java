@@ -28,7 +28,9 @@ import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 
+import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
+import sparta.checkers.quals.CoarseFlowPermission;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
@@ -248,20 +250,20 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 AnnotationMirror lhsIExtra, String leftKey) {
             AnnotationMirror rhsIExtra = IntentUtils.getIExtraWithKey(rhs, leftKey);
 
-            Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
+            Set<CoarseFlowPermission> lhsAnnotatedSources = new HashSet<CoarseFlowPermission>(
                 AnnotationUtils.getElementValueEnumArray(
-                    lhsIExtra, "source", FlowPermission.class, true));
-            Set<FlowPermission> lhsAnnotatedSinks = new HashSet<FlowPermission>(
+                    lhsIExtra, "source", CoarseFlowPermission.class, true));
+            Set<CoarseFlowPermission> lhsAnnotatedSinks = new HashSet<CoarseFlowPermission>(
                 AnnotationUtils.getElementValueEnumArray(
-                    lhsIExtra, "sink", FlowPermission.class, true));
-            Set<FlowPermission> rhsAnnotatedSources = new HashSet<FlowPermission>(
+                    lhsIExtra, "sink", CoarseFlowPermission.class, true));
+            Set<CoarseFlowPermission> rhsAnnotatedSources = new HashSet<CoarseFlowPermission>(
                 AnnotationUtils.getElementValueEnumArray(
                     rhsIExtra, "source",
-                    FlowPermission.class, true));
-            Set<FlowPermission> rhsAnnotatedSinks = new HashSet<FlowPermission>(
+                    CoarseFlowPermission.class, true));
+            Set<CoarseFlowPermission> rhsAnnotatedSinks = new HashSet<CoarseFlowPermission>(
                 AnnotationUtils.getElementValueEnumArray(
                     rhsIExtra, "sink",
-                    FlowPermission.class, true));
+                    CoarseFlowPermission.class, true));
 
             return(lhsAnnotatedSources.containsAll(rhsAnnotatedSources)
                     && rhsAnnotatedSources.containsAll(lhsAnnotatedSources)
@@ -490,15 +492,15 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> origResult,
             AnnotationMirror iExtra) {
         // correct @Source and @Sink annotations
-        Set<FlowPermission> annotatedSources = new HashSet<FlowPermission>(
+        Set<CoarseFlowPermission> annotatedSources = new HashSet<CoarseFlowPermission>(
             AnnotationUtils.getElementValueEnumArray(
-                iExtra, "source", FlowPermission.class,true));
-        Set<FlowPermission> annotatedSinks = new HashSet<FlowPermission>(
+                iExtra, "source", CoarseFlowPermission.class,true));
+        Set<CoarseFlowPermission> annotatedSinks = new HashSet<CoarseFlowPermission>(
             AnnotationUtils.getElementValueEnumArray(iExtra, "sink", 
-                FlowPermission.class, true));
+                CoarseFlowPermission.class, true));
 
-        AnnotationMirror sourceAnnotation = createAnnoFromSource(annotatedSources);
-        AnnotationMirror sinkAnnotation = createAnnoFromSink(annotatedSinks);
+        AnnotationMirror sourceAnnotation = createAnnoFromSource(Flow.convertCoarseToFlowPermission(annotatedSources));
+        AnnotationMirror sinkAnnotation = createAnnoFromSink(Flow.convertCoarseToFlowPermission(annotatedSinks));
         origResult.first.getReturnType().clearAnnotations();
         origResult.first.getReturnType().addAnnotation(sourceAnnotation);
         origResult.first.getReturnType().addAnnotation(sinkAnnotation);

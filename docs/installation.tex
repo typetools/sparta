@@ -1,8 +1,17 @@
 \htmlhr
 \chapter{Installation and app setup\label{installation}}
 This chapter describes how to install the SPARTA tools
-(Section~\ref{sec:install}) and how to prepare an Android App to have the
-SPARTA tools run on it (Section~\ref{sec:antsetup}).
+(Section~\ref{sec:install}) and how to prepare an Android app to run the
+SPARTA tools. (Section~\ref{sec:antsetup}).
+
+\paragraph{Checker Framework}
+\begin{itemize}
+\item If you are using the released version of SPARTA, follow the installation instructions in the manual: 
+\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#installation}
+\item If you are using the development version of SPARTA,  follow Section 25.3 from the Checker Framework manual (Building from source.)
+\item  For both versions, as described in the installation instructions, set the \<CHECKERS>
+  environment variable to \<.../checker-framework/checkers/>
+\end{itemize}
 
 \section {Requirements\label{sec:requirements}}
 \paragraph{Java 7}
@@ -18,24 +27,20 @@ SPARTA tools run on it (Section~\ref{sec:antsetup}).
 
 \paragraph{Android SDK}
 \begin{itemize}
+ \item Android API version 15 or later
+\end{itemize}
+\begin{enumerate}
  \item Install the Android SDK to some directory. 
  \item Set \<ANDROID\_HOME> to the directory where you installed the
    Android SDK.
  \item Download the \<android-15> target by running \<\$ANDROID\_HOME/tools/android>
-\end{itemize}
+\end{enumerate}
 
 If using Eclipse, go to
 \<Help $\rightarrow$ Install New Software>
 and install the Android ADT Plugin (\url{https://dl-ssl.google.com/android/eclipse}).
 
-\paragraph{Checker Framework}
-\begin{itemize}
-\item If you are using the released version of SPARTA, follow the installation instructions in the manual: 
-\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#installation}
-\item If you are using the development version of SPARTA,  follow Section 25.3 from the Checker Framework manual (Building from source.)
-\item  For both versions, as described in the installation instructions, set the \<CHECKERS>
-  environment variable to \<.../checker-framework/checkers/>
-\end{itemize}
+
 
 
 \section{Install SPARTA\label{sec:install}}
@@ -62,22 +67,6 @@ and install the Android ADT Plugin (\url{https://dl-ssl.google.com/android/eclip
   Then, unpack the archive.
 \end{itemize}
 
-%sparta-code isn't an android project, so both of these commands fail with
-%this error:
-%sparta-code is not a valid project (AndroidManifest.xml not found).
-%\item Update the Android development environment, by 
-%running the following:
-%
-%\begin{Verbatim}
-%ant -buildfile $SPARTA_CODE/build.local.xml
-%\end{Verbatim}
-%
-%Alternatively, you can run:
-%
-%\begin{Verbatim}
-%$ANDROID_HOME/tools/android update project -{}-path . -{}-target android-15
-%\end{Verbatim}
-%
 %
 %Rationale:  When working with Android, a developer must ``update a project'' to
 %properly set the path to the Android SDK\@.  For more details about
@@ -100,31 +89,14 @@ ant all-tests
 You should see ``\<BUILD SUCCESSFUL>'' at the end.
 
 
-%\noindent
-%It is necessary to specify the Android SDK location, by setting the \<ANDROID\_HOME>
-%environment variable or the \<android.home> property.  Here is an example
-%of the latter:
-%
-%\begin{alltt}
-%ant -Dandroid.home=... jar
-%\end{alltt}
-%
-%See file \<build.properties> for other configuration properties.
-%
-%See the output of \<ant -p> for the build and test targets.
-%
-%All projects can also be built and tested in Eclipse.
-%Import the annotation-tools, jsr308-langtools, checkers, javaparser,
-%and sparta-code projects into a workspace.
-
 \end{enumerate}
 
 
 \section{Android App Setup\label{sec:antsetup}}
 
 This section explains how to set up an Android application for analysis with the SPARTA tools.
-
 \begin{enumerate}
+
 \item
 Ensure the following environment variables are set. 
 
@@ -142,11 +114,34 @@ Ensure the following environment variables are set.
 \end{itemize}
 
 \item
-If your Android project does not have a build.xml file, update the project.
-
+Update the app configuration by running the following command in the main directory of the
+app.
 \begin{Verbatim}
 $ANDROID_HOME/tools/android update project --path .
 \end{Verbatim}
+
+\item Build the app
+
+\begin{Verbatim}
+ant release
+\end{Verbatim}
+If the app does not build with the above commend, then the SPARTA tool set will 
+not be able to analyze the app.  Below are two common compilation issues are solutions.
+
+Most Android apps will rely on an auto-generated \<R.java> file
+in the \</gen> directory of the project. This will only be generated
+if there are no errors in the project. There may be errors in the
+resources (\<.../res> directory) that could cause \<R.java> to not be
+generated.
+
+Additionally, if the app depends on an external \<.jar> file (often
+located in the \<lib/> directory), it will compile in Eclipse but not
+with Ant. To fix this, in ant.properties, add ``\<jar.libs.dir=lib>''
+(or wherever the \<.jar> is located).
+
+
+
+
 
 \item
 Add the SPARTA build targets to the end of the \<build.xml>
@@ -167,14 +162,14 @@ Add the SPARTA build targets to the end of the \<build.xml>
 
 \end{enumerate}
 
-
-To use Eclipse to look at and build the code, perform these simple
+\subsubsection{Using Eclipse to analyze apps}
+To use Eclipse to look at and build the code, perform these 
 steps:
 \begin{itemize}
 \item
-Using Eclipse, import the projects (this requires the app to have a
-\<.project> and \<.classpath> file)
-  \begin{itemize}
+Import the projects the app.      \<Import $\rightarrow$ Existing Android Code 
+Into Workspace>
+
     \item
     Make sure
     \<Project Properties $\rightarrow$ Android $\rightarrow$ Android
@@ -186,27 +181,16 @@ Using Eclipse, import the projects (this requires the app to have a
     Libraries $\rightarrow$ Android version \#> appears
 
     \item
-    Add the sparta-code project to
-    \<Project Properties $\rightarrow$ Java Build Path $\rightarrow$ Projects>
+    Add sparta.jar to the apps build path
+    
+    \item Right click on the build.xml file and select   \<Run as $\rightarrow$ 
+    External Tools Configurations...>. In the \<Main> tab add \<check-flow> to the 
+    Arguments box.  In the \<Environment> tab, add the \<CHECKERS> and 
+    \<SPARTA\_CODE> variables.  
     
   \end{itemize}
 
-\item Compile via command line (\<ant clean>, \<ant check-flow>)
 
-\item If it compiles, or the errors are exclusively about annotations,
-  it's working correctly.
-\end{itemize}
-
-Most Android apps will rely on an auto-generated \<R.java> file
-in the \</gen> directory of the project. This will only be generated
-if there are no errors in the project. There may be errors in the
-resources (\<.../res> directory) that could cause \<R.java> to not be
-generated.
-
-Additionally, if the app depends on an external \<.jar> file (often
-located in the \<lib/> directory), it will compile in Eclipse but not
-with Ant. To fix this, in ant.properties, add ``\<jar.libs.dir=lib>''
-(or wherever the \<.jar> is located).
 
 
 

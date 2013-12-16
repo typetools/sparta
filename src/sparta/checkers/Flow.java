@@ -96,7 +96,7 @@ public class Flow {
         this.sources.addAll(convertToAnySource(source, false));
     }
     public boolean isBottom(){
-        return sinks.contains(FlowPermission.ANY) && sources.isEmpty();
+        return sinks.contains(ANY) && sources.isEmpty();
     }
     
     @Override
@@ -511,4 +511,19 @@ public class Flow {
         return a1;
     }
 
+    public static Set<FlowPermission> convertCoarseToFlowPermission(Set<CoarseFlowPermission> permissions) {
+        Set<FlowPermission> flowPermissions = new TreeSet<FlowPermission>();
+        for (CoarseFlowPermission p : permissions) {
+            flowPermissions.add(new FlowPermission(p));
+        }
+        return flowPermissions;
+    }
+    
+    public static Set<CoarseFlowPermission> convertFlowToCoarsePermission(Set<FlowPermission> permissions) {
+        Set<CoarseFlowPermission> coarsePermissions = new TreeSet<CoarseFlowPermission>();
+        for (FlowPermission p : permissions) {
+            coarsePermissions.add(p.getPermission());
+        }
+        return coarsePermissions;        
+    }
 }

@@ -15,12 +15,16 @@ class PrimiOps {
     float unqual;
 
     void mod2pi() {
+      //:: error: (forbidden.flow)
         top = top / top;
         poly = poly * poly;
+        //:: error: (forbidden.flow)
         bot = bot / bot;
         unqual = unqual * unqual;
-
+        
+        //:: error: (forbidden.flow)
         top = unqual / top;
+        //:: error: (forbidden.flow)
         top = top / unqual;
         unqual = unqual / bot;
 

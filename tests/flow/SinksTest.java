@@ -10,7 +10,8 @@ class SinkTest {
     //:: error: (forbidden.flow)
     void noComm(@Sink({}) Object p) {
         // Forbidden: more sinks
-        //:: error: (argument.type.incompatible)
+       //MASKED //:: error: (argument.type.incompatible)
+        //:: error: (forbidden.flow)
         sendData(p);
     }
 
@@ -25,6 +26,7 @@ class SinkTest {
     //:: error: (forbidden.flow)
     void any(@Sink(CoarseFlowPermission.ANY) Object p) {
         // Allowed: fewer sinks
+        //:: error: (forbidden.flow)
         two(p);
     }
 

@@ -21,6 +21,7 @@ import javax.lang.model.element.ExecutableElement;
 
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
+import sparta.checkers.quals.CoarseFlowPermission;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
@@ -132,10 +133,10 @@ public class IntentUtils {
 
     }
 
-    private static HashSet<FlowPermission> getSources(AnnotationMirror iExtra) {
-        return new HashSet<FlowPermission>(
+    private static Set<FlowPermission> getSources(AnnotationMirror iExtra) {
+        return Flow.convertCoarseToFlowPermission(new HashSet<CoarseFlowPermission>(
             AnnotationUtils.getElementValueEnumArray(iExtra, "source",
-                FlowPermission.class, true));
+                    CoarseFlowPermission.class, true)));
     }
 
     /**
@@ -147,10 +148,10 @@ public class IntentUtils {
         return Flow.unionSinks(getSinks(iExtra1), getSinks(iExtra2));
     }
 
-    private static HashSet<FlowPermission> getSinks(AnnotationMirror iExtra) {
-        return new HashSet<FlowPermission>(
+    private static Set<FlowPermission> getSinks(AnnotationMirror iExtra) {
+        return Flow.convertCoarseToFlowPermission(new HashSet<CoarseFlowPermission>(
             AnnotationUtils.getElementValueEnumArray(iExtra, "sink",
-                FlowPermission.class, true));
+                CoarseFlowPermission.class, true)));
     }
 
     /**

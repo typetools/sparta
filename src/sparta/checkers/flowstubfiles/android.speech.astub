@@ -1,6 +1,11 @@
 package android.speech.tts;
 
 class TextToSpeech {
+
+int stop();
+
+int setOnUtteranceCompletedListener(OnUtteranceCompletedListener listener);
+
 void shutdown();
 //Releases the resources used by the TextToSpeech engine. It is good practice for instance to call this method in the onDestroy() method of an Activity so the TextToSpeech engine can be cleanly stopped.
 
@@ -19,4 +24,8 @@ int speak(@Sink(SPEAKER) String text, int queueMode, HashMap<String,String> para
 
 class TextToSpeech$OnInitListener{
         void onInit(int arg0);
+}
+
+class TextToSpeech$OnUtteranceCompletedListener{
+        void onUtteranceCompleted(String arg0);
 }

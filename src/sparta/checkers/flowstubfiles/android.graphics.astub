@@ -453,8 +453,16 @@ void translate(float dx, float dy);
 
 }
 
+class Color{
+        static int rgb(int red, int green, int blue);
+        static int blue(int color);
+        static int red(int color);
+        static int green(int color);
+}
+
 class Matrix {
-    
+
+Matrix();
     
 boolean equals(Object obj);
 //Returns true iff obj is a Matrix and its values equal our values.
@@ -608,6 +616,11 @@ class Movie{
 }
 
 class Paint {
+
+Paint(int flags);
+
+Paint();
+
 float ascent();
 //Return the distance above (negative); the baseline (ascent); based on the current typeface and text size.
 
@@ -952,6 +965,11 @@ void writeToParcel(Parcel out, int flags);
 class PorterDuffColorFilter{
         PorterDuffColorFilter(int srcColor, Mode mode);
 }
+
+class PorterDuffXfermode{
+        PorterDuffXfermode(Mode mode);
+}
+
 class Rect {
     
 final int centerX();
@@ -1053,6 +1071,10 @@ void writeToParcel(Parcel out, int flags);
 }
 
 class RectF {
+
+RectF(float left, float top, float right, float bottom);
+
+RectF();
     
 final float centerX();
 

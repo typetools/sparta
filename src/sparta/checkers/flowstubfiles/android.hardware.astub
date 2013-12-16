@@ -26,10 +26,10 @@ static int getNumberOfCameras();
 final void lock();
 //Re-locks the camera to prevent other processes from accessing it.
 
-static @Source(CAMERA) Camera open(int cameraId);
+static Camera open(int cameraId);
 //Creates a new Camera object to access a particular hardware camera.
 
-static @Source(CAMERA) Camera open();
+static  Camera open();
 //Creates a new Camera object to access the first back-facing camera on the device.
 
 final void reconnect();
@@ -103,7 +103,7 @@ void finalize();
 //Invoked when the garbage collector has detected that this instance is no longer reachable.
 }
 interface Camera$PictureCallback {
-    void onPictureTaken(@Source(CoarseFlowPermission.CAMERA) byte @Source(CoarseFlowPermission.CAMERA) [] arg0, @Source(CoarseFlowPermission.CAMERA) Camera arg1);
+    void onPictureTaken(@Source(CAMERA) byte @Source(CAMERA) [] arg0, Camera arg1);
 }
  
 class Camera$Parameters {

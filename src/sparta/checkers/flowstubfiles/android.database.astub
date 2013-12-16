@@ -238,6 +238,8 @@ void close();
 }
 
 class SQLiteDatabase {
+
+void close();
   
 void beginTransaction();
 //Begins a transaction in EXCLUSIVE mode.

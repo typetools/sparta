@@ -6,6 +6,7 @@ class ConnectionReuseStrategy{
 class Header{
             String getValue();
             HeaderElement[] getElements() throws ParseException;
+            String getName();
 }
 class HeaderElement{
             String getName();
@@ -25,6 +26,7 @@ class HttpEntity{
             InputStream getContent() throws IOException,IllegalStateException;
             void writeTo(@PolySink OutputStream arg0) throws IOException;
             long getContentLength();
+            void consumeContent() throws IOException;
 }
 class HttpEntityEnclosingRequest{
             HttpEntity getEntity();
@@ -40,6 +42,7 @@ class HttpMessage{
             boolean containsHeader(String arg0);
             void addHeader(String arg0, String arg1);
             Header[] getHeaders(String arg0);
+            Header[] getAllHeaders();
 }
 class HttpRequestInterceptor{
             void process(HttpRequest arg0, HttpContext arg1) throws HttpException,IOException;
@@ -69,6 +72,7 @@ class TokenIterator{
 package org.apache.http.conn;
 class ClientConnectionManager{
             ClientConnectionRequest requestConnection(HttpRoute arg0, Object arg1);
+            void shutdown();
 }
 class ConnectionKeepAliveStrategy{
             long getKeepAliveDuration(HttpResponse arg0, HttpContext arg1);
@@ -140,6 +144,14 @@ class UrlEncodedFormEntity {
 
 package org.apache.http.client.methods;
 
+class HttpGet{
+            HttpGet(@Sink(INTERNET) String uri);
+}
+
+class HttpHead{
+        HttpHead(@Sink(INTERNET) String uri);
+}
+
 class HttpPost {
 
     HttpPost(@Sink(CoarseFlowPermission.INTERNET) String postUrl);
@@ -151,19 +163,22 @@ class HttpPost {
 
 }
 
+
+class HttpPut{
+            HttpPut(@Sink(INTERNET) String uri);
+}
+
 class HttpUriRequest{
             void abort() throws UnsupportedOperationException;
             boolean isAborted();
 }
-class HttpPut{
-            HttpPut(@Sink(INTERNET) String uri);
-}
-class HttpGet{
-            HttpGet(@Sink(INTERNET) String uri);
-}
 
 
 package org.apache.http.client;
+
+class CookieStore{
+        @Source(FlowPermission.INTERNET) List<Cookie> getCookies();
+}
 
 class HttpClient {
 
@@ -172,6 +187,11 @@ class HttpClient {
     HttpResponse execute(@Sink(CoarseFlowPermission.INTERNET) HttpUriRequest request);
                 @Source(CoarseFlowPermission.INTERNET) HttpParams getParams();
 
+}
+
+package org.apache.http.cookie;
+class Cookie{
+        @Source(FlowPermission.INTERNET) String getValue();
 }
 
 package org.apache.http.impl;
@@ -196,6 +216,14 @@ class AbstractHttpClient{
             void addRequestInterceptor(HttpRequestInterceptor itcp);
             protected ConnectionReuseStrategy createConnectionReuseStrategy();
             void addResponseInterceptor(HttpResponseInterceptor itcp);
+        ClientConnectionManager getConnectionManager();
+        HttpResponse execute(HttpUriRequest request) throws IOException,ClientProtocolException;
+        <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler) throws IOException,ClientProtocolException;
+        CookieStore getCookieStore();
+}
+
+class BasicResponseHandler{
+        BasicResponseHandler();
 }
 
 class DefaultHttpClient extends AbstractHttpClient {
@@ -223,6 +251,11 @@ class DefaultHttpClient extends AbstractHttpClient {
 }
 
 package org.apache.http.message;
+
+class AbstractHttpMessage{
+        void addHeader(String name, String value);
+}
+
 class BasicNameValuePair{
         BasicNameValuePair(String name, @PolySource @PolySink String value);
 }
@@ -243,5 +276,9 @@ class HttpParams{
 }
 class HttpProtocolParams{
             static void setUserAgent(HttpParams params, String useragent);
+        	static void setHttpElementCharset(HttpParams params, String charset);
+       	 	static void setContentCharset(HttpParams params, String charset);
+        	static void setVersion(HttpParams params, ProtocolVersion version);
+        	static void setUseExpectContinue(HttpParams params, boolean b);
 }
 

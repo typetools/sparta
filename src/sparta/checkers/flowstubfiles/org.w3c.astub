@@ -7,6 +7,7 @@ class NodeList {
 
 }
 
+@PolyFlowReceiver
 class Node {
 
     @PolyFlowReceiver
@@ -22,6 +23,10 @@ class Node {
     Node appendChild(Node arg0) throws DOMException;
 
     void normalize();
+    
+    String getNodeValue() throws DOMException;
+    
+    NodeList getChildNodes();
 }
 
 class Document{

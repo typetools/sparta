@@ -1,5 +1,30 @@
 package android.media;
 
+class AudioManager{
+        void setRingerMode(@Sink(SPEAKER) int ringerMode);
+        int getStreamVolume(int streamType);
+        int getStreamMaxVolume(int streamType);
+        void setStreamVolume(int streamType, @Sink(SPEAKER) int index, int flags);
+        int getRingerMode();
+}
+
+class AudioRecord {
+        int setPositionNotificationPeriod(int periodInFrames);
+        void setRecordPositionUpdateListener(OnRecordPositionUpdateListener listener);
+        static int getMinBufferSize(int sampleRateInHz, int channelConfig, int audioFormat);
+        int getState();
+        void stop() throws IllegalStateException;
+        int read(@Source(RECORD_AUDIO) byte[] audioData, int offsetInBytes, int sizeInBytes);
+        void release();
+        AudioRecord(int audioSource, int sampleRateInHz, int channelConfig, int audioFormat, int bufferSizeInBytes) throws IllegalArgumentException;
+        void startRecording() throws IllegalStateException;
+}
+
+class AudioRecord$OnRecordPositionUpdateListener{
+        void onPeriodicNotification(AudioRecord arg0);
+        void onMarkerReached(AudioRecord arg0);
+}
+
 class CamcorderProfile {
     
     
@@ -30,6 +55,12 @@ class ExifInterface {
 }
 
 class MediaPlayer {
+        int getCurrentPosition();
+        void seekTo(int arg0) throws IllegalStateException;
+        int getDuration();
+        boolean isPlaying();
+        void release();
+        void stop() throws IllegalStateException;
         void reset();
         void pause() throws IllegalStateException;
         void setOnPreparedListener(OnPreparedListener listener);
@@ -45,6 +76,8 @@ class MediaPlayer$OnPreparedListener{
 }
 
 class MediaRecorder {
+
+MediaRecorder();
     
 final static int getAudioSourceMax();
 //Gets the maximum value for audio sources.
@@ -142,6 +175,17 @@ void finalize();
 
 
 
+}
+
+class Ringtone{
+        boolean isPlaying();
+        void play();
+        void stop();
+        String getTitle(Context context);
+}
+
+class RingtoneManager{
+        static Ringtone getRingtone(Context context, Uri ringtoneUri);
 }
 
 class ThumbnailUtils {

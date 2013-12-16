@@ -180,6 +180,9 @@ boolean onTransact(int code, Parcel data, Parcel reply, int flags);
 }
     
 class Bundle {
+
+Bundle();
+
   void clear();
 //Removes all elements from the mapping of this Bundle.
 
@@ -434,6 +437,8 @@ void writeToParcel(Parcel parcel, int flags);
 }
 
 class Message {
+
+Message();
     
 void copyFrom(Message o);
 //Make this message like o.
@@ -1012,6 +1017,7 @@ void finalize();
 
 class PowerManager{
         @Source(CoarseFlowPermission.WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
+        boolean isScreenOn();
 }
 
 class PowerManager$WakeLock{
@@ -1063,6 +1069,12 @@ final static boolean supportsProcesses();
 
 
 
+}
+
+class StatFs{
+        StatFs(String path);
+        int getAvailableBlocks();
+        int getBlockSize();
 }
 
 class SystemClock {

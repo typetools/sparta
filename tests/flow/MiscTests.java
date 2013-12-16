@@ -38,7 +38,8 @@ class MiscTests {
         double lat = 1.0;
         double lon = 2.0;
         int days = 3;
-        //::error: (assignment.type.incompatible)
+        //MASKED//::error: (assignment.type.incompatible)
+        //:: error: (forbidden.flow)
         result2 = String.format(WEBSERVICE_URL2, lat, lon, days);
     }
 
@@ -53,7 +54,10 @@ class MiscTests {
         Double lat = (@Source({READ_CALENDAR,LITERAL}) Double) Double.valueOf(1.0);
         Double lon = (@Source({READ_CALENDAR,LITERAL})Double) Double.valueOf(2.0);
         int days = (@Source({READ_CALENDAR,LITERAL})Integer) Integer.valueOf(3);
-        //::error: (assignment.type.incompatible)
+        
+        
+        //MASKED//::error: (assignment.type.incompatible)
+        //:: error: (forbidden.flow)
         result = String.format(WEBSERVICE_URL3, lat, lon, days);
     }
 }

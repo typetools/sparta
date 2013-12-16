@@ -1,0 +1,15 @@
+package org.htmlcleaner;
+class HtmlCleaner{
+        TagNode clean(InputStream in) throws IOException;
+        HtmlCleaner();
+        TagNode clean(String htmlContent);
+}
+class TagNode{
+        TagNode getParent();
+        StringBuffer getText();
+        List getChildren();
+        TagNode findElementByName(String findName, boolean isRecursive);
+        TagNode[] getElementsByName(String findName, boolean isRecursive);
+        String getAttributeByName(String attName);
+        Object[] evaluateXPath(String xPathExpression) throws XPatherException;
+}

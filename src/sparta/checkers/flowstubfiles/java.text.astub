@@ -135,6 +135,10 @@ class DecimalFormat extends NumberFormat {
     void setRoundingMode(RoundingMode arg0);
 }
 
+class MessageFormat{
+        static String format(String arg0, Object[] arg1);
+}
+
 @PolyFlowReceiver
 class SimpleDateFormat extends DateFormat {
     SimpleDateFormat();

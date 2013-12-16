@@ -97,6 +97,7 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
         if (!FlowPermission.coarsePermissionExists(ANY, sinks) && 
             !FlowPermission.coarsePermissionExists(CONDITIONAL, sinks)) {
             checker.report(Result.failure("condition.flow", type.getAnnotations()), tree);
+
         }
     }
 

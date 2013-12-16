@@ -1,10 +1,18 @@
 package android.telephony;
+
+class PhoneStateListener{
+        PhoneStateListener();
+        void onCallStateChanged(int state, String incomingNumber);
+}
+
 class TelephonyManager{
             @Source(READ_PHONE_STATE) String getDeviceId();
             @Source(READ_PHONE_STATE) String getSimSerialNumber();
             @Source(READ_PHONE_STATE) String getNetworkOperatorName();
             @Source(READ_PHONE_STATE) int getPhoneType();
-                        @Source(READ_PHONE_STATE) String getLine1Number();
+            @Source(READ_PHONE_STATE) String getLine1Number();
+            @Source(READ_PHONE_STATE) int getCallState();
+            void listen(PhoneStateListener listener, int events);
 
 }
 

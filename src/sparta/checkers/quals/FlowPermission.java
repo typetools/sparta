@@ -82,4 +82,8 @@ public class FlowPermission implements Comparable<FlowPermission> {
         }
         return false;
     }
+
+    public boolean isSink() {
+        return getPermission().isSink();
+    }
 }

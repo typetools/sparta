@@ -611,6 +611,13 @@ class EnumSet<E> extends AbstractSet<E> implements Cloneable, Serializable {
 }
 
 @PolyFlowReceiver
+class Formatter{
+        Formatter format(String arg0, Object[] arg1);
+        Formatter(Appendable arg0);
+        String toString();
+}
+
+@PolyFlowReceiver
 class GregorianCalendar extends Calendar {
     final int BC;
     final int AD;
@@ -1251,6 +1258,20 @@ class StringTokenizer implements Enumeration<Object> {
     int countTokens();
 }
 
+class Timer{
+        void schedule(TimerTask arg0, long arg1, long arg2);
+        Timer();
+        void schedule(TimerTask arg0, long arg1);
+        void cancel();
+        void scheduleAtFixedRate(TimerTask arg0, long arg1, long arg2);
+}
+
+class TimerTask{
+        protected TimerTask();
+        void run();
+        boolean cancel();
+}
+
 @PolyFlowReceiver
 class TimeZone implements Serializable, Cloneable {
     final int SHORT;
@@ -1770,9 +1791,23 @@ class Matcher{
 }
 
 package java.util.zip;
+
+@PolyFlowReceiver
+class DeflaterOutputStream{
+        void close() throws IOException;
+}
+
 @PolyFlowReceiver
 class GZIPInputStream{
             GZIPInputStream(InputStream arg0) throws IOException;
+            void close() throws IOException;
+            
+}
+
+@PolyFlowReceiver
+class GZIPOutputStream{
+        void write(byte[] arg0, int arg1, int arg2) throws IOException;
+        GZIPOutputStream(OutputStream arg0) throws IOException;
 }
 
 @PolyFlowReceiver

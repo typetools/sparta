@@ -4,6 +4,7 @@ class Buffer{
    int remaining();
    @PolyFlowReceiver
    Buffer flip();
+   boolean hasRemaining();
 }
 
 @PolyFlowReceiver
