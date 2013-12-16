@@ -3,7 +3,6 @@ import static sparta.checkers.quals.CoarseFlowPermission.*;
 import sparta.checkers.quals.FlowPermission;
 
 class SourceAndSink {
-    //:: error: (forbidden.flow)
     @Source(RECORD_AUDIO) @Sink({}) Object getPrivateSound() { return null; }
     @Source(RECORD_AUDIO) @Sink(ANY) Object getPublicSound() { return null; }
 
