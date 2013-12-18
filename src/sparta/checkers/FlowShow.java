@@ -15,7 +15,7 @@ import java.util.Set;
 
 import javax.lang.model.type.TypeKind;
 
-import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
@@ -65,9 +65,9 @@ public class FlowShow extends FlowChecker {
                     show = true;
                 }
                 if (show) {
-                    Set<FlowPermission> src = Flow.getSources(type);
+                    Set<ParameterizedFlowPermission> src = Flow.getSources(type);
                     String stsrc = src.isEmpty() ? "NONE" : src.toString();
-                    Set<FlowPermission> snk = Flow.getSinks(type);
+                    Set<ParameterizedFlowPermission> snk = Flow.getSinks(type);
                     String stsnk = snk.isEmpty() ? "NONE" : snk.toString();
                     String msg = "FLOW TREE " + tree + " KIND " + tree.getKind() + " SOURCES "
                             + stsrc + " SINKS " + stsnk;

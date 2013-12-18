@@ -1,7 +1,7 @@
 package sparta.checkers.intents;
 
-import static sparta.checkers.quals.CoarseFlowPermission.ACCESS_FINE_LOCATION;
-import static sparta.checkers.quals.CoarseFlowPermission.DISPLAY;
+import static sparta.checkers.quals.FlowPermission.ACCESS_FINE_LOCATION;
+import static sparta.checkers.quals.FlowPermission.DISPLAY;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
 import android.app.Activity;

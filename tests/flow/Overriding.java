@@ -3,7 +3,7 @@ import android.location.LocationListener;
 import android.os.Bundle;
 
 import sparta.checkers.quals.*;
-import static sparta.checkers.quals.CoarseFlowPermission.*;
+import static sparta.checkers.quals.FlowPermission.*;
 
 class LocationController implements LocationListener {
     public void onLocationChanged(@Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Location location) {}

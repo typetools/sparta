@@ -28,7 +28,7 @@ public @interface FineSink {
     /**
      * Returns the CoarseFlowPermission associated with this FineSink
      */
-    CoarseFlowPermission value();
+    FlowPermission value();
     
     /**
      * By default sinks will not have any parameters.

@@ -26,5 +26,5 @@ public @interface Source {
      * By default we allow no sources. There is always a @Source annotation and
      * this default ensures that the annotation has no effect.
      */
-    CoarseFlowPermission[] value() default {};
+    FlowPermission[] value() default {};
 }

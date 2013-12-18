@@ -24,6 +24,6 @@ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_
 @SubtypeOf({})
 public @interface IExtra {
     String key() default "";
-    CoarseFlowPermission[] source() default {CoarseFlowPermission.LITERAL};
-    CoarseFlowPermission[] sink() default {};
+    FlowPermission[] source() default {FlowPermission.LITERAL};
+    FlowPermission[] sink() default {};
 }

@@ -1,5 +1,5 @@
 package tests;
-import static sparta.checkers.quals.CoarseFlowPermission.*;
+import static sparta.checkers.quals.FlowPermission.*;
 
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;

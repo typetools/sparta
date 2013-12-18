@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import sparta.checkers.quals.CoarseFlowPermission;
 import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.tree.JCTree;
@@ -163,10 +163,10 @@ public class FlowAnalyzer {
     private Set<Flow> getForbiddenFlowsPairwise(Collection<Flow> flows) {
         Set<Flow> results = new HashSet<Flow>();
         for (Flow flow : flows) {
-            Set<FlowPermission> forbiddenSinks = new HashSet<FlowPermission>();
-            for (FlowPermission sink : flow.sinks) {
-                if (!flowPolicy.areFlowsAllowed(Pair.<Set<FlowPermission>, Set<FlowPermission>> of(
-                        flow.sources, new HashSet<FlowPermission>(Arrays.asList(sink))))) {
+            Set<ParameterizedFlowPermission> forbiddenSinks = new HashSet<ParameterizedFlowPermission>();
+            for (ParameterizedFlowPermission sink : flow.sinks) {
+                if (!flowPolicy.areFlowsAllowed(Pair.<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> of(
+                        flow.sources, new HashSet<ParameterizedFlowPermission>(Arrays.asList(sink))))) {
 
                     forbiddenSinks.add(sink);
                 }
@@ -177,9 +177,9 @@ public class FlowAnalyzer {
     }
     
     private Set<Flow> groupFlowsOnSource(Set<Flow> flows) {
-        Map<FlowPermission, Flow> grouped = new HashMap<FlowPermission, Flow>();
+        Map<ParameterizedFlowPermission, Flow> grouped = new HashMap<ParameterizedFlowPermission, Flow>();
         for (Flow flow : flows) {
-            for (FlowPermission source : flow.sources) {
+            for (ParameterizedFlowPermission source : flow.sources) {
                 Flow sourceSinks = grouped.get(source);
                 if (sourceSinks == null) {
                     grouped.put(source, new Flow(source, flow.sinks));

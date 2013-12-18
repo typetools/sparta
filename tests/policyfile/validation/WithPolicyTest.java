@@ -1,7 +1,7 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.CoarseFlowPermission.*;
+import sparta.checkers.quals.ParameterizedFlowPermission;
+import static sparta.checkers.quals.FlowPermission.*;
 
 import java.util.List;
 import java.io.File;

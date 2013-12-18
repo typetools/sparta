@@ -1,6 +1,6 @@
 package sparta.checkers;
 
-import static sparta.checkers.quals.CoarseFlowPermission.NOT_REVIEWED;
+import static sparta.checkers.quals.FlowPermission.NOT_REVIEWED;
 
 import checkers.quals.PolyAll;
 import checkers.types.AnnotatedTypeMirror;
@@ -26,8 +26,8 @@ import java.util.regex.Pattern;
 
 import javax.lang.model.element.AnnotationMirror;
 
+import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.CoarseFlowPermission;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 
@@ -49,23 +49,23 @@ public class FlowPolicy {
     public static final String EMPTY = "{}";
     public static final String EMPTY_REGEX = "\\{\\}";
 
-    private final Map<FlowPermission, Set<FlowPermission>> allowedSourceToSinks;
-    private final Map<FlowPermission, Set<FlowPermission>> allowedSinkToSources;
+    private final Map<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> allowedSourceToSinks;
+    private final Map<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> allowedSinkToSources;
 
-    private final/*@Nullable*/Set<FlowPermission> sinksFromAnySource;
+    private final/*@Nullable*/Set<ParameterizedFlowPermission> sinksFromAnySource;
 
     // True: LITERAL->CONDITIONAL is added,
     // False: ANY->CONDITIONAL is added
     private final boolean strictConditionals;
     
-    private final FlowPermission ANY;
-    private final FlowPermission CONDITIONAL;
-    private final FlowPermission LITERAL;
+    private final ParameterizedFlowPermission ANY;
+    private final ParameterizedFlowPermission CONDITIONAL;
+    private final ParameterizedFlowPermission LITERAL;
     
-    public FlowPolicy(final Map<FlowPermission, Set<FlowPermission>> allowedFlows) {
-        ANY = new FlowPermission(CoarseFlowPermission.ANY);
-        CONDITIONAL = new FlowPermission(CoarseFlowPermission.CONDITIONAL);
-        LITERAL = new FlowPermission(CoarseFlowPermission.LITERAL);
+    public FlowPolicy(final Map<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> allowedFlows) {
+        ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
+        CONDITIONAL = new ParameterizedFlowPermission(FlowPermission.CONDITIONAL);
+        LITERAL = new ParameterizedFlowPermission(FlowPermission.LITERAL);
         
         this.allowedSourceToSinks = allowedFlows;
         this.allowedSinkToSources = reverse(allowedFlows);
@@ -82,9 +82,9 @@ public class FlowPolicy {
      *            ANY->CONDITIONAL is added
      */
     public FlowPolicy(final File flowPolicyFile, boolean strictConditionals) {
-        ANY = new FlowPermission(CoarseFlowPermission.ANY);
-        CONDITIONAL = new FlowPermission(CoarseFlowPermission.CONDITIONAL);
-        LITERAL = new FlowPermission(CoarseFlowPermission.LITERAL);
+        ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
+        CONDITIONAL = new ParameterizedFlowPermission(FlowPermission.CONDITIONAL);
+        LITERAL = new ParameterizedFlowPermission(FlowPermission.LITERAL);
         
         this.strictConditionals = strictConditionals;
         this.allowedSourceToSinks = getDefaultAllowedFlows();
@@ -116,9 +116,9 @@ public class FlowPolicy {
         this(null, strictConditionals);
     }
 
-    private HashMap<FlowPermission, Set<FlowPermission>> getDefaultAllowedFlows() {
-        HashMap<FlowPermission, Set<FlowPermission>> defaultAllowedFlows = new HashMap<FlowPermission, Set<FlowPermission>>();
-        TreeSet<FlowPermission> sinkSet = new TreeSet<FlowPermission>();
+    private HashMap<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> getDefaultAllowedFlows() {
+        HashMap<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> defaultAllowedFlows = new HashMap<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>>();
+        TreeSet<ParameterizedFlowPermission> sinkSet = new TreeSet<ParameterizedFlowPermission>();
         sinkSet.add(CONDITIONAL);
 
         if (strictConditionals) {
@@ -130,11 +130,11 @@ public class FlowPolicy {
         return defaultAllowedFlows;
     }
 
-    public static Pair<Set<FlowPermission>, Set<FlowPermission>> annotatedTypeMirrorToFlows(
+    public static Pair<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> annotatedTypeMirrorToFlows(
             final AnnotatedTypeMirror atm) {
 
-        final Set<FlowPermission> sources = Flow.getSources(atm);
-        final Set<FlowPermission> sinks = Flow.getSinks(atm);
+        final Set<ParameterizedFlowPermission> sources = Flow.getSources(atm);
+        final Set<ParameterizedFlowPermission> sinks = Flow.getSinks(atm);
 
         return Pair.of(sources, sinks);
     }
@@ -156,9 +156,9 @@ public class FlowPolicy {
         return forbiddenFlows(annotatedTypeMirrorToFlows(atm));
     }
 
-    public List<Flow> forbiddenFlows(final Pair<Set<FlowPermission>, Set<FlowPermission>> flows) {
-        final Set<FlowPermission> sources = flows.first;
-        final Set<FlowPermission> sinks = flows.second;
+    public List<Flow> forbiddenFlows(final Pair<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> flows) {
+        final Set<ParameterizedFlowPermission> sources = flows.first;
+        final Set<ParameterizedFlowPermission> sinks = flows.second;
         List<Flow> forflows = new ArrayList<Flow>();
 
         if (sources.isEmpty() || sinks.isEmpty()) {
@@ -170,8 +170,8 @@ public class FlowPolicy {
             sinks.removeAll(sinksFromAnySource);
         }
 
-        for (final FlowPermission source : sources) {
-            final Set<FlowPermission> allowedSink = allowedSourceToSinks.get(source);
+        for (final ParameterizedFlowPermission source : sources) {
+            final Set<ParameterizedFlowPermission> allowedSink = allowedSourceToSinks.get(source);
 
             if (allowedSink == null) {
                 forflows.add(new Flow(source, sinks));
@@ -179,7 +179,7 @@ public class FlowPolicy {
                 // Then source->ANY is allowed
             } else if (!(allowedSink.containsAll(sinks))) {
                 Flow flow = new Flow(source);
-                for (FlowPermission sink : sinks) {
+                for (ParameterizedFlowPermission sink : sinks) {
                     if (!allowedSink.contains(sink)) {
                         flow.addSink(sink);
                     }
@@ -193,9 +193,9 @@ public class FlowPolicy {
         return forflows;
     }
 
-    public boolean areFlowsAllowed(final Pair<Set<FlowPermission>, Set<FlowPermission>> flows) {
-        final Set<FlowPermission> sources = flows.first;
-        final Set<FlowPermission> sinks = flows.second;
+    public boolean areFlowsAllowed(final Pair<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> flows) {
+        final Set<ParameterizedFlowPermission> sources = flows.first;
+        final Set<ParameterizedFlowPermission> sinks = flows.second;
 
         if (sources.isEmpty() || sinks.isEmpty()) {
             return false;
@@ -209,8 +209,8 @@ public class FlowPolicy {
         }
 
 
-        for (final FlowPermission source : sources) {
-            final Set<FlowPermission> allowedSink = allowedSourceToSinks.get(source);
+        for (final ParameterizedFlowPermission source : sources) {
+            final Set<ParameterizedFlowPermission> allowedSink = allowedSourceToSinks.get(source);
 
             if (allowedSink == null
                     || !(allowedSink.contains(ANY) || allowedSink.containsAll(sinks))) {
@@ -247,45 +247,23 @@ public class FlowPolicy {
         return out;
     }
 
-    public Set<FlowPermission> getIntersectionAllowedSinks(final Set<FlowPermission> sources) {
+    public Set<ParameterizedFlowPermission> getIntersectionAllowedSinks(final Set<ParameterizedFlowPermission> sources) {
         //Start with all sinks and remove those that are not allowed
-        Set<FlowPermission> sinks =  Flow.getSetOfAllSinks();
+        Set<ParameterizedFlowPermission> sinks =  Flow.getSetOfAllSinks();
 
-        for (FlowPermission source : sources) {
-            final Set<FlowPermission> curSinks = allowedSourceToSinks.get(source);
+        for (ParameterizedFlowPermission source : sources) {
+            final Set<ParameterizedFlowPermission> curSinks = allowedSourceToSinks.get(source);
             sinks = Flow.intersectSinks(sinks, curSinks);
         }
         sinks.addAll(getSinkFromSource(ANY, false));
         return sinks;
     }
 
-    public Set<FlowPermission> getIntersectionAllowedSources(final /* Collection?? */ Collection<FlowPermission> sinks) {
-        // TODO: Instead of starting with all sources, just get the first sink, 
-        // unroll loop (start at 1)
-        
-        // Old Implementation/comment:
-        // Start with all sources and remove those that are not allowed
-        Set<FlowPermission> sources = Flow.getSetOfAllSources();
-        
-        /*
-        Set<FlowPermission> sources =  new TreeSet<FlowPermission>();
-        
-        Iterator<FlowPermission> sinksIterator = sinks.iterator();
-        if (sinksIterator.hasNext()) {
-            FlowPermission firstSink = sinksIterator.next();
-            sources = allowedSinkToSources.get(firstSink);
-        }
-        
-        while (sinksIterator.hasNext()) { 
-            final Set<FlowPermission> curSources = allowedSinkToSources.get(sinksIterator.next());
-            sources = Flow.intersectSources(sources, curSources);
-        }
-        sources.addAll(getSourceFromSink(ANY, false));
+    public Set<ParameterizedFlowPermission> getIntersectionAllowedSources(final /* Collection?? */ Collection<ParameterizedFlowPermission> sinks) {
+        Set<ParameterizedFlowPermission> sources = Flow.getSetOfAllSources();
 
-        return  sources;
-        */
-        for (FlowPermission sink : sinks) {
-            final Set<FlowPermission> curSources = allowedSinkToSources.get(sink);
+        for (ParameterizedFlowPermission sink : sinks) {
+            final Set<ParameterizedFlowPermission> curSources = allowedSinkToSources.get(sink);
             sources = Flow.intersectSources(sources, curSources);
         }
         sources.addAll(getSourceFromSink(ANY, false));
@@ -329,12 +307,12 @@ public class FlowPolicy {
 
         final List<String> errors = new ArrayList<String>();
         
-        final List<CoarseFlowPermission> allCoarseSinkButAny = Arrays.asList(CoarseFlowPermission.values());
-        final Set<FlowPermission> allSinkButAny = new TreeSet<FlowPermission>();
+        final List<FlowPermission> allCoarseSinkButAny = Arrays.asList(FlowPermission.values());
+        final Set<ParameterizedFlowPermission> allSinkButAny = new TreeSet<ParameterizedFlowPermission>();
         // allCoarseSinkButAny.remove(CoarseFlowPermission.ANY);
-        for (CoarseFlowPermission sink : allCoarseSinkButAny) {
-            if (sink != CoarseFlowPermission.ANY) {
-                allSinkButAny.add(new FlowPermission(sink));
+        for (FlowPermission sink : allCoarseSinkButAny) {
+            if (sink != FlowPermission.ANY) {
+                allSinkButAny.add(new ParameterizedFlowPermission(sink));
             }
         }
         
@@ -353,7 +331,7 @@ public class FlowPolicy {
                 if (!line.isEmpty() && !isWhiteSpaceLine(line)) {
                     final Matcher matcher = linePattern.matcher(line);
 
-                    Set<FlowPermission> sinks;
+                    Set<ParameterizedFlowPermission> sinks;
                     if (matcher.matches()) {
                         final String parameterizedFlowRegex = "(.*)[(\"](.*)[\")]";
                         String sourceStr = matcher.group(1).trim();
@@ -366,7 +344,7 @@ public class FlowPolicy {
                             if (sinkStrs[i].matches(parameterizedFlowRegex)) 
                                 sinkStrs[i] = sinkStrs[i].substring(0, sinkStrs[i].indexOf('('));                                
                         
-                        CoarseFlowPermission source = null;
+                        FlowPermission source = null;
                         boolean skip = false;
 
                         if (sourceStr.equals(EMPTY) || sourceStr.equals(NOT_REVIEWED.toString())) {
@@ -378,10 +356,10 @@ public class FlowPolicy {
                         } else {
                             try {
                                 boolean foundInMap = false;
-                                source = CoarseFlowPermission.valueOf(sourceStr);
+                                source = FlowPermission.valueOf(sourceStr);
                                 sinks = null;
                                 
-                                for (FlowPermission allowedSource : allowedSourceToSinks.keySet()) {
+                                for (ParameterizedFlowPermission allowedSource : allowedSourceToSinks.keySet()) {
                                     if (allowedSource.getPermission() == source) { // already in map
                                         foundInMap = true;
                                         sinks = allowedSourceToSinks.get(allowedSource);
@@ -390,15 +368,15 @@ public class FlowPolicy {
                                 }
 
                                 if (!foundInMap) {
-                                    sinks = new TreeSet<FlowPermission>();
+                                    sinks = new TreeSet<ParameterizedFlowPermission>();
                                     // TODO: ADD PARAMETERS
-                                    allowedSourceToSinks.put(new FlowPermission(source), sinks);
+                                    allowedSourceToSinks.put(new ParameterizedFlowPermission(source), sinks);
                                 }
                             } catch (final IllegalArgumentException iaExc) {
 
                                 errors.add(formatPolicyFileError(policyFile, lineNum,
                                         "Unrecognized source: " + sourceStr + " Known sources: "
-                                                + enumValuesToString(CoarseFlowPermission.values()),
+                                                + enumValuesToString(FlowPermission.values()),
                                         originalLine));
 
                                 sinks = null;
@@ -420,17 +398,17 @@ public class FlowPolicy {
                                 // Read sinks even if source can't be decoded
                                 // (i.e. source == null)
                                 // in order to catch all errors in one pass
-                                final CoarseFlowPermission sinkEnum = CoarseFlowPermission.valueOf(trimmedSink);
+                                final FlowPermission sinkEnum = FlowPermission.valueOf(trimmedSink);
 
                                 if (!skip) {
                                     // TODO: ADD PARAMETERS
-                                    sinks.add(new FlowPermission(sinkEnum));
+                                    sinks.add(new ParameterizedFlowPermission(sinkEnum));
                                 }
 
                             } catch (final IllegalArgumentException iaExc) {
                                 errors.add(formatPolicyFileError(policyFile, lineNum,
                                         "Unrecognized sink: " + sink + " Known sinks: "
-                                                + enumValuesToString(CoarseFlowPermission.values()),
+                                                + enumValuesToString(FlowPermission.values()),
                                         originalLine));
                             }
                         }
@@ -479,14 +457,14 @@ public class FlowPolicy {
     }
 
     private void checkForTransitivity() {
-      for(FlowPermission source : allowedSourceToSinks.keySet()){
+      for(ParameterizedFlowPermission source : allowedSourceToSinks.keySet()){
           if(source.isSink()){
               //if the source can be a sink too, then there might be a transitive flow
               //TODO: handle what about WRITE_EXTERNAL_FILESYSTEM vs READ_EXTERNAL_FILESYSTEM
                 if (allowedSinkToSources.containsKey(source)) {
-                    Set<FlowPermission> sources = allowedSinkToSources.get(source);
-                    Set<FlowPermission> sinks = allowedSourceToSinks.get(source);
-                    Pair<Set<FlowPermission>, Set<FlowPermission>> flows = Pair.of(sources, sinks);
+                    Set<ParameterizedFlowPermission> sources = allowedSinkToSources.get(source);
+                    Set<ParameterizedFlowPermission> sinks = allowedSourceToSinks.get(source);
+                    Pair<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> flows = Pair.of(sources, sinks);
                     if (!areFlowsAllowed(flows)) {
                         System.err.flush();
                         System.err.println("Warning, flow policy has transive flow\n"
@@ -527,21 +505,21 @@ public class FlowPolicy {
         return file.getAbsolutePath() + ":" + lineNum + ": " + message + "\n" + line;
     }
 
-    public Set<FlowPermission> getSinkFromSource(final FlowPermission source, boolean includeAny) {
+    public Set<ParameterizedFlowPermission> getSinkFromSource(final ParameterizedFlowPermission source, boolean includeAny) {
         return Flow.convertToAnySink(getSet(source, allowedSourceToSinks, includeAny), true);
     }
 
-    public Set<FlowPermission> getSourceFromSink(final FlowPermission sink, boolean includeAny) {
+    public Set<ParameterizedFlowPermission> getSourceFromSink(final ParameterizedFlowPermission sink, boolean includeAny) {
         return Flow.convertToAnySource(getSet(sink, allowedSinkToSources, includeAny), true);
 
     }
     
-    private Set<FlowPermission> getSet(
-            final FlowPermission key, final Map<FlowPermission, Set<FlowPermission>> data, boolean includeAny) {
-        Set<FlowPermission> values = data.get(key);
+    private Set<ParameterizedFlowPermission> getSet(
+            final ParameterizedFlowPermission key, final Map<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> data, boolean includeAny) {
+        Set<ParameterizedFlowPermission> values = data.get(key);
         if (includeAny) {
-            final FlowPermission any = ANY;
-            Set<FlowPermission> results = new TreeSet<FlowPermission>();
+            final ParameterizedFlowPermission any = ANY;
+            Set<ParameterizedFlowPermission> results = new TreeSet<ParameterizedFlowPermission>();
         if (values != null) {
             results.addAll(values);
         }
@@ -549,21 +527,21 @@ public class FlowPolicy {
         return results;
         } else {
             if (values == null) {
-                values = new TreeSet<FlowPermission>();
+                values = new TreeSet<ParameterizedFlowPermission>();
             }
             return Collections.unmodifiableSet(values);
         }
     }
 
-    private Map<FlowPermission, Set<FlowPermission>> reverse (final Map<FlowPermission, Set<FlowPermission>> mapToReverse) {
-        final Map<FlowPermission, Set<FlowPermission>> reversed = new HashMap<FlowPermission, Set<FlowPermission>>();
-        for (final Map.Entry<FlowPermission, Set<FlowPermission>> keyToValues : mapToReverse.entrySet()) {
-            FlowPermission valueInRevese = keyToValues.getKey();
+    private Map<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> reverse (final Map<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> mapToReverse) {
+        final Map<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> reversed = new HashMap<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>>();
+        for (final Map.Entry<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> keyToValues : mapToReverse.entrySet()) {
+            ParameterizedFlowPermission valueInRevese = keyToValues.getKey();
             
-            for (FlowPermission keyInReverse : keyToValues.getValue()) {
-                Set<FlowPermission> newValues = reversed.get(keyInReverse);
+            for (ParameterizedFlowPermission keyInReverse : keyToValues.getValue()) {
+                Set<ParameterizedFlowPermission> newValues = reversed.get(keyInReverse);
                 if (newValues == null) {
-                    newValues = new TreeSet<FlowPermission>();
+                    newValues = new TreeSet<ParameterizedFlowPermission>();
                     reversed.put(keyInReverse, newValues);
                 }
                 newValues.add(valueInRevese);

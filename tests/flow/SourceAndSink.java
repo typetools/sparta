@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
-import static sparta.checkers.quals.CoarseFlowPermission.*;
-import sparta.checkers.quals.FlowPermission;
+import static sparta.checkers.quals.FlowPermission.*;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 
 class SourceAndSink {
     @Source(RECORD_AUDIO) @Sink({}) Object getPrivateSound() { return null; }

@@ -1,19 +1,19 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.PolyFlow;
 
 @PolyFlow
 class HttpGet {
-    @Sink(CoarseFlowPermission.INTERNET)  HttpGet( 
-            @Sink(CoarseFlowPermission.INTERNET)  String uri) {
+    @Sink(FlowPermission.INTERNET)  HttpGet( 
+            @Sink(FlowPermission.INTERNET)  String uri) {
     }
 }
 
 class PolyConstructors {
 
-    void testPolyConstructor(@Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) @Sink(CoarseFlowPermission.INTERNET) String in) {	
-    	@Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) @Sink(CoarseFlowPermission.INTERNET)
+    void testPolyConstructor(@Source(FlowPermission.ACCESS_FINE_LOCATION) @Sink(FlowPermission.INTERNET) String in) {	
+    	@Source(FlowPermission.ACCESS_FINE_LOCATION) @Sink(FlowPermission.INTERNET)
 
     	HttpGet request = new HttpGet(in);
     }

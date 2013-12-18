@@ -33,8 +33,8 @@ import javax.lang.model.type.TypeMirror;
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.FlowVisitor;
-import sparta.checkers.quals.CoarseFlowPermission;
 import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
 import sparta.checkers.quals.Sink;
@@ -469,12 +469,12 @@ public class IntentVisitor extends FlowVisitor {
 
 
     private AnnotatedTypeMirror hostGetTypeOfKey(AnnotationMirror iExtra, TypeMirror javaType) {
-        Set<CoarseFlowPermission> annotatedSources = new HashSet<CoarseFlowPermission>(
+        Set<FlowPermission> annotatedSources = new HashSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(iExtra,
-                "source", CoarseFlowPermission.class, true));
-        Set<CoarseFlowPermission> annotatedSinks = new HashSet<CoarseFlowPermission>(
+                "source", FlowPermission.class, true));
+        Set<FlowPermission> annotatedSinks = new HashSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(iExtra,
-                "sink", CoarseFlowPermission.class, true));
+                "sink", FlowPermission.class, true));
 
         // Creating a type with the @Source and @Sink from value in
         // putExtra(key,value).
@@ -585,18 +585,18 @@ public class IntentVisitor extends FlowVisitor {
     
     private boolean hostIsCopyableTo(AnnotationMirror lhsIExtra, 
             AnnotationMirror rhsIExtra) {
-        Set<CoarseFlowPermission> lhsAnnotatedSources = new HashSet<CoarseFlowPermission>(
+        Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(lhsIExtra,
-                "source", CoarseFlowPermission.class, true));
-        Set<CoarseFlowPermission> lhsAnnotatedSinks = new HashSet<CoarseFlowPermission>(
+                "source", FlowPermission.class, true));
+        Set<FlowPermission> lhsAnnotatedSinks = new HashSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(lhsIExtra,
-                "sink", CoarseFlowPermission.class, true));
-        Set<CoarseFlowPermission> rhsAnnotatedSources = new HashSet<CoarseFlowPermission>(
+                "sink", FlowPermission.class, true));
+        Set<FlowPermission> rhsAnnotatedSources = new HashSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(rhsIExtra,
-                "source", CoarseFlowPermission.class, true));
-        Set<CoarseFlowPermission> rhsAnnotatedSinks = new HashSet<CoarseFlowPermission>(
+                "source", FlowPermission.class, true));
+        Set<FlowPermission> rhsAnnotatedSinks = new HashSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(rhsIExtra,
-                "sink", CoarseFlowPermission.class, true));
+                "sink", FlowPermission.class, true));
 
         //Creating dummy type to add annotations to it and check if isSubtype
         TypeMirror dummy = atypeFactory.getProcessingEnv().getTypeUtils()

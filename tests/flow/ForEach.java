@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import sparta.checkers.quals.*;
-import static sparta.checkers.quals.CoarseFlowPermission.*;
+import static sparta.checkers.quals.FlowPermission.*;
 
 
  public class ForEach {

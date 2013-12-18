@@ -4,13 +4,13 @@ import android.content.Context;
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.Source.*;
 import sparta.checkers.quals.Sink.*;
-import static  sparta.checkers.quals.CoarseFlowPermission.*;
+import static  sparta.checkers.quals.FlowPermission.*;
 
 
 class Use {
 
     void demo() {
-       @Source(CoarseFlowPermission.LITERAL) Context ctx = null;
+       @Source(FlowPermission.LITERAL) Context ctx = null;
        @Source({FILESYSTEM,READ_EXTERNAL_STORAGE}) File file = ctx.getDir("log", 0);
        String fileString = file.toString();
        String s = fileString.toString();

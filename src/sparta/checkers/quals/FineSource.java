@@ -29,7 +29,7 @@ public @interface FineSource {
     /**
      * This gets the CoraseFlowPermission associated with the FineSource annotation
      */
-    CoarseFlowPermission value();
+    FlowPermission value();
     
     /**
      * By default sources will not have any parameters.

@@ -1,10 +1,10 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 import static stubfile.ExampleApi.MyAnnotation;
 import static stubfile.ExampleApi.INET_FIELD;
 import static stubfile.ExampleApi.STATIC_FIELD;
-import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.CoarseFlowPermission.*;
+import sparta.checkers.quals.ParameterizedFlowPermission;
+import static sparta.checkers.quals.FlowPermission.*;
 
 // These should all issue warnings
 // TODO: Programmatic testing for warnings

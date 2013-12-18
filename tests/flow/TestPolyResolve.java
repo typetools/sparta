@@ -6,20 +6,20 @@ import java.io.*;
 
 
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 
 //@skip-test
 // TODO: method HttpClient.execute is no longer annotated as polymorphic.
 // Therefore, that method invocation fails.
 // Write your own little test classes to illustrate the point.
 class TestPolyConstructors {
-    @Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) HttpResponse response;
-    @Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) HttpEntity entity;
-    @Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) InputStream tempStream;
+    @Source(FlowPermission.ACCESS_FINE_LOCATION) HttpResponse response;
+    @Source(FlowPermission.ACCESS_FINE_LOCATION) HttpEntity entity;
+    @Source(FlowPermission.ACCESS_FINE_LOCATION) InputStream tempStream;
     Reader responseReader;
 
-    void sdf(@Sink(CoarseFlowPermission.INTERNET) @Source(CoarseFlowPermission.ACCESS_FINE_LOCATION) HttpGet request) {
+    void sdf(@Sink(FlowPermission.INTERNET) @Source(FlowPermission.ACCESS_FINE_LOCATION) HttpGet request) {
         try {
             HttpClient client = new DefaultHttpClient();
             response = client.execute(request);

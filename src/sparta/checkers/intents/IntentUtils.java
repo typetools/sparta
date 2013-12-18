@@ -21,8 +21,8 @@ import javax.lang.model.element.ExecutableElement;
 
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
-import sparta.checkers.quals.CoarseFlowPermission;
 import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
 
@@ -127,38 +127,38 @@ public class IntentUtils {
      * Return the union of sources from 2 @IExtra annotations
      */
 
-    public static Set<FlowPermission> unionSourcesIExtras(AnnotationMirror iExtra1, 
+    public static Set<ParameterizedFlowPermission> unionSourcesIExtras(AnnotationMirror iExtra1, 
             AnnotationMirror iExtra2) {
         return  Flow.unionSources(getSources(iExtra1), getSources(iExtra2));
 
     }
 
-    private static Set<FlowPermission> getSources(AnnotationMirror iExtra) {
-        return Flow.convertCoarseToFlowPermission(new HashSet<CoarseFlowPermission>(
+    private static Set<ParameterizedFlowPermission> getSources(AnnotationMirror iExtra) {
+        return Flow.convertCoarseToFlowPermission(new HashSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(iExtra, "source",
-                    CoarseFlowPermission.class, true)));
+                    FlowPermission.class, true)));
     }
 
     /**
      * Return the union of sinks from 2 @IExtra annotations
      */
 
-    public static Set<FlowPermission> unionSinksIExtras(AnnotationMirror iExtra1, 
+    public static Set<ParameterizedFlowPermission> unionSinksIExtras(AnnotationMirror iExtra1, 
             AnnotationMirror iExtra2) {
         return Flow.unionSinks(getSinks(iExtra1), getSinks(iExtra2));
     }
 
-    private static Set<FlowPermission> getSinks(AnnotationMirror iExtra) {
-        return Flow.convertCoarseToFlowPermission(new HashSet<CoarseFlowPermission>(
+    private static Set<ParameterizedFlowPermission> getSinks(AnnotationMirror iExtra) {
+        return Flow.convertCoarseToFlowPermission(new HashSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(iExtra, "sink",
-                CoarseFlowPermission.class, true)));
+                FlowPermission.class, true)));
     }
 
     /**
      * Return the intersection of sources from 2 @IExtra annotations
      */
 
-    public static Set<FlowPermission> intersectionSourcesIExtras(AnnotationMirror iExtra1, 
+    public static Set<ParameterizedFlowPermission> intersectionSourcesIExtras(AnnotationMirror iExtra1, 
             AnnotationMirror iExtra2) {
         return Flow.intersectSinks(getSources(iExtra1), getSources(iExtra2));
     }
@@ -167,7 +167,7 @@ public class IntentUtils {
      * Return the intersection of sinks from 2 @IExtra annotations
      */
 
-    public static Set<FlowPermission> intersectionSinksIExtras(AnnotationMirror iExtra1, 
+    public static Set<ParameterizedFlowPermission> intersectionSinksIExtras(AnnotationMirror iExtra1, 
             AnnotationMirror iExtra2) {
         return Flow.intersectSinks(getSinks(iExtra1),  getSinks(iExtra2));
 
@@ -187,14 +187,14 @@ public class IntentUtils {
             ProcessingEnvironment processingEnv) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
             IExtra.class);
-        Set<FlowPermission> sourcesSet = Flow.getSources(sources);
-        Set<FlowPermission> sinksSet = Flow.getSinks(sinks);
+        Set<ParameterizedFlowPermission> sourcesSet = Flow.getSources(sources);
+        Set<ParameterizedFlowPermission> sinksSet = Flow.getSinks(sinks);
         
         builder.setValue("key", key);
         builder.setValue("source",
-            sourcesSet.toArray(new FlowPermission[sourcesSet.size()]));
+            sourcesSet.toArray(new ParameterizedFlowPermission[sourcesSet.size()]));
         builder.setValue("sink",
-            sinksSet.toArray(new FlowPermission[sinksSet.size()]));
+            sinksSet.toArray(new ParameterizedFlowPermission[sinksSet.size()]));
         return builder.build();
     }
 

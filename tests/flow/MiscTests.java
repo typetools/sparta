@@ -1,30 +1,30 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.CoarseFlowPermission.*;
+import sparta.checkers.quals.ParameterizedFlowPermission;
+import static sparta.checkers.quals.FlowPermission.*;
 
 class MiscTests {
     double clean;
 
     void test() {
 
-        @Sink({CoarseFlowPermission.INTERNET}) double lat = 1.0;
+        @Sink({FlowPermission.INTERNET}) double lat = 1.0;
         clean = lat;
 
-        @Sink({CoarseFlowPermission.INTERNET, CoarseFlowPermission.CONDITIONAL}) @Source(CoarseFlowPermission.LITERAL) double lat2 = 1.0;
+        @Sink({FlowPermission.INTERNET, FlowPermission.CONDITIONAL}) @Source(FlowPermission.LITERAL) double lat2 = 1.0;
         clean = lat2;
     }
 
     @SuppressWarnings("flow")
-    @Sink({CoarseFlowPermission.INTERNET, CoarseFlowPermission.CONDITIONAL}) String WEBSERVICE_URL = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
+    @Sink({FlowPermission.INTERNET, FlowPermission.CONDITIONAL}) String WEBSERVICE_URL = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
 
-    @Source({CoarseFlowPermission.LITERAL, CoarseFlowPermission.ACCESS_FINE_LOCATION}) String WEBSERVICE_URL2 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
+    @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) String WEBSERVICE_URL2 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
 
     String WEBSERVICE_URL3 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
-    @Source({CoarseFlowPermission.LITERAL, CoarseFlowPermission.ACCESS_FINE_LOCATION}) String result; //With FP effective Sink(INTERNET,CONDITIONAL}
+    @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) String result; //With FP effective Sink(INTERNET,CONDITIONAL}
 
-    @Source({CoarseFlowPermission.LITERAL}) @Sink({CoarseFlowPermission.CONDITIONAL}) String result2;
+    @Source({FlowPermission.LITERAL}) @Sink({FlowPermission.CONDITIONAL}) String result2;
 
-    @Sink({CoarseFlowPermission.INTERNET}) String result3;
+    @Sink({FlowPermission.INTERNET}) String result3;
 
 
     void test_StringFormat_StringFlowPermission() {
