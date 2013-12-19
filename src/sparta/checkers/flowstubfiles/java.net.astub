@@ -142,8 +142,8 @@ class URLEncoder{
             static String encode(String arg0, String arg1) throws UnsupportedEncodingException;
 }
 class HttpURLConnection {
-    @Source(CoarseFlowPermission.INTERNET) int getResponseCode() throws IOException;
-    void setRequestMethod(@Sink(CoarseFlowPermission.INTERNET) String arg0) throws ProtocolException;
+    @Source(FlowPermission.INTERNET) int getResponseCode() throws IOException;
+    void setRequestMethod(@Sink(FlowPermission.INTERNET) String arg0) throws ProtocolException;
 
 }
 

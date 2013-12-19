@@ -492,10 +492,10 @@ class SQLiteQueryBuilder {
             void setProjectionMap(Map<String,String> columnMap);
             
 //Added by Philip
-    void appendWhere(@Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) CharSequence inWhere) @Source(CoarseFlowPermission.ANY) @Sink({});
-    @Source(CoarseFlowPermission.SQLITE_DATABASE) Cursor query(@Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) SQLiteDatabase db, @Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) String @Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) [] projectionIn, @Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) String selection, @Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) String @Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) [] selectionArgs, @Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) String groupBy, @Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) String having, @Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) String sortOrder, @Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) String limit) @Source(CoarseFlowPermission.ANY) @Sink({});
-    void setTables(@Source(CoarseFlowPermission.ANY) @Sink(CoarseFlowPermission.SQLITE_DATABASE) String inTables) @Source(CoarseFlowPermission.ANY) @Sink({});
-    @Source(CoarseFlowPermission.SQLITE_DATABASE) SQLiteQueryBuilder();
+    void appendWhere(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) CharSequence inWhere) @Source(FlowPermission.ANY) @Sink({});
+    @Source(FlowPermission.SQLITE_DATABASE) Cursor query(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) SQLiteDatabase db, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] projectionIn, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String selection, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] selectionArgs, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String groupBy, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String having, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sortOrder, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String limit) @Source(FlowPermission.ANY) @Sink({});
+    void setTables(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String inTables) @Source(FlowPermission.ANY) @Sink({});
+    @Source(FlowPermission.SQLITE_DATABASE) SQLiteQueryBuilder();
 }
 
 class SQLiteStatement {

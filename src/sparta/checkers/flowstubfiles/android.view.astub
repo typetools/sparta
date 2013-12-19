@@ -730,7 +730,7 @@ final long getDownTime();
 final int getEdgeFlags();
 //Returns a bitfield indicating which edges, if any, were touched by this MotionEvent.
 
-final @Source(CoarseFlowPermission.READ_TIME) long getEventTime();
+final @Source(FlowPermission.READ_TIME) long getEventTime();
 //Retrieve the time this event occurred, in the uptimeMillis(); time base.
 
 final int getFlags();
@@ -1010,9 +1010,9 @@ abstract void unlockCanvasAndPost(Canvas canvas);
 }
 
 interface SurfaceHolder$Callback {
-    void surfaceCreated(@Sink(CoarseFlowPermission.DISPLAY) SurfaceHolder arg0);
-    void surfaceChanged(@Sink(CoarseFlowPermission.DISPLAY) SurfaceHolder arg0, int arg1, int arg2, int arg3);
-    void surfaceDestroyed(@Sink(CoarseFlowPermission.DISPLAY) SurfaceHolder arg0);
+    void surfaceCreated(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0);
+    void surfaceChanged(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0, int arg1, int arg2, int arg3);
+    void surfaceDestroyed(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0);
 }
 
 class SurfaceView {
@@ -3266,7 +3266,7 @@ abstract void removeViewImmediate(View view);
 }
 
 class KeyEvent {
-    @Source(CoarseFlowPermission.USER_INPUT) int getKeyCode();
+    @Source(FlowPermission.USER_INPUT) int getKeyCode();
 }
 
 package android.view.animation;

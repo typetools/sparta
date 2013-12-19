@@ -610,7 +610,7 @@ String toString();
 
 class Movie{
         void draw(Canvas canvas, float x, float y);
-        static Movie decodeStream(@Source(CoarseFlowPermission.FILESYSTEM) InputStream arg0);
+        static Movie decodeStream(@Source(FlowPermission.FILESYSTEM) InputStream arg0);
         int duration();
         boolean setTime(int arg0);
 }

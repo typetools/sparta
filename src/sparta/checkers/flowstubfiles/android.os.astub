@@ -1016,7 +1016,7 @@ void finalize();
 }
 
 class PowerManager{
-        @Source(CoarseFlowPermission.WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
+        @Source(FlowPermission.WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
         boolean isScreenOn();
 }
 

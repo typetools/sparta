@@ -46,10 +46,10 @@ static boolean hasProfile(int cameraId, int quality);
 
 class ExifInterface {
     // Added by mcarthur
-    @Source({CoarseFlowPermission.READ_EXTERNAL_STORAGE}) 
-    String getAttribute(@Sink(CoarseFlowPermission.CONDITIONAL) String tag);
+    @Source({FlowPermission.READ_EXTERNAL_STORAGE}) 
+    String getAttribute(@Sink(FlowPermission.CONDITIONAL) String tag);
 
-    ExifInterface(@Sink(CoarseFlowPermission.FILESYSTEM) String path);
+    ExifInterface(@Sink(FlowPermission.FILESYSTEM) String path);
     void setAttribute(String tag, String value);
 
 }
