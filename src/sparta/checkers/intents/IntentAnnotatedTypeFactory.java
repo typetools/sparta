@@ -214,14 +214,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 if (rhs == null || lhs == null || !isIntentExtrasQualifier(lhs)) {
                     return false;
                 }
-                List<AnnotationMirror> lhsIExtrasList = AnnotationUtils
-                    .getElementValueArray(lhs, "value",AnnotationMirror.class, true);
+                List<AnnotationMirror> lhsIExtrasList = IntentUtils.getIExtras(lhs);
                 if (lhsIExtrasList.isEmpty()) {
                     return true;
                 }
                 for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
-                    String leftKey = AnnotationUtils.getElementValue(lhsIExtra,
-                        "key", String.class, true);
+                    String leftKey = IntentUtils.getKeyName(lhsIExtra);;
 
                     if(IntentUtils.hasKey(rhs, leftKey)) {
                         if(!hostIsExactType(rhs, lhsIExtra, leftKey)) {
@@ -237,6 +235,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             return super.isSubtype(rhs, lhs);
         }
 
+
         /**
          * temporary auxiliary method used to check whether the types
          * of the keys are the same.
@@ -248,22 +247,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
          */
         private boolean hostIsExactType(AnnotationMirror rhs,
                 AnnotationMirror lhsIExtra, String leftKey) {
-            AnnotationMirror rhsIExtra = IntentUtils.getIExtraWithKey(rhs, leftKey);
+            AnnotationMirror rhsIExtra = IntentUtils.getIExtra(rhs, leftKey);
 
-            Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
-                AnnotationUtils.getElementValueEnumArray(
-                    lhsIExtra, "source", FlowPermission.class, true));
-            Set<FlowPermission> lhsAnnotatedSinks = new HashSet<FlowPermission>(
-                AnnotationUtils.getElementValueEnumArray(
-                    lhsIExtra, "sink", FlowPermission.class, true));
-            Set<FlowPermission> rhsAnnotatedSources = new HashSet<FlowPermission>(
-                AnnotationUtils.getElementValueEnumArray(
-                    rhsIExtra, "source",
-                    FlowPermission.class, true));
-            Set<FlowPermission> rhsAnnotatedSinks = new HashSet<FlowPermission>(
-                AnnotationUtils.getElementValueEnumArray(
-                    rhsIExtra, "sink",
-                    FlowPermission.class, true));
+            Set<FlowPermission> lhsAnnotatedSources = IntentUtils.getSources(lhsIExtra);
+            Set<FlowPermission> lhsAnnotatedSinks = IntentUtils.getSinks(lhsIExtra);
+            Set<FlowPermission> rhsAnnotatedSources = IntentUtils.getSources(rhsIExtra);
+            Set<FlowPermission> rhsAnnotatedSinks = IntentUtils.getSinks(rhsIExtra);
 
             return(lhsAnnotatedSources.containsAll(rhsAnnotatedSources)
                     && rhsAnnotatedSources.containsAll(lhsAnnotatedSources)
@@ -271,6 +260,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     && rhsAnnotatedSinks.containsAll(lhsAnnotatedSinks)); 
         }
 
+       
         /**
          * The LUB between 2 @IntentExtras is an @IntentExtras containing all
          * the @IExtra with keys both have in common. For each pair of 2
@@ -292,18 +282,15 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, INTENTEXTRAS)) {
-                    List<AnnotationMirror> a1IExtrasList = AnnotationUtils
-                        .getElementValueArray(a1, "value",
-                            AnnotationMirror.class, true);
+                    List<AnnotationMirror> a1IExtrasList = IntentUtils.getIExtras(a1);
                     List<AnnotationMirror> IExtraOutputSet = 
                         new ArrayList<AnnotationMirror>();
 
                     for (AnnotationMirror a1IExtra : a1IExtrasList) {
-                        String a1IExtraKey = AnnotationUtils.getElementValue(
-                            a1IExtra, "key", String.class, true);
+                        String a1IExtraKey = IntentUtils.getKeyName(a1IExtra);
                         if (IntentUtils.hasKey(a2, a1IExtraKey)) {
                             AnnotationMirror a2IExtra = IntentUtils
-                                .getIExtraWithKey(a2, a1IExtraKey);
+                                .getIExtra(a2, a1IExtraKey);
                             // Here we have found matching keys.
                             AnnotationMirror newIExtra = hostLeastUpperBounds(
                                 a1IExtra, a1IExtraKey, a2IExtra);
@@ -366,20 +353,15 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, INTENTEXTRAS)) {
-                    List<AnnotationMirror> a1IExtrasList = AnnotationUtils
-                        .getElementValueArray(a1, "value",
-                            AnnotationMirror.class, true);
-                    List<AnnotationMirror> a2IExtrasList = AnnotationUtils
-                        .getElementValueArray(a2, "value",
-                            AnnotationMirror.class, true);
+                    List<AnnotationMirror> a1IExtrasList = IntentUtils.getIExtras(a1);
+                    List<AnnotationMirror> a2IExtrasList = IntentUtils.getIExtras(a2);
                     List<AnnotationMirror> IExtraOutputSet = 
                         new ArrayList<AnnotationMirror>();
                     for (AnnotationMirror a1IExtra : a1IExtrasList) {
-                        String a1IExtraKey = AnnotationUtils.getElementValue(
-                            a1IExtra, "key", String.class, true);
+                        String a1IExtraKey = IntentUtils.getKeyName(a1IExtra);
                         if (IntentUtils.hasKey(a2, a1IExtraKey)) {
                             AnnotationMirror a2IExtra = IntentUtils
-                                .getIExtraWithKey(a2, a1IExtraKey);
+                                .getIExtra(a2, a1IExtraKey);
                             // If we have found matching keys:
                             AnnotationMirror newIExtra = hostGreatestLowerBound(
                                 a1IExtra, a1IExtraKey, a2IExtra);
@@ -395,8 +377,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     // containing keys
                     // that are in a2 but not in a1.
                     for (AnnotationMirror a2IExtra : a2IExtrasList) {
-                        String a2IExtraKey = AnnotationUtils.getElementValue(
-                            a2IExtra, "key", String.class, true);
+                        String a2IExtraKey = IntentUtils.getKeyName(a2IExtra);;
                         if (!IntentUtils.hasKey(a1, a2IExtraKey)) {
                             IExtraOutputSet.add(a2IExtra);
                         }
@@ -471,8 +452,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 // Here we have the list of IExtra from the Intent
                 // We iterate this list until we find the key we need.
                 for (AnnotationMirror iExtra : iExtrasList) {
-                    String key = AnnotationUtils.getElementValue(iExtra, "key",
-                        String.class, true);
+                    String key = IntentUtils.getKeyName(iExtra);
                     if (key.equals(keyName)) {
                         // Found the key, now change the annotation of the
                         // return of getExtra()
@@ -492,15 +472,11 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> origResult,
             AnnotationMirror iExtra) {
         // correct @Source and @Sink annotations
-        Set<FlowPermission> annotatedSources = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(
-                iExtra, "source", FlowPermission.class,true));
-        Set<FlowPermission> annotatedSinks = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra, "sink", 
-                FlowPermission.class, true));
+        Set<ParameterizedFlowPermission> annotatedSources = IntentUtils.getSourcesPFP(iExtra);
+        Set<ParameterizedFlowPermission> annotatedSinks = IntentUtils.getSinksPFP(iExtra);
 
-        AnnotationMirror sourceAnnotation = createAnnoFromSource(Flow.convertCoarseToFlowPermission(annotatedSources));
-        AnnotationMirror sinkAnnotation = createAnnoFromSink(Flow.convertCoarseToFlowPermission(annotatedSinks));
+        AnnotationMirror sourceAnnotation = createAnnoFromSource(annotatedSources);
+        AnnotationMirror sinkAnnotation = createAnnoFromSink(annotatedSinks);
         origResult.first.getReturnType().clearAnnotations();
         origResult.first.getReturnType().addAnnotation(sourceAnnotation);
         origResult.first.getReturnType().addAnnotation(sinkAnnotation);
@@ -512,6 +488,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         }
         return origResult;
     }
+
 
     public ComponentMap getComponentMap() {
         return componentMap;

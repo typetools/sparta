@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
@@ -424,7 +425,7 @@ public class IntentVisitor extends FlowVisitor {
      */
     private void checkPutExtra(MethodInvocationTree node, String keyName, ExpressionTree receiver,
             AnnotatedTypeMirror receiverType) {
-        AnnotationMirror iExtra = IntentUtils.getIExtra(keyName, receiverType);
+        AnnotationMirror iExtra = IntentUtils.getIExtra(receiverType, keyName);
         if (iExtra == null) {
             checker.report(Result.failure("intent.key.notfound", keyName, receiver.toString()),
                     node);
@@ -469,19 +470,15 @@ public class IntentVisitor extends FlowVisitor {
 
 
     private AnnotatedTypeMirror hostGetTypeOfKey(AnnotationMirror iExtra, TypeMirror javaType) {
-        Set<FlowPermission> annotatedSources = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra,
-                "source", FlowPermission.class, true));
-        Set<FlowPermission> annotatedSinks = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(iExtra,
-                "sink", FlowPermission.class, true));
+        Set<ParameterizedFlowPermission> annotatedSources = IntentUtils.getSourcesPFP(iExtra);
+        Set<ParameterizedFlowPermission> annotatedSinks = IntentUtils.getSinksPFP(iExtra);
 
         // Creating a type with the @Source and @Sink from value in
         // putExtra(key,value).
         AnnotationMirror sourceAnnotation = atypeFactory
-            .createAnnoFromSource(Flow.convertCoarseToFlowPermission(annotatedSources));
+            .createAnnoFromSource(annotatedSources);
         AnnotationMirror sinkAnnotation = atypeFactory
-            .createAnnoFromSink(Flow.convertCoarseToFlowPermission(annotatedSinks));
+            .createAnnoFromSink(annotatedSinks);
         
 
         // annotatedType is a dummy type containing the @Source and
@@ -544,11 +541,9 @@ public class IntentVisitor extends FlowVisitor {
         // Iterating on the @IExtra from lhs
         for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
             boolean found = false;
-            String leftKey = AnnotationUtils.getElementValue(lhsIExtra, "key",
-                String.class, true);
+            String leftKey = IntentUtils.getKeyName(lhsIExtra);
             for (AnnotationMirror rhsIExtra : rhsIExtrasList) {
-                String rightKey = AnnotationUtils.getElementValue(rhsIExtra,
-                    "key", String.class, true);
+                String rightKey = IntentUtils.getKeyName(rhsIExtra);
                 if (rightKey.equals(leftKey)) {
                     // Found 2 @IExtra with same keys in rhs and lhs.
                     // Now we need to make sure that @Source and @Sink of
@@ -571,6 +566,7 @@ public class IntentVisitor extends FlowVisitor {
         }
         return true;
     }
+
     
     
     
@@ -585,18 +581,10 @@ public class IntentVisitor extends FlowVisitor {
     
     private boolean hostIsCopyableTo(AnnotationMirror lhsIExtra, 
             AnnotationMirror rhsIExtra) {
-        Set<FlowPermission> lhsAnnotatedSources = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(lhsIExtra,
-                "source", FlowPermission.class, true));
-        Set<FlowPermission> lhsAnnotatedSinks = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(lhsIExtra,
-                "sink", FlowPermission.class, true));
-        Set<FlowPermission> rhsAnnotatedSources = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(rhsIExtra,
-                "source", FlowPermission.class, true));
-        Set<FlowPermission> rhsAnnotatedSinks = new HashSet<FlowPermission>(
-            AnnotationUtils.getElementValueEnumArray(rhsIExtra,
-                "sink", FlowPermission.class, true));
+        Set<ParameterizedFlowPermission> lhsAnnotatedSources = IntentUtils.getSourcesPFP(lhsIExtra);
+        Set<ParameterizedFlowPermission> lhsAnnotatedSinks = IntentUtils.getSinksPFP(lhsIExtra);
+        Set<ParameterizedFlowPermission> rhsAnnotatedSources = IntentUtils.getSourcesPFP(rhsIExtra);
+        Set<ParameterizedFlowPermission> rhsAnnotatedSinks = IntentUtils.getSinksPFP(rhsIExtra);
 
         //Creating dummy type to add annotations to it and check if isSubtype
         TypeMirror dummy = atypeFactory.getProcessingEnv().getTypeUtils()
@@ -606,10 +594,10 @@ public class IntentVisitor extends FlowVisitor {
         AnnotatedTypeMirror rhsAnnotatedType = AnnotatedTypeMirror
             .createType(dummy, atypeFactory);
 
-        AnnotationMirror lhsSourceAnnotation = atypeFactory.createAnnoFromSource(Flow.convertCoarseToFlowPermission(lhsAnnotatedSources));
-        AnnotationMirror lhsSinkAnnotation = atypeFactory.createAnnoFromSink(Flow.convertCoarseToFlowPermission(lhsAnnotatedSinks));
-        AnnotationMirror rhsSourceAnnotation = atypeFactory.createAnnoFromSource(Flow.convertCoarseToFlowPermission(rhsAnnotatedSources));
-        AnnotationMirror rhsSinkAnnotation = atypeFactory.createAnnoFromSink(Flow.convertCoarseToFlowPermission(rhsAnnotatedSinks));
+        AnnotationMirror lhsSourceAnnotation = atypeFactory.createAnnoFromSource(lhsAnnotatedSources);
+        AnnotationMirror lhsSinkAnnotation = atypeFactory.createAnnoFromSink(lhsAnnotatedSinks);
+        AnnotationMirror rhsSourceAnnotation = atypeFactory.createAnnoFromSource(rhsAnnotatedSources);
+        AnnotationMirror rhsSinkAnnotation = atypeFactory.createAnnoFromSink(rhsAnnotatedSinks);
 
         lhsAnnotatedType.addAnnotation(lhsSourceAnnotation);
         lhsAnnotatedType.addAnnotation(lhsSinkAnnotation);
