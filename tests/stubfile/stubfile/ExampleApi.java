@@ -1,5 +1,24 @@
 package stubfile;
-
+/*These warnings are from information-flow.astub and they may change*/
+//warning: StubParser: Skipping annotation type: android.annotation.TargetApi
+//warning: StubParser: Skipping enum type: android.net.NetworkInfo.State
+//warning: StubParser: Method getNextPoolable() not found in type android.view.VelocityTracker
+//warning: StubParser: Method isPooled() not found in type android.view.VelocityTracker
+//warning: StubParser: Method setNextPoolable(T) not found in type android.view.VelocityTracker
+//warning: StubParser: Method setPooled(boolean) not found in type android.view.VelocityTracker
+//warning: StubParser: Constructor <init>(ArrayList) not found in type android.view.ViewGroup
+//warning: StubParser: Method dumpViewHierarchyWithProperties(BufferedWriter,int) not found in type android.webkit.WebView
+//warning: StubParser: Method findHierarchyView(String,int) not found in type android.webkit.WebView
+//warning: StubParser: Method getSelectedItem() not found in type android.widget.AdapterView.OnItemClickListener
+//warning: StubParser: Method getSelectedItem() not found in type android.widget.Adapter
+//warning: StubParser: Method onItemClick(AdapterView,View,int,long) not found in type android.widget.AdapterView.OnItemSelectedListener
+//warning: StubParser: Type not found: com.google.android.maps.GeoPoint
+//warning: StubParser: Constructor <init>(long) not found in type java.security.Timestamp
+//warning: StubParser: Skipping enum type: java.util.concurrent.TimeUnit
+//warning: StubParser: Type not found: org.htmlcleaner.HtmlCleaner
+//warning: StubParser: Type not found: org.htmlcleaner.TagNode
+//warning: StubParser: Method idealByteArraySize(int) not found in type android.support.v4.util.LongSparseArray
+//warning: StubParser: Method idealLongArraySize(int) not found in type android.support.v4.util.LongSparseArray
 @SuppressWarnings("flow")
 public class ExampleApi {
     public ExampleApi(){}

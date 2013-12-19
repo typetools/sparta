@@ -236,7 +236,7 @@ ${build.version} of the 'javac.jar' library."/>
                 <pathelement path="${gson.jar}"/>
                 <pathelement path="${build.tests}"/>
                 <pathelement path="${build}"/>
-                <pathelement path="${android.jar}"/>
+                <pathelement path="${latestAndroid.jar}"/>
                 <pathelement path="${stub.jar}"/>
             </classpath>
 

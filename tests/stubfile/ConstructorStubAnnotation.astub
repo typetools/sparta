@@ -2,24 +2,28 @@
 import sparta.checkers.quals.*;
 import checkers.quals.*;
 
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
+package mypakage;
 
-@FromByteCode
 class TestStubImplicitConstructor {
+    static void stubSanity(@Source(READ_SMS) String fail) { }
+
 }
-@FromByteCode
-class TestStubNoParamConstructor {
+class TestStubNoParamConstructor {    
+
+
+static void stubSanity(@Source(READ_SMS) String fail) { }
+
     }
 
-@FromByteCode
 class TestStubParamConstructor {
-    
+    TestStubParamConstructor(@Source(READ_SMS) String name) { }
+    static void stubSanity(@Source(READ_SMS) String fail) { }
 }
 
-@FromByteCode
 class TestStubExplicitConstructorType {
     @Source(FlowPermission.INTERNET)
     TestStubExplicitConstructorType();
-    
+     static void stubSanity(@Source(READ_SMS) String fail) { }
 }

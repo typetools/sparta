@@ -1,28 +1,44 @@
+package mypakage;
 import sparta.checkers.quals.Source;
 import static sparta.checkers.quals.FlowPermission.*;
 
-
+/*These warnings are from information-flow.astub and they may change*/
+//warning: StubParser: Skipping annotation type: android.annotation.TargetApi
+//warning: StubParser: Skipping enum type: android.net.NetworkInfo.State
+//warning: StubParser: Method getNextPoolable() not found in type android.view.VelocityTracker
+//warning: StubParser: Method isPooled() not found in type android.view.VelocityTracker
+//warning: StubParser: Method setNextPoolable(T) not found in type android.view.VelocityTracker
+//warning: StubParser: Method setPooled(boolean) not found in type android.view.VelocityTracker
+//warning: StubParser: Constructor <init>(ArrayList) not found in type android.view.ViewGroup
+//warning: StubParser: Method dumpViewHierarchyWithProperties(BufferedWriter,int) not found in type android.webkit.WebView
+//warning: StubParser: Method findHierarchyView(String,int) not found in type android.webkit.WebView
+//warning: StubParser: Method getSelectedItem() not found in type android.widget.AdapterView.OnItemClickListener
+//warning: StubParser: Method getSelectedItem() not found in type android.widget.Adapter
+//warning: StubParser: Method onItemClick(AdapterView,View,int,long) not found in type android.widget.AdapterView.OnItemSelectedListener
+//warning: StubParser: Type not found: com.google.android.maps.GeoPoint
+//warning: StubParser: Constructor <init>(long) not found in type java.security.Timestamp
+//warning: StubParser: Skipping enum type: java.util.concurrent.TimeUnit
+//warning: StubParser: Type not found: org.htmlcleaner.HtmlCleaner
+//warning: StubParser: Type not found: org.htmlcleaner.TagNode
+//warning: StubParser: Method idealByteArraySize(int) not found in type android.support.v4.util.LongSparseArray
+//warning: StubParser: Method idealLongArraySize(int) not found in type android.support.v4.util.LongSparseArray
 
 class TestStubImplicitConstructor { 
     
-    //:: error: (forbidden.flow)
     static void stubSanity(String fail) { }
 }
 
 class TestStubNoParamConstructor {
     TestStubNoParamConstructor() { }
     
-    //:: error: (forbidden.flow)
     static void stubSanity(String fail) { }
 }
 
 class TestStubParamConstructor {
     
 
-    //:: error: (forbidden.flow)   
     TestStubParamConstructor(String name) { }
     
-    //:: error: (forbidden.flow)
     static void stubSanity(String fail) { }
 }
 
@@ -30,7 +46,6 @@ class TestStubExplicitConstructorType {
 
     TestStubExplicitConstructorType()  { }
     
-    //:: error: (forbidden.flow)
     static void stubSanity(String fail) { }
 }
 
@@ -48,34 +63,21 @@ class ConstructorStubAnnotation {
         //:: error: (argument.type.incompatible)
         TestStubExplicitConstructorType.stubSanity("test");
         
-        // BUG? This should be thrown 
-        //MASKED//:: error: (assignment.type.incompatible) 
-        //:: error: (forbidden.flow)
-        @Source(LITERAL) TestStubImplicitConstructor imp = new TestStubImplicitConstructor();
-        // BUG? This should be thrown 
 
-        //MASKED//:: error: (assignment.type.incompatible)
-        //:: error: (forbidden.flow)
-        @Source(LITERAL) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
+        //:: error: (assignment.type.incompatible) 
+        @Source(READ_SMS) TestStubImplicitConstructor imp = new TestStubImplicitConstructor();
 
-        //MASKED//:: error: (argument.type.incompatible) :: error: (assignment.type.incompatible)
-        //:: error: (forbidden.flow) :: error: (argument.type.incompatible)
-        @Source(LITERAL) TestStubParamConstructor param = new TestStubParamConstructor("hello");
+        //:: error: (assignment.type.incompatible)
+        @Source(READ_SMS) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
 
-                //:: error: (argument.type.incompatible) :: error: (forbidden.flow)
-        new TestStubParamConstructor("hello");
-        
-        // BUG? An error should be thrown (Constructor is explicity @Source(INTERNET)) 
-        //This is still a bug.
-        //MASKED//:: error: (assignment.type.incompatible)
-        //:: error: (forbidden.flow)
-        @Source(LITERAL) TestStubExplicitConstructorType explicit = new TestStubExplicitConstructorType();
+        //:: error: (argument.type.incompatible) :: error: (assignment.type.incompatible)
+        @Source(READ_SMS) TestStubParamConstructor param = new TestStubParamConstructor("hello");
 
-        // This has different behaviour than the ConstructorAnnotation test...
-        // //:: error: (constructor.invocation.invalid)
+        //:: error: (assignment.type.incompatible)
+        @Source(READ_SMS) TestStubExplicitConstructorType explicit = new TestStubExplicitConstructorType();
+
         //BUG still can't anntotate constructors in stub files
-        //MASKED//:: error: (assignment.type.incompatible)
-        //:: error: (forbidden.flow)
+        //:: error: (assignment.type.incompatible)
         @Source(INTERNET) TestStubExplicitConstructorType explicit2 = new TestStubExplicitConstructorType();
     }
 }

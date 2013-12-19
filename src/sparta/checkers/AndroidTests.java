@@ -210,7 +210,7 @@ public class AndroidTests {
     }
     public static class StubfileTests extends FlowCheckerTests {
         public StubfileTests(File testFile) {
-            super(testFile, "-Anomsgtext");
+            super(testFile, "-Anomsgtext", "-AstubWarnIfNotFound");
         }
 
         @Parameters
