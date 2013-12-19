@@ -251,19 +251,12 @@ public class Flow {
     public static Set<ParameterizedFlowPermission> convertToAnySource(final Set<ParameterizedFlowPermission> sources,
             boolean inPlace) {
         final Set<ParameterizedFlowPermission> retSet = (inPlace) ? sources : new TreeSet<ParameterizedFlowPermission>(sources);
-        Set<FlowPermission> coarsePermissions = new TreeSet<FlowPermission>();
-        for (ParameterizedFlowPermission flowPermission : sources) {
-            FlowPermission current = flowPermission.getPermission();
-            if (current == FlowPermission.ANY) {
-                retSet.clear();
-                retSet.add(new ParameterizedFlowPermission(FlowPermission.ANY));
-                return retSet;
-            }
-            coarsePermissions.add(current);
-        }
-        if (coarsePermissions.equals(getSetOfAllSources())) {
+        if(retSet.equals(getSetOfAllSources())) {
             retSet.clear();
-            retSet.add(new ParameterizedFlowPermission(FlowPermission.ANY, null));
+            retSet.add(ANY);
+        }else if(retSet.contains(ANY)){
+            retSet.clear();
+            retSet.add(ANY);
         }
         return retSet;
     }
@@ -313,12 +306,13 @@ public class Flow {
     public static Set<ParameterizedFlowPermission> intersectSources(Set<ParameterizedFlowPermission> a1Set,
             Set<ParameterizedFlowPermission> a2Set) {
         if(a1Set == null || a2Set == null) return new TreeSet<>();
-        convertAnytoAllSources(a1Set, true);
-        convertAnytoAllSources(a2Set, true);
-        a1Set.retainAll(a2Set);
-        convertToAnySource(a1Set, true);
-        return a1Set;
+       Set<ParameterizedFlowPermission> a1All =  convertAnytoAllSources(a1Set, false);
+       Set<ParameterizedFlowPermission> a2All =   convertAnytoAllSources(a2Set, false);
+       a1All.retainAll(a2All);
+        return  convertToAnySource(a1All, false);
     }
+    
+    
 
     /**
      * Return the set of sinks that both annotations have.
@@ -340,7 +334,7 @@ public class Flow {
         a1Set.retainAll(a2Set);
         return convertToAnySink(a1Set, false);
     }
-
+    
     /**
      * Returns the union of a1 and a2.
      * If the union is {ANY, ...} then just {ANY} is returned

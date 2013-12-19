@@ -77,8 +77,8 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
     public boolean isValidUse(AnnotatedDeclaredType declarationType,
             AnnotatedDeclaredType useType, Tree tree) {
 
-        return areFlowsValid(useType, tree);
-        // && areFlowsValid(declarationType);
+        return areFlowsValid(declarationType, tree) && areFlowsValid(useType, tree);
+       
     }
 
     @Override

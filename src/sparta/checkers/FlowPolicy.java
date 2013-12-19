@@ -133,8 +133,8 @@ public class FlowPolicy {
     public static Pair<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> annotatedTypeMirrorToFlows(
             final AnnotatedTypeMirror atm) {
 
-        final Set<ParameterizedFlowPermission> sources = Flow.getSources(atm);
-        final Set<ParameterizedFlowPermission> sinks = Flow.getSinks(atm);
+        final Set<ParameterizedFlowPermission> sources = new TreeSet<>( Flow.getSources(atm));
+        final Set<ParameterizedFlowPermission> sinks = new TreeSet<>( Flow.getSinks(atm));
 
         return Pair.of(sources, sinks);
     }
@@ -194,8 +194,8 @@ public class FlowPolicy {
     }
 
     public boolean areFlowsAllowed(final Pair<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> flows) {
-        final Set<ParameterizedFlowPermission> sources = flows.first;
-        final Set<ParameterizedFlowPermission> sinks = flows.second;
+        final Set<ParameterizedFlowPermission> sources = new TreeSet<>(flows.first);
+        final Set<ParameterizedFlowPermission> sinks =  new TreeSet<>(flows.second);
 
         if (sources.isEmpty() || sinks.isEmpty()) {
             return false;
@@ -467,7 +467,7 @@ public class FlowPolicy {
                     Pair<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> flows = Pair.of(sources, sinks);
                     if (!areFlowsAllowed(flows)) {
                         System.err.flush();
-                        System.err.println("Warning, flow policy has transive flow\n"
+                        System.err.println("Warning, flow policy has transtive flow\n"
                                 + allowedSinkToSources.get(source) + "->"
                                 + allowedSourceToSinks.get(source));
                         System.err.flush();
