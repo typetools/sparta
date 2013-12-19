@@ -1,5 +1,5 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.FlowPermission;
 import java.util.*;
 
 // TODO: I couldn't reproduce this issue in the PolyAll Checker.

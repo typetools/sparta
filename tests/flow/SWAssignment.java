@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PolyFlowReceiver;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;

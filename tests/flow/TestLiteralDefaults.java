@@ -2,7 +2,7 @@ import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.FlowPermission;
 
 /**

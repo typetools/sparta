@@ -5,10 +5,12 @@ import sparta.checkers.quals.Sink;
 import static sparta.checkers.quals.FlowPermission.*;
 
 @FromByteCode
+//:: error: (forbidden.flow)   
 class TestImplicitConstructor { }
 
 class TestNoParamConstructor {
     @FromByteCode
+    //:: error: (forbidden.flow)   
     TestNoParamConstructor() { }
 }
 @FromByteCode

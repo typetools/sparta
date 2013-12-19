@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.ParameterizedFlowPermission;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PolyFlow;
 
 @PolyFlow

@@ -5,8 +5,9 @@ import java.util.*;
 import sparta.checkers.quals.*;
 import static sparta.checkers.quals.FlowPermission.*;
 
+
 class FlowPoilcyDefaulting {
- 
+
     List<Object> lo = new ArrayList<Object>();
     List<@Source(FlowPermission.INTERNET) Object> netok = new ArrayList<@Source(FlowPermission.INTERNET) Object>();
     

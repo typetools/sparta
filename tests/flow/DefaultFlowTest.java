@@ -1,7 +1,7 @@
 import checkers.quals.PolyAll;
 
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
 class DefaultFlowTest {

@@ -1,5 +1,5 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.FlowPermission;
 
 class SourceTest {
     Object nomic;

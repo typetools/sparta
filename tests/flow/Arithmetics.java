@@ -1,5 +1,5 @@
 import sparta.checkers.quals.Source;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import  sparta.checkers.quals.FlowPermission;
 
 import sparta.checkers.quals.Sink;
 import static sparta.checkers.quals.FlowPermission.*;

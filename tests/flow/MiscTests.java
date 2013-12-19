@@ -1,5 +1,5 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
 class MiscTests {
@@ -35,29 +35,27 @@ class MiscTests {
     }
 
     void test_StringFormat_StringFlowPermission2() {
-        double lat = 1.0;
-        double lon = 2.0;
-        int days = 3;
-        //MASKED//::error: (assignment.type.incompatible)
-        //:: error: (forbidden.flow)
+        Double lat = 1.0;
+        Double lon = 2.0;
+        Integer days = 3;
+
+        //::error: (assignment.type.incompatible)
         result2 = String.format(WEBSERVICE_URL2, lat, lon, days);
     }
 
     void test_StringFormat_ObjectFlowPermissionSink() {
-        @Sink(INTERNET)  double lat = 1.0;
-        @Sink(INTERNET)  double lon = 2.0;
-        @Sink(INTERNET)  int days = 3;
+        @Sink(INTERNET)  Double lat = 1.0;
+        @Sink(INTERNET)  Double lon = 2.0;
+        @Sink(INTERNET)  Integer days = 3;
         result3 = String.format(WEBSERVICE_URL3, lat, lon, days);
     }
 
     void test_StringFormat_ObjectFlowPermissionSource() {
         Double lat = (@Source({READ_CALENDAR,LITERAL}) Double) Double.valueOf(1.0);
         Double lon = (@Source({READ_CALENDAR,LITERAL})Double) Double.valueOf(2.0);
-        int days = (@Source({READ_CALENDAR,LITERAL})Integer) Integer.valueOf(3);
+        Integer days = (@Source({READ_CALENDAR,LITERAL})Integer) Integer.valueOf(3);
         
-        
-        //MASKED//::error: (assignment.type.incompatible)
-        //:: error: (forbidden.flow)
+        //::error: (assignment.type.incompatible)
         result = String.format(WEBSERVICE_URL3, lat, lon, days);
     }
 }
