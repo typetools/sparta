@@ -127,7 +127,7 @@ public class IntentUtils {
     }
 
     public static Set<ParameterizedFlowPermission> getSourcesPFP(AnnotationMirror iExtra) {
-        return Flow.convertCoarseToFlowPermission(getSources(iExtra));
+        return Flow.convertToParameterizedFlowPermission(getSources(iExtra));
     }
     
     public static Set<FlowPermission> getSources(AnnotationMirror iExtra) {
@@ -146,7 +146,7 @@ public class IntentUtils {
     }
 
     public static Set<ParameterizedFlowPermission> getSinksPFP(AnnotationMirror iExtra) {
-        return Flow.convertCoarseToFlowPermission(getSinks(iExtra));
+        return Flow.convertToParameterizedFlowPermission(getSinks(iExtra));
     }
     
     public static Set<FlowPermission> getSinks(AnnotationMirror iExtra) {
@@ -191,8 +191,8 @@ public class IntentUtils {
             ProcessingEnvironment processingEnv) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
             IExtra.class);
-        Set<FlowPermission> sourcesSet = Flow.convertFlowToCoarsePermission(Flow.getSources(sources));
-        Set<FlowPermission> sinksSet = Flow.convertFlowToCoarsePermission(Flow.getSinks(sinks));
+        Set<FlowPermission> sourcesSet = Flow.convertFromParameterizedFlowPermission(Flow.getSources(sources));
+        Set<FlowPermission> sinksSet = Flow.convertFromParameterizedFlowPermission(Flow.getSinks(sinks));
         
         builder.setValue("key", key);
         builder.setValue("source",

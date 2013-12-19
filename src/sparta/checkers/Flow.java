@@ -381,7 +381,7 @@ public class Flow {
         return a1;
     }
 
-    public static Set<ParameterizedFlowPermission> convertCoarseToFlowPermission(Set<FlowPermission> permissions) {
+    public static Set<ParameterizedFlowPermission> convertToParameterizedFlowPermission(Set<FlowPermission> permissions) {
         Set<ParameterizedFlowPermission> flowPermissions = new TreeSet<ParameterizedFlowPermission>();
         for (FlowPermission p : permissions) {
             flowPermissions.add(new ParameterizedFlowPermission(p));
@@ -389,7 +389,7 @@ public class Flow {
         return flowPermissions;
     }
     
-    public static Set<FlowPermission> convertFlowToCoarsePermission(Set<ParameterizedFlowPermission> permissions) {
+    public static Set<FlowPermission> convertFromParameterizedFlowPermission(Set<ParameterizedFlowPermission> permissions) {
         Set<FlowPermission> coarsePermissions = new TreeSet<FlowPermission>();
         for (ParameterizedFlowPermission p : permissions) {
             coarsePermissions.add(p.getPermission());
