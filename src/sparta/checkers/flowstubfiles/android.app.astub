@@ -2256,7 +2256,7 @@ class TimePickerDialog {
 }
 
 class TimePickerDialog$OnTimeSetListener {
-	void onTimeSet(TimePicker arg0, int arg1, int arg2);
+	void onTimeSet(TimePicker arg0, @PolyFlow int arg1, @PolyFlow int arg2);
 }
 
 package android.app.admin;

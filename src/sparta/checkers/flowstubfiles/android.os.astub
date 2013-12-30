@@ -438,6 +438,8 @@ void writeToParcel(Parcel parcel, int flags);
 
 class Message {
 
+@PolyFlow int arg1;
+
 Message();
     
 void copyFrom(Message o);
@@ -1023,6 +1025,7 @@ class PowerManager{
 class PowerManager$WakeLock{
         void acquire();
         void release();
+        boolean isHeld();
 }
 
 class Process {

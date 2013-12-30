@@ -779,7 +779,7 @@ abstract @Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences(@Sin
 final @Source(LITERAL) String getString(int resId);
 //Return a localized string from the application's package's default string table.
 
-final @Source(LITERAL) String getString(int resId, Object... formatArgs);
+final @Source(LITERAL) String getString(int resId, @PolyFlow Object... formatArgs);
 //Return a localized formatted string from the application's package's default string table, substituting the format arguments as defined in Formatter and format(String, Object...);.
 
 abstract Object getSystemService(String name);

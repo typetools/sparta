@@ -6,6 +6,8 @@ class AudioManager{
         int getStreamMaxVolume(int streamType);
         void setStreamVolume(int streamType, @Sink(SPEAKER) int index, int flags);
         int getRingerMode();
+        int abandonAudioFocus(@Sink(SPEAKER) OnAudioFocusChangeListener l);
+        int requestAudioFocus(@Sink(SPEAKER) OnAudioFocusChangeListener l, int streamType, int durationHint);
 }
 
 class AudioRecord {
@@ -69,6 +71,7 @@ class MediaPlayer {
         void start() throws IllegalStateException;
         void prepare() throws IOException,IllegalStateException;
         MediaPlayer();
+        void setDataSource(Context context, Uri uri) throws IOException,IllegalArgumentException,SecurityException,IllegalStateException;
 }
 
 class MediaPlayer$OnPreparedListener{

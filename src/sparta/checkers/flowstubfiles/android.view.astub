@@ -232,6 +232,7 @@ class GestureDetector$OnGestureListener{
 class GestureDetector$SimpleOnGestureListener{
         boolean onFling(@Source(USER_INPUT) MotionEvent e1, @Source(USER_INPUT) MotionEvent e2, float velocityX, float velocityY);
         SimpleOnGestureListener();
+        boolean onDown(@Source(USER_INPUT) MotionEvent e);
 }
 
 class KeyEvent {

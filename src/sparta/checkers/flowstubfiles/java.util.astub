@@ -302,7 +302,6 @@ class BitSet implements Cloneable, Serializable {
     String toString();
 }
 
-@PolyFlowReceiver
 class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
 //Added by pbsf
     final @Source(FlowPermission.LITERAL) int ERA;
@@ -663,7 +662,7 @@ class HashMap<K, V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Ser
     boolean isEmpty();
     V get(Object arg0);
     boolean containsKey(Object arg0);
-    V put(K arg0, V arg1);
+    V put(K arg0, @PolyFlow V arg1);
     void putAll(Map<? extends K,? extends V> arg0);
     V remove(Object arg0);
     void clear();
@@ -1070,13 +1069,13 @@ class Random implements Serializable {
     void setSeed(long arg0);
     protected int next(int arg0);
     void nextBytes(byte[] arg0);
-    int nextInt() @Source(FlowPermission.RANDOM);
-    int nextInt(int arg0) @Source(FlowPermission.RANDOM);
-    long nextLong() @Source(FlowPermission.RANDOM);
-    boolean nextBoolean() @Source(FlowPermission.RANDOM);
-    float nextFloat() @Source(FlowPermission.RANDOM);
-    double nextDouble() @Source(FlowPermission.RANDOM);
-    double nextGaussian() @Source(FlowPermission.RANDOM);
+    @Source(RANDOM) int nextInt() ;
+   @Source(RANDOM)  int nextInt(int arg0) ;
+    @Source(RANDOM) long nextLong() ;
+   @Source(RANDOM)  boolean nextBoolean() ;
+    @Source(RANDOM) float nextFloat() ;
+    @Source(RANDOM) double nextDouble();
+    @Source(RANDOM) double nextGaussian();
 }
 
 @PolyFlowReceiver
