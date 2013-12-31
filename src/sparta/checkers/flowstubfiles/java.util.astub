@@ -310,7 +310,6 @@ class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
     final @Source(FlowPermission.LITERAL) int WEEK_OF_YEAR;
     final @Source(FlowPermission.LITERAL) int WEEK_OF_MONTH;
     final @Source(FlowPermission.LITERAL) int DATE;
-    final @Source(FlowPermission.LITERAL) int DAY_OF_MONTH;
     final @Source(FlowPermission.LITERAL) int DAY_OF_YEAR;
     final @Source(FlowPermission.LITERAL) int DAY_OF_WEEK;
     final @Source(FlowPermission.LITERAL) int DAY_OF_WEEK_IN_MONTH;
