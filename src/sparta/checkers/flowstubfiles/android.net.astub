@@ -286,8 +286,8 @@ static Uri parse(String uriString);
 abstract String toString();
 //Returns the encoded string representation of this URI.
 
-
-static @PolyFlow Uri withAppendedPath(Uri baseUri, String pathSegment);
+@PolyFlow
+static Uri withAppendedPath(Uri baseUri, String pathSegment);
 //Creates a new Uri by appending an already-encoded path segment to a base Uri.
 
 static void writeToParcel(Parcel out, Uri uri);

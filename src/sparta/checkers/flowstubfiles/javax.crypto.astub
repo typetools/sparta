@@ -18,7 +18,7 @@ class CipherInputStream{
 }
 
 class Mac{
-        byte[] doFinal(@PolyFlow byte[] arg0) throws IllegalStateException;
+@PolySource @PolySink byte [] doFinal( @PolySource @PolySink byte [] text);
 	void init(Key arg0) throws InvalidKeyException;
         static @Source(ACCESS_NETWORK_STATE) Mac getInstance(String arg0) throws NoSuchAlgorithmException;
 }

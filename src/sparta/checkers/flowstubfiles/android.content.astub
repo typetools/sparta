@@ -778,8 +778,8 @@ abstract @Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences(@Sin
 
 final @Source(LITERAL) String getString(int resId);
 //Return a localized string from the application's package's default string table.
-
-final @Source(LITERAL) String getString(int resId, @PolyFlow Object... formatArgs);
+@PolyFlow
+final String getString(int resId, @PolySource @PolySink Object... formatArgs);
 //Return a localized formatted string from the application's package's default string table, substituting the format arguments as defined in Formatter and format(String, Object...);.
 
 abstract Object getSystemService(String name);
@@ -2129,7 +2129,8 @@ XmlResourceParser getLayout(int id);
 @Source(LITERAL) String getQuantityString(int id, int quantity);
 //Return the string value associated with a particular resource ID for a particular numerical quantity.
 
-@Source(LITERAL) String getQuantityString(int id, int quantity, Object... formatArgs);
+@PolyFlow
+String getQuantityString(int id, int quantity, @PolySource @PolySink Object... formatArgs);
 //Return the string value associated with a particular resource ID for a particular numerical quantity, substituting the format arguments as defined in Formatter and format(String, Object...);. It will be stripped of any styled text information.
 
 @Source(LITERAL) CharSequence getQuantityText(int id, int quantity);
@@ -2150,7 +2151,8 @@ XmlResourceParser getLayout(int id);
 @Source(LITERAL) String getString(int id);
 //Return the string value associated with a particular resource ID. It will be stripped of any styled text information.
 
-@Source(LITERAL) String getString(int id, Object... formatArgs);
+@PolyFlow
+final String getString(int resId, @PolySource @PolySink Object... formatArgs);
 //Return the string value associated with a particular resource ID, substituting the format arguments as defined in Formatter and format(String, Object...);. It will be stripped of any styled text information.
 
 @Source(LITERAL) String[] getStringArray(int id);

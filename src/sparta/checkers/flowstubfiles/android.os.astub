@@ -438,7 +438,7 @@ void writeToParcel(Parcel parcel, int flags);
 
 class Message {
 
-@PolyFlow int arg1;
+int arg1;
 
 Message();
     
