@@ -253,7 +253,6 @@ boolean dispatchTouchEvent(MotionEvent ev);
 boolean dispatchTrackballEvent(MotionEvent ev);
 //Called to process trackball events.
 
-void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the Activity's state into the given stream.
 
 View findViewById(int id);
@@ -1258,7 +1257,7 @@ void dismiss();
 void dismissAllowingStateLoss();
 //Version of dismiss(); that uses FragmentTransaction.commitAllowingStateLoss();.
 
-void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Fragments's state into the given stream.
 
 Dialog getDialog();
@@ -1331,7 +1330,7 @@ class ExpandableListActivity{
 }
 
 class Fragment {
-void dump(String prefix, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Fragments's state into the given stream.
 
 final boolean equals(Object o);
@@ -1553,7 +1552,7 @@ abstract void addOnBackStackChangedListener(FragmentManager.OnBackStackChangedLi
 abstract FragmentTransaction beginTransaction();
 //Start a series of edit operations on the Fragments associated with this FragmentManager.
 
-abstract void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+abstract void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd,  PrintWriter writer, String[] args);
 //Print the FragmentManager's state into the given stream.
 
 static void enableDebugLogging(boolean enabled);
@@ -1776,7 +1775,7 @@ class LoaderManager {
 abstract void destroyLoader(int id);
 //Stops and removes the loader with the given ID.
 
-abstract void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+abstract void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the LoaderManager's state into the given stream.
 
 static void enableDebugLogging(boolean enabled);
@@ -2210,7 +2209,7 @@ final boolean stopSelfResult(int startId);
 //Stop the service if the most recent time it was started was startId.
 
 //Protected Methods
-void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Service's state into the given stream.
 
 
@@ -2256,7 +2255,7 @@ class TimePickerDialog {
 }
 
 class TimePickerDialog$OnTimeSetListener {
-	void onTimeSet(TimePicker arg0, @PolyFlow int arg1, @PolyFlow int arg2);
+	void onTimeSet(TimePicker arg0, @Source(USER_INPUT) int arg1, @Source(USER_INPUT) int arg2);
 }
 
 package android.app.admin;

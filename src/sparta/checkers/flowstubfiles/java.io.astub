@@ -363,7 +363,7 @@ class ObjectInputStream extends InputStream implements ObjectInput, ObjectStream
     void defaultReadObject() throws IOException,ClassNotFoundException;
     GetField readFields() throws IOException,ClassNotFoundException;
     void registerValidation(ObjectInputValidation arg0, int arg1) throws NotActiveException,InvalidObjectException;
-    protected Class<?> resolveClass(@PolyFlow ObjectStreamClass arg0) throws IOException,ClassNotFoundException;
+    protected Class<?> resolveClass(ObjectStreamClass arg0) throws IOException,ClassNotFoundException;
     protected Class<?> resolveProxyClass(String[] arg0) throws IOException,ClassNotFoundException;
     protected Object resolveObject(Object arg0) throws IOException;
     protected boolean enableResolveObject(boolean arg0) throws SecurityException;

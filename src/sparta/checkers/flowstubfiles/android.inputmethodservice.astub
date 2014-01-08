@@ -220,7 +220,7 @@ void updateInputViewShown();
 //Re-evaluate whether the soft input area should currently be shown, and update its UI if this has changed since the last time it was evaluated.
 
 //Protected Methods
-void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter fout, String[] args);
+void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, PrintWriter fout, String[] args);
 //Performs a dump of the InputMethodService's internal state.
 
 void onCurrentInputMethodSubtypeChanged(InputMethodSubtype newSubtype);

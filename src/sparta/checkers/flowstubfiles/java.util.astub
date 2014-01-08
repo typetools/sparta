@@ -661,7 +661,7 @@ class HashMap<K, V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Ser
     boolean isEmpty();
     V get(Object arg0);
     boolean containsKey(Object arg0);
-    V put(K arg0, @PolyFlow V arg1);
+    V put(K arg0, V arg1);
     void putAll(Map<? extends K,? extends V> arg0);
     V remove(Object arg0);
     void clear();
