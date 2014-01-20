@@ -43,11 +43,13 @@ public class FlowAnalyzer {
     private static final String IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT = "forbiddenFlows.txt";
     private static final String IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT = "foundFlows.txt";
     private static final String ALL_FLOWS_FILE_DEFAULT = "forbiddenFlowLocations.txt";
+    private static final String INTENT_FLOWS_FILE_DEFAULT = "intentFlows.txt";
 
     // TODO: would be nice if you could pass a file name
     private String impliedFlowsForbiddenFile = IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT;
     private String impliedFlowsVerboseFile = IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT;
     private String allFlowsFile = ALL_FLOWS_FILE_DEFAULT;
+    private String intentFlowsFile = INTENT_FLOWS_FILE_DEFAULT;
 
     private final Set<Flow> forbiddenTypeFlows;
     private final Set<Flow> assignmentFlows;
@@ -64,6 +66,43 @@ public class FlowAnalyzer {
         forbiddenAssignmentFlows = new HashSet<Flow>();
         forbiddenTypeFlows = new HashSet<Flow>();
         allFlows = new HashSet<Pair<TreePath, Flow>>();
+    }
+    
+    public void printIntentFlowsByComponent() {
+    	PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new FileOutputStream(intentFlowsFile));
+            HashMap<String, String> componentFlows = new HashMap<String,String>();
+            for (Pair<TreePath, Flow> pair : allFlows) {
+            	Flow f = pair.second;
+            	if(!f.toString().contains("INTENT")) {
+            		continue;
+            	}
+                TreePath tree = pair.first;
+                Flow flow = pair.second;
+                String componentName = tree.getCompilationUnit().getSourceFile().getName();
+                String[] compName = componentName.split("/");
+                componentName = compName[compName.length-1];
+                if(componentFlows.containsKey(componentName)) {
+                	if(!componentFlows.get(componentName).contains(flow.toString())) {
+                		componentFlows.put(componentName, componentFlows.get(componentName) + "\n" + flow.toString());
+                	} 
+                } else {
+                	componentFlows.put(componentName, flow.toString());
+                }
+            }
+            for(String key : componentFlows.keySet()) {
+            	writer.println("Component: " + key);
+            	writer.println(componentFlows.get(key));
+            }
+            
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
     }
 
     public void printAllFlows() {

@@ -82,6 +82,7 @@ public void typeProcessingOver() {
         factory.flowAnalizer.printImpliedFlowsVerbose();
         factory.flowAnalizer.printImpliedFlowsForbidden();
         factory.flowAnalizer.printAllFlows();
+        factory.flowAnalizer.printIntentFlowsByComponent();
     }
 
     // TODO: would be nice if you could pass a file name
