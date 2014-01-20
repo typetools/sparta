@@ -97,14 +97,21 @@ public class IntentVisitor extends FlowVisitor {
         // .asElement().getClass().isAssignableFrom(android.content.Intent.class))
         // {
 
-        if (receiverClassName.equals("Intent")) {
+        if (receiverClassName.equals("Intent") ) {
             checkIntentExtraMethods(method, node);
             return;
         }
+        
+        if (receiverClassName.equals("Bundle") ) {
+            checkIntentExtraMethods(method, node);
+            return;
+        }
+        
         // if (method.getReceiverType().getUnderlyingType()
         // .asElement().getClass().isAssignableFrom(android.app.Activity.class))
         // {
-        if (receiverClassName.equals("Activity") || receiverClassName.equals("ContextWrapper")) {
+        if (receiverClassName.equals("Activity") || receiverClassName.equals("ContextWrapper")
+        		|| receiverClassName.equals("ListActivity") || receiverClassName.equals("Preference")) {
             checkSendIntent(method, node);
             return;
         }
@@ -122,7 +129,7 @@ public class IntentVisitor extends FlowVisitor {
             MethodInvocationTree node) {
         // TODO: Find a better way to do that other than using the method name
         String methodName = method.getElement().getSimpleName().toString();
-        if (methodName.equals("startActivity")) {
+        if (methodName.equals("startActivity") || methodName.equals("setIntent")) {
             checkStartActivity(method, node);
         } else if(methodName.equals("startService")) {
             checkStartService(method,node);
@@ -534,7 +541,7 @@ public class IntentVisitor extends FlowVisitor {
             .getElementValueArray(rhs, "value", AnnotationMirror.class, true);
         List<AnnotationMirror> lhsIExtrasList = AnnotationUtils
             .getElementValueArray(lhs, "value", AnnotationMirror.class, true);
-        if (lhsIExtrasList.isEmpty()) {
+        if (rhsIExtrasList.isEmpty()) {
             return true;
         }
 

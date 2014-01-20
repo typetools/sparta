@@ -69,7 +69,8 @@ public class IntentUtils {
             .asList(new String[] { 
                 "setAction", "addCategory",
                 "setData", "setType", "setDataAndType",
-                "removeCategory"});
+                "removeCategory", "setClassName",
+                "setComponentName", "addFlags", "hasExtra"});
 
     /**
      * Method that receives an @IntentExtras and a <code> key </code>

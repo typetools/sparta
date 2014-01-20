@@ -133,7 +133,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         DefaultLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE,
             UPPER_BOUNDS };
         defaults.addAbsoluteDefaults(EMPTYINTENTEXTRAS, topLocations);
-        defaults.addAbsoluteDefault(EMPTYINTENTEXTRAS, OTHERWISE);
+        defaults.addAbsoluteDefault(INTENTEXTRASALL, OTHERWISE);
         return defaults;
     }
 
