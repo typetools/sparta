@@ -652,6 +652,7 @@ class Messenger{
             IBinder getBinder();
 }
 class Message{
+    @PolyFlow int arg1;
     Bundle getData();
     void sendToTarget();
 }
