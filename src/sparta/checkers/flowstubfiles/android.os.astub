@@ -9,12 +9,12 @@ AsyncTask();
 final boolean cancel(boolean mayInterruptIfRunning);
 //Attempts to cancel execution of this task.
 
-static void execute(@PolySource @PolySink Runnable runnable);
+static void execute(Runnable runnable);
 //Convenience version of execute(Object); for use with a simple Runnable object.
-
-final AsyncTask<Params, Progress, Result> execute(@PolySource @PolySink Params... params);
+@PolyFlowReceiver
+final AsyncTask<Params, Progress, Result> execute( Params... params);
 //Executes the task with the specified parameters.
-
+@PolyFlowReceiver
 final AsyncTask<Params, Progress, Result> executeOnExecutor(Executor exec, Params... params);
 //Executes the task with the specified parameters.
 
@@ -31,6 +31,7 @@ final boolean isCancelled();
 //Returns true if this task was cancelled before it completed normally.
 
 //Protected Methods
+@PolyFlowReceiver
 abstract Result doInBackground(Params... params);
 //Override this method to perform a computation on a background thread.
 
@@ -39,16 +40,16 @@ void onCancelled(Result result);
 
 void onCancelled();
 //Applications should preferably override onCancelled(Object);.
-
+@PolyFlowReceiver
 void onPostExecute(Result result);
 //Runs on the UI thread after doInBackground(Params...);.
-
+@PolyFlowReceiver
 void onPreExecute();
 //Runs on the UI thread before doInBackground(Params...);.
 
 void onProgressUpdate(Progress... values);
 //Runs on the UI thread after publishProgress(Progress...); is invoked.
-
+@PolyFlowReceiver
 final void publishProgress(Progress... values);
 //This method can be invoked from doInBackground(Params...); to publish updates on the UI thread while the background computation is still running.
 
@@ -165,7 +166,7 @@ boolean unlinkToDeath(IBinder.DeathRecipient recipient, int flags);
 //Local implementation is a no-op.
 
 //Protected Methods
-void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter fout, String[] args);
+void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, PrintWriter fout, String[] args);
 //Print the object's state into the given stream.
 
 void finalize();
@@ -438,6 +439,8 @@ void writeToParcel(Parcel parcel, int flags);
 
 class Message {
 
+int arg1;
+
 Message();
     
 void copyFrom(Message o);
@@ -649,6 +652,7 @@ class Messenger{
             IBinder getBinder();
 }
 class Message{
+    @PolyFlow int arg1;
     Bundle getData();
     void sendToTarget();
 }
@@ -1023,6 +1027,7 @@ class PowerManager{
 class PowerManager$WakeLock{
         void acquire();
         void release();
+        boolean isHeld();
 }
 
 class Process {

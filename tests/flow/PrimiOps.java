@@ -3,7 +3,7 @@ import sparta.checkers.quals.Source;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.*;
 
 
 class PrimiOps {

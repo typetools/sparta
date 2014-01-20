@@ -302,7 +302,6 @@ class BitSet implements Cloneable, Serializable {
     String toString();
 }
 
-@PolyFlowReceiver
 class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
 //Added by pbsf
     final @Source(FlowPermission.LITERAL) int ERA;
@@ -311,7 +310,6 @@ class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
     final @Source(FlowPermission.LITERAL) int WEEK_OF_YEAR;
     final @Source(FlowPermission.LITERAL) int WEEK_OF_MONTH;
     final @Source(FlowPermission.LITERAL) int DATE;
-    final @Source(FlowPermission.LITERAL) int DAY_OF_MONTH;
     final @Source(FlowPermission.LITERAL) int DAY_OF_YEAR;
     final @Source(FlowPermission.LITERAL) int DAY_OF_WEEK;
     final @Source(FlowPermission.LITERAL) int DAY_OF_WEEK_IN_MONTH;
@@ -1070,13 +1068,13 @@ class Random implements Serializable {
     void setSeed(long arg0);
     protected int next(int arg0);
     void nextBytes(byte[] arg0);
-    int nextInt() @Source(FlowPermission.RANDOM);
-    int nextInt(int arg0) @Source(FlowPermission.RANDOM);
-    long nextLong() @Source(FlowPermission.RANDOM);
-    boolean nextBoolean() @Source(FlowPermission.RANDOM);
-    float nextFloat() @Source(FlowPermission.RANDOM);
-    double nextDouble() @Source(FlowPermission.RANDOM);
-    double nextGaussian() @Source(FlowPermission.RANDOM);
+    @Source(RANDOM) int nextInt() ;
+   @Source(RANDOM)  int nextInt(int arg0) ;
+    @Source(RANDOM) long nextLong() ;
+   @Source(RANDOM)  boolean nextBoolean() ;
+    @Source(RANDOM) float nextFloat() ;
+    @Source(RANDOM) double nextDouble();
+    @Source(RANDOM) double nextGaussian();
 }
 
 @PolyFlowReceiver

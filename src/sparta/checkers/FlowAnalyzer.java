@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.tree.JCTree;
@@ -42,11 +43,13 @@ public class FlowAnalyzer {
     private static final String IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT = "forbiddenFlows.txt";
     private static final String IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT = "foundFlows.txt";
     private static final String ALL_FLOWS_FILE_DEFAULT = "forbiddenFlowLocations.txt";
+    private static final String INTENT_FLOWS_FILE_DEFAULT = "intentFlows.txt";
 
     // TODO: would be nice if you could pass a file name
     private String impliedFlowsForbiddenFile = IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT;
     private String impliedFlowsVerboseFile = IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT;
     private String allFlowsFile = ALL_FLOWS_FILE_DEFAULT;
+    private String intentFlowsFile = INTENT_FLOWS_FILE_DEFAULT;
 
     private final Set<Flow> forbiddenTypeFlows;
     private final Set<Flow> assignmentFlows;
@@ -63,6 +66,43 @@ public class FlowAnalyzer {
         forbiddenAssignmentFlows = new HashSet<Flow>();
         forbiddenTypeFlows = new HashSet<Flow>();
         allFlows = new HashSet<Pair<TreePath, Flow>>();
+    }
+    
+    public void printIntentFlowsByComponent() {
+    	PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new FileOutputStream(intentFlowsFile));
+            HashMap<String, String> componentFlows = new HashMap<String,String>();
+            for (Pair<TreePath, Flow> pair : allFlows) {
+            	Flow f = pair.second;
+            	if(!f.toString().contains("INTENT")) {
+            		continue;
+            	}
+                TreePath tree = pair.first;
+                Flow flow = pair.second;
+                String componentName = tree.getCompilationUnit().getSourceFile().getName();
+                String[] compName = componentName.split("/");
+                componentName = compName[compName.length-1];
+                if(componentFlows.containsKey(componentName)) {
+                	if(!componentFlows.get(componentName).contains(flow.toString())) {
+                		componentFlows.put(componentName, componentFlows.get(componentName) + "\n" + flow.toString());
+                	} 
+                } else {
+                	componentFlows.put(componentName, flow.toString());
+                }
+            }
+            for(String key : componentFlows.keySet()) {
+            	writer.println("Component: " + key);
+            	writer.println(componentFlows.get(key));
+            }
+            
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
     }
 
     public void printAllFlows() {
@@ -162,10 +202,10 @@ public class FlowAnalyzer {
     private Set<Flow> getForbiddenFlowsPairwise(Collection<Flow> flows) {
         Set<Flow> results = new HashSet<Flow>();
         for (Flow flow : flows) {
-            Set<FlowPermission> forbiddenSinks = new HashSet<FlowPermission>();
-            for (FlowPermission sink : flow.sinks) {
-                if (!flowPolicy.areFlowsAllowed(Pair.<Set<FlowPermission>, Set<FlowPermission>> of(
-                        flow.sources, new HashSet<FlowPermission>(Arrays.asList(sink))))) {
+            Set<ParameterizedFlowPermission> forbiddenSinks = new HashSet<ParameterizedFlowPermission>();
+            for (ParameterizedFlowPermission sink : flow.sinks) {
+                if (!flowPolicy.areFlowsAllowed(Pair.<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> of(
+                        flow.sources, new HashSet<ParameterizedFlowPermission>(Arrays.asList(sink))))) {
 
                     forbiddenSinks.add(sink);
                 }
@@ -174,11 +214,11 @@ public class FlowAnalyzer {
         }
         return results;
     }
-
+    
     private Set<Flow> groupFlowsOnSource(Set<Flow> flows) {
-        Map<FlowPermission, Flow> grouped = new HashMap<FlowPermission, Flow>();
+        Map<ParameterizedFlowPermission, Flow> grouped = new HashMap<ParameterizedFlowPermission, Flow>();
         for (Flow flow : flows) {
-            for (FlowPermission source : flow.sources) {
+            for (ParameterizedFlowPermission source : flow.sources) {
                 Flow sourceSinks = grouped.get(source);
                 if (sourceSinks == null) {
                     grouped.put(source, new Flow(source, flow.sinks));

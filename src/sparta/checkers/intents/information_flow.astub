@@ -6,7 +6,17 @@ import static sparta.checkers.quals.FlowPermission.*;
 This file is generate by ant merge-stubfiles.
 Please put annotations in the correct stub file in flowstubfiles.
 */
-package android.accounts;
+package android.accessibilityservice;
+class AccessibilityService{
+        void onAccessibilityEvent(AccessibilityEvent arg0);
+        AccessibilityService();
+        void setServiceInfo(AccessibilityServiceInfo info);
+        void onInterrupt();
+        protected void onServiceConnected();
+}
+class AccessibilityServiceInfo{
+        AccessibilityServiceInfo();
+}package android.accounts;
 class AccountManager{
         AuthenticatorDescription[] getAuthenticatorTypes();
         void addOnAccountsUpdatedListener(OnAccountsUpdateListener listener, Handler handler, boolean updateImmediately);
@@ -414,7 +424,6 @@ boolean dispatchTouchEvent(MotionEvent ev);
 boolean dispatchTrackballEvent(MotionEvent ev);
 //Called to process trackball events.
 
-void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
 //Print the Activity's state into the given stream.
 
 View findViewById(int id);
@@ -913,7 +922,7 @@ void onSaveInstanceState(Bundle outState);
 //Called to retrieve per-instance state from an activity before being killed so that the state can be restored in onCreate(Bundle); or onRestoreInstanceState(Bundle); (the Bundle populated by this method will be passed to both);.
 
 void onStart();
-//Called after onCreate(Bundle); — or after onRestart(); when the activity had been stopped, but is now again being displayed to the user.
+//Called after onCreate(Bundle); ��� or after onRestart(); when the activity had been stopped, but is now again being displayed to the user.
 
 void onStop();
 //Called when you are no longer visible to the user.
@@ -985,6 +994,8 @@ void setTimeZone(@Sink(SET_TIME_ZONE) String timeZone);
 
 class AlertDialog {
 
+protected AlertDialog(Context context);
+
 Button getButton(int whichButton);
 //Gets one of the buttons used in the dialog.
 
@@ -1051,6 +1062,10 @@ void onCreate(Bundle savedInstanceState);
 }
 
 class AlertDialog$Builder {
+
+Builder(Context context, int theme);
+
+Builder(Context context);
   
 AlertDialog create();
 //Creates a AlertDialog with the arguments supplied to this builder.
@@ -1165,6 +1180,8 @@ class DatePickerDialog{
 }
 
 class Dialog {
+Dialog(Context context);
+
 void addContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
 //Add an additional content view to the screen.
 
@@ -1411,7 +1428,7 @@ void dismiss();
 void dismissAllowingStateLoss();
 //Version of dismiss(); that uses FragmentTransaction.commitAllowingStateLoss();.
 
-void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Fragments's state into the given stream.
 
 Dialog getDialog();
@@ -1484,7 +1501,7 @@ class ExpandableListActivity{
 }
 
 class Fragment {
-void dump(String prefix, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Fragments's state into the given stream.
 
 final boolean equals(Object o);
@@ -1706,7 +1723,7 @@ abstract void addOnBackStackChangedListener(FragmentManager.OnBackStackChangedLi
 abstract FragmentTransaction beginTransaction();
 //Start a series of edit operations on the Fragments associated with this FragmentManager.
 
-abstract void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+abstract void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd,  PrintWriter writer, String[] args);
 //Print the FragmentManager's state into the given stream.
 
 static void enableDebugLogging(boolean enabled);
@@ -1838,9 +1855,12 @@ abstract FragmentTransaction remove(Fragment fragment);
 class IntentService{
         IntentService(String name);
         protected void onHandleIntent(Intent arg0);
+        void onStart(Intent intent, int startId);
 }
 
 class ListActivity {
+
+ListActivity();
 
 ListAdapter getListAdapter();
 //Get the ListAdapter associated with this activity's ListView.
@@ -1926,7 +1946,7 @@ class LoaderManager {
 abstract void destroyLoader(int id);
 //Stops and removes the loader with the given ID.
 
-abstract void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+abstract void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the LoaderManager's state into the given stream.
 
 static void enableDebugLogging(boolean enabled);
@@ -2128,6 +2148,7 @@ Notification.Builder setWhen(long when);
 class NotificationManager{
             void cancel(int id);
             void notify(int id, @Sink(DISPLAY) Notification notification);
+            void cancelAll();
 }
 
 class PendingIntent {
@@ -2359,7 +2380,7 @@ final boolean stopSelfResult(int startId);
 //Stop the service if the most recent time it was started was startId.
 
 //Protected Methods
-void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Service's state into the given stream.
 
 
@@ -2398,6 +2419,27 @@ void onSaveInstanceState(Bundle outState);
 
     
     
+}
+
+class TimePickerDialog {
+	TimePickerDialog(Context context, OnTimeSetListener callBack, int hourOfDay, int minute, boolean is24HourView);
+}
+
+class TimePickerDialog$OnTimeSetListener {
+	void onTimeSet(TimePicker arg0, @Source(USER_INPUT) int arg1, @Source(USER_INPUT) int arg2);
+}
+
+package android.app.admin;
+class DevicePolicyManager{
+        void setMaximumTimeToLock(ComponentName admin, long timeMs);
+        long getMaximumTimeToLock(ComponentName admin);
+        void removeActiveAdmin(ComponentName who);
+        boolean isAdminActive(ComponentName who);
+        void lockNow();
+}
+
+class DeviceAdminReceiver{
+        DeviceAdminReceiver();
 }
 
 package android.app.backup;
@@ -2475,17 +2517,21 @@ void finalize();
 
 package android.appwidget;
 
-class AppWidgetProvider{
-        void onDeleted(Context context, int[] appWidgetIds);
-        void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds);
-        AppWidgetProvider();
-}
 class AppWidgetManager{
         int[] getAppWidgetIds(ComponentName provider);
         void updateAppWidget(int appWidgetId, RemoteViews views);
         AppWidgetProviderInfo getAppWidgetInfo(int appWidgetId);
         static AppWidgetManager getInstance(Context context);
+        void updateAppWidget(ComponentName provider, RemoteViews views);
 }
+
+class AppWidgetProvider{
+		void onReceive(Context context, Intent intent);
+        void onDeleted(Context context, int[] appWidgetIds);
+        void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds);
+        AppWidgetProvider();
+}
+
 
 package android.bluetooth;
 class BluetoothAdapter{
@@ -2501,7 +2547,7 @@ class AsyncTaskLoader {
 void cancelLoadInBackground();
 //Called on the main thread to abort a load in progress.
 
-void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Loader's state into the given stream.
 
 boolean isLoadInBackgroundCanceled();
@@ -2958,6 +3004,8 @@ static Uri withAppendedId(Uri contentUri, long id);
 
 @PolyFlowReceiver
 class ContentValues {
+
+ContentValues();
     
 void clear();
 //Removes all values.
@@ -3138,19 +3186,6 @@ ContentProviderOperation.Builder withYieldAllowed(boolean yieldAllowed);
 }
 
 
-class ContentResolver{
-        //Uri insert(Uri url, ContentValues values);
-        //int delete(Uri url, String where, String[] selectionArgs);
-        ContentProviderResult[] applyBatch(String authority, ArrayList<ContentProviderOperation> operations) throws RemoteException,OperationApplicationException;
-        //Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
-        //int update(Uri uri, ContentValues values, String where, String[] selectionArgs);
-                  int delete(@Sink(DATABASE) Uri url, @Sink(DATABASE) String where, @Sink(DATABASE) String[] selectionArgs);
-            int update(@Sink(DATABASE) Uri uri, @Sink(DATABASE) ContentValues values, @Sink(DATABASE) String where, @Sink(DATABASE) String[] selectionArgs);
-            void notifyChange(Uri uri, ContentObserver observer);
-            @Source(DATABASE) Uri insert(@Sink(DATABASE) Uri url, @Sink(DATABASE) ContentValues values);
-            @Source(DATABASE) Cursor query(@Sink(DATABASE) Uri uri, @Sink(DATABASE) String[] projection, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String sortOrder);
-}
-
 class Context {
 abstract boolean bindService(Intent service, ServiceConnection conn, int flags);
 //Connect to an application service, creating it if needed.
@@ -3284,8 +3319,8 @@ abstract @Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences(@Sin
 
 final @Source(LITERAL) String getString(int resId);
 //Return a localized string from the application's package's default string table.
-
-final @Source(LITERAL) String getString(int resId, Object... formatArgs);
+@PolyFlow
+final String getString(int resId, @PolySource @PolySink Object... formatArgs);
 //Return a localized formatted string from the application's package's default string table, substituting the format arguments as defined in Formatter and format(String, Object...);.
 
 abstract Object getSystemService(String name);
@@ -3446,6 +3481,7 @@ class ComponentName{
 }
 
 class ContextWrapper {
+			ApplicationInfo getApplicationInfo();
             File getDir(String name, int mode);
             ContextWrapper(Context base);
              Context createPackageContext(String packageName, int flags) throws NameNotFoundException;            
@@ -4095,7 +4131,7 @@ String dataToString(D data);
 void deliverResult(D data);
 //Sends the result of the load to the registered listener.
 
-void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Loader's state into the given stream.
 //CSH: filedescriptor
 
@@ -4248,7 +4284,16 @@ abstract SharedPreferences.Editor remove(String key);
 
 }
 
+class SharedPreferences$OnSharedPreferenceChangeListener {
+	void onSharedPreferenceChanged(SharedPreferences arg0, String arg1);
+}
+
 package android.content.pm;
+
+class PackageItemInfo{
+        CharSequence loadLabel(PackageManager pm);
+}
+
 class PackageManager {
     
 abstract void addPackageToPreferred(String packageName);
@@ -4467,7 +4512,7 @@ class ResolveInfo {
 int describeContents();
 //Describe the kinds of special objects contained in this Parcelable's marshalled representation.
 
-void dump(@PolyFlowReceiver Printer pw, String prefix);
+void dump(Printer pw, String prefix);
 
 final int getIconResource();
 //Return the icon resource identifier to use for this match.
@@ -4625,7 +4670,8 @@ XmlResourceParser getLayout(int id);
 @Source(LITERAL) String getQuantityString(int id, int quantity);
 //Return the string value associated with a particular resource ID for a particular numerical quantity.
 
-@Source(LITERAL) String getQuantityString(int id, int quantity, Object... formatArgs);
+@PolyFlow
+String getQuantityString(int id, int quantity, @PolySource @PolySink Object... formatArgs);
 //Return the string value associated with a particular resource ID for a particular numerical quantity, substituting the format arguments as defined in Formatter and format(String, Object...);. It will be stripped of any styled text information.
 
 @Source(LITERAL) CharSequence getQuantityText(int id, int quantity);
@@ -4646,7 +4692,8 @@ XmlResourceParser getLayout(int id);
 @Source(LITERAL) String getString(int id);
 //Return the string value associated with a particular resource ID. It will be stripped of any styled text information.
 
-@Source(LITERAL) String getString(int id, Object... formatArgs);
+@PolyFlow
+final String getString(int resId, @PolySource @PolySink Object... formatArgs);
 //Return the string value associated with a particular resource ID, substituting the format arguments as defined in Formatter and format(String, Object...);. It will be stripped of any styled text information.
 
 @Source(LITERAL) String[] getStringArray(int id);
@@ -5052,6 +5099,8 @@ void close();
 }
 
 class SQLiteDatabase {
+
+void close();
   
 void beginTransaction();
 //Begins a transaction in EXCLUSIVE mode.
@@ -5793,8 +5842,16 @@ void translate(float dx, float dy);
 
 }
 
+class Color{
+        static int rgb(int red, int green, int blue);
+        static int blue(int color);
+        static int red(int color);
+        static int green(int color);
+}
+
 class Matrix {
-    
+
+Matrix();
     
 boolean equals(Object obj);
 //Returns true iff obj is a Matrix and its values equal our values.
@@ -5948,6 +6005,11 @@ class Movie{
 }
 
 class Paint {
+
+Paint(int flags);
+
+Paint();
+
 float ascent();
 //Return the distance above (negative); the baseline (ascent); based on the current typeface and text size.
 
@@ -6292,6 +6354,15 @@ void writeToParcel(Parcel out, int flags);
 class PorterDuffColorFilter{
         PorterDuffColorFilter(int srcColor, Mode mode);
 }
+
+class PorterDuffXfermode{
+        PorterDuffXfermode(Mode mode);
+}
+
+class RadialGradient{
+        RadialGradient(float x, float y, float radius, int color0, int color1, TileMode tile);
+}
+
 class Rect {
     
 final int centerX();
@@ -6393,6 +6464,10 @@ void writeToParcel(Parcel out, int flags);
 }
 
 class RectF {
+
+RectF(float left, float top, float right, float bottom);
+
+RectF();
     
 final float centerX();
 
@@ -6834,10 +6909,10 @@ static int getNumberOfCameras();
 final void lock();
 //Re-locks the camera to prevent other processes from accessing it.
 
-static @Source(CAMERA) Camera open(int cameraId);
+static Camera open(int cameraId);
 //Creates a new Camera object to access a particular hardware camera.
 
-static @Source(CAMERA) Camera open();
+static  Camera open();
 //Creates a new Camera object to access the first back-facing camera on the device.
 
 final void reconnect();
@@ -6911,7 +6986,7 @@ void finalize();
 //Invoked when the garbage collector has detected that this instance is no longer reachable.
 }
 interface Camera$PictureCallback {
-    void onPictureTaken(@Source(FlowPermission.CAMERA) byte @Source(FlowPermission.CAMERA) [] arg0, @Source(FlowPermission.CAMERA) Camera arg1);
+    void onPictureTaken(@Source(CAMERA) byte @Source(CAMERA) [] arg0, Camera arg1);
 }
  
 class Camera$Parameters {
@@ -7523,7 +7598,7 @@ void updateInputViewShown();
 //Re-evaluate whether the soft input area should currently be shown, and update its UI if this has changed since the last time it was evaluated.
 
 //Protected Methods
-void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter fout, String[] args);
+void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, PrintWriter fout, String[] args);
 //Performs a dump of the InputMethodService's internal state.
 
 void onCurrentInputMethodSubtypeChanged(InputMethodSubtype newSubtype);
@@ -7882,7 +7957,7 @@ static void distanceBetween(double startLatitude, double startLongitude, double 
 float distanceTo(Location dest);
 //Returns the approximate distance in meters between this location and the given location.
 
-void dump(@PolyFlowReceiver Printer pw, String prefix);
+void dump( Printer pw, String prefix);
 
 float getAccuracy();
 //Get the estimated accuracy of this location, in meters.
@@ -8112,6 +8187,33 @@ void setTestProviderStatus(String provider, int status, Bundle extras, long upda
 }
 package android.media;
 
+class AudioManager{
+        void setRingerMode(@Sink(SPEAKER) int ringerMode);
+        int getStreamVolume(int streamType);
+        int getStreamMaxVolume(int streamType);
+        void setStreamVolume(int streamType, @Sink(SPEAKER) int index, int flags);
+        int getRingerMode();
+        int abandonAudioFocus(@Sink(SPEAKER) OnAudioFocusChangeListener l);
+        int requestAudioFocus(@Sink(SPEAKER) OnAudioFocusChangeListener l, int streamType, int durationHint);
+}
+
+class AudioRecord {
+        int setPositionNotificationPeriod(int periodInFrames);
+        void setRecordPositionUpdateListener(OnRecordPositionUpdateListener listener);
+        static int getMinBufferSize(int sampleRateInHz, int channelConfig, int audioFormat);
+        int getState();
+        void stop() throws IllegalStateException;
+        int read(@Source(RECORD_AUDIO) byte[] audioData, int offsetInBytes, int sizeInBytes);
+        void release();
+        AudioRecord(int audioSource, int sampleRateInHz, int channelConfig, int audioFormat, int bufferSizeInBytes) throws IllegalArgumentException;
+        void startRecording() throws IllegalStateException;
+}
+
+class AudioRecord$OnRecordPositionUpdateListener{
+        void onPeriodicNotification(AudioRecord arg0);
+        void onMarkerReached(AudioRecord arg0);
+}
+
 class CamcorderProfile {
     
     
@@ -8142,6 +8244,12 @@ class ExifInterface {
 }
 
 class MediaPlayer {
+        int getCurrentPosition();
+        void seekTo(int arg0) throws IllegalStateException;
+        int getDuration();
+        boolean isPlaying();
+        void release();
+        void stop() throws IllegalStateException;
         void reset();
         void pause() throws IllegalStateException;
         void setOnPreparedListener(OnPreparedListener listener);
@@ -8150,6 +8258,7 @@ class MediaPlayer {
         void start() throws IllegalStateException;
         void prepare() throws IOException,IllegalStateException;
         MediaPlayer();
+        void setDataSource(Context context, Uri uri) throws IOException,IllegalArgumentException,SecurityException,IllegalStateException;
 }
 
 class MediaPlayer$OnPreparedListener{
@@ -8157,6 +8266,8 @@ class MediaPlayer$OnPreparedListener{
 }
 
 class MediaRecorder {
+
+MediaRecorder();
     
 final static int getAudioSourceMax();
 //Gets the maximum value for audio sources.
@@ -8254,6 +8365,17 @@ void finalize();
 
 
 
+}
+
+class Ringtone{
+        boolean isPlaying();
+        void play();
+        void stop();
+        String getTitle(Context context);
+}
+
+class RingtoneManager{
+        static Ringtone getRingtone(Context context, Uri ringtoneUri);
 }
 
 class ThumbnailUtils {
@@ -8999,12 +9121,12 @@ AsyncTask();
 final boolean cancel(boolean mayInterruptIfRunning);
 //Attempts to cancel execution of this task.
 
-static void execute(@PolySource @PolySink Runnable runnable);
+static void execute(Runnable runnable);
 //Convenience version of execute(Object); for use with a simple Runnable object.
-
-final AsyncTask<Params, Progress, Result> execute(@PolySource @PolySink Params... params);
+@PolyFlowReceiver
+final AsyncTask<Params, Progress, Result> execute( Params... params);
 //Executes the task with the specified parameters.
-
+@PolyFlowReceiver
 final AsyncTask<Params, Progress, Result> executeOnExecutor(Executor exec, Params... params);
 //Executes the task with the specified parameters.
 
@@ -9021,6 +9143,7 @@ final boolean isCancelled();
 //Returns true if this task was cancelled before it completed normally.
 
 //Protected Methods
+@PolyFlowReceiver
 abstract Result doInBackground(Params... params);
 //Override this method to perform a computation on a background thread.
 
@@ -9029,16 +9152,16 @@ void onCancelled(Result result);
 
 void onCancelled();
 //Applications should preferably override onCancelled(Object);.
-
+@PolyFlowReceiver
 void onPostExecute(Result result);
 //Runs on the UI thread after doInBackground(Params...);.
-
+@PolyFlowReceiver
 void onPreExecute();
 //Runs on the UI thread before doInBackground(Params...);.
 
 void onProgressUpdate(Progress... values);
 //Runs on the UI thread after publishProgress(Progress...); is invoked.
-
+@PolyFlowReceiver
 final void publishProgress(Progress... values);
 //This method can be invoked from doInBackground(Params...); to publish updates on the UI thread while the background computation is still running.
 
@@ -9155,7 +9278,7 @@ boolean unlinkToDeath(IBinder.DeathRecipient recipient, int flags);
 //Local implementation is a no-op.
 
 //Protected Methods
-void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, @PolyFlowReceiver PrintWriter fout, String[] args);
+void dump(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, PrintWriter fout, String[] args);
 //Print the object's state into the given stream.
 
 void finalize();
@@ -9170,6 +9293,9 @@ boolean onTransact(int code, Parcel data, Parcel reply, int flags);
 }
     
 class Bundle {
+
+Bundle();
+
   void clear();
 //Removes all elements from the mapping of this Bundle.
 
@@ -9424,6 +9550,10 @@ void writeToParcel(Parcel parcel, int flags);
 }
 
 class Message {
+
+int arg1;
+
+Message();
     
 void copyFrom(Message o);
 //Make this message like o.
@@ -10002,11 +10132,13 @@ void finalize();
 
 class PowerManager{
         @Source(FlowPermission.WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
+        boolean isScreenOn();
 }
 
 class PowerManager$WakeLock{
         void acquire();
         void release();
+        boolean isHeld();
 }
 
 class Process {
@@ -10053,6 +10185,12 @@ final static boolean supportsProcesses();
 
 
 
+}
+
+class StatFs{
+        StatFs(String path);
+        int getAvailableBlocks();
+        int getBlockSize();
 }
 
 class SystemClock {
@@ -10140,6 +10278,14 @@ void onSetInitialValue(@Sink(SHARED_PREFERENCES) boolean restoreValue, @Sink(SHA
 
 
 
+}
+
+class ListPreference{
+        void setSummary(@Sink(SHARED_PREFERENCES) CharSequence summary);
+        @Source(SHARED_PREFERENCES) String getValue();
+        void setEntryValues(@Sink(SHARED_PREFERENCES) CharSequence[] entryValues);
+        void setValue(@Sink(SHARED_PREFERENCES) String value);
+        void setEntries(@Sink(SHARED_PREFERENCES) CharSequence[] entries);
 }
 
 class Preference {
@@ -10386,6 +10532,11 @@ boolean shouldPersist();
 class Preference$OnPreferenceChangeListener{
         boolean onPreferenceChange(Preference arg0, Object arg1);
 }
+
+class Preference$OnPreferenceClickListener{
+            boolean onPreferenceClick(Preference arg0);
+}
+
 class PreferenceActivity {
     
 PreferenceActivity();
@@ -10509,15 +10660,6 @@ void onStop();
 
 
 }
-class PreferenceManager{
-@PolyFlow
-static SharedPreferences getDefaultSharedPreferences(Context context);
-//Gets a SharedPreferences instance that points to the default file that is used by the preference framework in the given context.
-
-static void setDefaultValues(Context context, int resId, boolean readAgain);
-//Similar to setDefaultValues(Context, int, boolean) but allows the client to provide the filename and mode of the shared preferences file.
-}
-
 
 class PreferenceFragment {
     
@@ -10568,12 +10710,25 @@ void onStop();
 void setPreferenceScreen(@Sink(DISPLAY) PreferenceScreen preferenceScreen);
 //Sets the root of the preference hierarchy that this fragment is showing.
 
-
-
 }
 
-class Preference$OnPreferenceClickListener{
-            boolean onPreferenceClick(Preference arg0);
+class PreferenceGroup{
+        boolean removePreference(Preference preference);
+}
+
+class PreferenceManager{
+static SharedPreferences getDefaultSharedPreferences(Context context);
+//Gets a SharedPreferences instance that points to the default file that is used by the preference framework in the given context.
+
+static void setDefaultValues(Context context, int resId, boolean readAgain);
+//Similar to setDefaultValues(Context, int, boolean) but allows the client to provide the filename and mode of the shared preferences file.
+}
+
+class TwoStatePreference{
+@Source(SHARED_PREFERENCES) boolean isChecked();
+        void setSummaryOn(@Sink(SHARED_PREFERENCES) int summaryResId);
+        void setSummaryOff(@Sink(SHARED_PREFERENCES) int summaryResId);
+        void setChecked(@Sink(SHARED_PREFERENCES) boolean checked);
 }
 package android.provider;
 
@@ -10632,6 +10787,11 @@ class MediaStore$Audio$Playlists$Members{
 package android.speech.tts;
 
 class TextToSpeech {
+
+int stop();
+
+int setOnUtteranceCompletedListener(OnUtteranceCompletedListener listener);
+
 void shutdown();
 //Releases the resources used by the TextToSpeech engine. It is good practice for instance to call this method in the onDestroy() method of an Activity so the TextToSpeech engine can be cleanly stopped.
 
@@ -10644,12 +10804,16 @@ TextToSpeech(Context context, OnInitListener listener);
 boolean isSpeaking();
 //Checks whether the TTS engine is busy speaking.
 
-int speak(@Sink(SPEAKER) String text, int queueMode, HashMap<String,String> params);
+int speak(@Sink(SPEAKER) String text, int queueMode, HashMap<@Sink(CONDITIONAL) String, @Sink(CONDITIONAL) String> params);
 //Speaks the string using the specified queuing strategy and speech parameters.
 }
 
 class TextToSpeech$OnInitListener{
         void onInit(int arg0);
+}
+
+class TextToSpeech$OnUtteranceCompletedListener{
+        void onUtteranceCompleted(String arg0);
 }
 package android.support.v4.app;
 class FragmentActivity {
@@ -10661,7 +10825,7 @@ class FragmentActivity {
 // viewToString
 
 
-void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Activity's state into the given stream.
 
 Object getLastCustomNonConfigurationInstance();
@@ -11537,12 +11701,20 @@ void setSize(int width, int height);
 
 
 package android.telephony;
+
+class PhoneStateListener{
+        PhoneStateListener();
+        void onCallStateChanged(int state, String incomingNumber);
+}
+
 class TelephonyManager{
             @Source(READ_PHONE_STATE) String getDeviceId();
             @Source(READ_PHONE_STATE) String getSimSerialNumber();
             @Source(READ_PHONE_STATE) String getNetworkOperatorName();
             @Source(READ_PHONE_STATE) int getPhoneType();
-                        @Source(READ_PHONE_STATE) String getLine1Number();
+            @Source(READ_PHONE_STATE) String getLine1Number();
+            @Source(READ_PHONE_STATE) int getCallState();
+            void listen(PhoneStateListener listener, int events);
 
 }
 
@@ -11617,7 +11789,7 @@ abstract Editable insert(int where, CharSequence text);
 //Convenience for replace(where, where, text, 0, text.length(););;
 
 abstract Editable replace(int st, int en, CharSequence source, int start, int end);
-//Replaces the specified range (st…en); of text in this Editable with a copy of the slice start…end from source.
+//Replaces the specified range (st���en); of text in this Editable with a copy of the slice start���end from source.
 
 abstract Editable replace(int st, int en, CharSequence text);
 //Convenience for replace(st, en, text, 0, text.length(););
@@ -11641,6 +11813,14 @@ static Spanned fromHtml(String source, Html.ImageGetter imageGetter, Html.TagHan
 static String toHtml(Spanned text);
 //Returns an HTML representation of the provided Spanned text.
 
+}
+
+class InputFilter{
+        CharSequence filter(CharSequence arg0, int arg1, int arg2, Spanned arg3, int arg4, int arg5);
+}
+
+class Selection{
+        static void setSelection(Spannable text, int index);
 }
 
 class SpannableStringBuilder{
@@ -11799,6 +11979,10 @@ long toMillis(boolean arg0);
 
 package android.text.method;
 
+class KeyListener{
+        int getInputType();
+}
+
 class LinkMovementMethod {
     
     
@@ -11829,6 +12013,12 @@ boolean up(TextView widget, Spannable buffer);
 
 
 
+}
+
+class NumberKeyListener{
+        NumberKeyListener();
+        protected char[] getAcceptedChars();
+        CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend);
 }
 
 
@@ -12327,6 +12517,8 @@ static FocusFinder getInstance();
 
 class GestureDetector {
 
+GestureDetector(OnGestureListener listener);
+
 boolean isLongpressEnabled();
 
 boolean onTouchEvent(MotionEvent ev);
@@ -12353,6 +12545,12 @@ class GestureDetector$OnGestureListener{
         boolean onSingleTapUp(@Source(USER_INPUT) MotionEvent arg0);
         void onLongPress(@Source(USER_INPUT) MotionEvent arg0);
         boolean onDown(@Source(USER_INPUT) MotionEvent arg0);
+}
+
+class GestureDetector$SimpleOnGestureListener{
+        boolean onFling(@Source(USER_INPUT) MotionEvent e1, @Source(USER_INPUT) MotionEvent e2, float velocityX, float velocityY);
+        SimpleOnGestureListener();
+        boolean onDown(@Source(USER_INPUT) MotionEvent e);
 }
 
 class KeyEvent {
@@ -12401,7 +12599,7 @@ final int getFlags();
 final KeyCharacterMap getKeyCharacterMap();
 //Gets the KeyCharacterMap associated with the keyboard device.
 
-final int getKeyCode();
+@Source(FlowPermission.USER_INPUT) int getKeyCode();
 //Retrieve the key code of the key event.
 
 boolean getKeyData(KeyCharacterMap.KeyData results);
@@ -12529,6 +12727,7 @@ void writeToParcel(Parcel out, int flags);
 
 class KeyEvent$Callback{
         boolean onKeyDown(@Source(USER_INPUT) int arg0, @Source(USER_INPUT) KeyEvent arg1);
+        boolean onKeyUp(@Source(USER_INPUT) int arg0, @Source(USER_INPUT) KeyEvent arg1);
 }
 
 class LayoutInflater$Factory{
@@ -12801,6 +13000,10 @@ abstract MenuItem setVisible(@Sink(DISPLAY) boolean visible);
 
 }
 
+class MenuItem$OnMenuItemClickListener{
+        boolean onMenuItemClick(MenuItem arg0);
+}
+
 class MotionEvent {
     //CSH: all these methods have to do with a user touching the screen, but so far we've decided that touches don't count as USER_INPUT
     
@@ -13063,6 +13266,10 @@ void finalize();
 
 }
 
+class SubMenu{
+        SubMenu setIcon(int arg0);
+}
+
 class SurfaceView{
 //SOM
  @Sink({DISPLAY, CONDITIONAL}) SurfaceHolder getHolder ();
@@ -13222,6 +13429,9 @@ class ViewManager{
             void removeView(@Sink(DISPLAY) View arg0);
 }
 class View {
+
+View(Context context, AttributeSet attrs);
+
 void addChildrenForAccessibility(ArrayList<View> children);
 //Adds the children of a given View for accessibility.
 
@@ -14527,10 +14737,17 @@ class View$OnClickListener{
         void onClick(View arg0);
 }
 
+class View$OnFocusChangeListener{
+        void onFocusChange(View arg0, boolean arg1);
+}
+
+class View$OnLongClickListener{
+        boolean onLongClick(View arg0);
+}
+
 class View$OnCreateContextMenuListener{
         void onCreateContextMenu(ContextMenu arg0, View arg1, ContextMenuInfo arg2);
 }
-
 
 class View$OnTouchListener{
         boolean onTouch(View arg0, MotionEvent arg1);
@@ -14630,6 +14847,8 @@ class ViewGroup$MarginLayoutParams{
         MarginLayoutParams(LayoutParams source);
 }
 class ViewGroup$LayoutParams {
+
+LayoutParams(int width, int height);
     
 void resolveLayoutDirection(int layoutDirection);
 //Resolve layout parameters depending on the layout direction.
@@ -15347,6 +15566,7 @@ void setDefaultWindowFormat(int format);
 }
 
 class Window$Callback{
+   		void onWindowFocusChanged(boolean arg0);
         boolean onMenuItemSelected(int arg0, MenuItem arg1);
             boolean dispatchKeyEvent(KeyEvent arg0);
 }
@@ -15363,7 +15583,6 @@ abstract void removeViewImmediate(View view);
 
 
 }
-
 
 class KeyEvent {
     @Source(FlowPermission.USER_INPUT) int getKeyCode();
@@ -15651,9 +15870,23 @@ void applyTransformation(float interpolatedTime, Transformation t);
 
 }
 
+class TranslateAnimation{
+        TranslateAnimation(int fromXType, float fromXValue, int toXType, float toXValue, int fromYType, float fromYValue, int toYType, float toYValue);
+}
+
 package android.view.accessibility;
+
+class AccessibilityEvent{
+        CharSequence getPackageName();
+}
+
 class AccessibilityManager$AccessibilityStateChangeListener{
         void onAccessibilityStateChanged(boolean arg0);
+}
+
+class AccessibilityRecord{
+        Parcelable getParcelableData();
+        List<CharSequence> getText();
 }
 
 package android.view.inputmethod;
@@ -16668,9 +16901,22 @@ void onSizeChanged(int w, int h, int oldw, int oldh);
 
 }
 
+class AbsListView$LayoutParams{
+        LayoutParams(int w, int h);
+}
+
+class AbsSeekBar{
+        protected void onSizeChanged(int w, int h, int oldw, int oldh);
+        protected void onDraw(Canvas canvas);
+        void setMax(int max);
+        boolean onTouchEvent(MotionEvent event);
+        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+}
+
 
 class AbsSpinner{
         void setSelection(int position);
+        void setAdapter(SpinnerAdapter adapter);
 }
 
 class AdapterView$OnItemClickListener{
@@ -16691,6 +16937,7 @@ class Adapter{
 }
 
 class AdapterView {
+	T getAdapter();
         Object getSelectedItem();
       long getItemIdAtPosition(int position);
             int getCount();
@@ -16829,6 +17076,7 @@ class AdapterView$OnItemSelectedListener{
 class ArrayAdapter<T> {
         ArrayAdapter(Context context, int textViewResourceId, List<T> objects);
         ArrayAdapter(Context context, int textViewResourceId);
+        ArrayAdapter(Context context, int textViewResourceId, T[] objects);
 
 void add(T object);
 //Adds the specified object at the end of the array.
@@ -16886,6 +17134,8 @@ void sort(Comparator<? super T> comparator);
 }
 
 class BaseAdapter {
+
+BaseAdapter();
     
 boolean areAllItemsEnabled();
 //Indicates whether all the items in this adapter are enabled.
@@ -16948,6 +17198,8 @@ abstract void setChecked(boolean checked);
 }
 
 class CheckBox {
+
+CheckBox(Context context);
 
 //void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
@@ -17216,6 +17468,8 @@ class FrameLayout$LayoutParams{
 }
 
 class Filter {
+
+Filter();
     
 CharSequence convertResultToString(Object resultValue);
 //Converts a value from the filtered set into a CharSequence.
@@ -17328,7 +17582,18 @@ class FrameLayout$LayoutParams {
     
 }
 
+class GridView{
+        void setColumnWidth(int columnWidth);
+        void setAdapter(ListAdapter adapter);
+}
+
 class ImageButton {
+
+  ImageButton(Context context);
+        
+  ImageButton(Context context, AttributeSet attrs);
+        
+  ImageButton(Context context, AttributeSet attrs, int defStyle);
     
     
 void onInitializeAccessibilityEvent(AccessibilityEvent event);
@@ -17345,6 +17610,8 @@ boolean onSetAlpha(int alpha);
 }
 
 class ImageView {
+
+ImageView(Context context);
 
 final void clearColorFilter();
 
@@ -17489,6 +17756,8 @@ boolean verifyDrawable(Drawable dr);
 
 class LinearLayout {
 
+LinearLayout(Context context, AttributeSet attrs);
+
 LinearLayout.LayoutParams generateLayoutParams(AttributeSet attrs);
 //Returns a new set of layout parameters based on the supplied attributes set.
 
@@ -17595,6 +17864,9 @@ abstract boolean isEnabled(int position);
 }
 
 class ListView {
+
+ListView(Context context);
+
 void addFooterView(@Sink(DISPLAY) View v);
 //Add a fixed view to appear at the bottom of the list.
 
@@ -17917,6 +18189,7 @@ void show() @Sink(DISPLAY);
 
 class ProgressBar {
     
+ProgressBar(Context context);    
     
 Drawable getIndeterminateDrawable();
 //Get the drawable used to draw the progress bar in indeterminate mode.
@@ -18362,6 +18635,9 @@ class TabHost$TabSpec{
 
 
 class TextView {
+
+TextView(Context context);
+
 void addTextChangedListener(TextWatcher watcher);
 //Adds a TextWatcher to the list of those whose methods are called whenever this TextView's text changes.
 
@@ -19055,6 +19331,9 @@ ScrollView(Context context);
 
 
 class SeekBar{
+		SeekBar(Context context, AttributeSet attrs);
+        SeekBar(Context context);
+        SeekBar(Context context, AttributeSet attrs, int defStyle);
         void setOnSeekBarChangeListener(OnSeekBarChangeListener l);
 }
 
@@ -19063,6 +19342,10 @@ class SeekBar$OnSeekBarChangeListener{
         void onStopTrackingTouch(SeekBar arg0);
         void onStartTrackingTouch(SeekBar arg0);
         void onProgressChanged(SeekBar arg0, int arg1, boolean arg2);
+}
+
+class SimpleAdapter{
+        SimpleAdapter(Context context, List<? extends Map<String,?>> data, int resource, String[] from, int[] to);
 }
 
 class Spinner {
@@ -19463,6 +19746,9 @@ void show()  @Sink(DISPLAY);
 
 }
 
+class ToggleButton{
+        void setChecked(boolean checked);
+}
 
 class VideoView{
     
@@ -19669,7 +19955,7 @@ class ByteArrayOutputStream extends OutputStream {
 //Added by SOM
      ByteArrayOutputStream();
     @PolySource @PolySink byte @PolySource @PolySink [] toByteArray() @PolySource @PolySink;
-    void close() @Source(FlowPermission.ANY) @Sink({});
+    void close() @Source(ANY) @Sink({});
     protected byte[] buf;
     protected int count;
     ByteArrayOutputStream(int arg0);
@@ -19769,30 +20055,29 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
     int size();
 }
 
-@PolyFlowReceiver	
 class File implements Serializable, Comparable<File> {
 //Added by smillst
-   @Source(FlowPermission.LITERAL) final char separatorChar;
-   @Source(FlowPermission.LITERAL)  final String separator;
-   @Source(FlowPermission.LITERAL) final char pathSeparatorChar;
-   @Source(FlowPermission.LITERAL) final String pathSeparator;
+   @Source(LITERAL) final char separatorChar;
+   @Source(LITERAL)  final String separator;
+   @Source(LITERAL) final char pathSeparatorChar;
+   @Source(LITERAL) final String pathSeparator;
     
-    @Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) String path);
-    File(String arg0, String arg1);
-    @Source(FlowPermission.FILESYSTEM) File( @Sink(FlowPermission.FILESYSTEM) File dir, @Sink(FlowPermission.FILESYSTEM) String path);
+    File( @Sink(FILESYSTEM) String path);
+    File( @Sink(FILESYSTEM) String arg0, @Sink(FILESYSTEM) String arg1);
+    File( File dir, @Sink(FILESYSTEM) String path);
 
-    File(URI arg0);
-    String getName();
-    String getParent();
+    File(@Sink(FILESYSTEM) URI arg0);
+    @Source(FILESYSTEM) String getName();
+    @Source(FILESYSTEM) String getParent();
     File getParentFile();
-    String getPath();
+    @Source(FILESYSTEM) String getPath();
     boolean isAbsolute();
-    String getAbsolutePath();
+    @Source(FILESYSTEM) String getAbsolutePath();
     File getAbsoluteFile();
-    String getCanonicalPath() throws IOException;
+     @Source(FILESYSTEM) String getCanonicalPath() throws IOException;
     File getCanonicalFile() throws IOException;
-    URL toURL() throws MalformedURLException;
-    URI toURI();
+  @Source(FILESYSTEM)  URL toURL() throws MalformedURLException;
+   @Source(FILESYSTEM) URI toURI();
     boolean canRead();
     boolean canWrite();
     boolean exists();
@@ -19804,11 +20089,11 @@ class File implements Serializable, Comparable<File> {
     boolean createNewFile() throws IOException;
     boolean delete();
     void deleteOnExit();
-   @PolySource @PolySink   String[] list();
-   @PolySource @PolySink   String[] list(FilenameFilter arg0);
-    @PolySource @PolySink  File[] listFiles();
-     @PolySource @PolySink File[] listFiles(FilenameFilter arg0);
-    @PolySource @PolySink  File[] listFiles(FileFilter arg0);
+ @Source(FILESYSTEM)   String[] list();
+    @Source(FILESYSTEM) String[] list(FilenameFilter arg0);
+    File[] listFiles();
+     File[] listFiles(FilenameFilter arg0);
+    File[] listFiles(FileFilter arg0);
     boolean mkdir();
     boolean mkdirs();
     boolean renameTo(File arg0);
@@ -19821,16 +20106,16 @@ class File implements Serializable, Comparable<File> {
     boolean setExecutable(boolean arg0, boolean arg1);
     boolean setExecutable(boolean arg0);
     boolean canExecute();
-    static @Source(FlowPermission.FILESYSTEM) File @Source(FlowPermission.FILESYSTEM) [] listRoots();
+    static File [] listRoots();
     long getTotalSpace();
     long getFreeSpace();
     long getUsableSpace();
-    static @Source(FlowPermission.FILESYSTEM) File createTempFile(@Sink(FlowPermission.FILESYSTEM) String arg0, @Sink(FlowPermission.FILESYSTEM) String arg1, @Sink(FlowPermission.FILESYSTEM) File arg2) throws IOException;
-    static @Source(FlowPermission.FILESYSTEM) File createTempFile(@Sink(FlowPermission.FILESYSTEM) String arg0, @Sink(FlowPermission.FILESYSTEM) String arg1) throws IOException;
+    static File createTempFile(@Sink(FILESYSTEM) String arg0, @Sink(FILESYSTEM) String arg1, File arg2) throws IOException;
+    static File createTempFile(@Sink(FILESYSTEM) String arg0, @Sink(FILESYSTEM) String arg1) throws IOException;
     int compareTo(File arg0);
     boolean equals(Object arg0);
     int hashCode();
-    String toString();
+    @Source(FILESYSTEM) String toString();
     Path toPath();
 	
 }
@@ -19840,18 +20125,18 @@ class FileDescriptor{
 
 @PolyFlowReceiver
 class FileInputStream extends InputStream {
-    FileInputStream(@Source(FlowPermission.FILESYSTEM) String arg0) throws FileNotFoundException;
-    FileInputStream(@Source(FlowPermission.FILESYSTEM) File arg0) throws FileNotFoundException;
-    FileInputStream(@Source(FlowPermission.FILESYSTEM) FileDescriptor arg0);
+    FileInputStream(@Source(FILESYSTEM) String arg0) throws FileNotFoundException;
+    FileInputStream(File arg0) throws FileNotFoundException;
+    FileInputStream(@Source(FILESYSTEM) FileDescriptor arg0);
     int read() throws IOException;
-    int read(@Source(FlowPermission.FILESYSTEM) byte@Source(FlowPermission.FILESYSTEM)[] arg0) throws IOException;
-    int read(@Source(FlowPermission.FILESYSTEM) byte@Source(FlowPermission.FILESYSTEM)[] arg0, int arg1, int arg2) throws IOException;
+    int read(@Source(FILESYSTEM) byte@Source(FILESYSTEM)[] arg0) throws IOException;
+    int read(@Source(FILESYSTEM) byte@Source(FILESYSTEM)[] arg0, int arg1, int arg2) throws IOException;
     long skip(long arg0) throws IOException;
     int available() throws IOException;
     void close() throws IOException;
-    @Source(FlowPermission.FILESYSTEM) FileDescriptor getFD() @Source(FlowPermission.FILESYSTEM) throws IOException;
-    @Source(FlowPermission.FILESYSTEM) FileChannel getChannel() @Source(FlowPermission.FILESYSTEM);
-    protected void finalize() @Source(FlowPermission.FILESYSTEM) throws IOException;
+    @Source(FILESYSTEM) FileDescriptor getFD() @Source(FILESYSTEM) throws IOException;
+    @Source(FILESYSTEM) FileChannel getChannel() @Source(FILESYSTEM);
+    protected void finalize() @Source(FILESYSTEM) throws IOException;
 }
 @PolyFlowReceiver
 class FilterInputStream{
@@ -19881,23 +20166,23 @@ class FilterOutputStream{
 }
 
 class FilenameFilter{
-        boolean accept(@Source(FlowPermission.FILESYSTEM) File arg0, String arg1);
+        boolean accept(File arg0, String arg1);
 }
 
 class FileOutputStream extends OutputStream {
 //Added by SOM
-    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) String arg0) throws FileNotFoundException;
-    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) String arg0, boolean arg1) throws FileNotFoundException;
-    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) File arg0) throws FileNotFoundException;
-    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) File arg0, boolean arg1) throws FileNotFoundException;
-    FileOutputStream(@Sink(FlowPermission.FILESYSTEM) FileDescriptor arg0);
-    void write(@Sink(FlowPermission.FILESYSTEM) int arg0) @Sink(FlowPermission.FILESYSTEM);
-    void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM) [] arg0) @Sink(FlowPermission.FILESYSTEM);
-    void write(@Sink(FlowPermission.FILESYSTEM) byte @Sink(FlowPermission.FILESYSTEM) [] arg0, int arg1, int arg2) @Sink(FlowPermission.FILESYSTEM);
-    void close() @Sink(FlowPermission.FILESYSTEM);
-    @Sink(FlowPermission.FILESYSTEM) FileDescriptor getFD() @Sink(FlowPermission.FILESYSTEM);
-    @Sink(FlowPermission.FILESYSTEM) FileChannel getChannel() @Sink(FlowPermission.FILESYSTEM);
-    protected void finalize() @Sink(FlowPermission.FILESYSTEM);
+    FileOutputStream(@Sink(FILESYSTEM) String arg0) throws FileNotFoundException;
+    FileOutputStream(@Sink(FILESYSTEM) String arg0, boolean arg1) throws FileNotFoundException;
+    FileOutputStream(File arg0) throws FileNotFoundException;
+    FileOutputStream(File arg0, boolean arg1) throws FileNotFoundException;
+    FileOutputStream(@Sink(FILESYSTEM) FileDescriptor arg0);
+    void write(@Sink(FILESYSTEM) int arg0) @Sink(FILESYSTEM);
+    void write(@Sink(FILESYSTEM) byte @Sink(FILESYSTEM) [] arg0) @Sink(FILESYSTEM);
+    void write(@Sink(FILESYSTEM) byte @Sink(FILESYSTEM) [] arg0, int arg1, int arg2) @Sink(FILESYSTEM);
+    void close() @Sink(FILESYSTEM);
+    @Sink(FILESYSTEM) FileDescriptor getFD() @Sink(FILESYSTEM);
+    @Sink(FILESYSTEM) FileChannel getChannel() @Sink(FILESYSTEM);
+    protected void finalize() @Sink(FILESYSTEM);
 }
 
 @PolyFlowReceiver
@@ -19935,6 +20220,12 @@ class InputStreamReader extends Reader {
     int read(char[] arg0, int arg1, int arg2) throws IOException;
     boolean ready() throws IOException;
     void close() throws IOException;
+}
+
+@PolyFlowReceiver
+class ObjectInput{
+        Object readObject() throws ClassNotFoundException,IOException;
+        void close() throws IOException;
 }
 
 @PolyFlowReceiver
@@ -19988,6 +20279,12 @@ class ObjectInputStream$GetField {
     float get(String arg0, float arg1) throws IOException;
     double get(String arg0, double arg1) throws IOException;
     Object get(String arg0, Object arg1) throws IOException;
+}
+
+@PolyFlowReceiver
+class ObjectOutput{
+        void close() throws IOException;
+        void writeObject(Object arg0) throws IOException;
 }
 
 @PolyFlowReceiver
@@ -20052,6 +20349,11 @@ class OutputStream implements Closeable, Flushable {
     void write(byte[] arg0, int arg1, int arg2) throws IOException;
     void flush() throws IOException;
     void close() throws IOException;
+}
+
+@PolyFlowReceiver
+class ObjectStreamClass{
+        String getName();
 }
 
 @PolyFlowReceiver
@@ -20162,6 +20464,18 @@ class PrintWriter extends Writer {
     PrintWriter append(CharSequence arg0);
     PrintWriter append(CharSequence arg0, int arg1, int arg2);
     PrintWriter append(char arg0);
+}
+
+@PolyFlowReceiver
+class RandomAccessFile{
+        void writeBytes(@Sink(FILESYSTEM) String arg0) throws IOException;
+        void close() throws IOException;
+        RandomAccessFile(String arg0, String arg1) throws FileNotFoundException;
+        void write(@Sink(FILESYSTEM) byte[] arg0) throws IOException;
+        void seek(long arg0) throws IOException;
+        void writeInt(@Sink(FILESYSTEM) int arg0) throws IOException;
+        void writeShort(@Sink(FILESYSTEM) int arg0) throws IOException;
+        void setLength(long arg0) throws IOException;
 }
 
 @PolyFlowReceiver
@@ -20681,6 +20995,7 @@ interface CharSequence {
 }
 
 class Class{
+		String getCanonicalName();
         Constructor<T> getConstructor(Class<?>[] parameterTypes) throws NoSuchMethodException,SecurityException;
         Field getDeclaredField(String name) throws NoSuchFieldException,SecurityException;
         String getSimpleName();
@@ -20692,6 +21007,7 @@ class Class{
         T newInstance() throws InstantiationException,IllegalAccessException;
          String getName();
             boolean isInstance(Object arg0);
+            static Class<?> forName(String arg0, boolean arg1, ClassLoader arg2) throws ClassNotFoundException;
 }
 
 @PolyFlowReceiver
@@ -20873,44 +21189,44 @@ class Integer extends Number implements Comparable<Integer> {
     final @Source(FlowPermission.LITERAL) int MIN_VALUE;
     final @Source(FlowPermission.LITERAL) int MAX_VALUE;
     final @Source(FlowPermission.LITERAL) int SIZE;
-    static @PolyFlow String toString(int arg0, int arg1);
-    static @PolyFlow String toHexString(int arg0);
-    static @PolyFlow String toOctalString(int arg0);
-    static @PolyFlow String toBinaryString(int arg0);
-    static @PolyFlow String toString(int arg0);
-    static @PolyFlow int parseInt(String arg0, int arg1) throws NumberFormatException;
-    static @PolyFlow int parseInt(String arg0) throws NumberFormatException;
-    static @PolyFlow Integer valueOf(String arg0, int arg1) throws NumberFormatException;
-    static @PolyFlow Integer valueOf(String arg0) throws NumberFormatException;
-    @PolyFlow
+
+    static String toString(int arg0, int arg1);
+    static String toHexString(int arg0);
+    static String toOctalString(int arg0);
+    static String toBinaryString(int arg0);
+    static String toString(int arg0);
+    static int parseInt(String arg0, int arg1) throws NumberFormatException;
+    static int parseInt(String arg0) throws NumberFormatException;
+    static Integer valueOf(String arg0, int arg1) throws NumberFormatException;
+    static Integer valueOf(String arg0) throws NumberFormatException;
     static Integer valueOf(int arg0);
     Integer(int arg0);
-    @PolyFlow Integer(String arg0) throws NumberFormatException;
-    @PolyFlow byte byteValue();
-    @PolyFlow short shortValue();
-    @PolyFlow int intValue();
-    @PolyFlow long longValue();
-    @PolyFlow float floatValue();
-    @PolyFlow double doubleValue();
-    @PolyFlow String toString();
-    @PolyFlow int hashCode();
-    @PolyFlow boolean equals(Object arg0);
-    static @PolyFlow Integer getInteger(String arg0);
-    static @PolyFlow Integer getInteger(String arg0, int arg1);
-    static @PolyFlow Integer getInteger(String arg0, Integer arg1);
-    static @PolyFlow Integer decode(String arg0) throws NumberFormatException;
-    @PolyFlow int compareTo(Integer arg0);
-    static @PolyFlow int compare(int arg0, int arg1);
-    static @PolyFlow int highestOneBit(int arg0);
-    static @PolyFlow int lowestOneBit(int arg0);
-    static @PolyFlow int numberOfLeadingZeros(int arg0);
-    static @PolyFlow int numberOfTrailingZeros(int arg0);
-    static @PolyFlow int bitCount(int arg0);
-    static @PolyFlow int rotateLeft(int arg0, int arg1);
-    static @PolyFlow int rotateRight(int arg0, int arg1);    
-    static @PolyFlow int reverse(int arg0);    
-    static @PolyFlow int signum(int arg0);    
-    static @PolyFlow int reverseBytes(int arg0);
+    Integer(String arg0) throws NumberFormatException;
+    byte byteValue();
+    short shortValue();
+    int intValue();
+    long longValue();
+    float floatValue();
+    double doubleValue();
+    String toString();
+    int hashCode();
+    boolean equals(Object arg0);
+    static Integer getInteger(String arg0);
+    static Integer getInteger(String arg0, int arg1);
+    static Integer getInteger(String arg0, Integer arg1);
+    static Integer decode(String arg0) throws NumberFormatException;
+    int compareTo(Integer arg0);
+    static int compare(int arg0, int arg1);
+    static int highestOneBit(int arg0);
+    static int lowestOneBit(int arg0);
+    static int numberOfLeadingZeros(int arg0);
+    static int numberOfTrailingZeros(int arg0);
+    static int bitCount(int arg0);
+    static int rotateLeft(int arg0, int arg1);
+    static int rotateRight(int arg0, int arg1);
+    static int reverse(int arg0);
+    static int signum(int arg0);
+    static int reverseBytes(int arg0);
 }
 
 @PolyFlowReceiver
@@ -21158,6 +21474,9 @@ class ProcessBuilder$Redirect {
     int hashCode();
 }
 
+class Runnable{
+        void run();
+}
 
 @PolyFlowReceiver
 class Runtime {
@@ -22191,6 +22510,7 @@ class Buffer{
    int remaining();
    @PolyFlowReceiver
    Buffer flip();
+   boolean hasRemaining();
 }
 
 @PolyFlowReceiver
@@ -22470,6 +22790,10 @@ class DecimalFormat extends NumberFormat {
     void setCurrency(Currency arg0);
     RoundingMode getRoundingMode();
     void setRoundingMode(RoundingMode arg0);
+}
+
+class MessageFormat{
+        static String format(String arg0, Object[] arg1);
 }
 
 @PolyFlowReceiver
@@ -22802,7 +23126,6 @@ class BitSet implements Cloneable, Serializable {
     String toString();
 }
 
-@PolyFlowReceiver
 class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
 //Added by pbsf
     final @Source(FlowPermission.LITERAL) int ERA;
@@ -22811,7 +23134,6 @@ class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
     final @Source(FlowPermission.LITERAL) int WEEK_OF_YEAR;
     final @Source(FlowPermission.LITERAL) int WEEK_OF_MONTH;
     final @Source(FlowPermission.LITERAL) int DATE;
-    final @Source(FlowPermission.LITERAL) int DAY_OF_MONTH;
     final @Source(FlowPermission.LITERAL) int DAY_OF_YEAR;
     final @Source(FlowPermission.LITERAL) int DAY_OF_WEEK;
     final @Source(FlowPermission.LITERAL) int DAY_OF_WEEK_IN_MONTH;
@@ -23108,6 +23430,13 @@ class EnumSet<E> extends AbstractSet<E> implements Cloneable, Serializable {
     static <E> EnumSet<E> of(E arg0, E[] arg1);
     static <E> EnumSet<E> range(E arg0, E arg1);
     EnumSet<E> clone();
+}
+
+@PolyFlowReceiver
+class Formatter{
+        Formatter format(String arg0, Object[] arg1);
+        Formatter(Appendable arg0);
+        String toString();
 }
 
 @PolyFlowReceiver
@@ -23563,13 +23892,13 @@ class Random implements Serializable {
     void setSeed(long arg0);
     protected int next(int arg0);
     void nextBytes(byte[] arg0);
-    int nextInt() @Source(FlowPermission.RANDOM);
-    int nextInt(int arg0) @Source(FlowPermission.RANDOM);
-    long nextLong() @Source(FlowPermission.RANDOM);
-    boolean nextBoolean() @Source(FlowPermission.RANDOM);
-    float nextFloat() @Source(FlowPermission.RANDOM);
-    double nextDouble() @Source(FlowPermission.RANDOM);
-    double nextGaussian() @Source(FlowPermission.RANDOM);
+    @Source(RANDOM) int nextInt() ;
+   @Source(RANDOM)  int nextInt(int arg0) ;
+    @Source(RANDOM) long nextLong() ;
+   @Source(RANDOM)  boolean nextBoolean() ;
+    @Source(RANDOM) float nextFloat() ;
+    @Source(RANDOM) double nextDouble();
+    @Source(RANDOM) double nextGaussian();
 }
 
 @PolyFlowReceiver
@@ -23749,6 +24078,20 @@ class StringTokenizer implements Enumeration<Object> {
     boolean hasMoreElements();
     Object nextElement();
     int countTokens();
+}
+
+class Timer{
+        void schedule(TimerTask arg0, long arg1, long arg2);
+        Timer();
+        void schedule(TimerTask arg0, long arg1);
+        void cancel();
+        void scheduleAtFixedRate(TimerTask arg0, long arg1, long arg2);
+}
+
+class TimerTask{
+        protected TimerTask();
+        void run();
+        boolean cancel();
 }
 
 @PolyFlowReceiver
@@ -24270,9 +24613,23 @@ class Matcher{
 }
 
 package java.util.zip;
+
+@PolyFlowReceiver
+class DeflaterOutputStream{
+        void close() throws IOException;
+}
+
 @PolyFlowReceiver
 class GZIPInputStream{
             GZIPInputStream(InputStream arg0) throws IOException;
+            void close() throws IOException;
+            
+}
+
+@PolyFlowReceiver
+class GZIPOutputStream{
+        void write(byte[] arg0, int arg1, int arg2) throws IOException;
+        GZIPOutputStream(OutputStream arg0) throws IOException;
 }
 
 @PolyFlowReceiver
@@ -24382,6 +24739,13 @@ class CipherInputStream{
         CipherInputStream(InputStream arg0, Cipher arg1);
         void close() throws IOException;
 }
+
+class Mac{
+@PolySource @PolySink byte [] doFinal( @PolySource @PolySink byte [] text);
+	void init(Key arg0) throws InvalidKeyException;
+        static @Source(ACCESS_NETWORK_STATE) Mac getInstance(String arg0) throws NoSuchAlgorithmException;
+}
+
 package android.net;
 class NetworkInfo{
         int getType();
@@ -24405,10 +24769,11 @@ class SecretKeySpec{
 }
 package javax.xml.parsers;
 
+@PolyFlowReceiver
 class DocumentBuilder{
     Document newDocument();
-    @PolyFlowReceiver
     Document parse(File arg0);
+    Document parse(InputStream arg0) throws SAXException,IOException;
 }
 class DocumentBuilderFactory{
     DocumentBuilder newDocumentBuilder();
@@ -24429,6 +24794,7 @@ class ConnectionReuseStrategy{
 class Header{
             String getValue();
             HeaderElement[] getElements() throws ParseException;
+            String getName();
 }
 class HeaderElement{
             String getName();
@@ -24448,6 +24814,7 @@ class HttpEntity{
             InputStream getContent() throws IOException,IllegalStateException;
             void writeTo(@PolySink OutputStream arg0) throws IOException;
             long getContentLength();
+            void consumeContent() throws IOException;
 }
 class HttpEntityEnclosingRequest{
             HttpEntity getEntity();
@@ -24463,6 +24830,7 @@ class HttpMessage{
             boolean containsHeader(String arg0);
             void addHeader(String arg0, String arg1);
             Header[] getHeaders(String arg0);
+            Header[] getAllHeaders();
 }
 class HttpRequestInterceptor{
             void process(HttpRequest arg0, HttpContext arg1) throws HttpException,IOException;
@@ -24492,6 +24860,7 @@ class TokenIterator{
 package org.apache.http.conn;
 class ClientConnectionManager{
             ClientConnectionRequest requestConnection(HttpRoute arg0, Object arg1);
+            void shutdown();
 }
 class ConnectionKeepAliveStrategy{
             long getKeepAliveDuration(HttpResponse arg0, HttpContext arg1);
@@ -24563,6 +24932,14 @@ class UrlEncodedFormEntity {
 
 package org.apache.http.client.methods;
 
+class HttpGet{
+            HttpGet(@Sink(INTERNET) String uri);
+}
+
+class HttpHead{
+        HttpHead(@Sink(INTERNET) String uri);
+}
+
 class HttpPost {
 
     HttpPost(@Sink(FlowPermission.INTERNET) String postUrl);
@@ -24574,19 +24951,22 @@ class HttpPost {
 
 }
 
+
+class HttpPut{
+            HttpPut(@Sink(INTERNET) String uri);
+}
+
 class HttpUriRequest{
             void abort() throws UnsupportedOperationException;
             boolean isAborted();
 }
-class HttpPut{
-            HttpPut(@Sink(INTERNET) String uri);
-}
-class HttpGet{
-            HttpGet(@Sink(INTERNET) String uri);
-}
 
 
 package org.apache.http.client;
+
+class CookieStore{
+        @Source(FlowPermission.INTERNET) List<Cookie> getCookies();
+}
 
 class HttpClient {
 
@@ -24595,6 +24975,11 @@ class HttpClient {
     HttpResponse execute(@Sink(FlowPermission.INTERNET) HttpUriRequest request);
                 @Source(FlowPermission.INTERNET) HttpParams getParams();
 
+}
+
+package org.apache.http.cookie;
+class Cookie{
+        @Source(FlowPermission.INTERNET) String getValue();
 }
 
 package org.apache.http.impl;
@@ -24619,6 +25004,14 @@ class AbstractHttpClient{
             void addRequestInterceptor(HttpRequestInterceptor itcp);
             protected ConnectionReuseStrategy createConnectionReuseStrategy();
             void addResponseInterceptor(HttpResponseInterceptor itcp);
+        ClientConnectionManager getConnectionManager();
+        HttpResponse execute(HttpUriRequest request) throws IOException,ClientProtocolException;
+        <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler) throws IOException,ClientProtocolException;
+        CookieStore getCookieStore();
+}
+
+class BasicResponseHandler{
+        BasicResponseHandler();
 }
 
 class DefaultHttpClient extends AbstractHttpClient {
@@ -24646,6 +25039,11 @@ class DefaultHttpClient extends AbstractHttpClient {
 }
 
 package org.apache.http.message;
+
+class AbstractHttpMessage{
+        void addHeader(String name, String value);
+}
+
 class BasicNameValuePair{
         BasicNameValuePair(String name, @PolySource @PolySink String value);
 }
@@ -24666,9 +25064,27 @@ class HttpParams{
 }
 class HttpProtocolParams{
             static void setUserAgent(HttpParams params, String useragent);
+        	static void setHttpElementCharset(HttpParams params, String charset);
+       	 	static void setContentCharset(HttpParams params, String charset);
+        	static void setVersion(HttpParams params, ProtocolVersion version);
+        	static void setUseExpectContinue(HttpParams params, boolean b);
 }
 
-package org.w3c.dom;
+package org.htmlcleaner;
+class HtmlCleaner{
+        TagNode clean(InputStream in) throws IOException;
+        HtmlCleaner();
+        TagNode clean(String htmlContent);
+}
+class TagNode{
+        TagNode getParent();
+        StringBuffer getText();
+        List getChildren();
+        TagNode findElementByName(String findName, boolean isRecursive);
+        TagNode[] getElementsByName(String findName, boolean isRecursive);
+        String getAttributeByName(String attName);
+        Object[] evaluateXPath(String xPathExpression) throws XPatherException;
+}package org.w3c.dom;
 
 class NodeList {
     @PolySource @PolySink Node item(@Sink(FlowPermission.CONDITIONAL) int index) @PolySource @PolySink;
@@ -24677,6 +25093,7 @@ class NodeList {
 
 }
 
+@PolyFlowReceiver
 class Node {
 
     @PolyFlowReceiver
@@ -24692,6 +25109,10 @@ class Node {
     Node appendChild(Node arg0) throws DOMException;
 
     void normalize();
+    
+    String getNodeValue() throws DOMException;
+    
+    NodeList getChildNodes();
 }
 
 class Document{

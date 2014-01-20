@@ -6,7 +6,7 @@ class AsyncTaskLoader {
 void cancelLoadInBackground();
 //Called on the main thread to abort a load in progress.
 
-void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Loader's state into the given stream.
 
 boolean isLoadInBackgroundCanceled();
@@ -645,19 +645,6 @@ ContentProviderOperation.Builder withYieldAllowed(boolean yieldAllowed);
 }
 
 
-class ContentResolver{
-        //Uri insert(Uri url, ContentValues values);
-        //int delete(Uri url, String where, String[] selectionArgs);
-        ContentProviderResult[] applyBatch(String authority, ArrayList<ContentProviderOperation> operations) throws RemoteException,OperationApplicationException;
-        //Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
-        //int update(Uri uri, ContentValues values, String where, String[] selectionArgs);
-                  int delete(@Sink(DATABASE) Uri url, @Sink(DATABASE) String where, @Sink(DATABASE) String[] selectionArgs);
-            int update(@Sink(DATABASE) Uri uri, @Sink(DATABASE) ContentValues values, @Sink(DATABASE) String where, @Sink(DATABASE) String[] selectionArgs);
-            void notifyChange(Uri uri, ContentObserver observer);
-            @Source(DATABASE) Uri insert(@Sink(DATABASE) Uri url, @Sink(DATABASE) ContentValues values);
-            @Source(DATABASE) Cursor query(@Sink(DATABASE) Uri uri, @Sink(DATABASE) String[] projection, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String sortOrder);
-}
-
 class Context {
 abstract boolean bindService(Intent service, ServiceConnection conn, int flags);
 //Connect to an application service, creating it if needed.
@@ -791,8 +778,8 @@ abstract @Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences(@Sin
 
 final @Source(LITERAL) String getString(int resId);
 //Return a localized string from the application's package's default string table.
-
-final @Source(LITERAL) String getString(int resId, Object... formatArgs);
+@PolyFlow
+final String getString(int resId, @PolySource @PolySink Object... formatArgs);
 //Return a localized formatted string from the application's package's default string table, substituting the format arguments as defined in Formatter and format(String, Object...);.
 
 abstract Object getSystemService(String name);
@@ -1603,7 +1590,7 @@ String dataToString(D data);
 void deliverResult(D data);
 //Sends the result of the load to the registered listener.
 
-void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, @PolyFlowReceiver PrintWriter writer, String[] args);
+void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Loader's state into the given stream.
 //CSH: filedescriptor
 
@@ -1984,7 +1971,7 @@ class ResolveInfo {
 int describeContents();
 //Describe the kinds of special objects contained in this Parcelable's marshalled representation.
 
-void dump(@PolyFlowReceiver Printer pw, String prefix);
+void dump(Printer pw, String prefix);
 
 final int getIconResource();
 //Return the icon resource identifier to use for this match.
@@ -2142,7 +2129,8 @@ XmlResourceParser getLayout(int id);
 @Source(LITERAL) String getQuantityString(int id, int quantity);
 //Return the string value associated with a particular resource ID for a particular numerical quantity.
 
-@Source(LITERAL) String getQuantityString(int id, int quantity, Object... formatArgs);
+@PolyFlow
+String getQuantityString(int id, int quantity, @PolySource @PolySink Object... formatArgs);
 //Return the string value associated with a particular resource ID for a particular numerical quantity, substituting the format arguments as defined in Formatter and format(String, Object...);. It will be stripped of any styled text information.
 
 @Source(LITERAL) CharSequence getQuantityText(int id, int quantity);
@@ -2163,7 +2151,8 @@ XmlResourceParser getLayout(int id);
 @Source(LITERAL) String getString(int id);
 //Return the string value associated with a particular resource ID. It will be stripped of any styled text information.
 
-@Source(LITERAL) String getString(int id, Object... formatArgs);
+@PolyFlow
+final String getString(int resId, @PolySource @PolySink Object... formatArgs);
 //Return the string value associated with a particular resource ID, substituting the format arguments as defined in Formatter and format(String, Object...);. It will be stripped of any styled text information.
 
 @Source(LITERAL) String[] getStringArray(int id);

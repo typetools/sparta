@@ -5,10 +5,12 @@ import sparta.checkers.quals.Sink;
 import static sparta.checkers.quals.FlowPermission.*;
 
 @FromByteCode
+//:: error: (forbidden.flow)   
 class TestImplicitConstructor { }
 
 class TestNoParamConstructor {
     @FromByteCode
+    //:: error: (forbidden.flow)   
     TestNoParamConstructor() { }
 }
 @FromByteCode
@@ -40,7 +42,6 @@ class ConstructorAnnotation {
         // Sanity check -- OK
         //:: error: (argument.type.incompatible)
         TestParamConstructor.test("test");
-
         // OK -- Conservative flow on parameter
         //:: error: (argument.type.incompatible)  :: error: (forbidden.flow)
         new TestParamConstructor("hello");

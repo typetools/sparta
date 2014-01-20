@@ -13,11 +13,14 @@ import sparta.checkers.quals.FlowPermission;
  * bottom type?
  */
 class TestLiteralDefaults {
-  //:: error: (forbidden.flow)
+    
+    //:: error: (forbidden.flow)
     @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) float ntop;
     @PolySource @PolySink float npoly;
-  //:: error: (forbidden.flow)
-   @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) float nbot;
+
+    //:: error: (forbidden.flow)
+    @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) float nbot;
+  
     float nunqual;
 
     void testNumeric() {
@@ -36,6 +39,7 @@ class TestLiteralDefaults {
 
     //:: error: (forbidden.flow)
     @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) Object rbot;
+
     Object runqual;
 
     void testReference() {
@@ -60,8 +64,10 @@ class TestLiteralDefaults {
     //:: error: (forbidden.flow)
     @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) char ctop;
     @PolySource @PolySink char cpoly;
-  //:: error: (forbidden.flow)
+ 
+    //:: error: (forbidden.flow)
     @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) char cbot;
+
     char cunqual;
 
     void testChar() {

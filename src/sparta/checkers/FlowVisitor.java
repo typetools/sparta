@@ -35,6 +35,7 @@ import javax.lang.model.type.TypeKind;
 
 import sparta.checkers.quals.DependentPermissions;
 import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.MayRequiredPermissions;
 import sparta.checkers.quals.RequiredPermissions;
 import sparta.checkers.quals.Sink;
@@ -58,9 +59,15 @@ import com.sun.tools.javac.tree.TreeInfo;
 public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
 
     private boolean topAllowed = false;
+    
+    private ParameterizedFlowPermission ANY;
+    private ParameterizedFlowPermission CONDITIONAL;
 
     public FlowVisitor(BaseTypeChecker checker) {
         super(checker);
+        
+        ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
+        CONDITIONAL = new ParameterizedFlowPermission(FlowPermission.CONDITIONAL);
     }
 @Override
 protected FlowAnnotatedTypeFactory createTypeFactory() {
@@ -70,8 +77,8 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
     public boolean isValidUse(AnnotatedDeclaredType declarationType,
             AnnotatedDeclaredType useType, Tree tree) {
 
-        return areFlowsValid(useType, tree);
-        // && areFlowsValid(declarationType);
+        return areFlowsValid(declarationType, tree) && areFlowsValid(useType, tree);
+       
     }
 
     @Override
@@ -86,9 +93,11 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
 
     private void ensureConditionalSink(ExpressionTree tree) {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
-        final Set<FlowPermission> sinks = Flow.getSinks(type);
-        if (!sinks.contains(FlowPermission.ANY) && !sinks.contains(FlowPermission.CONDITIONAL)) {
-            checker.report(Result.failure("condition.flow", Flow.getSources(type).toString()), tree);
+        final Set<ParameterizedFlowPermission> sinks = Flow.getSinks(type);
+        if (!ParameterizedFlowPermission.coarsePermissionExists(ANY, sinks) && 
+            !ParameterizedFlowPermission.coarsePermissionExists(CONDITIONAL, sinks)) {
+            checker.report(Result.failure("condition.flow", type.getAnnotations()), tree);
+
         }
     }
 
@@ -188,8 +197,8 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
         treeReceiver.addAnnotations(rcv.getEffectiveAnnotations());
 
         if (!atypeFactory.getTypeHierarchy().isSubtype(treeReceiver, methodReceiver)) {
-            Set<FlowPermission> sinks = Flow.getSinks(methodReceiver);
-            Set<FlowPermission> sources = Flow.getSources(treeReceiver);
+            Set<ParameterizedFlowPermission> sinks = Flow.getSinks(methodReceiver);
+            Set<ParameterizedFlowPermission> sources = Flow.getSources(treeReceiver);
             Flow flow = new Flow(sources, sinks);
             atypeFactory.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
             atypeFactory.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
@@ -204,8 +213,8 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
         super.commonAssignmentCheck(varType, valueType, valueTree, errorKey,
                 isLocalVariableAssignement);
 
-        Set<FlowPermission> sinks = Flow.getSinks(varType);
-        Set<FlowPermission> sources = Flow.getSources(valueType);
+        Set<ParameterizedFlowPermission> sinks = Flow.getSinks(varType);
+        Set<ParameterizedFlowPermission> sources = Flow.getSources(valueType);
         Flow flow = new Flow(sources, sinks);
         atypeFactory.getFlowAnalizer().getAssignmentFlows().add(flow);
         boolean success = atypeFactory.getTypeHierarchy().isSubtype(valueType, varType);

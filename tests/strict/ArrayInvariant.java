@@ -1,5 +1,5 @@
-import static sparta.checkers.quals.FlowPermission.*;
 import sparta.checkers.quals.*;
+import static sparta.checkers.quals.FlowPermission.*;
 
 class ArrayInvariant {
 

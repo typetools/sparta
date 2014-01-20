@@ -171,7 +171,7 @@ static void distanceBetween(double startLatitude, double startLongitude, double 
 float distanceTo(Location dest);
 //Returns the approximate distance in meters between this location and the given location.
 
-void dump(@PolyFlowReceiver Printer pw, String prefix);
+void dump( Printer pw, String prefix);
 
 float getAccuracy();
 //Get the estimated accuracy of this location, in meters.

@@ -18,7 +18,7 @@ TextToSpeech(Context context, OnInitListener listener);
 boolean isSpeaking();
 //Checks whether the TTS engine is busy speaking.
 
-int speak(@Sink(SPEAKER) String text, int queueMode, HashMap<String,String> params);
+int speak(@Sink(SPEAKER) String text, int queueMode, HashMap<@Sink(CONDITIONAL) String, @Sink(CONDITIONAL) String> params);
 //Speaks the string using the specified queuing strategy and speech parameters.
 }
 

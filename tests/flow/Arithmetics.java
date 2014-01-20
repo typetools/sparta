@@ -14,7 +14,7 @@ class Arithmetics {
     }
 
     void m() {
-
+        
         int i = 5;
         if(i > 0) {
         }
