@@ -27,15 +27,31 @@
 
     <!-- Determine newest android platform installed on the machine -->
     <path id="android.latest.platform">
-        <last>
+      <last>
             <sort>
-                <dirset dir="${android.home}/platforms" includes="*" />
+	      <!-- 
+		   This doesn't handle the sort like one would expect. android-8 would be a higher version than android-19. 
+		   Thus we restrict it to a range we know is lexicographically correct.  
+	      -->
+                <dirset dir="${android.home}/platforms" includes="android-??" />
             </sort>
-        </last>
+      </last>
     </path>
 
-    <property name="android.jar" value="${android.home}/platforms/${android.version}/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar" />
-    <property name="latestAndroid.jar" value="${toString:android.latest.platform}/android.jar:${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar" />
+    <!-- require at least android 15 -->
+    <fail message="SPARTA! requires and Android SDK, version ${android.version.min} or higher.">
+      <condition>
+	<not> <matches pattern="${android.version.allowed}" string="${toString:android.latest.platform}"/> </not>
+      </condition>
+    </fail>
+
+    <!-- cross platform paths for android -->
+    <path id="libs.android">
+      <pathelement location="${toString:android.latest.platform}/android.jar"/>
+      <pathelement location="${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar"/>
+    </path>
+    
+    <pathconvert property="latestAndroid.jar" refid="libs.android"/>
 
     <property name="src" value="src"/>
     <property name="flow.stubfiles" value="src/sparta/checkers/flowstubfiles"/>
@@ -152,10 +168,19 @@ ${build.version} of the 'javac.jar' library."/>
             </path>
         </pathconvert>
 
+	<!-- since we are manually forming the path, we need to make it cross platform -->
+	<path id="libs.external.deps">
+	  <pathelement location="${junit.jar}"/>
+	  <pathelement location="${gson.jar}"/>
+	  <pathelement location="${latestAndroid.jar}"/>
+	</path>
+
+	<pathconvert property="libs.external.deps.platformpath" refid="libs.external.deps"/>
+
         <java fork="true"
               failonerror="true"
               jar="${checkers.lib}">
-            <arg line="-cp ${junit.jar}:${gson.jar}:${latestAndroid.jar}" />
+            <arg line="-cp ${libs.external.deps.platformpath}" />
             <arg value="-g"/>
             <arg line="-sourcepath ${src}"/>
             <arg line="-d ${build}"/>
@@ -179,10 +204,18 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <target name="validate-stubfiles" depends="build" description="Show stubfile errors">
+      
+      <path id="libs.stubfiletests">
+	<pathelement location="${build}"/>
+	<pathelement location="${latestAndroid.jar}"/>
+      </path>
+      
+      <pathconvert property="libs.stubfiletests.deps" refid="libs.stubfiletests"/>
+
         <java fork="true"
             jar="${checkers.lib}"
             failonerror="true" >
-            <arg line="-cp ${build}:${latestAndroid.jar}" />
+            <arg line="-cp ${libs.stubfiletests.deps}" />
             <arg value="-g"/>
             <arg line="-d ${build}"/>
             <arg line="-AstubWarnIfNotFound"/>
@@ -236,7 +269,7 @@ ${build.version} of the 'javac.jar' library."/>
                 <pathelement path="${gson.jar}"/>
                 <pathelement path="${build.tests}"/>
                 <pathelement path="${build}"/>
-                <pathelement path="${android.jar}"/>
+                <pathelement path="${latestAndroid.jar}"/>
                 <pathelement path="${stub.jar}"/>
             </classpath>
 
@@ -306,7 +339,7 @@ ${build.version} of the 'javac.jar' library."/>
         </antcall>
     </target>
     <target name="tags" depends="prep" description="Create Emacs TAGS table">
-        <exec executable="/bin/sh" failonerror="true">
+        <exec executable="sh" failonerror="true">
             <arg value="-c"/>
             <arg value="etags `find . \( -name jdk \) -prune -o -name '*.java' -print | sort-directory-order`"/>
         </exec>
