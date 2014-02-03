@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProcessEpicOutput {
     public static void main(String[] args) {
-        readFile(args[0],args[1]);
+        readFile(args[0],args[1],args[2]);
     }
 
     static File componentMap;
@@ -41,9 +41,9 @@ public class ProcessEpicOutput {
         }
     }
 
-    static void readFile(String epiccOutputPath, String filtersPath) {
+    static void readFile(String epiccOutputPath, String filtersPath, String cmPath) {
         filters = new ArrayList<IntentFilter>();
-        file = new File("ComponentMap");
+        file = new File(cmPath);
         if(file.exists()) {
             file.delete();
         }
