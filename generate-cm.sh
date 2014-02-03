@@ -2,19 +2,23 @@
 
 
 function downloadJars {
-    mkdir cmTemp
-    cd cmTemp
+    mkdir download-libs
+    cd download-libs
 	mkdir epicc
 	mkdir dare
 
 #Dare.jar
+	echo Downloading Dare
+	echo ===========================================
 	if [[ "$OSTYPE" == "linux-gnu" ]]; then
 		curl -o dare.tgz -L	https://github.com/dare-android/platform_dalvik/releases/download/dare-1.1.0/dare-1.1.0-linux.tgz
+		tar zxvf dare.tgz -C dare/
 		cp -R dare/dare-1.1.0-linux/. dare/ 
 		rm -rf dare/dare-1.1.0-linux/*
 		rmdir dare/dare-1.1.0-linux
 	elif [[ "$OSTYPE" == "darwin"* ]]; then
 		curl -o dare.tgz -L	https://github.com/dare-android/platform_dalvik/releases/download/dare-1.1.0/dare-1.1.0-macos.tgz
+		tar zxvf dare.tgz -C dare/
 		cp -R dare/dare-1.1.0-macos/. dare/
 		rm -rf dare/dare-1.1.0-macos/*
 		rmdir dare/dare-1.1.0-macos
@@ -22,14 +26,19 @@ function downloadJars {
     	echo "This script only runs in linux or mac OS"
     	exit 0
 	fi
-	tar zxvf dare.tgz -C dare/
+	echo ===========================================
 #Epicc.jar
+    echo Downloading Epicc
+	echo ===========================================
 	curl http://siis.cse.psu.edu/epicc/downloads/epicc-0.1.tgz -o epicc.tgz
-	tar zxvf epicc.tgz -C epicc/
+	echo ===========================================
+    tar zxvf epicc.tgz -C epicc/
 
 #APKParser.jar
+	echo Downloading APKParser
+	echo ===========================================
 	curl https://xml-apk-parser.googlecode.com/files/APKParser.jar -o APKParser.jar
-
+    echo ===========================================
 	cd ..
 
 }
@@ -41,25 +50,29 @@ APPSFOLDER=$3
 EPICCOUTPUT=epiccoutput.txt
 FILTERS=filters
 
+if [ "$CMPATH" == "" ]; then
+	CMPATH=$(dirname ${APKPATH})/Componentmap
+fi
+
 TARGETFOLDER_WITH_EXTENSION=$(basename $APKPATH)
 TARGETFOLDER=${TARGETFOLDER_WITH_EXTENSION%.apk}
-RETARGETEDPATH=./cmTemp/epicc/retargeted/"$TARGETFOLDER"
+RETARGETEDPATH=./download-libs/epicc/retargeted/"$TARGETFOLDER"
 
-if [ ! -d ./bin ]; then
+if [ ! -d ./build ]; then
 	echo Please build SPARTA first.
 	exit 0
 fi
 
-if [ ! -f ./cmTemp/APKParser.jar ]; then
+if [ ! -f ./download-libs/APKParser.jar ]; then
 	downloadJars	
 fi
 
 
 #Using DARE
-./cmTemp/dare/dare -d ../epicc/ "$APKPATH"
+./download-libs/dare/dare -d ../epicc/ "$APKPATH"
 
 #Using Epicc
-java -jar ./cmTemp/epicc/epicc-0.1.jar -apk "$APKPATH" -android-directory "$RETARGETEDPATH" -cp ./cmTemp/epicc/android.jar -icc-study ./cmTemp/epicc/ > ./cmTemp/epicc/"$EPICCOUTPUT"
+java -jar ./download-libs/epicc/epicc-0.1.jar -apk "$APKPATH" -android-directory "$RETARGETEDPATH" -cp ./download-libs/epicc/android.jar -icc-study ./download-libs/epicc/ > ./download-libs/epicc/"$EPICCOUTPUT"
 
 #Epicc output generated.
 
@@ -72,13 +85,13 @@ do
 	if [[ "$apkFile" == *\.apk ]]
 	then
 		echo $apkFile
-    	java -jar ./cmTemp/APKParser.jar "$apkFile" > AndroidManifestTemp.xml
-		java -cp bin/ sparta.checkers.intents.componentmap.ProcessAndroidManifest AndroidManifestTemp.xml "$FILTERS"
+    	java -jar ./download-libs/APKParser.jar "$apkFile" > AndroidManifestTemp.xml
+		java -cp build/ sparta.checkers.intents.componentmap.ProcessAndroidManifest AndroidManifestTemp.xml "$FILTERS"
 	    rm -f AndroidManifestTemp.xml
 	fi
 done
 
 #Processing epicc output with filters
 
-java -cp bin/ sparta.checkers.intents.componentmap.ProcessEpicOutput ./cmTemp/epicc/"$EPICCOUTPUT" "$FILTERS" "$CMPATH"
+java -cp build/ sparta.checkers.intents.componentmap.ProcessEpicOutput ./download-libs/epicc/"$EPICCOUTPUT" "$FILTERS" "$CMPATH"
 
