@@ -1,4 +1,4 @@
-package sparta.checkers.intents;
+package sparta.checkers.intents.componentmap;
 import java.util.ArrayList;
 import java.util.List;
 

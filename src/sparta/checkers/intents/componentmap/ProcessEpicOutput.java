@@ -1,4 +1,4 @@
-package sparta.checkers.intents;
+package sparta.checkers.intents.componentmap;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,9 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ProcessEpicOutput {
     public static void main(String[] args) {
-        readFile("epic_output.txt","filters");
+        readFile(args[0],args[1]);
     }
 
     static File componentMap;

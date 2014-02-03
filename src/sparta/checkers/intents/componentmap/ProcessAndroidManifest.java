@@ -1,9 +1,11 @@
-package sparta.checkers.intents;
+package sparta.checkers.intents.componentmap;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.SAXParser;
@@ -12,16 +14,17 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+
 public class ProcessAndroidManifest {
 
     public static void main(String[] args) throws Exception {
         SAXParserFactory parserFactor = SAXParserFactory.newInstance();
         SAXParser parser = parserFactor.newSAXParser();
         SAXHandler handler = new SAXHandler();
-        parser.parse(ClassLoader.getSystemResourceAsStream("AndroidManifest.xml"),
-                handler);
+        FileInputStream fis = new FileInputStream(args[0]);
+        parser.parse(fis,handler);
 
-        File file = new File("filters");
+        File file = new File(args[1]);
         if (!file.exists()) {
             try {
                 file.createNewFile();
