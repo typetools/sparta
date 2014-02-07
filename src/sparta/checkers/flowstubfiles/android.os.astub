@@ -196,127 +196,127 @@ boolean containsKey(String key);
 int describeContents();
 //Report the nature of this Parcelable's contents
 
-Object get(String key);
+@Source(BUNDLE) Object get(String key);
 //Returns the entry with the given key as an object.
 
-boolean getBoolean(String key);
+ @Source(BUNDLE) boolean getBoolean(String key);
 //Returns the value associated with the given key, or false if no mapping of the desired type exists for the given key.
 
-boolean getBoolean(String key, boolean defaultValue);
+ @Source(BUNDLE) boolean getBoolean(String key, boolean defaultValue);
 //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
 
-boolean[] getBooleanArray(String key);
+ @Source(BUNDLE) boolean[] getBooleanArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-Bundle getBundle(String key);
+ @Source(BUNDLE) Bundle getBundle(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-byte getByte(String key);
+ @Source(BUNDLE) byte getByte(String key);
 //Returns the value associated with the given key, or (byte); 0 if no mapping of the desired type exists for the given key.
 
-Byte getByte(String key, byte defaultValue);
+ @Source(BUNDLE) Byte getByte(String key, byte defaultValue);
 //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
 
-byte[] getByteArray(String key);
+ @Source(BUNDLE) byte[] getByteArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-char getChar(String key);
+ @Source(BUNDLE) char getChar(String key);
 //Returns the value associated with the given key, or (char); 0 if no mapping of the desired type exists for the given key.
 
-char getChar(String key, char defaultValue);
+ @Source(BUNDLE) char getChar(String key, char defaultValue);
 //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
 
-char[] getCharArray(String key);
+ @Source(BUNDLE) char[] getCharArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-CharSequence getCharSequence(String key, CharSequence defaultValue);
+ @Source(BUNDLE) CharSequence getCharSequence(String key, CharSequence defaultValue);
 //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
 
-CharSequence getCharSequence(String key);
+ @Source(BUNDLE) CharSequence getCharSequence(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-CharSequence[] getCharSequenceArray(String key);
+ @Source(BUNDLE) CharSequence[] getCharSequenceArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-ArrayList<CharSequence> getCharSequenceArrayList(String key);
+ArrayList< @Source(BUNDLE) CharSequence> getCharSequenceArrayList(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
 ClassLoader getClassLoader();
 //Return the ClassLoader currently associated with this Bundle.
 
-double getDouble(String key);
+ @Source(BUNDLE) double getDouble(String key);
 //Returns the value associated with the given key, or 0.0 if no mapping of the desired type exists for the given key.
 
-double getDouble(String key, double defaultValue);
+ @Source(BUNDLE) double getDouble(String key, double defaultValue);
 //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
 
-double[] getDoubleArray(String key);
+ @Source(BUNDLE) double[] getDoubleArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-float getFloat(String key);
+ @Source(BUNDLE) float getFloat(String key);
 //Returns the value associated with the given key, or 0.0f if no mapping of the desired type exists for the given key.
 
-float getFloat(String key, float defaultValue);
+ @Source(BUNDLE) float getFloat(String key, float defaultValue);
 //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
 
-float[] getFloatArray(String key);
+ @Source(BUNDLE) float[] getFloatArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-int getInt(String key, int defaultValue);
+ @Source(BUNDLE) int getInt(String key, int defaultValue);
 //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
 
-int getInt(String key);
+ @Source(BUNDLE) int getInt(String key);
 //Returns the value associated with the given key, or 0 if no mapping of the desired type exists for the given key.
 
-int[] getIntArray(String key);
+ @Source(BUNDLE) int[] getIntArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-ArrayList<Integer> getIntegerArrayList(String key);
+ @Source(BUNDLE) ArrayList<Integer> getIntegerArrayList(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-long getLong(String key);
+ @Source(BUNDLE) long getLong(String key);
 //Returns the value associated with the given key, or 0L if no mapping of the desired type exists for the given key.
 
-long getLong(String key, long defaultValue);
+ @Source(BUNDLE) long getLong(String key, long defaultValue);
 //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
 
-long[] getLongArray(String key);
+ @Source(BUNDLE) long[] getLongArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-<T extends Parcelable> T getParcelable(String key);
+<T extends  @Source(BUNDLE)  Parcelable> T getParcelable(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-Parcelable[] getParcelableArray(String key);
+ @Source(BUNDLE) Parcelable[] getParcelableArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-<T extends Parcelable> ArrayList<T> getParcelableArrayList(String key);
+<T extends  @Source(BUNDLE) Parcelable> ArrayList<T> getParcelableArrayList(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-Serializable getSerializable(String key);
+ @Source(BUNDLE) Serializable getSerializable(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-short getShort(String key);
+ @Source(BUNDLE) short getShort(String key);
 //Returns the value associated with the given key, or (short); 0 if no mapping of the desired type exists for the given key.
 
-short getShort(String key, short defaultValue);
+ @Source(BUNDLE) short getShort(String key, short defaultValue);
 //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
 
-short[] getShortArray(String key);
+ @Source(BUNDLE) short[] getShortArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-<T extends Parcelable> SparseArray<T> getSparseParcelableArray(String key);
+<T extends  @Source(BUNDLE) Parcelable> SparseArray<T> getSparseParcelableArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-String getString(String key, String defaultValue);
+ @Source(BUNDLE) String getString(String key, String defaultValue);
 //Returns the value associated with the given key, or defaultValue if no mapping of the desired type exists for the given key.
 
-String getString(String key);
+ @Source(BUNDLE) String getString(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-String[] getStringArray(String key);
+ @Source(BUNDLE) String[] getStringArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-ArrayList<String> getStringArrayList(String key);
+ArrayList< @Source(BUNDLE) String> getStringArrayList(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
 boolean hasFileDescriptors();
@@ -325,97 +325,97 @@ boolean hasFileDescriptors();
 boolean isEmpty();
 //Returns true if the mapping of this Bundle is empty, false otherwise.
 
-Set<String> keySet();
+Set< @Source(BUNDLE) String> keySet();
 //Returns a Set containing the Strings used as keys in this Bundle.
 
-void putAll(Bundle map);
+void putAll(@Sink(BUNDLE) Bundle map);
 //Inserts all mappings from the given Bundle into this Bundle.
 
-void putBoolean(String key, boolean value);
+void putBoolean(@Sink(BUNDLE) String key, @Sink(BUNDLE) boolean value);
 //Inserts a Boolean value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putBooleanArray(String key, boolean[] value);
+void putBooleanArray(@Sink(BUNDLE) String key, @Sink(BUNDLE) boolean[] value);
 //Inserts a boolean array value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putBundle(String key, Bundle value);
+void putBundle(@Sink(BUNDLE) String key, @Sink(BUNDLE) Bundle value);
 //Inserts a Bundle value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putByte(String key, byte value);
+void putByte(@Sink(BUNDLE) String key,@Sink(BUNDLE)  byte value);
 //Inserts a byte value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putByteArray(String key, byte[] value);
+void putByteArray(@Sink(BUNDLE) String key, @Sink(BUNDLE) byte[] value);
 //Inserts a byte array value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putChar(String key, char value);
+void putChar(@Sink(BUNDLE) String key, @Sink(BUNDLE) char value);
 //Inserts a char value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putCharArray(String key, char[] value);
+void putCharArray(@Sink(BUNDLE) String key, @Sink(BUNDLE) char[] value);
 //Inserts a char array value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putCharSequence(String key, CharSequence value);
+void putCharSequence(@Sink(BUNDLE) String key, @Sink(BUNDLE) CharSequence value);
 //Inserts a CharSequence value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putCharSequenceArray(String key, CharSequence[] value);
+void putCharSequenceArray(@Sink(BUNDLE) String key, @Sink(BUNDLE) CharSequence[] value);
 //Inserts a CharSequence array value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putCharSequenceArrayList(String key, ArrayList<CharSequence> value);
+void putCharSequenceArrayList(@Sink(BUNDLE) String key, ArrayList<@Sink(BUNDLE) CharSequence> value);
 //Inserts an ArrayList value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putDouble(String key, double value);
+void putDouble(@Sink(BUNDLE) String key, @Sink(BUNDLE) double value);
 //Inserts a double value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putDoubleArray(String key, double[] value);
+void putDoubleArray(@Sink(BUNDLE) String key, @Sink(BUNDLE) double[] value);
 //Inserts a double array value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putFloat(String key, float value);
+void putFloat(@Sink(BUNDLE) String key, @Sink(BUNDLE) float value);
 //Inserts a float value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putFloatArray(String key, float[] value);
+void putFloatArray(@Sink(BUNDLE) String key, @Sink(BUNDLE) float[] value);
 //Inserts a float array value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putInt(String key, int value);
+void putInt(@Sink(BUNDLE) String key, @Sink(BUNDLE) int value);
 //Inserts an int value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putIntArray(String key, int[] value);
+void putIntArray(@Sink(BUNDLE) String key, @Sink(BUNDLE) int[] value);
 //Inserts an int array value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putIntegerArrayList(String key, ArrayList<Integer> value);
+void putIntegerArrayList(@Sink(BUNDLE) String key, ArrayList<@Sink(BUNDLE) Integer> value);
 //Inserts an ArrayList value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putLong(String key, long value);
+void putLong(@Sink(BUNDLE) String key, @Sink(BUNDLE) long value);
 //Inserts a long value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putLongArray(String key, long[] value);
+void putLongArray(@Sink(BUNDLE) String key, @Sink(BUNDLE) long[] value);
 //Inserts a long array value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putParcelable(String key, Parcelable value);
+void putParcelable(@Sink(BUNDLE) String key, @Sink(BUNDLE) Parcelable value);
 //Inserts a Parcelable value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putParcelableArray(String key, Parcelable[] value);
+void putParcelableArray(@Sink(BUNDLE) String key, @Sink(BUNDLE) Parcelable[] value);
 //Inserts an array of Parcelable values into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putParcelableArrayList(String key, ArrayList<? extends Parcelable> value);
+void putParcelableArrayList(@Sink(BUNDLE) String key, ArrayList<? extends @Sink(BUNDLE) Parcelable> value);
 //Inserts a List of Parcelable values into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putSerializable(String key, Serializable value);
+void putSerializable(@Sink(BUNDLE) String key, @Sink(BUNDLE) Serializable value);
 //Inserts a Serializable value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putShort(String key, short value);
+void putShort(@Sink(BUNDLE) String key, @Sink(BUNDLE) short value);
 //Inserts a short value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putShortArray(String key, short[] value);
+void putShortArray(@Sink(BUNDLE) String key,@Sink(BUNDLE)  short[] value);
 //Inserts a short array value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putSparseParcelableArray(String key, SparseArray<? extends Parcelable> value);
+void putSparseParcelableArray(@Sink(BUNDLE) String key, SparseArray<? extends @Sink(BUNDLE) Parcelable> value);
 //Inserts a SparceArray of Parcelable values into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putString(String key, String value);
+void putString(@Sink(BUNDLE) String key, @Sink(BUNDLE) String value);
 //Inserts a String value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putStringArray(String key, String[] value);
+void putStringArray(@Sink(BUNDLE) String key, @Sink(BUNDLE) String[] value);
 //Inserts a String array value into the mapping of this Bundle, replacing any existing value for the given key.
 
-void putStringArrayList(String key, ArrayList<String> value);
+void putStringArrayList(@Sink(BUNDLE) String key, ArrayList<@Sink(BUNDLE) String> value);
 //Inserts an ArrayList value into the mapping of this Bundle, replacing any existing value for the given key.
 
 void readFromParcel(Parcel parcel);
@@ -430,7 +430,7 @@ void setClassLoader(ClassLoader loader);
 int size();
 //Returns the number of mappings contained in this Bundle.
 
-synchronized String toString();
+synchronized @Source(BUNDLE) String toString();
 //Returns a string containing a concise, human-readable description of this object.
 
 void writeToParcel(Parcel parcel, int flags);
