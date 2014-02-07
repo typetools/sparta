@@ -449,17 +449,17 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             super(factory);
         }
         @Override
-        public Void visitArray(AnnotatedArrayType type, Element p) {
+        public Void visitArray(AnnotatedArrayType type, Void p) {
             completePolicyFlows(type);
             return super.visitArray(type, p);
         }
         @Override
-        public Void visitDeclared(AnnotatedDeclaredType type, Element p) {
+        public Void visitDeclared(AnnotatedDeclaredType type, Void p) {
             completePolicyFlows(type);
             return super.visitDeclared(type, p);
         }
         @Override
-        public Void visitExecutable(AnnotatedExecutableType t, Element elem) {
+        public Void visitExecutable(AnnotatedExecutableType t, Void elem) {
             completePolicyFlows(t);
 
             //Don't call super because it skips the receiver type for some reason
@@ -471,18 +471,18 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             return null;
         }
         @Override
-        public Void visitIntersection(AnnotatedIntersectionType type, Element p) {
+        public Void visitIntersection(AnnotatedIntersectionType type, Void p) {
             completePolicyFlows(type);
             return super.visitIntersection(type, p);
         }
 
         @Override
-        public Void visitPrimitive(AnnotatedPrimitiveType type, Element p) {
+        public Void visitPrimitive(AnnotatedPrimitiveType type, Void p) {
             completePolicyFlows(type);
             return super.visitPrimitive(type, p);
         }
         @Override
-        public Void visitTypeVariable(AnnotatedTypeVariable type, Element p) {
+        public Void visitTypeVariable(AnnotatedTypeVariable type, Void p) {
             //Calling type.getEffectiveAnnotations() expands
             //the upper bounds causing an infinite loop for types like
             // E extends Enum<E>
@@ -493,12 +493,12 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             return r;
         }
         @Override
-        public Void visitUnion(AnnotatedUnionType type, Element p) {
+        public Void visitUnion(AnnotatedUnionType type, Void p) {
             completePolicyFlows(type);
             return super.visitUnion(type, p);
         }
         @Override
-        public Void visitWildcard(AnnotatedWildcardType type, Element p) {
+        public Void visitWildcard(AnnotatedWildcardType type, Void p) {
             //Calling type.getEffectiveAnnotations() expands
             //the upper bounds causing an infinite loop for types like
             // ? extends Enum<?>
