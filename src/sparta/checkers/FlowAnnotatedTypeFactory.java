@@ -10,6 +10,7 @@ import checkers.basetype.BaseAnnotatedTypeFactory;
 import checkers.basetype.BaseTypeChecker;
 import checkers.quals.DefaultLocation;
 import checkers.quals.PolyAll;
+import checkers.reflection.ReflectionResolutionAnnotatedTypeFactory;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
@@ -67,7 +68,7 @@ import com.sun.source.tree.Tree;
 import com.sun.source.tree.TypeCastTree;
 import com.sun.source.tree.UnaryTree;
 
-public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
+public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeFactory {
 
     protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
     protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK;
