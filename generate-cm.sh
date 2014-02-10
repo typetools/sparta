@@ -59,8 +59,7 @@ TARGETFOLDER=${TARGETFOLDER_WITH_EXTENSION%.apk}
 RETARGETEDPATH=./download-libs/epicc/retargeted/"$TARGETFOLDER"
 
 if [ ! -d ./build ]; then
-	echo Please build SPARTA first.
-	exit 0
+	ant
 fi
 
 if [ ! -f ./download-libs/APKParser.jar ]; then
