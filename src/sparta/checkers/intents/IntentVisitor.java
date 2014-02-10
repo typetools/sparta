@@ -366,10 +366,20 @@ public class IntentVisitor extends FlowVisitor {
             // If gets here, its not a getExtra nor putExtra.
             return;
         }
-        // The first element from putExtra and getExtra calls are keys.
-        String keyName = node.getArguments().get(0).toString();
-        // Removing the "" from the key. "key" -> key
-        keyName = keyName.substring(1, keyName.length() - 1);
+        // The first element from putExtra and getExtra calls are keys
+        // Get StringVal AnnotationMirror and determine whether the key has a constant value
+        AnnotationMirror stringValAnno = atypeFactory.getAnnotationMirror(node.getArguments().get(0), 
+            checkers.value.quals.StringVal.class);
+
+        String keyName = null;
+        if (stringValAnno != null) {                                            
+            List<String> keys = AnnotationUtils.getElementValueArray(stringValAnno, "value", String.class, true);                            
+            // TODO: Handle keys with multiple StringVal entries
+            keyName = keys.get(0);
+        } else {
+            // TODO: Handle keys which are not constants
+        }
+
         ExpressionTree receiver = TreeUtils.getReceiverTree(node);
         AnnotatedTypeMirror receiverType = atypeFactory.getAnnotatedType(receiver);
         if (IntentUtils.isPutExtraMethod(node)) {
