@@ -7,18 +7,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class ProcessEpicOutput {
-    public static void main(String[] args) {
-        readFile(args[0],args[1],args[2]);
-    }
+   
 
     static File componentMap;
     static List<IntentFilter> filters;
     static File file;
     static FileWriter fw;
+    static HashMap<String,Boolean> linesToWrite;
     
     static void matchFilters(String component, String filter, String filtersPath) {
         BufferedReader bufferedReaderFilters = null;
@@ -29,7 +29,10 @@ public class ProcessEpicOutput {
             while(currentLine != null) {
                 String[] filterToComponent = currentLine.split(" ");
                 if(filterToComponent[0].equals(filter)) {
-                    fw.write(component + " -> " + filterToComponent[2] + '\n');
+                    String line = component + " -> " + filterToComponent[2];
+                    if(!linesToWrite.containsKey(line)) {
+                        linesToWrite.put(line, true);
+                    }
                 }
                 currentLine = bufferedReaderFilters.readLine();
             }
@@ -49,8 +52,6 @@ public class ProcessEpicOutput {
         }
         BufferedReader bufferedReaderEpicc = null;
         try {
-            file.createNewFile();
-            fw = new FileWriter(file.getAbsoluteFile());
             bufferedReaderEpicc = new BufferedReader(new FileReader(epiccOutputPath));
             String originalLine = bufferedReaderEpicc.readLine().trim();
             while (originalLine != null && !originalLine.startsWith("The following ICC")) {
@@ -66,13 +67,21 @@ public class ProcessEpicOutput {
                         int index = component.indexOf('$');
                         component = component.substring(0,index);
                     }
-                    bufferedReaderEpicc.readLine();
+                    String nextLine = bufferedReaderEpicc.readLine();
+                    if(nextLine != null && nextLine.startsWith("Type:")) {
+                        while(nextLine != null && !nextLine.startsWith("Intent Filter")) {
+                            nextLine = bufferedReaderEpicc.readLine();
+                        }
+                    }
                     String filter = processFilter(bufferedReaderEpicc.readLine()
-                            .trim(), "");
+                            .trim(), "", component);
                     matchFilters(component, filter, filtersPath);
                 }
                 originalLine = bufferedReaderEpicc.readLine();
             }
+            file.createNewFile();
+            fw = new FileWriter(file.getAbsoluteFile());
+            writeLines();
             bufferedReaderEpicc.close();
             fw.close();
         } catch (FileNotFoundException e) {
@@ -91,35 +100,41 @@ public class ProcessEpicOutput {
      * @return (act,cat1|cat2,data)
      */
 
-    static String processFilter(String filter, String output) {
+    static String processFilter(String filter, String output, String component) {
         if (filter == null || filter.length() <= 1)
             return "(" + output + ")";
-        if (filter.startsWith("Action")) {
+        if (filter.startsWith("Action") || filter.startsWith("Actions")) {
             filter = filter.substring(7, filter.length()).trim();
             String action = filter.split(",")[0];
             output = action;
             return processFilter(filter.substring(action.length()+1).trim(),
-                    output);
+                    output,component);
         } else if (filter.startsWith("Categories")) {
             filter = filter.substring(10, filter.length()).trim();
             String categories = filter.split("]")[0];
             categories = categories.substring(1).replace(',', '|');
             output = output + categories + ",";
             return processFilter(filter.substring(categories.length() + 2)
-                    .trim(), output);
+                    .trim(), output,component);
         } else if (filter.startsWith("Data")) {
             filter = filter.substring(5, filter.length()).trim();
             String data = filter.split(",")[0];
             output = output + data + ",";
-            return processFilter(filter.substring(data.length()).trim(), output);
+            return processFilter(filter.substring(data.length()).trim(), output,component);
         } else if (filter.startsWith("Package")) {
             filter = filter.substring(8, filter.length()).trim();
             String package_ = filter.split(" ")[0];
             filter = filter.substring(package_.length()).trim();
-            return processFilter(filter, output);
+            filter = filter.replace("/", ".");
+            return processFilter(filter, output,component);
         } else if (filter.startsWith("Class")) {
             filter = filter.substring(6, filter.length()).trim();
             String clazz = filter.split(" ")[0];
+            clazz = clazz.substring(0,clazz.length()-1);
+            String line = component + " -> " + clazz;
+            if(!linesToWrite.containsKey(line)) {
+                linesToWrite.put(line, true);
+            }
             return clazz;
         } else if (filter.startsWith("Extras")) {
             return "(" + output + ")";
@@ -128,6 +143,22 @@ public class ProcessEpicOutput {
         }else {
             throw new RuntimeException("Unrecognized String: " + filter);
         }
+    }
+    
+    static void writeLines() {
+        try {
+            for(String line : linesToWrite.keySet()) {
+                fw.write(line);
+                fw.write("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void main(String[] args) {
+        linesToWrite = new HashMap<String,Boolean>();
+        readFile(args[0],args[1],args[2]);
     }
 
 }

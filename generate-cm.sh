@@ -51,7 +51,7 @@ EPICCOUTPUT=epiccoutput.txt
 FILTERS=filters
 
 if [ "$CMPATH" == "" ]; then
-	CMPATH=$(dirname ${APKPATH})/Componentmap
+	CMPATH=$(dirname ${APKPATH})/component-map
 fi
 
 TARGETFOLDER_WITH_EXTENSION=$(basename $APKPATH)

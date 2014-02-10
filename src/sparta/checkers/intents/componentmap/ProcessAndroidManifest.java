@@ -62,6 +62,7 @@ class SAXHandler extends DefaultHandler {
     Component comp = null;
     IntentFilter intentFilter = null;
     String content;
+    String pckg = "";
 
     @Override
     // Triggered when the start of tag is found.
@@ -69,17 +70,39 @@ class SAXHandler extends DefaultHandler {
             Attributes attributes) throws SAXException {
 
         switch (qName) {
+        
+        case "manifest":
+            pckg = attributes.getValue("package");
+            break;
+            
+        case "activity-alias":
+            comp = new Component();
+            comp.name = attributes.getValue("android:targetActivity");
+            if(comp.name.startsWith(".")) {
+                comp.name = pckg + comp.name;
+            }
+            break;
+        
         case "activity":
             comp = new Component();
             comp.name = attributes.getValue("android:name");
+            if(comp.name.startsWith(".")) {
+                comp.name = pckg + comp.name;
+            }
             break;
         case "service":
             comp = new Component();
             comp.name = attributes.getValue("android:name");
+            if(comp.name.startsWith(".")) {
+                comp.name = pckg + comp.name;
+            }
             break;
         case "receiver":
             comp = new Component();
             comp.name = attributes.getValue("android:name");
+            if(comp.name.startsWith(".")) {
+                comp.name = pckg + comp.name;
+            }
             break;
         case "intent-filter":
             intentFilter = new IntentFilter();
@@ -90,7 +113,7 @@ class SAXHandler extends DefaultHandler {
         case "category":
             String category = attributes.getValue("android:name");
             if(!category.equals("android.intent.category.DEFAULT") && !category.equals("android.intent.category.LAUNCHER")) {
-                intentFilter.addCategory(attributes.getValue("android:name"));
+                intentFilter.addCategory(category);
             }
             break;
         case "data":
@@ -117,6 +140,9 @@ class SAXHandler extends DefaultHandler {
                 data = mime + "," + data;
             }
             intentFilter.addData(data);
+            break;
+            
+        default:
             break;
         }
     }
