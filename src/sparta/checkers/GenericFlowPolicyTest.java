@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,13 +16,12 @@ import org.junit.runners.Parameterized;
 public class GenericFlowPolicyTest extends CheckerTest {
 
     private final File testDir;
-    private final String[] checkerOptionsWPolicy;
+    private final List<String> checkerOptionsWPolicy;
 
     public GenericFlowPolicyTest(final String parentDir, final String[] optionsWithoutPolicyFile) {
         super(FlowChecker.class, parentDir, optionsWithoutPolicyFile);
         this.testDir = new File(parentDir);
-        this.checkerOptionsWPolicy = Arrays.copyOf(optionsWithoutPolicyFile,
-                optionsWithoutPolicyFile.length + 1);
+        this.checkerOptionsWPolicy = new ArrayList<String>(Arrays.asList(optionsWithoutPolicyFile));
     }
 
     @Test
@@ -29,8 +29,7 @@ public class GenericFlowPolicyTest extends CheckerTest {
         test(checkerName, checkerOptions, new File(testDir, "WithoutPolicyTest.java"));
 
         final File policyFile = new File(testDir, "flow.policy");
-        checkerOptionsWPolicy[checkerOptionsWPolicy.length - 1] = "-AflowPolicy="
-                + policyFile.getAbsolutePath();
+        checkerOptionsWPolicy.add("-AflowPolicy=" + policyFile.getAbsolutePath());
 
         test(checkerName, checkerOptionsWPolicy, new File(testDir, "WithPolicyTest.java"));
     }

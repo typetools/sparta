@@ -3,8 +3,9 @@ package sparta.checkers;
 import checkers.util.test.ParameterizedCheckerTest;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -60,7 +61,6 @@ public class AndroidTests {
         public AndroidReportCheckerTests(File testFile) {
             super(testFile, AndroidReportChecker.class, "sparta.checkers", "-Anomsgtext",
                     "-Astubs=apiusage.astub:suspicious.astub");
-
         }
 
         @Parameters
@@ -68,13 +68,12 @@ public class AndroidTests {
             return testFiles("report");
         }
     }
-    
+
     public static class IntentCheckerTests extends ParameterizedCheckerTest {
         public IntentCheckerTests(File testFile) {
             super(testFile, IntentChecker.class, "sparta.checkers", "-Anomsgtext");
-//           Uncomment the line below to see the full errors in the JUnit
-            // tests
-//             super(testFile, IntentChecker.class.getName(), "sparta.checkers");
+            // Uncomment the line below to see the full errors in the JUnit tests
+            // super(testFile, IntentChecker.class.getName(), "sparta.checkers");
         }
 
         private IntentCheckerTests(File testFile, String... checkerOptions) {
@@ -90,30 +89,21 @@ public class AndroidTests {
         protected void test(final File testFile) {
             final File flowPolicyFile = getFlowPolicy(testFile);
             final File componentMapFile = getComponentMap(testFile);
-            final String[] optionsWithPf;
+            final List<String> optionsWithPf = new ArrayList<>(checkerOptions);
 
-            if(flowPolicyFile.exists() && componentMapFile.exists()) {
-            	optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 3);
-                optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy="
-                        + flowPolicyFile.getAbsolutePath();
+            if (flowPolicyFile.exists() && componentMapFile.exists()) {
+                optionsWithPf.add("-AflowPolicy=" + flowPolicyFile.getAbsolutePath());
                 if(componentMapFile.exists()) {
-                	optionsWithPf[optionsWithPf.length - 2] = "-AcomponentMap="
-                            + componentMapFile.getAbsolutePath();
+                    optionsWithPf.add("-AcomponentMap=" + componentMapFile.getAbsolutePath());
                 }
-                optionsWithPf[optionsWithPf.length - 3] = "-AprintErrorStack";
+                optionsWithPf.add("-AprintErrorStack");
                 // AprintErrorStack
-            }
-            
-            else if (flowPolicyFile.exists()) {
-                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 2);
-                optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy="
-                        + flowPolicyFile.getAbsolutePath();
-                optionsWithPf[optionsWithPf.length - 2] = "-AprintErrorStack";
+            } else if (flowPolicyFile.exists()) {
+                optionsWithPf.add("-AflowPolicy=" + flowPolicyFile.getAbsolutePath());
+                optionsWithPf.add("-AprintErrorStack");
                 // AprintErrorStack
             } else {
-                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 1);
-                optionsWithPf[optionsWithPf.length - 1] = "-AprintErrorStack";
-
+                optionsWithPf.add("-AprintErrorStack");
             }
 
             // System.out.println("OPTIONS:\n" + join(optionsWithPf, " "));
@@ -134,7 +124,7 @@ public class AndroidTests {
         protected File getFlowPolicy(final File javaFile) {
             return getFile(javaFile, "Flowpolicy");
         }
-        
+
         protected File getComponentMap(final File javaFile) {
             return getFile(javaFile, "Componentmap");
         }
@@ -143,9 +133,8 @@ public class AndroidTests {
     public static class FlowCheckerTests extends ParameterizedCheckerTest {
         public FlowCheckerTests(File testFile) {
             super(testFile, FlowChecker.class, "sparta.checkers", "-Anomsgtext");
-//             Uncomment the line below to see the full errors in the JUnit
-            // tests
-//             super(testFile, FlowChecker.class, "sparta.checkers");
+            // Uncomment the line below to see the full errors in the JUnit tests
+            // super(testFile, FlowChecker.class, "sparta.checkers");
         }
 
         private FlowCheckerTests(File testFile, String... checkerOptions) {
@@ -160,19 +149,15 @@ public class AndroidTests {
         @Override
         protected void test(final File testFile) {
             final File flowPolicyFile = getFlowPolicy(testFile);
-            final String[] optionsWithPf;
+            final List<String> optionsWithPf = new ArrayList<>(checkerOptions);
 
             if (flowPolicyFile.exists()) {
-                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 2);
-                optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy="
-                        + flowPolicyFile.getAbsolutePath();
-                optionsWithPf[optionsWithPf.length - 2] = "-AprintErrorStack";
+                optionsWithPf.add("-AflowPolicy=" + flowPolicyFile.getAbsolutePath());
+                optionsWithPf.add("-AprintErrorStack");
 
                 // AprintErrorStack
             } else {
-                optionsWithPf = Arrays.copyOf(checkerOptions, checkerOptions.length + 1);
-                optionsWithPf[optionsWithPf.length - 1] = "-AprintErrorStack";
-
+                optionsWithPf.add("-AprintErrorStack");
             }
 
             // System.out.println("OPTIONS:\n" + join(optionsWithPf, " "));
@@ -194,6 +179,7 @@ public class AndroidTests {
             return getFile(javaFile, "Flowpolicy");
         }
     }
+
     public static class FlowStrictTests extends FlowCheckerTests {
 
         public FlowStrictTests(File testFile) {
@@ -208,6 +194,7 @@ public class AndroidTests {
             return testFiles("strict");
         }
     }
+
     public static class StubfileTests extends FlowCheckerTests {
         public StubfileTests(File testFile) {
             super(testFile, "-Anomsgtext", "-AstubWarnIfNotFound");
@@ -222,35 +209,26 @@ public class AndroidTests {
         protected void test(final File testFile) {
             final File flowPolicyFile = getFlowPolicy(testFile);
             final File stubFile = getStubfile(testFile);
-            final String[] optionsWithPf;
-
-            final int length = checkerOptions.length;
+            final List<String> optionsWithPf = new ArrayList<>(checkerOptions);
 
             if (flowPolicyFile.exists() && !stubFile.exists()) {
-                optionsWithPf = Arrays.copyOf(checkerOptions, length + 2);
-                optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy="
-                        + flowPolicyFile.getAbsolutePath();
-                optionsWithPf[optionsWithPf.length - 2] = "-AprintErrorStack";
+                optionsWithPf.add("-AflowPolicy=" + flowPolicyFile.getAbsolutePath());
+                optionsWithPf.add("-AprintErrorStack");
 
                 // AprintErrorStack
             } else if (!flowPolicyFile.exists() && stubFile.exists()) {
-                optionsWithPf = Arrays.copyOf(checkerOptions, length + 2);
-                optionsWithPf[optionsWithPf.length - 1] = "-Astubs=" + stubFile.getAbsolutePath();
-                optionsWithPf[optionsWithPf.length - 2] = "-AprintErrorStack";
+                optionsWithPf.add("-Astubs=" + stubFile.getAbsolutePath());
+                optionsWithPf.add("-AprintErrorStack");
 
                 // AprintErrorStack
             } else if (flowPolicyFile.exists() && stubFile.exists()) {
-                optionsWithPf = Arrays.copyOf(checkerOptions, length + 3);
-                optionsWithPf[optionsWithPf.length - 1] = "-AflowPolicy="
-                        + flowPolicyFile.getAbsolutePath();
-                optionsWithPf[optionsWithPf.length - 2] = "-Astubs=" + stubFile.getAbsolutePath();
-                optionsWithPf[optionsWithPf.length - 3] = "-AprintErrorStack";
+                optionsWithPf.add("-AflowPolicy=" + flowPolicyFile.getAbsolutePath());
+                optionsWithPf.add("-Astubs=" + stubFile.getAbsolutePath());
+                optionsWithPf.add("-AprintErrorStack");
 
                 // AprintErrorStack
             } else {
-                optionsWithPf = Arrays.copyOf(checkerOptions, length + 1);
-                optionsWithPf[optionsWithPf.length - 1] = "-AprintErrorStack";
-
+                optionsWithPf.add("-AprintErrorStack");
             }
 
             // System.out.println("OPTIONS:\n" + join(optionsWithPf, " "));
