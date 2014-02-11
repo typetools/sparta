@@ -46,9 +46,9 @@ function downloadJars {
 
 APKPATH=$1
 CMPATH=$2
-APPSFOLDER=$3
 EPICCOUTPUT=epiccoutput.txt
-FILTERS=filters
+FILTERSMAPTEMP="$SPARTA_CODE"/filterstemp
+FILTERSMAP="$SPARTA_CODE"/src/sparta/checkers/intents/componentmap/filter-map
 
 if [ "$CMPATH" == "" ]; then
 	CMPATH=$(dirname ${APKPATH})/component-map
@@ -75,22 +75,21 @@ java -jar ./download-libs/epicc/epicc-0.1.jar -apk "$APKPATH" -android-directory
 
 #Epicc output generated.
 
-#Creating filters file. Intent Filters -> Components
-rm -f "$FILTERS"
-#For every .apk file in $APPSFOLDER: 
+rm -f "$FILTERSMAPTEMP" 
+cp "$FILTERSMAP" "$FILTERSMAPTEMP"
 
-for apkFile in "$APKPATH" "$APPSFOLDER"/*
-do
-	if [[ "$apkFile" == *\.apk ]]
+if [[ "$APKPATH" == *\.apk ]]
 	then
-		echo $apkFile
-    	java -jar ./download-libs/APKParser.jar "$apkFile" > AndroidManifestTemp.xml
-		java -cp build/ sparta.checkers.intents.componentmap.ProcessAndroidManifest AndroidManifestTemp.xml "$FILTERS"
+    	rm -f AndroidManifestTemp.xml
+		java -jar ./download-libs/APKParser.jar "$APKPATH" > AndroidManifestTemp.xml
+		java -cp build/ sparta.checkers.intents.componentmap.ProcessAndroidManifest AndroidManifestTemp.xml "$FILTERSMAPTEMP"
 	    rm -f AndroidManifestTemp.xml
-	fi
-done
-
+	else 
+		echo Input is not an .apk file.
+		exit 0
+fi
 #Processing epicc output with filters
 
-java -cp build/ sparta.checkers.intents.componentmap.ProcessEpicOutput ./download-libs/epicc/"$EPICCOUTPUT" "$FILTERS" "$CMPATH"
+java -cp build/ sparta.checkers.intents.componentmap.ProcessEpicOutput ./download-libs/epicc/"$EPICCOUTPUT" "$FILTERSMAPTEMP" "$CMPATH"
+rm -f $FILTERSMAPTEMP
 
