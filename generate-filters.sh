@@ -1,7 +1,11 @@
 #!/bin/bash
 APPSFOLDER=$1 #Path to .apks folder
 FILTERMAP=src/sparta/checkers/intents/componentmap/filter-map
-
+if [ -z "$1" ]
+	then
+	    echo No folder containing .apks supplied
+		exit 0
+fi
 cd $SPARTA_CODE
 rm -f $FILTERMAP
 
