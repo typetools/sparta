@@ -1,0 +1,9 @@
+package android.util;
+
+class SparseArray {
+E get(int key, E valueIfKeyNotFound);
+void put(int key, E value);
+void remove(int key);
+E valueAt(int index);
+void delete(int key);
+}

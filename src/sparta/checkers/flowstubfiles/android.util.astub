@@ -142,22 +142,22 @@ class Log {
 static int d(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg);
 //Send a DEBUG log message.
 
-static int d(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, Throwable tr);
+static int d(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, @Sink(WRITE_LOGS) Throwable tr);
 //Send a DEBUG log message and log the exception.
 
 static int e(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg);
 //Send an ERROR log message.
 
-static int e(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, Throwable tr);
+static int e(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, @Sink(WRITE_LOGS) Throwable tr);
 //Send a ERROR log message and log the exception.
 
-static String getStackTraceString(Throwable tr);
+static String getStackTraceString(@Sink(WRITE_LOGS) Throwable tr);
 //Handy function to get a loggable stack trace from a Throwable
 
 static int i(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg);
 //Send an INFO log message.
 
-static int i(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, Throwable tr);
+static int i(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, @Sink(WRITE_LOGS) Throwable tr);
 //Send a INFO log message and log the exception.
 
 static boolean isLoggable(String tag, int level);
@@ -166,25 +166,27 @@ static boolean isLoggable(String tag, int level);
 static int v(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg);
 //Send a VERBOSE log message.
 
-static int v(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, Throwable tr);
+static int v(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, @Sink(WRITE_LOGS) Throwable tr);
 //Send a VERBOSE log message and log the exception.
 
-static int w(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, Throwable tr);
+static int w(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, @Sink(WRITE_LOGS) Throwable tr);
 //Send a WARN log message and log the exception.
 
 static int w(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg);
 //Send a WARN log message.
 
-static int wtf(@Sink(WRITE_LOGS) String tag, Throwable tr);
+static int wtf(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) Throwable tr);
 //What a Terrible Failure: Report an exception that should never happen.
 
 static int wtf(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg);
 //What a Terrible Failure: Report a condition that should never happen.
 
-static int wtf(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, Throwable tr);
+static int wtf(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg, @Sink(WRITE_LOGS) Throwable tr);
 //What a Terrible Failure: Report an exception that should never happen.
 
 static int println(int priority, @Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg);
+
+static int w(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) Throwable tr);
 
 }
 class SparseArray{

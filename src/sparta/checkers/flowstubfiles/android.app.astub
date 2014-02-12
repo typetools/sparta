@@ -218,6 +218,9 @@ abstract ActionBar.Tab setText(@Sink(DISPLAY) CharSequence text);
 
 class Activity{
 
+void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, PrintWriter writer, String[] args);
+//Print the Fragments's state into the given stream.
+
 Activity();
 //init
 void addContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
@@ -1543,6 +1546,139 @@ String toString();
 
 void unregisterForContextMenu(View view);
 //Prevents a context menu to be shown for the given view.
+
+void setMenuVisibility(boolean menuVisible);
+
+void setUserVisibleHint(boolean isVisibleToUser);
+
+static Fragment instantiate(Context context, String fname);
+
+static Fragment instantiate(Context context, String fname, Bundle args);
+
+Resources getResources();
+
+void setIndex(int index, Fragment parent);
+
+void onViewCreated(View view, Bundle savedInstanceState);
+
+void onDestroyView();
+
+boolean isHidden();
+
+boolean isAdded();
+
+LayoutInflater getLayoutInflater(Bundle savedInstanceState);
+
+String toString();
+
+void onStop();
+
+void onStart();
+
+void onSaveInstanceState(Bundle outState);
+
+void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState);
+
+void onHiddenChanged(boolean hidden);
+
+void onDetach();
+
+void onAttach(Activity activity);
+
+View getView();
+
+View performCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+
+boolean isDetached();
+
+void instantiateChildFragmentManager();
+
+void onDestroy();
+
+View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+
+void onCreateOptionsMenu(Menu menu, MenuInflater inflater);
+
+void setInitialSavedState(SavedState state);
+
+void restoreViewState(Bundle savedInstanceState);
+
+void performStop();
+
+void performStart();
+
+void performReallyStop();
+
+void performDestroyView();
+
+void onResume();
+
+void onPrepareOptionsMenu(Menu menu);
+
+void onPause();
+
+void onOptionsMenuClosed(Menu menu);
+
+void onLowMemory();
+
+void onDestroyOptionsMenu();
+
+Animation onCreateAnimation(int transit, boolean enter, int nextAnim);
+
+boolean onContextItemSelected(MenuItem item);
+
+void onConfigurationChanged(Configuration newConfig);
+
+void onActivityResult(int requestCode, int resultCode, Intent data);
+
+boolean isInBackStack();
+
+void initState();
+
+void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args);
+
+void performSaveInstanceState(Bundle outState);
+
+void performResume();
+
+boolean performPrepareOptionsMenu(Menu menu);
+
+void performPause();
+
+void performOptionsMenuClosed(Menu menu);
+
+boolean performOptionsItemSelected(MenuItem item);
+
+void performLowMemory();
+
+void performDestroy();
+
+boolean performCreateOptionsMenu(Menu menu, MenuInflater inflater);
+
+void performCreate(Bundle savedInstanceState);
+
+boolean performContextItemSelected(MenuItem item);
+
+void performConfigurationChanged(Configuration newConfig);
+
+void performActivityCreated(Bundle savedInstanceState);
+
+void onViewStateRestored(Bundle savedInstanceState);
+
+Fragment findFragmentByWho(String who);
+
+static boolean isSupportFragmentClass(Context context, String fname);
+
+View getView();
+
+void onDetach();
+
+void onSaveInstanceState(Bundle outState);
+
+void onCreateOptionsMenu(Menu menu, MenuInflater inflater);
+
+void onAttach(Activity activity);
+
 }
 
 class FragmentManager {
@@ -1606,6 +1742,11 @@ abstract Fragment.SavedState saveFragmentInstanceState(Fragment f);
 }
 
 class FragmentTransaction {
+
+FragmentTransaction replace(int arg0, Fragment arg1, String arg2);
+FragmentTransaction setTransition(int arg0);
+FragmentTransaction addToBackStack(String arg0);
+
 FragmentTransaction replace(int arg0, @Sink(DISPLAY) Fragment arg1);
 
 abstract FragmentTransaction add(@Sink(DISPLAY) Fragment fragment, String tag);
@@ -1767,6 +1908,16 @@ void setListShownNoAnimation(boolean shown);
 void setSelection(int position);
 //Set the currently selected list item to the specified position with the adapter's data
 
+
+void ensureList();
+
+void setListShown(boolean shown);
+
+void setListShown(boolean shown, boolean animate);
+
+void setListAdapter(ListAdapter adapter);
+
+void onViewCreated(View view, Bundle savedInstanceState);
 
 }
 
