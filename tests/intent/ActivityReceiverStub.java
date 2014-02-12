@@ -1,10 +1,7 @@
 package tests;
 
-import static sparta.checkers.quals.FlowPermission.ACCESS_FINE_LOCATION;
-
-import static sparta.checkers.quals.FlowPermission.DISPLAY;
-import sparta.checkers.quals.IExtra;
-import sparta.checkers.quals.IntentExtras;
+import static sparta.checkers.quals.FlowPermission.*;
+import sparta.checkers.quals.*;
 import android.app.Activity;
 import android.content.Intent;
 
@@ -18,9 +15,10 @@ import android.content.Intent;
 public class ActivityReceiverStub extends Activity {
 
     @Override
-    public @IntentExtras({ @IExtra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) })
+    public @IntentExtras({ @IExtra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
     Intent getIntent() {
-        @SuppressWarnings("")@IntentExtras({ @IExtra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) })
+        @SuppressWarnings("")
+        @IntentExtras({ @IExtra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
         Intent output = super.getIntent();
         return output;
     }
