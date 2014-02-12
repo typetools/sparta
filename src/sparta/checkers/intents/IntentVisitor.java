@@ -7,6 +7,7 @@ package sparta.checkers.intents;
 import checkers.basetype.BaseTypeChecker;
 import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
+import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 import checkers.util.AnnotatedTypes;
 
@@ -28,6 +29,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
@@ -44,6 +46,7 @@ import sparta.checkers.quals.Source;
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
+import com.sun.source.tree.MethodTree;
 import com.sun.source.tree.Tree;
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.api.JavacScope;
@@ -81,7 +84,7 @@ public class IntentVisitor extends FlowVisitor {
             throw e;
         }
     }
-
+   
     @Override
     protected void checkMethodInvocability(AnnotatedExecutableType method,
             MethodInvocationTree node) {
@@ -371,22 +374,23 @@ public class IntentVisitor extends FlowVisitor {
         AnnotationMirror stringValAnno = atypeFactory.getAnnotationMirror(node.getArguments().get(0), 
             checkers.value.quals.StringVal.class);
 
-        String keyName = null;
         if (stringValAnno != null) {                                            
-            List<String> keys = AnnotationUtils.getElementValueArray(stringValAnno, "value", String.class, true);                            
-            // TODO: Handle keys with multiple StringVal entries
-            keyName = keys.get(0);
+            List<String> keys = AnnotationUtils.getElementValueArray(stringValAnno, "value", String.class, true);      
+            for(String key : keys) {
+                ExpressionTree receiver = TreeUtils.getReceiverTree(node);
+                AnnotatedTypeMirror receiverType = atypeFactory.getAnnotatedType(receiver);
+                if (IntentUtils.isPutExtraMethod(node)) {
+                    checkPutExtra(node, key, receiver, receiverType);
+                } else if (IntentUtils.isGetExtraMethod(node, checker.getProcessingEnvironment())) {
+                    checkGetExtra(method, node, key, receiver, receiverType);
+                }
+            }
         } else {
             // TODO: Handle keys which are not constants
+//            checker.report(Result.failure("intent.key.notfound", keyName, 
+//                    receiver.toString()), node);
         }
-
-        ExpressionTree receiver = TreeUtils.getReceiverTree(node);
-        AnnotatedTypeMirror receiverType = atypeFactory.getAnnotatedType(receiver);
-        if (IntentUtils.isPutExtraMethod(node)) {
-            checkPutExtra(node, keyName, receiver, receiverType);
-        } else if (IntentUtils.isGetExtraMethod(node, checker.getProcessingEnvironment())) {
-            checkGetExtra(method, node, keyName, receiver, receiverType);
-        }
+        
     }
 
     /**
