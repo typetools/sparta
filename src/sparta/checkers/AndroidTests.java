@@ -73,7 +73,7 @@ public class AndroidTests {
         public IntentCheckerTests(File testFile) {
             super(testFile, IntentChecker.class, "sparta.checkers", "-Anomsgtext");
             // Uncomment the line below to see the full errors in the JUnit tests
-            // super(testFile, IntentChecker.class.getName(), "sparta.checkers");
+//             super(testFile, IntentChecker.class, "sparta.checkers");
         }
 
         private IntentCheckerTests(File testFile, String... checkerOptions) {

@@ -15,10 +15,10 @@ import android.content.Intent;
 public class ActivityReceiverStub extends Activity {
 
     @Override
-    public @IntentExtras({ @IExtra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+    public @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
     Intent getIntent() {
         @SuppressWarnings("")
-        @IntentExtras({ @IExtra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+        @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
         Intent output = super.getIntent();
         return output;
     }

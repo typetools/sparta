@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /* 
- * An @IntentExtras annotation contains a set of @IExtra annotations.
+ * An @IntentMap annotation contains a set of @Extra annotations.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -19,8 +19,8 @@ import java.lang.annotation.Target;
 ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE })
 @TypeQualifier
 @SubtypeOf({})
-public @interface IntentExtras {
-    IExtra[] value() default {};
+public @interface IntentMap {
+    Extra[] value() default {};
     String action() default "";
     String[] categories() default {};
     String data() default "";

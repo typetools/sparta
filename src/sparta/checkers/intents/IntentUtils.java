@@ -23,8 +23,8 @@ import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.ParameterizedFlowPermission;
-import sparta.checkers.quals.IExtra;
-import sparta.checkers.quals.IntentExtras;
+import sparta.checkers.quals.Extra;
+import sparta.checkers.quals.IntentMap;
 
 import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.MethodInvocationTree;
@@ -78,8 +78,8 @@ public class IntentUtils {
                 "setComponentName", "addFlags", "hasExtra"});
 
     /**
-     * Method that receives an @IntentExtras and a <code> key </code>
-     * and return the @IExtra with that key and <code>null</code> if it 
+     * Method that receives an @IntentMap and a <code> key </code>
+     * and return the @Extra with that key and <code>null</code> if it 
      * does not contain the key.
      */
     public static AnnotationMirror getIExtra(AnnotationMirror intentExtras, 
@@ -99,15 +99,15 @@ public class IntentUtils {
     }
     
     public static AnnotationMirror getIExtra(AnnotatedTypeMirror intentExtra, String keyName) {
-        if (intentExtra.hasAnnotation(IntentExtras.class)) {
+        if (intentExtra.hasAnnotation(IntentMap.class)) {
             return getIExtra(
-                    intentExtra.getAnnotation(IntentExtras.class), keyName);
+                    intentExtra.getAnnotation(IntentMap.class), keyName);
         }
         return null;
     }
 
     /**
-     * Return true if @IntentExtras has this key
+     * Return true if @IntentMap has this key
      */
 
     public static boolean hasKey(AnnotationMirror intentExtras, String key) {
@@ -122,7 +122,7 @@ public class IntentUtils {
     }
 
     /**
-     * Return the union of sources from 2 @IExtra annotations
+     * Return the union of sources from 2 @Extra annotations
      */
 
     public static Set<ParameterizedFlowPermission> unionSourcesIExtras(AnnotationMirror iExtra1, 
@@ -142,7 +142,7 @@ public class IntentUtils {
     }
 
     /**
-     * Return the union of sinks from 2 @IExtra annotations
+     * Return the union of sinks from 2 @Extra annotations
      */
 
     public static Set<ParameterizedFlowPermission> unionSinksIExtras(AnnotationMirror iExtra1, 
@@ -164,7 +164,7 @@ public class IntentUtils {
 
 
     /**
-     * Return the intersection of sources from 2 @IExtra annotations
+     * Return the intersection of sources from 2 @Extra annotations
      */
 
     public static Set<ParameterizedFlowPermission> intersectionSourcesIExtras(AnnotationMirror iExtra1, 
@@ -173,7 +173,7 @@ public class IntentUtils {
     }
 
     /**
-     * Return the intersection of sinks from 2 @IExtra annotations
+     * Return the intersection of sinks from 2 @Extra annotations
      */
 
     public static Set<ParameterizedFlowPermission> intersectionSinksIExtras(AnnotationMirror iExtra1, 
@@ -195,7 +195,7 @@ public class IntentUtils {
             AnnotationMirror sources, AnnotationMirror sinks, 
             ProcessingEnvironment processingEnv) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
-            IExtra.class);
+            Extra.class);
         Set<FlowPermission> sourcesSet = Flow.convertFromParameterizedFlowPermission(Flow.getSources(sources));
         Set<FlowPermission> sinksSet = Flow.convertFromParameterizedFlowPermission(Flow.getSinks(sinks));
         
@@ -208,7 +208,7 @@ public class IntentUtils {
     }
 
     /**
-     * Returns a new @IntentExtras containing all @IExtra from <code>intentExtras</code>
+     * Returns a new @IntentMap containing all @Extra from <code>intentExtras</code>
      * and a new <code>IExtra</code>.
      * @param intentExtras
      * @param iExtra
@@ -220,7 +220,7 @@ public class IntentUtils {
             AnnotationMirror intentExtras, AnnotationMirror iExtra, 
             ProcessingEnvironment processingEnv) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
-            IntentExtras.class);
+            IntentMap.class);
         List<AnnotationMirror> iExtrasList = getIExtras(intentExtras);
         iExtrasList.add(iExtra);
         builder.setValue("value", iExtrasList.toArray());
@@ -228,7 +228,7 @@ public class IntentUtils {
     }
 
     /**
-     * Returns a new @IntentExtras containing all @IExtra from <code>intentExtras</code>
+     * Returns a new @IntentMap containing all @Extra from <code>intentExtras</code>
      * and all <code>IExtras</code>. 
      * @param intentExtras
      * @param iExtras
@@ -337,7 +337,7 @@ public class IntentUtils {
         ClassTree classTree = TreeUtils.enclosingClass(treePath);
         senderString += classTree.getSimpleName().toString();
         AnnotationMirror am = atypeFactory.getAnnotatedType(
-            tree.getArguments().get(0)).getAnnotation(IntentExtras.class);
+            tree.getArguments().get(0)).getAnnotation(IntentMap.class);
         String action = AnnotationUtils.getElementValue(am, "action",
             String.class, true);
         List<String> categories = AnnotationUtils.getElementValueArray(am,

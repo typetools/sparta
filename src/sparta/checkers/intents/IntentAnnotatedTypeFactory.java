@@ -38,8 +38,8 @@ import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.ParameterizedFlowPermission;
-import sparta.checkers.quals.IExtra;
-import sparta.checkers.quals.IntentExtras;
+import sparta.checkers.quals.Extra;
+import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.PolyFlow;
 import sparta.checkers.quals.PolyFlowReceiver;
 import sparta.checkers.quals.Sink;
@@ -61,8 +61,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             .getOption(ComponentMap.COMPONENT_MAP_FILE_OPTION);
         componentMap = new ComponentMap(ipArg);
 
-        INTENTEXTRAS = AnnotationUtils.fromClass(elements, IntentExtras.class);
-        IEXTRA = AnnotationUtils.fromClass(elements, IExtra.class);
+        INTENTEXTRAS = AnnotationUtils.fromClass(elements, IntentMap.class);
+        IEXTRA = AnnotationUtils.fromClass(elements, Extra.class);
         EMPTYINTENTEXTRAS = createEmptyIntentExtras(); // top
         INTENTEXTRASALL = createAllIntentExtras(); // bottom
         if (this.getClass().equals(IntentAnnotatedTypeFactory.class)) {
@@ -101,15 +101,15 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     }
 
     private AnnotationMirror createAllIntentExtras() {
-        // TODO: Define the bottom type of @IntentExtras
+        // TODO: Define the bottom type of @IntentMap
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
-            IntentExtras.class);
+            IntentMap.class);
         return builder.build();
     }
 
     private AnnotationMirror createEmptyIntentExtras() {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
-            IntentExtras.class);
+            IntentMap.class);
         return builder.build();
     }
 
@@ -304,12 +304,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
        
         /**
-         * The LUB between 2 @IntentExtras is an @IntentExtras containing all
-         * the @IExtra with keys both have in common. For each pair of 2
+         * The LUB between 2 @IntentMap is an @IntentMap containing all
+         * the @Extra with keys both have in common. For each pair of 2
          * 
-         * @IExtra with the same key in the 2 @IntentExtras, the resulting @Source
-         *         is the union of the @Source of both @IExtra, and the
-         *         resulting @Sink is the intersection of @Sink in both @IExtra.
+         * @Extra with the same key in the 2 @IntentMap, the resulting @Source
+         *         is the union of the @Source of both @Extra, and the
+         *         resulting @Sink is the intersection of @Sink in both @Extra.
          */
 
         @Override
@@ -353,7 +353,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         }
         /**
          * temporary auxiliary method used to calculate the LUB
-         * between 2 @IntentExtras whose @IExtra contains information flow.
+         * between 2 @IntentMap whose @Extra contains information flow.
          */
 
         private AnnotationMirror hostLeastUpperBounds(
@@ -378,8 +378,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         }
 
         /**
-         * The GLB between 2 @IntentExtras will contain the union of keys that
-         * these annotations contain, and the @Source of the @IExtra with this
+         * The GLB between 2 @IntentMap will contain the union of keys that
+         * these annotations contain, and the @Source of the @Extra with this
          * key will be the intersection of sources and the @Sink will be the
          * union of sinks.
          */
@@ -409,13 +409,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                                 a1IExtra, a1IExtraKey, a2IExtra);
                             IExtraOutputSet.add(newIExtra);
                         } else {
-                            // If we could not find the key in a2, add the @IExtra
-                            // with this key to the resulting @IntentExtras
+                            // If we could not find the key in a2, add the @Extra
+                            // with this key to the resulting @IntentMap
                             IExtraOutputSet.add(a1IExtra);
                         }
 
                     }
-                    // Now we need to fill the resulting set with @IExtra
+                    // Now we need to fill the resulting set with @Extra
                     // containing keys
                     // that are in a2 but not in a1.
                     for (AnnotationMirror a2IExtra : a2IExtrasList) {
@@ -439,7 +439,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
         /**
          * temporary auxiliary method used to type-check the calculate the LUB
-         * between 2 @IntentExtras whose @IExtra contains information flow.
+         * between 2 @IntentMap whose @Extra contains information flow.
          */
         
         private AnnotationMirror hostGreatestLowerBound(
@@ -465,7 +465,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
     /**
      * This method changes the return type of a
-     * <code>Intent.getExtra(key)</code> call depending on the @IntentExtras
+     * <code>Intent.getExtra(key)</code> call depending on the @IntentMap
      * type of Intent and <code>key</code>.
      * 
      * @param tree
@@ -484,10 +484,10 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             String keyName = tree.getArguments().get(0).toString();
             // Removing "" from key. "key" -> key
             keyName = keyName.substring(1, keyName.length() - 1);
-            if (receiverType.hasAnnotation(IntentExtras.class)) {
+            if (receiverType.hasAnnotation(IntentMap.class)) {
 
                 AnnotationMirror receiverIntentAnnotation = receiverType
-                    .getAnnotation(IntentExtras.class);
+                    .getAnnotation(IntentMap.class);
                 List<AnnotationMirror> iExtrasList = AnnotationUtils
                     .getElementValueArray(receiverIntentAnnotation,
                         "value", AnnotationMirror.class, true);
@@ -524,7 +524,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         origResult.first.getReturnType().addAnnotation(sinkAnnotation);
 
         if (!origResult.first.getReturnType().hasAnnotation(
-                IntentExtras.class)) {
+                IntentMap.class)) {
             origResult.first.getReturnType().addAnnotation(
                 EMPTYINTENTEXTRAS);
         }

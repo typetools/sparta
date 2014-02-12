@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /*
- * An @IExtra annotation contains a key K and a type T (Source and Sink). 
+ * An @Extra annotation contains a key K and a type T (Source and Sink). 
  * This means that the key K maps to a value of type T. 
  * In the case of the information flow system, the type T represents data 
  * and constrains its possible flows.
@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE })
 @TypeQualifier
 @SubtypeOf({})
-public @interface IExtra {
+public @interface Extra {
     String key() default "";
     FlowPermission[] source() default {FlowPermission.LITERAL};
     FlowPermission[] sink() default {};
