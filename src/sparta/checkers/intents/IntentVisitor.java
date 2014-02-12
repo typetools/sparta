@@ -84,6 +84,27 @@ public class IntentVisitor extends FlowVisitor {
             throw e;
         }
     }
+
+    /**
+     * Changing overriding rules for receiveIntent methods. They should always check. 
+     */
+    
+    @Override
+    protected boolean checkOverride(MethodTree overriderTree, 
+            AnnotatedDeclaredType enclosingType, AnnotatedExecutableType overridden,
+            AnnotatedDeclaredType overriddenType, Void p) {
+        DeclaredType overridenUnderlyingType = overriddenType.getUnderlyingType();
+        if(overridenUnderlyingType.toString().equals("android.app.Activity") || 
+                overridenUnderlyingType.toString().equals("android.app.Service") || 
+                overridenUnderlyingType.toString().equals("android.content.BroadcastReceiver")) {
+            String methodName = overridden.getElement().getSimpleName().toString();
+            if(IntentUtils.RECEIVE_INTENT_METHODS.contains(methodName)) {
+                return true;
+            }
+        }
+        return super.checkOverride(overriderTree, enclosingType, overridden,
+                overriddenType, p);
+    }
    
     @Override
     protected void checkMethodInvocability(AnnotatedExecutableType method,
@@ -100,12 +121,7 @@ public class IntentVisitor extends FlowVisitor {
         // .asElement().getClass().isAssignableFrom(android.content.Intent.class))
         // {
 
-        if (receiverClassName.equals("Intent") ) {
-            checkIntentExtraMethods(method, node);
-            return;
-        }
-        
-        if (receiverClassName.equals("Bundle") ) {
+        if (receiverClassName.equals("Intent") || receiverClassName.equals("Bundle")) {
             checkIntentExtraMethods(method, node);
             return;
         }

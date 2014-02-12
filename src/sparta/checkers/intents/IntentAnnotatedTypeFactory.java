@@ -2,6 +2,7 @@ package sparta.checkers.intents;
 
 import static checkers.quals.DefaultLocation.LOCAL_VARIABLE;
 import static checkers.quals.DefaultLocation.OTHERWISE;
+import static checkers.quals.DefaultLocation.RECEIVERS;
 import static checkers.quals.DefaultLocation.RESOURCE_VARIABLE;
 import static checkers.quals.DefaultLocation.UPPER_BOUNDS;
 
@@ -13,9 +14,11 @@ import checkers.types.QualifierHierarchy;
 import checkers.types.TreeAnnotator;
 import checkers.util.AnnotationBuilder;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
+import checkers.util.QualifierDefaults.DefaultApplierElement;
 import checkers.util.QualifierDefaults;
 
 import javacutils.AnnotationUtils;
+import javacutils.ElementUtils;
 import javacutils.Pair;
 import javacutils.TreeUtils;
 
@@ -26,6 +29,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.Name;
+import javax.lang.model.element.PackageElement;
+import javax.lang.model.type.TypeMirror;
 
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
@@ -33,6 +40,8 @@ import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.IExtra;
 import sparta.checkers.quals.IntentExtras;
+import sparta.checkers.quals.PolyFlow;
+import sparta.checkers.quals.PolyFlowReceiver;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
@@ -58,6 +67,36 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         INTENTEXTRASALL = createAllIntentExtras(); // bottom
         if (this.getClass().equals(IntentAnnotatedTypeFactory.class)) {
             this.postInit();
+        }
+    }
+
+    @Override
+    protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
+        Element iter = element;
+        DefaultApplierElement applier = new DefaultApplierElement(this, element, type);
+        while (iter != null) {
+            if (this.isFromByteCode(iter)) {
+                if(IntentUtils.RECEIVE_INTENT_METHODS.contains(element.getSimpleName().toString()) ||
+                        type.getUnderlyingType().toString().equals("android.content.Intent")) {
+                    applier.apply(POLYSOURCE, DefaultLocation.RETURNS);
+                    applier.apply(POLYSINK, DefaultLocation.RETURNS);
+                }
+                // Checking if ignoring NOT_REVIEWED warnings
+                else if (!IGNORENR) {
+                    applier.apply(NR_SINK, DefaultLocation.OTHERWISE);
+                    applier.apply(NR_SOURCE, DefaultLocation.OTHERWISE);
+                }
+
+            } else if (this.getDeclAnnotation(iter, PolyFlow.class) != null || 
+                    this.getDeclAnnotation(iter, PolyFlowReceiver.class) != null) {
+                super.handleDefaulting(iter,type);
+            } 
+
+            if (iter instanceof PackageElement) {
+                iter = ElementUtils.parentPackage(this.elements, (PackageElement) iter);
+            } else {
+                iter = iter.getEnclosingElement();
+            }
         }
     }
 
@@ -134,6 +173,10 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             UPPER_BOUNDS };
         defaults.addAbsoluteDefaults(EMPTYINTENTEXTRAS, topLocations);
         defaults.addAbsoluteDefault(INTENTEXTRASALL, OTHERWISE);
+        
+        DefaultLocation[] conditionalSinkLocs = {RECEIVERS, DefaultLocation.PARAMETERS};
+        defaults.addAbsoluteDefaults(EMPTYINTENTEXTRAS, conditionalSinkLocs);
+        defaults.addAbsoluteDefaults(EMPTYINTENTEXTRAS, conditionalSinkLocs);
         return defaults;
     }
 

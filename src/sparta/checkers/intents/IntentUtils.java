@@ -43,6 +43,11 @@ public class IntentUtils {
     public static List<String> GET_INTENT = Arrays
             .asList(new String[] { "getIntent,0"});
     
+    public static List<String> RECEIVE_INTENT_METHODS = Arrays
+            .asList(new String[] {"onBind", "onRebind", "onStart",
+                    "onStartCommand", "onTaskRemoved", "onUnBind",
+                    "onReceive", "peekService", "getIntent" });
+    
     private static List<String> GETEXTRA_SIGNATURES_NO_DEFAULT = Arrays
         .asList(new String[]{"getBooleanArrayExtra", "getBundleExtra", 
             "getByteArrayExtra", "getCharArrayExtra", "getFloatArrayExtra",
