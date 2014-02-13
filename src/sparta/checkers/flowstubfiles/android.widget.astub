@@ -2663,7 +2663,10 @@ final void setText(int resid);
 //final void setText(char[] text, int start, int len);
 //Sets the TextView to display the specified slice of the specified char array.
 
+void setText(@Sink(DISPLAY) char[] text, int start, int len);
+
 final void setText(int resid, TextView.BufferType type);
+
 final void setText(@Sink(DISPLAY) CharSequence text);
 //Sets the string value of the TextView.
 

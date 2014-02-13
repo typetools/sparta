@@ -2382,6 +2382,10 @@ final void setMeasuredDimension(int measuredWidth, int measuredHeight);
 boolean verifyDrawable(Drawable who);
 //If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
 
+void setAccessibilityLiveRegion(int mode);
+
+int getAccessibilityLiveRegion();
+
 }
 class View$BaseSavedState{
         BaseSavedState(Parcelable superState);
@@ -2527,6 +2531,8 @@ class ViewGroup$MarginLayoutParams{
         MarginLayoutParams(int width, int height);
         MarginLayoutParams(MarginLayoutParams source);
         MarginLayoutParams(LayoutParams source);
+		void setMargins(int left, int top, int right, int bottom);
+
 }
 class ViewGroup$LayoutParams {
 
@@ -2544,6 +2550,13 @@ void setBaseAttributes(TypedArray a, int widthAttr, int heightAttr);
 }
 
 class ViewGroup {
+
+protected void onDetachedFromWindow();
+protected void onAttachedToWindow();
+void setLayoutMode(int layoutMode);
+int getLayoutMode();
+
+
 addChildrenForAccessibility(ArrayList<View> childrenForAccessibility);
 //Adds the children of a given View for accessibility.
 
@@ -3557,6 +3570,73 @@ class TranslateAnimation{
 }
 
 package android.view.accessibility;
+
+class AccessibilityNodeInfo {
+static AccessibilityNodeInfo obtain(View source);
+static AccessibilityNodeInfo obtain(View root, int virtualDescendantId);
+static AccessibilityNodeInfo obtain();
+static AccessibilityNodeInfo obtain(AccessibilityNodeInfo info);
+void setSource(View source);
+void setSource(View root, int virtualDescendantId);
+void setParent(View parent);
+void setParent(View root, int virtualDescendantId);
+boolean performAction(int action);
+boolean performAction(int action, Bundle arguments);
+void addChild(View child);
+void addChild(View root, int virtualDescendantId);
+void setVisibleToUser(boolean visibleToUser);
+void setText(CharSequence text);
+void setSelected(boolean selected);
+void setScrollable(boolean scrollable);
+void setPassword(boolean password);
+void setPackageName(CharSequence packageName);
+void setMovementGranularities(int granularities);
+void setLongClickable(boolean longClickable);
+void setFocused(boolean focused);
+void setFocusable(boolean focusable);
+void setEnabled(boolean enabled);
+void setContentDescription(CharSequence contentDescription);
+void setClickable(boolean clickable);
+void setClassName(CharSequence className);
+void setChecked(boolean checked);
+void setCheckable(boolean checkable);
+void setBoundsInScreen(Rect bounds);
+void setBoundsInParent(Rect bounds);
+void setAccessibilityFocused(boolean focused);
+void recycle();
+boolean isVisibleToUser();
+boolean isSelected();
+boolean isScrollable();
+boolean isPassword();
+boolean isLongClickable();
+boolean isFocused();
+boolean isFocusable();
+boolean isEnabled();
+boolean isClickable();
+boolean isChecked();
+boolean isCheckable();
+boolean isAccessibilityFocused();
+int getWindowId();
+CharSequence getText();
+AccessibilityNodeInfo getParent();
+CharSequence getPackageName();
+int getMovementGranularities();
+CharSequence getContentDescription();
+CharSequence getClassName();
+int getChildCount();
+AccessibilityNodeInfo getChild(int index);
+void getBoundsInScreen(Rect outBounds);
+void getBoundsInParent(Rect outBounds);
+int getActions();
+AccessibilityNodeInfo focusSearch(int direction);
+AccessibilityNodeInfo findFocus(int focus);
+List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText(String text);
+void addAction(int action);
+void setViewIdResourceName(String viewIdResName);
+void setLiveRegion(int mode);
+String getViewIdResourceName();
+int getLiveRegion();
+}
 
 class AccessibilityEvent{
         CharSequence getPackageName();

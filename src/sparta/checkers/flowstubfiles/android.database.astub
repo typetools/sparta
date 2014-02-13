@@ -496,6 +496,10 @@ class SQLiteQueryBuilder {
     @Source(FlowPermission.SQLITE_DATABASE) Cursor query(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) SQLiteDatabase db, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] projectionIn, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String selection, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) [] selectionArgs, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String groupBy, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String having, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String sortOrder, @Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String limit) @Source(FlowPermission.ANY) @Sink({});
     void setTables(@Source(FlowPermission.ANY) @Sink(FlowPermission.SQLITE_DATABASE) String inTables) @Source(FlowPermission.ANY) @Sink({});
     @Source(FlowPermission.SQLITE_DATABASE) SQLiteQueryBuilder();
+
+void appendWhereEscapeString(@Sink(FlowPermission.SQLITE_DATABASE) String inWhere);
+
+void setDistinct(boolean distinct);
 }
 
 class SQLiteStatement {

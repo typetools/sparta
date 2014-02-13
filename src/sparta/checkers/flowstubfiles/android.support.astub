@@ -1,4 +1,67 @@
 package android.support.v4.app;
+
+class ShareCompat$IntentReader {
+boolean isMultipleShare();
+CharSequence getText();
+int getStreamCount();
+}
+
+class FragmentPagerAdapter {
+static String makeFragmentName(int viewId, long id);
+long getItemId(int position);
+Fragment getItem(int arg0);
+
+}
+
+class TaskStackBuilder {
+TaskStackBuilder addParentStack(Activity sourceActivity);
+//TaskStackBuilder addParentStack(Class<?> sourceActivityClass);
+TaskStackBuilder addParentStack(ComponentName sourceActivityName);
+TaskStackBuilder addNextIntent(@Sink(INTENT) Intent nextIntent);
+PendingIntent getPendingIntent(int requestCode, int flags);
+PendingIntent getPendingIntent(int requestCode, int flags, @Sink(BUNDLE) Bundle options);
+static TaskStackBuilder create(Context context);
+void startActivities();
+void startActivities(Bundle options);
+@Source(INTENT) Intent editIntentAt(int index);
+}
+
+
+class LoaderManager$LoaderCallbacks {
+Loader<D> onCreateLoader(int arg0, Bundle arg1);
+void onLoadFinished(Loader<D> arg0, D arg1);
+void onLoaderReset(Loader<D> arg0);
+}
+
+class ShareCompat$IntentBuilder {
+@Source(INTENT) Intent getIntent();
+@Source(INTENT) Intent createChooserIntent();
+IntentBuilder setText(CharSequence text);
+IntentBuilder setStream(Uri streamUri);
+IntentBuilder setChooserTitle(CharSequence title);
+IntentBuilder setChooserTitle(int resId);
+Activity getActivity();
+}
+
+class NotificationCompat$Style {
+	void setBuilder(Builder builder);
+}
+
+class NotificationCompat$Builder {
+void setFlag(int mask, boolean value);
+Builder setStyle(Style style);
+Notification build();
+}
+
+
+
+
+
+
+
+
+
+
 class FragmentActivity {
 //CSH: in spreadsheet, not found in API:
 // doReallyStop
@@ -7,6 +70,7 @@ class FragmentActivity {
 // onReallyStop
 // viewToString
 
+LoaderManagerImpl getLoaderManager(String who, boolean started, boolean create);
 
 void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Activity's state into the given stream.
@@ -150,19 +214,164 @@ class Fragment{
         Bundle getArguments();
         boolean isResumed();
         FragmentActivity getActivity();
-}
-class NavUtils{
-            static void navigateUpFromSameTask(Activity sourceActivity);
+		FragmentManager getFragmentManager();
+		View getView();
 }
 
+class DialogFragment {
+void dismissInternal(boolean allowStateLoss);
+Dialog onCreateDialog(@Source(BUNDLE) Bundle savedInstanceState);
+int getTheme();
+}
+
+class NavUtils{
+static void navigateUpFromSameTask(Activity sourceActivity);
+
+static String getParentActivityName(Activity sourceActivity);
+
+static String getParentActivityName(Context context, ComponentName componentName) throws NameNotFoundException;
+
+static Intent getParentActivityIntent(Activity sourceActivity);
+
+static Intent getParentActivityIntent(Context context, Class<?> sourceActivityClass) throws NameNotFoundException;
+
+static Intent getParentActivityIntent(Context context, ComponentName componentName) throws NameNotFoundException;
+
+static void navigateUpTo(Activity sourceActivity, Intent upIntent);
+}
+
+class FragmentManger {
+FragmentTransaction beginTransaction();
+
+boolean executePendingTransactions();
+
+Fragment findFragmentByTag(String arg0);
+
+SavedState saveFragmentInstanceState(Fragment arg0);
+
+void putFragment(Bundle arg0, String arg1, Fragment arg2);
+
+void popBackStack();
+
+void popBackStack(String arg0, int arg1);
+
+void popBackStack(int arg0, int arg1);
+
+Fragment getFragment(Bundle arg0, String arg1);
+
+Fragment findFragmentById(int arg0);
+
+int commit();
+
+FragmentTransaction add(Fragment arg0, String arg1);
+
+FragmentTransaction add(int arg0, Fragment arg1);
+
+FragmentTransaction add(int arg0, Fragment arg1, String arg2);
+
+FragmentTransaction detach(Fragment arg0);
+
+int commitAllowingStateLoss();
+
+FragmentTransaction remove(Fragment arg0);
+
+FragmentTransaction attach(Fragment arg0);
+
+FragmentTransaction replace(int arg0, Fragment arg1);
+
+FragmentTransaction replace(int arg0, Fragment arg1, String arg2);
+
+
+}
+
+
+package android.support.v4.os;
+
+class ParcelableCompatCreatorCallbacks {
+T createFromParcel(@Sink(PARCEL) Parcel arg0, ClassLoader arg1);
+T[] newArray(int arg0);
+}
+
+
+
+
 package android.support.v4.content;
+
+class CursorLoader {
+void deliverResult(Cursor cursor);
+protected void onStopLoading();
+void onCanceled(Cursor cursor);
+Cursor loadInBackground();
+}
+
+class ContextCompat {
+static boolean startActivities(Context context, @Sink(INTENT) Intent[] intents);
+static boolean startActivities(Context context, @Sink(INTENT) Intent[] intents, Bundle options);
+}
+
+class IntentCompat {
+@Source(INTENT) static Intent makeMainActivity(ComponentName mainActivity);
+}
+
+
+class Loader {
+void deliverResult(D data);
+protected void onReset();
+boolean isAbandoned();
+void rollbackContentChanged();
+void commitContentChanged();
+boolean isStarted();
+boolean isReset();
+Context getContext();
+void forceLoad();
+void unregisterListener(OnLoadCompleteListener<D> listener);
+protected void onForceLoad();
+void dump(String prefix, @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, PrintWriter writer, String[] args);
+void abandon();
+void stopLoading();
+void startLoading();
+void reset();
+void registerListener(int id, OnLoadCompleteListener<D> listener);
+protected void onStopLoading();
+protected void onStartLoading();
+protected void onReset();
+void onContentChanged();
+protected void onAbandon();
+void forceLoad();
+String dataToString(D data);
+boolean takeContentChanged();
+
+}
+
+class AsyncTaskLoader {
+void onCanceled(D data);
+protected D onLoadInBackground();
+D loadInBackground();
+void dump(String prefix,  @Sink({INTERNET, FILESYSTEM, WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, PrintWriter writer, String[] args);
+boolean cancelLoad();
+}
+
+
+
 class LocalBroadcastManager{
-            static LocalBroadcastManager getInstance(Context context);
-            void registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
-            boolean sendBroadcast(Intent intent);
+static LocalBroadcastManager getInstance(Context context);
+void registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
+boolean sendBroadcast(@Sink(INTENT) Intent intent);
+void executePendingBroadcasts();
 }
 
 package android.support.v4.util;
+
+class LogWriter {
+void flushBuilder();
+}
+
+class LruCache {
+protected void entryRemoved(boolean evicted, K key, V oldValue, V newValue);
+void trimToSize(int maxSize);
+protected int sizeOf(K key, V value);
+protected V create(K key);
+}
 
 class LongSparseArray {
 //CSH: found in spreadsheet, not in API
@@ -217,6 +426,14 @@ void put(long key, E value);
 
 //E valueAt(int index);
 //Given an index in the range 0...size();-1, returns the value from the indexth key-value mapping that this LongSparseArray stores.
+
+void gc();
+
+E valueAt(int index);
+
+int size();
+
+long keyAt(int index);
 
 }
 
@@ -275,13 +492,60 @@ E valueAt(int index);
 
 package android.support.v4.view;
 
+class AccessibilityRecordCompat {
+Object getImpl();
+void setToIndex(int toIndex);
+void setSource(View source);
+void setSource(View root, int virtualDescendantId);
+void setScrollable(boolean scrollable);
+void setItemCount(int itemCount);
+void setFromIndex(int fromIndex);
+static AccessibilityRecordCompat obtain(AccessibilityRecordCompat record);
+static AccessibilityRecordCompat obtain();
+}
+
+class AccessibilityDelegateCompat {
+Object getBridge();
+boolean performAccessibilityAction(View host, int action, @Sink(BUNDLE) Bundle args);
+AccessibilityNodeProvider getAccessibilityNodeProvider(View host);
+}
+
+class ViewCompat {
+static void postInvalidateOnAnimation(View view);
+static void postInvalidateOnAnimation(View view, int left, int top, int right, int bottom);
+static void setImportantForAccessibility(View view, int mode);
+static void setAccessibilityDelegate(View v, AccessibilityDelegateCompat delegate);
+static boolean canScrollHorizontally(View v, int direction);
+static void setLayerType(View view, int layerType, Paint paint);
+static void postOnAnimation(View view, Runnable action);
+static int getImportantForAccessibility(View view);
+static int getOverScrollMode(View v);
+static int getLayoutDirection(View view);
+static ViewParent getParentForAccessibility(View view);
+static int getLayerType(View view);
+static void setLayerPaint(View view, Paint paint);
+static void postOnAnimationDelayed(View view, Runnable action, long delayMillis);
+static boolean performAccessibilityAction(View view, int action, Bundle arguments);
+static void onInitializeAccessibilityNodeInfo(View v, AccessibilityNodeInfoCompat info);
+static void onInitializeAccessibilityEvent(View v, AccessibilityEvent event);
+static boolean isOpaque(View view);
+static float getAlpha(View view);
+static boolean canScrollVertically(View v, int direction);
+}
+
+class VelocityTrackerCompat {
+static float getYVelocity(VelocityTracker tracker, int pointerId);
+
+static float getXVelocity(VelocityTracker tracker, int pointerId);
+}
+
 class AccessibilityDelegateCompat {
 //CSH: Methods in spreadsheet but not in class or parent:
 //getBridge
 
 //CSH: It's unclear whether these push anything to the screen, AccessibilityEvent probably holds that answer.
    
-boolean dispatchPopulateAccessibilityEvent(View host, AccessibilityEvent event);
+boolean dispatchKeyEventAccessibilityEvent(View host, AccessibilityEvent event);
 //Dispatches an AccessibilityEvent to the host View first and then to its children for adding their text content to the event.
 
 AccessibilityNodeProviderCompat getAccessibilityNodeProvider(View host);
@@ -331,6 +595,12 @@ static float getX(MotionEvent event, int pointerIndex);
 
 static float getY(MotionEvent event, int pointerIndex);
 //Call getY(int);.
+
+static int getActionMasked(MotionEvent event);
+
+static int getPointerCount(MotionEvent event);
+
+
 
 }
 
@@ -517,6 +787,9 @@ class ViewPager {
 // access$400
 // access$000
 //isGutterDrag
+
+void onPageSelected(int arg0);
+void onPageScrollStateChanged(int arg0);
  
 void addFocusables(ArrayList<View> views, int direction, int focusableMode);
 //We only want the current page that is being shown to be focusable.
@@ -659,6 +932,14 @@ boolean verifyDrawable(Drawable who);
 }
 
 package android.support.v4.view.accessibility;
+
+class AccessibilityNodeProviderCompat {
+boolean performAction(int virtualViewId, int action, Bundle arguments);
+List<AccessibilityNodeInfoCompat> findAccessibilityNodeInfosByText(String text, int virtualViewId);
+AccessibilityNodeInfoCompat createAccessibilityNodeInfo(int virtualViewId);
+Object getProvider();
+AccessibilityNodeInfoCompat findFocus(int focus);
+}
 
 class AccessibilityNodeInfoCompat {
 // CSH: Present in spreadsheet but not in class or parents:
@@ -852,11 +1133,160 @@ void setClassName(CharSequence className);
 //void setVisibleToUser(boolean visibleToUser);
 //Sets whether this node is visible to the user.
 
+//void populate();
+//void populate(int newCurrentItem);
+//void setCurrentItemInternal(int item, boolean smoothScroll, boolean always);
+//void setCurrentItemInternal(int item, boolean smoothScroll, boolean always, int velocity);
+//ItemInfo infoForChild(View child);
+//void setScrollState(int newState);
+//void setScrollingCacheEnabled(boolean enabled);
+//ItemInfo infoForPosition(int position);
+//void completeScroll(boolean postEvents);
+//void scrollToItem(int item, boolean smoothScroll, int velocity, boolean dispatchSelected);
+//Rect getChildRectInPagerCoordinates(Rect outRect, View child);
+//ItemInfo addNewItem(int position, int index);
+//int determineTargetPage(int currentPage, float pageOffset, int velocity, int deltaX);
+//boolean performDrag(float x);
+//boolean pageScrolled(int xpos);
+//void smoothScrollTo(int x, int y);
+//void smoothScrollTo(int x, int y, int velocity);
+//void setOnAdapterChangeListener(OnAdapterChangeListener listener);
+//OnPageChangeListener setInternalPageChangeListener(OnPageChangeListener listener);
+//void recomputeScrollPosition(int width, int oldWidth, int margin, int oldMargin);
+//boolean pageRight();
+//boolean pageLeft();
+//void initViewPager();
+//ItemInfo infoForCurrentScrollPosition();
+//ItemInfo infoForAnyChild(View child);
+//float distanceInfluenceForSnapDuration(float f);
+//void dataSetChanged();
+//void calculatePageOffsets(ItemInfo curItem, int curIndex, ItemInfo oldCurInfo);
+//void removeNonDecorViews();
+//void onSecondaryPointerUp(MotionEvent ev);
+//boolean isGutterDrag(float x, float dx);
+//void endDrag();
+//void setChildrenDrawingOrderEnabledCompat(boolean enable);
+//void enableLayers(boolean enable);
+//int getClientWidth();
+//boolean canScrollHorizontally(int direction);
+//void requestParentDisallowInterceptTouchEvent(boolean disallowIntercept);
 
+void setScrollable(boolean scrollable);
+
+void setAccessibilityFocused(boolean focused);
+
+static AccessibilityNodeInfoCompat obtain(View source);
+
+static AccessibilityNodeInfoCompat obtain(View root, int virtualDescendantId);
+
+static AccessibilityNodeInfoCompat obtain();
+
+static AccessibilityNodeInfoCompat obtain(AccessibilityNodeInfoCompat info);
+
+CharSequence getContentDescription();
+
+void getBoundsInParent(Rect outBounds);
+
+int getActions();
+
+void setVisibleToUser(boolean visibleToUser);
+
+void setSource(View source);
+
+void setSource(View root, int virtualDescendantId);
+
+void setParent(View parent);
+
+void setParent(View root, int virtualDescendantId);
+
+void setPackageName(CharSequence packageName);
+
+void setEnabled(boolean enabled);
+
+void setBoundsInScreen(Rect bounds);
+
+void setBoundsInParent(Rect bounds);
+
+boolean isSelected();
+
+boolean isLongClickable();
+
+boolean isFocused();
+
+boolean isFocusable();
+
+boolean isEnabled();
+
+boolean isClickable();
+
+CharSequence getPackageName();
+
+CharSequence getClassName();
+
+void getBoundsInScreen(Rect outBounds);
+
+void addChild(View child);
+
+void addChild(View root, int virtualDescendantId);
+
+void setSelected(boolean selected);
+
+void setLongClickable(boolean longClickable);
+
+void setFocused(boolean focused);
+
+void setFocusable(boolean focusable);
+
+void setContentDescription(CharSequence contentDescription);
+
+void setClickable(boolean clickable);
+
+void recycle();
+
+boolean isVisibleToUser();
+
+boolean isAccessibilityFocused();
+
+CharSequence getText();
+
+void setMovementGranularities(int granularities);
+
+boolean isScrollable();
+
+boolean isPassword();
+
+boolean isChecked();
+
+boolean isCheckable();
+
+String getViewIdResourceName();
+
+int getMovementGranularities();
     
 }
 
 package android.support.v4.widget;
+
+class CursorAdapter {
+protected void init(Context context, Cursor c, boolean autoRequery);
+void init(Context context, Cursor c, int flags);
+View newView(Context arg0, Cursor arg1, ViewGroup arg2);
+void bindView(View arg0, Context arg1, Cursor arg2);
+Cursor swapCursor(Cursor newCursor);
+protected void onContentChanged();
+View newDropDownView(Context context, Cursor cursor, ViewGroup parent);
+Cursor swapCursor(Cursor newCursor);
+CharSequence convertToString(Cursor cursor);
+void changeCursor(Cursor cursor);
+}
+
+class SimpleCursorAdapter {
+void findColumns(String[] from);
+void setViewText(TextView v, String text);
+void setViewImage(ImageView v, String value);
+}
+
+
 class EdgeEffectCompat {
 
 boolean draw(Canvas canvas);
@@ -881,5 +1311,6 @@ void setSize(int width, int height);
 //Set the size of this edge effect in pixels.
 
 }
+
 
 
