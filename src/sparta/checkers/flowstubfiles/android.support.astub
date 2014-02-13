@@ -546,7 +546,7 @@ class AccessibilityDelegateCompat {
 
 //CSH: It's unclear whether these push anything to the screen, AccessibilityEvent probably holds that answer.
    
-boolean dispatchKeyEventAccessibilityEvent(View host, AccessibilityEvent event);
+//boolean dispatchKeyEventAccessibilityEvent(View host, AccessibilityEvent event);
 //Dispatches an AccessibilityEvent to the host View first and then to its children for adding their text content to the event.
 
 AccessibilityNodeProviderCompat getAccessibilityNodeProvider(View host);
@@ -789,8 +789,8 @@ class ViewPager {
 // access$000
 //isGutterDrag
 
-void onPageSelected(int arg0);
-void onPageScrollStateChanged(int arg0);
+//void onPageSelected(int arg0);
+//void onPageScrollStateChanged(int arg0);
  
 void addFocusables(ArrayList<View> views, int direction, int focusableMode);
 //We only want the current page that is being shown to be focusable.

@@ -19,10 +19,6 @@
 //warning: StubParser: Method setNextPoolable(T) not found in type android.view.VelocityTracker
 //warning: StubParser: Method setPooled(boolean) not found in type android.view.VelocityTracker
 //warning: StubParser: Constructor <init>(ArrayList) not found in type android.view.ViewGroup
-//warning: StubParser: Method dumpViewHierarchyWithProperties(BufferedWriter,int) not found in type android.webkit.WebView
-//warning: StubParser: Method findHierarchyView(String,int) not found in type android.webkit.WebView
-//warning: StubParser: Method getSelectedItem() not found in type android.widget.AdapterView.OnItemClickListener
-//warning: StubParser: Method getSelectedItem() not found in type android.widget.Adapter
 //warning: StubParser: Method onItemClick(AdapterView,View,int,long) not found in type android.widget.AdapterView.OnItemSelectedListener
 //warning: StubParser: Type not found: com.google.android.maps.GeoPoint
 //warning: StubParser: Constructor <init>(long) not found in type java.security.Timestamp

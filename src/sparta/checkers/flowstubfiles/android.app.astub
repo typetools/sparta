@@ -1847,9 +1847,7 @@ void setSelection(int position);
 
 //void ensureList();
 
-void setListShown(boolean shown);
-
-void setListShown(boolean shown, boolean animate);
+//void setListShown(boolean shown, boolean animate);
 
 void setListAdapter(ListAdapter adapter);
 
