@@ -1,6 +1,6 @@
 package android.support.v4.app;
 
-ShareCompat$IntentReader {
+class ShareCompat$IntentReader {
 boolean isMultipleShare();
 CharSequence getText();
 int getStreamCount();
@@ -15,7 +15,7 @@ Fragment getItem(int arg0);
 
 class TaskStackBuilder {
 TaskStackBuilder addParentStack(Activity sourceActivity);
-TaskStackBuilder addParentStack(Class<?> sourceActivityClass);
+//TaskStackBuilder addParentStack(Class<?> sourceActivityClass);
 TaskStackBuilder addParentStack(ComponentName sourceActivityName);
 TaskStackBuilder addNextIntent(@Sink(INTENT) Intent nextIntent);
 PendingIntent getPendingIntent(int requestCode, int flags);
@@ -24,8 +24,8 @@ static TaskStackBuilder create(Context context);
 void startActivities();
 void startActivities(Bundle options);
 @Source(INTENT) Intent editIntentAt(int index);
-
 }
+
 
 class LoaderManager$LoaderCallbacks {
 Loader<D> onCreateLoader(int arg0, Bundle arg1);
@@ -33,7 +33,7 @@ void onLoadFinished(Loader<D> arg0, D arg1);
 void onLoaderReset(Loader<D> arg0);
 }
 
-class ShareCompat$IntentBuilder {}
+class ShareCompat$IntentBuilder {
 @Source(INTENT) Intent getIntent();
 @Source(INTENT) Intent createChooserIntent();
 IntentBuilder setText(CharSequence text);
@@ -52,6 +52,15 @@ void setFlag(int mask, boolean value);
 Builder setStyle(Style style);
 Notification build();
 }
+
+
+
+
+
+
+
+
+
 
 class FragmentActivity {
 //CSH: in spreadsheet, not found in API:
@@ -495,7 +504,7 @@ static AccessibilityRecordCompat obtain(AccessibilityRecordCompat record);
 static AccessibilityRecordCompat obtain();
 }
 
-AccessibilityDelegateCompat {
+class AccessibilityDelegateCompat {
 Object getBridge();
 boolean performAccessibilityAction(View host, int action, @Sink(BUNDLE) Bundle args);
 AccessibilityNodeProvider getAccessibilityNodeProvider(View host);
@@ -739,14 +748,6 @@ void onLayout(boolean changed, int l, int t, int r, int b);
 void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 //Measure the view and its content to determine the measured width and the measured height.
 
-//CSH: NOT IN DOCS
-//void updateText(int currentItem, PagerAdapter adapter);
-//void updateTextPositions(int position, float positionOffset, boolean force);
-//void updateAdapter(PagerAdapter oldAdapter, PagerAdapter newAdapter);
-//static void setSingleLineAllCaps(TextView text);
-//int getMinHeight();
-
-
 }
 
 class ViewPager {
@@ -788,7 +789,6 @@ class ViewPager {
 //isGutterDrag
 
 void onPageSelected(int arg0);
-void onPageScrolled(int arg0, float arg1, int arg2);
 void onPageScrollStateChanged(int arg0);
  
 void addFocusables(ArrayList<View> views, int direction, int focusableMode);
