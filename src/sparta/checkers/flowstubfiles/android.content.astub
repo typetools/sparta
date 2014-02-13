@@ -931,6 +931,12 @@ void unregisterComponentCallbacks(ComponentCallbacks callback);
 abstract void unregisterReceiver(BroadcastReceiver receiver);
 //Unregister a previously registered BroadcastReceiver.
 
+@Source(READ_EXTERNAL_STORAGE) abstract File[] getObbDirs();
+
+@Source(READ_EXTERNAL_STORAGE)abstract File[] getExternalFilesDirs(String arg0);
+
+@Source(READ_EXTERNAL_STORAGE)abstract File[] getExternalCacheDirs();
+
 }
 
 class ComponentName{

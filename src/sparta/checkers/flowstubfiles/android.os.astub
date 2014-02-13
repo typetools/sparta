@@ -82,7 +82,7 @@ static boolean isExternalStorageEmulated();
 static boolean isExternalStorageRemovable();
 //Returns whether the primary "external" storage device is removable.
 
-
+static String getStorageState(File path);
 
 }
 
@@ -554,7 +554,9 @@ class FileObserver{
 }
 
 class Handler {
- 
+
+Looper getLooper();
+
 Handler();
 //Creates a new Handler
    
