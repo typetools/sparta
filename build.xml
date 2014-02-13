@@ -281,7 +281,7 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- Make sure to add all individual tests as dependency. -->
-    <target name="all-tests" depends="jar,build-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests"
+    <target name="all-tests" depends="jar,build-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests"
       description="Run tests for all checkers"/>
 
     <target name="permissions-tests" depends="jar,build-tests"
