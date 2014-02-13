@@ -402,9 +402,8 @@ public class IntentVisitor extends FlowVisitor {
                 }
             }
         } else {
-            // TODO: Handle keys which are not constants
-//            checker.report(Result.failure("intent.key.notfound", keyName, 
-//                    receiver.toString()), node);
+            //Handle keys which are not constants
+            checker.report(Result.failure("intent.key.variable", node.getArguments().get(0)), node);
         }
         
     }
