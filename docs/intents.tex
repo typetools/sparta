@@ -1,0 +1,19 @@
+\htmlhr
+
+\newcommand{\app}{App\xspace}
+\newcommand{\apps}{\app{}s\xspace}
+
+\chapter{Handling Intents\label{flow-checker}}
+
+Android intents are the standard inter-component communication
+mechanism in Android.  They are used for communication within an \app,
+among \apps, and with the Android system.  An Android component can
+send or broadcast intents and can register interest in receiving
+intents.
+
+Intents can be seen as messages exchanged through components where the
+payloads of these messages are maps.  Sensitive data can flow in and
+out of intent objects.  Consequently, \theFlowChecker{} needs to be
+aware of the information flow types associated to the data
+encapsulated in intent maps in order to prevent manifestations of
+forbidden flows.
