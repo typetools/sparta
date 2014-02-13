@@ -240,7 +240,7 @@ static Intent getParentActivityIntent(Context context, ComponentName componentNa
 static void navigateUpTo(Activity sourceActivity, Intent upIntent);
 }
 
-class FragmentManger {
+class FragmentManager {
 FragmentTransaction beginTransaction();
 
 boolean executePendingTransactions();
@@ -261,25 +261,25 @@ Fragment getFragment(Bundle arg0, String arg1);
 
 Fragment findFragmentById(int arg0);
 
-int commit();
+//int commit();
 
-FragmentTransaction add(Fragment arg0, String arg1);
+//FragmentTransaction add(Fragment arg0, String arg1);
 
-FragmentTransaction add(int arg0, Fragment arg1);
+//FragmentTransaction add(int arg0, Fragment arg1);
 
-FragmentTransaction add(int arg0, Fragment arg1, String arg2);
+//FragmentTransaction add(int arg0, Fragment arg1, String arg2);
 
-FragmentTransaction detach(Fragment arg0);
+//FragmentTransaction detach(Fragment arg0);
 
-int commitAllowingStateLoss();
+//int commitAllowingStateLoss();
 
-FragmentTransaction remove(Fragment arg0);
+//FragmentTransaction remove(Fragment arg0);
 
-FragmentTransaction attach(Fragment arg0);
+//FragmentTransaction attach(Fragment arg0);
 
-FragmentTransaction replace(int arg0, Fragment arg1);
+//FragmentTransaction replace(int arg0, Fragment arg1);
 
-FragmentTransaction replace(int arg0, Fragment arg1, String arg2);
+//FragmentTransaction replace(int arg0, Fragment arg1, String arg2);
 
 
 }
@@ -490,7 +490,7 @@ E valueAt(int index);
 //Given an index in the range 0...size();-1, returns the value from the indexth key-value mapping that this SparseArray stores.
 }
 
-package android.support.v4.view;
+package android.support.v4.view.accessibility;
 
 class AccessibilityRecordCompat {
 Object getImpl();
@@ -504,6 +504,7 @@ static AccessibilityRecordCompat obtain(AccessibilityRecordCompat record);
 static AccessibilityRecordCompat obtain();
 }
 
+package android.support.v4.view;
 class AccessibilityDelegateCompat {
 Object getBridge();
 boolean performAccessibilityAction(View host, int action, @Sink(BUNDLE) Bundle args);

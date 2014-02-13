@@ -1555,13 +1555,10 @@ static Fragment instantiate(Context context, String fname);
 
 static Fragment instantiate(Context context, String fname, Bundle args);
 
-void setIndex(int index, Fragment parent);
-
 void onViewCreated(View view, Bundle savedInstanceState);
 
 void onDestroyView();
 
-LayoutInflater getLayoutInflater(Bundle savedInstanceState);
 
 String toString();
 
@@ -1581,25 +1578,11 @@ void onAttach(Activity activity);
 
 View getView();
 
-View performCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
-
-void instantiateChildFragmentManager();
-
 void onDestroy();
 
 View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
 void onCreateOptionsMenu(Menu menu, MenuInflater inflater);
-
-void restoreViewState(Bundle savedInstanceState);
-
-void performStop();
-
-void performStart();
-
-void performReallyStop();
-
-void performDestroyView();
 
 void onResume();
 
@@ -1613,51 +1596,15 @@ void onLowMemory();
 
 void onDestroyOptionsMenu();
 
-Animation onCreateAnimation(int transit, boolean enter, int nextAnim);
-
 boolean onContextItemSelected(MenuItem item);
 
 void onConfigurationChanged(Configuration newConfig);
 
 void onActivityResult(int requestCode, int resultCode, Intent data);
 
-boolean isInBackStack();
-
-void initState();
-
 void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args);
 
-void performSaveInstanceState(Bundle outState);
-
-void performResume();
-
-boolean performPrepareOptionsMenu(Menu menu);
-
-void performPause();
-
-void performOptionsMenuClosed(Menu menu);
-
-boolean performOptionsItemSelected(MenuItem item);
-
-void performLowMemory();
-
-void performDestroy();
-
-boolean performCreateOptionsMenu(Menu menu, MenuInflater inflater);
-
-void performCreate(Bundle savedInstanceState);
-
-boolean performContextItemSelected(MenuItem item);
-
-void performConfigurationChanged(Configuration newConfig);
-
-void performActivityCreated(Bundle savedInstanceState);
-
 void onViewStateRestored(Bundle savedInstanceState);
-
-Fragment findFragmentByWho(String who);
-
-static boolean isSupportFragmentClass(Context context, String fname);
 
 View getView();
 
@@ -1728,7 +1675,6 @@ abstract void removeOnBackStackChangedListener(FragmentManager.OnBackStackChange
 
 abstract Fragment.SavedState saveFragmentInstanceState(Fragment f);
 //Save the current instance state of the given Fragment.
-
 }
 
 class FragmentTransaction {
@@ -1899,7 +1845,7 @@ void setSelection(int position);
 //Set the currently selected list item to the specified position with the adapter's data
 
 
-void ensureList();
+//void ensureList();
 
 void setListShown(boolean shown);
 

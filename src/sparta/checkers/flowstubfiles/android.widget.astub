@@ -388,7 +388,6 @@ class AbsSpinner{
 }
 
 class AdapterView$OnItemClickListener{
-        Object getSelectedItem();
         void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
 }
 class Adapter{
@@ -400,13 +399,11 @@ class Adapter{
     Object getItem(int arg0);
     @PolyFlowReceiver
     View getView(int arg0, View arg1, ViewGroup arg2);
-    Object getSelectedItem();
 
 }
 
 class AdapterView {
 	T getAdapter();
-        Object getSelectedItem();
       long getItemIdAtPosition(int position);
             int getCount();
             int getFirstVisiblePosition();

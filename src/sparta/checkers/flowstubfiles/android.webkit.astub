@@ -83,7 +83,7 @@ boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
 void documentHasImages(Message response);
 //Queries the document to see if it contains any image references.
 
-abstract void dumpViewHierarchyWithProperties(BufferedWriter out, int level);
+//abstract void dumpViewHierarchyWithProperties(BufferedWriter out, int level);
 //Dumps custom children to hierarchy viewer.
 
 static String findAddress(String addr);
@@ -95,7 +95,7 @@ int findAll(String find);
 void findAllAsync(String find);
 //Finds all instances of find on the page and highlights them, asynchronously.
 
-abstract View findHierarchyView(String className, int hashCode);
+//abstract View findHierarchyView(String className, int hashCode);
 //Returns a View to enable grabbing screenshots from custom children returned in dumpViewHierarchyWithProperties.
 
 void findNext(boolean forward);
