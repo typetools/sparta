@@ -13,12 +13,11 @@ public class BReceiverTest extends Activity {
      
     void startActivitySuccess() {
         @SuppressWarnings("")
-        @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) }, action="action1",categories={"cat1","cat2"}, data="data1")
+        @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) }, action="action1",categories={"cat1","cat2"})
         Intent senderIntent1 = new Intent();
         senderIntent1.setAction("action1");
         senderIntent1.addCategory("cat1");
         senderIntent1.addCategory("cat2");
-        senderIntent1.setData(CalendarContract.Events.CONTENT_URI);
         @SuppressWarnings("")
         @IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
         Intent senderIntent2 = new Intent();

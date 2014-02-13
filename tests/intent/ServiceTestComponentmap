@@ -1,2 +1,2 @@
 ServiceTest -> tests.ServiceReceiverStub
-ServiceTest(action1,[cat1,cat2],data1) -> tests.ServiceReceiverStub
+ServiceTest(action1,[cat1,cat2]) -> tests.ServiceReceiverStub
