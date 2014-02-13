@@ -196,6 +196,11 @@ class SparseArray{
             int indexOfValue(E value);
             E get(int key);
             void append(int key, E value);
+            E get(int key, E valueIfKeyNotFound);
+            void put(int key, E value);
+            void remove(int key);
+            E valueAt(int index);
+            void delete(int key);
 }
 class SparseBooleanArray {
     
