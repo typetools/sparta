@@ -7,6 +7,7 @@ public class IntentFilter {
     List<String> action;
     List<String> categories;
     List<String> data;
+    boolean hasURI = false;
 
     public IntentFilter() {
         action = new ArrayList<String>();
@@ -37,6 +38,10 @@ public class IntentFilter {
     public void addData(String data) {
         this.data.add(data);
     }
+    
+    public void setHasURI(boolean b) {
+        hasURI = b;
+    }
 
     @Override
     public String toString() {
@@ -56,15 +61,20 @@ public class IntentFilter {
             }
             output = output.substring(0, output.length() - 1);
         }
+        String URIContent = "";
         if (data.size() > 0) {
-            output = output + ",";
             for (String data : this.data) {
-                output += data + "|";
+                URIContent += data + "|";
 
             }
-            output = output.substring(0, output.length() - 1);
+            URIContent = URIContent.substring(0, URIContent.length() - 1);
+            URIContent = URIContent.replace(",", "/");
         }
+        
         output = "(" + output + ")";
+        if(hasURI) {
+            output += " :URI:" + URIContent;
+        }
         return output;
     }
 

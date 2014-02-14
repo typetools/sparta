@@ -38,7 +38,11 @@ public class ProcessAndroidManifest {
             BufferedWriter bw = new BufferedWriter(fw);
             for (Component comp : handler.compList) {
                 for(IntentFilter filter : comp.intentFilters) {
-                    bw.write(filter.toString() + " -> " + comp.name + '\n');
+                    String temp = comp.name;
+                    if(filter.hasURI) {
+                        temp = "1" + comp.name; // Appending 1 to the start of component name to identify components with URIs.
+                    }
+                    bw.write(filter.toString() + " -> " + temp + '\n');
                 }
             }
             bw.close();
@@ -117,6 +121,7 @@ class SAXHandler extends DefaultHandler {
             }
             break;
         case "data":
+            intentFilter.setHasURI(true);
             // MIMETYPE,<scheme>://<host>:<port>/<path>
             String data = "";
             String scheme = attributes.getValue("android:scheme");
@@ -187,6 +192,7 @@ class Component {
     @Override
     public String toString() {
         String output = name;
+        
         for (IntentFilter filter : intentFilters) {
             output += "(" + filter + ",";
         }

@@ -8,17 +8,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class ProcessEpicOutput {
    
 
-    static File componentMap;
+    static File componentMapFile;
     static List<IntentFilter> filters;
     static File file;
     static FileWriter fw;
-    static HashMap<String,Boolean> linesToWrite;
+    static HashMap<String,Set<String>> componentMap;
+    static HashMap<String,Set<String>> componentMapURI;
     
     static void matchFilters(String component, String filter, String filtersPath) {
         BufferedReader bufferedReaderFilters = null;
@@ -29,9 +32,10 @@ public class ProcessEpicOutput {
             while(currentLine != null) {
                 String[] filterToComponent = currentLine.split(" ");
                 if(filterToComponent[0].equals(filter)) {
-                    String line = component + " -> " + filterToComponent[2];
-                    if(!linesToWrite.containsKey(line)) {
-                        linesToWrite.put(line, true);
+                    if(filterToComponent[filterToComponent.length-1].startsWith("1")) {
+                        addCMEntryURI(component+filter,filterToComponent[filterToComponent.length-1],currentLine);
+                    } else {
+                        addCMEntry(component+filter,filterToComponent[filterToComponent.length-1]);
                     }
                 }
                 currentLine = bufferedReaderFilters.readLine();
@@ -42,6 +46,33 @@ public class ProcessEpicOutput {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    private static void addCMEntry(String component, String receiver) {
+        Set<String> receivers = null;
+        if(componentMap.containsKey(component)) {
+            receivers = componentMap.get(component);
+        } else {
+            receivers = new HashSet<String>();
+        }
+        receivers.add(receiver);
+        componentMap.put(component, receivers);
+    }
+    
+    private static void addCMEntryURI(String component, String receiver, String filter) {
+        Set<String> receivers = null;
+        if(componentMapURI.containsKey(component)) {
+            receivers = componentMapURI.get(component);
+        } else {
+            receivers = new HashSet<String>();
+        }
+        receiver = receiver.substring(1,receiver.length()); // Removing appended 1 to identify URIs filters.
+        String[] uri = filter.split(":URI:");
+        if(uri.length > 1) {
+            receiver += "(" + uri[1].split(" ->")[0] + ")";
+        }
+        receivers.add(receiver);
+        componentMapURI.put(component, receivers);
     }
 
     static void readFile(String epiccOutputPath, String filtersPath, String cmPath) {
@@ -116,11 +147,12 @@ public class ProcessEpicOutput {
             output = output + categories + ",";
             return processFilter(filter.substring(categories.length() + 2)
                     .trim(), output,component);
-        } else if (filter.startsWith("Data")) {
-            filter = filter.substring(5, filter.length()).trim();
-            String data = filter.split(",")[0];
-            output = output + data + ",";
-            return processFilter(filter.substring(data.length()).trim(), output,component);
+            //Commented out since Epicc currently does not handle URIs.
+//        } else if (filter.startsWith("Data")) {
+//            filter = filter.substring(5, filter.length()).trim();
+//            String data = filter.split(",")[0];
+//            output = output + data + ",";
+//            return processFilter(filter.substring(data.length()).trim(), output,component);
         } else if (filter.startsWith("Package")) {
             filter = filter.substring(8, filter.length()).trim();
             String package_ = filter.split(" ")[0];
@@ -131,10 +163,7 @@ public class ProcessEpicOutput {
             filter = filter.substring(6, filter.length()).trim();
             String clazz = filter.split(" ")[0];
             clazz = clazz.substring(0,clazz.length()-1);
-            String line = component + " -> " + clazz;
-            if(!linesToWrite.containsKey(line)) {
-                linesToWrite.put(line, true);
-            }
+            addCMEntry(component, clazz);
             return clazz;
         } else if (filter.startsWith("Extras")) {
             return "(" + output + ")";
@@ -147,9 +176,33 @@ public class ProcessEpicOutput {
     
     static void writeLines() {
         try {
-            for(String line : linesToWrite.keySet()) {
-                fw.write(line);
+            for(String component : componentMap.keySet()) {
+                Set<String> receivers = componentMap.get(component);
+                
+                if(componentMapURI.containsKey(component)) {
+                    Set<String> receiversURI = componentMapURI.get(component);
+                    receiversURI.addAll(receivers);
+                    componentMapURI.put(component, receiversURI);
+                } else {
+                    String receiversString = receivers.toString();
+                    receiversString = receiversString.substring(1,receiversString.length()-1); // Removing [] from set
+                    fw.write(component + " -> " + receiversString);
+                    fw.write("\n");
+                }
+            }
+            if(!componentMapURI.isEmpty()) {
                 fw.write("\n");
+                fw.write("#The following communication occurs with uses of URIs \n");
+                fw.write("#Please verify the code manually \n");
+            }
+            
+            for(String component : componentMapURI.keySet()) {
+                String receivers = componentMapURI.get(component).toString();
+                receivers = receivers.substring(1,receivers.length()-1); // Removing [] from set
+                for(String receiver : receivers.split(",")) {
+                    fw.write("# "+ component + " -> " + receiver);
+                    fw.write("\n");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -157,7 +210,8 @@ public class ProcessEpicOutput {
     }
     
     public static void main(String[] args) {
-        linesToWrite = new HashMap<String,Boolean>();
+        componentMap = new HashMap<String,Set<String>>();
+        componentMapURI = new HashMap<String,Set<String>>();
         readFile(args[0],args[1],args[2]);
     }
 

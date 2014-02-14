@@ -31,7 +31,7 @@ public class ComponentMap {
     public ComponentMap(final String filename) {
         if (filename != null) {
             File componentMapFile = new File(filename);
-            componentMap = getAndroidSystemComponents();
+            componentMap = new HashMap<String, Set<String>>();
             if (componentMapFile != null && componentMapFile.exists()) {
                 readComponentMapFile(componentMapFile);
             }
@@ -39,13 +39,6 @@ public class ComponentMap {
             componentMap = new HashMap<String, Set<String>>();
         }
     }
-
-    private Map<String, Set<String>> getAndroidSystemComponents() {
-        HashMap<String, Set<String>> c = new HashMap<String, Set<String>>();
-        //Add android system components here
-        return c;
-    }
-
    
     public static String stripComment(final String input) {
         int commentIndex = input.indexOf('#');
@@ -102,6 +95,9 @@ public class ComponentMap {
                                     receivers.add(s);
                                 }
                                 if (receivers != null && !receivers.isEmpty()) {
+                                    if(componentMap.containsKey(senderStr)) {
+                                        receivers.addAll(componentMap.get(senderStr));
+                                    }
                                     componentMap.put(senderStr, receivers);
                                 }
                             } catch (final IllegalArgumentException iaExc) {
