@@ -166,10 +166,10 @@ void setVideoSize(int width, int height);
 void setVideoSource(int video_source);
 //Sets the video source to be used for recording.
 
-void start() @Source({RECORD_AUDIO, CAMERA});
+void start();
 //Begins capturing and encoding data to the file specified with setOutputFile();.
 
-void stop() @Source({RECORD_AUDIO, CAMERA});
+void stop();
 //Stops recording.
 
 //Protected Methods

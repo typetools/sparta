@@ -2,6 +2,9 @@
 
 \newcommand{\app}{App\xspace}
 \newcommand{\apps}{\app{}s\xspace}
+\newcommand{\tp}[1]{\mathit{typeof}}
+\newcommand{\Fix}[1]{\textbf{[[}{\color{red} #1}\textbf{]]}}
+
 
 \chapter{Handling Intents\label{flow-checker}}
 
@@ -11,9 +14,25 @@ among \apps, and with the Android system.  An Android component can
 send or broadcast intents and can register interest in receiving
 intents.
 
-Intents can be seen as messages exchanged through components where the
+Intents can be seen as messages exchanged through components; the
 payloads of these messages are maps.  Sensitive data can flow in and
-out of intent objects.  Consequently, \theFlowChecker{} needs to be
-aware of the information flow types associated to the data
-encapsulated in intent maps in order to prevent manifestations of
-forbidden flows.
+out of intent objects.  Consequently, to prevent manifestations of
+forbidden flows, \theFlowChecker{} needs to be aware of the
+information flow types associated to the various data elements
+encapsulated in intent maps.
+
+\TheFlowChecker{} provides support to
+ensure that the type of data stored within an intent conforms to the
+declared type of the intent, even in the presence of implicit
+invocation via intents.  It verifies that for any sending intent
+method call and any receiving intent method declaration that can be
+invoked by the call site, the intent argument of the caller is
+compatible with that of the corresponding callee.  In addition, the
+checker verifies that the intent payload is used consistently at each
+site.
+
+\Fix{check}
+
+
+
+%%  LocalWords:  sendIntent onReceive typeof callee

@@ -406,7 +406,7 @@ class AdapterView {
 	T getAdapter();
       long getItemIdAtPosition(int position);
             int getCount();
-            int getFirstVisiblePosition();
+ Object getSelectedItem();     
 
 //void addView(View child);
 //This method is not supported and throws an UnsupportedOperationException when called.
