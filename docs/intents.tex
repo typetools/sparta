@@ -31,8 +31,111 @@ compatible with that of the corresponding callee.  In addition, the
 checker verifies that the intent payload is used consistently at each
 site.
 
-\Fix{check}
+For simplicity in this manual, we abstract all methods that send intents as the
+method sendIntent, and all methods that receive an intent as the method call
+onReceive.
+
+\section{Component map}
+To precisely analyze the types of data sent through intents, our analysis
+requires sendIntent calls to be matched to the declarations of the onReceive
+methods they implicitly invoke. A sendIntent call may be paired
+with more than one onReceive declaration. One such pair indicates that 
+components a and b, possibly from different apps, may communicate through 
+intents. 
+
+A component map is used to represent the communication between components of an
+application. A component map file expresses a 
+component map, as a list of $\flow{\|sendIntent|}{\|onReceive|^*}$ pairs.
+
+\subsection{Semantics of a Component map}
+\TheFlowChecker{} assumes that there is no inter-component communication
+except for what is explicitly described in the policy file. 
+
+\subsection{Syntax of a Component map file}
+Each line of a component map specifies the inter-component communication of
+an application. For example, \code{ActivityA(Action1) -> ActivityB} implies that
+every implicit intent sent from ActivityA with action \code{Action1} will
+be sent to ActivityB. 
+
+\subsection{Component map generation}
+To generate a component map for an application, the generate-cm script, which 
+can be found in the sparta-code source folder, is used.
+It receives as argument the full path of the application's apk and the output
+path of the component map. The second one is optional and the component map
+will be generated in the same folder as the apk in case not informed.
+\begin{alltt}
+./generate-cm [full path to app's .apk] [output path]
+\end{alltt}
+
+\subsection{Using a Component map}
+To use a component map file named \emph{component-map} 
+when invoking \TheFlowChecker{} from the command line, move the file to the
+source folder of the application and 
+add the following line in the build.xml file of the application:
+\begin{alltt}
+<property name="componentMap" value="component-map"/>
+\end{alltt}
+
+\section{IntentMap and Extra annotations}
+An Intent contains a map from string keys to arbitrary values. Data can be added
+to this map by the sender with \<intent.putExtra("key",value)> and then
+retrieved by the receiver with \<intent.getExtra("key",default)>. 
+The \<@IntentMap> represents the types
+of the key/value mappings that are permitted to be accessed. The Intent object
+may contain more mappings than stated in its type, but those other keys may not
+be accessed. The Intent object is not required to contain all the given
+mappings, but if a key is present, then the type of the corresponding value must
+be consistent with the stated type. 
+
+An \<@IntentMap> annotation contains a set of \<@Extra> annotations. An
+\<@Extra> annotation contains a key K and a type T. This means that the key K 
+maps to a value of type T. In the case of the information flow system, the type T
+represents data and constrains its possible flows. 
+
+\subsection{putExtra and getExtra rules}
+
+\subsubsection{putExtra}
+Calls intent.putExtra(key,value) type-check if:
+\begin{itemize}
+\item
+ key is in an \<@Extra> in the intent's \<@IntentMap> annotation.
+\item
+ value is a subtype of the type of the \<@Extra> annotation with key in the
+	intent's \<@IntentMap> annotation. 
 
 
+\end{itemize}
+For example:
+
+\<@IntentMap(@Extra(key="key",source=({A,B}),sink=({C,D})))
+	Intent intent>
+	
+\begin{itemize}
+\item
+intent.putExtra("key",\<@Source({A}) @Sink({C,E})> obj value) is allowed
+\item
+intent.putExtra("key",\<@Source({A,B,E}) @Sink({C})> obj value) is not allowed
+
+\end{itemize}
+
+\subsubsection{getExtra}
+The return type of intent.getExtra(key,defaultValue) is the type of the \<@Extra>
+annotation with key in the intent's \<@IntentMap> annotation.
+Calls intent.getExtra(key,defaultValue) type-check if:
+\begin{itemize}
+\item
+key is in an \<@Extra> in the intent's \<@IntentMap> annotation.
+\end{itemize}
+For example:
+		
+\<@IntentMap(@Extra(key="key",source=({A,B}),sink=({C,D})))
+		Intent getIntent()>
+\begin{itemize}
+\item
+	Obj x = intent.getExtra("key", defaultValue) is allowed. 
+	The type of x is \<@Source(A,B) @Sink(C,D) Obj>.
+\item
+	Obj x = intent.getExtra("key2", defaultValue) is not allowed.
+\end{itemize}
 
 %%  LocalWords:  sendIntent onReceive typeof callee
