@@ -1783,7 +1783,7 @@ int getSelectedItemPosition();
 void onContentChanged();
 //Updates the screen state (current list and other views); when the content changes.
 
-void setListAdapter(ListAdapter adapter);
+void setListAdapter(@Sink(DISPLAY) ListAdapter adapter);
 //Provide the cursor for the list view.
 
 void setSelection(int position);

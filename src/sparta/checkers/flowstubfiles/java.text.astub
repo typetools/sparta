@@ -1,6 +1,5 @@
 package java.text;
 
-@PolyFlowReceiver
 class DateFormat extends Format {
     protected Calendar calendar;
     protected NumberFormat numberFormat;

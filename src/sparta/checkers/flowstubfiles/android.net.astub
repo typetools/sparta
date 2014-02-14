@@ -172,6 +172,7 @@ static void untagSocket(Socket socket);
 
 }
 
+
 class Uri {
     
     
@@ -181,21 +182,23 @@ abstract Uri.Builder buildUpon();
 int compareTo(Uri other);
 //Compares the string representation of this Uri with that of another.
 
+@PolyFlow
 static String decode(String s);
 //Decodes '%'-escaped octets in the given string using the UTF-8 scheme.
 
+@PolyFlow
 static String encode(String s, String allow);
 //Encodes characters in the given string as '%'-escaped octets using the UTF-8 scheme.
-
+@PolyFlow
 static String encode(String s);
 //Encodes characters in the given string as '%'-escaped octets using the UTF-8 scheme.
 
 boolean equals(Object o);
 //Compares this Uri to another object for equality.
 
-static Uri fromFile(@Source({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) File file);
+static @Source({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) Uri fromFile(File file);
 //Creates a Uri from a file.
-
+@PolyFlow
 static Uri fromParts(String scheme, String ssp, String fragment);
 //Creates an opaque Uri from the given components.
 

@@ -310,7 +310,7 @@ boolean shouldPersist();
 
 }
 class Preference$OnPreferenceChangeListener{
-        boolean onPreferenceChange(Preference arg0, Object arg1);
+        boolean onPreferenceChange(Preference arg0, @Source(USER_INPUT) Object arg1);
 }
 
 class Preference$OnPreferenceClickListener{
