@@ -97,7 +97,7 @@ class BigInteger extends Number implements Comparable<BigInteger> {
     final BigInteger ONE;
     final BigInteger TEN;
     BigInteger(byte[] arg0);
-    BigInteger(int arg0, byte[] arg1);
+    BigInteger(int arg0, @PolySource @PolySink byte[] arg1);
     BigInteger(String arg0, int arg1);
     BigInteger(String arg0);
     BigInteger(int arg0, Random arg1);
