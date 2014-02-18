@@ -7,6 +7,7 @@ package sparta.checkers.intents;
 import checkers.basetype.BaseTypeChecker;
 import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
+import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 import checkers.util.AnnotatedTypes;
@@ -522,7 +523,13 @@ public class IntentVisitor extends FlowVisitor {
         // from the IExtra, only to be used in the isSubType() call.
         AnnotatedTypeMirror annotatedType = AnnotatedTypeMirror
             .createType(javaType, atypeFactory);
-
+      //Handling array types. 
+        if(annotatedType instanceof AnnotatedArrayType) {
+            ((AnnotatedArrayType)annotatedType).getComponentType().addAnnotation(sourceAnnotation);
+            ((AnnotatedArrayType)annotatedType).getComponentType().addAnnotation(sinkAnnotation);
+            ((AnnotatedArrayType)annotatedType).getComponentType().addAnnotation(((IntentAnnotatedTypeFactory) atypeFactory)
+                    .EMPTYINTENTEXTRAS);
+        }
         annotatedType.addAnnotation(sourceAnnotation);
         annotatedType.addAnnotation(sinkAnnotation);
         annotatedType.addAnnotation(((IntentAnnotatedTypeFactory) atypeFactory)

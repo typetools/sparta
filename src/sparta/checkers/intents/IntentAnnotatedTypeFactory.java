@@ -8,7 +8,9 @@ import static checkers.quals.DefaultLocation.UPPER_BOUNDS;
 
 import checkers.basetype.BaseTypeChecker;
 import checkers.quals.DefaultLocation;
+import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
+import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
 import checkers.types.QualifierHierarchy;
 import checkers.types.TreeAnnotator;
@@ -155,11 +157,19 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         for (AnnotatedTypeMirror parameterAnnotation : parametersAnnotations) {
             if (parameterAnnotation.hasAnnotation(Source.class)) {
                 // Modifying @Source type
+                if(parameterAnnotation instanceof AnnotatedArrayType) {
+                    ((AnnotatedArrayType) parameterAnnotation).getComponentType().removeAnnotation(Source.class);
+                    ((AnnotatedArrayType) parameterAnnotation).getComponentType().addAnnotation(ANYSOURCE);
+                }
                 parameterAnnotation.removeAnnotation(Source.class);
                 parameterAnnotation.addAnnotation(ANYSOURCE);
             }
             if (parameterAnnotation.hasAnnotation(Sink.class)) {
                 // Modifying @Sink type
+                if(parameterAnnotation instanceof AnnotatedArrayType) {
+                    ((AnnotatedArrayType) parameterAnnotation).getComponentType().removeAnnotation(Sink.class);
+                    ((AnnotatedArrayType) parameterAnnotation).getComponentType().addAnnotation(NOSINK);
+                }
                 parameterAnnotation.removeAnnotation(Sink.class);
                 parameterAnnotation.addAnnotation(NOSINK);
             }
@@ -481,27 +491,35 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         if (tree != null) {
             ExpressionTree receiver = TreeUtils.getReceiverTree(tree);
             AnnotatedTypeMirror receiverType = getAnnotatedType(receiver);
-            String keyName = tree.getArguments().get(0).toString();
-            // Removing "" from key. "key" -> key
-            keyName = keyName.substring(1, keyName.length() - 1);
             if (receiverType.hasAnnotation(IntentMap.class)) {
-
-                AnnotationMirror receiverIntentAnnotation = receiverType
-                    .getAnnotation(IntentMap.class);
-                List<AnnotationMirror> iExtrasList = AnnotationUtils
-                    .getElementValueArray(receiverIntentAnnotation,
-                        "value", AnnotationMirror.class, true);
-                // Here we have the list of IExtra from the Intent
-                // We iterate this list until we find the key we need.
-                for (AnnotationMirror iExtra : iExtrasList) {
-                    String key = IntentUtils.getKeyName(iExtra);
-                    if (key.equals(keyName)) {
-                        // Found the key, now change the annotation of the
-                        // return of getExtra()
-                        return hostChangeMethodReturn(origResult,
-                            iExtra);
+                AnnotationMirror stringValAnno = getAnnotationMirror(tree.getArguments().get(0), 
+                        checkers.value.quals.StringVal.class);
+               
+                if (stringValAnno != null) {                                            
+                    List<String> keys = AnnotationUtils.getElementValueArray(stringValAnno, "value", String.class, true);   
+                    AnnotationMirror receiverIntentAnnotation = receiverType
+                            .getAnnotation(IntentMap.class);
+                        List<AnnotationMirror> iExtrasList = AnnotationUtils
+                            .getElementValueArray(receiverIntentAnnotation,
+                                "value", AnnotationMirror.class, true);
+                    for(String keyName : keys) {
+                        // Here we have the list of IExtra from the Intent
+                        // We iterate this list until we find the key we need.
+                        for (AnnotationMirror iExtra : iExtrasList) {
+                            String key = IntentUtils.getKeyName(iExtra);
+                            if (key.equals(keyName)) {
+                                // Found the key, now change the annotation of the
+                                // return of getExtra()
+                                return hostChangeMethodReturn(origResult,
+                                    iExtra);
+                            }
+                        }
                     }
+                } else {
+                    //Handle keys which are not constants
+                    checker.report(Result.failure("intent.key.variable", tree.getArguments().get(0)), tree);
                 }
+                
             }
         }
         /*
@@ -522,12 +540,28 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         origResult.first.getReturnType().clearAnnotations();
         origResult.first.getReturnType().addAnnotation(sourceAnnotation);
         origResult.first.getReturnType().addAnnotation(sinkAnnotation);
-
+        
+        
         if (!origResult.first.getReturnType().hasAnnotation(
                 IntentMap.class)) {
             origResult.first.getReturnType().addAnnotation(
                 EMPTYINTENTEXTRAS);
         }
+        
+        //Handling array types.
+        if(origResult.first.getReturnType() instanceof AnnotatedArrayType) {
+            ((AnnotatedArrayType)origResult.first.getReturnType()).getComponentType().clearAnnotations();
+            ((AnnotatedArrayType)origResult.first.getReturnType()).getComponentType().addAnnotation(sourceAnnotation);
+            ((AnnotatedArrayType)origResult.first.getReturnType()).getComponentType().addAnnotation(sinkAnnotation);
+            
+            if (!((AnnotatedArrayType)origResult.first.getReturnType()).getComponentType().hasAnnotation(
+                    IntentMap.class)) {
+                ((AnnotatedArrayType)origResult.first.getReturnType()).getComponentType().addAnnotation(
+                    EMPTYINTENTEXTRAS);
+            }
+        }
+        
+        
         return origResult;
     }
 
