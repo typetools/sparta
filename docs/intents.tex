@@ -6,7 +6,7 @@
 \newcommand{\Fix}[1]{\textbf{[[}{\color{red} #1}\textbf{]]}}
 
 
-\chapter{Handling Intents\label{flow-checker}}
+\chapter{Handling Intents\label{intent-checker}}
 
 Android intents are the standard inter-component communication
 mechanism in Android.  They are used for communication within an \app,
@@ -137,5 +137,29 @@ For example:
 \item
 	Obj x = intent.getExtra("key2", defaultValue) is not allowed.
 \end{itemize}
+
+\subsection{Type-checking sendIntent()}
+An \<@IntentMap(A)> is copyable to \<@IntentMap(B)> if every key in the set of
+@Extra in \<@IntentMap(A)> can be found in the set of \<@Extra> in
+\<@IntentMap(B)> and the type of value of the \<@Extra> entry with key \<K> in
+\<@IntentMap(B)> is a subtype of the type of value with key \<K> in
+\<@IntentMap(A)>.
+
+
+A call sendIntent() only type-checks if the sender's Intent type is copyable to
+each possible receiver's Intent type according the component map. 
+
+\section{Running the Intent Analysis with \TheFlowChecker{}}
+
+Run \theFlowChecker{} in the command line with \<check-intent> instead of
+\<check-flow> like the following command: 
+
+
+\begin{alltt}
+ant -DflowPolicy=myflowpolicy -DcomponentMap=mycomponentmap check-intent
+\end{alltt}
+
+If the Information Flow Checker produces any errors or warnings, then the app
+has not been properly annotated and should be rejected.
 
 %%  LocalWords:  sendIntent onReceive typeof callee
