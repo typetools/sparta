@@ -59,15 +59,23 @@ import com.sun.tools.javac.tree.TreeInfo;
 public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
 
     private boolean topAllowed = false;
+    /**
+     * Should the checker warn when a non-literal source is used in
+     * a conditional (regardless of the flow policy)?  
+     */
+    public static final String CHECK_CONDITIONALS_OPTION = "checkconditionals";
     
     private ParameterizedFlowPermission ANY;
     private ParameterizedFlowPermission CONDITIONAL;
+    private ParameterizedFlowPermission LITERAL;
+    private boolean checkConditional = Boolean.valueOf(checker.getOption(CHECK_CONDITIONALS_OPTION, "false"));
 
     public FlowVisitor(BaseTypeChecker checker) {
         super(checker);
         
         ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
         CONDITIONAL = new ParameterizedFlowPermission(FlowPermission.CONDITIONAL);
+        LITERAL = new ParameterizedFlowPermission(FlowPermission.LITERAL);
     }
 @Override
 protected FlowAnnotatedTypeFactory createTypeFactory() {
@@ -92,11 +100,22 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
     }
 
     private void ensureConditionalSink(ExpressionTree tree) {
+
+        
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
         final Set<ParameterizedFlowPermission> sinks = Flow.getSinks(type);
         if (!ParameterizedFlowPermission.coarsePermissionExists(ANY, sinks) && 
             !ParameterizedFlowPermission.coarsePermissionExists(CONDITIONAL, sinks)) {
             checker.report(Result.failure("condition.flow", type.getAnnotations()), tree);
+
+        }
+        if(checkConditional){
+            final Set<ParameterizedFlowPermission> sources = Flow.getSources(type);
+            if(sources.size() > 1 || 
+                    !ParameterizedFlowPermission.coarsePermissionExists(LITERAL, sources)){
+                checker.report(Result.failure("condition.flow", sources), tree);
+                
+            }
 
         }
     }
