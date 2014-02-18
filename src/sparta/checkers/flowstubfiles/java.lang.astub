@@ -474,6 +474,7 @@ interface CharSequence {
 }
 
 class Class{
+<U> Class<? extends U> asSubclass(Class<U> arg0);
 		String getCanonicalName();
         Constructor<T> getConstructor(Class<?>[] parameterTypes) throws NoSuchMethodException,SecurityException;
         Field getDeclaredField(String name) throws NoSuchFieldException,SecurityException;
