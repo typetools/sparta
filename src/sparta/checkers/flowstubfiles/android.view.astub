@@ -1,5 +1,32 @@
 package android.view;
 
+class Gravity {
+static int getAbsoluteGravity(int gravity, int layoutDirection);
+static void apply(int gravity, int w, int h, Rect container, int xAdj, int yAdj, Rect outRect, int layoutDirection);
+static void apply(int gravity, int w, int h, Rect container, int xAdj, int yAdj, Rect outRect);
+static void apply(int gravity, int w, int h, Rect container, Rect outRect, int layoutDirection);
+static void apply(int gravity, int w, int h, Rect container, Rect outRect);
+static void applyDisplay(int gravity, Rect display, Rect inoutObj, int layoutDirection);
+static void applyDisplay(int gravity, Rect display, Rect inoutObj);
+}
+
+class KeyEvent$DispatcherState {
+boolean isTracking(KeyEvent event);
+void startTracking(KeyEvent event, Object target);
+}
+
+class ScaleGestureDetector {
+boolean isQuickScaleEnabled();
+void setQuickScaleEnabled(boolean scales);
+}
+
+class ViewTreeObserver {
+void addOnWindowAttachListener(OnWindowAttachListener listener);
+void addOnWindowFocusChangeListener(OnWindowFocusChangeListener listener);
+void removeOnWindowAttachListener(OnWindowAttachListener victim);
+void removeOnWindowFocusChangeListener(OnWindowFocusChangeListener victim);
+}
+
 class AbsSavedState{
             Parcelable getSuperState();
             void writeToParcel(Parcel dest, int flags);
@@ -2536,6 +2563,15 @@ class ViewGroup$MarginLayoutParams{
         MarginLayoutParams(MarginLayoutParams source);
         MarginLayoutParams(LayoutParams source);
 		void setMargins(int left, int top, int right, int bottom);
+		
+		boolean isMarginRelative();
+int getLayoutDirection();
+int getMarginEnd();
+int getMarginStart();
+void resolveLayoutDirection(int layoutDirection);
+void setLayoutDirection(int layoutDirection);
+void setMarginEnd(int end);
+void setMarginStart(int start);
 
 }
 class ViewGroup$LayoutParams {
@@ -2977,6 +3013,10 @@ void setStaticTransformationsEnabled(boolean enabled);
 }
 
 class ViewParent {
+
+boolean requestSendAccessibilityEvent(View arg0, AccessibilityEvent arg1);
+ViewParent getParent();
+void requestDisallowInterceptTouchEvent(boolean arg0);
  
 //abstract void bringChildToFront(View child);
 //Change the z order of the child so it's on top of all other children
@@ -3575,6 +3615,16 @@ class TranslateAnimation{
 
 package android.view.accessibility;
 
+class AccessibilityManager {
+boolean addAccessibilityStateChangeListener(AccessibilityStateChangeListener listener);
+boolean isEnabled();
+boolean isTouchExplorationEnabled();
+boolean removeAccessibilityStateChangeListener(AccessibilityStateChangeListener listener);
+List<AccessibilityServiceInfo> getEnabledAccessibilityServiceList(int feedbackTypeFlags);
+List<AccessibilityServiceInfo> getInstalledAccessibilityServiceList();
+void sendAccessibilityEvent(AccessibilityEvent event);
+}
+
 class AccessibilityNodeInfo {
 static AccessibilityNodeInfo obtain(View source);
 static AccessibilityNodeInfo obtain(View root, int virtualDescendantId);
@@ -3644,6 +3694,15 @@ int getLiveRegion();
 
 class AccessibilityEvent{
         CharSequence getPackageName();
+        
+        AccessibilityRecord getRecord(int index);
+int getEventType();
+int getRecordCount();
+static AccessibilityEvent obtain();
+static AccessibilityEvent obtain(AccessibilityEvent event);
+static AccessibilityEvent obtain(int eventType);
+void appendRecord(AccessibilityRecord record);
+void setPackageName(CharSequence packageName);
 }
 
 class AccessibilityManager$AccessibilityStateChangeListener{
@@ -3653,6 +3712,54 @@ class AccessibilityManager$AccessibilityStateChangeListener{
 class AccessibilityRecord{
         Parcelable getParcelableData();
         List<CharSequence> getText();
+        
+        AccessibilityNodeInfo getSource();
+boolean isChecked();
+boolean isEnabled();
+boolean isFullScreen();
+boolean isPassword();
+boolean isScrollable();
+CharSequence getBeforeText();
+CharSequence getClassName();
+CharSequence getContentDescription();
+CharSequence getContentDescription();
+int getAddedCount();
+int getCurrentItemIndex();
+int getFromIndex();
+int getItemCount();
+int getMaxScrollX();
+int getMaxScrollY();
+int getRemovedCount();
+int getScrollX();
+int getScrollY();
+int getToIndex();
+int getWindowId();
+static AccessibilityRecord obtain();
+static AccessibilityRecord obtain(AccessibilityRecord record);
+void recycle();
+void setAddedCount(int addedCount);
+void setBeforeText(CharSequence beforeText);
+void setChecked(boolean isChecked);
+void setClassName(CharSequence className);
+void setClassName(CharSequence className);
+void setContentDescription(CharSequence contentDescription);
+void setCurrentItemIndex(int currentItemIndex);
+void setEnabled(boolean isEnabled);
+void setEnabled(boolean isEnabled);
+void setFromIndex(int fromIndex);
+void setFullScreen(boolean isFullScreen);
+void setItemCount(int itemCount);
+void setMaxScrollX(int maxScrollX);
+void setMaxScrollY(int maxScrollY);
+void setParcelableData(Parcelable parcelableData);
+void setPassword(boolean isPassword);
+void setRemovedCount(int removedCount);
+void setScrollable(boolean scrollable);
+void setScrollX(int scrollX);
+void setScrollY(int scrollY);
+void setSource(View root, int virtualDescendantId);
+void setSource(View source);
+void setToIndex(int toIndex);
 }
 
 package android.view.inputmethod;

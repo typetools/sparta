@@ -1,6 +1,12 @@
 
 package android.database;
 
+class DatabaseUtils {
+@Source(SQLITE_DATABASE) static long queryNumEntries(@Sink(SQLITE_DATABASE) SQLiteDatabase db, @Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String selection, @Sink(SQLITE_DATABASE) String[] selectionArgs);
+@Source(SQLITE_DATABASE) static long queryNumEntries(@Sink(SQLITE_DATABASE) SQLiteDatabase db, @Sink(SQLITE_DATABASE) String table, @Sink(SQLITE_DATABASE) String selection);
+@Source(SQLITE_DATABASE) static long queryNumEntries(@Sink(SQLITE_DATABASE) SQLiteDatabase db, @Sink(SQLITE_DATABASE) String table);
+}
+
 class ContentObserver {
     
 boolean deliverSelfNotifications();

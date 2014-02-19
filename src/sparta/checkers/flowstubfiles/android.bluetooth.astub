@@ -1,6 +1,18 @@
 package android.bluetooth;
-class BluetoothAdapter{
+
+class BluetoothAdapter {
         static BluetoothAdapter getDefaultAdapter();
-        boolean enable();
-        boolean disable();
+        @Source(BLUETOOTH_ADMIN) boolean enable();
+        @Source(BLUETOOTH_ADMIN) boolean disable();
+        @Source(BLUETOOTH_ADMIN) boolean cancelDiscovery();
+        @Source(BLUETOOTH) boolean isEnabled();
+        @Source(BLUETOOTH_ADMIN) boolean startDiscovery();
+}
+
+class BluetoothDevice {
+  @Source(BLUETOOTH) String getAddress();
+}
+
+class BluetoothClass {
+  String toString();
 }

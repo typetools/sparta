@@ -1,5 +1,33 @@
 package android.provider;
 
+class Browser {
+static void clearHistory(ContentResolver cr);
+static void clearSearches(ContentResolver cr);
+}
+
+class Contacts$People {
+static Bitmap loadContactPhoto(Context context, Uri person, int placeholderImageResource, Options options);
+}
+
+class ContactsContract$QuickContact {
+static void showQuickContact(Context context, Rect target, Uri lookupUri, int mode, String[] excludeMimes);
+static void showQuickContact(Context context, View target, Uri lookupUri, int mode, String[] excludeMimes);
+}
+
+class MediaStore$Images$Media {
+static String insertImage(ContentResolver cr, @Sink(CONTENT_PROVIDER) Bitmap source, @Sink(CONTENT_PROVIDER) String title, @Sink(CONTENT_PROVIDER) String description);
+static String insertImage(ContentResolver cr, @Sink(CONTENT_PROVIDER) String imagePath, @Sink(CONTENT_PROVIDER) String name, @Sink(CONTENT_PROVIDER) String description) throws FileNotFoundException;
+}
+
+class MediaStore$Images$Thumbnails {
+static @Source(CONTENT_PROVIDER) Bitmap getThumbnail(ContentResolver cr, long origId, int kind, Options options);
+static @Source(CONTENT_PROVIDER) Bitmap getThumbnail(ContentResolver cr, long origId, long groupId, int kind, Options options);
+static @Source(CONTENT_PROVIDER) Cursor queryMiniThumbnail(ContentResolver cr, long origId, int kind, String[] projection);
+}
+
+class Settings$System {
+static boolean putInt(ContentResolver cr, String name, @Sink(WRITE_SETTINGS) int value);
+}
 
 class ContactsContract$CommonDataKinds$Phone {
     
