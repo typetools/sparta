@@ -160,6 +160,11 @@ class SimpleDateFormat extends DateFormat {
     boolean equals(Object arg0);
 }
 
+class NumberFormat{
+@PolyFlow
+        String format(double arg0);
+}
+
 @PolyFlowReceiver
 class Format {
     String format(Object arg0);

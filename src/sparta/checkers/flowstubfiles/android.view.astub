@@ -94,7 +94,7 @@ abstract ContextMenu setHeaderView(@Sink(DISPLAY) View view);
 }
 
 class ContextThemeWrapper {
-
+        void setTheme(int resid);
 //void applyOverrideConfiguration(Configuration overrideConfiguration);
 //Call to set an "override configuration" on this context -- this is a configuration that replies one or more values of the standard configuration that is applied to the context.
 
@@ -2417,6 +2417,10 @@ class View$AccessibilityDelegate{
         boolean dispatchPopulateAccessibilityEvent(View host, AccessibilityEvent event);
         void sendAccessibilityEventUnchecked(View host, AccessibilityEvent event);
         void sendAccessibilityEvent(View host, int eventType);
+}
+
+class View$OnKeyListener{
+        boolean onKey(View arg0, int arg1, KeyEvent arg2);
 }
 
 class View$OnClickListener{

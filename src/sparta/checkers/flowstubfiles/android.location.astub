@@ -134,9 +134,11 @@ void writeToParcel(Parcel parcel, int flags);
 
 
 }
-
+class Criteria{
+        Criteria();
+}
 class Geocoder {
-
+Geocoder(Context context);
 List<Address> getFromLocation(double latitude, double longitude, int maxResults);
 //Returns an array of Addresses that are known to describe the area immediately surrounding the given latitude and longitude.
 

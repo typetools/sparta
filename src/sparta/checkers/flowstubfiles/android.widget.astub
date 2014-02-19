@@ -1776,6 +1776,12 @@ void toggle();
 
 }
 
+
+class RadioGroup$OnCheckedChangeListener{
+        void onCheckedChanged(RadioGroup arg0, int arg1);
+}
+
+
 class RadioGroup {
     
 void addView(@Sink(DISPLAY) View child, int index, ViewGroup.LayoutParams params);

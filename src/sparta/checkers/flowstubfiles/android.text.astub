@@ -212,6 +212,9 @@ class DateUtils{
 
 class Time{
 
+        boolean parse3339(String s);
+        void set(long arg0);
+
 void setToNow();
 //Sets the time of the given Time object to the current time.
 

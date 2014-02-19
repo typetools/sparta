@@ -245,6 +245,10 @@ boolean valueAt(int index);
 
 }
 
+class DisplayMetrics{
+        DisplayMetrics();
+}
+
 class SparseArray{
             void clear();
 }

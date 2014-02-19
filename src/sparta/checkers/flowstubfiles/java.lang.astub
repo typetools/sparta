@@ -894,8 +894,7 @@ class Object {
     boolean equals(Object arg0);
     @PolyFlowReceiver
     protected Object clone() throws CloneNotSupportedException;
-    @PolyFlowReceiver
-    String toString();
+    @PolySource @PolySink String toString() @PolySource @PolySink;
     void notify();
     void notifyAll();
     void wait(long arg0) throws InterruptedException;

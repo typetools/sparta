@@ -9,4 +9,17 @@ class XmlPullParser {
     int next();
     @PolyFlowReceiver
     String getName();
+
+    @PolyFlowReceiver
+        String getAttributeValue(String arg0, String arg1);
+    @PolyFlowReceiver
+        int getEventType() throws XmlPullParserException;
+    @PolyFlowReceiver
+        void setInput(Reader arg0) throws XmlPullParserException;
 }
+
+class XmlPullParserFactory{
+        static XmlPullParserFactory newInstance() throws XmlPullParserException;
+        XmlPullParser newPullParser() throws XmlPullParserException;
+}
+

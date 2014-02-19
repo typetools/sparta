@@ -141,7 +141,7 @@ class ClipData$Item {
 }
 
 class ComponentName {
-    
+ComponentName(String pkg, String cls);    
 ComponentName clone();
 //Creates and returns a copy of this Object.
 
@@ -202,6 +202,8 @@ class ComponentName{
 }
 
 class ContentProvider {
+
+        ContentProvider();
 
 //CSH: content providers are tricky because they look like SQL queries, but can be implemented with anything, files, in-memory objects, databases, etc... not quite sure what to do here
     
@@ -1670,6 +1672,7 @@ class ServiceConnection {
 }
 
 class UriMatcher {
+        UriMatcher(int code);
     void addURI(@PolySource @PolySink String authority, @PolySource @PolySink String path, @PolySource @PolySink int code) @PolySource @PolySink;
     @PolyFlow int match(Uri uri);
 }
