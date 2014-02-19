@@ -1,6 +1,54 @@
 
 package android.widget;
 
+class TimePicker {
+Integer getCurrentHour();
+Integer getCurrentMinute();
+void setCurrentHour(Integer currentHour);
+void setCurrentMinute(Integer currentMinute);
+void setIs24HourView(Boolean is24HourView);
+}
+
+class OverScroller {
+boolean computeScrollOffset();
+boolean isFinished();
+boolean isOverScrolled();
+float getCurrVelocity();
+int getCurrX();
+int getCurrY();
+int getFinalX();
+int getFinalY();
+void abortAnimation();
+void notifyHorizontalEdgeReached(int startX, int finalX, int overX);
+void notifyVerticalEdgeReached(int startY, int finalY, int overY);
+void startScroll(int startX, int startY, int dx, int dy, int duration);
+void startScroll(int startX, int startY, int dx, int dy);
+}
+
+class ListPopupWindow {
+ OnTouchListener createDragToOpenListener(View src);
+}
+
+class ImageView$ScaleType {
+ static ScaleType[] values();
+}
+
+class HorizontalScrollView {
+  void scrollTo(int x, int y);
+}         
+
+class HeaderViewListAdapter {
+  int getHeadersCount();
+  ListAdapter getWrappedAdapter();
+}
+
+class AutoCompleteTextView {
+  <T> void setAdapter(T adapter);
+  void setOnItemClickListener(OnItemClickListener l);
+  void setText(@Sink(DISPLAY) CharSequence text, boolean filter);
+  void setThreshold(int threshold);
+}
+
 
 class AbsListView$MultiChoiceModeListener{
             void onItemCheckedStateChanged(ActionMode arg0, int arg1, long arg2, boolean arg3);
@@ -385,11 +433,14 @@ class AbsSeekBar{
 class AbsSpinner{
         void setSelection(int position);
         void setAdapter(SpinnerAdapter adapter);
+        void setSelection(int position, boolean animate);
 }
 
 class AdapterView$OnItemClickListener{
         Object getSelectedItem();
         void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
+        void setFocusable(boolean focusable);
+        void setSelection(int arg0);
 }
 class Adapter{
         boolean hasStableIds();
@@ -926,6 +977,15 @@ class ExpandableListView{
 static int getPackedPositionChild(long packedPosition);
 static int getPackedPositionGroup(long packedPosition);
 static int getPackedPositionType(long packedPosition);
+boolean setSelectedChild(int groupPosition, int childPosition, boolean shouldExpandGroup);
+long getSelectedId();
+long getSelectedPosition();
+void setAdapter(ExpandableListAdapter adapter);
+void setAdapter(ListAdapter adapter);
+void setOnChildClickListener(OnChildClickListener onChildClickListener);
+void setOnGroupCollapseListener(OnGroupCollapseListener onGroupCollapseListener);
+void setOnGroupExpandListener(OnGroupExpandListener onGroupExpandListener);
+void setSelectedGroup(int groupPosition);
 }
 
 class ExpandableListView$OnChildClickListener{
@@ -1631,6 +1691,7 @@ void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 
 class PopupMenu {
     
+OnTouchListener getDragToOpenListener();
 
 void dismiss();
 //Dismiss the menu popup.
@@ -1875,9 +1936,15 @@ class RemoteViews{
         void setViewVisibility(int viewId, int visibility);
         void setOnClickPendingIntent(int viewId, PendingIntent pendingIntent);
         void setImageViewResource(int viewId, int srcId);
+        
+        void addView(int viewId, RemoteViews nestedView);
+        void removeAllViews(int viewId);
+        void setImageViewUri(int viewId, Uri uri);
+        void setInt(int viewId, String methodName, int value);
 }
 class ResourceCursorAdapter{
         ResourceCursorAdapter(Context context, int layout, Cursor c);
+        void setDropDownViewResource(int dropDownLayout);
 }
 
 class ShareActionProvider{
@@ -2103,6 +2170,9 @@ class TabHost$TabSpec{
 
 
 class TextView {
+
+void setText(@Sink(DISPLAY) char[] text, int start, int len);
+void setText(@Sink(DISPLAY) char[] text, int start, int len);
 
 TextView(Context context);
 
@@ -2798,6 +2868,7 @@ boolean verifyDrawable(Drawable who);
 class ScrollView{
 void addView(View child);
 ScrollView(Context context);
+void smoothScrollTo(int x, int y);
 }
 
 
@@ -2816,6 +2887,7 @@ class SeekBar$OnSeekBarChangeListener{
 }
 
 class SimpleAdapter{
+        View getView(int position, View convertView, ViewGroup parent);
         SimpleAdapter(Context context, List<? extends Map<String,?>> data, int resource, String[] from, int[] to);
 }
 
@@ -2903,6 +2975,10 @@ void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 class SimpleCursorAdapter{
             SimpleCursorAdapter(Context context, int layout, @Sink(DISPLAY) Cursor c, String[] from, int[] to);
             //void bindView(View view, Context context, Cursor cursor);
+            
+            Cursor swapCursor(Cursor c);
+            void setCursorToStringConverter(CursorToStringConverter cursorToStringConverter);
+            void setViewBinder(ViewBinder viewBinder);
 }
 
 class Switch {
@@ -3295,6 +3371,9 @@ void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 class TabHost$TabSpec{
         String getTag();
         TabSpec setContent(TabContentFactory contentFactory);
+        TabSpec setContent(int viewId);
+        TabSpec setIndicator(@Sink(DISPLAY) CharSequence label, @Sink(DISPLAY) Drawable icon);
+        TabSpec setIndicator(@Sink(DISPLAY) View view);
 }
 class TabHost$TabContentFactory{
         View createTabContent(String arg0);

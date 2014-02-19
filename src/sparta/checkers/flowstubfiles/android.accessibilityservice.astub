@@ -8,4 +8,10 @@ class AccessibilityService{
 }
 class AccessibilityServiceInfo{
         AccessibilityServiceInfo();
+        boolean getCanRetrieveWindowContent();
+        int getCapabilities();
+        ResolveInfo getResolveInfo();
+        String getDescription();
+        String getId();
+        String getSettingsActivityName();
 }

@@ -206,6 +206,13 @@ class TextWatcher {
 
 package android.text.format;
 
+class DateFormat {
+static boolean is24HourFormat(Context context);
+static CharSequence format(CharSequence inFormat, Calendar inDate);
+static CharSequence format(CharSequence inFormat, Date inDate);
+static CharSequence format(CharSequence inFormat, long inTimeInMillis);
+}
+
 class DateUtils{
         static String getDayOfWeekString(int dayOfWeek, int abbrev);
 }
@@ -223,6 +230,10 @@ long toMillis(boolean arg0);
 }
 
 package android.text.method;
+
+class PasswordTransformationMethod {
+static PasswordTransformationMethod getInstance();
+}
 
 class KeyListener{
         int getInputType();

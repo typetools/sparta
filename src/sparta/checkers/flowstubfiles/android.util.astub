@@ -1,6 +1,18 @@
 
 package android.util;
 
+class SparseIntArray{
+int get(int key, int valueIfKeyNotFound);
+int get(int key);
+void clear();
+void put(int key, int value);
+}
+
+class StateSet {
+static boolean stateSetMatches(int[] stateSpec, int state);
+static boolean stateSetMatches(int[] stateSpec, int[] stateSet);
+}
+
 class AndroidRuntimeException{
             AndroidRuntimeException(String name);
 }

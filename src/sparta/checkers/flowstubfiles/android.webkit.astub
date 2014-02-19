@@ -1,5 +1,18 @@
 package android.webkit;
 
+class JsResult {
+ void confirm();
+}
+
+class WebSettings {
+void setBuiltInZoomControls(boolean enabled);
+void setCacheMode(int mode);
+void setJavaScriptEnabled(boolean flag);
+void setSaveFormData(boolean save);
+void setSavePassword(boolean save);
+void setSupportZoom(boolean support);
+}
+
 class MimeTypeMap {
     
 String getExtensionFromMimeType(String mimeType);

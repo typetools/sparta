@@ -1,6 +1,14 @@
 
 package android.location;
 
+class Criteria {
+void setAccuracy(int accuracy);
+void setAltitudeRequired(boolean altitudeRequired);
+void setBearingRequired(boolean bearingRequired);
+void setCostAllowed(boolean costAllowed);
+void setPowerRequirement(int level);
+}
+
 class Address {
     
 void clearLatitude();

@@ -1,5 +1,25 @@
 package android.telephony;
 
+class PhonNumberUtils {
+static boolean compare(Context context, String a, String b);
+static boolean compare(String a, String b);
+static boolean isWellFormedSmsAddress(String address);
+static String formatNumber(String source);
+static void formatNumber(Editable text, int defaultFormattingType);
+}
+
+class ServiceState {
+int getState();
+String getOperatorAlphaLong();
+}
+
+class SignalStrength {
+boolean isGsm();
+int getCdmaDbm();
+int getGsmBitErrorRate();
+int getGsmSignalStrength();
+}
+
 class PhoneStateListener{
         PhoneStateListener();
         void onCallStateChanged(int state, String incomingNumber);
@@ -50,5 +70,6 @@ class SmsMessage{
         @Source(READ_SMS) long getTimestampMillis();
          @Source(READ_SMS) String getServiceCenterAddress();
            @Source(READ_SMS) String getOriginatingAddress();
+           @Source(READ_SMS) String getDisplayMessageBody();
 
 }
