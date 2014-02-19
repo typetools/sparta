@@ -551,6 +551,14 @@ source file to trace and begin the process again.
 Repeat the tracing process until there are no more errors, or until you find bad code
 (malicious, or buggy and prone to abuse).
 
+\subsection{Review sensitive sources used in conditionals}
+\begin{Verbatim}
+  ant check-conditionals
+\end{Verbatim}
+This ant target prints a warning for every non-literal source used in a conditional regardless
+of the flow policy.  Review each warning a determine whether or not the code is leaking a 
+sensitive value to a sensitive source. 
+
 \subsection{Type-check with stricter checking}
 
 Once all warnings were resolved, run 
