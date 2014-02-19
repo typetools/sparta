@@ -29,9 +29,6 @@ class ListPopupWindow {
  OnTouchListener createDragToOpenListener(View src);
 }
 
-class ImageView$ScaleType {
- static ScaleType[] values();
-}
 
 class HorizontalScrollView {
   void scrollTo(int x, int y);
@@ -438,8 +435,6 @@ class AbsSpinner{
 
 class AdapterView$OnItemClickListener{
         void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
-        void setFocusable(boolean focusable);
-        void setSelection(int arg0);
 }
 class Adapter{
         boolean hasStableIds();

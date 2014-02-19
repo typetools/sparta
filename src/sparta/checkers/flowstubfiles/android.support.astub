@@ -1587,7 +1587,6 @@ class SearchViewCompat$OnQueryTextListenerCompat {
 }
 
 class SimpleCursorAdapter$ViewBinder {
-CharSequence convertToString(Cursor arg0);
 boolean setViewValue(View arg0, Cursor arg1, int arg2);
 }
 
