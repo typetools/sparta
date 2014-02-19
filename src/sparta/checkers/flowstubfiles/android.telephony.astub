@@ -1,6 +1,6 @@
 package android.telephony;
 
-class PhonNumberUtils {
+class PhoneNumberUtils {
 static boolean compare(Context context, String a, String b);
 static boolean compare(String a, String b);
 static boolean isWellFormedSmsAddress(String address);

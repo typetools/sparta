@@ -359,7 +359,7 @@ static PathStrategy parsePathStrategy(Context context, String authority) throws 
 static String[] copyOf(String[] original, int newLength);
 }
 
-class OnLoadCompleteListener {
+class Loader$OnLoadCompleteListener {
 void onLoadComplete(Loader<D> arg0, D arg1);
 }
 
@@ -593,7 +593,7 @@ E valueAt(int index);
 //Given an index in the range 0...size();-1, returns the value from the indexth key-value mapping that this SparseArray stores.
 }
 
-package android.support.v4.view.accessibility;
+package android.support.v4.view;
 
 
 
@@ -680,17 +680,6 @@ class ViewParentCompatICS {
 static boolean requestSendAccessibilityEvent(ViewParent parent, View child, AccessibilityEvent event);
 }
 
-class AccessibilityRecordCompat {
-Object getImpl();
-void setToIndex(int toIndex);
-void setSource(View source);
-void setSource(View root, int virtualDescendantId);
-void setScrollable(boolean scrollable);
-void setItemCount(int itemCount);
-void setFromIndex(int fromIndex);
-static AccessibilityRecordCompat obtain(AccessibilityRecordCompat record);
-static AccessibilityRecordCompat obtain();
-}
 
 package android.support.v4.view;
 class AccessibilityDelegateCompat {
@@ -1122,6 +1111,17 @@ boolean verifyDrawable(Drawable who);
 
 package android.support.v4.view.accessibility;
 
+class AccessibilityRecordCompat {
+Object getImpl();
+void setToIndex(int toIndex);
+void setSource(View source);
+void setSource(View root, int virtualDescendantId);
+void setScrollable(boolean scrollable);
+void setItemCount(int itemCount);
+void setFromIndex(int fromIndex);
+static AccessibilityRecordCompat obtain(AccessibilityRecordCompat record);
+static AccessibilityRecordCompat obtain();
+}
 class AccessibilityEventCompat{          
 static AccessibilityRecordCompat asRecord(AccessibilityEvent event);
 }
@@ -1468,7 +1468,7 @@ int getMovementGranularities();
 
 package android.support.v4.widget;
 
-class AutoScrollerHelper {
+class AutoScrollHelper {
 AutoScrollHelper setActivationDelay(int delayMillis);
 AutoScrollHelper setEdgeType(int type);
 AutoScrollHelper setMaximumEdges(float horizontalMax, float verticalMax);
@@ -1613,7 +1613,7 @@ void setShadowDrawable(Drawable d);
 void updateObscuredViewsVisibility(View panel);
 }
 
-class SlidingPaneLaout$PanelSlideListener {
+class SlidingPaneLayout$PanelSlideListener {
 void onPanelClosed(View arg0);
 void onPanelOpened(View arg0);
 void onPanelSlide(View arg0, float arg1);

@@ -556,7 +556,7 @@ class WifiP2pGroup {
 @Source(ACCESS_WIFI_STATE)  WifiP2pDevice getOwner();
 }
 
-class WifiP2PDeiveList {
+class WifiP2pDeviceList{
 @Source(ACCESS_WIFI_STATE)  Collection<WifiP2pDevice> getDeviceList();
 }
 

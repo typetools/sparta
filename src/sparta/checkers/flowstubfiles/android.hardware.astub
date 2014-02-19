@@ -1,10 +1,5 @@
 package android.hardware;
 
-class DisplayManager {
-Display getDisplay(int displayId);
-Display[] getDisplays();
-Display[] getDisplays(String category);
-}
 
 class Camera {
 
@@ -502,3 +497,9 @@ void unregisterListener(SensorEventListener listener);
 
 
 
+package android.hardware.display;
+class DisplayManager {
+Display getDisplay(int displayId);
+Display[] getDisplays();
+Display[] getDisplays(String category);
+}
