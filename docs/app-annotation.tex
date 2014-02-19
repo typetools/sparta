@@ -9,7 +9,7 @@ libraries need to be annotated. Usually method bodies do not need to be
 annotated.
 
 
-\section{Annotating  Methods\label{sec:annomethods}}
+\section{Annotating  methods\label{sec:annomethods}}
 
 Typically, return types should be annotated with just \<@Source> so that \<@Sink> can be
  inferred from the policy file as explained in \secref{sec:infer-from-flow-policy}. Similarly, parameters should
@@ -17,7 +17,7 @@ Typically, return types should be annotated with just \<@Source> so that \<@Sink
     Local variables should not have to be annotated, because their types can be inferred. Fields 
     must be annotated with   \<@Sink> or \<@Source>, or sometimes both. 
 
-\section{Annotating API Methods in Stub Files\label{sec:annoAPI}}
+\section{Annotating API methods in stub files\label{sec:annoAPI}}
 
 \subsection{Callbacks}
 The Android API frequently uses callbacks, that the developer  
@@ -44,7 +44,7 @@ public void onPictureTaken(@Source(CAMERA) byte[] data, Camera camera){
 \end{Verbatim}
 
 
-\subsection{Methods that Transform Data}
+\subsection{Methods that transform data}
 
 Some methods take the arguments passed, transform them, and then return them.  These sorts of 
 methods should be annotated with \<@PolySource @PloySink>
@@ -68,7 +68,7 @@ Example use of \<@PolyFlow>.
 @Source({LOCATION,INTERNET)}) int min = Math.min(i1,i2);
  \end{Verbatim}
 
-\section{Common Errors\label{errors}}
+\section{Common errors\label{errors}}
 
 This section explains some common errors issued by the Information Flow Checker, and
 gives advice about correcting the errors.   
@@ -83,7 +83,7 @@ If you encounter a problem you cannot solve, contact the SPARTA developers (\sec
 
 
 
-\subsection{Forbidden Flow}  
+\subsection{Forbidden flow}  
 Every source-sink pair in your code must be listed in the flow policy or else a \emph{forbidden flow} error will occur.
 To correct a forbidden flow error, add the forbidden flow to the policy file. 
   
@@ -97,7 +97,7 @@ NewTest.java:43: error: flow forbidden by flow-policy
     LITERAL -> FILESYSTEM
 \end{Verbatim}
 
-\subsection{Incompatible Types}
+\subsection{Incompatible types}
 The most common error type is \emph{incompatible types}.  They can be in arguments,  assignment, return, etc.
 
 \paragraph{Conservative Typing}
