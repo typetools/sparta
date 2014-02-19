@@ -4,7 +4,7 @@
 \newcommand{\Fix}[1]{\textbf{[[}{\color{red} #1}\textbf{]]}}
 
 
-\chapter{Handling Intents\label{intent-checker}}
+\chapter{Intent Checker\label{intent-checker}}
 
 Android intents are the standard inter-component communication
 mechanism in Android.  They are used for communication within an app,
@@ -31,7 +31,7 @@ site.
 
 For simplicity in this manual, we abstract all methods that send intents as the
 method sendIntent, and all methods that receive an intent as the method call
-onReceive.
+onReceive.  \todo{Need a complete list of all methods currently supported.}
 
 \section{Component map}
 To precisely analyze the types of data sent through intents, our analysis
@@ -47,25 +47,39 @@ component map, as a list of $\flow{\|sendIntent|}{\|onReceive|^*}$ pairs.
 
 \subsection{Semantics of a Component map}
 \TheFlowChecker{} assumes that there is no inter-component communication
-except for what is explicitly described in the policy file. 
+except for what is explicitly described in the component map. \todo{Seems like 
+the semantics are described in the paragraph above this section, so I'm not sure why a separate 
+section is need.} 
 
 \subsection{Syntax of a Component map file}
 Each line of a component map specifies the inter-component communication of
 an application. For example, \code{ActivityA(Action1) -> ActivityB} implies that
 every implicit intent sent from ActivityA with action \code{Action1} will
-be sent to ActivityB. 
-
+be sent to ActivityB.  \todo{The semantic section should talk about the action, too}
+\todo{The syntax isn't clear.  Must ActivityB be the fully qualified class name of the activity?
+Is the action the name of the constant that represents that action or the string value?} 
+\todo{Mention that this can be generated and explain how it is generated.  Be sure to cite the tools used}
 \subsection{Component map generation}
-To generate a component map for an application, the generate-cm script, which 
-can be found in the sparta-code source folder, is used.
-It receives as argument the full path of the application's apk and the output
-path of the component map. The second one is optional and the component map
-will be generated in the same folder as the apk in case not informed.
-\begin{alltt}
-./generate-cm [full path to app's .apk] [output path]
-\end{alltt}
+\todo{This section, Using a Component map, and Running the Intent Analysis with \TheFlowChecker{} 
+should be subsections of Section \ref{verify-information-flow-security}.  Section \ref{verify-information-flow-security}
+gives the details on how to run the tools.  This chapter should give details of the analysis. }
 
-\subsection{Using a Component map}
+To generate a component map for an application, the generate-cm script, which 
+can be found in the sparta-code source folder
+\todo{This sentence implies that the script is in sparta-code/src, but it's not there}, is used.
+It receives as an argument the fully qualified path of the application's apk and the output
+path of the component map. The second one is optional and the component map
+will be output to a file named component-map in the same folder as the apk if it is not specified.
+\begin{alltt}
+./generate-cm [fullly qualified path to app's .apk] [component map path]
+\end{alltt}
+\todo{Why does the path have to be fully qualified? Can't we change the script so it can be relative?}
+\todo{Also, it would be nice if the script could be run from any directory.} 
+\todo{Add the caveat that the apk must be build with out annotations}
+\todo{Explain the generate-filter script} 
+\todo{Explain the URI limitation}
+
+\subsection{Using a component map}
 To use a component map file named \emph{component-map} 
 when invoking \TheFlowChecker{} from the command line, move the file to the
 source folder of the application and 
@@ -73,6 +87,8 @@ add the following line in the build.xml file of the application:
 \begin{alltt}
 <property name="componentMap" value="component-map"/>
 \end{alltt}
+\todo{Why do you have to add this to the build file? Can't us just use the ant argument
+and if that's not specified, component-map is the default?}
 
 \section{IntentMap and Extra annotations}
 An Intent contains a map from string keys to arbitrary values. Data can be added
@@ -82,13 +98,19 @@ The \<@IntentMap> represents the types
 of the key/value mappings that are permitted to be accessed. The Intent object
 may contain more mappings than stated in its type, but those other keys may not
 be accessed. The Intent object is not required to contain all the given
-mappings, but if a key is present, then the type of the corresponding value must
+mappings, but if a key is present \todo{where is the key present in the type or in the intent?}, then the type of the corresponding value must
 be consistent with the stated type. 
 
 An \<@IntentMap> annotation contains a set of \<@Extra> annotations. An
 \<@Extra> annotation contains a key K and a type T. This means that the key K 
 maps to a value of type T. In the case of the information flow system, the type T
-represents data and constrains its possible flows. 
+represents data and constrains its possible flows. \todo{This last sentence isn't clear,
+What do you mean by represents data?  How is that different for the IFC than other checkers?}
+\todo{This paragraph says that an @Extra has a key K and a type T, but in reality annotation has a key key 
+and a source and a sink.  This is confusing.  Either discuss the semantics of the types, using key K and type T 
+without using the concrete annotations or discuss the semantics using the actual syntax. }
+\todo{Where are the sub typing rules?}
+\todo{How do you annotation receivers or senders that are in other apps?}
 
 \subsection{putExtra and getExtra rules}
 
@@ -107,10 +129,15 @@ For example:
 
 \<@IntentMap(@Extra(key="key",source=({A,B}),sink=({C,D})))
 	Intent intent>
+\todo{It would be better to have an example annotation before discussing the individual rules} 	
 	
 \begin{itemize}
 \item
-intent.putExtra("key",\<@Source({A}) @Sink({C,E})> obj value) is allowed
+intent.putExtra("key",\<@Source({A}) @Sink({C,E})> obj value) is allowed 
+\todo{It's confusing to have annotations in the method call.  It would be better to should the declaration 
+of value with the annotations and then show it used in  a put extra call}
+\todo{I don't think this example is correct, because value isn't allowed to flow to sink D, 
+but the type of key in the @Extra annotation allowed it.}
 \item
 intent.putExtra("key",\<@Source({A,B,E}) @Sink({C})> obj value) is not allowed
 
@@ -131,7 +158,8 @@ For example:
 \begin{itemize}
 \item
 	Obj x = intent.getExtra("key", defaultValue) is allowed. 
-	The type of x is \<@Source(A,B) @Sink(C,D) Obj>.
+	The type of x is \<@Source(A,B) @Sink(C,D) Obj>. 
+	\todo{Don't say what the type is, show the declaration. and use a real Java type, not Obj.}
 \item
 	Obj x = intent.getExtra("key2", defaultValue) is not allowed.
 \end{itemize}
@@ -146,6 +174,7 @@ An \<@IntentMap(A)> is copyable to \<@IntentMap(B)> if every key in the set of
 
 A call sendIntent() only type-checks if the sender's Intent type is copyable to
 each possible receiver's Intent type according the component map. 
+\todo{Why is it copyable and not a subtype? Give the reasoning behind the rules.}
 
 \section{Running the Intent Analysis with \TheFlowChecker{}}
 
@@ -159,5 +188,7 @@ ant -DflowPolicy=myflowpolicy -DcomponentMap=mycomponentmap check-intent
 
 If the Information Flow Checker produces any errors or warnings, then the app
 has not been properly annotated and should be rejected.
+\todo{Show some examples of IntentChecker warnings and how to correct them}
+
 
 %%  LocalWords:  sendIntent onReceive typeof callee
