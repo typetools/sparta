@@ -46,7 +46,7 @@ flow policy and type annotations.
 
 
 
-\section{Source and Sink Annotations\label{sec:flow-type-system}}
+\section{Source and Sink annotations\label{sec:flow-type-system}}
 
 
 The type qualifier \<@Source> on a variable's
@@ -126,7 +126,7 @@ leaked.
 
 
 
-\section{Comparison to Android Permissions}
+\section{Comparison to Android permissions}
 \label{sec:permissions}
 
 
@@ -213,7 +213,7 @@ The auditor must examine the code nearby
 to ensure that the conditional is not being used to indirectly leak information.
 
 
-\subsubsection{Empty Sink or Source\label{sec:emptyflow}}
+\subsubsection{Empty sink or source\label{sec:emptyflow}}
 
 Programmers may not use @Source(\ttcbs) or @Sink(\ttcbs).
 Every value should either flow from a literal or from some sensitive
@@ -376,7 +376,7 @@ For \theFlowChecker, the bottom type qualifier is \srcnone\  \<@Sink(ANY)>.
 
 
 
-\section{Warning Suppression\label{sec:waringsuppression}}
+\section{Warning suppression\label{sec:waringsuppression}}
  
 Sometimes it might be necessary to suppress warnings or errors produced by
 the Information Flow Checker.  This can be done by using the
@@ -387,10 +387,10 @@ suppressed, you should write a brief comment justifying the suppression.
 \<@SuppressWarnings("flow")> should only be used if there is no way to
 annotate the code so that an error or warning does not occur.  
 
-\section{Annotating Library API methods in stub files\label{sec:apispecs}}
+\section{Annotating library API methods in stub files\label{sec:apispecs}}
 
 Annotations for API methods are found in the stub files in sparta-code/src/sparta/checkers/flowstubfiles.
-For details, see section~\ref{flow-task-annotate-apis} of this manual, and also 
+For details, see Section~\ref{flow-task-annotate-apis} of this manual, and also 
 chapter
 ``\ahref{\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#annotating-libraries}}{Annotating
   Libraries}'' in the Checker Framework Manual.  
@@ -456,7 +456,7 @@ See section ``\ahref{http://types.cs.washington.edu/checker-framework/current/ch
 \todo{these have known soundness issues and with Stuart we're working on fixing them.}
 
 
-\section{Declaration Annotations to Specify Defaulting\label{sec:addtionalanno}}
+\section{Declaration annotations to specify defaulting\label{sec:addtionalanno}}
 
 The Information Flow Checker has additional declaration annotations that are shorthand for common 
 annotation patterns on method signatures.   They override the usual defaulting of method declarations.
@@ -472,7 +472,7 @@ between the return type and the parameter types, but not the receiver type.
 
 Annotation \<@PolyFlowReceiver> expresses that each contained method should be annotated as \<@PolySource> \<@PolySink> for the return type, all parameter types, and the receiver type.
 
-\subsection{Declaration Annotations in Stub Files\label{sec:declannosstubfiles}}
+\subsection{Declaration annotations in stub files\label{sec:declannosstubfiles}}
 If \<@PolyFlow> or \<@PolyFlowReceiver> is written on a class or package, then the annotation applies
  to all contained methods or classes unless those classes or methods are annotated with another 
  declaration annotation.   
