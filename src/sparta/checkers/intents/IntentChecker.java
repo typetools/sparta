@@ -10,6 +10,7 @@ import javax.annotation.processing.SupportedOptions;
 
 import sparta.checkers.FlowChecker;
 import sparta.checkers.FlowPolicy;
+import sparta.checkers.FlowVisitor;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.PolySink;
@@ -21,7 +22,7 @@ import sparta.checkers.quals.Source;
         IntentMap.class, Extra.class })
 @StubFiles("information_flow.astub")
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, ComponentMap.COMPONENT_MAP_FILE_OPTION,
-        FlowChecker.MSG_FILTER_OPTION, FlowChecker.IGNORE_NOT_REVIEWED })
+        FlowChecker.MSG_FILTER_OPTION, FlowChecker.IGNORE_NOT_REVIEWED, FlowVisitor.CHECK_CONDITIONALS_OPTION })
 @SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })
 public class IntentChecker extends FlowChecker {
 
