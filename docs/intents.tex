@@ -31,7 +31,31 @@ site.
 
 For simplicity in this manual, we abstract all methods that send intents as the
 method sendIntent, and all methods that receive an intent as the method call
-onReceive.  \todo{Need a complete list of all methods currently supported.}
+onReceive. The methods supported are listed below:
+
+\begin{itemize}
+\item
+onBind()
+\item
+onRebind()
+\item
+onStart()
+\item
+onStartCommand()
+\item
+onTaskRemoved()
+\item
+onUnBind()
+\item
+onReceive()
+\item
+peekService()
+\item
+getIntent()
+\end{itemize}
+%\todo{Need a complete list of all methods currently supported.}
+
+
 
 \section{Component map}
 To precisely analyze the types of data sent through intents, our analysis
@@ -43,52 +67,28 @@ intents.
 
 A component map is used to represent the communication between components of an
 application. A component map file expresses a 
-component map, as a list of $\flow{\|sendIntent|}{\|onReceive|^*}$ pairs.
+component map, as a list of $\flow{\|sendIntent(intent)|}{\|onReceive|^*}$ pairs.
+The \<intent> being may consist of an \<Action>, set of
+\<Categories> and a \<Data>.
+The set of pairs of communicating components is
+conservative, that is it includes all possible pairs of methods that might
+communicate. In order to compute these pairs, all apps that might be
+communicating are analyzed using the tools APKParser, Dare, and Epicc. The
+procedure to generate a component map is detailed in section
+\ref{component-map-generation}.
 
-\subsection{Semantics of a Component map}
-\TheFlowChecker{} assumes that there is no inter-component communication
-except for what is explicitly described in the component map. \todo{Seems like 
-the semantics are described in the paragraph above this section, so I'm not sure why a separate 
-section is need.} 
 
-\subsection{Syntax of a Component map file}
+\subsection{Syntax of a component map file}
 Each line of a component map specifies the inter-component communication of
-an application. For example, \code{ActivityA(Action1) -> ActivityB} implies that
-every implicit intent sent from ActivityA with action \code{Action1} will
-be sent to ActivityB.  \todo{The semantic section should talk about the action, too}
-\todo{The syntax isn't clear.  Must ActivityB be the fully qualified class name of the activity?
-Is the action the name of the constant that represents that action or the string value?} 
-\todo{Mention that this can be generated and explain how it is generated.  Be sure to cite the tools used}
-\subsection{Component map generation}
-\todo{This section, Using a Component map, and Running the Intent Analysis with \TheFlowChecker{} 
-should be subsections of Section \ref{verify-information-flow-security}.  Section \ref{verify-information-flow-security}
-gives the details on how to run the tools.  This chapter should give details of the analysis. }
+an application. For example, \code{ActivityA(Action1) -> com.package.ActivityB} 
+implies that every implicit intent sent from ActivityA where the String value of
+the action is \code{Action1} will
+be sent to the component whose fully qualified class name is com.package.ActivityB.
+%\todo{The semantic section should talk about the action, too}
+%\todo{The syntax isn't clear.  Must ActivityB be the fully qualified class name of the activity?
+%Is the action the name of the constant that represents that action or the string value?} 
 
-To generate a component map for an application, the generate-cm script, which 
-can be found in the sparta-code source folder
-\todo{This sentence implies that the script is in sparta-code/src, but it's not there}, is used.
-It receives as an argument the fully qualified path of the application's apk and the output
-path of the component map. The second one is optional and the component map
-will be output to a file named component-map in the same folder as the apk if it is not specified.
-\begin{alltt}
-./generate-cm [fullly qualified path to app's .apk] [component map path]
-\end{alltt}
-\todo{Why does the path have to be fully qualified? Can't we change the script so it can be relative?}
-\todo{Also, it would be nice if the script could be run from any directory.} 
-\todo{Add the caveat that the apk must be build with out annotations}
-\todo{Explain the generate-filter script} 
-\todo{Explain the URI limitation}
-
-\subsection{Using a component map}
-To use a component map file named \emph{component-map} 
-when invoking \TheFlowChecker{} from the command line, move the file to the
-source folder of the application and 
-add the following line in the build.xml file of the application:
-\begin{alltt}
-<property name="componentMap" value="component-map"/>
-\end{alltt}
-\todo{Why do you have to add this to the build file? Can't us just use the ant argument
-and if that's not specified, component-map is the default?}
+%\todo{Mention that this can be generated and explain how it is generated.  Be sure to cite the tools used}
 
 \section{IntentMap and Extra annotations}
 An Intent contains a map from string keys to arbitrary values. Data can be added
@@ -175,20 +175,6 @@ An \<@IntentMap(A)> is copyable to \<@IntentMap(B)> if every key in the set of
 A call sendIntent() only type-checks if the sender's Intent type is copyable to
 each possible receiver's Intent type according the component map. 
 \todo{Why is it copyable and not a subtype? Give the reasoning behind the rules.}
-
-\section{Running the Intent Analysis with \TheFlowChecker{}}
-
-Run \theFlowChecker{} in the command line with \<check-intent> instead of
-\<check-flow> like the following command: 
-
-
-\begin{alltt}
-ant -DflowPolicy=myflowpolicy -DcomponentMap=mycomponentmap check-intent
-\end{alltt}
-
-If the Information Flow Checker produces any errors or warnings, then the app
-has not been properly annotated and should be rejected.
-\todo{Show some examples of IntentChecker warnings and how to correct them}
 
 
 %%  LocalWords:  sendIntent onReceive typeof callee

@@ -577,6 +577,55 @@ This option will also use the stricter conditional rule. (\<LITERAL
 \flowsto{} CONDITIONAL> rather than the relaxed \<ANY \flowsto{} CONDITIONAL>)
 
 
+\subsection{Component map generation\label{component-map-generation}}
+To generate a component map for an application, the \<generate-cm> script, which 
+can be found in the sparta-code folder, is used.
+It receives as arguments the path of the application's apk and the output
+path of the component map. The second one is optional and the component map
+will be output to a file named component-map in the same folder as the apk if 
+it is not specified. The apk of the application must be built without
+annotations.
+\begin{alltt}
+generate-cm [path to app's .apk] [component map path]
+\end{alltt}
+%\todo{Why does the path have to be fully qualified? Can't we change the script so it can be relative?}
+%\todo{Also, it would be nice if the script could be run from any directory.} 
+%\todo{Add the caveat that the apk must be build with out annotations}
+\todo{Explain the generate-filter script} 
+\todo{Explain the URI limitation}
+
+\subsection{Using a component map}
+To use a component map file named \emph{component-map} 
+when invoking \TheFlowChecker{} from the command line, move the file to the
+source folder of the application and 
+add the following line in the build.xml file of the application:
+\begin{alltt}
+<property name="componentMap" value="component-map"/>
+\end{alltt}
+\todo{Why do you have to add this to the build file? Can't us just use the ant argument
+and if that's not specified, component-map is the default?}
+
+
+
+\subsection{Running the Intent Analysis with \TheFlowChecker{}}
+
+Run \theFlowChecker{} in the command line with \<check-intent> instead of
+\<check-flow> like the following command: 
+
+
+\begin{alltt}
+ant -DflowPolicy=myflowpolicy -DcomponentMap=mycomponentmap check-intent
+\end{alltt}
+
+If the Information Flow Checker produces any errors or warnings, then the app
+has not been properly annotated and should be rejected.
+\todo{Show some examples of IntentChecker warnings and how to correct them}
+
+
+
+
+
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "manual"
