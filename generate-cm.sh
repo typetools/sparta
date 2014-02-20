@@ -47,9 +47,9 @@ function downloadJars {
 
 }
 
-
-APKPATH=$1
-CMPATH=$2
+cd $SPARTA_CODE
+APKPATH=`cd "$1";pwd` 
+CMPATH=`cd "$2";pwd`
 EPICCOUTPUT=epiccoutput.txt
 FILTERSMAPTEMP="$SPARTA_CODE"/filterstemp
 FILTERSMAP="$SPARTA_CODE"/src/sparta/checkers/intents/componentmap/filter-map
@@ -81,6 +81,8 @@ java -jar ./download-libs/epicc/epicc-0.1.jar -apk "$APKPATH" -android-directory
 
 rm -f "$FILTERSMAPTEMP" 
 cp "$FILTERSMAP" "$FILTERSMAPTEMP"
+
+
 
 if [[ "$APKPATH" == *\.apk ]]
 	then
