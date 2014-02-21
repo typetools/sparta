@@ -1,6 +1,18 @@
 
 package android.app;
 
+class ActivityOptions {
+Bundle toBundle();
+static ActivityOptions makeCustomAnimation(Context context, int enterResId, int exitResId);
+static ActivityOptions makeScaleUpAnimation(View source, int startX, int startY, int startWidth, int startHeight);
+static ActivityOptions makeThumbnailScaleUpAnimation(View source, Bitmap thumbnail, int startX, int startY);
+void update(ActivityOptions otherOptions);
+}
+
+class FragmentManager$BackStackEntry {
+String getName();
+}
+
 class ActivityGroup{
             protected void onCreate(Bundle savedInstanceState);
 }
@@ -766,6 +778,9 @@ void onUserLeaveHint();
 }
 class ActivityManager{
                 List<RunningServiceInfo> getRunningServices(int maxNum) throws SecurityException;
+                List<RunningAppProcessInfo> getRunningAppProcesses();
+List<RunningTaskInfo> getRunningTasks(int maxNum) throws SecurityException;
+void killBackgroundProcesses(String packageName);
 }
 
 class Application {
@@ -2063,6 +2078,8 @@ class NotificationManager{
             void cancel(int id);
             void notify(int id, @Sink(DISPLAY) Notification notification);
             void cancelAll();
+            void cancel(String tag, int id);
+            void notify(String tag, int id, @Sink(DISPLAY) Notification notification);
 }
 
 class PendingIntent {
@@ -2350,6 +2367,7 @@ class DevicePolicyManager{
         void removeActiveAdmin(ComponentName who);
         boolean isAdminActive(ComponentName who);
         void lockNow();
+        boolean resetPassword(String password, int flags);
 }
 
 class DeviceAdminReceiver{

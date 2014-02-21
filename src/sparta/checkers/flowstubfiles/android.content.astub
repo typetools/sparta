@@ -948,6 +948,7 @@ class ComponentName{
 }
 
 class ContextWrapper {
+  void startActivity(@Sink(INTENT) Intent intent, @Sink(BUNDLE) Bundle options);
 			ApplicationInfo getApplicationInfo();
             File getDir(String name, int mode);
             ContextWrapper(Context base);
@@ -1588,6 +1589,8 @@ class Intent implements Parcelable, Cloneable {
 }
 
 class Loader {
+
+int getId();
     
 void abandon();
 //Tell the Loader that it is being abandoned.
@@ -1758,8 +1761,13 @@ class SharedPreferences$OnSharedPreferenceChangeListener {
 
 package android.content.pm;
 
+class ComponentInfo {
+CharSequence loadLabel(PackageManager pm);
+}
+
 class PackageItemInfo{
         CharSequence loadLabel(PackageManager pm);
+        XmlResourceParser loadXmlMetaData(PackageManager pm, String name);
 }
 
 class PackageManager {
@@ -2072,6 +2080,10 @@ void writeToParcel(Parcel dest, int flags);
 
 
 
+}
+
+class Resources$Theme {
+boolean resolveAttribute(int resid, TypedValue outValue, boolean resolveRefs);
 }
 
 class Resources {

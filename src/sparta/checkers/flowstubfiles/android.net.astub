@@ -1,5 +1,14 @@
 package android.net;
 
+@PolyFlow class Uri$Builder {
+Builder appendPath(String newSegment);
+Builder appendQueryParameter(String key, String value);
+Builder authority(String authority);
+Builder encodedPath(String path);
+Builder scheme(String scheme);
+Uri build();
+}
+
 class ConnectivityManager {
 
 @Source(ACCESS_NETWORK_STATE) NetworkInfo getActiveNetworkInfo();
@@ -491,3 +500,64 @@ class SipSession$Listener {
 class SipSession$State {
     static String toString(int arg0);
 }
+
+package android.net.wifi;
+
+class WifiManager$WifiLock {
+boolean isHeld();
+void acquire();
+void release();
+}
+
+class WifiManager$MulticastLock {
+boolean isHeld();
+void acquire();
+}
+
+class WifiManager {
+@Source(ACCESS_WIFI_STATE) boolean setWifiEnabled(@Sink (CHANGE_WIFI_STATE) boolean enabled);
+@Source(ACCESS_WIFI_STATE) boolean startScan();
+@Source(ACCESS_NETWORK_STATE) DhcpInfo getDhcpInfo();
+@Source(ACCESS_WIFI_STATE) int getWifiState();
+@Source(ACCESS_WIFI_STATE) List<ScanResult> getScanResults();
+@Source(ACCESS_WIFI_STATE) MulticastLock createMulticastLock(@Sink (CHANGE_WIFI_STATE) String tag);
+@Source(ACCESS_WIFI_STATE) WifiInfo getConnectionInfo();
+@Source(ACCESS_WIFI_STATE) WifiLock createWifiLock(@Sink(CHANGE_WIFI_STATE) int lockType, @Sink (CHANGE_WIFI_STATE)String tag);
+@Source(ACCESS_WIFI_STATE) WifiLock createWifiLock(@Sink(CHANGE_WIFI_STATE) String tag);
+}
+
+class WifiInfo {
+@Source(ACCESS_WIFI_STATE) int getLinkSpeed();
+@Source(ACCESS_WIFI_STATE) String getBSSID();
+@Source(ACCESS_WIFI_STATE) String getMacAddress();
+@Source(ACCESS_WIFI_STATE) String getSSID();
+@Source(ACCESS_WIFI_STATE) SupplicantState getSupplicantState();
+}
+
+package android.net.wifi.p2p;
+
+class WifiP2pManager {
+Channel initialize(Context srcContext, Looper srcLooper, ChannelListener listener);
+void cancelConnect(@Sink(CHANGE_WIFI_STATE) Channel c, ActionListener listener);
+void connect(@Sink(CHANGE_WIFI_STATE) Channel c, @Sink(CHANGE_WIFI_STATE) WifiP2pConfig config, ActionListener listener);
+void createGroup(@Sink(CHANGE_WIFI_STATE) Channel c, ActionListener listener);
+void discoverPeers(@Sink(CHANGE_WIFI_STATE) Channel c, ActionListener listener);
+void removeGroup(@Sink(CHANGE_WIFI_STATE) Channel c, ActionListener listener);
+void requestConnectionInfo(@Sink(CHANGE_WIFI_STATE) Channel c, ConnectionInfoListener listener);
+void requestGroupInfo(@Sink(CHANGE_WIFI_STATE) Channel c, GroupInfoListener listener);
+void requestPeers(@Sink(CHANGE_WIFI_STATE) Channel c, PeerListListener listener);
+}
+
+class WifiP2pGroup {
+@Source(ACCESS_WIFI_STATE)  boolean isGroupOwner();
+@Source(ACCESS_WIFI_STATE)  Collection<WifiP2pDevice> getClientList();
+@Source(ACCESS_WIFI_STATE)  String getNetworkName();
+@Source(ACCESS_WIFI_STATE)  String getPassphrase();
+@Source(ACCESS_WIFI_STATE)  WifiP2pDevice getOwner();
+}
+
+class WifiP2pDeviceList{
+@Source(ACCESS_WIFI_STATE)  Collection<WifiP2pDevice> getDeviceList();
+}
+
+

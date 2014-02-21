@@ -1,6 +1,16 @@
 
 package android.os;
 
+class CountDownTimer {
+SinkCountDownTimer start();
+Sinkvoid cancel();
+Sinkvoid onFinish();
+}
+
+class HandlerThread {
+Looper getLooper();
+}
+
 class AsyncTask {
 
 AsyncTask();
@@ -652,6 +662,7 @@ String toString();
 class Messenger{
             Messenger(Handler target);
             IBinder getBinder();
+            void send(Message message) throws RemoteException;
 }
 class Message{
     @PolyFlow int arg1;
@@ -962,6 +973,7 @@ class Parcelable$ClassLoaderCreator{
 }
 
 class ParcelFileDescriptor {
+  static ParcelFileDescriptor open(File file, int mode, Handler handler, OnCloseListener listener) throws IOException;
     
     
 static ParcelFileDescriptor adoptFd(int fd);
@@ -1030,6 +1042,8 @@ class PowerManager$WakeLock{
         void acquire();
         void release();
         boolean isHeld();
+        void acquire(long timeout);
+        void setReferenceCounted(boolean value);
 }
 
 class Process {
@@ -1082,7 +1096,10 @@ class StatFs{
         StatFs(String path);
         int getAvailableBlocks();
         int getBlockSize();
+        int getBlockCount();
+        int getFreeBlocks();
 }
+
 
 class SystemClock {
 static @Source(READ_TIME) long currentThreadTimeMillis();
@@ -1108,4 +1125,5 @@ static @Source(READ_TIME) long uptimeMillis();
 
 class Vibrator{
         void vibrate(@Sink(VIBRATE) long arg0);
+        void vibrate(@Sink(VIBRATE) long[] arg0, @Sink(VIBRATE) int arg1);
 }

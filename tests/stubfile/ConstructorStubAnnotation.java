@@ -18,6 +18,7 @@ import static sparta.checkers.quals.FlowPermission.*;
 //warning: StubParser: Type not found: org.htmlcleaner.TagNode
 //warning: StubParser: Method idealByteArraySize(int) not found in type android.support.v4.util.LongSparseArray
 //warning: StubParser: Method idealLongArraySize(int) not found in type android.support.v4.util.LongSparseArray
+//warning: StubParser: Type not found: android.support.v4.print.PrintHelperKitKat
 
 class TestStubImplicitConstructor { 
     

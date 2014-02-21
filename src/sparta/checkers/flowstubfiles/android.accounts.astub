@@ -4,6 +4,9 @@ class AccountManager{
         void addOnAccountsUpdatedListener(OnAccountsUpdateListener listener, Handler handler, boolean updateImmediately);
         void removeOnAccountsUpdatedListener(OnAccountsUpdateListener listener);
         static AccountManager get(Context context);
+         @Source(ACCOUNT_MANAGER) Account[] getAccounts();
+         AccountManagerFuture<Boolean> removeAccount(@Sink(ACCOUNT_MANAGER) Account account, AccountManagerCallback<Boolean> callback, Handler handler);
+         @Source(ACCOUNT_MANAGER) boolean addAccountExplicitly(@Sink(ACCOUNT_MANAGER) Account account, @Sink(ACCOUNT_MANAGER) String password, @Sink(BUNDLE) Bundle userdata);
 }
 
 class Account implements Parcelable {

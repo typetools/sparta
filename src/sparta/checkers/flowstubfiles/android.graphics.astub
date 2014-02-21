@@ -1,7 +1,25 @@
 
 package android.graphics;
 
+class BitmapRegionDecoder {
+Bitmap decodeRegion(Rect rect, Options options);
+int getHeight();
+int getWidth();
+static BitmapRegionDecoder newInstance(byte[] data, int offset, int length, boolean isShareable) throws IOException;
+static BitmapRegionDecoder newInstance(FileDescriptor fd, boolean isShareable) throws IOException;
+static BitmapRegionDecoder newInstance(InputStream is, boolean isShareable) throws IOException;
+static BitmapRegionDecoder newInstance(String pathName, boolean isShareable) throws IOException;
+}
 
+class Path {
+void addRoundRect(RectF rect, float rx, float ry, Direction dir);
+void addRoundRect(RectF rect, float[] radii, Direction dir);
+void reset();
+}
+
+class Typeface {
+static Typeface defaultFromStyle(int style);
+}
 
 
 class Bitmap {
@@ -458,6 +476,9 @@ class Color{
         static int blue(int color);
         static int red(int color);
         static int green(int color);
+        static int alpha(int color);
+        static int argb(int alpha, int red, int green, int blue);
+        static int parseColor(String colorString);
 }
 
 class Matrix {
@@ -1182,6 +1203,10 @@ void writeToParcel(Parcel out, int flags);
 
 package android.graphics.drawable;
 
+class DrawableContainer {
+void draw(Canvas canvas);
+}
+
 class BitmapDrawable {
     
 void draw(Canvas canvas);
@@ -1268,6 +1293,9 @@ void onBoundsChange(Rect bounds);
 }
 
 class Drawable {
+
+boolean isAutoMirrored();
+void setAutoMirrored(boolean mirrored);
 
 void clearColorFilter();
 
@@ -1492,3 +1520,23 @@ void onDraw(Shape shape, Canvas canvas, Paint paint);
 
 
 }
+
+
+package android.graphics.pdf;
+
+class PdfDocument$PageInfo {
+Rect getContentRect();
+}
+
+class PdfDocument$Page {
+Canvas getCanvas();
+PageInfo getInfo();
+}
+
+class PdfDocument {
+void close();
+void finishPage(Page page);
+void writeTo(OutputStream out) throws IOException;
+}
+
+

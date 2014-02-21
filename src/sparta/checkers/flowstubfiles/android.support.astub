@@ -1,5 +1,54 @@
 package android.support.v4.app;
 
+class ActionBarDrawerToggle {
+Drawable getThemeUpIndicator();
+void setActionBarDescription(int contentDescRes);
+void setActionBarUpIndicator(Drawable upDrawable, int contentDescRes);
+void syncState();
+}
+
+class ActionBarDrawerToggle$Delegate {
+Drawable getThemeUpIndicator();
+void setActionBarDescription(int arg0);
+void setActionBarUpIndicator(Drawable arg0, int arg1);
+}
+
+class ActionBarDrawerToggle$DelegateProvider {
+Delegate getDrawerToggleDelegate();
+}
+
+class FragmentManager$OnBackStackChangedListener {
+void onBackStackChanged();
+}
+
+class FragmentStatePagerAdapter {
+Fragment getItem(int arg0);
+}
+
+class FragmentTabHost {
+FragmentTransaction doTabChanged(String tabId, FragmentTransaction ft);
+void ensureContent();
+void ensureHierarchy(Context context);
+void initFragmentTabHost(Context context, AttributeSet attrs);
+}
+
+class NotificationCompat$Style {
+void setBuilder(Builder builder);
+void setBuilder(Builder builder);
+void setBuilder(Builder builder);
+}
+
+class ShareCompat {
+static ComponentName getCallingActivity(Activity calledActivity);
+static String getCallingPackage(Activity calledActivity);
+static void configureMenuItem(Menu menu, int menuItemId, IntentBuilder shareIntent);
+static void configureMenuItem(MenuItem item, IntentBuilder shareIntent);
+}
+
+class TaskStackBuilder$SupportParentable {
+Intent getSupportParentActivityIntent();
+}
+
 class ShareCompat$IntentReader {
 boolean isMultipleShare();
 CharSequence getText();
@@ -292,10 +341,27 @@ T createFromParcel(@Sink(PARCEL) Parcel arg0, ClassLoader arg1);
 T[] newArray(int arg0);
 }
 
+class ParcelableCompat {
+static <T> Creator<T> newCreator(ParcelableCompatCreatorCallbacks<T> callbacks);
+}
+
 
 
 
 package android.support.v4.content;
+
+class FileProvider {
+static File buildPath(File base, String[] segments);
+static int modeToMode(String mode);
+static Object[] copyOf(Object[] original, int newLength);
+static PathStrategy getPathStrategy(Context context, String authority);
+static PathStrategy parsePathStrategy(Context context, String authority) throws IOException,XmlPullParserException;
+static String[] copyOf(String[] original, int newLength);
+}
+
+class Loader$OnLoadCompleteListener {
+void onLoadComplete(Loader<D> arg0, D arg1);
+}
 
 class CursorLoader {
 void deliverResult(Cursor cursor);
@@ -361,6 +427,43 @@ void executePendingBroadcasts();
 }
 
 package android.support.v4.util;
+
+
+
+class ArrayMap {
+MapCollections<K,V> getCollection();
+}
+
+class AtomicFile {
+FileInputStream openRead() throws FileNotFoundException;
+static boolean sync(FileOutputStream stream);
+}
+
+class SimpleArrayMap {
+boolean isEmpty();
+int indexOf(Object key, int hash);
+int indexOf(Object key, int hash);
+int indexOfNull();
+int indexOfNull();
+int indexOfValue(Object value);
+int indexOfValue(Object value);
+int size();
+K keyAt(int index);
+static void freeArrays(int[] hashes, Object[] array, int size);
+V get(Object key);
+V put(K key, V value);
+V put(K key, V value);
+V remove(Object key);
+V removeAt(int index);
+V removeAt(int index);
+V setValueAt(int index, V value);
+V valueAt(int index);
+void allocArrays(int size);
+void clear();
+void ensureCapacity(int minimumCapacity);
+void ensureCapacity(int minimumCapacity);
+void putAll(SimpleArrayMap<? extends K,? extends V> array);
+}
 
 class LogWriter {
 void flushBuilder();
@@ -490,19 +593,93 @@ E valueAt(int index);
 //Given an index in the range 0...size();-1, returns the value from the indexth key-value mapping that this SparseArray stores.
 }
 
-package android.support.v4.view.accessibility;
+package android.support.v4.view;
 
-class AccessibilityRecordCompat {
-Object getImpl();
-void setToIndex(int toIndex);
-void setSource(View source);
-void setSource(View root, int virtualDescendantId);
-void setScrollable(boolean scrollable);
-void setItemCount(int itemCount);
-void setFromIndex(int fromIndex);
-static AccessibilityRecordCompat obtain(AccessibilityRecordCompat record);
-static AccessibilityRecordCompat obtain();
+
+
+class AccessibilityDelegateCompatIcs$AccessibilityDelegateBridge {         
+boolean dispatchPopulateAccessibilityEvent(View arg0, AccessibilityEvent arg1);
+boolean onRequestSendAccessibilityEvent(ViewGroup arg0, View arg1, AccessibilityEvent arg2);
+void onInitializeAccessibilityEvent(View arg0, AccessibilityEvent arg1);
+void onInitializeAccessibilityNodeInfo(View arg0, Object arg1);
+void onPopulateAccessibilityEvent(View arg0, AccessibilityEvent arg1);
+void sendAccessibilityEvent(View arg0, int arg1);
+void sendAccessibilityEventUnchecked(View arg0, AccessibilityEvent arg1);
 }
+
+class AccessibilityDelegateCompatJellyBean$AccessibilityDelegateBridgeJellyBean {          
+boolean dispatchPopulateAccessibilityEvent(View arg0, AccessibilityEvent arg1);
+boolean onRequestSendAccessibilityEvent(ViewGroup arg0, View arg1, AccessibilityEvent arg2);
+boolean performAccessibilityAction(View arg0, int arg1, Bundle arg2);
+Object getAccessibilityNodeProvider(View arg0);
+void onInitializeAccessibilityEvent(View arg0, AccessibilityEvent arg1);
+void onInitializeAccessibilityNodeInfo(View arg0, Object arg1);
+void onPopulateAccessibilityEvent(View arg0, AccessibilityEvent arg1);
+void sendAccessibilityEvent(View arg0, int arg1);
+void sendAccessibilityEventUnchecked(View arg0, AccessibilityEvent arg1);
+}
+
+class ActionProvider {
+boolean isVisible();
+boolean overridesItemVisibility();
+View onCreateActionView();
+View onCreateActionView(MenuItem forItem);
+}
+
+class ActionProvider$SubUiVisibilityListener {
+void onSubUiVisibilityChanged(boolean arg0); 
+}
+
+class ActionProvider$VisibilityListener {
+void onActionProviderVisibilityChanged(boolean arg0);
+}
+
+class GravityCompat {
+static int getAbsoluteGravity(int gravity, int layoutDirection);
+}
+
+class KeyEventCompat {
+static boolean dispatch(KeyEvent event, Callback receiver, Object state, Object target);
+static boolean hasModifiers(KeyEvent event, int modifiers);
+static boolean hasNoModifiers(KeyEvent event);
+static Object getKeyDispatcherState(View view);
+static void startTracking(KeyEvent event);
+}
+
+class MenuItemCompat {
+static void setShowAsAction(MenuItem item, int actionEnum);
+}
+
+class MenuItemCompat$OnActionExpandListener {
+boolean onMenuItemActionCollapse(MenuItem arg0);
+boolean onMenuItemActionExpand(MenuItem arg0);
+}
+
+class ViewCompatKitKat {
+static int getAccessibilityLiveRegion(View view);
+static void setAccessibilityLiveRegion(View view, int mode);
+}
+
+class ViewConfigurationCompat {
+static int getScaledPagingTouchSlop(ViewConfiguration config);
+}
+
+class ViewGroupCompat {
+static void setMotionEventSplittingEnabled(ViewGroup group, boolean split);
+}
+
+class ViewPager$PageTransformer {
+void transformPage(View arg0, float arg1);
+}
+
+class ViewParentCompat {
+static boolean requestSendAccessibilityEvent(ViewParent parent, View child, AccessibilityEvent event);
+}
+
+class ViewParentCompatICS {
+static boolean requestSendAccessibilityEvent(ViewParent parent, View child, AccessibilityEvent event);
+}
+
 
 package android.support.v4.view;
 class AccessibilityDelegateCompat {
@@ -934,6 +1111,29 @@ boolean verifyDrawable(Drawable who);
 
 package android.support.v4.view.accessibility;
 
+class AccessibilityRecordCompat {
+Object getImpl();
+void setToIndex(int toIndex);
+void setSource(View source);
+void setSource(View root, int virtualDescendantId);
+void setScrollable(boolean scrollable);
+void setItemCount(int itemCount);
+void setFromIndex(int fromIndex);
+static AccessibilityRecordCompat obtain(AccessibilityRecordCompat record);
+static AccessibilityRecordCompat obtain();
+}
+class AccessibilityEventCompat{          
+static AccessibilityRecordCompat asRecord(AccessibilityEvent event);
+}
+
+class AccessibilityManagerCompat {
+static boolean isTouchExplorationEnabled(AccessibilityManager manager);
+}          
+ 
+class AccessibilityManagerCompat$AccessibilityStateChangeListenerCompat {
+void onAccessibilityStateChanged(boolean arg0);
+}
+
 class AccessibilityNodeProviderCompat {
 boolean performAction(int virtualViewId, int action, Bundle arguments);
 List<AccessibilityNodeInfoCompat> findAccessibilityNodeInfosByText(String text, int virtualViewId);
@@ -1268,6 +1468,216 @@ int getMovementGranularities();
 
 package android.support.v4.widget;
 
+class AutoScrollHelper {
+AutoScrollHelper setActivationDelay(int delayMillis);
+AutoScrollHelper setEdgeType(int type);
+AutoScrollHelper setMaximumEdges(float horizontalMax, float verticalMax);
+AutoScrollHelper setMaximumVelocity(float horizontalMax, float verticalMax);
+AutoScrollHelper setMinimumVelocity(float horizontalMin, float verticalMin);
+AutoScrollHelper setRampDownDuration(int durationMillis);
+AutoScrollHelper setRampUpDuration(int durationMillis);
+AutoScrollHelper setRelativeEdges(float horizontal, float vertical);
+AutoScrollHelper setRelativeVelocity(float horizontal, float vertical);
+boolean canTargetScrollHorizontally(int arg0);
+boolean canTargetScrollVertically(int arg0);
+boolean shouldAnimate();
+float computeTargetVelocity(int direction, float coordinate, float srcSize, float dstSize);
+float constrainEdgeValue(float current, float leading);
+float getEdgeValue(float relativeValue, float size, float maxValue, float current);
+static float constrain(float value, float min, float max);
+static int constrain(int value, int min, int max);
+void cancelTargetTouch();
+void requestStop();
+void scrollTargetBy(int arg0, int arg1);
+void startAnimating();
+}
+
+class ContentLoadingProgressBar {
+void removeCallbacks();
+}
+
+class ExploreByTouchHelper {
+AccessibilityEvent createEvent(int virtualViewId, int eventType);
+AccessibilityEvent createEventForChild(int virtualViewId, int eventType);
+AccessibilityEvent createEventForHost(int eventType);
+AccessibilityNodeInfoCompat createNode(int virtualViewId);
+AccessibilityNodeInfoCompat createNodeForChild(int virtualViewId);
+AccessibilityNodeInfoCompat createNodeForHost();
+boolean clearAccessibilityFocus(int virtualViewId);
+boolean intersectVisibleToUser(Rect localRect);
+boolean isAccessibilityFocused(int virtualViewId);
+boolean manageFocusForChild(int virtualViewId, int action, Bundle arguments);
+boolean performAction(int virtualViewId, int action, Bundle arguments);
+boolean performActionForChild(int virtualViewId, int action, Bundle arguments);
+boolean performActionForHost(int action, Bundle arguments);
+boolean requestAccessibilityFocus(int virtualViewId);
+boolean sendEventForVirtualView(int virtualViewId, int eventType);
+protected boolean onPerformActionForVirtualView(int arg0, int arg1, Bundle arg2);
+protected int getVirtualViewAt(float arg0, float arg1);
+protected void getVisibleVirtualViews(List<Integer> arg0);
+protected void onPopulateEventForVirtualView(int arg0, AccessibilityEvent arg1);
+protected void onPopulateNodeForVirtualView(int arg0, AccessibilityNodeInfoCompat arg1);
+void invalidateVirtualView(int virtualViewId);
+void updateHoveredVirtualView(int virtualViewId);
+}
+
+class DrawerLayout {
+boolean checkDrawerViewAbsoluteGravity(View drawerView, int checkFor);
+boolean hasPeekingDrawer();
+boolean hasVisibleDrawer();
+boolean isContentView(View child);
+boolean isDrawerOpen(int drawerGravity);
+boolean isDrawerOpen(View drawer);
+boolean isDrawerView(View child);
+boolean isDrawerVisible(int drawerGravity);
+boolean isDrawerVisible(View drawer);
+float getDrawerViewOffset(View drawerView);
+int getDrawerLockMode(int edgeGravity);
+int getDrawerLockMode(View drawerView);
+int getDrawerViewAbsoluteGravity(View drawerView);
+static String gravityToString(int gravity);
+View findDrawerWithGravity(int gravity);
+View findOpenDrawer();
+View findVisibleDrawer();
+void cancelChildViewTouch();
+void closeDrawer(int gravity);
+void closeDrawer(View drawerView);
+void closeDrawers();
+void closeDrawers(boolean peekingOnly);
+void dispatchOnDrawerClosed(View drawerView);
+void dispatchOnDrawerOpened(View drawerView);
+void dispatchOnDrawerSlide(View drawerView, float slideOffset);
+void openDrawer(int gravity);
+void openDrawer(View drawerView);
+void setDrawerLockMode(int lockMode, int edgeGravity);
+void setDrawerLockMode(int lockMode, View drawerView);
+void setDrawerLockMode(int lockMode);
+void setDrawerShadow(Drawable shadowDrawable, int gravity);
+void setDrawerShadow(int resId, int gravity);
+void setDrawerViewOffset(View drawerView, float slideOffset);
+void updateDrawerState(int forGravity, int activeState, View activeDrawer);
+}
+
+class DrawerLayout$DrawerListener {
+void onDrawerClosed(View arg0);
+void onDrawerOpened(View arg0);
+void onDrawerSlide(View arg0, float arg1);
+void onDrawerStateChanged(int arg0);
+}
+
+class ScrollerCompat {
+boolean computeScrollOffset();
+boolean isFinished();
+int getCurrX();
+int getCurrY();
+int getFinalX();
+int getFinalY();
+static ScrollerCompat create(Context context, Interpolator interpolator);
+static ScrollerCompat create(Context context);
+void abortAnimation();
+}
+
+class SearchViewCompat$OnCloseListenerCompat {
+boolean onClose();
+}
+
+class SearchViewCompat$OnQueryTextListenerCompat {
+ boolean onQueryTextChange(String newText);
+ boolean onQueryTextSubmit(String query);
+}
+
+class SimpleCursorAdapter$ViewBinder {
+boolean setViewValue(View arg0, Cursor arg1, int arg2);
+}
+
+
+class SlidingPaneLayout {
+boolean closePane();
+boolean closePane(View pane, int initialVelocity);
+boolean isDimmed(View child);
+boolean isOpen();
+boolean isSlideable();
+boolean openPane();
+boolean openPane(View pane, int initialVelocity);
+boolean smoothSlideTo(float slideOffset, int velocity);
+void dimChildView(View v, float mag, int fadeColor);
+void dispatchOnPanelClosed(View panel);
+void dispatchOnPanelOpened(View panel);
+void dispatchOnPanelSlide(View panel);
+void invalidateChildRegion(View v);
+void onPanelDragged(int newLeft);
+void parallaxOtherViews(float slideOffset);
+void setAllChildrenVisible();
+void setShadowDrawable(Drawable d);
+void updateObscuredViewsVisibility(View panel);
+}
+
+class SlidingPaneLayout$PanelSlideListener {
+void onPanelClosed(View arg0);
+void onPanelOpened(View arg0);
+void onPanelSlide(View arg0, float arg1);
+}
+
+class ViewDragHelper$Callback {
+boolean onEdgeLock(int edgeFlags);
+boolean tryCaptureView(View arg0, int arg1);
+int clampViewPositionHorizontal(View child, int left, int dx);
+int clampViewPositionVertical(View child, int top, int dy);
+int getOrderedChildIndex(int index);
+int getViewHorizontalDragRange(View child);
+int getViewVerticalDragRange(View child);
+void onEdgeDragStarted(int edgeFlags, int pointerId);
+void onEdgeTouched(int edgeFlags, int pointerId);
+void onViewCaptured(View capturedChild, int activePointerId);
+void onViewDragStateChanged(int state);
+void onViewReleased(View releasedChild, float xvel, float yvel);
+}
+
+class ViewDragHelper {
+boolean checkNewEdgeDrag(float delta, float odelta, int pointerId, int edge);
+boolean checkTouchSlop(int directions, int pointerId);
+boolean checkTouchSlop(int directions);
+boolean checkTouchSlop(View child, float dx, float dy);
+boolean continueSettling(boolean deferCallbacks);
+boolean forceSettleCapturedViewAt(int finalLeft, int finalTop, int xvel, int yvel);
+boolean isCapturedViewUnder(int x, int y);
+boolean isEdgeTouched(int edges, int pointerId);
+boolean isEdgeTouched(int edges);
+boolean isPointerDown(int pointerId);
+boolean isViewUnder(View view, int x, int y);
+boolean settleCapturedViewAt(int finalLeft, int finalTop);
+boolean shouldInterceptTouchEvent(MotionEvent ev);
+boolean smoothSlideViewTo(View child, int finalLeft, int finalTop);
+boolean tryCaptureViewForDrag(View toCapture, int pointerId);
+float clampMag(float value, float absMin, float absMax);
+float distanceInfluenceForSnapDuration(float f);
+int clampMag(int value, int absMin, int absMax);
+int computeAxisDuration(int delta, int velocity, int motionRange);
+int getEdgeSize();
+int getEdgesTouched(int x, int y);
+int getTouchSlop();
+int getViewDragState();
+static ViewDragHelper create(ViewGroup forParent, Callback cb);
+static ViewDragHelper create(ViewGroup forParent, float sensitivity, Callback cb);
+View findTopChildUnder(int x, int y);
+View getCapturedView();
+void abort();
+void cancel();
+void captureChildView(View childView, int activePointerId);
+void clearMotionHistory();
+void clearMotionHistory(int pointerId);
+void dispatchViewReleased(float xvel, float yvel);
+void dragTo(int left, int top, int dx, int dy);
+void ensureMotionHistorySizeForId(int pointerId);
+void processTouchEvent(MotionEvent ev);
+void reportNewEdgeDrags(float dx, float dy, int pointerId);
+void saveInitialMotion(float x, float y, int pointerId);
+void saveLastMotion(MotionEvent ev);
+void setDragState(int state);
+void setEdgeTrackingEnabled(int edgeFlags);
+void setMinVelocity(float minVel);
+}
+
 class CursorAdapter {
 protected void init(Context context, Cursor c, boolean autoRequery);
 void init(Context context, Cursor c, int flags);
@@ -1313,5 +1723,111 @@ void setSize(int width, int height);
 
 }
 
+package android.support.v4.text;
+
+class TextUtilsCompat {
+static int getLayoutDirectionFromFirstChar(Locale locale);
+static int getLayoutDirectionFromLocale(Locale locale);
+}
+
+class TextDirectionHeuristicsCompat {
+static int isRtlText(int directionality);
+static int isRtlTextOrFormat(int directionality);
+}
+
+class TextDirectionHeuristicCompat {
+boolean isRtl(char[] arg0, int arg1, int arg2);
+boolean isRtl(CharSequence arg0, int arg1, int arg2);
+}
+
+class ICUCompat {
+static String addLikelySubtags(String locale);
+static String getScript(String locale);
+}
+
+class BidiFormatter$Builder {
+BidiFormatter build();
+static BidiFormatter getDefaultInstanceFromContext(boolean isRtlContext);
+void initialize(boolean isRtlContext);
+}
+
+class BidiFormatter {
+boolean getStereoReset();
+static boolean isRtlLocale(Locale locale);
+static int getEntryDir(String str);
+static int getExitDir(String str);
+String markAfter(String str, TextDirectionHeuristicCompat heuristic);
+String markBefore(String str, TextDirectionHeuristicCompat heuristic);
+String unicodeWrap(String str, boolean isolate);
+String unicodeWrap(String str, TextDirectionHeuristicCompat heuristic, boolean isolate);
+String unicodeWrap(String str, TextDirectionHeuristicCompat heuristic);
+String unicodeWrap(String str);
+}
+
+package android.support.v4.print;
+class PrintHelperKitKat {
+Bitmap loadBitmap(Uri uri, Options o) throws FileNotFoundException;
+Bitmap loadConstrainedBitmap(Uri uri, int maxSideLength) throws FileNotFoundException;
+int getColorMode();
+int getScaleMode();
+void printBitmap(String jobName, Bitmap bitmap);
+void printBitmap(String jobName, Uri imageFile) throws FileNotFoundException;
+void setColorMode(int colorMode);
+void setScaleMode(int scaleMode);
+}
+
+class PrintHelper {
+static boolean systemSupportsPrint();
+}
+
+package android.support.v4.media;
+class TransportStateListener {
+void onPlayingChanged(TransportController controller);
+void onTransportControlsChanged(TransportController controller);
+}
 
 
+
+class TransportPerformer {
+boolean onIsPlaying();
+boolean onMediaButtonDown(int keyCode, KeyEvent event);
+boolean onMediaButtonUp(int keyCode, KeyEvent event);
+int onGetBufferPercentage();
+int onGetTransportControlFlags();
+long onGetCurrentPosition();
+long onGetDuration();
+void onAudioFocusChange(int focusChange);
+void onPause();
+void onSeekTo(long arg0);
+void onStart();
+void onStop();
+}
+
+class TransportMediator {
+static boolean isMediaKey(int keyCode);
+TransportStateListener[] getListeners();
+void pushControllerState();
+void reportPlayingChanged();
+void reportTransportControlsChanged();
+}
+
+package android.support.v4.internal.view;
+class SupportMenuItem {
+ ActionProvider getSupportActionProvider();
+ boolean collapseActionView();
+ boolean expandActionView();
+ boolean isActionViewExpanded();
+ MenuItem setActionView(int arg0);
+ MenuItem setActionView(View arg0);
+ SupportMenuItem setSupportActionProvider(ActionProvider arg0);
+ SupportMenuItem setSupportOnActionExpandListener(OnActionExpandListener arg0);
+ View getActionView();
+ void setShowAsAction(int arg0);
+}
+
+
+package android.support.v4.graphics.drawable;
+class DrawableCompat {
+static boolean isAutoMirrored(Drawable drawable);
+static void setAutoMirrored(Drawable drawable, boolean mirrored);
+}

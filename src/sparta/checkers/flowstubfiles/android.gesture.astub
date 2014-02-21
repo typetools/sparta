@@ -1,0 +1,18 @@
+package android.gesture;
+
+class GestureOverlayView {
+void addOnGesturePerformedListener(OnGesturePerformedListener listener);
+void setGestureVisible(boolean visible);
+}
+
+class GestureLibrary {
+ArrayList<Prediction> recognize(Gesture gesture);
+boolean load();
+}
+
+class GestureLibraries {
+static GestureLibrary fromFile(File path);
+static GestureLibrary fromFile(String path);
+static GestureLibrary fromRawResource(Context context, int resourceId);
+}
+

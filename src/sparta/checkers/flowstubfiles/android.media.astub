@@ -1,5 +1,30 @@
 package android.media;
 
+class FaceDetector {
+@PolyFlow int findFaces(Bitmap bitmap, Face[] faces);
+}
+
+class FaceDetector$Face {
+void getMidPoint(PointF point);
+}
+
+class MediaMetadataRetriever {
+String extractMetadata(int arg0);
+void setDataSource(Context context, Uri uri) throws IllegalArgumentException,SecurityException;
+void setDataSource(FileDescriptor arg0, long arg1, long arg2) throws IllegalArgumentException;
+void setDataSource(FileDescriptor fd) throws IllegalArgumentException;
+void setDataSource(String path) throws IllegalArgumentException;
+void setDataSource(String uri, Map<String,String> headers) throws IllegalArgumentException;
+}
+
+class RemoteControlClient {
+void setOnGetPlaybackPositionListener(OnGetPlaybackPositionListener l);
+void setPlaybackPositionUpdateListener(OnPlaybackPositionUpdateListener l);
+void setPlaybackState(int state, long timeInMs, float playbackSpeed);
+void setPlaybackState(int state);
+void setTransportControlFlags(int transportControlFlags);
+}
+
 class AudioManager{
         void setRingerMode(@Sink(SPEAKER) int ringerMode);
         int getStreamVolume(int streamType);
@@ -8,6 +33,15 @@ class AudioManager{
         int getRingerMode();
         int abandonAudioFocus(@Sink(SPEAKER) OnAudioFocusChangeListener l);
         int requestAudioFocus(@Sink(SPEAKER) OnAudioFocusChangeListener l, int streamType, int durationHint);
+        
+        int getMode();
+void adjustStreamVolume(int streamType, int direction, int flags);
+void registerMediaButtonEventReceiver(ComponentName eventReceiver);
+void registerMediaButtonEventReceiver(PendingIntent eventReceiver);
+void registerRemoteControlClient(RemoteControlClient rcClient);
+void unregisterMediaButtonEventReceiver(ComponentName eventReceiver);
+void unregisterMediaButtonEventReceiver(PendingIntent eventReceiver);
+void unregisterRemoteControlClient(RemoteControlClient rcClient);
 }
 
 class AudioRecord {
@@ -20,6 +54,10 @@ class AudioRecord {
         void release();
         AudioRecord(int audioSource, int sampleRateInHz, int channelConfig, int audioFormat, int bufferSizeInBytes) throws IllegalArgumentException;
         void startRecording() throws IllegalStateException;
+        
+        int read(ByteBuffer audioBuffer, int sizeInBytes);
+int read(short[] audioData, int offsetInShorts, int sizeInShorts);
+void startRecording(MediaSyncEvent syncEvent) throws IllegalStateException;
 }
 
 class AudioRecord$OnRecordPositionUpdateListener{
@@ -72,6 +110,18 @@ class MediaPlayer {
         void prepare() throws IOException,IllegalStateException;
         MediaPlayer();
         void setDataSource(Context context, Uri uri) throws IOException,IllegalArgumentException,SecurityException,IllegalStateException;
+        
+        static MediaPlayer create(Context context, int resid);
+static MediaPlayer create(Context context, Uri uri, SurfaceHolder holder);
+static MediaPlayer create(Context context, Uri uri);
+void setAudioStreamType(int arg0);
+void setDataSource(Context context, Uri uri, Map<String,String> headers) throws IOException,IllegalArgumentException,SecurityException,IllegalStateException;
+void setDataSource(FileDescriptor fd, long offset, long length) throws IOException,IllegalArgumentException,IllegalStateException;
+void setDataSource(FileDescriptor fd) throws IOException,IllegalArgumentException,IllegalStateException;
+void setOnCompletionListener(OnCompletionListener listener);
+void setOnErrorListener(OnErrorListener listener);
+void setOnInfoListener(OnInfoListener listener);
+void setWakeMode(Context context, int mode);
 }
 
 class MediaPlayer$OnPreparedListener{
@@ -189,6 +239,9 @@ class Ringtone{
 
 class RingtoneManager{
         static Ringtone getRingtone(Context context, Uri ringtoneUri);
+        Cursor getCursor();
+int getRingtonePosition(Uri ringtoneUri);
+Uri getRingtoneUri(int position);
 }
 
 class ThumbnailUtils {

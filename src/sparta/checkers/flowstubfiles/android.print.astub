@@ -1,0 +1,36 @@
+package android.print;
+
+class PrintManager {
+PrintJob print(String printJobName, PrintDocumentAdapter documentAdapter, PrintAttributes attributes);
+}
+
+class PrintDocumentInfo$Builder {
+
+Builder setContentType(int type);
+SinkBuilder setPageCount(int pageCount);
+SinkPrintDocumentInfo build();
+}
+
+class PrintDocumentAdapter$WriteResultCallback{
+void onWriteFailed(CharSequence error);
+void onWriteFinished(PageRange[] pages);
+}
+
+class PrintDocumentAdapter$LayoutResultCallback{
+void onLayoutFinished(PrintDocumentInfo info, boolean changed);
+}
+
+class PrintAttributes$Builder {
+Builder setColorMode(int colorMode);
+SinkBuilder setMediaSize(MediaSize mediaSize);
+SinkPrintAttributes build();
+}
+
+class PrintAttributes {
+boolean equals(Object obj);
+}
+
+package android.print.pdf;
+class PrintedPdfDocument {
+Page startPage(int pageNumber);
+}

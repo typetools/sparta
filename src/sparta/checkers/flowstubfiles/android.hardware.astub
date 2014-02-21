@@ -1,5 +1,6 @@
 package android.hardware;
 
+
 class Camera {
 
 final void addCallbackBuffer(byte[] callbackBuffer);
@@ -426,6 +427,9 @@ void onAccuracyChanged(Sensor arg0, int arg1);
 
 
 class SensorManager {
+
+boolean registerListener(SensorEventListener listener, Sensor sensor, int rateUs, int maxBatchReportLatencyUs, Handler handler);
+boolean registerListener(SensorEventListener listener, Sensor sensor, int rateUs, int maxBatchReportLatencyUs);
     
     
 static float getAltitude(float p0, float p);
@@ -493,3 +497,9 @@ void unregisterListener(SensorEventListener listener);
 
 
 
+package android.hardware.display;
+class DisplayManager {
+Display getDisplay(int displayId);
+Display[] getDisplays();
+Display[] getDisplays(String category);
+}
