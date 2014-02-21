@@ -179,7 +179,7 @@ public class IntentVisitor extends FlowVisitor {
             AnnotatedTypeMirror lhs = atypeFactory.getAnnotatedType(getIntentCall);
             AnnotationMirror lhsIntentExtras = lhs.getAnnotation(IntentMap.class);
             if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
-                checker.report(Result.failure("send.intent"), node);
+                checker.report(Result.failure("send.intent", rhsIntentExtras.toString(), lhsIntentExtras.toString()), node);
             }
         }
     }
@@ -209,7 +209,7 @@ public class IntentVisitor extends FlowVisitor {
             AnnotatedTypeMirror lhs = realCallBackMethod.getParameterTypes().get(0);
             AnnotationMirror lhsIntentExtras = lhs.getAnnotation(IntentMap.class);
             if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
-                checker.report(Result.failure("send.intent"), node);
+                checker.report(Result.failure("send.intent", rhsIntentExtras.toString(), lhsIntentExtras.toString()), node);
             }
         }
     }
@@ -238,7 +238,7 @@ public class IntentVisitor extends FlowVisitor {
             AnnotatedTypeMirror lhs = realCallBackMethod.getParameterTypes().get(1);
             AnnotationMirror lhsIntentExtras = lhs.getAnnotation(IntentMap.class);
             if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
-                checker.report(Result.failure("send.intent"), node);
+                checker.report(Result.failure("send.intent", rhsIntentExtras.toString(), lhsIntentExtras.toString()), node);
             }
         }
     }

@@ -80,8 +80,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             if (this.isFromByteCode(iter)) {
                 if(IntentUtils.RECEIVE_INTENT_METHODS.contains(element.getSimpleName().toString()) ||
                         type.getUnderlyingType().toString().equals("android.content.Intent")) {
-                    applier.apply(POLYSOURCE, DefaultLocation.RETURNS);
-                    applier.apply(POLYSINK, DefaultLocation.RETURNS);
+                    applier.apply(LITERALSOURCE, DefaultLocation.RETURNS);
+                    applier.apply(FROMLITERALSINK, DefaultLocation.RETURNS);
                 }
                 // Checking if ignoring NOT_REVIEWED warnings
                 else if (!IGNORENR) {
