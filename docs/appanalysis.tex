@@ -588,26 +588,44 @@ annotations.
 \begin{alltt}
 generate-cm [path to app's .apk] [component map path]
 \end{alltt}
+
+The \<generate-cm> script reads a file named \<filter-map> 
+located at \<src/sparta/checkers/intents/componentmap/filter-map>. 
+This file contains
+information about every android system component and using it the intent
+analysis can identify if a component from the analyzed app might interact
+with one of the android system components. It uses the intent filters
+from the manifest file of the application to find this information.
+
+The filter-map can be auto-generated and include information about other
+apps that might interact with the current app being analyzed. To generate
+the filter-map file, create a folder with  every .apk of the apps
+that might interact with the app being analyzed and run the \<generate-filters>
+ script located at the sparta-code folder as follows:
+ 
+\begin{alltt}
+generate-filters [path to a folder containing .apk files]
+\end{alltt}
+
+Currently the component map generation does not differentiate intent filters
+with same action and categories but different data (URI). Every communication
+that might involve URIs will be shown commented in the component map so that
+the developer can uncomment the ones he think in fact occur after manually
+analyzing the code.
+
+
 %\todo{Why does the path have to be fully qualified? Can't we change the script so it can be relative?}
 %\todo{Also, it would be nice if the script could be run from any directory.} 
 %\todo{Add the caveat that the apk must be build with out annotations}
-\todo{Explain the generate-filter script} 
-\todo{Explain the URI limitation}
+%\todo{Explain the generate-filter script} 
+%\todo{Explain the URI limitation}
 
-\subsection{Using a component map}
-To use a component map file named \emph{component-map} 
-when invoking \TheFlowChecker{} from the command line, move the file to the
-source folder of the application and 
-add the following line in the build.xml file of the application:
-\begin{alltt}
-<property name="componentMap" value="component-map"/>
-\end{alltt}
-\todo{Why do you have to add this to the build file? Can't us just use the ant argument
-and if that's not specified, component-map is the default?}
+\subsection{Annotating components from other applications}
+In case the application being analyzed communicates with components from
+other apps, these components need to be correctly annotated and added in the 
+\<annotated-intent-receivers> folder.
 
-
-
-\subsection{Running the Intent Analysis with \TheFlowChecker{}}
+\subsection{Running the intent analysis with \TheFlowChecker{}}
 
 Run \theFlowChecker{} in the command line with \<check-intent> instead of
 \<check-flow> like the following command: 
@@ -617,9 +635,144 @@ Run \theFlowChecker{} in the command line with \<check-intent> instead of
 ant -DflowPolicy=myflowpolicy -DcomponentMap=mycomponentmap check-intent
 \end{alltt}
 
+Alternatively, it is possible to omit the \<-DComponentMap> parameter if the 
+path of the component map is in the 
+build.xml file of the application. This can be done by adding the following 
+line to the build.xml file where component-map will contain the path of the file:
+
+\begin{alltt}
+<property name="componentMap" value="component-map"/>
+\end{alltt}
+\todo{Isn't that the way how the flow policy is defaulted to flow-policy?}
+
 If the Information Flow Checker produces any errors or warnings, then the app
 has not been properly annotated and should be rejected.
-\todo{Show some examples of IntentChecker warnings and how to correct them}
+
+Below there are a few common warnings and errors from the intent analysis and 
+how to solve them:
+
+\subsubsection{Error: could not find receivers}
+
+\begin{Verbatim}
+error: Could not find receivers for class: ActivityA(action1,[cat1,cat2])
+\end{Verbatim}
+
+To solve this error you need to add an entry in the component map from 
+ActivityA to one or more components. For example:
+
+\begin{Verbatim}
+ActivityA(action1,[cat1,cat2]) -> com.example.ActivityB
+\end{Verbatim}
+
+\subsubsection{Warning: getintent.not.found}
+
+\begin{Verbatim}
+warning: [getintent.not.found] 
+ startActivity(senderIntent1);
+               ^
+Could not find the receiver component: com.example.ActivityB or it has not
+overridden the getIntent() method.
+\end{Verbatim}
+
+To solve this warning you need to override the getIntent() method in ActivityB.
+This can be done, for example, as follows:
+
+\begin{Verbatim}
+@Override
+    public @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION },
+		sink = {}) }) 
+	Intent getIntent() {
+		@SuppressWarnings("")
+		@IntentMap({ @Extra(key = "k5", source = {
+			ACCESS_FINE_LOCATION }, sink = {}) }) 
+		      Intent output = super.getIntent();
+		      return output;
+	}
+\end{Verbatim}
+
+\subsubsection{Warning: intent.type.incompatible}
+
+\begin{Verbatim}
+ActivityTest.java:57: warning: [intent.type.incompatible] 
+[jsr308.javac]         i1.putExtra("k2", getVal());
+[jsr308.javac]                    ^
+[jsr308.javac]   The @IntentMap annotation of i1 contains an element with Key k2
+that is incompatible with the type it is receiving. Expected a subtype of:
+Source:
+@sparta.checkers.quals.Source({sparta.checkers.quals.FlowPermission.ACCESS_FINE_LOCATION}).
+Sink:
+@sparta.checkers.quals.Sink({sparta.checkers.quals.FlowPermission.DISPLAY}).
+Received: Source:
+@sparta.checkers.quals.Source({sparta.checkers.quals.FlowPermission.FILESYSTEM}).
+Sink:
+@sparta.checkers.quals.Sink({sparta.checkers.quals.FlowPermission.INTERNET}).
+\end{Verbatim}
+
+The type of i1 is: 
+\begin{Verbatim}
+@IntentMap({@Extra(key = "k2", source = {ACCESS_FINE_LOCATION}, sink = {DISPLAY})
+})
+\end{Verbatim}
+
+To solve this warning you need to change the type of i1 to:
+
+\begin{Verbatim}
+@IntentMap({@Extra(key = "k2", source = {FILESYSTEM}, sink = {INTERNET})})
+\end{Verbatim}
+
+\subsubsection{Warning: send.intent}
+
+\begin{Verbatim}
+warning: [send.intent] 
+startActivity(senderIntent2);
+                ^
+Forbidden communication. 
+Intent type found:
+@sparta.checkers.quals.IntentMap({@sparta.checkers.quals.Extra(key="k5",
+source={sparta.checkers.quals.FlowPermission.ANY}, sink={})}). 
+[jsr308.javac]    
+Intent type required:
+@sparta.checkers.quals.IntentMap({@sparta.checkers.quals.Extra(key="k5",
+source={sparta.checkers.quals.FlowPermission.ACCESS_FINE_LOCATION}, sink={})}). 
+\end{Verbatim}
+
+To solve this warning you need to change either the type of the sender intent
+or the receiver intent so that the sender is copyable to the receiver. The
+sender intent is \<senderIntent2> and the receiver can be found in the component
+map.
+
+
+
+\subsubsection{Warning: intent.key.notfound}
+
+\begin{Verbatim}
+warning: [intent.key.notfound] 
+String s4 = i1.getStringExtra("k4");
+                              ^
+Key k4 missing from @IntentMap annotation of i1!
+\end{Verbatim}
+
+To solve this warning you need to add an \<@Extra> in the \<@IntentMap> from
+\<i1> containing \<k4> as a key.
+
+
+
+\subsubsection{Warning: intent.key.variable}
+\begin{Verbatim}
+warning: [intent.key.variable] 
+i1.putExtra(VALUE_KEY, getVal());
+             ^
+Key VALUE_KEY cannot be resolved at compile time.
+\end{Verbatim}
+
+To solve this warning you need to replace \<VALUE\_KEY> with its   
+String value.
+
+
+
+
+
+%\todo{Show some examples of IntentChecker warnings and how to correct them}
 
 
 
