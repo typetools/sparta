@@ -68,13 +68,13 @@ intents.
 A component map is used to represent the communication between components of an
 application. A component map file expresses a 
 component map, as a list of $\flow{\|sendIntent(intent)|}{\|onReceive|^*}$ pairs.
-The \<intent> being may consist of an \<Action>, set of
+The \<intent> sent may consist of an \<Action>, set of
 \<Categories> and a \<Data>.
 The set of pairs of communicating components is
 conservative, that is it includes all possible pairs of methods that might
 communicate. In order to compute these pairs, all apps that might be
-communicating are analyzed using the tools APKParser, Dare, and Epicc. The
-procedure to generate a component map is detailed in section
+communicating are analyzed using the tools \code{APKParser}, \code{Dare}, and
+\code{Epicc}. The procedure to generate a component map is detailed in section
 \ref{component-map-generation}.
 
 
@@ -97,25 +97,57 @@ retrieved by the receiver with \<intent.getExtra("key",default)>.
 The \<@IntentMap> represents the types
 of the key/value mappings that are permitted to be accessed. The Intent object
 may contain more mappings than stated in its type, but those other keys may not
-be accessed. The Intent object is not required to contain all the given
-mappings, but if a key is present \todo{where is the key present in the type or in the intent?}, then the type of the corresponding value must
-be consistent with the stated type. 
+be accessed. The intent object is not required to contain all the given
+mappings, but if a key is present and accessed 
+then the type of the corresponding value must be consistent with the 
+stated type. 
 
 An \<@IntentMap> annotation contains a set of \<@Extra> annotations. An
 \<@Extra> annotation contains a key K and a type T. This means that the key K 
-maps to a value of type T. In the case of the information flow system, the type T
-represents data and constrains its possible flows. \todo{This last sentence isn't clear,
-What do you mean by represents data?  How is that different for the IFC than other checkers?}
-\todo{This paragraph says that an @Extra has a key K and a type T, but in reality annotation has a key key 
-and a source and a sink.  This is confusing.  Either discuss the semantics of the types, using key K and type T 
-without using the concrete annotations or discuss the semantics using the actual syntax. }
-\todo{Where are the sub typing rules?}
+maps to a value of type T. In the case of the information flow system, the type
+T is a pair of set of sources and set of sinks which constrains the possible 
+flows. \todo{Please check if this paragraph is clear. -Paulo}
+%\todo{This last sentence isn't clear,
+%What do you mean by represents data?  How is that different for the IFC than other checkers?}
+%\todo{This paragraph says that an @Extra has a key K and a type T, but in reality annotation has a key key 
+%and a source and a sink.  This is confusing.  Either discuss the semantics of the types, using key K and type T 
+%without using the concrete annotations or discuss the semantics using the actual syntax. }
+%\todo{Where are the sub typing rules?}
 \todo{How do you annotation receivers or senders that are in other apps?}
 
-\subsection{putExtra and getExtra rules}
+\subsection{Subtyping and intent map access rules}
 
-\subsubsection{putExtra}
+\subsubsection{Subtyping}
+Intent type \<T1> is a subtype of intent type \<T2> if the key set of 
+\<T2> is a subset of the key set of \<T1> and, for each key \<k> in both 
+\<T1> and \<T2>, \<k> is mapped to the exact same type, that is, 
+\<T1[k]> = \<T2[k]>. The use of a subtyping requirement \<T1[k]> <: \<T2[k]> 
+instead of equality \<T1[k]> = \<T2[k]> would lead to unsoundness 
+in the presence of aliasing.
+
+
+\subsubsection{Copyable}
+Copyable is a subtyping-like relationship with the weaker requirement: 
+\<T1[k]> <: \<T2[k]>. It may be used only when aliasing is not possible, which
+occurs when onReceive is invoked by the Android system.
+
+\subsubsection{putExtra and getExtra}
+Consider the following annotated intent and strings:
+
+\<@IntentMap(@Extra(key="key",source=({A,B}),sink=({C,D})))
+	Intent intent;>
+
+
+\<@Source({A}) @Sink({C,D}) String val1 = getValue();>
+
+
+\<@Source({A,B,C}) @Sink({C,D}) String val2 = getValue();>
+
+
+
+%
 Calls intent.putExtra(key,value) type-check if:
+%
 \begin{itemize}
 \item
  key is in an \<@Extra> in the intent's \<@IntentMap> annotation.
@@ -125,43 +157,36 @@ Calls intent.putExtra(key,value) type-check if:
 
 
 \end{itemize}
-For example:
 
-\<@IntentMap(@Extra(key="key",source=({A,B}),sink=({C,D})))
-	Intent intent>
-\todo{It would be better to have an example annotation before discussing the individual rules} 	
+%\todo{It would be better to have an example annotation before discussing the individual rules} 	
 	
 \begin{itemize}
 \item
-intent.putExtra("key",\<@Source({A}) @Sink({C,E})> obj value) is allowed 
-\todo{It's confusing to have annotations in the method call.  It would be better to should the declaration 
-of value with the annotations and then show it used in  a put extra call}
-\todo{I don't think this example is correct, because value isn't allowed to flow to sink D, 
-but the type of key in the @Extra annotation allowed it.}
+intent.putExtra("key",\<val1>) is allowed 
+%\todo{It's confusing to have annotations in the method call.  It would be better to should the declaration 
+%of value with the annotations and then show it used in  a put extra call}
 \item
-intent.putExtra("key",\<@Source({A,B,E}) @Sink({C})> obj value) is not allowed
+intent.putExtra("key",\<val2>) is not allowed
 
 \end{itemize}
 
-\subsubsection{getExtra}
+
 The return type of intent.getExtra(key,defaultValue) is the type of the \<@Extra>
 annotation with key in the intent's \<@IntentMap> annotation.
+%
+
 Calls intent.getExtra(key,defaultValue) type-check if:
 \begin{itemize}
 \item
 key is in an \<@Extra> in the intent's \<@IntentMap> annotation.
 \end{itemize}
-For example:
 		
-\<@IntentMap(@Extra(key="key",source=({A,B}),sink=({C,D})))
-		Intent getIntent()>
 \begin{itemize}
 \item
-	Obj x = intent.getExtra("key", defaultValue) is allowed. 
-	The type of x is \<@Source(A,B) @Sink(C,D) Obj>. 
-	\todo{Don't say what the type is, show the declaration. and use a real Java type, not Obj.}
+	\<@Source({A,B}) @Sink({C,D})> String val1 = intent.getExtra("key", defaultValue) is allowed. 
 \item
-	Obj x = intent.getExtra("key2", defaultValue) is not allowed.
+    \<@Source({A,B}) @Sink({C,D})> String val2 = intent.getExtra("new\_key",
+	defaultValue) is not allowed. 
 \end{itemize}
 
 \subsection{Type-checking sendIntent()}
@@ -172,9 +197,10 @@ An \<@IntentMap(A)> is copyable to \<@IntentMap(B)> if every key in the set of
 \<@IntentMap(A)>.
 
 
-A call sendIntent() only type-checks if the sender's Intent type is copyable to
-each possible receiver's Intent type according the component map. 
-\todo{Why is it copyable and not a subtype? Give the reasoning behind the rules.}
+A call sendIntent() is interpreted by the Android system as a call to one or
+more onReceive methods. A sendIntent call type-checks if its intent argument is
+copyable to the formal parameter of each corresponding onReceive methods.
+%\todo{Why is it copyable and not a subtype? Give the reasoning behind the rules.}
 
 
 %%  LocalWords:  sendIntent onReceive typeof callee
