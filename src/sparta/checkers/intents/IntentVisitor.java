@@ -402,7 +402,7 @@ public class IntentVisitor extends FlowVisitor {
                     checkGetExtra(method, node, key, receiver, receiverType);
                 }
             }
-        } else {
+        } else if(IntentUtils.isPutExtraMethod(node) || IntentUtils.isGetExtraMethod(node, checker.getProcessingEnvironment())) {
             //Handle keys which are not constants
             checker.report(Result.failure("intent.key.variable", node.getArguments().get(0)), node);
         }

@@ -69,10 +69,10 @@ public class ComponentMap {
         try {
             int lineNum = 1;
             bufferedReader = new BufferedReader(new FileReader(mapFile));
-            String originalLine = bufferedReader.readLine().trim();
-
+            String originalLine = bufferedReader.readLine();
+            
             while (originalLine != null) {
-
+                originalLine = originalLine.trim();
                 // Remove anything from # on in the line
                 final String line = stripComment(originalLine);
 
