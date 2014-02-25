@@ -1,0 +1,29 @@
+package javax.net;
+
+class ServerSocketFactory {
+static ServerSocketFactory getDefault();
+}
+
+class SocketFactory {
+Socket createSocket() throws IOException;
+Socket createSocket(InetAddress arg0, int arg1, InetAddress arg2, int arg3) throws IOException;
+Socket createSocket(InetAddress arg0, int arg1) throws IOException;
+Socket createSocket(String arg0, int arg1, InetAddress arg2, int arg3) throws IOException,UnknownHostException;
+Socket createSocket(String arg0, int arg1) throws IOException,UnknownHostException;
+static SocketFactory getDefault();
+}
+
+package javax.net.ssl;
+
+class SSLContext {
+SSLSocketFactory getSocketFactory();
+static SSLContext getInstance(String arg0, Provider arg1) throws NoSuchAlgorithmException;
+static SSLContext getInstance(String arg0, String arg1) throws NoSuchAlgorithmException,NoSuchProviderException;
+static SSLContext getInstance(String arg0) throws NoSuchAlgorithmException;
+void init(KeyManager[] arg0, TrustManager[] arg1, SecureRandom arg2) throws KeyManagementException;
+}
+
+class SSLSocketFactory {
+Socket createSocket(Socket arg0, String arg1, int arg2, boolean arg3) throws IOException;
+static SocketFactory getDefault();
+}

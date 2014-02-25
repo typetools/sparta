@@ -3,6 +3,8 @@
 
 package java.lang;
 
+
+
 class AutoCloseable{
             void close() throws Exception;
 }
@@ -11,6 +13,9 @@ class AutoCloseable{
 class AbstractStringBuilder{
         int length();
         setLength(int arg0);
+        char charAt(int arg0);
+        void setCharAt(int arg0, char arg1);
+        void setLength(int arg0);
 }
 
 @PolyFlowReceiver
@@ -487,6 +492,13 @@ class Class{
          String getName();
             boolean isInstance(Object arg0);
             static Class<?> forName(String arg0, boolean arg1, ClassLoader arg2) throws ClassNotFoundException;
+            boolean desiredAssertionStatus();
+        boolean isAssignableFrom(Class<?> arg0);
+        Class<?> getComponentType();
+        Field getField(String arg0) throws NoSuchFieldException,SecurityException;
+        Method getMethod(String arg0, Class<?>[] arg1) throws NoSuchMethodException,SecurityException;
+        Method[] getMethods() throws SecurityException;
+        String toString();
 }
 
 @PolyFlowReceiver
@@ -1084,6 +1096,10 @@ class StringBuilder extends AbstractStringBuilder implements Serializable, CharS
     int lastIndexOf(String arg0, int arg1);
     StringBuilder reverse();
     String toString();
+    StringBuilder append(StringBuilder arg0);
+    char charAt(int arg0);
+void setCharAt(int arg0, char arg1);
+void setLength(int arg0);
 }
 
 
@@ -1250,6 +1266,9 @@ class StringBuilder extends AbstractStringBuilder implements Serializable, CharS
     static String valueOf(double arg0);
     @PolyFlowReceiver
     String intern();
+    
+    static int indexOf(char[] arg0, int arg1, int arg2, char[] arg3, int arg4, int arg5, int arg6);
+    static int lastIndexOf(char[] arg0, int arg1, int arg2, char[] arg3, int arg4, int arg5, int arg6);
 }
 
 // [append, toString, <init>, length, insert, indexOf, substring, setCharAt, setLength]
@@ -1457,6 +1476,7 @@ class Thread implements Runnable {
     static UncaughtExceptionHandler getDefaultUncaughtExceptionHandler();
     UncaughtExceptionHandler getUncaughtExceptionHandler();
     void setUncaughtExceptionHandler(UncaughtExceptionHandler arg0);
+    boolean isInterrupted(boolean arg0);
 }
 
 @PolyFlowReceiver
@@ -1495,6 +1515,39 @@ class Throwable implements Serializable {
     void setStackTrace(StackTraceElement[] arg0);
     void addSuppressed(Throwable arg0);
     Throwable[] getSuppressed();
+    Throwable fillInStackTrace(int arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
+void printStackTrace(PrintStreamOrWriter arg0);
 }
 
 package java.lang.ref;
@@ -1506,6 +1559,10 @@ class ReferenceQueue<T> {
     Reference<? extends T> poll();
     Reference<? extends T> remove(long arg0) throws IllegalArgumentException,InterruptedException;
     Reference<? extends T> remove() throws InterruptedException;
+}
+
+class Reference {
+T get();
 }
 
 @PolyFlowReceiver
@@ -1528,6 +1585,7 @@ class WeakReference<T> extends Reference<T> {
 package java.lang.reflect;
 class AccessibleObject{
         void setAccessible(boolean arg0) throws SecurityException;
+        static void setAccessible(AccessibleObject[] arg0, boolean arg1) throws SecurityException;
 }
 @PolyFlowReceiver
 class Array {

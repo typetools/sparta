@@ -1,10 +1,12 @@
 package java.nio;
 
+
 class Buffer{
    int remaining();
    @PolyFlowReceiver
    Buffer flip();
    boolean hasRemaining();
+   Buffer clear();
 }
 
 @PolyFlowReceiver
@@ -134,3 +136,80 @@ class Charset implements Comparable<Charset> {
     boolean equals(Object arg0);
     String toString();
 }
+
+package java.nio.channels;
+
+@PolyFlowReceiver
+class WritableByteChannel {
+int write(ByteBuffer arg0) throws IOException;
+}
+
+@PolyFlowReceiver
+class SocketChannel {
+boolean connect(SocketAddress arg0) throws IOException;
+boolean finishConnect() throws IOException;
+int read(ByteBuffer arg0) throws IOException;
+int write(ByteBuffer arg0) throws IOException;
+long read(ByteBuffer[] arg0, int arg1, int arg2) throws IOException;
+long read(ByteBuffer[] arg0) throws IOException;
+long write(ByteBuffer[] arg0, int arg1, int arg2) throws IOException;
+long write(ByteBuffer[] arg0) throws IOException;
+Socket socket();
+static SocketChannel open() throws IOException;
+static SocketChannel open(SocketAddress arg0) throws IOException;
+}
+
+@PolyFlowReceiver
+class Selector {
+boolean isOpen();
+Set<SelectionKey> keys();
+Set<SelectionKey> selectedKeys();
+static Selector open() throws IOException;
+void close() throws IOException;
+}
+
+@PolyFlowReceiver
+class SelectionKey {
+boolean isConnectable();
+boolean isReadable();
+boolean isValid();
+boolean isWritable();
+int interestOps();
+Object attach(Object arg0);
+Object attachment();
+SelectableChannel channel();
+SelectionKey interestOps(int arg0);
+void cancel();
+}
+
+@PolyFlowReceiver
+class ReadableByteChannel {
+int read(ByteBuffer arg0) throws IOException;
+}
+
+@PolyFlowReceiver
+class FileChannel {
+long size() throws IOException;
+}
+
+@PolyFlowReceiver
+class Channels {
+static ReadableByteChannel newChannel(InputStream arg0);
+static WritableByteChannel newChannel(OutputStream arg0);
+}
+
+package java.nio.channels.spi; 
+
+@PolyFlowReceiver
+class AbstractSelectableChannel{
+SelectableChannel configureBlocking(boolean arg0) throws IOException;
+SelectionKey register(Selector arg0, int arg1, Object arg2) throws ClosedChannelException;
+}
+
+
+@PolyFlowReceiver
+class AbstractInterruptibleChannel {
+void close() throws IOException;
+}
+
+

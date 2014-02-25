@@ -1,3 +1,11 @@
+package java.sql;
+
 class Timestamp{
         Timestamp(long arg0);
+}
+
+class Date {
+static Date valueOf(String arg0);
+String toString();
+void setTime(long arg0);
 }

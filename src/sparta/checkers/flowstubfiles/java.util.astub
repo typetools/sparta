@@ -1,6 +1,14 @@
 
 package java.util;
 
+
+
+class Properties {
+Enumeration<?> propertyNames();
+String getProperty(String arg0, String arg1);
+String getProperty(String arg0);
+}
+
 @PolyFlowReceiver
 class AbstractCollection<E> implements Collection<E> {
     protected AbstractCollection();
@@ -748,6 +756,11 @@ class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable, Serializ
 }
 
 @PolyFlowReceiver
+class AbstractSequentialList {
+Iterator<E> iterator();
+}
+
+@PolyFlowReceiver
 class LinkedList<E> extends AbstractSequentialList<E> implements List<E>, Deque<E>, Cloneable, Serializable {
     LinkedList();
     LinkedList(Collection<? extends E> arg0);
@@ -1262,6 +1275,8 @@ class Timer{
         void schedule(TimerTask arg0, long arg1);
         void cancel();
         void scheduleAtFixedRate(TimerTask arg0, long arg1, long arg2);
+        void schedule(TimerTask arg0, Date arg1, long arg2);
+        void schedule(TimerTask arg0, Date arg1);
 }
 
 class TimerTask{
@@ -1296,6 +1311,20 @@ class TimeZone implements Serializable, Cloneable {
     static void setDefault(TimeZone arg0);
     boolean hasSameRules(TimeZone arg0);
     Object clone();
+    static TimeZone getTimeZone(String arg0, boolean arg1);
+}
+
+@PolyFlowReceiver
+class TreeSet {
+boolean add(E arg0);
+boolean remove(Object arg0);
+int size();
+Iterator<E> iterator();
+}
+
+class WeakHashMap {
+V get(Object arg0);
+V put(K arg0, V arg1);
 }
 
 @PolyFlowReceiver
@@ -1401,8 +1430,32 @@ class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess, Clonea
 
 package java.util.concurrent;
 
+class Semaphore {
+void acquire() throws InterruptedException;
+void acquire(int arg0) throws InterruptedException;
+void release();
+void release(int arg0);
+}
+
+class Executors {
+static ExecutorService newFixedThreadPool(int arg0, ThreadFactory arg1);
+static ExecutorService newFixedThreadPool(int arg0);
+}
+
+class CopyOnWriteArrayList {
+boolean add(E arg0);
+boolean remove(Object arg0);
+E remove(int arg0);
+int size();
+Iterator<E> iterator();
+void add(int arg0, E arg1);
+}
+
 class ThreadPoolExecutor{
         ThreadPoolExecutor(int arg0, int arg1, long arg2, TimeUnit arg3, BlockingQueue<Runnable> arg4, ThreadFactory arg5);
+        boolean remove(Runnable arg0);
+        void execute(Runnable arg0);
+        void setCorePoolSize(int arg0);
 }
 class FutureTask{
         protected void done();
@@ -1712,6 +1765,14 @@ class AtomicReferenceArray<E> implements Serializable {
 
 package java.util.concurrent.locks;
 
+
+
+@PolyFlowReceiver
+class ReentrantLock {
+void lock();
+void unlock();
+}
+
 @PolyFlowReceiver
 interface Lock {
 //Added by pbsf
@@ -1790,6 +1851,25 @@ class Matcher{
 
 package java.util.zip;
 
+class Deflater {
+boolean finished();
+int deflate(byte[] arg0, int arg1, int arg2, int arg3);
+int deflate(byte[] arg0, int arg1, int arg2);
+int deflate(byte[] arg0);
+static void end(long arg0);
+void end();
+void finish();
+void setInput(byte[] arg0, int arg1, int arg2);
+void setInput(byte[] arg0);
+}
+
+class Inflater {
+int inflate(byte[] arg0, int arg1, int arg2) throws DataFormatException;
+int inflate(byte[] arg0) throws DataFormatException;
+void setInput(byte[] arg0, int arg1, int arg2);
+void setInput(byte[] arg0);
+}
+
 @PolyFlowReceiver
 class DeflaterOutputStream{
         void close() throws IOException;
@@ -1799,6 +1879,9 @@ class DeflaterOutputStream{
 class GZIPInputStream{
             GZIPInputStream(InputStream arg0) throws IOException;
             void close() throws IOException;
+            int read(byte[] arg0, int arg1, int arg2) throws IOException;
+            int read(byte[] arg0, int arg1, int arg2) throws IOException;
+void close() throws IOException;
             
 }
 
@@ -1806,6 +1889,7 @@ class GZIPInputStream{
 class GZIPOutputStream{
         void write(byte[] arg0, int arg1, int arg2) throws IOException;
         GZIPOutputStream(OutputStream arg0) throws IOException;
+        void write(byte[] arg0, int arg1, int arg2) throws IOException;
 }
 
 @PolyFlowReceiver
@@ -1817,5 +1901,7 @@ class ZipOutputStream{
 }
 class ZipEntry{
             ZipEntry(String arg0);
+            boolean isDirectory();
+String getName();
 }
 

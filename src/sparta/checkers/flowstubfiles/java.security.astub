@@ -6,8 +6,29 @@ class MessageDigest{
            @Source(SECURE_HASH) byte @Source(SECURE_HASH) [] digest(@Sink(SECURE_HASH) byte @Sink(SECURE_HASH) [] arg0);
             void update(@Sink(SECURE_HASH) byte @Sink(SECURE_HASH) [] arg0, int arg1, int arg2);
            @Source(SECURE_HASH) byte @Source(SECURE_HASH) [] digest();
+           int digest(byte[] arg0, int arg1, int arg2) throws DigestException;
+static MessageDigest getInstance(String arg0, Provider arg1) throws NoSuchAlgorithmException;
+static MessageDigest getInstance(String arg0, String arg1) throws NoSuchAlgorithmException,NoSuchProviderException;
+void reset();
+void update(@Sink(SECURE_HASH) byte arg0);
+void update(@Sink(SECURE_HASH) byte[] arg0);
+void update(@Sink(SECURE_HASH) ByteBuffer arg0);
 }
 class SecureRandom{
             SecureRandom();
             void nextBytes(@Source(RANDOM) byte @Source(RANDOM)[] arg0);
+            static SecureRandom getInstance(String arg0, Provider arg1) throws NoSuchAlgorithmException;
+static SecureRandom getInstance(String arg0, String arg1) throws NoSuchAlgorithmException,NoSuchProviderException;
+static SecureRandom getInstance(String arg0) throws NoSuchAlgorithmException;
+void setSeed(byte[] arg0);
+void setSeed(long arg0);
+}
+
+class KeyStore {
+static KeyStore getInstance(String arg0, Provider arg1) throws KeyStoreException;
+static KeyStore getInstance(String arg0, String arg1) throws KeyStoreException,NoSuchProviderException;
+static KeyStore getInstance(String arg0) throws KeyStoreException;
+static String getDefaultType();
+void load(InputStream arg0, char[] arg1) throws IOException,NoSuchAlgorithmException,CertificateException;
+void load(LoadStoreParameter arg0) throws IOException,NoSuchAlgorithmException,CertificateException;
 }
