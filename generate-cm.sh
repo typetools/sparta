@@ -48,20 +48,21 @@ function downloadJars {
 }
 
 cd $SPARTA_CODE
-APKPATH=`cd "$1";pwd` 
-CMPATH=`cd "$2";pwd`
+APKPATH=$(cd $(dirname $1); pwd)/$(basename $1)  
+CMPATH="$2"
 EPICCOUTPUT=epiccoutput.txt
 FILTERSMAPTEMP="$SPARTA_CODE"/filterstemp
 FILTERSMAP="$SPARTA_CODE"/src/sparta/checkers/intents/componentmap/filter-map
 
 if [ "$CMPATH" == "" ]; then
 	CMPATH=$(dirname ${APKPATH})/component-map
+else
+	CMPATH=$(cd $(dirname $2); pwd)/$(basename $2) 
 fi
 
 TARGETFOLDER_WITH_EXTENSION=$(basename $APKPATH)
 TARGETFOLDER=${TARGETFOLDER_WITH_EXTENSION%.apk}
 RETARGETEDPATH=./download-libs/epicc/retargeted/"$TARGETFOLDER"
-
 if [ ! -d ./build ]; then
 	ant
 fi
