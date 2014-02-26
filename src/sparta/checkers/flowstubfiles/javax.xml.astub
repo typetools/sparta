@@ -1,5 +1,26 @@
 package javax.xml.parsers;
 
+class SAXParserFactory {
+SAXParser newSAXParser() throws ParserConfigurationException,SAXException;
+static SAXParserFactory newInstance();
+static SAXParserFactory newInstance(String arg0, ClassLoader arg1);
+void setFeature(String arg0, boolean arg1) throws ParserConfigurationException,SAXNotRecognizedException,SAXNotSupportedException;
+}
+
+class SAXParser {
+void parse(File arg0, DefaultHandler arg1) throws SAXException,IOException;
+void parse(File arg0, HandlerBase arg1) throws SAXException,IOException;
+void parse(InputSource arg0, DefaultHandler arg1) throws SAXException,IOException;
+void parse(InputSource arg0, HandlerBase arg1) throws SAXException,IOException;
+void parse(InputStream arg0, DefaultHandler arg1, String arg2) throws SAXException,IOException;
+void parse(InputStream arg0, DefaultHandler arg1) throws SAXException,IOException;
+void parse(InputStream arg0, HandlerBase arg1, String arg2) throws SAXException,IOException;
+void parse(InputStream arg0, HandlerBase arg1) throws SAXException,IOException;
+void parse(String arg0, DefaultHandler arg1) throws SAXException,IOException;
+void parse(String arg0, HandlerBase arg1) throws SAXException,IOException;
+XMLReader getXMLReader() throws SAXException;
+}
+
 @PolyFlowReceiver
 class DocumentBuilder{
     Document newDocument();

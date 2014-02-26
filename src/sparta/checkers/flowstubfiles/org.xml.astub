@@ -9,6 +9,22 @@ class ContentHandler{
 class Attributes{
         String getValue(String arg0, String arg1);
         String getValue(String arg0);
+        String getValue(int arg0);
+}
+
+class InputSource {
+void setEncoding(String arg0);
+void setSystemId(String arg0);
+}
+
+class SAXException {
+String getMessage();
+}
+
+class XMLReader {
+void parse(InputSource arg0) throws IOException,SAXException;
+void parse(String arg0) throws IOException,SAXException;
+void setContentHandler(ContentHandler arg0);
 }
 
 package org.xml.sax.helpers;
@@ -19,4 +35,5 @@ class DefaultHandler{
         void startDocument() throws SAXException;
         DefaultHandler();
         void endElement(String arg0, String arg1, String arg2) throws SAXException;
+        void error(SAXParseException arg0) throws SAXException;
 }

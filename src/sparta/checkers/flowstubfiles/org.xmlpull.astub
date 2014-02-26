@@ -1,25 +1,44 @@
 package org.xmlpull.v1;
 
+@PolyFlowReceiver
 class XmlPullParser {
-    @PolyFlowReceiver
     String getText();
-    @PolyFlowReceiver
     boolean isEmptyElementTag();
-    @PolyFlowReceiver
     int next();
-    @PolyFlowReceiver
     String getName();
-
-    @PolyFlowReceiver
         String getAttributeValue(String arg0, String arg1);
-    @PolyFlowReceiver
         int getEventType() throws XmlPullParserException;
-    @PolyFlowReceiver
         void setInput(Reader arg0) throws XmlPullParserException;
+    int getDepth();
+int getEventType() throws XmlPullParserException;
+int nextTag() throws XmlPullParserException,IOException;
+String getAttributeValue(int arg0);
+String getAttributeValue(String arg0, String arg1);
+String getPositionDescription();
+String nextText() throws XmlPullParserException,IOException;
+void require(int arg0, String arg1, String arg2) throws XmlPullParserException,IOException;
+void setFeature(String arg0, boolean arg1) throws XmlPullParserException;
+void setInput(InputStream arg0, String arg1) throws XmlPullParserException;
+void setInput(Reader arg0) throws XmlPullParserException;
 }
 
 class XmlPullParserFactory{
         static XmlPullParserFactory newInstance() throws XmlPullParserException;
         XmlPullParser newPullParser() throws XmlPullParserException;
+static XmlPullParserFactory newInstance() throws XmlPullParserException;
+static XmlPullParserFactory newInstance(String classNames, Class context) throws XmlPullParserException;
+XmlPullParser newPullParser() throws XmlPullParserException;
+}
+
+class XmlSerializer {
+void endDocument() throws IOException,IllegalArgumentException,IllegalStateException;
+void setOutput(OutputStream arg0, String arg1) throws IOException,IllegalArgumentException,IllegalStateException;
+void setOutput(Writer arg0) throws IOException,IllegalArgumentException,IllegalStateException;
+void startDocument(String arg0, Boolean arg1) throws IOException,IllegalArgumentException,IllegalStateException;
+XmlSerializer attribute(String arg0, String arg1, String arg2) throws IOException,IllegalArgumentException,IllegalStateException;
+XmlSerializer endTag(String arg0, String arg1) throws IOException,IllegalArgumentException,IllegalStateException;
+XmlSerializer startTag(String arg0, String arg1) throws IOException,IllegalArgumentException,IllegalStateException;
+XmlSerializer text(char[] arg0, int arg1, int arg2) throws IOException,IllegalArgumentException,IllegalStateException;
+XmlSerializer text(String arg0) throws IOException,IllegalArgumentException,IllegalStateException;
 }
 

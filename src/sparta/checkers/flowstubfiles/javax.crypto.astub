@@ -1,4 +1,25 @@
 package javax.crypto;
+
+class SecretKeyFactory {
+SecretKey generateSecret(KeySpec arg0) throws InvalidKeySpecException;
+static SecretKeyFactory getInstance(String arg0, Provider arg1) throws NoSuchAlgorithmException;
+static SecretKeyFactory getInstance(String arg0, String arg1) throws NoSuchAlgorithmException,NoSuchProviderException;
+static SecretKeyFactory getInstance(String arg0) throws NoSuchAlgorithmException;
+}
+
+
+class KeyGenerator {
+SecretKey generateKey();
+static KeyGenerator getInstance(String arg0, Provider arg1) throws NoSuchAlgorithmException;
+static KeyGenerator getInstance(String arg0, String arg1) throws NoSuchAlgorithmException,NoSuchProviderException;
+static KeyGenerator getInstance(String arg0) throws NoSuchAlgorithmException;
+void init(AlgorithmParameterSpec arg0, SecureRandom arg1) throws InvalidAlgorithmParameterException;
+void init(AlgorithmParameterSpec arg0) throws InvalidAlgorithmParameterException;
+void init(int arg0, SecureRandom arg1);
+void init(int arg0);
+void init(SecureRandom arg0);
+}
+
 @PolyFlowReceiver
 class CipherOutputStream{
         void write(byte[] arg0, int arg1, int arg2) throws IOException;
@@ -9,12 +30,31 @@ class CipherOutputStream{
 class Cipher{
         static Cipher getInstance(String arg0) throws NoSuchAlgorithmException,NoSuchPaddingException;
         void init(int arg0, Key arg1) throws InvalidKeyException;
+        byte[] doFinal() throws IllegalBlockSizeException,BadPaddingException;
+byte[] doFinal(byte[] arg0, int arg1, int arg2) throws IllegalBlockSizeException,BadPaddingException;
+byte[] doFinal(byte[] arg0) throws IllegalBlockSizeException,BadPaddingException;
+int doFinal(byte[] arg0, int arg1, int arg2, byte[] arg3, int arg4) throws ShortBufferException,IllegalBlockSizeException,BadPaddingException;
+int doFinal(byte[] arg0, int arg1, int arg2, byte[] arg3) throws ShortBufferException,IllegalBlockSizeException,BadPaddingException;
+int doFinal(byte[] arg0, int arg1) throws IllegalBlockSizeException,ShortBufferException,BadPaddingException;
+int doFinal(ByteBuffer arg0, ByteBuffer arg1) throws ShortBufferException,IllegalBlockSizeException,BadPaddingException;
+static Cipher getInstance(String arg0, Provider arg1) throws NoSuchAlgorithmException,NoSuchPaddingException;
+static Cipher getInstance(String arg0, String arg1) throws NoSuchAlgorithmException,NoSuchProviderException,NoSuchPaddingException;
+void init(int arg0, Certificate arg1, SecureRandom arg2) throws InvalidKeyException;
+void init(int arg0, Certificate arg1) throws InvalidKeyException;
+void init(int arg0, Key arg1, AlgorithmParameters arg2, SecureRandom arg3) throws InvalidKeyException,InvalidAlgorithmParameterException;
+void init(int arg0, Key arg1, AlgorithmParameters arg2) throws InvalidKeyException,InvalidAlgorithmParameterException;
+void init(int arg0, Key arg1, AlgorithmParameterSpec arg2, SecureRandom arg3) throws InvalidKeyException,InvalidAlgorithmParameterException;
+void init(int arg0, Key arg1, AlgorithmParameterSpec arg2) throws InvalidKeyException,InvalidAlgorithmParameterException;
+void init(int arg0, Key arg1, SecureRandom arg2) throws InvalidKeyException;
 }
+
 @PolyFlowReceiver
 class CipherInputStream{
         int read(byte[] arg0) throws IOException;
         CipherInputStream(InputStream arg0, Cipher arg1);
         void close() throws IOException;
+        int read() throws IOException;
+int read(byte[] arg0, int arg1, int arg2) throws IOException;
 }
 
 class Mac{

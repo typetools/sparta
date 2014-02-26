@@ -1,5 +1,16 @@
 package java.text;
 
+@PolyFlowReceiver
+
+class Collator {
+int compare(Object arg0, Object arg1);
+int compare(String arg0, String arg1);
+static Collator getInstance();
+static Collator getInstance(Locale arg0);
+void setStrength(int arg0);
+}
+
+@PolyFlowReceiver
 class DateFormat extends Format {
     protected Calendar calendar;
     protected NumberFormat numberFormat;
@@ -158,6 +169,7 @@ class SimpleDateFormat extends DateFormat {
     Object clone();
     int hashCode();
     boolean equals(Object arg0);
+    StringBuffer format(Date arg0, StringBuffer arg1, FieldDelegate arg2);
 }
 
 class NumberFormat{

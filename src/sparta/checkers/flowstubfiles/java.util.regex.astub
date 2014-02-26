@@ -28,6 +28,8 @@ class Pattern {
 
     @PolyFlow
     static boolean matches(String regex, CharSequence input);
+  
+    void compile();
 
 }
 
@@ -74,5 +76,12 @@ class Matcher {
 
     @PolyFlowReceiver
     String replaceFirst (String replacement);
+    
+    Matcher appendReplacement(StringBuffer arg0, String arg1);
+    StringBuffer appendTail(StringBuffer arg0);
+}
+
+class PatternSyntaxException {
+String getMessage();
 }
 

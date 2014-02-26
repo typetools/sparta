@@ -1,5 +1,43 @@
 package java.net;
 
+class URLEncoder {
+static String encode(String arg0);
+}
+
+class URI {
+int getPort();
+static String normalize(String arg0);
+static URI create(String arg0);
+static URI normalize(URI arg0);
+String getHost();
+URI normalize();
+URL toURL() throws MalformedURLException;
+}
+
+
+class ServerSocket {
+Socket accept() throws IOException;
+void close() throws IOException;
+}
+
+class NetworkInterface {
+Enumeration<InetAddress> getInetAddresses();
+static Enumeration<NetworkInterface> getNetworkInterfaces() throws SocketException;
+static NetworkInterface getByName(String arg0) throws SocketException;
+String getDisplayName();
+String getName();
+}
+
+class InetSocketAddress {
+int getPort();
+String getHostName();
+}
+
+class DatagramPacket {
+byte[] getData();
+InetAddress getAddress();
+}
+
 @PolyFlowReceiver
 class InetAddress implements Serializable {
 //Added by pbsf
@@ -72,6 +110,26 @@ class Socket{
         @Sink(INTERNET) OutputStream getOutputStream() throws IOException;
         @Source(INTERNET) InputStream getInputStream() throws IOException;
          boolean isConnected();
+        boolean getTcpNoDelay() throws SocketException;
+boolean isInputShutdown();
+boolean isOutputShutdown();
+InetAddress getInetAddress();
+InetAddress getLocalAddress();
+int getLocalPort();
+int getPort();
+int getSoLinger() throws SocketException;
+int getSoTimeout() throws SocketException;
+@Source(INTERNET) SocketAddress getRemoteSocketAddress();
+void bind(SocketAddress arg0) throws IOException;
+void connect(@Sink(INTERNET) SocketAddress arg0, int arg1) throws IOException;
+void connect(@Sink(INTERNET) SocketAddress arg0) throws IOException;
+void setReceiveBufferSize(int arg0) throws SocketException;
+void setSendBufferSize(int arg0) throws SocketException;
+void setSoLinger(boolean arg0, int arg1) throws SocketException;
+void setSoTimeout(int arg0) throws SocketException;
+void setTcpNoDelay(boolean arg0) throws SocketException;
+void shutdownInput() throws IOException;
+void shutdownOutput() throws IOException;
 }
 
 @PolyFlowReceiver
@@ -144,6 +202,9 @@ class URLEncoder{
 class HttpURLConnection {
     @Source(FlowPermission.INTERNET) int getResponseCode() throws IOException;
     void setRequestMethod(@Sink(FlowPermission.INTERNET) String arg0) throws ProtocolException;
+    @Source(INTERNET) InputStream getErrorStream();
+    @Source(INTERNET) String getResponseMessage() throws IOException;
+    void disconnect();
 
 }
 

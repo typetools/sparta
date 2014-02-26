@@ -70,6 +70,8 @@ class TokenIterator{
 
 
 package org.apache.http.conn;
+
+
 class ClientConnectionManager{
             ClientConnectionRequest requestConnection(HttpRoute arg0, Object arg1);
             void shutdown();
@@ -95,6 +97,7 @@ class ConnManagerParams{
 package org.apache.http.conn.ssl;
 class SSLSocketFactory{
             static SSLSocketFactory getSocketFactory();
+            void setHostnameVerifier(X509HostnameVerifier hostnameVerifier);
 }
 
 package org.apache.http.conn.scheme;
@@ -126,6 +129,10 @@ class HttpEntityWrapper{
 class AbstractHttpEntity{
             void setChunked(boolean b);
             void setContentEncoding(String ceString);
+            void setContentType(Header contentType);
+            void setContentType(Header contentType);
+            void setContentType(String ctString);
+            void setContentType(String ctString);
 }
 
 package org.apache.http.client.entity;
@@ -176,6 +183,20 @@ class HttpUriRequest{
 
 package org.apache.http.client;
 
+class HttpClient {
+<T> T execute(@Sink(INTERNET) HttpHost arg0, @Sink(INTERNET) HttpRequest arg1, ResponseHandler<? extends T> arg2, @Sink(INTERNET) HttpContext arg3) throws IOException,ClientProtocolException;
+<T> T execute(@Sink(INTERNET) HttpHost arg0, @Sink(INTERNET) HttpRequest arg1, ResponseHandler<? extends T> arg2) throws IOException,ClientProtocolException;
+<T> T execute(@Sink(INTERNET) HttpUriRequest arg0, ResponseHandler<? extends T> arg1, @Sink(INTERNET) HttpContext arg2) throws IOException,ClientProtocolException;
+<T> T execute(@Sink(INTERNET) HttpUriRequest arg0, ResponseHandler<? extends T> arg1) throws IOException,ClientProtocolException;
+HttpResponse execute(@Sink(INTERNET) HttpHost arg0, @Sink(INTERNET) HttpRequest arg1, @Sink(INTERNET)  HttpContext arg2) throws IOException,ClientProtocolException;
+HttpResponse execute(@Sink(INTERNET) HttpHost arg0, @Sink(INTERNET) HttpRequest arg1) throws IOException,ClientProtocolException;
+HttpResponse execute(@Sink(INTERNET) HttpUriRequest arg0, @Sink(INTERNET) HttpContext arg1) throws IOException,ClientProtocolException;
+}
+
+class CredentialsProvider {
+void setCredentials(AuthScope arg0, Credentials arg1);
+}
+
 class CookieStore{
         @Source(FlowPermission.INTERNET) List<Cookie> getCookies();
 }
@@ -220,6 +241,14 @@ class AbstractHttpClient{
         HttpResponse execute(HttpUriRequest request) throws IOException,ClientProtocolException;
         <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler) throws IOException,ClientProtocolException;
         CookieStore getCookieStore();
+        <T> T execute(@Sink(INTERNET) HttpHost target, @Sink(INTERNET) HttpRequest request, ResponseHandler<? extends T> responseHandler, @Sink(INTERNET) HttpContext context) throws IOException,ClientProtocolException;
+<T> T execute(@Sink(INTERNET) HttpHost target, @Sink(INTERNET) HttpRequest request, ResponseHandler<? extends T> responseHandler) throws IOException,ClientProtocolException;
+<T> T execute(@Sink(INTERNET) HttpUriRequest request, ResponseHandler<? extends T> responseHandler, @Sink(INTERNET) HttpContext context) throws IOException,ClientProtocolException;
+CredentialsProvider getCredentialsProvider();
+HttpParams getParams();
+@Source(INTERNET) HttpResponse execute(@Sink(INTERNET) HttpHost target, @Sink(INTERNET) HttpRequest request, @Sink(INTERNET) @Source(INTERNET) HttpContext context) throws IOException,ClientProtocolException;
+@Source(INTERNET) HttpResponse execute(@Sink(INTERNET) HttpHost target, @Sink(INTERNET) HttpRequest request) throws IOException,ClientProtocolException;
+@Source(INTERNET) HttpResponse execute(@Sink(INTERNET) HttpUriRequest request, @Sink(INTERNET) HttpContext context) throws IOException,ClientProtocolException;
 }
 
 class BasicResponseHandler{
@@ -254,6 +283,13 @@ package org.apache.http.message;
 
 class AbstractHttpMessage{
         void addHeader(String name, String value);
+        HttpParams getParams();
+        void addHeader(Header header);
+        void removeHeaders(String name);
+        void setHeader(Header header);
+        void setHeader(Header header);
+        void setHeader(String name, String value);
+        void setHeader(String name, String value);
 }
 
 class BasicNameValuePair{
@@ -282,3 +318,8 @@ class HttpProtocolParams{
         	static void setUseExpectContinue(HttpParams params, boolean b);
 }
 
+package org.apache.http.client.methods;
+
+class HttpRequestBase {
+URI getURI();
+}
