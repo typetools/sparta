@@ -1020,7 +1020,7 @@ void unbindService(ServiceConnection conn);
 //boolean deleteDatabase(String name);
 //Delete an existing private SQLiteDatabase associated with this Context's application package.
 
-//boolean deleteFile(String name);
+@Source(FILESYSTEM) boolean deleteFile(@Sink(FILESYSTEM) String name);
 //Delete the given private file associated with this Context's application package.
 
 //void enforceCallingOrSelfPermission(String permission, String message);
@@ -1044,7 +1044,7 @@ void unbindService(ServiceConnection conn);
 //void enforceUriPermission(Uri uri, String readPermission, String writePermission, int pid, int uid, int modeFlags, String message);
 //Enforce both a Uri and normal permission.
 
-//String[] fileList();
+ @Source(FILESYSTEM) String[] fileList();
 //Returns an array of strings naming the private files associated with this Context's application package.
 
 Context getApplicationContext();
@@ -1131,10 +1131,10 @@ Object getSystemService(String name);
 //boolean isRestricted();
 //Indicates whether this Context is restricted.
 
-//FileInputStream openFileInput(String name);
+@Source(FILESYSTEM) FileInputStream openFileInput(String name);
 //Open a private file associated with this Context's application package for reading.
 
-//FileOutputStream openFileOutput(String name, int mode);
+@Sink(FILESYSTEM) FileOutputStream openFileOutput(String name, int mode);
 //Open a private file associated with this Context's application package for writing.
 
 //SQLiteDatabase openOrCreateDatabase(String name, int mode, SQLiteDatabase.CursorFactory factory);

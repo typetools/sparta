@@ -1316,6 +1316,7 @@ class TimeZone implements Serializable, Cloneable {
 
 @PolyFlowReceiver
 class TreeSet {
+TreeSet();
 boolean add(E arg0);
 boolean remove(Object arg0);
 int size();

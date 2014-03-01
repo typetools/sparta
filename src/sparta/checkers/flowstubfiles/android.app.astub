@@ -784,7 +784,9 @@ void killBackgroundProcesses(String packageName);
 }
 
 class Application {
-    
+
+Application();    
+
 void onConfigurationChanged(Configuration newConfig);
 //Called by the system when the device configuration changes while your component is running.
 

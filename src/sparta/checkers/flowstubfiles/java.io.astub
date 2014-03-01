@@ -3,6 +3,7 @@ package java.io;
 
 @PolyFlowReceiver
 class StringWriter {
+@Source(FlowPermission.Literal) StringWriter();
 String toString();
 void write(char[] arg0, int arg1, int arg2);
 void write(int arg0);

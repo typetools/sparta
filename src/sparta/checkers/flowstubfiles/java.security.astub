@@ -32,3 +32,8 @@ static String getDefaultType();
 void load(InputStream arg0, char[] arg1) throws IOException,NoSuchAlgorithmException,CertificateException;
 void load(LoadStoreParameter arg0) throws IOException,NoSuchAlgorithmException,CertificateException;
 }
+
+@PolyFlowReceiver
+class Key{
+      byte[] getEncoded();
+}

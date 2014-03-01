@@ -7,7 +7,6 @@ static SecretKeyFactory getInstance(String arg0, String arg1) throws NoSuchAlgor
 static SecretKeyFactory getInstance(String arg0) throws NoSuchAlgorithmException;
 }
 
-
 class KeyGenerator {
 SecretKey generateKey();
 static KeyGenerator getInstance(String arg0, Provider arg1) throws NoSuchAlgorithmException;
@@ -84,3 +83,15 @@ package javax.crypto.spec;
 class SecretKeySpec{
         SecretKeySpec(byte[] arg0, String arg1);
 }
+
+@PolyFlowReceiver
+class IvParameterSpec{
+      IvParameterSpec(byte[] iv);
+      IvParameterSpec(byte[] iv, int offset, int byteCount);
+}
+
+@PolyFlowReceiver
+class PBEKeySpec{
+        PBEKeySpec(char[] password, byte[] salt, int iterationCount, int keyLength);
+}
+
