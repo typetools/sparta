@@ -1,0 +1,9 @@
+package org.json;
+class JSONObject{
+        JSONObject();
+@PolyFlowReciever
+        JSONObject accumulate(String name, Object value) throws JSONException;
+@PolyFlowReciever
+        String toString();
+}
+
