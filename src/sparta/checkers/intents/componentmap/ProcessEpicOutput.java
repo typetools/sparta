@@ -170,7 +170,9 @@ public class ProcessEpicOutput {
         } else if (filter.startsWith("Flags")) {
             return "(" + output + ")";
         }else {
-            throw new RuntimeException("Unrecognized String: " + filter);
+           // throw new RuntimeException("Unrecognized String: " + filter);
+            System.err.println("Unrecognized String: " + filter);
+            return "Unrecognized String: " +filter;
         }
     }
     
