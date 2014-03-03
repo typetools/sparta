@@ -388,7 +388,7 @@ public class FlowPolicy {
                         for (final String sink : sinkStrs) {
                             if (sink.equals(EMPTY) || sink.equals(NOT_REVIEWED.toString())) {
                                 errors.add(formatPolicyFileError(policyFile, lineNum,
-                                        "FlowPermission " + sourceStr
+                                        "FlowPermission " + sinkStrs
                                                 + " is not allowed in policy files", originalLine));
                                 continue;
                             }
