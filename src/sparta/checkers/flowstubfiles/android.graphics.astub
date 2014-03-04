@@ -20,7 +20,9 @@ void reset();
 class Typeface {
 static Typeface defaultFromStyle(int style);
 }
-
+class BitmapFactory$Options{
+        Options();
+}
 
 class Bitmap {
 

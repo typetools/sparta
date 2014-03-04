@@ -11,60 +11,25 @@ class HandlerThread {
 Looper getLooper();
 }
 
-class AsyncTask {
-
-AsyncTask();
-//Init    
-    
-final boolean cancel(boolean mayInterruptIfRunning);
-//Attempts to cancel execution of this task.
-
-static void execute(Runnable runnable);
-//Convenience version of execute(Object); for use with a simple Runnable object.
-@PolyFlowReceiver
-final AsyncTask<Params, Progress, Result> execute( Params... params);
-//Executes the task with the specified parameters.
-@PolyFlowReceiver
-final AsyncTask<Params, Progress, Result> executeOnExecutor(Executor exec, Params... params);
-//Executes the task with the specified parameters.
-
-final Result get(long timeout, TimeUnit unit);
-//Waits if necessary for at most the given time for the computation to complete, and then retrieves its result.
-
-final Result get();
-//Waits if necessary for the computation to complete, and then retrieves its result.
-
-final AsyncTask.Status getStatus();
-//Returns the current status of this task.
-
-final boolean isCancelled();
-//Returns true if this task was cancelled before it completed normally.
-
-//Protected Methods
-@PolyFlowReceiver
-abstract Result doInBackground(Params... params);
-//Override this method to perform a computation on a background thread.
-
-void onCancelled(Result result);
-//Runs on the UI thread after cancel(boolean); is invoked and doInBackground(Object[]); has finished.
-
-void onCancelled();
-//Applications should preferably override onCancelled(Object);.
-@PolyFlowReceiver
-void onPostExecute(Result result);
-//Runs on the UI thread after doInBackground(Params...);.
-@PolyFlowReceiver
-void onPreExecute();
-//Runs on the UI thread before doInBackground(Params...);.
-
-void onProgressUpdate(Progress... values);
-//Runs on the UI thread after publishProgress(Progress...); is invoked.
-@PolyFlowReceiver
-final void publishProgress(Progress... values);
-//This method can be invoked from doInBackground(Params...); to publish updates on the UI thread while the background computation is still running.
-
-    
+class AsyncTask<Params, Progress, Result> {
+        AsyncTask();
+    Status getStatus();
+    protected Result doInBackground(Params[] arg0);
+    protected void onPreExecute();
+    protected void onPostExecute(Result arg0);
+    protected void onProgressUpdate(Progress[] arg0);
+    protected void onCancelled(Result arg0);
+    protected void onCancelled();
+    boolean isCancelled();
+    boolean cancel(boolean arg0);
+    Result get() throws InterruptedException,ExecutionException;
+    Result get(long arg0, TimeUnit arg1) throws InterruptedException,ExecutionException,TimeoutException;
+    AsyncTask<Params,Progress,Result> execute(Params[] arg0);
+    AsyncTask<Params,Progress,Result> executeOnExecutor(Executor arg0, Params[] arg1);
+    static void execute(Runnable arg0);
+    protected void publishProgress(Progress[] arg0);
 }
+
 
 class Environment {
     
@@ -660,6 +625,7 @@ String toString();
 
 
 class Messenger{
+Messenger(IBinder target);
             Messenger(Handler target);
             IBinder getBinder();
             void send(Message message) throws RemoteException;
