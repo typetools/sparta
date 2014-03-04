@@ -8,6 +8,10 @@ import static checkers.quals.DefaultLocation.UPPER_BOUNDS;
 
 import checkers.basetype.BaseAnnotatedTypeFactory;
 import checkers.basetype.BaseTypeChecker;
+import checkers.flow.CFAbstractAnalysis;
+import checkers.flow.CFStore;
+import checkers.flow.CFTransfer;
+import checkers.flow.CFValue;
 import checkers.quals.DefaultLocation;
 import checkers.quals.PolyAll;
 import checkers.reflection.ReflectionResolutionAnnotatedTypeFactory;
@@ -29,6 +33,9 @@ import checkers.util.QualifierDefaults;
 import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import checkers.util.QualifierDefaults.DefaultApplierElement;
 import checkers.util.QualifierPolymorphism;
+
+import dataflow.analysis.TransferResult;
+import dataflow.cfg.node.Node;
 
 import javacutils.AnnotationUtils;
 import javacutils.ElementUtils;
@@ -162,6 +169,29 @@ public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeF
         notInStubFile = ((FlowChecker)checker). notInStubFile;
 
     }
+
+    @Override
+    public CFTransfer createFlowTransferFunction(
+            CFAbstractAnalysis<CFValue, CFStore, CFTransfer> analysis) {
+  
+        CFTransfer ret = new CFTransfer(
+                (CFAbstractAnalysis<CFValue, CFStore, CFTransfer>) analysis){
+            /**
+             * This method overrides super so that variables are not
+             * refined in conditionals see test case in flow/Conditions.java
+             */
+            @Override
+            protected TransferResult<CFValue, CFStore> strengthenAnnotationOfEqualTo(
+                    TransferResult<CFValue, CFStore> res,
+                    Node firstNode, Node secondNode,
+                    CFValue firstValue, CFValue secondValue,
+                    boolean notEqualTo) {
+                return res;
+            }
+        };
+        return ret;
+    }
+
     @Override
     protected QualifierDefaults createQualifierDefaults() {
         QualifierDefaults defaults =  super.createQualifierDefaults();

@@ -1,5 +1,6 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowPermission;
+import static sparta.checkers.quals.FlowPermission.*;
+import  sparta.checkers.quals.FlowPermission;
 
 class Conditions {
     void good(int p) {
@@ -31,5 +32,23 @@ class Conditions {
         if(p) {
             // bad.
         }
+    }
+    void lit (@Source({READ_SMS, LITERAL}) int s)
+    {
+       if(s == 1){
+           //if we didn't turn of condtional refinements (FATF.createFlowTransferFunction(...)
+           //Then s would be LITERAL->FILE
+         // and the flowing code would not issue a warning, 
+           //but SMS data is written to a file
+           //:: error: (argument.type.incompatible)
+           writeToFile(s); 
+       }else{
+         //s is SMS, LITERAL -> CONDITIONAL
+           //:: error: (argument.type.incompatible)
+           writeToFile(s);  //Warning
+       }
+    }
+    void writeToFile(@Sink(FILESYSTEM) int s){
+        
     }
 }
