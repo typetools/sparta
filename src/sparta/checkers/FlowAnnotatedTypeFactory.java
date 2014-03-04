@@ -68,7 +68,7 @@ import com.sun.source.tree.Tree;
 import com.sun.source.tree.TypeCastTree;
 import com.sun.source.tree.UnaryTree;
 
-public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
+public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeFactory {
 
     protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
     protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK;
