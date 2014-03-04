@@ -130,8 +130,10 @@ public class IntentVisitor extends FlowVisitor {
         // if (method.getReceiverType().getUnderlyingType()
         // .asElement().getClass().isAssignableFrom(android.app.Activity.class))
         // {
+        //TODO: This MUST be fixed.  It caused Suzanne hours of extra work in Engagement 3A
         if (receiverClassName.equals("Activity") || receiverClassName.equals("ContextWrapper")
-        		|| receiverClassName.equals("ListActivity") || receiverClassName.equals("Preference")) {
+        		|| receiverClassName.equals("ListActivity") || receiverClassName.equals("Preference")
+        		|| receiverClassName.equals("Context")) {
             checkSendIntent(method, node);
             return;
         }
