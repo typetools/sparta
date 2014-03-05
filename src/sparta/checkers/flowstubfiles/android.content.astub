@@ -1250,6 +1250,8 @@ class CursorLoader {
 //CSH: found in spreadsheet, not in API:
 //registerContentObserver
 
+CursorLoader(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder);
+
 
 void deliverResult(Cursor cursor);
 //Sends the result of the load to the registered listener.

@@ -1271,6 +1271,8 @@ void onStop();
 
 class DialogFragment {
     
+DialogFragment();    
+    
 void dismiss();
 //Dismiss the fragment and its dialog.
 
@@ -1350,6 +1352,9 @@ class ExpandableListActivity{
 }
 
 class Fragment {
+
+Fragment();
+
 void dump(String prefix, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Fragments's state into the given stream.
 
@@ -1873,7 +1878,7 @@ void onViewCreated(View view, Bundle savedInstanceState);
 }
 
 class LoaderManager {
-    
+
 abstract void destroyLoader(int id);
 //Stops and removes the loader with the given ID.
 
@@ -1893,6 +1898,16 @@ abstract <D> Loader<D> restartLoader(int id, Bundle args, LoaderCallbacks<D> cal
 //Starts a new or restarts an existing Loader in this manager, registers the callbacks to it, and (if the activity/fragment is currently started); starts loading it.
 
 
+
+}
+
+class LoaderManager$LoaderCallbacks {
+
+Loader<D> onCreateLoader(int arg0, Bundle arg1);
+
+void onLoadFinished(Loader<D> arg0, D arg1);
+
+void onLoaderReset(Loader<D> arg0);
 
 }
 
@@ -1979,6 +1994,9 @@ Notification.InboxStyle setSummaryText(@Sink(DISPLAY) CharSequence cs);
 
 
 class Notification$Builder {
+
+Builder(Context context);
+
 Notification.Builder addAction(@Sink(DISPLAY) int icon, @Sink(DISPLAY) CharSequence title, PendingIntent intent);
 //Add an action to this notification.
 
