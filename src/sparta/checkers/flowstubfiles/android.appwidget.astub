@@ -11,7 +11,7 @@ class AppWidgetManager{
 }
 
 class AppWidgetProvider{
-		void onReceive(Context context, Intent intent);
+		@ReceiveIntent void onReceive(Context context, Intent intent);
         void onDeleted(Context context, int[] appWidgetIds);
         void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds);
         AppWidgetProvider();

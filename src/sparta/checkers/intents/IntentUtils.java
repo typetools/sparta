@@ -1,5 +1,6 @@
 package sparta.checkers.intents;
 
+import checkers.types.AnnotatedTypeFactory;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.util.AnnotationBuilder;
 
@@ -22,12 +23,19 @@ import javax.lang.model.element.ExecutableElement;
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.GetExtra;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
+import sparta.checkers.quals.PolyFlow;
+import sparta.checkers.quals.PutExtra;
+import sparta.checkers.quals.ReceiveIntent;
+import sparta.checkers.quals.SendIntent;
+import sparta.checkers.quals.SetIntentFilter;
 
 import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.MethodInvocationTree;
+import com.sun.source.tree.MethodTree;
 import com.sun.source.util.TreePath;
 
 public class IntentUtils {
@@ -48,35 +56,6 @@ public class IntentUtils {
                     "onStartCommand", "onTaskRemoved", "onUnBind",
                     "onReceive", "peekService", "getIntent" });
     
-    private static List<String> GETEXTRA_SIGNATURES_NO_DEFAULT = Arrays
-        .asList(new String[]{"getBooleanArrayExtra", "getBundleExtra", 
-            "getByteArrayExtra", "getCharArrayExtra", "getFloatArrayExtra",
-            "getCharSequenceArrayExtra", "getCharSequenceArrayListExtra",
-            "getCharSequenceExtra", "getDoubleArrayExtra", "getIntArrayExtra",
-            "getIntegerArrayListExtra", "getLongArrayExtra", 
-            "getParcelableArrayExtra", "getParcelableArrayListExtra",
-            "getParcelableExtra", "getSerializableExtra", "getShortArrayExtra",
-            "getStringArrayExtra", "getStringArrayListExtra", "getStringExtra",
-            });
-    
-    private static List<String> GETEXTRA_SIGNATURES_WITH_DEFAULT = Arrays
-        .asList(new String[] { "getBooleanExtra", "getByteExtra",
-            "getCharExtra", "getDoubleExtra", "getFloatExtra",
-            "getIntExtra", "getLongExtra", "getShortExtra"});
-
-    private static List<String> PUTEXTRA_SIGNATURES = Arrays
-        .asList(new String[] { 
-            "putExtra", "putCharSequenceArrayListExtra",
-            "putIntegerArrayListExtra", "putParcelableArrayListExtra",
-            "putStringArrayListExtra" });
-    
-    private static List<String> PAYLOAD_SIGNATURES = Arrays
-            .asList(new String[] { 
-                "setAction", "addCategory",
-                "setData", "setType", "setDataAndType",
-                "removeCategory", "setClassName",
-                "setComponentName", "addFlags", "hasExtra"});
-
     /**
      * Method that receives an @IntentMap and a <code> key </code>
      * and return the @Extra with that key and <code>null</code> if it 
@@ -251,71 +230,57 @@ public class IntentUtils {
      * @return
      */
 
-    public static boolean isGetExtraMethod(MethodInvocationTree tree, 
-            ProcessingEnvironment processingEnv) {
-        //The getExtra call can have 1 or 2 parameters,
-        //2 when there is a use of default parameter, 1 otherwise.
-        for (String getExtraSignature : GETEXTRA_SIGNATURES_WITH_DEFAULT) {
-            ExecutableElement getExtraWithDefault = TreeUtils.getMethod(
-                "android.content.Intent", getExtraSignature, 2, processingEnv);
-            if (getExtraWithDefault != null
-                    && TreeUtils.isMethodInvocation(tree, getExtraWithDefault,
-                        processingEnv)) {
-                return true;
-            }
-        }
-        
-        for (String getExtraSignature : GETEXTRA_SIGNATURES_NO_DEFAULT) {
-            ExecutableElement getExtra = TreeUtils.getMethod(
-                "android.content.Intent", getExtraSignature, 1, processingEnv);
-            if (getExtra != null
-                    && TreeUtils.isMethodInvocation(tree, getExtra,
-                        processingEnv)) {
-                return true;
-            }
-        }
-        return false;
+    public static boolean isGetExtra(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
+        Element ele = InternalUtils.symbol(tree);
+        return atypeFactory.getDeclAnnotation(ele, GetExtra.class) != null;
     }
 
     /**
      * Returns true if the MethodInvocationTree corresponds to one of the <code>Intent.putExtra()</code> calls
-     * TODO: It cannot be implemented the same way the isGetExtraMethod() was implemented.
-     * The problem is that there are several putExtra signatures with the same amount of parameters and name
-     * and the TreeUtils.getMethod() cannot differentiate between them, it always returns the putExtra(String,boolean).
-     * If tree is putExtra(String,String) it won't pass this method.
      * @param tree
      * @return
      */
 
-    public static boolean isPutExtraMethod(MethodInvocationTree tree) {
-        Element ele = (Element) InternalUtils.symbol(tree);
-        if(ele instanceof ExecutableElement) {
-            ExecutableElement method = (ExecutableElement) ele;
-            return PUTEXTRA_SIGNATURES.contains(method.getSimpleName().toString());
-        }
-        return false;
-        //				// correct way to do it. the problem is that there are several
-        //				// putExtra methods with the same name and all
-        //				// of them has the same number of paremeters. How to get each
-        //				// one of them? TreeUtils.getMethod returns only
-        //				// the first one.
-        //				// ExecutableElement putExtra = TreeUtils.getMethod(
-        //				// "android.content.Intent", s, 2, processingEnv);
-        //				// if (putExtra != null
-        //				// && TreeUtils.isMethodInvocation(tree, putExtra,
-        //				// processingEnv)) {
-        //				// return true;
-        //				// }
+    public static boolean isPutExtra(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
+        Element ele = InternalUtils.symbol(tree);
+        return atypeFactory.getDeclAnnotation(ele, PutExtra.class) != null;
     }
     
-    public static boolean isIntentPayloadMethod(MethodInvocationTree tree) {
-        Element ele = (Element) InternalUtils.symbol(tree);
-        if(ele instanceof ExecutableElement) {
-            ExecutableElement method = (ExecutableElement) ele;
-            return PAYLOAD_SIGNATURES.contains(method.getSimpleName().toString());
-        }
-        return false;
-        
+    /**
+     * Returns true if the MethodInvocationTree corresponds to one of the <code>sendIntent()</code> calls:
+     * E.g.: startActivity(); startService(); sendBroadcast();
+     * @param tree
+     * @return
+     */
+
+    public static boolean isSendIntent(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
+        Element ele = InternalUtils.symbol(tree);
+        return atypeFactory.getDeclAnnotation(ele, SendIntent.class) != null;
+    }
+    
+    /**
+     * Returns true if the MethodInvocationTree corresponds to one of the <code>receiveIntent()</code> calls:
+     * E.g.: onBind(); onReceive(); getIntent();
+     * @param tree
+     * @return
+     */
+
+    public static boolean isReceiveIntent(MethodTree tree, AnnotatedTypeFactory atypeFactory) {
+        Element ele = InternalUtils.symbol(tree);
+        return atypeFactory.getDeclAnnotation(ele, ReceiveIntent.class) != null;
+    }
+    
+    /**
+     * Returns true if the MethodInvocationTree corresponds to one of the methods that sets an intent filter
+     * to an intent:
+     * E.g.: setAction(); addCategory(); setData();
+     * @param tree
+     * @return
+     */
+
+    public static boolean isSetIntentFilter(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
+        Element ele = InternalUtils.symbol(tree);
+        return atypeFactory.getDeclAnnotation(ele, SetIntentFilter.class) != null;
     }
 
     /**

@@ -99,7 +99,7 @@ public class IntentVisitor extends FlowVisitor {
                 overridenUnderlyingType.toString().equals("android.app.Service") || 
                 overridenUnderlyingType.toString().equals("android.content.BroadcastReceiver")) {
             String methodName = overridden.getElement().getSimpleName().toString();
-            if(IntentUtils.RECEIVE_INTENT_METHODS.contains(methodName)) {
+            if(IntentUtils.isReceiveIntent(overriderTree, atypeFactory)) {
                 return true;
             }
         }
@@ -131,9 +131,7 @@ public class IntentVisitor extends FlowVisitor {
         // .asElement().getClass().isAssignableFrom(android.app.Activity.class))
         // {
         //TODO: This MUST be fixed.  It caused Suzanne hours of extra work in Engagement 3A
-        if (receiverClassName.equals("Activity") || receiverClassName.equals("ContextWrapper")
-        		|| receiverClassName.equals("ListActivity") || receiverClassName.equals("Preference")
-        		|| receiverClassName.equals("Context")) {
+        if (IntentUtils.isSendIntent(node, atypeFactory)) {
             checkSendIntent(method, node);
             return;
         }
@@ -359,7 +357,7 @@ public class IntentVisitor extends FlowVisitor {
                     JCExpression newMethod = make.Select(receiver, symbol);
                     // Build method invocation tree depending on the number of
                     // parameters
-                    JCMethodInvocation syntTree = paramLength > 0 ? make.App(newMethod, args) //TODO: PAULO: Sub args for real args from onBind
+                    JCMethodInvocation syntTree = paramLength > 0 ? make.App(newMethod, args) 
                             : make.App(newMethod);
                     // add method invocation tree to the list of possible methods
                     receiversList.add(syntTree);
@@ -398,13 +396,13 @@ public class IntentVisitor extends FlowVisitor {
             for(String key : keys) {
                 ExpressionTree receiver = TreeUtils.getReceiverTree(node);
                 AnnotatedTypeMirror receiverType = atypeFactory.getAnnotatedType(receiver);
-                if (IntentUtils.isPutExtraMethod(node)) {
+                if (IntentUtils.isPutExtra(node,atypeFactory)) {
                     checkPutExtra(node, key, receiver, receiverType);
-                } else if (IntentUtils.isGetExtraMethod(node, checker.getProcessingEnvironment())) {
+                } else if (IntentUtils.isGetExtra(node, atypeFactory)) {
                     checkGetExtra(method, node, key, receiver, receiverType);
                 }
             }
-        } else if(IntentUtils.isPutExtraMethod(node) || IntentUtils.isGetExtraMethod(node, checker.getProcessingEnvironment())) {
+        } else if(IntentUtils.isPutExtra(node,atypeFactory) || IntentUtils.isGetExtra(node, atypeFactory)) {
             //Handle keys which are not constants
             checker.report(Result.failure("intent.key.variable", node.getArguments().get(0)), node);
         }

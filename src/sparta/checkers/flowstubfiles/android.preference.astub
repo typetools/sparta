@@ -94,7 +94,7 @@ String getFragment();
 Drawable getIcon();
 //Returns the icon of this Preference.
 
-Intent getIntent();
+@ReceiveIntent Intent getIntent();
 //Return the Intent associated with this Preference.
 
 @Source(SHARED_PREFERENCES) String getKey();
@@ -181,7 +181,7 @@ void setIcon(@Sink(DISPLAY) Drawable icon);
 void setIcon(int iconResId);
 //Sets the icon for this Preference with a resource ID.
 
-void setIntent(Intent intent);
+@SendIntent void setIntent(Intent intent);
 //Sets an Intent to be used for startActivity(Intent); when this Preference is clicked.
 
 void setKey(@Sink(SHARED_PREFERENCES) String key);

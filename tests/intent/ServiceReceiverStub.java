@@ -11,7 +11,7 @@ import android.os.IBinder;
 public class ServiceReceiverStub extends Service {
 
     @Override
-    public IBinder onBind(@IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) })Intent intent) {
+    public @ReceiveIntent IBinder onBind(@IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) })Intent intent) {
         return null;
     }
     

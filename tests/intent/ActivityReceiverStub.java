@@ -15,7 +15,7 @@ import android.content.Intent;
 public class ActivityReceiverStub extends Activity {
 
     @Override
-    public @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+    public @ReceiveIntent @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
     Intent getIntent() {
         @SuppressWarnings("")
         @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 

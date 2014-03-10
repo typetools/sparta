@@ -131,12 +131,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> mfuPair = super
             .methodFromUse(tree);
         if (checker instanceof IntentChecker) {
-            if (IntentUtils.isGetExtraMethod(tree,getProcessingEnv())) {
+            if (IntentUtils.isGetExtra(tree,this)) {
                 // Modifying type of getExtra call
                 mfuPair = changeMethodReturnType(tree, mfuPair);
                 // Modifying @Source and @Sink types for parameters
                 hostChangeParametersToTop(mfuPair.first.getParameterTypes());
-            } else if (IntentUtils.isPutExtraMethod(tree) || IntentUtils.isIntentPayloadMethod(tree)) {
+            } else if (IntentUtils.isPutExtra(tree,this) || IntentUtils.isSetIntentFilter(tree,this)) {
                 // Modifying @Source and @Sink types for parameters
                 hostChangeParametersToTop(mfuPair.first.getParameterTypes());
             }
