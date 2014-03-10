@@ -12,6 +12,8 @@ import checkers.source.Result;
 import checkers.types.AnnotatedTypeMirror;
 import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
 import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
+import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
+import checkers.types.visitors.AnnotatedTypeMerger;
 import checkers.types.QualifierHierarchy;
 import checkers.types.TreeAnnotator;
 import checkers.util.AnnotationBuilder;
@@ -535,36 +537,49 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         Set<ParameterizedFlowPermission> annotatedSources = IntentUtils.getSourcesPFP(iExtra);
         Set<ParameterizedFlowPermission> annotatedSinks = IntentUtils.getSinksPFP(iExtra);
 
+       
         AnnotationMirror sourceAnnotation = createAnnoFromSource(annotatedSources);
         AnnotationMirror sinkAnnotation = createAnnoFromSink(annotatedSinks);
-        origResult.first.getReturnType().clearAnnotations();
-        origResult.first.getReturnType().addAnnotation(sourceAnnotation);
-        origResult.first.getReturnType().addAnnotation(sinkAnnotation);
         
-        
-        if (!origResult.first.getReturnType().hasAnnotation(
-                IntentMap.class)) {
-            origResult.first.getReturnType().addAnnotation(
-                EMPTYINTENTEXTRAS);
+        AnnotatedTypeMirror returnType = origResult.first.getReturnType();
+         
+        addHostAnnotions( returnType,sourceAnnotation,sinkAnnotation );
+        //TODO: add a visitor that replaces all the annotations in returnType
+        //with sourceAnnotation and sinkAnnotation
+        // Handling array types.
+        if (returnType instanceof AnnotatedArrayType) {
+            addHostAnnotions(
+                    ((AnnotatedArrayType) returnType).getComponentType(),
+                    sourceAnnotation, sinkAnnotation);
         }
-        
-        //Handling array types.
-        if(origResult.first.getReturnType() instanceof AnnotatedArrayType) {
-            ((AnnotatedArrayType)origResult.first.getReturnType()).getComponentType().clearAnnotations();
-            ((AnnotatedArrayType)origResult.first.getReturnType()).getComponentType().addAnnotation(sourceAnnotation);
-            ((AnnotatedArrayType)origResult.first.getReturnType()).getComponentType().addAnnotation(sinkAnnotation);
-            
-            if (!((AnnotatedArrayType)origResult.first.getReturnType()).getComponentType().hasAnnotation(
-                    IntentMap.class)) {
-                ((AnnotatedArrayType)origResult.first.getReturnType()).getComponentType().addAnnotation(
-                    EMPTYINTENTEXTRAS);
-            }
+        for( AnnotatedTypeVariable atm: origResult.first.getTypeVariables()){
+            addHostAnnotions( atm.getUpperBound(),sourceAnnotation,sinkAnnotation );
+            addHostAnnotions( atm,sourceAnnotation,sinkAnnotation );
+
+
         }
-        
-        
+        //handle Type Variables 
+        if (returnType instanceof AnnotatedTypeVariable) {
+            addHostAnnotions(
+                    ((AnnotatedTypeVariable) returnType)
+                            .getEffectiveUpperBound(),
+                    sourceAnnotation, sinkAnnotation);
+        }
+
         return origResult;
     }
 
+    public void addHostAnnotions(AnnotatedTypeMirror atm,
+            AnnotationMirror sourceAnnotation, AnnotationMirror sinkAnnotation) {
+
+        atm.clearAnnotations();
+        atm.addAnnotation(sourceAnnotation);
+        atm.addAnnotation(sinkAnnotation);
+
+        if (!atm.hasAnnotation(IntentMap.class)) {
+            atm.addAnnotation(EMPTYINTENTEXTRAS);
+        }
+    }
 
     public ComponentMap getComponentMap() {
         return componentMap;
