@@ -559,6 +559,7 @@ class PrintStream extends FilterOutputStream implements Appendable, Closeable {
     void println(float arg0);
     void println(double arg0);
     void println(char[] arg0);
+@PolyFlowReceiver
     void println(String arg0);
     void println(Object arg0);
     PrintStream printf(String arg0, Object[] arg1);
