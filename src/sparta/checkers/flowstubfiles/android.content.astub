@@ -745,13 +745,13 @@ abstract @Source({FILESYSTEM}) File getDir(@Sink({FILESYSTEM}) String name, int 
 abstract @Source({READ_EXTERNAL_STORAGE}) File getExternalCacheDir();
 //Returns the absolute path to the directory on the external filesystem (that is somewhere on Environment.getExternalStorageDirectory(); where the application can place cache files it owns.
 
-abstract @Source({READ_EXTERNAL_STORAGE}) File getExternalFilesDir(@Sink(WRITE_EXTERNAL_STORAGE) String type);
+abstract  File getExternalFilesDir(@Sink(WRITE_EXTERNAL_STORAGE) String type);
 //Returns the absolute path to the directory on the external filesystem (that is somewhere on Environment.getExternalStorageDirectory();); where the application can place persistent files it owns.
 
-abstract @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getFileStreamPath(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String name);
+abstract  File getFileStreamPath(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String name);
 //Returns the absolute path on the filesystem where a file created with openFileOutput(String, int); is stored.
 
-abstract @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getFilesDir();
+abstract File getFilesDir();
 //Returns the absolute path to the directory on the filesystem where files created with openFileOutput(String, int); are stored.
 
 abstract Looper getMainLooper();
@@ -956,7 +956,7 @@ class ContextWrapper {
                         String getPackageName();
             @SendIntent ComponentName startService(Intent service);
             PackageManager getPackageManager();
-            @Source(FILESYSTEM) File getFilesDir();
+            File getFilesDir();
             AssetManager getAssets();
             Context getApplicationContext();
             Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
