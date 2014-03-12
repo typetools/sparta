@@ -88,7 +88,9 @@ public class ProcessEpicOutput {
             while (originalLine != null && !originalLine.startsWith("The following ICC")) {
                 originalLine = bufferedReaderEpicc.readLine();
             }
+            boolean doesntBreakLine = false;
             while (originalLine != null) {
+                doesntBreakLine = false;
                 originalLine = originalLine.trim();
                 if (originalLine.startsWith("-")) {
                     String component = originalLine.split("\\(")[0];
@@ -98,17 +100,37 @@ public class ProcessEpicOutput {
                         int index = component.indexOf('$');
                         component = component.substring(0,index);
                     }
+                    
                     String nextLine = bufferedReaderEpicc.readLine();
-                    if(nextLine != null && nextLine.startsWith("Type:")) {
-                        while(nextLine != null && !nextLine.startsWith("Intent Filter")) {
-                            nextLine = bufferedReaderEpicc.readLine();
+                    
+                    while(nextLine != null && nextLine.length() > 0) {
+                      //BRreceivers are not correctly identified.  
+                        if(nextLine.startsWith("Type: android.content.BroadcastReceiver")) {
+                            while(nextLine != null && nextLine.length() > 0) {
+                                nextLine = bufferedReaderEpicc.readLine();
+                            }
+                            break; 
                         }
+                        if(nextLine.startsWith("No permission") || nextLine.startsWith("No field set") || nextLine.startsWith("Possible permissions") ||
+                                nextLine.startsWith("Intent value") || nextLine.startsWith("Intent Filter") || nextLine.startsWith("Type:") ||
+                                nextLine.startsWith("Found top element") || nextLine.startsWith("No value found.")) {
+                            nextLine = bufferedReaderEpicc.readLine();
+                            continue;
+                        }
+                        if(nextLine.trim().startsWith("-")) {
+                            doesntBreakLine = true;
+                            break;
+                        }
+                        String filter = processFilter(nextLine.trim(), "", component);
+                        matchFilters(component, filter, filtersPath);
+                        nextLine = bufferedReaderEpicc.readLine();
+                        
                     }
-                    String filter = processFilter(bufferedReaderEpicc.readLine()
-                            .trim(), "", component);
-                    matchFilters(component, filter, filtersPath);
+                    
                 }
-                originalLine = bufferedReaderEpicc.readLine();
+                if(!doesntBreakLine) {
+                    originalLine = bufferedReaderEpicc.readLine();
+                }
             }
             file.createNewFile();
             fw = new FileWriter(file.getAbsoluteFile());
@@ -132,10 +154,19 @@ public class ProcessEpicOutput {
      */
 
     static String processFilter(String filter, String output, String component) {
-        if (filter == null || filter.length() <= 1)
+        if (filter == null || filter.length() <= 1) {
             return "(" + output + ")";
-        if (filter.startsWith("Action") || filter.startsWith("Actions")) {
+        }
+        filter = filter.trim();
+        if (filter.startsWith("Action")) {
             filter = filter.substring(7, filter.length()).trim();
+            String action = filter.split(",")[0];
+            output = action;
+            return processFilter(filter.substring(action.length()+1).trim(),
+                    output,component);
+        } else if (filter.startsWith("Actions")) {
+            //Should only happen in broadcastreceiveirs
+            filter = filter.substring(8, filter.length()).trim();
             String action = filter.split(",")[0];
             output = action;
             return processFilter(filter.substring(action.length()+1).trim(),
@@ -169,8 +200,15 @@ public class ProcessEpicOutput {
             return "(" + output + ")";
         } else if (filter.startsWith("Flags")) {
             return "(" + output + ")";
-        }else {
-           // throw new RuntimeException("Unrecognized String: " + filter);
+        } else if (filter.startsWith("Type")) {
+            filter = filter.substring(5, filter.length()).trim();
+            String type = filter.split(",")[0];
+            return processFilter(filter.substring(type.length()+1)
+                    .trim(), output,component);
+        } else if (filter.startsWith(",")) {
+            return processFilter(filter.substring(1), output, component);
+        } else {
+//            throw new RuntimeException("Unrecognized String: " + filter);
             System.err.println("Unrecognized String: " + filter);
             return "Unrecognized String: " +filter;
         }

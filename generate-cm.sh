@@ -76,10 +76,11 @@ fi
 ./download-libs/dare/dare -d ../epicc/ "$APKPATH"
 
 #Using Epicc
-java -jar ./download-libs/epicc/epicc-0.1.jar -apk "$APKPATH" -android-directory "$RETARGETEDPATH" -cp ./download-libs/epicc/android.jar -icc-study ./download-libs/epicc/ > ./download-libs/epicc/"$EPICCOUTPUT"
-
+java -Xmx1024M -jar ./download-libs/epicc/epicc-0.1.jar -apk "$APKPATH" -android-directory "$RETARGETEDPATH" -cp ./download-libs/epicc/android.jar -icc-study ./download-libs/epicc/ > ./download-libs/epicc/"$EPICCOUTPUT"
 #Epicc output generated.
-
+rm -rf ./download-libs/epicc/retargeted/*
+rm -rf ./download-libs/epicc/optmized/*
+rm -rf ./download-libs/epicc/optimized-decompiled/*
 rm -f "$FILTERSMAPTEMP" 
 cp "$FILTERSMAP" "$FILTERSMAPTEMP"
 
@@ -88,8 +89,8 @@ cp "$FILTERSMAP" "$FILTERSMAPTEMP"
 if [[ "$APKPATH" == *\.apk ]]
 	then
     	rm -f AndroidManifestTemp.xml
-		java -jar ./download-libs/APKParser.jar "$APKPATH" > AndroidManifestTemp.xml
-		java -cp build/ sparta.checkers.intents.componentmap.ProcessAndroidManifest AndroidManifestTemp.xml "$FILTERSMAPTEMP"
+		java -Xmx1024M -jar ./download-libs/APKParser.jar "$APKPATH" > AndroidManifestTemp.xml
+		java -Xmx1024M -cp build/ sparta.checkers.intents.componentmap.ProcessAndroidManifest AndroidManifestTemp.xml "$FILTERSMAPTEMP"
 	    rm -f AndroidManifestTemp.xml
 	else 
 		echo Input is not an .apk file.
@@ -97,6 +98,6 @@ if [[ "$APKPATH" == *\.apk ]]
 fi
 #Processing epicc output with filters
 
-java -cp build/ sparta.checkers.intents.componentmap.ProcessEpicOutput ./download-libs/epicc/"$EPICCOUTPUT" "$FILTERSMAPTEMP" "$CMPATH"
+java -Xmx1024M -cp build/ sparta.checkers.intents.componentmap.ProcessEpicOutput ./download-libs/epicc/"$EPICCOUTPUT" "$FILTERSMAPTEMP" "$CMPATH"
 rm -f $FILTERSMAPTEMP
 
