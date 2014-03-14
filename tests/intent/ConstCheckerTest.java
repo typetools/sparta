@@ -9,11 +9,13 @@ import android.content.ContextWrapper;
 import android.provider.CalendarContract;
 
 public class ConstCheckerTest extends Activity {
-    
+   public static final String k1 = "k1";
+
     @SuppressWarnings("")
     @IntentMap({
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
-        @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
+        @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }),
+        @Extra(key = Intent.EXTRA_PHONE_NUMBER, source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
     Intent i1 = new Intent();
     
     @Source(FILESYSTEM) @Sink(INTERNET) String getVal() {
@@ -26,8 +28,9 @@ public class ConstCheckerTest extends Activity {
     }
     
     void putExtraSuccess() {
-        String k1 = "k1";
+        i1.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
         i1.putExtra(k1, getVal());
+
     }
 
     void putExtraFail() {

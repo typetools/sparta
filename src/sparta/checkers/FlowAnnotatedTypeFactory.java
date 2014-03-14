@@ -43,6 +43,7 @@ import javacutils.InternalUtils;
 import javacutils.TreeUtils;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -75,7 +76,7 @@ import com.sun.source.tree.Tree;
 import com.sun.source.tree.TypeCastTree;
 import com.sun.source.tree.UnaryTree;
 
-public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeFactory {
+public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
     protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
     protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK;
@@ -168,6 +169,11 @@ public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeF
         ((FlowChecker)checker).notInStubFile.putAll(notInStubFile);
         notInStubFile = ((FlowChecker)checker). notInStubFile;
 
+    }
+    @Override
+    public AnnotationMirror getAnnotationMirror(Tree tree,
+            Class<? extends Annotation> target){
+        return null;
     }
 
     @Override

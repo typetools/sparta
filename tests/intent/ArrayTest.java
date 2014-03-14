@@ -48,7 +48,7 @@ public class ArrayTest extends Activity {
     void getExtraArrayFail() {
       //:: error: (assignment.type.incompatible)
         @Source(FILESYSTEM) @Sink(INTERNET) String @Source(FILESYSTEM) @Sink(INTERNET) [] stringArray = i1.getStringArrayExtra("k2");
-      //:: error: (assignment.type.incompatible)
+      //:: error: (intent.key.notfound)
         @Source(FILESYSTEM) @Sink(INTERNET) String @Source(FILESYSTEM) @Sink(INTERNET) [] stringArray2 = i1.getStringArrayExtra("k3");
     }
     

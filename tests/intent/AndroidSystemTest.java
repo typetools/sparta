@@ -8,7 +8,10 @@ import android.content.ContextWrapper;
 import android.provider.CalendarContract;
 
 public class AndroidSystemTest extends Activity {
-    
+    public static final String key1 = "android.app.extra.DEVICE_ADMIN";
+   public static  final String key2 = "android.app.extra.DEVICE_ADMIN";
+
+
     @Source(LITERAL) @Sink(BIND_DEVICE_ADMIN) String getValueOK() {
         @SuppressWarnings("")
         @Source(LITERAL) @Sink(BIND_DEVICE_ADMIN) String output = "";
@@ -40,8 +43,7 @@ public class AndroidSystemTest extends Activity {
                 sink={BIND_DEVICE_ADMIN})
             })
         Intent senderIntent = new Intent();
-        String key = "android.app.extra.DEVICE_ADMIN";
-        senderIntent.putExtra(key, getValueOK());
+        senderIntent.putExtra(key2, getValueOK());
         startActivity(senderIntent);
     }
     
@@ -53,9 +55,9 @@ public class AndroidSystemTest extends Activity {
             sink={BIND_DEVICE_ADMIN})
         })
         Intent senderIntent = new Intent();
-        String key = "android.app.extra.DEVICE_ADMIN";
+
         //:: error: (intent.type.incompatible)
-        senderIntent.putExtra(key, getValueNotOK());
+        senderIntent.putExtra(key1, getValueNotOK());
         startActivity(senderIntent);
     }
     

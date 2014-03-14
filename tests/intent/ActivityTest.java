@@ -39,7 +39,7 @@ public class ActivityTest extends Activity {
             @Extra(key = "k3", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })
     Intent i4 = new Intent();
     
-    @Source(FILESYSTEM) @Sink(INTERNET) String getVal() {
+    @Source(FILESYSTEM) @Sink(INTERNET) String getFile() {
       //:: error: (return.type.incompatible)
         return "";
     }
@@ -49,14 +49,14 @@ public class ActivityTest extends Activity {
     }
     
     void putExtraSuccess() {
-        i1.putExtra("k1", getVal());
+        i1.putExtra("k1", getFile());
     }
 
     void putExtraFail() {
         //:: error: (intent.type.incompatible)
-        i1.putExtra("k2", getVal());
+        i1.putExtra("k2", getFile());
         //:: error: (intent.key.notfound)
-        i1.putExtra("k3", getVal());
+        i1.putExtra("k3", getFile());
     }
     
     void getExtraSuccess() {
@@ -66,7 +66,7 @@ public class ActivityTest extends Activity {
     }
 
     void getExtraFail() {
-        i1.putExtra("k1", getVal());
+        i1.putExtra("k1", getFile());
         String s1 = i1.getStringExtra("k1");
         //:: error: (intent.key.notfound)
         String s4 = i1.getStringExtra("k4");

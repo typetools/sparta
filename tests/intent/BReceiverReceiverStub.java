@@ -16,9 +16,10 @@ import android.content.Context;
  *
  */
 public class BReceiverReceiverStub extends BroadcastReceiver {
-
+    
     @Override
-    public @ReceiveIntent void onReceive(Context context, 
+    @ReceiveIntent("sendBroadcast,1")
+    public  void onReceive(Context context, 
             @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent intent) {
         
     }

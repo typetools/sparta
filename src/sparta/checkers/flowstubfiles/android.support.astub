@@ -83,7 +83,7 @@ void onLoaderReset(Loader<D> arg0);
 }
 
 class ShareCompat$IntentBuilder {
-@ReceiveIntent @Source(INTENT) Intent getIntent();
+@Source(INTENT) Intent getIntent();
 @Source(INTENT) Intent createChooserIntent();
 IntentBuilder setText(CharSequence text);
 IntentBuilder setStream(Uri streamUri);

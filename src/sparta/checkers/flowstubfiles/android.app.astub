@@ -312,7 +312,7 @@ View getCurrentFocus();
 FragmentManager getFragmentManager();
 //Return the FragmentManager for interacting with fragments associated with this activity.
 
-@ReceiveIntent Intent getIntent();
+Intent getIntent();
 //Return the intent that started this activity.
 
 Object getLastNonConfigurationInstance();
@@ -581,7 +581,7 @@ final void setFeatureDrawableUri(int featureId, @Sink(DISPLAY) Uri uri);
 void setFinishOnTouchOutside(boolean finish);
 //Sets whether this activity is finished when touched outside its window's bounds.
 
-@SendIntent void setIntent(Intent newIntent);
+void setIntent(Intent newIntent);
 //Change the intent returned by getIntent();.
 
 final void setProgress(@Sink(DISPLAY) int progress);
@@ -635,58 +635,58 @@ final void showDialog(int id);
 ActionMode startActionMode(ActionMode.Callback callback);
 //Start an action mode.
 
-@SendIntent void startActivities(Intent[] intents, Bundle options);
+void startActivities(Intent[] intents, Bundle options);
 //Launch a new activity.
 
-@SendIntent void startActivities(Intent[] intents);
+void startActivities(Intent[] intents);
 //Same as startActivities(Intent[], Bundle); with no options specified.
 
-@SendIntent void startActivity(Intent intent);
+void startActivity(Intent intent);
 //Same as startActivity(Intent, Bundle); with no options specified.
 
-@SendIntent void startActivity(Intent intent, Bundle options);
+void startActivity(Intent intent, Bundle options);
 //Launch a new activity.
 
-@SendIntent void startActivityForResult(Intent intent, int requestCode);
+void startActivityForResult(Intent intent, int requestCode);
 //Same as calling startActivityForResult(Intent, int, Bundle); with no options.
 
-@SendIntent void startActivityForResult(Intent intent, int requestCode, Bundle options);
+void startActivityForResult(Intent intent, int requestCode, Bundle options);
 //Launch an activity for which you would like a result when it finished.
 
-@SendIntent void startActivityFromChild(Activity child, Intent intent, int requestCode, Bundle options);
+void startActivityFromChild(Activity child, Intent intent, int requestCode, Bundle options);
 //This is called when a child activity of this one calls its startActivity(Intent); or startActivityForResult(Intent, int); method.
 
-@SendIntent void startActivityFromChild(Activity child, Intent intent, int requestCode);
+void startActivityFromChild(Activity child, Intent intent, int requestCode);
 //Same as calling startActivityFromChild(Activity, Intent, int, Bundle); with no options.
 
-@SendIntent void startActivityFromFragment(Fragment fragment, Intent intent, int requestCode, Bundle options);
+void startActivityFromFragment(Fragment fragment, Intent intent, int requestCode, Bundle options);
 //This is called when a Fragment in this activity calls its startActivity(Intent); or startActivityForResult(Intent, int); method.
 
-@SendIntent void startActivityFromFragment(Fragment fragment, Intent intent, int requestCode);
+void startActivityFromFragment(Fragment fragment, Intent intent, int requestCode);
 //Same as calling startActivityFromFragment(Fragment, Intent, int, Bundle); with no options.
 
-@SendIntent boolean startActivityIfNeeded(Intent intent, int requestCode, Bundle options);
+boolean startActivityIfNeeded(Intent intent, int requestCode, Bundle options);
 //A special variation to launch an activity only if a new activity instance is needed to handle the given Intent.
 
-@SendIntent boolean startActivityIfNeeded(Intent intent, int requestCode);
+boolean startActivityIfNeeded(Intent intent, int requestCode);
 //Same as calling startActivityIfNeeded(Intent, int, Bundle); with no options.
 
-@SendIntent void startIntentSender(IntentSender intent, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, Bundle options);
+void startIntentSender(IntentSender intent, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, Bundle options);
 //Like startActivity(Intent, Bundle);, but taking a IntentSender to start; see startIntentSenderForResult(IntentSender, int, Intent, int, int, int, Bundle); for more information.
 
-@SendIntent void startIntentSender(IntentSender intent, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
+void startIntentSender(IntentSender intent, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
 //Same as calling startIntentSender(IntentSender, Intent, int, int, int, Bundle); with no options.
 
-@SendIntent void startIntentSenderForResult(IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, Bundle options);
+void startIntentSenderForResult(IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, Bundle options);
 //Like startActivityForResult(Intent, int);, but allowing you to use a IntentSender to describe the activity to be started.
 
-@SendIntent void startIntentSenderForResult(IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
+void startIntentSenderForResult(IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
 //Same as calling startIntentSenderForResult(IntentSender, int, Intent, int, int, int, Bundle); with no options.
 
-@SendIntent void startIntentSenderFromChild(Activity child, IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
+void startIntentSenderFromChild(Activity child, IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags);
 //Same as calling startIntentSenderFromChild(Activity, IntentSender, int, Intent, int, int, int, Bundle); with no options.
 
-@SendIntent void startIntentSenderFromChild(Activity child, IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, Bundle options);
+void startIntentSenderFromChild(Activity child, IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, Bundle options);
 //Like startActivityFromChild(Activity, Intent, int);, but taking a IntentSender; see startIntentSenderForResult(IntentSender, int, Intent, int, int, int); for more information.
 
 void startManagingCursor(Cursor c);
@@ -1271,8 +1271,6 @@ void onStop();
 
 class DialogFragment {
     
-DialogFragment();    
-    
 void dismiss();
 //Dismiss the fragment and its dialog.
 
@@ -1352,9 +1350,6 @@ class ExpandableListActivity{
 }
 
 class Fragment {
-
-Fragment();
-
 void dump(String prefix, @Sink({FlowPermission.FILESYSTEM ,FlowPermission.INTERNET, FlowPermission.WRITE_EXTERNAL_STORAGE}) FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Fragments's state into the given stream.
 
@@ -1878,7 +1873,7 @@ void onViewCreated(View view, Bundle savedInstanceState);
 }
 
 class LoaderManager {
-
+    
 abstract void destroyLoader(int id);
 //Stops and removes the loader with the given ID.
 
@@ -1898,16 +1893,6 @@ abstract <D> Loader<D> restartLoader(int id, Bundle args, LoaderCallbacks<D> cal
 //Starts a new or restarts an existing Loader in this manager, registers the callbacks to it, and (if the activity/fragment is currently started); starts loading it.
 
 
-
-}
-
-class LoaderManager$LoaderCallbacks {
-
-Loader<D> onCreateLoader(int arg0, Bundle arg1);
-
-void onLoadFinished(Loader<D> arg0, D arg1);
-
-void onLoaderReset(Loader<D> arg0);
 
 }
 
@@ -1994,9 +1979,6 @@ Notification.InboxStyle setSummaryText(@Sink(DISPLAY) CharSequence cs);
 
 
 class Notification$Builder {
-
-Builder(Context context);
-
 Notification.Builder addAction(@Sink(DISPLAY) int icon, @Sink(DISPLAY) CharSequence title, PendingIntent intent);
 //Add an action to this notification.
 
@@ -2137,7 +2119,7 @@ int getCreatorUid();
 UserHandle getCreatorUserHandle();
 //Return the user handle of the application that created this PendingIntent, that is the user under which you will actually be sending the Intent.
 
-@ReceiveIntent IntentSender getIntentSender();
+IntentSender getIntentSender();
 //Retrieve a IntentSender object that wraps the existing sender of the PendingIntent
 
 static PendingIntent getService(Context context, int requestCode, Intent intent, int flags);
@@ -2282,7 +2264,7 @@ Service();
 final Application getApplication();
 //Return the application that owns this service.
 
-@ReceiveIntent abstract IBinder onBind(Intent intent);
+abstract IBinder onBind(Intent intent);
 //Return the communication channel to the service.
 
 void onConfigurationChanged(Configuration newConfig);
@@ -2297,22 +2279,22 @@ void onDestroy();
 void onLowMemory();
 //This is called when the overall system is running low on memory, and would like actively running process to try to tighten their belt.
 
-@ReceiveIntent void onRebind(Intent intent);
+void onRebind(Intent intent);
 //Called when new clients have connected to the service, after it had previously been notified that all had disconnected in its onUnbind(Intent);.
 
-@ReceiveIntent void onStart(Intent intent, int startId);
+void onStart(Intent intent, int startId);
 //This method was deprecated in API level 5. Implement onStartCommand(Intent, int, int); instead.
 
-@ReceiveIntent int onStartCommand(Intent intent, int flags, int startId);
+int onStartCommand(Intent intent, int flags, int startId);
 //Called by the system every time a client explicitly starts the service by calling startService(Intent);, providing the arguments it supplied and a unique integer token representing the start request.
 
-@ReceiveIntent void onTaskRemoved(Intent rootIntent);
+void onTaskRemoved(Intent rootIntent);
 //This is called if the service is currently running and the user has removed a task that comes from the service's application.
 
 void onTrimMemory(int level);
 //Called when the operating system has determined that it is a good time for a process to trim unneeded memory from its process.
 
-@ReceiveIntent boolean onUnbind(Intent intent);
+boolean onUnbind(Intent intent);
 //Called when all clients have disconnected from a particular interface published by the service.
 
 final void startForeground(int id, Notification notification);

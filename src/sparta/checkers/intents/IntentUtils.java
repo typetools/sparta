@@ -2,6 +2,7 @@ package sparta.checkers.intents;
 
 import checkers.types.AnnotatedTypeFactory;
 import checkers.types.AnnotatedTypeMirror;
+import checkers.util.AnnotatedTypes;
 import checkers.util.AnnotationBuilder;
 
 import javacutils.AnnotationUtils;
@@ -39,17 +40,8 @@ import com.sun.source.tree.MethodTree;
 import com.sun.source.util.TreePath;
 
 public class IntentUtils {
-
-    //Methods below are on the format NAME,#ofParameters
-    public static List<String> SERVICE_CALLBACK_METHODS = Arrays
-        .asList(new String[] { "onBind,1", "onRebind,1", "onStart,2",
-            "onStartCommand,3", "onTaskRemoved,1", "onUnBind,1"});
     
-    public static List<String> BRECEIVER_CALLBACK_METHODS = Arrays
-            .asList(new String[] { "onReceive,2", "peekService,2"});
-    
-    public static List<String> GET_INTENT = Arrays
-            .asList(new String[] { "getIntent,0"});
+    public final static String GET_INTENT =  "getIntent,0";
     
     public static List<String> RECEIVE_INTENT_METHODS = Arrays
             .asList(new String[] {"onBind", "onRebind", "onStart",
@@ -77,10 +69,11 @@ public class IntentUtils {
             .getElementValueArray(intentExtra, "value", AnnotationMirror.class, true);
     }
     
-    public static AnnotationMirror getIExtra(AnnotatedTypeMirror intentExtra, String keyName) {
-        if (intentExtra.hasAnnotation(IntentMap.class)) {
+
+    public static AnnotationMirror getIExtra(AnnotatedTypeMirror intentMapAnno, String keyName) {
+        if (intentMapAnno.hasAnnotation(IntentMap.class)) {
             return getIExtra(
-                    intentExtra.getAnnotation(IntentMap.class), keyName);
+                    intentMapAnno.getAnnotation(IntentMap.class), keyName);
         }
         return null;
     }

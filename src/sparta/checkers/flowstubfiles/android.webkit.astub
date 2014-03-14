@@ -41,7 +41,6 @@ boolean hasMimeType(String mimeType);
 class WebView {
 //CHS: This whole class needs the INTERNET permission
 
-WebView(Context context);
 
 void addJavascriptInterface(Object object, String name);
 //Injects the supplied Java object into this WebView.

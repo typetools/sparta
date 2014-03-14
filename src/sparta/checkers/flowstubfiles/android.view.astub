@@ -604,7 +604,7 @@ abstract int getGroupId();
 abstract Drawable getIcon();
 //Returns the icon for this item as a Drawable (getting it from resources if it hasn't been loaded before);.
 
-@ReceiveIntent abstract Intent getIntent();
+abstract Intent getIntent();
 //Return the Intent associated with this item.
 
 abstract int getItemId();
@@ -674,7 +674,7 @@ abstract MenuItem setIcon(@Sink(DISPLAY) Drawable icon);
 abstract MenuItem setIcon(int iconRes);
 //Change the icon associated with this item.
 
-@SendIntent abstract MenuItem setIntent(Intent intent);
+abstract MenuItem setIntent(Intent intent);
 //Change the Intent associated with this item.
 
 abstract MenuItem setNumericShortcut(char numericChar);

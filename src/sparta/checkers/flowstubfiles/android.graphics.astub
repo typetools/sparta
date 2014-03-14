@@ -908,8 +908,7 @@ void finalize();
 }
 
 class Point {
-   
-Point(); 
+    
     
 int describeContents();
 //Parcelable interface methods

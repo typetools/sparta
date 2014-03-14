@@ -41,6 +41,7 @@ import sparta.checkers.quals.RequiredPermissions;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
+import com.sun.source.tree.AnnotatedTypeTree;
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.CaseTree;
 import com.sun.source.tree.ConditionalExpressionTree;
@@ -76,6 +77,11 @@ public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
         ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
         CONDITIONAL = new ParameterizedFlowPermission(FlowPermission.CONDITIONAL);
         LITERAL = new ParameterizedFlowPermission(FlowPermission.LITERAL);
+    }
+    @Override
+    public Void visitAnnotatedType(AnnotatedTypeTree node, Void p) {
+        
+        return null;
     }
 @Override
 protected FlowAnnotatedTypeFactory createTypeFactory() {
@@ -176,23 +182,7 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
      */
     @Override
     public Void visitAnnotation(AnnotationTree node, Void p) {
-        List<? extends ExpressionTree> args = node.getArguments();
-        if (args.isEmpty()) {
-            // Nothing to do if there are no annotation arguments.
-            return null;
-        }
-
-        Element anno = TreeInfo.symbol((JCTree) node.getAnnotationType());
-        if (anno.toString().equals(Sink.class.getName())
-                || anno.toString().equals(Source.class.getName())
-                || anno.toString().equals(RequiredPermissions.class.getName())
-                || anno.toString().equals(MayRequiredPermissions.class.getName())
-                || anno.toString().equals(DependentPermissions.class.getName())) {
-            // Skip these two annotations, as we don't care about the
-            // arguments to them.
-            return null;
-        }
-        return super.visitAnnotation(node, p);
+        return null;
     }
 
     /**

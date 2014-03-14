@@ -1,0 +1,238 @@
+import sparta.checkers.quals.*;
+package android.app;
+
+class Service {
+   @ReceiveIntent("bindService,3")
+   IBinder onBind(Intent i);
+   
+   //@ReceiveIntent("startService,1")
+   //void onStart(Intent i, int i1);
+
+   @ReceiveIntent("startService,1")
+   int onStartCommand(Intent i,int arg1 ,int arg2);
+
+//onRebind(Intent i);
+//onTaskRemoved(android.content.Intent)
+//onUnbind(android.content.Intent)
+ @SendIntent("getIntent,0")
+    void startActivity(Intent arg0);
+    
+    @SendIntent("getIntent,0")
+    void startActivities(Intent[] arg0);
+
+    @SendIntent("onReceive,2")
+    void sendBroadcast(Intent arg0);
+    
+    @SendIntent("onReceive,2")
+    void sendBroadcast(Intent arg0, String arg1);
+    
+    @SendIntent("onReceive,2")
+    void sendOrderedBroadcast(Intent arg0, String arg1);
+    
+    @SendIntent("onReceive,2")
+    void sendOrderedBroadcast(Intent arg0, String arg1, BroadcastReceiver arg2, Handler arg3, int arg4, String arg5, Bundle arg6);
+    
+    @SendIntent("onReceive,2")
+    void sendStickyBroadcast(Intent arg0);
+    
+    @SendIntent("onReceive,2")
+    void sendStickyOrderedBroadcast(Intent arg0, BroadcastReceiver arg1, Handler arg2, int arg3, String arg4, Bundle arg5);
+    
+    @SendIntent("onReceive,2")
+    void removeStickyBroadcast(Intent arg0);
+    
+    @SendIntent("onStartCommand,3") //could also be onStart
+    ComponentName startService(Intent arg0);
+    
+    @SendIntent("onBind,1")
+    boolean bindService(Intent arg0, ServiceConnection arg1, int arg2);
+}
+
+
+class Activity {
+   @ReceiveIntent("startActivity,1")
+   Intent getIntent();
+    //Methods to that aren't handled yet:
+    // protected void onNewIntent(Intent arg0);
+    //void setResult(int arg0, Intent arg1);
+    //protected void onActivityResult(int arg0, int arg1, Intent arg2);
+    //PendingIntent createPendingResult(int arg0, Intent arg1, int arg2);
+      
+   @SendIntent("getIntent,0")
+    void setIntent(Intent arg0);
+   
+   // protected void onNewIntent(Intent arg0);
+    //void setResult(int arg0, Intent arg1);
+    //protected void onActivityResult(int arg0, int arg1, Intent arg2);
+    //PendingIntent createPendingResult(int arg0, Intent arg1, int arg2);
+  
+   @SendIntent("getIntent,0")
+    void startActivityForResult(Intent arg0, int arg1);
+      
+   @SendIntent("getIntent,0")
+    void startActivity(Intent arg0);
+      
+   @SendIntent("getIntent,0")
+    void startActivities(Intent[] arg0);
+      
+   @SendIntent("getIntent,0")
+    boolean startActivityIfNeeded(Intent arg0, int arg1);
+      
+   @SendIntent("getIntent,0")
+    boolean startNextMatchingActivity(Intent arg0);
+      
+   @SendIntent("getIntent,0")
+    void startActivityFromChild(Activity arg0, Intent arg1, int arg2)
+      
+   @SendIntent("getIntent,0");
+    void startActivityFromFragment(Fragment arg0, Intent arg1, int arg2);
+    
+    @SendIntent("getIntent,0")
+    void startActivity(Intent arg0);
+    
+    @SendIntent("getIntent,0")
+    void startActivities(Intent[] arg0);
+
+    @SendIntent("onReceive,2")
+    void sendBroadcast(Intent arg0);
+    
+    @SendIntent("onReceive,2")
+    void sendBroadcast(Intent arg0, String arg1);
+    
+    @SendIntent("onReceive,2")
+    void sendOrderedBroadcast(Intent arg0, String arg1);
+    
+    @SendIntent("onReceive,2")
+    void sendOrderedBroadcast(Intent arg0, String arg1, BroadcastReceiver arg2, Handler arg3, int arg4, String arg5, Bundle arg6);
+    
+    @SendIntent("onReceive,2")
+    void sendStickyBroadcast(Intent arg0);
+    
+    @SendIntent("onReceive,2")
+    void sendStickyOrderedBroadcast(Intent arg0, BroadcastReceiver arg1, Handler arg2, int arg3, String arg4, Bundle arg5);
+    
+    @SendIntent("onReceive,2")
+    void removeStickyBroadcast(Intent arg0);
+    
+    @SendIntent("onStartCommand,3") //could also be onStart
+    ComponentName startService(Intent arg0);
+    
+    @SendIntent("onBind,1")
+    boolean bindService(Intent arg0, ServiceConnection arg1, int arg2);
+}
+
+
+
+
+package android.content;
+
+class BroadcastReceiver{
+    @ReceiveIntent("sendBroadcast,1")
+    void onReceive(Context c ,Intent i);
+     @SendIntent("getIntent,0")
+    void startActivity(Intent arg0);
+    
+    @SendIntent("getIntent,0")
+    void startActivities(Intent[] arg0);
+
+    @SendIntent("onReceive,2")
+    void sendBroadcast(Intent arg0);
+    
+    @SendIntent("onReceive,2")
+    void sendBroadcast(Intent arg0, String arg1);
+    
+    @SendIntent("onReceive,2")
+    void sendOrderedBroadcast(Intent arg0, String arg1);
+    
+    @SendIntent("onReceive,2")
+    void sendOrderedBroadcast(Intent arg0, String arg1, BroadcastReceiver arg2, Handler arg3, int arg4, String arg5, Bundle arg6);
+    
+    @SendIntent("onReceive,2")
+    void sendStickyBroadcast(Intent arg0);
+    
+    @SendIntent("onReceive,2")
+    void sendStickyOrderedBroadcast(Intent arg0, BroadcastReceiver arg1, Handler arg2, int arg3, String arg4, Bundle arg5);
+    
+    @SendIntent("onReceive,2")
+    void removeStickyBroadcast(Intent arg0);
+    
+    @SendIntent("onStartCommand,3") //could also be onStart
+    ComponentName startService(Intent arg0);
+    
+    @SendIntent("onBind,1")
+    boolean bindService(Intent arg0, ServiceConnection arg1, int arg2);
+} 
+class Context {
+
+    @SendIntent("getIntent,0")
+    void startActivity(Intent arg0);
+    
+    @SendIntent("getIntent,0")
+    void startActivities(Intent[] arg0);
+
+    @SendIntent("onReceive,2")
+    void sendBroadcast(Intent arg0);
+    
+    @SendIntent("onReceive,2")
+    void sendBroadcast(Intent arg0, String arg1);
+    
+    @SendIntent("onReceive,2")
+    void sendOrderedBroadcast(Intent arg0, String arg1);
+    
+    @SendIntent("onReceive,2")
+    void sendOrderedBroadcast(Intent arg0, String arg1, BroadcastReceiver arg2, Handler arg3, int arg4, String arg5, Bundle arg6);
+    
+    @SendIntent("onReceive,2")
+    void sendStickyBroadcast(Intent arg0);
+    
+    @SendIntent("onReceive,2")
+    void sendStickyOrderedBroadcast(Intent arg0, BroadcastReceiver arg1, Handler arg2, int arg3, String arg4, Bundle arg5);
+    
+    @SendIntent("onReceive,2")
+    void removeStickyBroadcast(Intent arg0);
+    
+    @SendIntent("onStartCommand,3") //could also be onStart
+    ComponentName startService(Intent arg0);
+    
+    @SendIntent("onBind,1")
+    boolean bindService(Intent arg0, ServiceConnection arg1, int arg2);
+}   
+
+class ContextWrapper extends Context {
+    @SendIntent("getIntent,0")
+    void startActivity(Intent arg0);
+    
+    @SendIntent("getIntent,0")
+    void startActivities(Intent[] arg0);
+
+    @SendIntent("onReceive,2")
+    void sendBroadcast(Intent arg0);
+    
+    @SendIntent("onReceive,2")
+    void sendBroadcast(Intent arg0, String arg1);
+    
+    @SendIntent("onReceive,2")
+    void sendOrderedBroadcast(Intent arg0, String arg1);
+    
+    @SendIntent("onReceive,2")
+    void sendOrderedBroadcast(Intent arg0, String arg1, BroadcastReceiver arg2, Handler arg3, int arg4, String arg5, Bundle arg6);
+    
+    @SendIntent("onReceive,2")
+    void sendStickyBroadcast(Intent arg0);
+    
+    @SendIntent("onReceive,2")
+    void sendStickyOrderedBroadcast(Intent arg0, BroadcastReceiver arg1, Handler arg2, int arg3, String arg4, Bundle arg5);
+    
+    @SendIntent("onReceive,2")
+    void removeStickyBroadcast(Intent arg0);
+    
+    @SendIntent("onStartCommand,3") //could also be onStart
+    ComponentName startService(Intent arg0);
+    
+    @SendIntent("onBind,1")
+    boolean bindService(Intent arg0, ServiceConnection arg1, int arg2);
+  
+}
+
+
+

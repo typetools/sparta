@@ -839,7 +839,7 @@ void init(Context context, Cursor c, boolean autoRequery);
 void onContentChanged();
 //Called when the ContentObserver on the cursor receives a change notification.
 
-CursorAdapter(Context context, Cursor c, int flags);
+
 
 
 }

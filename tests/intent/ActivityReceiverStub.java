@@ -13,13 +13,13 @@ import android.content.Intent;
  *
  */
 public class ActivityReceiverStub extends Activity {
-
     @Override
-    public @ReceiveIntent @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+    @ReceiveIntent("startActivity,1")
+    public  @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
     Intent getIntent() {
         @SuppressWarnings("")
         @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
-        Intent output = super.getIntent();
+        Intent output = null;
         return output;
     }
     
