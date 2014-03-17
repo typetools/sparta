@@ -16,6 +16,9 @@ class ArrayInvariant {
        // enum values instead of VariableElement, which caused the array equals check to fail.
        // There was also an annotation values equals bug in AnnotationUtil.areSame when
        // the values of an annotation had a different order.
+        
+        //TODO: BUG!
+       //:: error: (assignment.type.incompatible)
        flowCompleted = notCompleted;
 
        // This will fail if order matters in annotation values.

@@ -27,4 +27,5 @@ public @interface Source {
      * this default ensures that the annotation has no effect.
      */
     FlowPermission[] value() default {};
+    FineSource[] finesources() default {};
 }

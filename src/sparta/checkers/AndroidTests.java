@@ -130,6 +130,18 @@ public class AndroidTests {
         }
     }
 
+    public static class ParameterizedFlowCheckerTests extends FlowCheckerTests {
+
+        public ParameterizedFlowCheckerTests(File testFile) {
+            super(testFile);
+        }
+
+        @Parameters
+        public static Collection<Object[]> data() {
+            return testFiles("parameterized");
+        }
+    }
+    
     public static class FlowCheckerTests extends ParameterizedCheckerTest {
         public FlowCheckerTests(File testFile) {
             super(testFile, FlowChecker.class, "sparta.checkers", "-Anomsgtext");

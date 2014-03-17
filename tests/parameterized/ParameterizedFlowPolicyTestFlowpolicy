@@ -1,0 +1,17 @@
+# Important flows for the actual test suite
+LITERAL -> WRITE_LOGS("/*")
+
+
+
+## ONLY FOR TESTING FLOW POLICY READ ##
+# Test Parameterized Sources
+FILESYSTEM("my_test_file") -> CONDITIONAL
+INTERNET   ( "my domain [dot] org" )    ->   CONDITIONAL
+
+# Test Parameterized Sinks
+READ_SMS -> CONDITIONAL, FILESYSTEM("output_file")
+LITERAL  ->   CONDITIONAL,   FILESYSTEM("output_file1", "output_file2", "output_file_3")
+ACCELEROMETER    ->  FILESYSTEM("output_file1", "output_file2", "output_file_3"), INTERNET("domain1.org"), INTERNET("domain3.org", "domain4.org")
+
+# Test Both
+FILESYSTEM("test_file1", "test_file2") ->  FILESYSTEM ("output"), INTERNET("goodDomain.com", "goodDomain.org")

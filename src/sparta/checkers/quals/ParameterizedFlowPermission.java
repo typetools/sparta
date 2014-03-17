@@ -1,29 +1,34 @@
 package sparta.checkers.quals;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class ParameterizedFlowPermission implements Comparable<ParameterizedFlowPermission> {
     private FlowPermission permission;
-    private Set<String> parameters; 
+    private List<String> parameters; 
     
     public ParameterizedFlowPermission(FlowPermission permission) {
-        this.permission = permission;
-        this.parameters = new TreeSet<String>();
+        this( permission, new ArrayList<String>());     
     }
+
     
-    public ParameterizedFlowPermission(FlowPermission permission, Set<String> parameters) {
+    public ParameterizedFlowPermission(FlowPermission permission, List<String> parameters) {
         this.permission = permission;
         this.parameters = parameters; 
+        if(parameters.isEmpty()) {
+            parameters.add("*");
+        }
     }
     
     public FlowPermission getPermission() {
         return this.permission;
     }
     
-    public Set<String> getParameters() {
-        return Collections.unmodifiableSet(parameters);
+    public List<String> getParameters() {
+        return Collections.unmodifiableList(parameters);
     }
     
     
@@ -35,10 +40,10 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
         }
         String parameterizedToString = getPermission().toString() + "(";
         for (String param : getParameters()) {
-            parameterizedToString += param; 
+            parameterizedToString += param + ","; 
         }
-        // Return the built string, removing the final comma, and closing it with the parnethesis
-        return parameterizedToString.substring(0, parameterizedToString.length() - 2) + ")";
+        // Return the built string, removing the final comma, and closing it with the parenthesis
+        return parameterizedToString.substring(0, parameterizedToString.length() - 1) + ")";
     }
 
     @Override

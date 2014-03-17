@@ -27,4 +27,5 @@ public @interface Sink {
      * default ensures that the annotation has no effect.
      */
     FlowPermission[] value() default {};
+    FineSink[] finesinks() default{};
 }

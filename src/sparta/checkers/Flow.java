@@ -11,6 +11,8 @@ import java.util.TreeSet;
 
 import javax.lang.model.element.AnnotationMirror;
 
+import sparta.checkers.quals.FineSink;
+import sparta.checkers.quals.FineSource;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.Sink;
@@ -133,7 +135,7 @@ public class Flow {
     public static Set<ParameterizedFlowPermission> getSinks(final AnnotatedTypeMirror type) {
         for(AnnotationMirror anno : type.getEffectiveAnnotations()){
             if(AnnotationUtils.areSameByClass(anno, Sink.class)){
-               return getSinks(anno);
+                return getSinks(anno);
             }
         }
         return new TreeSet<ParameterizedFlowPermission>();
@@ -142,7 +144,7 @@ public class Flow {
     public static Set<ParameterizedFlowPermission> getSources(final AnnotatedTypeMirror type) {
         for(AnnotationMirror anno : type.getEffectiveAnnotations()){
             if(AnnotationUtils.areSameByClass(anno, Source.class)){
-               return getSources( anno);
+                return getSources(anno);
             }
         }
         return new TreeSet<ParameterizedFlowPermission>();
@@ -156,8 +158,22 @@ public class Flow {
         Set<ParameterizedFlowPermission> sinkFlowPermissions = new TreeSet<ParameterizedFlowPermission>();
         List<FlowPermission> sinks = AnnotationUtils.getElementValueEnumArray(am, "value",
                 FlowPermission.class, true);
-        for (FlowPermission coarsePermission : sinks)
+        for (FlowPermission coarsePermission : sinks) {
             sinkFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission));
+        }
+        
+        List<AnnotationMirror> finesinks = AnnotationUtils.getElementValueArray(am, "finesinks",
+                AnnotationMirror.class, true);
+        
+        for (AnnotationMirror sinkAM : finesinks) {
+            List<FlowPermission> fineSinksPermissions = AnnotationUtils.getElementValueEnumArray(sinkAM, "value",
+                    FlowPermission.class, true);
+            List<String> params = AnnotationUtils.getElementValueArray(sinkAM, "params", String.class, true);
+            for (FlowPermission coarsePermission : fineSinksPermissions) {
+                sinkFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission, params));
+            }            
+        }
+
         Set<ParameterizedFlowPermission> retSet = convertToAnySink(sinkFlowPermissions, false);
         return retSet;
     }
@@ -172,10 +188,23 @@ public class Flow {
                 FlowPermission.class, true);
         for (FlowPermission coarsePermission : sinks)
             sourceFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission));
+        
+        List<AnnotationMirror> finesources = AnnotationUtils.getElementValueArray(am, "finesources",
+                AnnotationMirror.class, true);
+
+        for (AnnotationMirror sinkAM : finesources) {
+            List<FlowPermission> fineSourcesPermissions = AnnotationUtils.getElementValueEnumArray(sinkAM, "value",
+                    FlowPermission.class, true);
+            List<String> params = AnnotationUtils.getElementValueArray(sinkAM, "params", String.class, true);
+            for (FlowPermission coarsePermission : fineSourcesPermissions) {
+                sourceFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission, params));
+            }            
+        }
+        
         Set<ParameterizedFlowPermission> retSet = convertToAnySource(sourceFlowPermissions, false);
         return retSet;
     }
-
+    
     /**
      * Replace ANY with the list of all possible sinks
      * @param sinks
