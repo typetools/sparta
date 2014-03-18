@@ -1,3 +1,10 @@
+Version 0.9.7 19 April 2014
+
+Checker Framework package renaming
+1.  The environment variable CHECKERS should not be used. Instead use CHECKERFRAMEWORK and set it to checker-framework/
+
+2. The lines to copy to an app's build file have changed.  The are listed in the manual.  Note that this means you'll have to change the build files for apps that previously used our tools.
+
 ----------------------------------------------------------------------
 Version 0.9.4 19 November 2013
 Sample Apps
