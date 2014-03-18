@@ -6,7 +6,7 @@
     </condition>
 
     <presetdef name="jsr308.javac">
-    <javac fork="yes" executable="${checkers_dir}/${checkers_base}/bin/javac">
+    <javac fork="yes" executable="${checker-framework_dir}/checker/bin/javac">
       <!-- JSR308 related compiler arguments -->
       <compilerarg value="-version"/>
       <!-- optional, so .class files work with older JVMs: <compilerarg line="-target 5"/> -->
@@ -14,10 +14,10 @@
       <!-- optional, to issue warnings instead of errors: <compilerarg line="-Awarns -Xmaxwarns 10000"/> -->
 	<compilerarg line="-Awarns -Xmaxwarns 10000"/>
 <!-- Used to connect with the eclipse debugger	<compilerarg line="-J-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"/> -->
-        <!--<compilerarg value="-J-Xbootclasspath/p:${checkers}/bin/jsr308-all.jar"/>
+        <!--<compilerarg value="-J-Xbootclasspath/p:${checker-framework_dir}/checker/bin/jsr308-all.jar"/>
 
       <classpath>
-        <pathelement location="${checkers}/dist/checker.jar"/>
+        <pathelement location="${checker-framework_dir}/dist/checker.jar"/>
       </classpath>-->
     </javac>
     </presetdef>
@@ -72,7 +72,7 @@
                 <src path="${gen.absolute.dir}" />
                 <classpath>
                     <fileset dir="${extensible.libs.classpath}" includes="*.jar" />
-                    <pathelement location="${sparta-code_dir}/${sparta-code_base}/sparta.jar"/>
+                    <pathelement location="${sparta-code_dir}/sparta.jar"/>
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks} ${strictoptions}" />
                 <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} -AcomponentMap=@{componentMap} -Aignorenr=@{ignorenr} ${checkerFrameworkOpts}"/>
@@ -97,7 +97,7 @@
             </condition>
 
             <property name="classpath"
-                value="${checskers_dir}/${checkers_base}/dist/${jdkName}:${checkers_dir}/${checkers_base}/javac.jar:${checkers_dir}/${checkers_base}/dist/checker.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
+                value="${checker-framework_dir}/checker/dist/${jdkName}:${checker-framework_dir}/checker/dist/javac.jar:${checker-framework_dir}/checker/dist/checker.jar:${sparta-code_dir}/bin/:${sparta-code_dir}/build/:${sparta-code_dir}/sparta.jar:"/>
 
             <fileset dir="${source.absolute.dir}" id="mySourceJava">
                 <include name="**/*.java" />
@@ -146,13 +146,13 @@
     <target name="check-value"
                 depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="run the Value Checker">
-        <process-proj processor="checkers.value.ValueChecker"/>
+        <process-proj processor="org.checkerframework.common.value.ValueChecker"/>
     </target>
     
     <target name="filter-flows">
         <property name="filter.flow_file" value="./forbiddenFlowLocations.txt" />
         <property name="filter" value="" />
-        <exec executable="${sparta-code_dir}/${sparta-code_base}/filter-flows.pl">
+        <exec executable="${sparta-code_dir}/filter-flows.pl">
                     <arg line="--flow-file ${filter.flow_file}" />
                     <arg line="--filter '${filter}'" />
         </exec><echo/>
@@ -164,7 +164,7 @@
                 <property name="capture.dirs" value="src AndroidManifest.xml" />
                 <property name="capture.outfile" value="sparta_strings.txt" />
                 <echo>Capture string literals from source</echo><echo/>
-                <exec executable="${sparta-code_dir}/${sparta-code_base}/capture-strings.pl">
+                <exec executable="${sparta-code_dir}/capture-strings.pl">
                     <arg line="--dirs '${capture.dirs}'" />
                     <arg line="--outfile ${capture.outfile}" />
                 </exec><echo/>
@@ -176,7 +176,7 @@
                 <property name="compare.source_strings" value="sparta_strings.txt" />
                 <property name="compare.search_file" value="sparta_strings.txt" />
                 <echo>Compare string literals from other packages</echo><echo/>
-                <exec executable="${sparta-code_dir}/${sparta-code_base}/compare-strings.pl">
+                <exec executable="${sparta-code_dir}/compare-strings.pl">
                     <arg line="--source-strings ${compare.source_strings}"/>
                     <arg line="--search_file ${compare.search_file}"/>
                     <arg line="--root-dir ${compare.root}"/>
@@ -227,18 +227,18 @@
 
 
 
-    <target name="flowshow"
-                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="show the flow annotations in the code.">
-        <process-proj processor="sparta.checkers.FlowShow"/>
-    </target>
+<!--     <target name="flowshow" -->
+<!--                 depends="-build-setup,-set-release-mode,-code-gen, -post-package"  -->
+<!--                 description="show the flow annotations in the code."> -->
+<!--         <process-proj processor="sparta.checkers.FlowShow"/> -->
+<!--     </target> -->
 
-    <target name="flowshow-json"
-                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="show the flow annotations in the code with JSON.">
-        <javamain-proj classname="sparta.checkers.JsonJavac$FlowShowJson"
-            output="flowshow.json"/>
-    </target>
+<!--     <target name="flowshow-json" -->
+<!--                 depends="-build-setup,-set-release-mode,-code-gen, -post-package"  -->
+<!--                 description="show the flow annotations in the code with JSON."> -->
+<!--         <javamain-proj classname="sparta.checkers.JsonJavac$FlowShowJson" -->
+<!--             output="flowshow.json"/> -->
+<!--     </target> -->
 
     <target name="-setup-reportsuspicious">
         <property name="build.target" value="reportsuspicious" />
@@ -249,7 +249,7 @@
                 description="report suspicoius API usage.">
         	<!-- Run script to search for suspicious regexp pattern -->
         		<echo>Search for suspicious regexp pattern</echo><echo/>        		
-                <exec executable="${sparta-code_dir}/${sparta-code_base}/suspicious.pl">
+                <exec executable="${sparta-code_dir}/suspicious.pl">
                       <arg value="."/>
                 </exec><echo/>
             <!-- Run report checker -->
@@ -266,13 +266,13 @@
        <target name="count-locations"
                 depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="Counts the number of places that could be annotated.">
-        <process-proj processor="org.checkerframework.framework.util.count.Locations" stub=""/>
+        <process-proj processor="org.checkerframework.common.util.count.Locations" stub=""/>
        </target>
           
                <target name="count-annotations"
                 depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="Counts the number of annotations in the app.">
-        <process-proj processor="org.checkerframework.framework.util.count.AnnotationsCounter" stub=""/>
+        <process-proj processor="org.checkerframework.common.util.count.AnnotationsCounter" stub=""/>
     </target>
 
 <!-- no longer in use
@@ -291,11 +291,11 @@
     </target>
 -->
 
-    <target name="reportbinaryonly"
-                depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="report binary-only method calls and field accesses.">
-        <process-proj processor="sparta.checkers.ReportBinaryChecker"/>
-    </target>
+<!--     <target name="reportbinaryonly" -->
+<!--                 depends="-build-setup,-set-release-mode,-code-gen, -post-package"  -->
+<!--                 description="report binary-only method calls and field accesses."> -->
+<!--         <process-proj processor="sparta.checkers.ReportBinaryChecker"/> -->
+<!--     </target> -->
     
 
 </project>
