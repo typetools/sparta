@@ -3,14 +3,15 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/jsr308-langtools"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/checkers"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="/checkers/tests/junit.jar"/>
 	<classpathentry kind="lib" path="tests/stubfile/stub.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/dataflow"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/javacutils"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/javaparser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/checker"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/framework"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/javacutil"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/stubparser"/>
+	<classpathentry kind="lib" path="/framework/tests/junit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
