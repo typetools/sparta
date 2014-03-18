@@ -6,7 +6,7 @@
 -include Makefile.user
 
 PLUME_LIB ?= ../../plume-lib
-CHECKERFRAMEWORK ?= ../../checker-framework/checkers
+CHECKERFRAMEWORK ?= ../../checker-framework/checker
 
 # To regenerate this list, run:   latex-process-inputs -makefilelist manual.tex
 TEX_FILES = \

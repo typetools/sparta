@@ -90,7 +90,7 @@ ant
 
  \paragraph{Checker Framework}
 \begin{alltt}
-cd $JSR308/checker-framework/checkers
+cd $JSR308/checker-framework/
 ant clean
 ant 
 \end{alltt}
@@ -171,9 +171,9 @@ SPARTA tools using Eclipse.
 \item Follow Section 25.3 from the Checker Framework manual 
 (Building from source.)
 \item As described in the installation instructions, set the \<CHECKERFRAMEWORK>
-environment variable to \<.../checker-framework/checkers/>
+environment variable to \<.../checker-framework/>
 \item Import the following projects: \<jsr308-langtools,
-sparta-code, checkers, javaparser>. The last 2 are both on the
+sparta-code, checkers, dataflow, framework, javacutil, stubparser>. The last 5 are  on the
 \<checker-framework> folder.
 \item The \<checkers> project should import \<javaparser> and \<jsr308-langtools>. 
 The \<sparta-code> project should import \<checkers> and \<jsr308-langtools>.  
