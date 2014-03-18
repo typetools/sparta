@@ -1,4 +1,3 @@
-import checkers.quals.PolyAll;
 
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;

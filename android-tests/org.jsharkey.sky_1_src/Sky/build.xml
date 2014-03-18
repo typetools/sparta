@@ -81,8 +81,8 @@
     <import file="${sdk.dir}/tools/ant/build.xml" />
     <property environment="env"/>
 
-    <dirname property="checkers_dir" file="${env.CHECKERS}" />
-    <basename property="checkers_base" file="${env.CHECKERS}" />
+    <dirname property="checkers_dir" file="${env.CHECKERFRAMEWORK}" />
+    <basename property="checkers_base" file="${env.CHECKERFRAMEWORK}" />
     <dirname property="sparta-code_dir" file="${env.SPARTA_CODE}" />
     <basename property="sparta-code_base" file="${env.SPARTA_CODE}" />
     <import file="${sparta-code_dir}/${sparta-code_base}/build.include.xml" />

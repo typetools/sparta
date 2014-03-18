@@ -9,7 +9,7 @@ SPARTA tools. (Section~\ref{sec:antsetup}).
 \item If you are using the released version of SPARTA, follow the installation instructions in the manual: 
 \url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#installation}
 \item If you are using the development version of SPARTA,  follow Section 25.3 from the Checker Framework manual (Building from source.)
-\item  For both versions, as described in the installation instructions, set the \<CHECKERS>
+\item  For both versions, as described in the installation instructions, set the \<CHECKERFRAMEWORK>
   environment variable to \<.../checker-framework/checkers/>
 \end{itemize}
 
@@ -102,7 +102,7 @@ Ensure the following environment variables are set.
 
 \begin{itemize}
 \item
-\<CHECKERS> is the
+\<CHECKERFRAMEWORK> is the
 \<.../checker-framework/checkers> directory
 
 \item
@@ -149,7 +149,7 @@ Add the SPARTA build targets to the end of the \<build.xml>
 
 
 \begin{Verbatim}
-    <property name="checkers" value="${env.CHECKERS}"/>
+    <property name="checkers" value="${env.CHECKERFRAMEWORK}"/>
     <property name="sparta-code" value="${env.SPARTA_CODE}"/>
 
     <dirname property="checkers_dir" file="${checkers}" />
@@ -185,7 +185,7 @@ Into Workspace>
     
     \item Right click on the build.xml file and select   \<Run as $\rightarrow$ 
     External Tools Configurations...>. In the \<Main> tab add \<check-flow> to the 
-    Arguments box.  In the \<Environment> tab, add the \<CHECKERS> and 
+    Arguments box.  In the \<Environment> tab, add the \<CHECKERFRAMEWORK> and 
     \<SPARTA\_CODE> variables.  
     
   \end{itemize}

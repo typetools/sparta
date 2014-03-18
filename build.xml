@@ -268,7 +268,7 @@ ${build.version} of the 'javac.jar' library."/>
             haltonfailure="${halt.on.test.failure}">
             <!-- Don't put everything on the bootclasspath, as that would
                  cause class loading issues. -->
-            <jvmarg line="-Xbootclasspath/p:${checkers}/binary/javac.jar:${checkers}/binary/${jdkName}"/>
+            <jvmarg line="-Xbootclasspath/p:${checkers}/checker/dist/javac.jar:${checkers}/checker/dist/${jdkName}"/>
             <jvmarg line="-ea"/>
 
             <classpath>

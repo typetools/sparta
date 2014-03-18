@@ -1,7 +1,7 @@
 package sparta.checkers.quals;
 
-import checkers.quals.PolymorphicQualifier;
-import checkers.quals.TypeQualifier;
+import org.checkerframework.framework.qual.PolymorphicQualifier;
+import org.checkerframework.framework.qual.TypeQualifier;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

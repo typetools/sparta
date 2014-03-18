@@ -1,22 +1,19 @@
 package sparta.checkers.intents;
 
-/*>>>
- import checkers.compilermsgs.quals.*;
- */
 
-import checkers.basetype.BaseTypeChecker;
-import checkers.source.Result;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
-import checkers.util.AnnotatedTypes;
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.framework.source.Result;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
+import org.checkerframework.framework.util.AnnotatedTypes;
 
-import javacutils.AnnotationUtils;
-import javacutils.ElementUtils;
-import javacutils.InternalUtils;
-import javacutils.TreeUtils;
-import javacutils.TypesUtils;
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.ElementUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.TreeUtils;
+import org.checkerframework.javacutil.TypesUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

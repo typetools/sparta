@@ -1,13 +1,13 @@
 package sparta.checkers.intents;
 
-import checkers.types.AnnotatedTypeFactory;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.util.AnnotatedTypes;
-import checkers.util.AnnotationBuilder;
+import org.checkerframework.framework.type.AnnotatedTypeFactory;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.util.AnnotatedTypes;
+import org.checkerframework.framework.util.AnnotationBuilder;
 
-import javacutils.AnnotationUtils;
-import javacutils.InternalUtils;
-import javacutils.TreeUtils;
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.TreeUtils;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;

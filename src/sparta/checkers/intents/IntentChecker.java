@@ -1,11 +1,11 @@
 package sparta.checkers.intents;
 
-import checkers.basetype.BaseTypeVisitor;
-import checkers.quals.PolyAll;
-import checkers.quals.StubFiles;
-import checkers.quals.TypeQualifiers;
-import checkers.source.Result;
-import checkers.source.SupportedLintOptions;
+import org.checkerframework.common.basetype.BaseTypeVisitor;
+import org.checkerframework.framework.qual.PolyAll;
+import org.checkerframework.framework.qual.StubFiles;
+import org.checkerframework.framework.qual.TypeQualifiers;
+import org.checkerframework.framework.source.Result;
+import org.checkerframework.framework.source.SupportedLintOptions;
 
 import java.util.List;
 

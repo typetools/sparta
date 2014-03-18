@@ -1,46 +1,46 @@
 package sparta.checkers;
 
-import static checkers.quals.DefaultLocation.LOCAL_VARIABLE;
-import static checkers.quals.DefaultLocation.OTHERWISE;
-import static checkers.quals.DefaultLocation.RECEIVERS;
-import static checkers.quals.DefaultLocation.RESOURCE_VARIABLE;
-import static checkers.quals.DefaultLocation.UPPER_BOUNDS;
+import static org.checkerframework.framework.qual.DefaultLocation.LOCAL_VARIABLE;
+import static org.checkerframework.framework.qual.DefaultLocation.OTHERWISE;
+import static org.checkerframework.framework.qual.DefaultLocation.RECEIVERS;
+import static org.checkerframework.framework.qual.DefaultLocation.RESOURCE_VARIABLE;
+import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
 
-import checkers.basetype.BaseAnnotatedTypeFactory;
-import checkers.basetype.BaseTypeChecker;
-import checkers.flow.CFAbstractAnalysis;
-import checkers.flow.CFStore;
-import checkers.flow.CFTransfer;
-import checkers.flow.CFValue;
-import checkers.quals.DefaultLocation;
-import checkers.quals.PolyAll;
-import checkers.reflection.ReflectionResolutionAnnotatedTypeFactory;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedIntersectionType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
-import checkers.types.AnnotatedTypeMirror.AnnotatedUnionType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
-import checkers.types.QualifierHierarchy;
-import checkers.types.TreeAnnotator;
-import checkers.types.TypeAnnotator;
-import checkers.util.AnnotationBuilder;
-import checkers.util.MultiGraphQualifierHierarchy;
-import checkers.util.QualifierDefaults;
-import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
-import checkers.util.QualifierDefaults.DefaultApplierElement;
-import checkers.util.QualifierPolymorphism;
+import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.framework.flow.CFAbstractAnalysis;
+import org.checkerframework.framework.flow.CFStore;
+import org.checkerframework.framework.flow.CFTransfer;
+import org.checkerframework.framework.flow.CFValue;
+import org.checkerframework.framework.qual.DefaultLocation;
+import org.checkerframework.framework.qual.PolyAll;
 
-import dataflow.analysis.TransferResult;
-import dataflow.cfg.node.Node;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedIntersectionType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiveType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedUnionType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
+import org.checkerframework.framework.type.QualifierHierarchy;
+import org.checkerframework.framework.type.TreeAnnotator;
+import org.checkerframework.framework.type.TypeAnnotator;
+import org.checkerframework.framework.util.AnnotationBuilder;
+import org.checkerframework.framework.util.MultiGraphQualifierHierarchy;
+import org.checkerframework.framework.util.QualifierDefaults;
+import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
+import org.checkerframework.framework.util.QualifierDefaults.DefaultApplierElement;
+import org.checkerframework.framework.util.QualifierPolymorphism;
 
-import javacutils.AnnotationUtils;
-import javacutils.ElementUtils;
-import javacutils.InternalUtils;
-import javacutils.TreeUtils;
+import org.checkerframework.dataflow.analysis.TransferResult;
+import org.checkerframework.dataflow.cfg.node.Node;
+
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.ElementUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.TreeUtils;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
@@ -194,8 +194,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     public CFTransfer createFlowTransferFunction(
             CFAbstractAnalysis<CFValue, CFStore, CFTransfer> analysis) {
   
-        CFTransfer ret = new CFTransfer(
-                (CFAbstractAnalysis<CFValue, CFStore, CFTransfer>) analysis){
+        CFTransfer ret = new CFTransfer(analysis){
             /**
              * This method overrides super so that variables are not
              * refined in conditionals see test case in flow/Conditions.java

@@ -1,17 +1,17 @@
 package sparta.checkers;
 
 /*>>>
-import checkers.compilermsgs.quals.CompilerMessageKey;
+import org.checkerframework.checker.compilermsgs.qual.CompilerMessageKey;
 */
 
 
-import checkers.basetype.BaseTypeChecker;
-import checkers.basetype.BaseTypeVisitor;
-import checkers.quals.PolyAll;
-import checkers.quals.StubFiles;
-import checkers.quals.TypeQualifiers;
-import checkers.source.SupportedLintOptions;
-import checkers.util.stub.StubGenerator;
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.common.basetype.BaseTypeVisitor;
+import org.checkerframework.framework.qual.PolyAll;
+import org.checkerframework.framework.qual.StubFiles;
+import org.checkerframework.framework.qual.TypeQualifiers;
+import org.checkerframework.framework.source.SupportedLintOptions;
+import org.checkerframework.framework.stub.StubGenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;

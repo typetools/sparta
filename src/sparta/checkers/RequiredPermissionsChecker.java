@@ -1,9 +1,10 @@
 package sparta.checkers;
 
-import checkers.basetype.BaseTypeChecker;
-import checkers.quals.StubFiles;
-import checkers.quals.TypeQualifiers;
-import checkers.quals.Unqualified;
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.framework.qual.StubFiles;
+import org.checkerframework.framework.qual.TypeQualifiers;
+import org.checkerframework.framework.qual.Unqualified;
+
 
 @TypeQualifiers(Unqualified.class)
 @StubFiles("permission.astub")

@@ -2,7 +2,7 @@ package sparta.checkers.quals;
 
 import java.lang.annotation.*;
 
-import checkers.quals.*;
+import org.checkerframework.framework.qual.*;
 
 /**
  * An dependent permissions unqualified type.  Such a type is incomparable to (that is, neither a

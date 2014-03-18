@@ -6,18 +6,18 @@
     </condition>
 
     <presetdef name="jsr308.javac">
-    <javac fork="yes" executable="${checkers_dir}/${checkers_base}/binary/javac">
+    <javac fork="yes" executable="${checkers_dir}/${checkers_base}/bin/javac">
       <!-- JSR308 related compiler arguments -->
       <compilerarg value="-version"/>
       <!-- optional, so .class files work with older JVMs: <compilerarg line="-target 5"/> -->
       <compilerarg value="-implicit:class"/>
       <!-- optional, to issue warnings instead of errors: <compilerarg line="-Awarns -Xmaxwarns 10000"/> -->
 	<compilerarg line="-Awarns -Xmaxwarns 10000"/>
-<!-- Used to connect with the eclipse debugger	<compilerarg line="-J-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000"/> -->
-        <!--<compilerarg value="-J-Xbootclasspath/p:${checkers}/binary/jsr308-all.jar"/>
+<!-- Used to connect with the eclipse debugger	<compilerarg line="-J-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"/> -->
+        <!--<compilerarg value="-J-Xbootclasspath/p:${checkers}/bin/jsr308-all.jar"/>
 
       <classpath>
-        <pathelement location="${checkers}/binary/checkers.jar"/>
+        <pathelement location="${checkers}/dist/checker.jar"/>
       </classpath>-->
     </javac>
     </presetdef>
@@ -97,7 +97,7 @@
             </condition>
 
             <property name="classpath"
-                value="${checskers_dir}/${checkers_base}/binary/${jdkName}:${checkers_dir}/${checkers_base}/javac.jar:${checkers_dir}/${checkers_base}/binary/checkers.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
+                value="${checskers_dir}/${checkers_base}/dist/${jdkName}:${checkers_dir}/${checkers_base}/javac.jar:${checkers_dir}/${checkers_base}/dist/checker.jar:${sparta-code_dir}/${sparta-code_base}/bin/::${sparta-code_dir}/${sparta-code_base}/build/:${sparta-code_dir}/${sparta-code_base}/sparta.jar:${sparta-code_dir}/${sparta-code_base}/lib/google-gson-2.2.2/gson-2.2.2.jar"/>
 
             <fileset dir="${source.absolute.dir}" id="mySourceJava">
                 <include name="**/*.java" />
@@ -134,7 +134,7 @@
     <target name="check-intent"
                 depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for check-intent.">
-        <process-proj ignorenr="on" processor="sparta.checkers.intents.IntentChecker"/>
+        <process-proj processor="sparta.checkers.intents.IntentChecker"/>
     </target>
 
     <target name="check-flow"
@@ -266,13 +266,13 @@
        <target name="count-locations"
                 depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="Counts the number of places that could be annotated.">
-        <process-proj processor="checkers.util.count.Locations" stub=""/>
+        <process-proj processor="org.checkerframework.framework.util.count.Locations" stub=""/>
        </target>
           
                <target name="count-annotations"
                 depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="Counts the number of annotations in the app.">
-        <process-proj processor="checkers.util.count.AnnotationsCounter" stub=""/>
+        <process-proj processor="org.checkerframework.framework.util.count.AnnotationsCounter" stub=""/>
     </target>
 
 <!-- no longer in use

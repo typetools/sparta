@@ -2,7 +2,7 @@ package sparta.checkers.quals;
 
 import java.lang.annotation.*;
 
-import checkers.quals.*;
+import org.checkerframework.framework.qual.*;
 
 /**
  * The top of the fake enumeration type hierarchy for dependent permissions.

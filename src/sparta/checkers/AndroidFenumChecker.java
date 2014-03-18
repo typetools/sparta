@@ -1,7 +1,7 @@
 package sparta.checkers;
 
-import checkers.fenum.FenumChecker;
-import checkers.quals.TypeQualifiers;
+import org.checkerframework.checker.fenum.FenumChecker;
+import org.checkerframework.framework.qual.TypeQualifiers;
 
 import javax.annotation.processing.SupportedOptions;
 

@@ -15,9 +15,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/*>>>
- import checkers.nullness.quals.Nullable;
- */
 
 public class ComponentMap {
 

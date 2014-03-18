@@ -6,7 +6,7 @@
 -include Makefile.user
 
 PLUME_LIB ?= ../../plume-lib
-CHECKERS ?= ../../checker-framework/checkers
+CHECKERFRAMEWORK ?= ../../checker-framework/checkers
 
 # To regenerate this list, run:   latex-process-inputs -makefilelist manual.tex
 TEX_FILES = \
@@ -73,9 +73,9 @@ endif
 # self-contained and able to be built without first installing (which
 # requires one to read the manual...)
 copies-up-to-date:
-ifeq "$(wildcard ${CHECKERS}/manual/manual-style.tex)" "${CHECKERS}/manual/manual-style.tex"
+ifeq "$(wildcard ${CHECKERFRAMEWORK}/manual/manual-style.tex)" "${CHECKERFRAMEWORK}/manual/manual-style.tex"
 # file exists
-	cp -pf ${CHECKERS}/manual/manual-style.tex .
+	cp -pf ${CHECKERFRAMEWORK}/manual/manual-style.tex .
 endif
 ifeq "$(wildcard ${PLUME_LIB}/bin/hevea-retarget-crossrefs)" "${PLUME_LIB}/bin/hevea-retarget-crossrefs"
 # file exists

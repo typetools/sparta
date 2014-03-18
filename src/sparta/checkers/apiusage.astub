@@ -1,4 +1,4 @@
-import checkers.util.report.quals.*;
+import org.checkerframework.common.util.report.qual.*;
 
 @ReportUse
 package com.android;

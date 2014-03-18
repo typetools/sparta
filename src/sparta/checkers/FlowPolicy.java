@@ -2,10 +2,11 @@ package sparta.checkers;
 
 import static sparta.checkers.quals.FlowPermission.NOT_REVIEWED;
 
-import checkers.quals.PolyAll;
-import checkers.types.AnnotatedTypeMirror;
+import org.checkerframework.framework.qual.PolyAll;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
 
-import javacutils.Pair;
+import org.checkerframework.javacutil.Pair;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,7 +34,7 @@ import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 
 /*>>>
- import checkers.nullness.quals.Nullable;
+ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 
 /**

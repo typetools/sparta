@@ -1,4 +1,5 @@
-import checkers.quals.FromByteCode;
+import org.checkerframework.framework.qual.FromByteCode;
+
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.Sink;
 

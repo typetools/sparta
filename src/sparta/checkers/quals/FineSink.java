@@ -1,7 +1,7 @@
 package sparta.checkers.quals;
 
-import checkers.quals.SubtypeOf;
-import checkers.quals.TypeQualifier;
+import org.checkerframework.framework.qual.SubtypeOf;
+import org.checkerframework.framework.qual.TypeQualifier;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 /**
  * An optional parameter to a flow permission represents a subset of its possible locations. 
- * For example, INTERNET("maps.google.com") represents just the portion of the Internet that lies within the “maps.google.com” domain.  
+ * For example, INTERNET("maps.google.com") represents just the portion of the Internet that lies within the maps.google.com domain.  
  * Only flow permissions that represent a class of locations will be parameterized.  
  * To begin with, only FILESYSTEM and INTERNET will be parameterized so that annotations will 
  * specify domains or file paths where information may flow. 

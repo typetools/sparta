@@ -1,4 +1,4 @@
-import checkers.util.report.quals.*;
+import org.checkerframework.framework.common.util.report.qual.*;
 
 package android.app;
 

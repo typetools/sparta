@@ -1,34 +1,34 @@
 package sparta.checkers.intents;
 
-import static checkers.quals.DefaultLocation.LOCAL_VARIABLE;
-import static checkers.quals.DefaultLocation.OTHERWISE;
-import static checkers.quals.DefaultLocation.RECEIVERS;
-import static checkers.quals.DefaultLocation.RESOURCE_VARIABLE;
-import static checkers.quals.DefaultLocation.UPPER_BOUNDS;
+import static org.checkerframework.framework.qual.DefaultLocation.LOCAL_VARIABLE;
+import static org.checkerframework.framework.qual.DefaultLocation.OTHERWISE;
+import static org.checkerframework.framework.qual.DefaultLocation.RECEIVERS;
+import static org.checkerframework.framework.qual.DefaultLocation.RESOURCE_VARIABLE;
+import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
 
-import checkers.basetype.BaseTypeChecker;
-import checkers.quals.DefaultLocation;
-import checkers.source.Result;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
-import checkers.types.visitors.AnnotatedTypeMerger;
-import checkers.types.AnnotatedTypeFactory;
-import checkers.types.QualifierHierarchy;
-import checkers.types.TreeAnnotator;
-import checkers.util.AnnotatedTypes;
-import checkers.util.AnnotationBuilder;
-import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
-import checkers.util.QualifierDefaults.DefaultApplierElement;
-import checkers.util.QualifierDefaults;
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.common.value.qual.StringVal;
+import org.checkerframework.framework.qual.DefaultLocation;
+import org.checkerframework.framework.source.Result;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
+import org.checkerframework.framework.type.AnnotatedTypeFactory;
+import org.checkerframework.framework.type.QualifierHierarchy;
+import org.checkerframework.framework.type.TreeAnnotator;
+import org.checkerframework.framework.util.AnnotatedTypes;
+import org.checkerframework.framework.util.AnnotationBuilder;
+import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
+import org.checkerframework.framework.util.QualifierDefaults.DefaultApplierElement;
+import org.checkerframework.framework.util.QualifierDefaults;
 
-import javacutils.AnnotationUtils;
-import javacutils.ElementUtils;
-import javacutils.InternalUtils;
-import javacutils.Pair;
-import javacutils.TreeUtils;
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.ElementUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.Pair;
+import org.checkerframework.javacutil.TreeUtils;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
@@ -523,7 +523,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         List<String> keys = new ArrayList<>();
         //If consant prop. is turned on, get the stringval anno
         AnnotationMirror stringValAnno = getAnnotationMirror(tree
-                .getArguments().get(0), checkers.value.quals.StringVal.class);
+                .getArguments().get(0), StringVal.class);
         if (stringValAnno != null) {
             keys = AnnotationUtils.getElementValueArray(stringValAnno, "value",
                     String.class, true);

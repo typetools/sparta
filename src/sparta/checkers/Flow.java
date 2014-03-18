@@ -1,8 +1,8 @@
 package sparta.checkers;
 
-import checkers.types.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
 
-import javacutils.AnnotationUtils;
+import org.checkerframework.javacutil.AnnotationUtils;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,6 +1,6 @@
 package sparta.checkers;
 
-import javacutils.Pair;
+import org.checkerframework.javacutil.Pair;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

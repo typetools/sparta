@@ -12,7 +12,7 @@ package sparta.checkers.quals;
  * sink. Some permissions are both. Tip: you can statically import the enum
  * constants so that you don't have to write FlowPermission in the annotations.
  * (@Sink(EMAIL) rather than @Sink(FlowPermission.EMAIL)) import static
- * sparta.checkers.quals.FlowPermission.*;
+ * sparta.org.checkerframework.framework.qual.FlowPermission.*;
  *
  */
 public enum FlowPermission {

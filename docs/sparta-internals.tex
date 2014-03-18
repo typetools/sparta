@@ -170,7 +170,7 @@ SPARTA tools using Eclipse.
 \begin{itemize}
 \item Follow Section 25.3 from the Checker Framework manual 
 (Building from source.)
-\item As described in the installation instructions, set the \<CHECKERS>
+\item As described in the installation instructions, set the \<CHECKERFRAMEWORK>
 environment variable to \<.../checker-framework/checkers/>
 \item Import the following projects: \<jsr308-langtools,
 sparta-code, checkers, javaparser>. The last 2 are both on the
@@ -178,8 +178,8 @@ sparta-code, checkers, javaparser>. The last 2 are both on the
 \item The \<checkers> project should import \<javaparser> and \<jsr308-langtools>. 
 The \<sparta-code> project should import \<checkers> and \<jsr308-langtools>.  
 \item Select  \<Window $\rightarrow$ Preferences $\rightarrow$ Java 
-$\rightarrow$ Installed JREs> and add the binaries \<.../checkers/binary/javac.jar> 
-and \<.../checkers/binary/jdk7.jar> to the default JRE you are using.
+$\rightarrow$ Installed JREs> and add the binaries \<.../checker/dist/javac.jar> 
+and \<.../checker/dist/jdk7.jar> to the default JRE you are using.
 \item Clean the projects on Eclipse. There should be no errors. 
 \end{itemize}
 

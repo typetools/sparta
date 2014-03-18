@@ -1,18 +1,18 @@
 package sparta.checkers;
 
-import checkers.basetype.BaseAnnotatedTypeFactory;
-import checkers.basetype.BaseTypeChecker;
-import checkers.quals.Bottom;
-import checkers.quals.DefaultLocation;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.QualifierHierarchy;
-import checkers.types.TreeAnnotator;
-import checkers.util.AnnotationBuilder;
-import checkers.util.GraphQualifierHierarchy;
-import checkers.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
+import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.framework.qual.Bottom;
+import org.checkerframework.framework.qual.DefaultLocation;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.QualifierHierarchy;
+import org.checkerframework.framework.type.TreeAnnotator;
+import org.checkerframework.framework.util.AnnotationBuilder;
+import org.checkerframework.framework.util.GraphQualifierHierarchy;
+import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 
-import javacutils.AnnotationUtils;
-import javacutils.Pair;
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.Pair;
 
 import java.util.HashMap;
 import java.util.LinkedList;

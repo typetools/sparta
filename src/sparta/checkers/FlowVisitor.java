@@ -1,29 +1,29 @@
 package sparta.checkers;
 
 /*>>>
-import checkers.compilermsgs.quals.*;
+import org.checkerframework.checker.compilermsgs.qual.*;
 */
 
 import android.text.Annotation;
 
-import checkers.basetype.BaseTypeChecker;
-import checkers.basetype.BaseTypeValidator;
-import checkers.basetype.BaseTypeVisitor;
-import checkers.source.Result;
-import checkers.types.AnnotatedTypeFactory;
-import checkers.types.AnnotatedTypeMirror;
-import checkers.types.AnnotatedTypeMirror.AnnotatedArrayType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedExecutableType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedNoType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedPrimitiveType;
-import checkers.types.AnnotatedTypeMirror.AnnotatedTypeVariable;
-import checkers.types.AnnotatedTypeMirror.AnnotatedWildcardType;
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.common.basetype.BaseTypeValidator;
+import org.checkerframework.common.basetype.BaseTypeVisitor;
+import org.checkerframework.framework.source.Result;
+import org.checkerframework.framework.type.AnnotatedTypeFactory;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedNoType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiveType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
 
-import javacutils.AnnotationUtils;
-import javacutils.InternalUtils;
-import javacutils.Pair;
-import javacutils.TreeUtils;
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.Pair;
+import org.checkerframework.javacutil.TreeUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -89,7 +89,7 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
 }
     @Override
     public boolean isValidUse(AnnotatedDeclaredType declarationType,
-            AnnotatedDeclaredType useType, Tree tree) {
+            AnnotatedTypeMirror.AnnotatedDeclaredType useType, Tree tree) {
 
         return areFlowsValid(declarationType, tree) && areFlowsValid(useType, tree);
        
@@ -190,7 +190,7 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
      * the method was annotated in a stub file. (Parameters are checked during
      * the pseudo assignment of the arguments to the parameters.) TODO: It would
      * be better to to check this in
-     * checkers.types.AnnotatedTypeFactory.methodFromUse(MethodInvocationTree)
+     * org.checkerframework.framework.type.AnnotatedTypeFactory.methodFromUse(MethodInvocationTree)
      */
     @Override
     protected void checkMethodInvocability(AnnotatedExecutableType method, MethodInvocationTree node) {

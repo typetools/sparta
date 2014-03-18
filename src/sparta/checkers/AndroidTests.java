@@ -1,12 +1,13 @@
 package sparta.checkers;
 
-import checkers.util.test.ParameterizedCheckerTest;
+
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.checkerframework.framework.test.ParameterizedCheckerTest;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized.Parameters;

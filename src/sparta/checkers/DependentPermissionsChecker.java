@@ -1,10 +1,10 @@
 package sparta.checkers;
 
-import checkers.basetype.BaseTypeChecker;
-import checkers.quals.Bottom;
-import checkers.quals.StubFiles;
-import checkers.quals.TypeQualifiers;
-import checkers.source.Result;
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.framework.qual.Bottom;
+import org.checkerframework.framework.qual.StubFiles;
+import org.checkerframework.framework.qual.TypeQualifiers;
+import org.checkerframework.framework.source.Result;
 
 import sparta.checkers.quals.DependentPermissions;
 import sparta.checkers.quals.DependentPermissionsTop;
@@ -34,7 +34,7 @@ public class DependentPermissionsChecker extends BaseTypeChecker {
     /*
      * Used to overwrite the warning messages through by the source checker
      *
-     * @see checkers.source.SourceChecker#report(checkers.source.Result,
+     * @see org.checkerframework.framework.source.SourceChecker#report(checkers.source.Result,
      * java.lang.Object)
      */
     @Override
