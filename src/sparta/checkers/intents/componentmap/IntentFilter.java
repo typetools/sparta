@@ -18,7 +18,11 @@ public class IntentFilter {
     public void setAction(List<String> action) {
         this.action = action;
     }
-
+    
+    public boolean hasAction(String action) {
+        return this.action.contains(action);
+    }
+    
     public void addAction(String action) {
         this.action.add(action);
     }
