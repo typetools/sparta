@@ -166,12 +166,10 @@ public class Flow {
                 AnnotationMirror.class, true);
         
         for (AnnotationMirror sinkAM : finesinks) {
-            List<FlowPermission> fineSinksPermissions = AnnotationUtils.getElementValueEnumArray(sinkAM, "value",
+            FlowPermission coarsePermission = AnnotationUtils.getElementValueEnum(sinkAM, "value",
                     FlowPermission.class, true);
             List<String> params = AnnotationUtils.getElementValueArray(sinkAM, "params", String.class, true);
-            for (FlowPermission coarsePermission : fineSinksPermissions) {
-                sinkFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission, params));
-            }            
+            sinkFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission, params));
         }
 
         Set<ParameterizedFlowPermission> retSet = convertToAnySink(sinkFlowPermissions, false);
@@ -184,21 +182,19 @@ public class Flow {
         }
 
         Set<ParameterizedFlowPermission> sourceFlowPermissions = new TreeSet<ParameterizedFlowPermission>();
-        List<FlowPermission> sinks = AnnotationUtils.getElementValueEnumArray(am, "value",
+        List<FlowPermission> sources = AnnotationUtils.getElementValueEnumArray(am, "value",
                 FlowPermission.class, true);
-        for (FlowPermission coarsePermission : sinks)
+        for (FlowPermission coarsePermission : sources)
             sourceFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission));
         
         List<AnnotationMirror> finesources = AnnotationUtils.getElementValueArray(am, "finesources",
                 AnnotationMirror.class, true);
 
         for (AnnotationMirror sinkAM : finesources) {
-            List<FlowPermission> fineSourcesPermissions = AnnotationUtils.getElementValueEnumArray(sinkAM, "value",
+            FlowPermission coarsePermission = AnnotationUtils.getElementValueEnum(sinkAM, "value",
                     FlowPermission.class, true);
             List<String> params = AnnotationUtils.getElementValueArray(sinkAM, "params", String.class, true);
-            for (FlowPermission coarsePermission : fineSourcesPermissions) {
-                sourceFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission, params));
-            }            
+            sourceFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission, params));         
         }
         
         Set<ParameterizedFlowPermission> retSet = convertToAnySource(sourceFlowPermissions, false);

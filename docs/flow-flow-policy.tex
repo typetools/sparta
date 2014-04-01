@@ -67,6 +67,36 @@ to justify its purpose or convince the app store that the flow is not used.
 %\secref{sec:future}, would reduce the impact of implied flows.
 \todo{Explain/show warning}
 
+\myparagraph{Parameters and the flow policy file}
+\label{sec:flow-policy-parameterized}
+The flow policy file will allow for parameterized sources and sinks. Users
+will be allowed to add parameters to sources and sinks, but they will be optional.
+Sources and sinks without parameters will default to a parameter of ("*") , a 
+wildcard subsuming all permissions of the given type.\newline
+
+\noindent
+Here are examples of a parameterized sources.
+The flow policy contains:
+\begin{alltt}
+  FILESYSTEM("/home/user") -> INTERNET
+  INTERNET("mydomain.org") -> INTERNET
+\end{alltt}
+
+\noindent
+Here are examples of a parameterized sinks.
+The flow policy contains:
+\begin{alltt}
+  ACCOUNTS      -> EXTERNAL_STORAGE("/tmp/*"), FILESYSTEM("/usr/bin/output")
+  ACCELEROMETER -> EXTERNAL_STORAGE("/tmp/*"), FILESYSTEM("/usr/bin/output"), INTERNET("mydomain.org")
+\end{alltt}
+
+\noindent
+Here are examples of both sources and sinks parameterized.
+The flow policy contains:
+\begin{alltt}
+  FILESYSTEM("/home/user") -> INTERNET("mydomain.org")
+  INTERNET("mydomain.org") -> INTERNET("mydomain.org")
+\end{alltt}
 
 \subsection{Syntax of a Flow Policy File}
 
@@ -79,8 +109,7 @@ The source or sink must be a member of the enum
 ANY is allowed just as it is in @Source and @Sink, but empty, \ttcbs, is not allowed.
 
 Multiple sinks can appear on the same line if they are separated by commas. 
-For example,
-this policy file:
+For example, this policy file:
 \begin{alltt}
    MICROPHONE -> INTERNET, LOG, DISPLAY
 \end{alltt}
@@ -92,8 +121,25 @@ is equivalent to this policy file:
 \end{alltt}
 
 The policy file may contain blank lines and comments that begin with 
-a number sign (\<\#>) character.
+a number sign (\<\#>) character. \newline
 
+\noindent
+Both sources and sinks will have optional parameters. These parameters must appear
+right after the permission that is being parameterized, grouped in parentheses. 
+Each parameter string will be wrapped in string quotations, and multiple parameter
+strings for a single permission will be separated by a comma.\newline
+
+\noindent
+For example, this policy file:
+\begin{alltt}
+   MICROPHONE -> INTERNET("mydomain.org", "goodguys.com", "*.google.com")
+\end{alltt}
+is equivalent to this policy file:
+\begin{alltt}
+   MICROPHONE -> INTERNET("mydomain.org")
+   MICROPHONE -> INTERNET("goodguys.com")
+   MICROPHONE -> INTERNET("*.google.com")
+\end{alltt}
 
 
 \subsection{Using a flow-policy file}

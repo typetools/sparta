@@ -1,6 +1,6 @@
-EPSFILES = flowsources.eps flowsinks.eps
-PDFFILES = flowsources.pdf flowsinks.pdf
-PNGFILES = flowsources.png flowsinks.png
+EPSFILES = flowsources.eps flowsinks.eps flowsources_parameterized.eps flowsinks_parameterized.eps
+PDFFILES = flowsources.pdf flowsinks.pdf flowsources_parameterized.pdf flowsinks_parameterized.pdf
+PNGFILES = flowsources.png flowsinks.png flowsources_parameterized.png flowsinks_parameterized.png
 
 all: ${EPSFILES} ${PDFFILES} ${PNGFILES}
 
