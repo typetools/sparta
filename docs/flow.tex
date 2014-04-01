@@ -84,6 +84,21 @@ sinks.
 %and others are new ``permissions'' that provide finer-grained control over
 %the behavior of an application.
 
+\subsection{FineSource and FineSink Annotations\label{sec:fine-source-and-sink}}
+\<@FineSource> and \<@FineSink> annotations will follow the same conventions as 
+regular \<@Source> and \<@Sink> annotations. However, they will be embedded within
+the respective \<@Source> and \<@Sink> annotations that will be parameterized.
+That is, \<@Source> and \<@Sink> annotations will have optional attributed for
+finesources and finesinks, respectively. Each FineSource and FineSink annotation
+will take a value attribute consisting of the coarse FlowPermission to be parameterized.
+Each finer grained annotation will also have a params attritibute, which is a
+string list of parameters associated with the finer-grained permission.
+
+As an example, we parameterize the example declaration above
+\begin{Verbatim}
+    @Source(LOCATION) 
+    @Sink(finesinks={@FineSink(value=INTERNET, params={"mydomain.org"})}) double loc;
+\end{Verbatim}
 
 \subsection{Subtyping\label{sec:subtyping}}
 
@@ -95,7 +110,6 @@ sinks.
   qualifiers, expressed as Java annotations \<@Source> and \<@Sink>.}
 \label{fig:flow-hierarchy}
 \end{figure}
-
 
 
 A type qualifier hierarchy indicates
@@ -123,8 +137,76 @@ the value is permitted to flow to both \<INTERNET> and \<FILESYSTEM>.  This
 is a subtype of \<@Sink(INTERNET)>, as the latter type provides fewer routes through which the information may be
 leaked.
 
+\subsection{Parameterized Subtyping\label{sec:subtyping}}
 
+\begin{figure}
+\centerline{\includegraphics[width=1.0\textwidth]{figures/flowsources_parameterized}}
+\caption{Partial qualifier hierarchy for parameterized flow source type
+  qualifiers, expressed as Java annotations \<@FineSource>.}
+\label{fig:flow-hierarchy-parameterized-source}
+\end{figure}
 
+\begin{figure}
+\centerline{\includegraphics[width=1.0\textwidth]{figures/flowsinks_parameterized}}
+\caption{Partial qualifier hierarchy for parameterized flow sink type
+  qualifiers, expressed as Java annotations \<@FineSink>.}
+\label{fig:flow-hierarchy-parameterized-sink}
+\end{figure}
+
+Subtyping rules for parameterized permissions extend the subtyping rules for
+non-parameterized permissions. All non-parameterized permissions will default
+to having ("*") for its parameter. The asterisk(*) will be treated as a wildcard
+for purposes of subtyping, so non-parameterized permissions will subsume all
+its parameterized counterparts. 
+
+\noindent
+@FineSource(X,{"B1", "B2", ..."BN"}) is a subtype of @Source(Y, {"A1", "A2", ..."AN"}), 
+if:
+\begin{Verbatim}
+  1. X and Y are the same permission
+  2. for each string B parameter in {"B1", "B2", ..."BN"}
+        for each string A in {"A1", "A2", ..."AN"}
+          if(A is a regex and B is a string)
+             B must match A
+          if(A is a string and B is a string)
+             B must be the same A
+          if(A is a regex and B is a regex)
+             B must be contained by A
+          if(A is a string and B is a regex)
+              //B is not a subtype of A
+  
+  For example, Source(FILESYSTEM("/tmp/*")) is a supertype of FILESYSTEM("/tmp/file.txt")
+
+\end{Verbatim}
+
+\noindent
+@FineSink(B,"paramB") if a subtype of @FineSink(A,"paramA"), if:
+\begin{Verbatim}
+  1. A and B are the same permission
+  2. for all Strings that match paramA, they must also match paramB,  
+      where paramA and paramB are regular expressions.
+\end{Verbatim}
+
+\noindent
+@FineSink(X,{"B1", "B2", ..."BN"}) is a subtype of @FineSink(Y, {"A1", "A2", ..."AN"}), 
+if:
+\begin{Verbatim}
+  1. A and B are the same permission
+  2.  for each string A in {"A1", "A2", ..."AN"}
+        for each string B in {"B1", "B2", ..."BN"}
+          if(A is a string and B is a regex)
+             A must match B
+          if(A is a string and B is a string)
+             A must be the same B
+          if(A is a regex and B is a regex)
+             A must be contained by B
+          if(A is a regex and B is a string)
+            //B is not a subtype of A
+
+  For example, a flow of 'SMS -> INTERNET("*.google.com")' will be a subtype of 
+  'SMS -> INTERNET("maps.google.com")' because the supertype's value is a match to 
+  the subtype's regular expression.
+\end{Verbatim}
 
 \section{Comparison to Android permissions}
 \label{sec:permissions}
