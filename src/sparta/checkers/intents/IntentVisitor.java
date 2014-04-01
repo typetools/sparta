@@ -28,7 +28,6 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
@@ -164,7 +163,7 @@ public class IntentVisitor extends FlowVisitor {
     @Override
     protected void checkMethodInvocability(AnnotatedExecutableType method,
             MethodInvocationTree node) {
-
+        
         if (isTypeOf(method, android.content.Intent.class)
                 || isTypeOf(method, android.os.Bundle.class)) {
             checkIntentExtraMethods(method, node);
@@ -409,8 +408,7 @@ public class IntentVisitor extends FlowVisitor {
         Context context = ((JavacProcessingEnvironment) checker
                 .getProcessingEnvironment()).getContext();
         // Return the sender intent in the String format. Check method @Javadoc.
-        String senderString = IntentUtils.resolveIntentFilters(tree,
-                atypeFactory, getCurrentPath());
+        String senderString = IntentUtils.retrieveSendIntentPath(getCurrentPath());
         // Getting the receivers components in the String format from the
         // Component map
         Set<String> receiversStrList = getReceiversFromSender(senderString,

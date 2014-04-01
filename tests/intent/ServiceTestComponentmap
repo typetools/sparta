@@ -1,2 +1,3 @@
-ServiceTest -> tests.ServiceReceiverStub
-ServiceTest(action1,[cat1,cat2]) -> tests.ServiceReceiverStub
+#Component map used in the tests for the intent analysis.
+ServiceTest.startActivitySuccess() -> tests.ServiceReceiverStub
+ServiceTest.startActivityFail() -> tests.ServiceReceiverStub

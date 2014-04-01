@@ -1,3 +1,5 @@
+package test;
+
 import static sparta.checkers.quals.FlowPermission.*;
 
 import sparta.checkers.quals.*;
@@ -9,12 +11,6 @@ import android.content.ContextWrapper;
 import android.provider.CalendarContract;
 
 public class ActivityTest extends Activity {
-    
-    void startActivitySuasdccess() {
-        @SuppressWarnings("")
-        @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-        Intent senderIntent1 = new Intent();
-    }
     
     @SuppressWarnings("")
     @IntentMap({
@@ -85,9 +81,9 @@ public class ActivityTest extends Activity {
         i4 = i1;
     }
     
-    void startActivitySuccess() {
+    void startActivitySuccess(int test, String test2, Object test3, String[] test4) {
         @SuppressWarnings("")
-        @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) }, action="action1",categories={"cat1","cat2"})
+        @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
         Intent senderIntent1 = new Intent();
         senderIntent1.setAction("action1");
         senderIntent1.addCategory("cat1");

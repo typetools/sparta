@@ -12,7 +12,7 @@ public class ServiceTest extends Activity {
     
     void startActivitySuccess() {
         @SuppressWarnings("")
-        @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) }, action="action1",categories={"cat1","cat2"})
+        @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
         Intent senderIntent1 = new Intent();
         senderIntent1.setAction("action1");
         senderIntent1.addCategory("cat1");

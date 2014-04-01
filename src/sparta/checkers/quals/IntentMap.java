@@ -21,8 +21,5 @@ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_
 @SubtypeOf({})
 public @interface IntentMap {
     Extra[] value() default {};
-    String action() default "";
-    String[] categories() default {};
-    String data() default "";
     
 }

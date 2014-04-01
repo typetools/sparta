@@ -1,1 +1,4 @@
-AndroidSystemTest -> com.android.settings.DeviceAdminAdd
+AndroidSystemTest.startActivitySuccess() -> com.android.settings.DeviceAdminAdd
+AndroidSystemTest.startActivitySuccess2() -> com.android.settings.DeviceAdminAdd
+AndroidSystemTest.startActivityFail() -> com.android.settings.DeviceAdminAdd
+AndroidSystemTest.startActivityFail2() -> com.android.settings.DeviceAdminAdd

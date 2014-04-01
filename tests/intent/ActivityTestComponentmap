@@ -1,4 +1,4 @@
 #Component map used in the tests for the intent analysis.
-ActivityTest(action1,[cat1,cat2]) -> tests.ActivityReceiverStub
-ActivityTest -> tests.ActivityReceiverStub
+test.ActivityTest.startActivitySuccess(int,java.lang.String,java.lang.Object,java.lang.String[]) -> tests.ActivityReceiverStub
+test.ActivityTest.startActivityFail() -> tests.ActivityReceiverStub
 
