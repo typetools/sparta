@@ -254,9 +254,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         @Override
         public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
             if (isIExtraQualifier(rhs)) {
-                checker.errorAbort("IntentChecker: unexpected AnnotationMirrors: "
-                        + rhs + " and " + lhs);
-                return false;
+                if (rhs == null || lhs == null || !isIExtraQualifier(lhs)) {
+                    return false;
+                }
+                return IntentUtils.getSources(rhs).equals(IntentUtils.getSources(lhs)) &&
+                        IntentUtils.getSinks(rhs).equals(IntentUtils.getSinks(lhs));
+                
             } else if (isIntentExtrasQualifier(rhs)) {
                 if (rhs == null || lhs == null || !isIntentExtrasQualifier(lhs)) {
                     return false;
@@ -268,7 +271,6 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 }
                 for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
                     String leftKey = IntentUtils.getKeyName(lhsIExtra);
-                    ;
 
                     if (IntentUtils.hasKey(rhs, leftKey)) {
                         if (!hostIsExactType(rhs, lhsIExtra, leftKey)) {
@@ -324,13 +326,14 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         @Override
         public AnnotationMirror leastUpperBound(AnnotationMirror a1,
                 AnnotationMirror a2) {
+            
             if (isSubtype(a1, a2)) {
                 return a2;
             }
             if (isSubtype(a2, a1)) {
                 return a1;
             }
-
+            
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, INTENTEXTRAS)) {
                     List<AnnotationMirror> a1IExtrasList = IntentUtils
@@ -354,7 +357,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                                     IExtraOutputSet, processingEnv);
                     return output;
                 } else if (AnnotationUtils.areSameIgnoringValues(a1, IEXTRA)) {
-                    // is this one necessary?
+                    String a1IExtraKey = IntentUtils.getKeyName(a1);
+                    return hostLeastUpperBounds(a1, a1IExtraKey, a2);
                 }
             }
 
@@ -498,18 +502,25 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             return origResult;
         }
         List<String> keys = getKeysFromPutExtraOrGetExtraCall(tree);
-
+        AnnotationMirror iExtraLUB = null;
         for(String key : keys){
             AnnotationMirror iExtra = IntentUtils.getIExtra(receiverType, key);
-            //TODO: Don't short circuit
+            
             // If the key in a getExtra call could have more than one literal
             // value, then the return type of the call to getExtra should be the
             // LUB of all the types the keys map to in @IntentMap.
             if (iExtra != null) {
-                return hostChangeMethodReturn(origResult, iExtra);
+                if(iExtraLUB == null) {
+                    iExtraLUB = iExtra;
+                } else {
+                    iExtraLUB = qualHierarchy.leastUpperBound(iExtraLUB, iExtra);
+                }
             }
         }
-      
+        if(iExtraLUB != null) {
+            return hostChangeMethodReturn(origResult, iExtraLUB);
+        }
+        
         checker.report(Result.failure("intent.key.notfound", tree.getArguments().get(0), receiverType), tree);
         return origResult;
     }

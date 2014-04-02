@@ -17,11 +17,19 @@ import android.content.Context;
  */
 public class BReceiverReceiverStub extends BroadcastReceiver {
     
+    
     @Override
     @ReceiveIntent("sendBroadcast,1")
-    public  void onReceive(Context context, 
+    public  void onReceive(Context context, @Source(LITERAL) @Sink(CONDITIONAL) 
             @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent intent) {
-        
+    }
+    
+    void methodNotAllowed() {
+        @SuppressWarnings("")
+        @Source(LITERAL) @Sink(CONDITIONAL)  
+        @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent intent = new Intent();
+      //:: error: (intent.invoking.receiveintent)
+        onReceive(null, intent);
     }
     
 }

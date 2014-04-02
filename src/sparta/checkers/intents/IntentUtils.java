@@ -258,7 +258,7 @@ public class IntentUtils {
      * @return
      */
 
-    public static boolean isReceiveIntent(MethodTree tree, AnnotatedTypeFactory atypeFactory) {
+    public static boolean isReceiveIntent(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
         Element ele = InternalUtils.symbol(tree);
         return atypeFactory.getDeclAnnotation(ele, ReceiveIntent.class) != null;
     }

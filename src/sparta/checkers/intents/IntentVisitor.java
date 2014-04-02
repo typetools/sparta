@@ -172,6 +172,9 @@ public class IntentVisitor extends FlowVisitor {
             String receiverName = getReceiverNameFromSendIntendAnnotation(node);
             checkSendIntent(method, node, receiverName);
             return;
+        } else if (IntentUtils.isReceiveIntent(node, atypeFactory)) {
+            checker.report(Result.failure("intent.invoking.receiveintent"),node);
+            return;
         }
         super.checkMethodInvocability(method, node);
     }
