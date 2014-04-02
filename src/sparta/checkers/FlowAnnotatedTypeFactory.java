@@ -8,7 +8,6 @@ import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
 
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
-import org.checkerframework.common.reflection.ReflectionResolutionAnnotatedTypeFactory;
 import org.checkerframework.framework.flow.CFAbstractAnalysis;
 import org.checkerframework.framework.flow.CFStore;
 import org.checkerframework.framework.flow.CFTransfer;
@@ -81,7 +80,7 @@ import com.sun.source.tree.Tree;
 import com.sun.source.tree.TypeCastTree;
 import com.sun.source.tree.UnaryTree;
 
-public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeFactory {
+public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
 
     protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
     protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK;
