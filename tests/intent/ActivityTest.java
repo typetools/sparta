@@ -49,9 +49,9 @@ public class ActivityTest extends Activity {
     }
 
     void putExtraFail() {
-        //:: error: (intent.type.incompatible)
+        //:: error: (argument.type.incompatible)
         i1.putExtra("k2", getFile());
-        //:: error: (intent.key.notfound)
+        //:: error: (argument.type.incompatible) ::error: (intent.key.notfound)
         i1.putExtra("k3", getFile());
     }
     

@@ -122,9 +122,10 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 mfuPair = changeMethodReturnType(tree, mfuPair);
                 // Modifying @Source and @Sink types for parameters
                 hostChangeParametersToTop(mfuPair.first.getParameterTypes());
-            } else if (IntentUtils.isPutExtra(tree, this)
-                    || IntentUtils.isSetIntentFilter(tree, this)) {
+            } else if (IntentUtils.isPutExtra(tree, this)) {
                 // Modifying @Source and @Sink types for parameters
+                hostChangeParametersToIntentMapKeyType(tree,mfuPair);
+            } else if (IntentUtils.isSetIntentFilter(tree, this)) {
                 hostChangeParametersToTop(mfuPair.first.getParameterTypes());
             }
         }
@@ -147,26 +148,97 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         for (AnnotatedTypeMirror parameterAnnotation : parametersAnnotations) {
             if (parameterAnnotation.hasAnnotation(Source.class)) {
                 // Modifying @Source type
-                if (parameterAnnotation instanceof AnnotatedArrayType) {
-                    ((AnnotatedArrayType) parameterAnnotation)
-                            .getComponentType().removeAnnotation(Source.class);
-                    ((AnnotatedArrayType) parameterAnnotation)
-                            .getComponentType().addAnnotation(ANYSOURCE);
-                }
-                parameterAnnotation.removeAnnotation(Source.class);
-                parameterAnnotation.addAnnotation(ANYSOURCE);
+                replaceAnnotation(parameterAnnotation, Source.class, ANYSOURCE);
             }
             if (parameterAnnotation.hasAnnotation(Sink.class)) {
                 // Modifying @Sink type
-                if (parameterAnnotation instanceof AnnotatedArrayType) {
-                    ((AnnotatedArrayType) parameterAnnotation)
-                            .getComponentType().removeAnnotation(Sink.class);
-                    ((AnnotatedArrayType) parameterAnnotation)
-                            .getComponentType().addAnnotation(NOSINK);
-                }
-                parameterAnnotation.removeAnnotation(Sink.class);
-                parameterAnnotation.addAnnotation(NOSINK);
+                replaceAnnotation(parameterAnnotation, Sink.class, NOSINK);
             }
+        }
+    }
+    
+    /**
+     * Changes the parameters to the type of the key in the @IntentMap.
+     * If a key cannot be resolved, they are set to @Sink(ANY)
+     * 
+     * @param parametersAnnotations
+     */
+
+    private Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> 
+            hostChangeParametersToIntentMapKeyType(MethodInvocationTree tree,
+            Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> origResult) {
+        ExpressionTree receiver = TreeUtils.getReceiverTree(tree);
+        AnnotatedTypeMirror receiverType = getAnnotatedType(receiver);
+        if(origResult.first.getParameterTypes().size() < 2) {
+            throw new RuntimeException("tree must be a putExtra");
+        }
+        
+        //Replacing annotations for the key parameter
+        AnnotatedTypeMirror parameterAnnotation = origResult.first.getParameterTypes().get(0);
+        if (parameterAnnotation.hasAnnotation(Source.class)) {
+            replaceAnnotation(parameterAnnotation, Source.class, ANYSOURCE);
+        }
+        if (parameterAnnotation.hasAnnotation(Sink.class)) {
+            replaceAnnotation(parameterAnnotation, Sink.class, NOSINK);
+        }
+        
+        //Replacing annotations for the value parameter
+        parameterAnnotation = origResult.first.getParameterTypes().get(1);
+        if (receiverType.hasAnnotation(IntentMap.class)) {
+            AnnotationMirror iExtraLUB = getLUBIExtraFromPutExtraOrGetExtra(
+                    tree, receiverType);
+            if(iExtraLUB != null) {
+                Set<ParameterizedFlowPermission> annotatedSources = IntentUtils
+                        .getSourcesPFP(iExtraLUB);
+                Set<ParameterizedFlowPermission> annotatedSinks = IntentUtils
+                        .getSinksPFP(iExtraLUB);
+                AnnotationMirror sourceAnnotation = createAnnoFromSource(annotatedSources);
+                AnnotationMirror sinkAnnotation = createAnnoFromSink(annotatedSinks);
+                replaceAnnotation(parameterAnnotation, Source.class, sourceAnnotation);
+                replaceAnnotation(parameterAnnotation, Sink.class, sinkAnnotation);
+                return origResult;
+            }
+        }
+        replaceAnnotation(parameterAnnotation, Sink.class, ANYSINK);
+        checker.report(
+                Result.failure("intent.key.notfound", "UNKNOWN",
+                        receiver.toString()), tree);
+        return origResult;
+    }
+
+
+    private AnnotationMirror getLUBIExtraFromPutExtraOrGetExtra(
+            MethodInvocationTree tree, AnnotatedTypeMirror receiverType) {
+        List<String> keys = getKeysFromPutExtraOrGetExtraCall(tree);
+        AnnotationMirror iExtraLUB = null;
+        for(String key : keys){
+            AnnotationMirror iExtra = IntentUtils.getIExtra(receiverType, key);
+            // If the key in a getExtra call could have more than one literal
+            // value, then the return type of the call to getExtra should be the
+            // LUB of all the types the keys map to in @IntentMap.
+            if (iExtra != null) {
+                if(iExtraLUB == null) {
+                    iExtraLUB = iExtra;
+                } else {
+                    iExtraLUB = qualHierarchy.leastUpperBound(iExtraLUB, iExtra);
+                }
+            }
+        }
+        return iExtraLUB;
+    }
+    
+    private void replaceAnnotation(AnnotatedTypeMirror annotatedTypeMirror, 
+            Class<? extends Annotation> annotation, AnnotationMirror newAnnotationMirror) {
+        if (annotatedTypeMirror.hasAnnotation(annotation)) {
+            // Modifying @Source type
+            if (annotatedTypeMirror instanceof AnnotatedArrayType) {
+                ((AnnotatedArrayType) annotatedTypeMirror)
+                        .getComponentType().removeAnnotation(annotation);
+                ((AnnotatedArrayType) annotatedTypeMirror)
+                        .getComponentType().addAnnotation(newAnnotationMirror);
+            }
+            annotatedTypeMirror.removeAnnotation(annotation);
+            annotatedTypeMirror.addAnnotation(newAnnotationMirror);
         }
     }
 
@@ -257,8 +329,20 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 if (rhs == null || lhs == null || !isIExtraQualifier(lhs)) {
                     return false;
                 }
-                return IntentUtils.getSources(rhs).equals(IntentUtils.getSources(lhs)) &&
-                        IntentUtils.getSinks(rhs).equals(IntentUtils.getSinks(lhs));
+                Set<ParameterizedFlowPermission> lhsAnnotatedSources = IntentUtils
+                        .getSourcesPFP(lhs);
+                Set<ParameterizedFlowPermission> lhsAnnotatedSinks = IntentUtils
+                        .getSinksPFP(lhs);
+                Set<ParameterizedFlowPermission> rhsAnnotatedSources = IntentUtils
+                        .getSourcesPFP(rhs);
+                Set<ParameterizedFlowPermission> rhsAnnotatedSinks = IntentUtils
+                        .getSinksPFP(rhs);
+                
+                AnnotationMirror lhsSinks = createAnnoFromSink(lhsAnnotatedSinks);
+                AnnotationMirror rhsSinks = createAnnoFromSink(rhsAnnotatedSinks);
+                AnnotationMirror lhsSources = createAnnoFromSource(lhsAnnotatedSources);
+                AnnotationMirror rhsSources = createAnnoFromSource(rhsAnnotatedSources);
+                return isSubtype(rhsSources, lhsSources) && isSubtype(rhsSinks, lhsSinks);                
                 
             } else if (isIntentExtrasQualifier(rhs)) {
                 if (rhs == null || lhs == null || !isIntentExtrasQualifier(lhs)) {
@@ -501,22 +585,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     .getArguments().get(0),receiverType), tree);
             return origResult;
         }
-        List<String> keys = getKeysFromPutExtraOrGetExtraCall(tree);
-        AnnotationMirror iExtraLUB = null;
-        for(String key : keys){
-            AnnotationMirror iExtra = IntentUtils.getIExtra(receiverType, key);
-            
-            // If the key in a getExtra call could have more than one literal
-            // value, then the return type of the call to getExtra should be the
-            // LUB of all the types the keys map to in @IntentMap.
-            if (iExtra != null) {
-                if(iExtraLUB == null) {
-                    iExtraLUB = iExtra;
-                } else {
-                    iExtraLUB = qualHierarchy.leastUpperBound(iExtraLUB, iExtra);
-                }
-            }
-        }
+        AnnotationMirror iExtraLUB = getLUBIExtraFromPutExtraOrGetExtra(tree,
+                receiverType);
         if(iExtraLUB != null) {
             return hostChangeMethodReturn(origResult, iExtraLUB);
         }
@@ -599,7 +669,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
         return origResult;
     }
-
+    
     public void addHostAnnotions(AnnotatedTypeMirror atm,
             AnnotationMirror sourceAnnotation, AnnotationMirror sinkAnnotation) {
 

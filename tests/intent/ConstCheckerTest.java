@@ -19,6 +19,7 @@ public class ConstCheckerTest extends Activity {
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
         @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }),
         @Extra(key = "k3", source = { FILESYSTEM }, sink = { DISPLAY }),
+        @Extra(key = "k4", source = { LITERAL }, sink = { INTERNET }),
         @Extra(key = Intent.EXTRA_PHONE_NUMBER, source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
     Intent i1 = new Intent();
     
@@ -42,17 +43,22 @@ public class ConstCheckerTest extends Activity {
         //Error below should be removed if constant propagation is active.
       //:: error: (intent.key.notfound)
         String test1 = i1.getStringExtra(k2OrPhoneNumber);
+        
+        @StringVal({ "k1", "k4" }) String k1Ork4 = null;
+        //Error below should be removed if constant propagation is active.
+      //:: error: (intent.key.notfound)
+        String test2 = i1.getStringExtra(k1Ork4);
     }
     
     void getExtraFail() {
         @StringVal({ "k2", "k3" }) String k2Ork3 = null;
         //Error below should be removed if constant propagation is active. forbidden.flow error should be added instead.
         //:: error: (intent.key.notfound)
-        String test2 = i1.getStringExtra(k2Ork3);
+        String test1 = i1.getStringExtra(k2Ork3);
     }
 
     void putExtraFail() {
-        //:: error: (intent.key.variable)
+        //:: error: (argument.type.incompatible)   :: error: (intent.key.notfound)
         i1.putExtra(getK1(), getVal());
         
     }

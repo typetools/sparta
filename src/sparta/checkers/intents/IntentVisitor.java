@@ -514,7 +514,9 @@ public class IntentVisitor extends FlowVisitor {
             AnnotatedTypeMirror receiverType = atypeFactory
                     .getAnnotatedType(receiver);
             if (IntentUtils.isPutExtra(node, atypeFactory)) {
-                checkPutExtra(node, key, receiver, receiverType);
+                //Check not required since it is done by the checkAssignment() now that the 
+                //type of value in a putExtra(key,value) call is assigned in the IAFT.
+//                checkPutExtra(node, key, receiver, receiverType);
             } else if (IntentUtils.isGetExtra(node, atypeFactory)) {
                 checkGetExtra(method, node, key, receiver, receiverType);
             }

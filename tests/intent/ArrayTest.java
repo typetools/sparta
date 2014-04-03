@@ -35,9 +35,9 @@ public class ArrayTest extends Activity {
     }
     
     void putExtraArrayFail() {
-      //:: error: (intent.type.incompatible)
+      //:: error: (argument.type.incompatible)
         i1.putExtra("k2", getValArray());
-        //:: error: (intent.key.notfound)
+        //:: error: (argument.type.incompatible) :: error: (intent.key.notfound)
         i1.putExtra("k3", getValArray());
     }
     

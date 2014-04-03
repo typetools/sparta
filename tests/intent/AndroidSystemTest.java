@@ -56,7 +56,7 @@ public class AndroidSystemTest extends Activity {
         })
         Intent senderIntent = new Intent();
 
-        //:: error: (intent.type.incompatible)
+        //:: error: (argument.type.incompatible)
         senderIntent.putExtra(key1, getValueNotOK());
         startActivity(senderIntent);
     }
