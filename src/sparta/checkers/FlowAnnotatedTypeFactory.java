@@ -243,7 +243,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         for (ParameterizedFlowPermission p : sinks) {
                 final AnnotationBuilder builderFine = new AnnotationBuilder(processingEnv, FineSink.class);
                 String [] params = p.getParameters().toArray(new String[0]);
-                FlowPermission[] permission = {p.getPermission()};
+                FlowPermission permission = p.getPermission();
                 builderFine.setValue("value",permission );
                 builderFine.setValue("params", params);
                 finesinks.add(builderFine.build());
@@ -264,7 +264,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
                 final AnnotationBuilder builderFine = new AnnotationBuilder(processingEnv, FineSource.class);
                 String [] params = p.getParameters().toArray(new String[0]);
                 builderFine.setValue("params", params);
-                FlowPermission[] permission = {p.getPermission()};
+                FlowPermission permission = p.getPermission();
                 builderFine.setValue("value",permission );
                 finesources.add(builderFine.build());
         }          
