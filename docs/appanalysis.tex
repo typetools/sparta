@@ -427,7 +427,16 @@ decide whether this is a desired information flow or not.
 Once you have written as many type qualifiers as possible, proceed to
 type-checking (\secref{sec:run-type-checker}).
 
+\subsubsection{Syntax for Parameterized Annotations\label{sec:parameterized-syntax}}
+When using @FineSource and @FineSink annotations, they must be embedded in their
+respective @Source and @Sink annotations, under attributes finesources and finesinks, respetively.
+For example, if a Picture had an information flow of FILESYSTEM("/home/pics")->INTERNET("mydomain.org"),
+then the annotation should have the syntax:
 
+\begin{Verbatim}
+  @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"/home/pics"})})
+  @Sink(value={}, finesinks={@FineSink(value=INTERNET, params={"mydomain.org"})}) Picture data;
+\end{Verbatim}
 
 \subsection{Type-check the information flow types in the application\label{sec:run-type-checker}}
 
