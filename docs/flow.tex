@@ -85,13 +85,13 @@ sinks.
 %the behavior of an application.
 
 \subsection{FineSource and FineSink Annotations\label{sec:fine-source-and-sink}}
-\<@FineSource> and \<@FineSink> annotations will follow the same conventions as 
-regular \<@Source> and \<@Sink> annotations. However, they will be embedded within
-the respective \<@Source> and \<@Sink> annotations that will be parameterized.
-That is, \<@Source> and \<@Sink> annotations will have optional attributed for
+\<@FineSource> and \<@FineSink> annotations follow the same conventions as 
+regular \<@Source> and \<@Sink> annotations. However, they are embedded within
+the respective \<@Source> and \<@Sink> annotations that are being parameterized.
+That is, \<@Source> and \<@Sink> annotations have optional attributes for
 finesources and finesinks, respectively. Each FineSource and FineSink annotation
-will take a value attribute consisting of the coarse FlowPermission to be parameterized.
-Each finer grained annotation will also have a params attritibute, which is a
+takes a value attribute consisting of the coarse FlowPermission to be parameterized.
+Each finer grained annotation also has a params attritibute, which is a
 string list of parameters associated with the finer-grained permission.
 
 As an example, we parameterize the example declaration above
@@ -137,7 +137,7 @@ the value is permitted to flow to both \<INTERNET> and \<FILESYSTEM>.  This
 is a subtype of \<@Sink(INTERNET)>, as the latter type provides fewer routes through which the information may be
 leaked.
 
-\subsection{Parameterized Subtyping\label{sec:subtyping}}
+\subsubsection{Subtyping for parameterized sources and sinks\label{sec:param-subtyping}}
 
 \begin{figure}
 \centerline{\includegraphics[width=1.0\textwidth]{figures/flowsources_parameterized}}
@@ -174,18 +174,9 @@ if:
              B must be contained by A
           if(A is a string and B is a regex)
               //B is not a subtype of A
-  
-  For example, Source(FILESYSTEM("/tmp/*")) is a supertype of FILESYSTEM("/tmp/file.txt")
-
 \end{Verbatim}
 
-\noindent
-@FineSink(B,"paramB") if a subtype of @FineSink(A,"paramA"), if:
-\begin{Verbatim}
-  1. A and B are the same permission
-  2. for all Strings that match paramA, they must also match paramB,  
-      where paramA and paramB are regular expressions.
-\end{Verbatim}
+For example, Source(FILESYSTEM("/tmp/*")) is a supertype of FILESYSTEM("/tmp/file.txt")\newline
 
 \noindent
 @FineSink(X,{"B1", "B2", ..."BN"}) is a subtype of @FineSink(Y, {"A1", "A2", ..."AN"}), 
@@ -202,11 +193,10 @@ if:
              A must be contained by B
           if(A is a regex and B is a string)
             //B is not a subtype of A
-
-  For example, a flow of 'SMS -> INTERNET("*.google.com")' will be a subtype of 
-  'SMS -> INTERNET("maps.google.com")' because the supertype's value is a match to 
-  the subtype's regular expression.
 \end{Verbatim}
+For example, a flow of 'SMS -> INTERNET("*.google.com")' is a subtype of 
+'SMS -> INTERNET("maps.google.com")' because the supertype's value is a match to 
+the subtype's regular expression.
 
 \section{Comparison to Android permissions}
 \label{sec:permissions}

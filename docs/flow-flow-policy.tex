@@ -69,23 +69,17 @@ to justify its purpose or convince the app store that the flow is not used.
 
 \myparagraph{Parameters and the flow policy file}
 \label{sec:flow-policy-parameterized}
-The flow policy file will allow for parameterized sources and sinks. Users
-will be allowed to add parameters to sources and sinks, but they will be optional.
-Sources and sinks without parameters will default to a parameter of ("*") , a 
+The flow policy file allows for parameterized sources and sinks. Users
+are allowed to add parameters to sources and sinks, but these are optional.
+Sources and sinks without parameters default to a parameter of ("*") , a 
 wildcard subsuming all permissions of the given type.\newline
 
 \noindent
-Here are examples of a parameterized sources.
+Here are examples of a parameterized sources or sinks, respectively.
 The flow policy contains:
 \begin{alltt}
   FILESYSTEM("/home/user") -> INTERNET
   INTERNET("mydomain.org") -> INTERNET
-\end{alltt}
-
-\noindent
-Here are examples of a parameterized sinks.
-The flow policy contains:
-\begin{alltt}
   ACCOUNTS      -> EXTERNAL_STORAGE("/tmp/*"), FILESYSTEM("/usr/bin/output")
   ACCELEROMETER -> EXTERNAL_STORAGE("/tmp/*"), FILESYSTEM("/usr/bin/output"), INTERNET("mydomain.org")
 \end{alltt}
@@ -124,10 +118,10 @@ The policy file may contain blank lines and comments that begin with
 a number sign (\<\#>) character. \newline
 
 \noindent
-Both sources and sinks will have optional parameters. These parameters must appear
+Both sources and sinks have optional parameters. These parameters must appear
 right after the permission that is being parameterized, grouped in parentheses. 
-Each parameter string will be wrapped in string quotations, and multiple parameter
-strings for a single permission will be separated by a comma.\newline
+Each parameter string is be wrapped in quotations, and multiple parameter
+strings for a single permission are separated by commas.\newline
 
 \noindent
 For example, this policy file:
