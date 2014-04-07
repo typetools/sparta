@@ -1,7 +1,5 @@
 package sparta.checkers.util;
 
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
