@@ -149,6 +149,12 @@
         <process-proj processor="org.checkerframework.common.value.ValueChecker"/>
     </target>
     
+    <target name="check-intentkey"
+                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="run the Value Checker">
+        <process-proj processor="sparta.checkers.util.IntentKeyChecker"/>
+    </target>
+    
     <target name="filter-flows">
         <property name="filter.flow_file" value="./forbiddenFlowLocations.txt" />
         <property name="filter" value="" />
