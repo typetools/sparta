@@ -10,5 +10,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/dataflow"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/framework"/>
 	<classpathentry kind="lib" path="/framework/tests/junit.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/checker"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
