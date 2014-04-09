@@ -1,0 +1,107 @@
+See 
+
+
+To build:
+javac -cp .:$SPARTA_CODE/sparta.jar GenerateStubFilesFromSuSi.java
+
+To run:
+java -cp $SPARTA_CODE/sparta.jar:. GenerateStubFilesFromSuSi ~/othersrc/SuSi/SourceSinkLists/Android\ 4.2/SourcesSinks/Ouput_CatSinks_v0_9.txt ~/othersrc/SuSi/SourceSinkLists/Android\ 4.2/SourcesSinks/Ouput_CatSources_v0_9.txt  > susi.astub
+
+To use:
+Copy susi.astub to 
+$SPARTA_CODE/src/sparta/checkers/flowstubfiles/2_susi.astub.  
+(Add the 2 so that the file is appended to information_flow.astub after the
+header file, but before the usual stub files.)
+
+References:
+ Paper  "A machine learning approach for classifying and categorizing android sources and sinks" http://www.bodden.de/pubs/rab14classifying.pdf 
+-Tool named SuSi: http://sseblog.ec-spride.de/tools/susi/ 
+-TR https://www.informatik.tu-darmstadt.de/fileadmin/user_upload/Group_CASED/Publikationen/TUD-CS-2013-0114.pdf
+Source: https://github.com/secure-software-engineering/SuSi 
+
+
+Summary of SuSi
+
+
+Step 1: Categorized all API methods as either a source, sink, or neither.  (No
+method is allowed to be “both”) Features used are: method name, if the method
+has parameters and the type of those parameters, if the method has a return
+non-void return type, method modifiiers, class modifiers, class name, dataflow
+to return, data flow to a known sink method, required permissions supplied by
+PScout.  
+
+
+Step 2: Identify what resource a source or sink method is reading/writing.
+Features used: Class name, method invocation, body contents, parameter type,
+return type.  SuSi resource categories vs SPARTA Flow Permissions
+
+
+SuSi uses the following resource categories:
+UNIQUE_IDENTIFIER(SOURCE)
+NO_CATEGORY(BOTH)
+LOCATION_INFORMATION(BOTH)
+NETWORK_INFORMATION(SOURCE)
+ACCOUNT_INFORMATION(SOURCE)
+FILE_INFORMATION(SOURCE)
+BLUETOOTH_INFORMATION(SOURCE)
+DATABASE_INFORMATION(SOURCE)
+EMAIL(BOTH)
+SYNCHRONIZATION_DATA(BOTH)
+SMS_MMS(BOTH)
+CONTACT_INFORMATION(BOTH)
+CALENDAR_INFORMATION(BOTH)
+SYSTEM_SETTINGS(BOTH)
+IMAGE(SOURCE)
+BROWSER_INFORMATION(BOTH)
+NFC(BOTH)
+PHONE_CONNECTION(SINK)
+VOIP(SINK)
+PHONE_STATE(SINK)
+BLUETOOTH(SINK)
+ACCOUNT_SETTINGS(SINK)
+AUDIO(SINK)
+NETWORK(SINK)
+FILE(SINK)
+LOG(SINK)
+
+All of these except  IMAGE and PHONE_CONNECTION map to one or more Flow
+Permissions. SuSi is missing several, such asWRITE_CLIPBOARD, USER_INPUT,
+DISPLAY.  We could use our API annotations for the missing flow permissions and
+SuSi would find other API methods that use those flow permissions.  But, it’s
+not clear how many more methods SuSi would find.  For now, I added these
+resource categories as flow permissions whose names are prepended with SUSI.
+This is so a user can tell whether the annotation whether an annotation was
+automatically added by SuSi or not.  Converting SuSi resource categories to
+stub files
+ 
+SuSi supplies a method name and exactly one resource category for that method.
+For example, this method is considered to be a source method accessing
+CONTACT_INFORMATION.  (We know it is a source because it is listed in the
+source output file) <android.provider.Contacts$People: android.database.Cursor
+queryGroups(android.content.ContentResolver,long)> (CONTACT_INFORMATION)
+
+This method is a considered a sink method accessing LOCATION_INFORMATION
+<android.location.LocationManager: boolean
+addNmeaListener(android.location.GpsStatus$NmeaListener)>
+(LOCATION_INFORMATION)
+
+To convert this into a stub file, source resource categories are converted to a
+source annotation on the return type of the method, and the sink resource
+categories are converted to a sink annotation applied to all parameters:
+
+package android.provider;
+class Contacts$People{
+  @Source(SUSI_CONTACT_INFORMATION) android.database.Cursor queryGroups(android.co      ntent.ContentResolver arg0, long arg1);
+}
+
+
+package android.location;
+class LocationManager{
+ boolean addNmeaListener(@Sink(SUSI_LOCATION_INFORMATION) android.location.GpsStatus agr1);
+}
+
+
+The stub files created using SuSi’s source/sinks are parsed first so that if a
+manually annotated method has a source or sink annotation, that annotation is
+use instead of the SuSi annotation.  (If an already reviewed method does not
+have an annotation, the SuSi one is still used.)
