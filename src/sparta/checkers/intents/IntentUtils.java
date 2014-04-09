@@ -20,6 +20,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Name;
 
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
@@ -288,11 +289,18 @@ public class IntentUtils {
       
       //senderString += .method(args)
       MethodTree methodTree = TreeUtils.enclosingMethod(treePath);
+      ExecutableElement a = TreeUtils.elementFromDeclaration(methodTree);
+      Element b = a.getEnclosingElement();
+      Name c = a.getSimpleName();
       senderString += "." + TreeUtils.elementFromDeclaration(methodTree).toString();
       
       //Component map does not have entries with Generics parameters
       //due to epicc's limitations. Need to remove <?> from parameters.
       senderString = senderString.replaceAll("<([^;]*)>", "");
+      
+      //Removing annotation types from parameters
+      senderString = senderString.replaceAll("\\(@([^:]*)\\:\\: ([^)]*)\\)", "$2");
+      
       return senderString;
     }
     

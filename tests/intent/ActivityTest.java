@@ -83,7 +83,7 @@ public class ActivityTest extends Activity {
         i4 = i1;
     }
     
-    void startActivitySuccess(int test, String test2, Object test3, String[] test4) {
+    void startActivitySuccess(@Source(FILESYSTEM) @Sink(INTERNET) int test, String test2, Object test3, String[] test4) {
         @SuppressWarnings("")
         @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
         Intent senderIntent1 = new Intent();
