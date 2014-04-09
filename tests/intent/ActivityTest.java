@@ -9,6 +9,8 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.ContextWrapper;
 import android.provider.CalendarContract;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 public class ActivityTest extends Activity {
     
@@ -107,5 +109,33 @@ public class ActivityTest extends Activity {
      //:: error: (send.intent)
         startActivity(senderIntent2);
     }
+    
+    private OnClickListener clickListenerOK = new OnClickListener() {
+		public void onClick(View v)	{
+			@SuppressWarnings("")
+	        @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
+	        Intent senderIntent1 = new Intent();
+	        @SuppressWarnings("")
+	        @IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
+	        Intent senderIntent2 = new Intent();
+	        startActivity(senderIntent1);
+	        startActivity(senderIntent2);
+		}
+	};
+	
+	private OnClickListener clickListenerFail = new OnClickListener() {
+		public void onClick(View v)	{
+			@SuppressWarnings("")
+	        @IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
+	        Intent senderIntent1 = new Intent();
+	        @SuppressWarnings("")
+	        @IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
+	        Intent senderIntent2 = new Intent();
+	     //:: error: (send.intent)
+	        startActivity(senderIntent1);
+	     //:: error: (send.intent)
+	        startActivity(senderIntent2);
+		}
+	};
     
 }

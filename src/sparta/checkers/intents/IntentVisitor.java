@@ -163,7 +163,6 @@ public class IntentVisitor extends FlowVisitor {
     @Override
     protected void checkMethodInvocability(AnnotatedExecutableType method,
             MethodInvocationTree node) {
-        
         if (isTypeOf(method, android.content.Intent.class)
                 || isTypeOf(method, android.os.Bundle.class)) {
             checkIntentExtraMethods(method, node);
@@ -172,7 +171,8 @@ public class IntentVisitor extends FlowVisitor {
             String receiverName = getReceiverNameFromSendIntendAnnotation(node);
             checkSendIntent(method, node, receiverName);
             return;
-        } else if (IntentUtils.isReceiveIntent(node, atypeFactory)) {
+        } else if (IntentUtils.isReceiveIntent(node, atypeFactory)
+        		&& !node.toString().equals("getIntent()")) { //Find a better way to make the getIntent() comparison
             checker.report(Result.failure("intent.invoking.receiveintent"),node);
             return;
         }

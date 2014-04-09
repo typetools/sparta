@@ -23,4 +23,10 @@ public class ActivityReceiverStub extends Activity {
         return output;
     }
     
+    void m() {
+    	@SuppressWarnings("")
+    	@IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+    	Intent i = getIntent();
+    }
+    
 }

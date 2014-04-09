@@ -38,6 +38,7 @@ import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
 import com.sun.source.util.TreePath;
+import com.sun.tools.javac.code.Symbol.ClassSymbol;
 
 public class IntentUtils {
     
@@ -280,10 +281,18 @@ public class IntentUtils {
     
     public static String retrieveSendIntentPath(TreePath treePath) {
       String senderString = "";
-      ClassTree classTree = TreeUtils.enclosingClass(treePath);
+      //senderString = package.class
+      ClassTree classTree = TreeUtils.enclosingClass(treePath);  
+      ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
+      senderString = ele.flatname.toString();
+      
+      //senderString += .method(args)
       MethodTree methodTree = TreeUtils.enclosingMethod(treePath);
-      senderString += TreeUtils.elementFromDeclaration(classTree).getQualifiedName().toString();
       senderString += "." + TreeUtils.elementFromDeclaration(methodTree).toString();
+      
+      //Component map does not have entries with Generics parameters
+      //due to epicc's limitations. Need to remove <?> from parameters.
+      senderString = senderString.replaceAll("<([^;]*)>", "");
       return senderString;
     }
     
