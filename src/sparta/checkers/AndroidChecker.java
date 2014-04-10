@@ -3,6 +3,8 @@ package sparta.checkers;
 import org.checkerframework.framework.source.AggregateChecker;
 import org.checkerframework.framework.source.SourceChecker;
 
+import sparta.checkers.permission.RequiredPermissionsChecker;
+
 import java.util.ArrayList;
 import java.util.Collection;
 

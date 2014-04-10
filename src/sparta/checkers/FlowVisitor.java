@@ -33,11 +33,11 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.type.TypeKind;
 
-import sparta.checkers.quals.DependentPermissions;
+import sparta.checkers.permission.qual.DependentPermissions;
+import sparta.checkers.permission.qual.MayRequiredPermissions;
+import sparta.checkers.permission.qual.RequiredPermissions;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.ParameterizedFlowPermission;
-import sparta.checkers.quals.MayRequiredPermissions;
-import sparta.checkers.quals.RequiredPermissions;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 

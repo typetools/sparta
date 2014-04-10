@@ -1,7 +1,8 @@
-package sparta.checkers;
+package sparta.checkers.permission;
 
 import org.checkerframework.framework.source.AggregateChecker;
 import org.checkerframework.framework.source.SourceChecker;
+
 
 import java.util.ArrayList;
 import java.util.Collection;

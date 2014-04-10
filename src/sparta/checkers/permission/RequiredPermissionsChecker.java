@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.permission;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.framework.qual.StubFiles;
