@@ -259,13 +259,13 @@
                       <arg value="."/>
                 </exec><echo/>
             <!-- Run report checker -->
-                <process-proj processor="sparta.checkers.AndroidReportChecker" stub="suspicious.astub"/>
+                <process-proj processor="sparta.checkers.report.ReportAPIChecker" stub="suspicious.astub"/>
     </target>
 
     <target name="reportapiusage"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report interesting API usage.">
-        <process-proj processor="sparta.checkers.AndroidReportChecker" stub="apiusage.astub"/>
+        <process-proj processor="sparta.checkers.report.ReportAPIChecker" stub="apiusage.astub"/>
     </target>
     
     

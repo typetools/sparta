@@ -15,7 +15,7 @@ import org.junit.runners.Parameterized.Parameters;
 import sparta.checkers.intents.IntentChecker;
 import sparta.checkers.permission.AndroidFenumChecker;
 import sparta.checkers.permission.PermissionsChecker;
-import sparta.checkers.report.AndroidReportChecker;
+import sparta.checkers.report.ReportAPIChecker;
 
 /**
  * JUnit tests for the SPARTA Checkers.
@@ -63,7 +63,7 @@ public class AndroidTests {
 
     public static class AndroidReportCheckerTests extends ParameterizedCheckerTest {
         public AndroidReportCheckerTests(File testFile) {
-            super(testFile, AndroidReportChecker.class, "sparta.checkers", "-Anomsgtext",
+            super(testFile, ReportAPIChecker.class, "sparta.checkers", "-Anomsgtext",
                     "-Astubs=apiusage.astub:suspicious.astub");
         }
 
