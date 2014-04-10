@@ -298,15 +298,19 @@ public class ProcessEpicOutput {
             return output;
         }
         filter = filter.trim();
-        if (filter.startsWith("Action")) {
-            filter = filter.substring(7, filter.length()).trim();
-            String action = filter.split(",")[0];
-            output.addAction(action);
-            return processFilter(filter.substring(action.length()+1).trim(),
-                    output,component);
-        } else if (filter.startsWith("Actions")) {
+        if (filter.startsWith("Actions")) {
             //Should only happen in broadcastreceiveirs
             filter = filter.substring(8, filter.length()).trim();
+            String action = filter.split(",")[0];
+            output.addAction(action);
+            String nextActions = filter.substring(action.length()+1).trim();
+            if(nextActions.length() <= 1) {
+            	return output;
+            }
+            return processFilter("Actions: [" + filter.substring(action.length()+1).trim(),
+                    output,component);
+        } else if (filter.startsWith("Action")) {
+            filter = filter.substring(7, filter.length()).trim();
             String action = filter.split(",")[0];
             output.addAction(action);
             return processFilter(filter.substring(action.length()+1).trim(),
