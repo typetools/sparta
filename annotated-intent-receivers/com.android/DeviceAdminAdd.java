@@ -7,7 +7,8 @@ import static sparta.checkers.quals.FlowPermission.*;
 
 public class DeviceAdminAdd extends Activity {
 
-    @Override
+	@Override
+	@ReceiveIntent("startActivity,1")
     public @IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",source={ANY},
             sink={BIND_DEVICE_ADMIN}),
             @Extra(key="android.app.extra.ADD_EXPLANATION", source={ANY},

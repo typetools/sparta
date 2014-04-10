@@ -9,6 +9,8 @@ import static sparta.checkers.quals.FlowPermission.*;
 
 public class BrowserActivity extends Activity {
 
+	@Override
+	@ReceiveIntent("startActivity,1")
     public @IntentMap() Intent getIntent() {
         Intent output = super.getIntent();
         return output;
