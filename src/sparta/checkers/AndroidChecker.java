@@ -3,6 +3,7 @@ package sparta.checkers;
 import org.checkerframework.framework.source.AggregateChecker;
 import org.checkerframework.framework.source.SourceChecker;
 
+import sparta.checkers.permission.AndroidFenumChecker;
 import sparta.checkers.permission.RequiredPermissionsChecker;
 
 import java.util.ArrayList;

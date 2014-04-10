@@ -13,6 +13,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized.Parameters;
 
 import sparta.checkers.intents.IntentChecker;
+import sparta.checkers.permission.AndroidFenumChecker;
 import sparta.checkers.permission.PermissionsChecker;
 
 /**

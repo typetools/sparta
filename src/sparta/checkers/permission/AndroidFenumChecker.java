@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.permission;
 
 import org.checkerframework.checker.fenum.FenumChecker;
 import org.checkerframework.framework.qual.TypeQualifiers;
