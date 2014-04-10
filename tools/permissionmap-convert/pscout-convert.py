@@ -2,7 +2,7 @@
 # usage: python convert.py
 import re
 
-print("import sparta.checkers.quals.*;")
+print("import sparta.checkers.permission.qual.*;")
 print
 
 f = open("APICalls-PScout-4.0.1.txt", "r")

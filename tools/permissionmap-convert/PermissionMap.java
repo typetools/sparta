@@ -145,7 +145,7 @@ public static
   return list;
 }
 private static void printPerm(Map<String, List<Method>> packages) {  
-    System.out.println("import sparta.checkers.quals.*;");
+    System.out.println("import sparta.checkers.permission.qual.*;");
     List<String> classes = asSortedList(packages.keySet());
     String cpackage = "XXXXX";
     for(String classs:classes){

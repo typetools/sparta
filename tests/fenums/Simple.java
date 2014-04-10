@@ -1,6 +1,6 @@
+import sparta.checkers.permission.qual.Permission;
 import android.Manifest.permission;
 
-import sparta.checkers.quals.*;
 
 class Simple {
     void foo(String s, Object o) {
