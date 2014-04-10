@@ -15,6 +15,7 @@ import org.junit.runners.Parameterized.Parameters;
 import sparta.checkers.intents.IntentChecker;
 import sparta.checkers.permission.AndroidFenumChecker;
 import sparta.checkers.permission.PermissionsChecker;
+import sparta.checkers.report.AndroidReportChecker;
 
 /**
  * JUnit tests for the SPARTA Checkers.

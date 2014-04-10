@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.report;
 
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;

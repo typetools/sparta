@@ -19,6 +19,8 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
+import sparta.checkers.report.AndroidReportChecker;
+
 //import com.google.gson.Gson;
 
 /* Data classes that contain the information that will
@@ -311,7 +313,7 @@ public abstract class JsonJavac {
 
         @Override
         String getProcessorName() {
-            return sparta.checkers.AndroidReportChecker.class.getCanonicalName();
+            return sparta.checkers.report.AndroidReportChecker.class.getCanonicalName();
         }
     }
 
@@ -322,7 +324,7 @@ public abstract class JsonJavac {
 
         @Override
         String getProcessorName() {
-            return sparta.checkers.AndroidReportChecker.class.getCanonicalName();
+            return sparta.checkers.report.AndroidReportChecker.class.getCanonicalName();
         }
 
         // From API name to the set of Data
@@ -366,7 +368,7 @@ public abstract class JsonJavac {
 
         @Override
         String getProcessorName() {
-            return sparta.checkers.AndroidReportChecker.class.getCanonicalName();
+            return sparta.checkers.report.AndroidReportChecker.class.getCanonicalName();
         }
 
         Map<String, Set<FlowData>> sources = new HashMap<>();

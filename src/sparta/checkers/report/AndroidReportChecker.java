@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.report;
 
 import org.checkerframework.common.util.report.ReportChecker;
 import org.checkerframework.common.util.report.qual.ReportCreation;

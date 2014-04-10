@@ -5,6 +5,7 @@ import org.checkerframework.framework.source.SourceChecker;
 
 import sparta.checkers.permission.AndroidFenumChecker;
 import sparta.checkers.permission.RequiredPermissionsChecker;
+import sparta.checkers.report.AndroidReportChecker;
 
 import java.util.ArrayList;
 import java.util.Collection;
