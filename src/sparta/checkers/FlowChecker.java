@@ -15,6 +15,7 @@ import org.checkerframework.framework.stub.StubGenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,6 +41,7 @@ import sparta.checkers.quals.FineSource;
 @SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })
 
 public class FlowChecker extends BaseTypeChecker {
+    public static final String SPARTA_OUTPUT_DIR = System.getProperty("user.dir")+File.separator+"sparta-out"+File.separator;
     public static final String MSG_FILTER_OPTION = "msgFilter";
     public static final String IGNORE_NOT_REVIEWED = "ignorenr";
 
@@ -79,16 +81,22 @@ public class FlowChecker extends BaseTypeChecker {
     }
     @Override
 public void typeProcessingOver() {
-        printMethods();
-        FlowAnnotatedTypeFactory factory = ((FlowVisitor) visitor).getTypeFactory();
-        factory.flowAnalizer.printImpliedFlowsVerbose();
-        factory.flowAnalizer.printImpliedFlowsForbidden();
-        factory.flowAnalizer.printAllFlows();
-        factory.flowAnalizer.printIntentFlowsByComponent();
+        File outputDir = new File(SPARTA_OUTPUT_DIR);
+        if(!outputDir.exists()){
+            outputDir.mkdir();
+        }
+        if (outputDir.exists() && outputDir.isDirectory()) {
+            printMethods();
+            FlowAnnotatedTypeFactory factory = ((FlowVisitor) visitor).getTypeFactory();
+            factory.flowAnalizer.printImpliedFlowsVerbose();
+            factory.flowAnalizer.printImpliedFlowsForbidden();
+            factory.flowAnalizer.printAllFlows();
+            factory.flowAnalizer.printIntentFlowsByComponent();
+        }
     }
 
     // TODO: would be nice if you could pass a file name
-    private final String printMissMethod = "missingAPI.astub";
+    private final String printMissMethod = SPARTA_OUTPUT_DIR+"missingAPI.astub";
     // TODO: would be nice if there was a command line argument to turn this on
     // and off
     private final boolean printFrequency = true;

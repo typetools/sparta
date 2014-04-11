@@ -14,7 +14,7 @@ use Getopt::Long;
 
 my @dirs_default = qw/src AndroidManifest.xml/;
 my @dirs = ();
-my $outfile = "sparta_strings.txt";
+my $outfile = "./sparta-out/sparta_strings.txt";
 GetOptions('dirs:s' => \@dirs, 'outfile:s' => \$outfile);
 if ($#dirs < 0) {
     @dirs = @dirs_default;

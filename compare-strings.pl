@@ -16,7 +16,7 @@ use Getopt::Long;
 # 3) root-dir: root directory to recursively search for search-file
 
 my $search_file ="sparta_strings.txt";
-my $source_strings ="sparta_strings.txt";
+my $source_strings ="sparta-output/sparta_strings.txt";
 my $root_dir ="../";
 GetOptions('root-dir:s' => \$root_dir,
         'source-strings:s' => \$source_strings, 'search_file:s' => \$search_file);
