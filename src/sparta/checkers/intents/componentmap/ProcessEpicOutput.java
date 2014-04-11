@@ -123,44 +123,46 @@ public class ProcessEpicOutput {
     
     private static String bytecodeDescriptorToSimpleJava(String descriptor) {
         String output = "";
+        boolean isArray = false;
         for(int i = 0; i < descriptor.length(); i++) {
             char c = descriptor.charAt(i);
             switch(c) {
                 case 'B':
-                    output += "byte,";
+                    output += "byte";
                     break;
                 case 'C':
-                    output += "char,";
+                    output += "char";
                     break;
                 case 'D':
-                    output += "double,";
+                    output += "double";
                     break;
                 case 'F':
-                    output += "float,";
+                    output += "float";
                     break;
                 case 'I':
-                    output += "int,";
+                    output += "int";
                     break;
                 case 'J':
-                    output += "long,";
+                    output += "long";
                     break;
                 case 'S':
-                    output += "short,";
+                    output += "short";
                     break;
                 case 'Z':
-                    output += "boolean,";
+                    output += "boolean";
                     break;
                 case '[':
-                    break;
+                	isArray = true;
+                	continue;
                 case ']':
-                    break;
+                	continue;
                 case 'L':
                     StringBuffer temp = new StringBuffer();
                     i++;
                     while(i < descriptor.length() && descriptor.charAt(i) != ';') {
                         temp.append(descriptor.charAt(i++));
                     }
-                    output += temp + ",";
+                    output += temp;
                     break;
                 case ')':
                     continue;
@@ -168,6 +170,11 @@ public class ProcessEpicOutput {
                     System.err.println("Unrecognized char: " + c + "; in descriptor: " + descriptor );
                     break;    
             }
+            if(isArray) {
+            	output += "[]";
+            	isArray = false;
+            }
+            output += ",";
             
         }
         if(output.length() == 0) {
