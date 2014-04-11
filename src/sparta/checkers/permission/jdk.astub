@@ -1,4 +1,4 @@
-import sparta.checkers.quals.*;
+import sparta.checkers.permission.qual.*;
 
 package android;
 

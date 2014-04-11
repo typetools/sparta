@@ -1,7 +1,7 @@
 import android.Manifest.permission;
 import android.location.LocationManager;
 
-import sparta.checkers.quals.*;
+import sparta.checkers.permission.qual.*;
 
 // Tests permissions contained in permission.astub
 class TestSpec {

@@ -1,4 +1,4 @@
-package sparta.checkers.quals;
+package sparta.checkers.permission.qual;
 
 /**
  * List of Android dependent permissions required in some cases to use a method.

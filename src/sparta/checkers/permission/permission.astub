@@ -1,4 +1,4 @@
-import sparta.checkers.quals.*;
+import sparta.checkers.permission.qual.*;
 package android.accessibilityservice;
 class AccessibilityService{
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(java.io.InputStream arg0);

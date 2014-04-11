@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.permission;
 
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
@@ -14,8 +14,8 @@ import java.util.List;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.ExecutableElement;
 
-import sparta.checkers.quals.MayRequiredPermissions;
-import sparta.checkers.quals.RequiredPermissions;
+import sparta.checkers.permission.qual.MayRequiredPermissions;
+import sparta.checkers.permission.qual.RequiredPermissions;
 
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;

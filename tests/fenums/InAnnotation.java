@@ -1,6 +1,5 @@
+import sparta.checkers.permission.qual.RequiredPermissions;
 import android.Manifest.permission;
-
-import sparta.checkers.quals.*;
 
 class InAnnotation {
     //:: error: (annotation.type.incompatible)

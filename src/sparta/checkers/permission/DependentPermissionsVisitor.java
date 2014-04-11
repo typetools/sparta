@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.permission;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
@@ -6,7 +6,7 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
 
-import sparta.checkers.quals.DependentPermissions;
+import sparta.checkers.permission.qual.DependentPermissions;
 
 import com.sun.source.tree.Tree;
 

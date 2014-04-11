@@ -3,6 +3,10 @@ package sparta.checkers;
 import org.checkerframework.framework.source.AggregateChecker;
 import org.checkerframework.framework.source.SourceChecker;
 
+import sparta.checkers.permission.AndroidFenumChecker;
+import sparta.checkers.permission.RequiredPermissionsChecker;
+import sparta.checkers.report.ReportAPIChecker;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -17,7 +21,7 @@ public class AndroidChecker extends AggregateChecker {
                 2);
         checkers.add(AndroidFenumChecker.class);
         checkers.add(RequiredPermissionsChecker.class);
-        checkers.add(AndroidReportChecker.class);
+        checkers.add(ReportAPIChecker.class);
         checkers.add(FlowChecker.class);
         return checkers;
     }

@@ -19,6 +19,8 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
+import sparta.checkers.report.ReportAPIChecker;
+
 //import com.google.gson.Gson;
 
 /* Data classes that contain the information that will
@@ -101,7 +103,7 @@ class FlowData extends Data {
 
 /**
  * This tool converts the diagnostic messages of the
- * {@link AndroidReportChecker} into first JSON representation. The Java source
+ * {@link ReportAPIChecker} into first JSON representation. The Java source
  * files to compile are given as only command-line arguments.
  * 
  * @author wmdietl
@@ -311,7 +313,7 @@ public abstract class JsonJavac {
 
         @Override
         String getProcessorName() {
-            return sparta.checkers.AndroidReportChecker.class.getCanonicalName();
+            return sparta.checkers.report.ReportAPIChecker.class.getCanonicalName();
         }
     }
 
@@ -322,7 +324,7 @@ public abstract class JsonJavac {
 
         @Override
         String getProcessorName() {
-            return sparta.checkers.AndroidReportChecker.class.getCanonicalName();
+            return sparta.checkers.report.ReportAPIChecker.class.getCanonicalName();
         }
 
         // From API name to the set of Data
@@ -366,7 +368,7 @@ public abstract class JsonJavac {
 
         @Override
         String getProcessorName() {
-            return sparta.checkers.AndroidReportChecker.class.getCanonicalName();
+            return sparta.checkers.report.ReportAPIChecker.class.getCanonicalName();
         }
 
         Map<String, Set<FlowData>> sources = new HashMap<>();

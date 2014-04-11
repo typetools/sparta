@@ -216,19 +216,19 @@
     <target name="check-permissions"
                 depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for both required permissions and dependent permissions.">
-        <process-proj processor="sparta.checkers.PermissionsChecker"/>
+        <process-proj processor="sparta.checkers.permission.PermissionsChecker"/>
     </target>
 
     <target name="reqperms"
                 depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for required permissions.">
-        <process-proj processor="sparta.checkers.RequiredPermissionsChecker"/>
+        <process-proj processor="sparta.checkers.permission.RequiredPermissionsChecker"/>
     </target>
 
     <target name="reqdependentperms"
                 depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for dependent permissions.">
-        <process-proj processor="sparta.checkers.DependentPermissionsChecker"/>
+        <process-proj processor="sparta.checkers.permission.DependentPermissionsChecker"/>
     </target>
 
 
@@ -259,13 +259,13 @@
                       <arg value="."/>
                 </exec><echo/>
             <!-- Run report checker -->
-                <process-proj processor="sparta.checkers.AndroidReportChecker" stub="suspicious.astub"/>
+                <process-proj processor="sparta.checkers.report.ReportAPIChecker" stub="suspicious.astub"/>
     </target>
 
     <target name="reportapiusage"
                 depends="-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report interesting API usage.">
-        <process-proj processor="sparta.checkers.AndroidReportChecker" stub="apiusage.astub"/>
+        <process-proj processor="sparta.checkers.report.ReportAPIChecker" stub="apiusage.astub"/>
     </target>
     
     

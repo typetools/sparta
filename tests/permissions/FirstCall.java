@@ -1,7 +1,7 @@
 import android.Manifest.permission;
 import android.bluetooth.BluetoothDevice;
 
-import sparta.checkers.quals.*;
+import sparta.checkers.permission.qual.*;
 
 class FirstCall {
     @RequiredPermissions(permission.NFC)

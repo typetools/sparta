@@ -1,4 +1,4 @@
-package sparta.checkers;
+package sparta.checkers.permission;
 
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
@@ -19,9 +19,9 @@ import java.util.LinkedList;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import sparta.checkers.quals.DependentPermissions;
-import sparta.checkers.quals.DependentPermissionsTop;
-import sparta.checkers.quals.DependentPermissionsUnqualified;
+import sparta.checkers.permission.qual.DependentPermissions;
+import sparta.checkers.permission.qual.DependentPermissionsTop;
+import sparta.checkers.permission.qual.DependentPermissionsUnqualified;
 
 import com.sun.source.tree.LiteralTree;
 import com.sun.source.tree.Tree;
