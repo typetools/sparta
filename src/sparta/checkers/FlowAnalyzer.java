@@ -17,6 +17,7 @@ import java.util.Set;
 
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.ParameterizedFlowPermission;
+import static  sparta.checkers.FlowChecker.SPARTA_OUTPUT_DIR;
 
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.tree.JCTree;
@@ -40,10 +41,10 @@ import com.sun.tools.javac.util.DiagnosticSource;
 
 public class FlowAnalyzer {
 
-    private static final String IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT = "forbiddenFlows.txt";
-    private static final String IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT = "foundFlows.txt";
-    private static final String ALL_FLOWS_FILE_DEFAULT = "forbiddenFlowLocations.txt";
-    private static final String INTENT_FLOWS_FILE_DEFAULT = "intentFlows.txt";
+    private static final String IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"forbiddenFlows.txt";
+    private static final String IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"foundFlows.txt";
+    private static final String ALL_FLOWS_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"forbiddenFlowLocations.txt";
+    private static final String INTENT_FLOWS_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"intentFlows.txt";
 
     // TODO: would be nice if you could pass a file name
     private String impliedFlowsForbiddenFile = IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT;

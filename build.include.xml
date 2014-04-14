@@ -156,7 +156,7 @@
     </target>
     
     <target name="filter-flows">
-        <property name="filter.flow_file" value="./forbiddenFlowLocations.txt" />
+        <property name="filter.flow_file" value="./sparta-output/forbiddenFlowLocations.txt" />
         <property name="filter" value="" />
         <exec executable="${sparta-code_dir}/filter-flows.pl">
                     <arg line="--flow-file ${filter.flow_file}" />
@@ -249,6 +249,11 @@
     <target name="-setup-reportsuspicious">
         <property name="build.target" value="reportsuspicious" />
     </target>
+         <target name="report-strings"
+                 depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package"
+                 description="reports all static strings found by the ValueChecker">
+         <process-proj processor="sparta.checkers.report.ReportValueChecker"/>
+     </target>
 
     <target name="reportsuspicious"
                 depends="clean, -setup-reportsuspicious, -build-setup,-set-release-mode,-code-gen, -post-package" 
