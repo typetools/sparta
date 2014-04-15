@@ -110,13 +110,14 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
         
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
         final Set<ParameterizedFlowPermission> sinks = Flow.getSinks(type);
+        final Set<ParameterizedFlowPermission> sources = Flow.getSources(type);
+
         if (!ParameterizedFlowPermission.coarsePermissionExists(ANY, sinks) && 
             !ParameterizedFlowPermission.coarsePermissionExists(CONDITIONAL, sinks)) {
-            checker.report(Result.failure("condition.flow", type.getAnnotations()), tree);
+            checker.report(Result.failure("condition.flow",sources ), tree);
 
         }
         if(checkConditional){
-            final Set<ParameterizedFlowPermission> sources = Flow.getSources(type);
             if(sources.size() > 1 || 
                     !ParameterizedFlowPermission.coarsePermissionExists(LITERAL, sources)){
                 checker.report(Result.failure("condition.flow", sources), tree);
@@ -185,34 +186,6 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
         return null;
     }
 
-    /**
-     * Check the return type of an invoked method for forbidden flows in case
-     * the method was annotated in a stub file. (Parameters are checked during
-     * the pseudo assignment of the arguments to the parameters.) TODO: It would
-     * be better to to check this in
-     * org.checkerframework.framework.type.AnnotatedTypeFactory.methodFromUse(MethodInvocationTree)
-     */
-    @Override
-    protected void checkMethodInvocability(AnnotatedExecutableType method, MethodInvocationTree node) {
-        AnnotatedTypeMirror returnType = method.getReturnType();
-        if (!(returnType instanceof AnnotatedNoType)) {
-            warnForbiddenFlows(returnType, node);
-        }
-        super.checkMethodInvocability(method, node);
-
-        AnnotatedTypeMirror methodReceiver = method.getReceiverType().getErased();
-        AnnotatedTypeMirror treeReceiver = methodReceiver.getCopy(false);
-        AnnotatedTypeMirror rcv = atypeFactory.getReceiverType(node);
-        treeReceiver.addAnnotations(rcv.getEffectiveAnnotations());
-
-        if (!atypeFactory.getTypeHierarchy().isSubtype(treeReceiver, methodReceiver)) {
-            Set<ParameterizedFlowPermission> sinks = Flow.getSinks(methodReceiver);
-            Set<ParameterizedFlowPermission> sources = Flow.getSources(treeReceiver);
-            Flow flow = new Flow(sources, sinks);
-            atypeFactory.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
-            atypeFactory.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
-        }
-    }
 
     @Override
     protected void commonAssignmentCheck(AnnotatedTypeMirror varType,
