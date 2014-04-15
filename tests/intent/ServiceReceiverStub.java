@@ -17,9 +17,9 @@ public class ServiceReceiverStub extends Service {
         // TODO Auto-generated method stub
         return 0;
     }
+
     @Override
-    //@ReceiveIntent("bindService")
-    //:: error: (intent.override.receiveintent)
+    @ReceiveIntent("bindService,3")
     public IBinder onBind(Intent intent) {
         return null;
     }
