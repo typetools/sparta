@@ -38,7 +38,12 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
         if (getParameters() == null || getParameters().size() == 0) {
             return getPermission().toString();
         }
-        String parameterizedToString = getPermission().toString() + "(";
+        String parameterizedToString = getPermission().toString();
+        if(getParameters().size()==1 && getParameters().get(0).equals("*")){
+            //Don't print PERMISSION(*), just print PERMISSION
+            return parameterizedToString;
+        }
+        parameterizedToString += "(";
         for (String param : getParameters()) {
             parameterizedToString += param + ","; 
         }
