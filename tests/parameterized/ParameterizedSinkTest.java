@@ -4,7 +4,7 @@ import static sparta.checkers.quals.FlowPermission.*;
 
 
 class ParameterizedSinkTest {
-    void sendData(@Sink(value={CONDITIONAL}, finesinks={@FineSink(value={INTERNET}, params={"maps.google.com", "voice.google.com", "google.com"})}) Object p) {
+    void sendData(@Sink(value={CONDITIONAL}, finesinks={@FineSink(value=INTERNET, params={"maps.google.com", "voice.google.com", "google.com"})}) Object p) {
         // Allowed: fewer sinks
         noComm(p);
         // Forbidden: less restrictive sink params
@@ -18,7 +18,7 @@ class ParameterizedSinkTest {
         sendData(p);
     }
 
-    void two(@Sink(value={WRITE_SMS, CONDITIONAL}, finesinks={@FineSink(value={INTERNET}, params={"*.google.com", "google.com"})}) Object p) {
+    void two(@Sink(value={WRITE_SMS, CONDITIONAL}, finesinks={@FineSink(value=INTERNET, params={"*.google.com", "google.com"})}) Object p) {
         // Allowed: fewer sinks, more restrictive sink params
         sendData(p);
         // Forbidden: more sinks

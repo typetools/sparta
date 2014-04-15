@@ -289,7 +289,7 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- Make sure to add all individual tests as dependency. -->
-    <target name="all-tests" depends="jar,build-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests"
+    <target name="all-tests" depends="jar,build-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests, param-flow-tests"
       description="Run tests for all checkers"/>
 
     <target name="permissions-tests" depends="jar,build-tests"
@@ -338,6 +338,12 @@ ${build.version} of the 'javac.jar' library."/>
       description="Run tests for the Flow Checker">
         <antcall target="-run-tests">
             <param name="testclass" value="sparta.checkers.AndroidTests$StubfileTests"/>
+        </antcall>
+    </target>
+    <target name="param-flow-tests" depends="jar,build-tests"
+      description="Run tests for the Flow Checker">
+        <antcall target="-run-tests">
+            <param name="testclass" value="sparta.checkers.AndroidTests$ParameterizedFlowCheckerTests"/>
         </antcall>
     </target>
     <target name="strict-tests" depends="jar,build-tests"
