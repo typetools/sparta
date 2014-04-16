@@ -163,6 +163,20 @@ public class IntentVisitor extends FlowVisitor {
     @Override
     protected void checkMethodInvocability(AnnotatedExecutableType method,
             MethodInvocationTree node) {
+    	//Code copied from superclass method
+    	if (method.getReceiverType() == null) {
+            // Static methods don't have a receiver.
+            return;
+        }
+        if (method.getElement().getKind() == ElementKind.CONSTRUCTOR) {
+            // TODO: Explicit "this()" calls of constructors have an implicit passed
+            // from the enclosing constructor. We must not use the self type, but
+            // instead should find a way to determine the receiver of the enclosing constructor.
+            // rcv = ((AnnotatedExecutableType)atypeFactory.getAnnotatedType(atypeFactory.getEnclosingMethod(node))).getReceiverType();
+            return;
+        }
+        //
+        
         if (isTypeOf(method, android.content.Intent.class)
                 || isTypeOf(method, android.os.Bundle.class)) {
             checkIntentExtraMethods(method, node);
