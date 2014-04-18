@@ -8,6 +8,7 @@ import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
 
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.common.reflection.ReflectionResolutionAnnotatedTypeFactory;
 import org.checkerframework.framework.flow.CFAbstractAnalysis;
 import org.checkerframework.framework.flow.CFStore;
 import org.checkerframework.framework.flow.CFTransfer;
@@ -80,7 +81,7 @@ import com.sun.source.tree.Tree;
 import com.sun.source.tree.TypeCastTree;
 import com.sun.source.tree.UnaryTree;
 
-public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
+public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
     protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK;
@@ -173,11 +174,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
         ((FlowChecker)checker).notInStubFile.putAll(notInStubFile);
         notInStubFile = ((FlowChecker)checker). notInStubFile;
 
-    }
-    @Override
-    public AnnotationMirror getAnnotationMirror(Tree tree,
-            Class<? extends Annotation> target){
-        return null;
     }
 
     private AnnotationMirror createAnnoFromSink(
