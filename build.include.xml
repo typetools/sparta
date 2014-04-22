@@ -213,7 +213,7 @@
         <property name="build.target" value="reqperms" />
     </target>
 
-    <target name="check-permissions"
+    <target name="report-permissions"
                 depends="clean,-setup-reqperms,-build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for both required permissions and dependent permissions.">
         <process-proj processor="sparta.checkers.permission.PermissionsChecker"/>
@@ -255,7 +255,7 @@
          <process-proj processor="sparta.checkers.report.ReportValueChecker"/>
      </target>
 
-    <target name="reportsuspicious"
+    <target name="report-suspicious"
                 depends="clean, -setup-reportsuspicious, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report suspicoius API usage.">
         	<!-- Run script to search for suspicious regexp pattern -->
