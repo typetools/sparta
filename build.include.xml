@@ -334,7 +334,7 @@
         </fileset>
         <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
 
-        <exec executable="${env.CHECKER_INFERENCE}/scripts/inference.py">
+        <exec executable="${env.CHECKER_INFERENCE}/scripts/inference.py" failonerror="true">
             <arg line="--extra-classpath='${cmdClasspath}:src/:gen:.'" />
             <arg line="--solver sparta.checkers.SpartaSourceSolver" />
             <!--<arg line="- -solver checkers.inference.solver.DebugSolver" />-->
@@ -367,7 +367,7 @@
         </fileset>
         <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
 
-        <exec executable="${env.CHECKER_INFERENCE}/scripts/inference.py">
+        <exec executable="${env.CHECKER_INFERENCE}/scripts/inference.py" failonerror="true">
             <arg line="--extra-classpath='${cmdClasspath}:src/:gen:.'" />
             <arg line="--solver sparta.checkers.SpartaSinkSolver" />
             <arg line="--checker sparta.checkers.SpartaSinkChecker" />
