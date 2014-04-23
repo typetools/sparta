@@ -307,6 +307,76 @@
 <!--                 description="report binary-only method calls and field accesses."> -->
 <!--         <process-proj processor="sparta.checkers.ReportBinaryChecker"/> -->
 <!--     </target> -->
-    
 
+    <!-- Enable debugging for inference -->
+    <target name="cfi-debug">
+        <property name="debug" value="--debug"/>
+    </target>
+    <target name="infer" depends="infer-source, infer-sink">
+    </target>
+    <!-- Only run inference on @Source annotations -->
+    <target name="infer-source" depends="-build-setup, -set-release-mode, -code-gen, -post-package">
+        <property name="debug" value=""/>
+
+        <exec executable="/usr/bin/find">
+            <arg line="src gen -name '*.unannotated' -exec rm {} ;" />
+        </exec>
+
+        <pathconvert property="cmdClasspath" refid="project.target.class.path" pathsep=":"/>
+
+        <fileset dir="${source.absolute.dir}" id="mySourceJava">
+            <include name="**/*.java" />
+        </fileset>
+        <pathconvert property="cmdSourceJava" refid="mySourceJava" pathsep="' '" />
+
+        <fileset dir="${gen.absolute.dir}" id="myGenJava">
+            <include name="**/*.java" />
+        </fileset>
+        <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
+
+        <exec executable="${env.CHECKER_INFERENCE}/scripts/inference.py" failonerror="true">
+            <arg line="--extra-classpath='${cmdClasspath}:src/:gen:.'" />
+            <arg line="--solver sparta.checkers.SpartaSourceSolver" />
+            <!--<arg line="- -solver checkers.inference.solver.DebugSolver" />-->
+            <arg line="--checker sparta.checkers.SpartaSourceChecker" />
+            <arg line="--log-level=DEBUG" />
+            <arg line="--prog-args='--proc-only=false --hackmode'" />
+            <arg line="--mode roundtrip" />
+            <arg line="--in-place" />
+            <arg line="${debug}" />
+            <arg line="${cmdSourceJava} ${cmdGenJava}" />
+        </exec>
+    </target>
+    <!-- Only run inference on @Sink annotations -->
+    <target name="infer-sink" depends="-build-setup, -set-release-mode, -code-gen, -post-package">
+        <property name="debug" value=""/>
+
+        <exec executable="/usr/bin/find">
+            <arg line="src gen -name '*.unannotated' -exec rm {} ;" />
+        </exec>
+
+        <pathconvert property="cmdClasspath" refid="project.target.class.path" pathsep=":"/>
+
+        <fileset dir="${source.absolute.dir}" id="mySourceJava">
+            <include name="**/*.java" />
+        </fileset>
+        <pathconvert property="cmdSourceJava" refid="mySourceJava" pathsep="' '" />
+
+        <fileset dir="${gen.absolute.dir}" id="myGenJava">
+            <include name="**/*.java" />
+        </fileset>
+        <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
+
+        <exec executable="${env.CHECKER_INFERENCE}/scripts/inference.py" failonerror="true">
+            <arg line="--extra-classpath='${cmdClasspath}:src/:gen:.'" />
+            <arg line="--solver sparta.checkers.SpartaSinkSolver" />
+            <arg line="--checker sparta.checkers.SpartaSinkChecker" />
+            <arg line="--log-level=DEBUG" />
+            <arg line="--prog-args='--proc-only=false --hackmode'" />
+            <arg line="--mode roundtrip" />
+            <arg line="--in-place" />
+            <arg line="${debug}" />
+            <arg line="${cmdSourceJava} ${cmdGenJava}" />
+        </exec>
+    </target>
 </project>
