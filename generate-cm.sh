@@ -49,16 +49,18 @@ function downloadJars {
 
 cd $SPARTA_CODE
 APKPATH=$(cd $(dirname $1); pwd)/$(basename $1)  
-CMPATH="$2"
-EPICCOUTPUT=epiccoutput.txt
+OUTDIR="$2"
+
+if [ "$OUTDIR" == "" ]; then
+	OUTDIR=$(dirname ${APKPATH})/sparta-out/
+else
+	OUTDIR=$(cd "$2"; pwd)/sparta-out/ 
+fi
+mkdir -p  "$OUTDIR"
+CMPATH="$OUTDIR"/component-map
+EPICCOUTPUT="$OUTDIR"/epiccoutput.txt
 FILTERSMAPTEMP="$SPARTA_CODE"/filterstemp
 FILTERSMAP="$SPARTA_CODE"/src/sparta/checkers/intents/componentmap/filter-map
-
-if [ "$CMPATH" == "" ]; then
-	CMPATH=$(dirname ${APKPATH})/component-map
-else
-	CMPATH=$(cd $(dirname $2); pwd)/$(basename $2) 
-fi
 
 TARGETFOLDER_WITH_EXTENSION=$(basename $APKPATH)
 TARGETFOLDER=${TARGETFOLDER_WITH_EXTENSION%.apk}
@@ -76,7 +78,7 @@ fi
 ./download-libs/dare/dare -d ../epicc/ "$APKPATH"
 
 #Using Epicc
-java -Xmx1024M -jar ./download-libs/epicc/epicc-0.1.jar -apk "$APKPATH" -android-directory "$RETARGETEDPATH" -cp ./download-libs/epicc/android.jar -icc-study ./download-libs/epicc/ > ./download-libs/epicc/"$EPICCOUTPUT"
+java -Xmx1024M -jar ./download-libs/epicc/epicc-0.1.jar -apk "$APKPATH" -android-directory "$RETARGETEDPATH" -cp ./download-libs/epicc/android.jar -icc-study "$OUTDIR" > "$EPICCOUTPUT"
 #Epicc output generated.
 rm -rf ./download-libs/epicc/retargeted/*
 rm -rf ./download-libs/epicc/optmized/*
@@ -98,6 +100,6 @@ if [[ "$APKPATH" == *\.apk ]]
 fi
 #Processing epicc output with filters
 
-java -Xmx1024M -cp build/ sparta.checkers.intents.componentmap.ProcessEpicOutput ./download-libs/epicc/"$EPICCOUTPUT" "$FILTERSMAPTEMP" "$CMPATH"
+java -Xmx1024M -cp build/ sparta.checkers.intents.componentmap.ProcessEpicOutput "$EPICCOUTPUT" "$FILTERSMAPTEMP" "$CMPATH"
 rm -f $FILTERSMAPTEMP
 
