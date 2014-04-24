@@ -186,9 +186,6 @@ public class ProcessEpicOutput {
     static void readFile(String epiccOutputPath, String filtersPath, String cmPath) {
         filters = new ArrayList<IntentFilter>();
         file = new File(cmPath);
-        if(file.exists()) {
-            file.delete();
-        }
         BufferedReader bufferedReaderEpicc = null;
         try {
             bufferedReaderEpicc = new BufferedReader(new FileReader(epiccOutputPath));
@@ -276,7 +273,6 @@ public class ProcessEpicOutput {
                     originalLine = bufferedReaderEpicc.readLine();
                 }
             }
-            file.createNewFile();
             fw = new FileWriter(file.getAbsoluteFile());
             writeLines();
             bufferedReaderEpicc.close();
