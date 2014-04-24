@@ -36,6 +36,18 @@ String getHostName();
 class DatagramPacket {
 byte[] getData();
 InetAddress getAddress();
+    //8 (setAddress)
+        void setAddress(@Sink(INTERNET) InetAddress arg0);
+    //23 (<init>)
+        DatagramPacket(@Sink(INTERNET) byte[] arg0, @Sink(INTERNET) int arg1);
+    //8 (setPort)
+        void setPort(@Sink(INTERNET) int arg0);
+    //23 (<init>)
+        DatagramPacket(@Sink(INTERNET) byte[] arg0, @Sink(INTERNET) int arg1, @Sink(INTERNET) InetAddress arg2, @Sink(INTERNET) int arg3);
+    //8 (setData)
+        void setData(@Sink(INTERNET) byte[] arg0);
+    //20 (getPort)
+        @Source(INTERNET) int getPort();
 }
 
 @PolyFlowReceiver
@@ -209,3 +221,15 @@ class HttpURLConnection {
 }
 
 
+class DatagramSocket{
+    //7 (<init>)
+        DatagramSocket() throws SocketException;
+    //16 (<init>)
+        DatagramSocket(@Sink(INTERNET) int arg0) throws SocketException;
+    //16 (receive)
+        void receive(@Source(INTERNET) DatagramPacket arg0) throws IOException;
+    //24 (send)
+        void send(@Sink(INTERNET) DatagramPacket arg0) throws IOException;
+    //24 (close)
+        void close();
+}

@@ -439,6 +439,7 @@ class ObjectInputStream$GetField {
 class ObjectOutput{
         void close() throws IOException;
         void writeObject(Object arg0) throws IOException;
+        void write(int arg0) throws IOException;
 }
 
 @PolyFlowReceiver

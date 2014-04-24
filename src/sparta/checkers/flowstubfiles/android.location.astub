@@ -159,6 +159,8 @@ List<Address> getFromLocationName(String locationName, int maxResults);
 static boolean isPresent();
 //Returns true if the Geocoder methods getFromLocation and getFromLocationName are implemented.
 
+Geocoder(Context context, Locale locale);
+
 }
 
 class Location {

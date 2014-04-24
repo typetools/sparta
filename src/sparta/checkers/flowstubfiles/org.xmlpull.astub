@@ -42,3 +42,103 @@ XmlSerializer text(char[] arg0, int arg1, int arg2) throws IOException,IllegalAr
 XmlSerializer text(String arg0) throws IOException,IllegalArgumentException,IllegalStateException;
 }
 
+
+package java.util.concurrent;
+class Semaphore{
+    //11 (<init>)
+        Semaphore(int arg0);
+}
+package android.widget;
+class FrameLayout{
+    //5 (<init>)
+        FrameLayout(Context context, AttributeSet attrs, int defStyle);
+    //5 (<init>)
+        FrameLayout(Context context, AttributeSet attrs);
+    //5 (<init>)
+        FrameLayout(Context context);
+}
+class SimpleCursorAdapter{
+    //9 (<init>)
+        SimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags);
+}
+class AdapterView{
+    //8 (setFocusable)
+        void setFocusable(boolean focusable);
+}
+class CursorAdapter{
+    //5 (<init>)
+        CursorAdapter(Context context, Cursor c, int flags);
+}
+package android.app;
+class ListFragment{
+    //5 (<init>)
+        ListFragment();
+}
+package android.util;
+class SparseIntArray{
+    //9 (<init>)
+        SparseIntArray(int initialCapacity);
+}
+package android.view.ViewGroup;
+class OnHierarchyChangeListener{
+    //2 (onChildViewRemoved)
+        void onChildViewRemoved(@Source(DISPLAY) View arg0, @Source(DISPLAY) View arg1);
+    //2 (onChildViewAdded)
+        void onChildViewAdded(@Source(DISPLAY) View arg0, @Source(DISPLAY)View arg1);
+}
+package android.widget.SimpleCursorAdapter;
+class ViewBinder{
+    //2 (setViewValue)
+        boolean setViewValue(View arg0, Cursor arg1, int arg2);
+}
+package android.widget.AbsListView;
+class OnScrollListener{
+    //2 (onScrollStateChanged)
+        void onScrollStateChanged(@Source(DISPLAY) AbsListView arg0, @Source(DISPLAY) int arg1);
+    //2 (onScroll)
+        void onScroll(@Source(DISPLAY) AbsListView arg0, @Source(DISPLAY) int arg1, @Source(DISPLAY) int arg2, @Souce(DISPLAY) int arg3);
+}
+package org.json;
+class JSONArray{
+    //15 (optString)
+        String optString(int index);
+    //12 (length)
+        int length();
+}
+class JSONObject{
+    //8 (optInt)
+        int optInt(String name, int fallback);
+    //12 (get)
+        Object get(String name) throws JSONException;
+    //19 (optDouble)
+        double optDouble(String name);
+    //72 (optString)
+        String optString(String name);
+    //32 (put)
+        JSONObject put(String name, Object value) throws JSONException;
+    //14 (optInt)
+        int optInt(String name);
+    //11 (<init>)
+        JSONObject(String json) throws JSONException;
+    //12 (optJSONArray)
+        JSONArray optJSONArray(String name);
+    //12 (keys)
+        Iterator keys();
+}
+package android.webkit;
+class WebViewClient{
+    //2 (onPageFinished)
+        void onPageFinished(@Source(INTERNET) WebView view,  String url);
+    //2 (onLoadResource)
+        void onLoadResource(@Source(INTERNET)WebView view, String url);
+}
+class WebChromeClient{
+    //5 (<init>)
+        WebChromeClient();
+    //2 (onJsAlert)
+        boolean onJsAlert(@Source(INTERNET) WebView view, @Source(INTERNET) String url, @Source(INTERNET) String message, @Sink(INTERNET) JsResult result);
+    //2 (onProgressChanged)
+        void onProgressChanged(@Source(INTERNET) WebView view, @Source(INTERNET) int newProgress);
+    //2 (onReceivedTitle)
+        void onReceivedTitle(@Source(INTERNET) WebView view, @Source(INTERNET) String title);
+}
