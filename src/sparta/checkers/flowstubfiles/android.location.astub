@@ -200,10 +200,10 @@ long getElapsedRealtimeNanos();
 Bundle getExtras();
 //Returns additional provider-specific information about the location fix as a Bundle.
 
-double getLatitude();
+@Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) double getLatitude();
 //Get the latitude, in degrees.
 
-double getLongitude();
+ @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) double getLongitude();
 //Get the longitude, in degrees.
 
 String getProvider();
