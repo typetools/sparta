@@ -1237,7 +1237,7 @@ void setLength(int arg0);
     @PolyFlowReceiver
     String toString();
     @PolyFlowReceiver
-    char[] toCharArray();
+    @PolySource @PolySink char[] toCharArray();
     @PolyFlow
     static String format(String arg0, @PolySource @PolySink Object[] arg1);
     @PolyFlow

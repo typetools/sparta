@@ -950,6 +950,8 @@ void setSelection(int start, int stop);
 void setText(@Sink(DISPLAY )CharSequence text, TextView.BufferType type);
 //Sets the text that this TextView is to display (see setText(CharSequence);); and also sets whether it is stored in a styleable/spannable buffer and whether it is editable.
 
+@Source(USER_INPUT) String toString();
+
 }
 
 class ExpandableListAdapter{

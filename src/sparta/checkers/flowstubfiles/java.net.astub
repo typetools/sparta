@@ -68,15 +68,13 @@ class InetAddress implements Serializable {
     static InetAddress getLocalHost() throws UnknownHostException;
 }
 
-@PolyFlowReceiver
 class URL implements Serializable {
-//Added by pbsf
-    URL(String arg0, String arg1, int arg2, String arg3) throws MalformedURLException;
-    URL(String arg0, String arg1, String arg2) throws MalformedURLException;
-    URL(String arg0, String arg1, int arg2, String arg3, URLStreamHandler arg4) throws MalformedURLException;
-    URL(String arg0) throws MalformedURLException;
-    URL(URL arg0, String arg1) throws MalformedURLException;
-    URL(URL arg0, String arg1, URLStreamHandler arg2) throws MalformedURLException;
+    URL(@Sink(INTERNET) String arg0,@Sink(INTERNET) String arg1,@Sink(INTERNET) int arg2,@Sink(INTERNET) String arg3) throws MalformedURLException;
+    URL(@Sink(INTERNET)String arg0, @Sink(INTERNET)String arg1, @Sink(INTERNET)String arg2) throws MalformedURLException;
+    URL(@Sink(INTERNET)String arg0, @Sink(INTERNET)String arg1, @Sink(INTERNET)int arg2, @Sink(INTERNET)String arg3, URLStreamHandler arg4) throws MalformedURLException;
+    URL(@Sink(INTERNET)String arg0) throws MalformedURLException;
+    URL(URL arg0,@Sink(INTERNET) String arg1) throws MalformedURLException;
+    URL(URL arg0, @Sink(INTERNET)String arg1, URLStreamHandler arg2) throws MalformedURLException;
     protected void set(String arg0, String arg1, int arg2, String arg3, String arg4);
     protected void set(String arg0, String arg1, int arg2, String arg3, String arg4, String arg5, String arg6, String arg7);
     String getQuery();
