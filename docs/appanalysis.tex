@@ -96,7 +96,31 @@ Look at the \<AndroidManifest.xml> file and:
 
 \section{Run reverse-engineering tools\label{sec:reverse-engineering}}
 
+\subsection{Review constant strings used}
+\label{sec:appanalysis/strings}
 
+Run
+
+\begin{Verbatim}
+  ant report-strings
+\end{Verbatim}
+\noindent
+to get a list of all constant strings used in the the program grouped by
+category.  A file, \<found-strings.txt> ,  in the sparta-out directory, lists a
+summary of all strings used in the app grouped by category.   Categories are
+URLs, content URIs, class names, file or path names, SQL statements, messages
+to the user, and no category.  Each string is only assigned to one category.
+This ant target also reports where in the code the string was found. For
+example,
+ 
+\begin{Verbatim}
+.../MapActivity.java:41: warning: [found.url] 
+ 	 intent.setData(Uri.parse("http://darknessmap.com"));
+ 	                         ^
+   Possible URL string: http://darknessmap.com 
+\end{Verbatim}
+\noindent
+shows where a URL string is found in the found.  
 
 \subsection{Review suspicious code and API uses}
 \label{sec:appanalysis/suspicious}
