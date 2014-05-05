@@ -12,16 +12,12 @@ import org.checkerframework.framework.qual.DefaultLocation;
 import org.checkerframework.framework.source.Result;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
-import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.QualifierHierarchy;
 import org.checkerframework.framework.type.TreeAnnotator;
-import org.checkerframework.framework.util.AnnotatedTypes;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
-import org.checkerframework.framework.util.QualifierDefaults.DefaultApplierElement;
 import org.checkerframework.framework.util.QualifierDefaults;
 
 import org.checkerframework.javacutil.AnnotationUtils;
@@ -30,34 +26,22 @@ import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.Pair;
 import org.checkerframework.javacutil.TreeUtils;
 
-import java.io.File;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.Name;
-import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.TypeMirror;
 
-import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.GetExtra;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
-import sparta.checkers.quals.PolyFlow;
-import sparta.checkers.quals.PolyFlowReceiver;
-import sparta.checkers.quals.PutExtra;
-import sparta.checkers.quals.ReceiveIntent;
-import sparta.checkers.quals.SendIntent;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 

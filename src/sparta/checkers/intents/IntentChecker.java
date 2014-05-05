@@ -4,10 +4,8 @@ import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.qual.StubFiles;
 import org.checkerframework.framework.qual.TypeQualifiers;
-import org.checkerframework.framework.source.Result;
 import org.checkerframework.framework.source.SupportedLintOptions;
 
-import java.util.List;
 
 import javax.annotation.processing.SupportedOptions;
 

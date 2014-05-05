@@ -3,7 +3,6 @@ package sparta.checkers.intents;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
-import org.checkerframework.framework.util.AnnotatedTypes;
 import org.checkerframework.framework.util.AnnotationBuilder;
 
 import org.checkerframework.javacutil.AnnotationUtils;
@@ -11,34 +10,27 @@ import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.TreeUtils;
 
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
 
 import sparta.checkers.Flow;
-import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.GetExtra;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
-import sparta.checkers.quals.PolyFlow;
 import sparta.checkers.quals.PutExtra;
 import sparta.checkers.quals.ReceiveIntent;
 import sparta.checkers.quals.SendIntent;
 import sparta.checkers.quals.SetIntentFilter;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.MethodInvocationTree;
