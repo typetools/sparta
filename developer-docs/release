@@ -4,48 +4,51 @@ Making a release
 ================
 export RELEASE=…
 cd $RELEASE
-hg clone https://dada.cs.washington.edu/hgweb/sparta-code sparta-v0.9.6
-cd sparta-v0.9.6
+hg clone https://dada.cs.washington.edu/hgweb/sparta-code sparta-v0.9.7
+cd sparta-v0.9.7
 
 //Update the version number of SPARTA and CF:
 vi build.properties docs/manual.tex website/release/index.html
 vi changelog-sparta.txt
 
-hg commit -m "Updated to v0.9.6"
-hg tag sparta-0.9.6
+hg commit -m "Updated to v0.9.7"
+hg tag sparta-0.9.7
 hg push
 
 ant jar 
 cd docs; make ;cd ..
 
-cp sparta.jar ../sparta-0.9.6.jar
+cp sparta.jar ../sparta-0.9.7.jar
 cp docs/manual.html ../
 cp docs/manual.pdf ../
+cp docs/manual*.png ../
 cp website/release/index.html ../
 
 ant -buildfile release-cleanup.xml clean -DspartaDir=.
 
 cd ../
-tar -czf sparta-code-0.9.6.tgz sparta-v0.9.6/
+tar -czf sparta-code-0.9.7.tgz sparta-v0.9.7/
 
 //Prepare sparta-sample-apps
 cd $RELEASE
-hg clone https://dada.cs.washington.edu/hgweb/sparta-sample-apps sparta-samples-v0.9.6
+hg clone https://dada.cs.washington.edu/hgweb/sparta-sample-apps sparta-samples-v0.9.7
 
+cd sparta-samples-v0.9.7
 ant -buildfile release-cleanup.xml clean -DsubjectsDir=.
-tar -czf sparta-sample-apps-0.9.6.tgz sparta-samples-v0.9.6
-rm -r sparta-samples-v0.9.6/
-rm -r sparta-code-0.9.6/
-tar -czf release-v0.9.6.tgz *
+cd ../
+tar -czf sparta-samples-0.9.7.tgz sparta-samples-v0.9.7
+rm -r sparta-samples-v0.9.7/
+rm -r sparta-code-0.9.7/
+tar -czf release-v0.9.7.tgz *
 
 #Copy to server
 ssh buffalo
-mkdir /cse/www2/types/sparta/release/versions/v0.9.6
+mkdir /cse/www2/types/sparta/release/versions/v0.9.7
 #local machine
-scp release* buffalo:/cse/www2/types/sparta/release/versions/v0.9.6
+scp release* buffalo:/cse/www2/types/sparta/release/versions/v0.9.7
 #buffalo
-
-tar -xzf release-v0.9.6.tgz
+cd /cse/www2/types/sparta/release/versions/v0.9.7
+tar -xzf release-v0.9.7.tgz
 mv index.html ../../
 chmod 775 .
 chmod 664 *
