@@ -28,7 +28,7 @@ More specifically, the recommended workflow is:
 % 
 % \begin{enumerate}
 % \item ant reportsuspicious (also runs sparta-code/suspicious.pl)
-% \item ant check-permissions
+% \item ant report-permissions
 % \item ant reportapiusage
 % \item ant check-flow
 % \end{enumerate}
@@ -77,7 +77,7 @@ Look at the \<AndroidManifest.xml> file and:
   If an application uses certain permissions that are not justified
   in the description, this indicates suspicious code. 
   (To determine where these permissions are used in the application,
-   see \ref{sec:appanalysis/check-permissions})
+   see \ref{sec:appanalysis/report-permissions})
 
 
 \item Determine the entry points into the source code. (This may also give
@@ -160,18 +160,18 @@ inform the SPARTA developers so they can add them to the
 
 
 \subsection{Review where permissions are used in the application}
-\label{sec:appanalysis/check-permissions}
+\label{sec:appanalysis/report-permissions}
 
 
 Run
 
 \begin{Verbatim}
-  ant check-permissions
+  ant report-permissions
 \end{Verbatim}
 
 \noindent
 to see where the application calls API methods that may require some Android permissions.  
-The \<ant check-permissions> tool will help you gain an understanding of how your
+The \<ant report-permissions> tool will help you gain an understanding of how your
 app first obtains information from a sensitive source, or how your app
 finally sends information to a sensitive sink.  This may help you decide
 what parts of the app to further investigate, or where to start your
@@ -220,7 +220,7 @@ You should use
 notes=java.lang.String)> in case the permission may be required and you should 
 explain the reason on the \<notes> argument.
 However, it is not necessary to eliminate all the errors from RequiredPermissions.   
-The \<check-permissions> tool is only a tool to guide your annotation and manual analysis effort. 
+The \<report-permissions> tool is only a tool to guide your annotation and manual analysis effort. 
 
 Any permission that is required should already be listed in the
 \<AndroidManifest.xml> file.
@@ -795,7 +795,7 @@ String value.
 %%% End: 
 
 %  LocalWords:  App xml env basename sparta dir app check-flow Dstrict SDK
-%  LocalWords:  reportsuspicious check-permissions reportapiusage buildfile dirname
+%  LocalWords:  reportsuspicious report-permissions reportapiusage buildfile dirname
 %  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
 %  LocalWords:  RequiredPermissions Source Sink apiusage Dstubs
 %  LocalWords:  flowstubfiles TelephonyManager getLine1Number flowshow url
