@@ -2,7 +2,7 @@
 // that should be checked to identify malicious
 // code in an unannotated app
 //
-// used in ant target: reportsuspicious
+// used in ant target: report-suspicious
 
 import org.checkerframework.common.util.report.qual.*;
 

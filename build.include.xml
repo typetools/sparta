@@ -246,8 +246,8 @@
 <!--             output="flowshow.json"/> -->
 <!--     </target> -->
 
-    <target name="-setup-reportsuspicious">
-        <property name="build.target" value="reportsuspicious" />
+    <target name="-setup-report-suspicious">
+        <property name="build.target" value="report-suspicious" />
     </target>
          <target name="report-strings"
                  depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package"
@@ -256,7 +256,7 @@
      </target>
 
     <target name="report-suspicious"
-                depends="clean, -setup-reportsuspicious, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                depends="clean, -setup-report-suspicious, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="report suspicoius API usage.">
         	<!-- Run script to search for suspicious regexp pattern -->
         		<echo>Search for suspicious regexp pattern</echo><echo/>        		

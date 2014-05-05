@@ -27,7 +27,7 @@ More specifically, the recommended workflow is:
 % The tools should be run in the following order. 
 % 
 % \begin{enumerate}
-% \item ant reportsuspicious (also runs sparta-code/suspicious.pl)
+% \item ant report-suspicious (also runs sparta-code/suspicious.pl)
 % \item ant report-permissions
 % \item ant reportapiusage
 % \item ant check-flow
@@ -104,7 +104,7 @@ Look at the \<AndroidManifest.xml> file and:
 Run
 
 \begin{Verbatim}
-  ant reportsuspicious
+  ant report-suspicious
 \end{Verbatim}
 
 \noindent
@@ -795,7 +795,7 @@ String value.
 %%% End: 
 
 %  LocalWords:  App xml env basename sparta dir app check-flow Dstrict SDK
-%  LocalWords:  reportsuspicious report-permissions reportapiusage buildfile dirname
+%  LocalWords:  report-suspicious report-permissions reportapiusage buildfile dirname
 %  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
 %  LocalWords:  RequiredPermissions Source Sink apiusage Dstubs
 %  LocalWords:  flowstubfiles TelephonyManager getLine1Number flowshow url
