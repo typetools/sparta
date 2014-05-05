@@ -70,6 +70,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
     protected final AnnotationMirror INTENTEXTRAS, IEXTRA, EMPTYINTENTEXTRAS,
             INTENTEXTRASALL;
+    protected final ExecutableElement getIntent;
     protected final ComponentMap componentMap;
 
     public IntentAnnotatedTypeFactory(BaseTypeChecker checker) {
@@ -79,6 +80,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 .getOption(ComponentMap.COMPONENT_MAP_FILE_OPTION);
         componentMap = new ComponentMap(ipArg);
 
+        getIntent = TreeUtils.getMethod("android.app.Activity", "getIntent", 0, processingEnv);
+        
         INTENTEXTRAS = AnnotationUtils.fromClass(elements, IntentMap.class);
         IEXTRA = AnnotationUtils.fromClass(elements, Extra.class);
         EMPTYINTENTEXTRAS = createEmptyIntentExtras(); // top
@@ -127,6 +130,14 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 hostChangeParametersToIntentMapKeyType(tree,mfuPair);
             } else if (IntentUtils.isSetIntentFilter(tree, this)) {
                 hostChangeParametersToTop(mfuPair.first.getParameterTypes());
+            } else if (TreeUtils.isMethodInvocation(tree, getIntent, getProcessingEnv())) { 
+                AnnotatedTypeMirror atm = mfuPair.first.getReturnType();
+                if (atm.hasAnnotation(Source.class)) {
+                    replaceAnnotation(atm, Source.class, ANYSOURCE);
+                }
+                if (atm.hasAnnotation(Sink.class)) {
+                    replaceAnnotation(atm, Sink.class, NOSINK);
+                }
             }
         }
         return mfuPair;

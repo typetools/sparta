@@ -1,5 +1,6 @@
 package sparta.checkers.intents;
 
+import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.util.AnnotatedTypes;
@@ -21,6 +22,8 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Name;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.ElementFilter;
 
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
@@ -34,6 +37,8 @@ import sparta.checkers.quals.PutExtra;
 import sparta.checkers.quals.ReceiveIntent;
 import sparta.checkers.quals.SendIntent;
 import sparta.checkers.quals.SetIntentFilter;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.MethodInvocationTree;
@@ -42,13 +47,6 @@ import com.sun.source.util.TreePath;
 import com.sun.tools.javac.code.Symbol.ClassSymbol;
 
 public class IntentUtils {
-    
-    public final static String GET_INTENT =  "getIntent,0";
-    
-    public static List<String> RECEIVE_INTENT_METHODS = Arrays
-            .asList(new String[] {"onBind", "onRebind", "onStart",
-                    "onStartCommand", "onTaskRemoved", "onUnBind",
-                    "onReceive", "peekService", "getIntent" });
     
     /**
      * Method that receives an @IntentMap and a <code> key </code>
@@ -254,12 +252,29 @@ public class IntentUtils {
     }
     
     /**
+     * Returns the ExecutableElement of the getIntent() method declaration
+     * for the class passed as parameter.
+     *
+     */
+    public static ExecutableElement getMethodgetIntent(BaseTypeChecker checker, String canonicalClassName) {
+        TypeElement mapElt = checker.getProcessingEnvironment().getElementUtils().getTypeElement(canonicalClassName);
+        ExecutableElement getIntentMethod = null;
+        for (ExecutableElement exec : ElementFilter.methodsIn(mapElt.getEnclosedElements())) {
+            if (exec.getSimpleName().contentEquals("getIntent")
+                    && exec.getParameters().size() == 0)
+                getIntentMethod = exec;
+        }
+        
+        return getIntentMethod; 
+    }
+    
+    /**
      * Returns true if the MethodInvocationTree corresponds to one of the <code>receiveIntent()</code> calls:
      * E.g.: onBind(); onReceive(); getIntent();
      * @param tree
      * @return
      */
-
+    
     public static boolean isReceiveIntent(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
         Element ele = InternalUtils.symbol(tree);
         return atypeFactory.getDeclAnnotation(ele, ReceiveIntent.class) != null;
@@ -289,9 +304,6 @@ public class IntentUtils {
       
       //senderString += .method(args)
       MethodTree methodTree = TreeUtils.enclosingMethod(treePath);
-      ExecutableElement a = TreeUtils.elementFromDeclaration(methodTree);
-      Element b = a.getEnclosingElement();
-      Name c = a.getSimpleName();
       senderString += "." + TreeUtils.elementFromDeclaration(methodTree).toString();
       
       //Component map does not have entries with Generics parameters

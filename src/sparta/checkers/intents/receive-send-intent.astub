@@ -14,10 +14,10 @@ class Service {
 //onRebind(Intent i);
 //onTaskRemoved(android.content.Intent)
 //onUnbind(android.content.Intent)
- @SendIntent("getIntent,0")
+ @SendIntent("setIntent,1")
     void startActivity(Intent arg0);
     
-    @SendIntent("getIntent,0")
+    @SendIntent("setIntent,1")
     void startActivities(Intent[] arg0);
 
     @SendIntent("onReceive,2")
@@ -50,7 +50,7 @@ class Service {
 
 
 class Activity {
-   @ReceiveIntent("startActivity,1")
+   // @ReceiveIntent("startActivity,1")
    Intent getIntent();
     //Methods to that aren't handled yet:
     // protected void onNewIntent(Intent arg0);
@@ -58,7 +58,7 @@ class Activity {
     //protected void onActivityResult(int arg0, int arg1, Intent arg2);
     //PendingIntent createPendingResult(int arg0, Intent arg1, int arg2);
       
-   @SendIntent("getIntent,0")
+   @ReceiveIntent("startActivity,1")
     void setIntent(Intent arg0);
    
    // protected void onNewIntent(Intent arg0);
@@ -66,31 +66,31 @@ class Activity {
     //protected void onActivityResult(int arg0, int arg1, Intent arg2);
     //PendingIntent createPendingResult(int arg0, Intent arg1, int arg2);
   
-   @SendIntent("getIntent,0")
+   @SendIntent("setIntent,1")
     void startActivityForResult(Intent arg0, int arg1);
       
-   @SendIntent("getIntent,0")
+   @SendIntent("setIntent,1")
     void startActivity(Intent arg0);
       
-   @SendIntent("getIntent,0")
+   @SendIntent("setIntent,1")
     void startActivities(Intent[] arg0);
       
-   @SendIntent("getIntent,0")
+   @SendIntent("setIntent,1")
     boolean startActivityIfNeeded(Intent arg0, int arg1);
       
-   @SendIntent("getIntent,0")
+   @SendIntent("setIntent,1")
     boolean startNextMatchingActivity(Intent arg0);
       
-   @SendIntent("getIntent,0")
+   @SendIntent("setIntent,1")
     void startActivityFromChild(Activity arg0, Intent arg1, int arg2)
       
-   @SendIntent("getIntent,0");
+   @SendIntent("setIntent,1");
     void startActivityFromFragment(Fragment arg0, Intent arg1, int arg2);
     
-    @SendIntent("getIntent,0")
+    @SendIntent("setIntent,1")
     void startActivity(Intent arg0);
     
-    @SendIntent("getIntent,0")
+    @SendIntent("setIntent,1")
     void startActivities(Intent[] arg0);
 
     @SendIntent("onReceive,2")
@@ -129,10 +129,10 @@ package android.content;
 class BroadcastReceiver{
     @ReceiveIntent("sendBroadcast,1")
     void onReceive(Context c ,Intent i);
-     @SendIntent("getIntent,0")
+     @SendIntent("setIntent,1")
     void startActivity(Intent arg0);
     
-    @SendIntent("getIntent,0")
+    @SendIntent("setIntent,1")
     void startActivities(Intent[] arg0);
 
     @SendIntent("onReceive,2")
@@ -164,10 +164,10 @@ class BroadcastReceiver{
 } 
 class Context {
 
-    @SendIntent("getIntent,0")
+    @SendIntent("setIntent,1")
     void startActivity(Intent arg0);
     
-    @SendIntent("getIntent,0")
+    @SendIntent("setIntent,1")
     void startActivities(Intent[] arg0);
 
     @SendIntent("onReceive,2")
@@ -199,10 +199,10 @@ class Context {
 }   
 
 class ContextWrapper extends Context {
-    @SendIntent("getIntent,0")
+    @SendIntent("setIntent,1")
     void startActivity(Intent arg0);
     
-    @SendIntent("getIntent,0")
+    @SendIntent("setIntent,1")
     void startActivities(Intent[] arg0);
 
     @SendIntent("onReceive,2")

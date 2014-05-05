@@ -10,9 +10,14 @@ import static sparta.checkers.quals.FlowPermission.*;
 public class MapsActivity extends Activity {
 
 	@Override
+        public @IntentMap() Intent getIntent() {
+            Intent output = super.getIntent();
+            return output;
+        }
+	
+	@Override
 	@ReceiveIntent("startActivity,1")
-    public @IntentMap() Intent getIntent() {
-        Intent output = super.getIntent();
-        return output;
-    }
+	public void setIntent(@IntentMap() Intent newIntent) {
+	super.setIntent(newIntent);
+	}
 }

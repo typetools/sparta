@@ -7,6 +7,7 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
+import org.checkerframework.framework.type.QualifierHierarchy;
 import org.checkerframework.framework.util.AnnotatedTypes;
 
 import org.checkerframework.javacutil.AnnotationUtils;
@@ -28,8 +29,10 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.ElementFilter;
 
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.FlowVisitor;
@@ -42,12 +45,14 @@ import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.AnnotationTree;
+import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.api.JavacScope;
 import com.sun.tools.javac.code.Symbol;
+import com.sun.tools.javac.code.Symbol.ClassSymbol;
 import com.sun.tools.javac.code.Symbol.MethodSymbol;
 import com.sun.tools.javac.comp.AttrContext;
 import com.sun.tools.javac.comp.Env;
@@ -119,7 +124,7 @@ public class IntentVisitor extends FlowVisitor {
                     overridden, overriddenType, p);
         }
     }
-
+    
     private boolean checkSendIntentOverride(MethodTree implementingTree,
             AnnotatedExecutableType implementingMethod,
             AnnotationMirror overriddenAnno) {
@@ -142,6 +147,10 @@ public class IntentVisitor extends FlowVisitor {
     private boolean checkReceiveIntentOverride(MethodTree implementingTree,
             AnnotatedExecutableType implementingMethod,
             AnnotationMirror overridenAnno) {
+        if (implementingTree.getName().toString().equals("setIntent")) { //Find a better way to make the setIntent() comparison
+            checkSetIntentOverride(implementingTree,
+                    implementingMethod, overridenAnno);
+        }
         AnnotationMirror implementerAnno = atypeFactory.getDeclAnnotation(
                 implementingMethod.getElement(), ReceiveIntent.class);
 
@@ -158,6 +167,39 @@ public class IntentVisitor extends FlowVisitor {
         }
 
         return true;
+    }
+    
+    /**
+     * Method used to verify that if a ReceiveIntent setIntent method is overriden, the first parameter 
+     * of this method (an intent) needs to be a subtype of the return type of the method getIntent()
+     * on the same class.
+     *   
+     * @param implementingTree
+     * @param implementingMethod
+     * @param overriddenAnno
+     */     
+    
+    private void checkSetIntentOverride(MethodTree implementingTree,
+            AnnotatedExecutableType implementingMethod,
+            AnnotationMirror overriddenAnno) {
+        ClassTree classTree = TreeUtils.enclosingClass(getCurrentPath());  
+        ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
+        ExecutableElement getIntentMethod = IntentUtils.getMethodgetIntent(checker,ele.flatname.toString());
+        
+        if(getIntentMethod == null) {
+            checker.report(Result.failure("intent.getintent.notfound"), implementingTree);
+            return;
+        }
+        
+        AnnotationMirror getIntentReturnTypeAnnotation = atypeFactory.getAnnotatedType(getIntentMethod).getReturnType().getAnnotation(IntentMap.class);
+        AnnotationMirror setIntentParameterAnnotation = implementingMethod.getParameterTypes().get(0).getAnnotation(IntentMap.class);
+        
+        if (!atypeFactory.getQualifierHierarchy().isSubtype(setIntentParameterAnnotation, getIntentReturnTypeAnnotation)) {
+            checker.report(
+                    Result.failure("send.intent",
+                            setIntentParameterAnnotation.toString(),
+                            getIntentReturnTypeAnnotation.toString()), implementingTree);
+        }
     }
 
     @Override
@@ -185,8 +227,7 @@ public class IntentVisitor extends FlowVisitor {
             String receiverName = getReceiverNameFromSendIntendAnnotation(node);
             checkSendIntent(method, node, receiverName);
             return;
-        } else if (IntentUtils.isReceiveIntent(node, atypeFactory)
-        		&& !node.toString().equals("getIntent()")) { //Find a better way to make the getIntent() comparison
+        } else if (IntentUtils.isReceiveIntent(node, atypeFactory)) { 
             checker.report(Result.failure("intent.invoking.receiveintent"),node);
             return;
         }
@@ -242,19 +283,11 @@ public class IntentVisitor extends FlowVisitor {
             return;
         }
         
-        //Get the @IntenMap annotation for the correct parameter
+        //Get the @IntentMap annotation for the correct parameter
         ExpressionTree intentObject = node.getArguments().get(paramIndex);
         AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(intentObject);
         AnnotationMirror rhsIntentExtras = rhs.getAnnotation(IntentMap.class);
         
-        //the getIntent is the only receiveIntent method 
-        //where the receiving intent is the return type,
-        //so we handle it separately 
-        if (receiverMethodName.equals(IntentUtils.GET_INTENT)) {
-            checkReceivingGetIntent(method, node, rhsIntentExtras);
-            return;
-        }
-
         for (MethodInvocationTree receiveIntentTree : getReceiversMethods(node,
                 receiverMethodName)) {
             ExecutableElement methodElt = TreeUtils
@@ -290,33 +323,6 @@ public class IntentVisitor extends FlowVisitor {
                                 lhsIntentExtras.toString()), node);
             }
         }
-    }
-
-    /**
-     * When receiveIntent is getIntent, it has to be handled differently because
-     * the receiving Intent is the return type rather than a parameter.
-     * 
-     * @param method
-     * @param node
-     * @param rhsIntentExtras
-     */
-    private void checkReceivingGetIntent(AnnotatedExecutableType method,
-            MethodInvocationTree node, AnnotationMirror rhsIntentExtras) {
-
-        for (MethodInvocationTree getIntentCall : getReceiversMethods(node,
-                IntentUtils.GET_INTENT)) {
-            AnnotatedTypeMirror lhs = atypeFactory
-                    .getAnnotatedType(getIntentCall);
-            AnnotationMirror lhsIntentExtras = lhs
-                    .getAnnotation(IntentMap.class);
-            if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
-                checker.report(
-                        Result.failure("send.intent",
-                                rhsIntentExtras.toString(),
-                                lhsIntentExtras.toString()), node);
-            }
-        }
-
     }
 
     /**
@@ -421,9 +427,6 @@ public class IntentVisitor extends FlowVisitor {
     private List<MethodInvocationTree> getReceiversMethods(
             MethodInvocationTree tree, String method) {
 
-        JCMethodInvocation methodInvocation = (JCMethodInvocation) tree;
-        Context context = ((JavacProcessingEnvironment) checker
-                .getProcessingEnvironment()).getContext();
         // Return the sender intent in the String format. Check method @Javadoc.
         String senderString = IntentUtils.retrieveSendIntentPath(getCurrentPath());
         // Getting the receivers components in the String format from the
@@ -443,8 +446,7 @@ public class IntentVisitor extends FlowVisitor {
             String methodName = methodAndParamLength[0];
             int paramLength = Integer.parseInt(methodAndParamLength[1]);
             JCMethodInvocation spoofedMethod = getSpoofedMethodCall(tree,
-                    receiverStr, methodName, paramLength, methodInvocation,
-                    context);
+                    receiverStr, methodName, paramLength);
             if (spoofedMethod == null) {
                 checker.report(Result.failure("intent.receiveintent.notfound",
                         methodName), tree);
@@ -472,8 +474,10 @@ public class IntentVisitor extends FlowVisitor {
      * @return
      */
     private JCMethodInvocation getSpoofedMethodCall(MethodInvocationTree tree,
-            String classname, String methodName, int paramLength,
-            JCMethodInvocation methodInvocation, Context context) {
+            String classname, String methodName, int paramLength) {
+        JCMethodInvocation methodInvocation = (JCMethodInvocation) tree;
+        Context context = ((JavacProcessingEnvironment) checker
+                .getProcessingEnvironment()).getContext();
         // make is used to select the getIntent() method on the loop below.
         TreeMaker make = TreeMaker.instance(context);
         TreePath path = atypeFactory.getPath(tree);
@@ -706,7 +710,7 @@ public class IntentVisitor extends FlowVisitor {
      *         with annotations lhs.
      */
 
-    public boolean isCopyableTo(AnnotationMirror rhs, AnnotationMirror lhs) {
+    private boolean isCopyableTo(AnnotationMirror rhs, AnnotationMirror lhs) {
         if (rhs == null || lhs == null) {
             return false;
         }
