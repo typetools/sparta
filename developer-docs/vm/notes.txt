@@ -9,8 +9,8 @@ sudo apt-get update
 #Password: ThisIsSparta!
 update java:
 
-sudo apt-get install openjdk-7-jdk
-
+Don't do this: sudo apt-get install openjdk-7-jdk
+Inference crashes when openjdk-7 is used.  Use the Oracle version only!
 cd ~/Documents/sparta/
 rm -r sparta-subjects
 rm -r sparta-code
@@ -33,5 +33,5 @@ change the SPARTA_CODE environment variable
 check sparta-subjects
 
 tar up the READ.VM with the vdi
-
-tar -cjf sparta-vm-v0.9.3.tar.bz2 sparta-vm-v0.9.3
+tar -cf sparta-vm-v0.9.7.tar sparta-vm-v0.9.7/
+bzip2 sparta-vm-v0.9.7.tar
