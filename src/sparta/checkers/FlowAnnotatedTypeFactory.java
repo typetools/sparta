@@ -77,6 +77,7 @@ import sparta.checkers.quals.Source;
 import com.sun.source.tree.BinaryTree;
 import com.sun.source.tree.CompoundAssignmentTree;
 import com.sun.source.tree.NewArrayTree;
+import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
 import com.sun.source.tree.TypeCastTree;
 import com.sun.source.tree.UnaryTree;
@@ -441,7 +442,18 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             completePolicyFlows(type);
             return super.defaultAction(tree, type);
         }
-
+        @Override
+        public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror p) {
+            //This is a horrible hack around the bad implementation of constructor results
+            //(CF treats annotations on constructor results in stub files as if it were a 
+            //default and therefore ignores it. 
+            //This hack makes it impossible to write any annotation in the following location:
+            //new @A SomeClass();
+            //Doing so will cause extra annotations in on the constructor results and therefore 
+            //type.invalid warning
+            p.addAnnotations(atypeFactory.constructorFromUse(node).first.getReturnType().getAnnotations());
+            return super.visitNewClass(node, p);
+        }
         @Override
         public Void visitTypeCast(TypeCastTree node, AnnotatedTypeMirror type) {
             // TODO should super do this call?
