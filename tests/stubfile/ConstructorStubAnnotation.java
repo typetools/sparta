@@ -72,8 +72,6 @@ class ConstructorStubAnnotation {
         //:: error: (assignment.type.incompatible)
         @Source(READ_SMS) TestStubExplicitConstructorType explicit = new TestStubExplicitConstructorType();
 
-        //BUG still can't anntotate constructors in stub files
-        //:: error: (assignment.type.incompatible)
         @Source(INTERNET) TestStubExplicitConstructorType explicit2 = new TestStubExplicitConstructorType();
     }
 }
