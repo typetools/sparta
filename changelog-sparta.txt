@@ -1,7 +1,7 @@
 Version 0.9.7 5 May 2014
 
-Dectection Tools
-  A new dection tool, report-strings,  was added. See Section 6.2.1 for more 
+Detection Tools
+  A new detection tool, report-strings,  was added. See Section 6.2.1 for more 
   details. 
 
 Checker Framework package renaming 
