@@ -1,0 +1,19 @@
+import sparta.checkers.quals.*;
+
+package android.app;
+
+class Activity {
+   @IntentMapBottom Intent getIntent();
+}
+
+package android.content;
+
+class Intent implements Parcelable, Cloneable {
+    @IntentMapBottom Intent();
+    // Copy constructor. 
+    @IntentMap() Intent(Intent arg0); 
+    @IntentMapBottom Intent(String arg0);
+    @IntentMapBottom Intent(String arg0, Uri arg1);
+    @IntentMapBottom Intent(Context arg0, Class<?> arg1);
+    @IntentMapBottom Intent(String arg0, Uri arg1, Context arg2, Class<?> arg3);
+}
