@@ -248,7 +248,7 @@ public class IntentUtils {
      * for the class passed as parameter.
      *
      */
-    public static ExecutableElement getMethodgetIntent(BaseTypeChecker checker, String canonicalClassName) {
+    public static ExecutableElement getMethodGetIntent(BaseTypeChecker checker, String canonicalClassName) {
         TypeElement mapElt = checker.getProcessingEnvironment().getElementUtils().getTypeElement(canonicalClassName);
         ExecutableElement getIntentMethod = null;
         for (ExecutableElement exec : ElementFilter.methodsIn(mapElt.getEnclosedElements())) {
@@ -258,6 +258,23 @@ public class IntentUtils {
         }
         
         return getIntentMethod; 
+    }
+    
+    /**
+     * Returns the ExecutableElement of the setIntent(intent) method declaration
+     * for the class passed as parameter.
+     *
+     */
+    public static ExecutableElement getMethodSetIntent(BaseTypeChecker checker, String canonicalClassName) {
+        TypeElement mapElt = checker.getProcessingEnvironment().getElementUtils().getTypeElement(canonicalClassName);
+        ExecutableElement setIntentMethod = null;
+        for (ExecutableElement exec : ElementFilter.methodsIn(mapElt.getEnclosedElements())) {
+            if (exec.getSimpleName().contentEquals("setIntent")
+                    && exec.getParameters().size() == 1)
+                setIntentMethod = exec;
+        }
+        
+        return setIntentMethod; 
     }
     
     /**
