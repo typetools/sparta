@@ -29,10 +29,10 @@
     <path id="android.latest.platform">
       <last>
             <sort>
-	      <!-- 
-		   This doesn't handle the sort like one would expect. android-8 would be a higher version than android-19. 
-		   Thus we restrict it to a range we know is lexicographically correct.  
-	      -->
+          <!-- 
+           This doesn't handle the sort like one would expect. android-8 would be a higher version than android-19. 
+           Thus we restrict it to a range we know is lexicographically correct.  
+          -->
                 <dirset dir="${android.home}/platforms" includes="android-??" />
             </sort>
       </last>
@@ -41,7 +41,7 @@
     <!-- require at least android 15 -->
     <fail message="SPARTA! requires and Android SDK, version ${android.version.min} or higher.">
       <condition>
-	<not> <matches pattern="${android.version.allowed}" string="${toString:android.latest.platform}"/> </not>
+    <not> <matches pattern="${android.version.allowed}" string="${toString:android.latest.platform}"/> </not>
       </condition>
     </fail>
 
@@ -170,20 +170,17 @@ ${build.version} of the 'javac.jar' library."/>
                 <fileset dir="${annotated.intent.receivers}">
                     <include name="**/*.java"/>
                 </fileset>
-                <fileset dir="${tests}">
-                    <include name="**/intent/*ReceiverStub.java"/>
-                </fileset>
             </path>
         </pathconvert>
 
-	<!-- since we are manually forming the path, we need to make it cross platform -->
-	<path id="libs.external.deps">
-	  <pathelement location="${junit.jar}"/>
-	  <pathelement location="${gson.jar}"/>
-	  <pathelement location="${latestAndroid.jar}"/>
-	</path>
+    <!-- since we are manually forming the path, we need to make it cross platform -->
+    <path id="libs.external.deps">
+      <pathelement location="${junit.jar}"/>
+      <pathelement location="${gson.jar}"/>
+      <pathelement location="${latestAndroid.jar}"/>
+    </path>
 
-	<pathconvert property="libs.external.deps.platformpath" refid="libs.external.deps"/>
+    <pathconvert property="libs.external.deps.platformpath" refid="libs.external.deps"/>
 
         <java fork="true"
               failonerror="true"
@@ -214,8 +211,8 @@ ${build.version} of the 'javac.jar' library."/>
     <target name="validate-stubfiles" depends="build" description="Show stubfile errors">
       
       <path id="libs.stubfiletests">
-	<pathelement location="${build}"/>
-	<pathelement location="${latestAndroid.jar}"/>
+    <pathelement location="${build}"/>
+    <pathelement location="${latestAndroid.jar}"/>
       </path>
       
       <pathconvert property="libs.stubfiletests.deps" refid="libs.stubfiletests"/>
@@ -231,6 +228,36 @@ ${build.version} of the 'javac.jar' library."/>
             <!-- Arbitrary file to compile. -->
             <arg line="${tests}/Test.java" />
         </java>
+    </target>
+    
+    <target name="build-intent-tests" depends="build" description="Compiles intent 
+        receivers Java classes with the IntentChecker.">
+    
+        <path id="libs.stubfiletests">
+            <pathelement location="${build}"/>
+            <pathelement location="${latestAndroid.jar}"/>
+        </path>
+        
+        <pathconvert pathsep=" " property="intent.java.classes.spaceseparated">
+            <path>
+                <fileset dir="${tests}">
+                    <include name="**/intent/*ReceiverStub.java"/>
+                </fileset>
+            </path>
+        </pathconvert>
+      
+      <pathconvert property="libs.stubfiletests.deps" refid="libs.stubfiletests"/>  
+
+        <java fork="true"
+            jar="${checkers.lib}"
+            failonerror="true" >
+            <arg line="-cp ${libs.stubfiletests.deps}" />
+            <arg value="-g"/>
+            <arg line="-d ${build}"/>
+            <arg line="-processor sparta.checkers.intents.IntentChecker" /> 
+            <arg line="${intent.java.classes.spaceseparated}"/>
+        </java>
+    
     </target>
 
     <target name="build-tests" depends="prep" description="Compile tests">
@@ -289,7 +316,7 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- Make sure to add all individual tests as dependency. -->
-    <target name="all-tests" depends="jar,build-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests, param-flow-tests"
+    <target name="all-tests" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests, param-flow-tests"
       description="Run tests for all checkers"/>
 
     <target name="permissions-tests" depends="jar,build-tests"
@@ -313,7 +340,7 @@ ${build.version} of the 'javac.jar' library."/>
         </antcall>
     </target>
     
-    <target name="intent-tests" depends="jar,build-tests"
+    <target name="intent-tests" depends="jar,build-tests,build-intent-tests"
       description="Run tests for the Intent Checker">
         <antcall target="-run-tests">
             <param name="testclass" value="sparta.checkers.AndroidTests$IntentCheckerTests"/>
