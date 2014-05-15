@@ -11,8 +11,7 @@ public class BrowserActivity extends Activity {
 
 	@Override
 	public @IntentMap() Intent getIntent() {
-            Intent output = super.getIntent();
-            return output;
+            return super.getIntent();
 	}
 	
 	@Override

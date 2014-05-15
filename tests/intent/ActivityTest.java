@@ -1,4 +1,4 @@
-package test;
+package tests;
 
 import static sparta.checkers.quals.FlowPermission.*;
 
@@ -14,23 +14,19 @@ import android.view.View.OnClickListener;
 
 public class ActivityTest extends Activity {
     
-    @SuppressWarnings("")
     @IntentMap({
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
         @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
     Intent i1 = new Intent();
     
-    @SuppressWarnings("")
     @IntentMap({
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
         @Extra(key = "k3", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })
     Intent i2 = new Intent();
     
-    @SuppressWarnings("")
     @IntentMap({ @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }) })
     Intent i3 = new Intent();
     
-    @SuppressWarnings("")
     @IntentMap({
             @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
             @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }),
@@ -84,26 +80,24 @@ public class ActivityTest extends Activity {
     }
     
     void startActivitySuccess(@Source(FILESYSTEM) @Sink(INTERNET) int test, String test2, Object test3, String[] test4) {
-        @SuppressWarnings("")
         @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-        Intent senderIntent1 = new Intent();
+        Intent senderIntent1 = (@IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
+        Intent) new Intent();
         senderIntent1.setAction("action1");
         senderIntent1.addCategory("cat1");
         senderIntent1.addCategory("cat2");
-        @SuppressWarnings("")
         @IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
-        Intent senderIntent2 = new Intent();
+        Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
+        Intent) new Intent();
         startActivity(senderIntent1);
         startActivity(senderIntent2);
     }
     
     void startActivityFail() {
-        @SuppressWarnings("")
-        @IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-        Intent senderIntent1 = new Intent();
-        @SuppressWarnings("")
-        @IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
-        Intent senderIntent2 = new Intent();
+        Intent senderIntent1 = (@IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
+        Intent) new Intent();
+        Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
+        Intent) new Intent();
      //:: error: (send.intent)
         startActivity(senderIntent1);
      //:: error: (send.intent)
@@ -111,31 +105,27 @@ public class ActivityTest extends Activity {
     }
     
     private OnClickListener clickListenerOK = new OnClickListener() {
-		public void onClick(View v)	{
-			@SuppressWarnings("")
-	        @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-	        Intent senderIntent1 = new Intent();
-	        @SuppressWarnings("")
-	        @IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
-	        Intent senderIntent2 = new Intent();
-	        startActivity(senderIntent1);
-	        startActivity(senderIntent2);
-		}
-	};
-	
-	private OnClickListener clickListenerFail = new OnClickListener() {
-		public void onClick(View v)	{
-			@SuppressWarnings("")
-	        @IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-	        Intent senderIntent1 = new Intent();
-	        @SuppressWarnings("")
-	        @IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
-	        Intent senderIntent2 = new Intent();
-	     //:: error: (send.intent)
-	        startActivity(senderIntent1);
-	     //:: error: (send.intent)
-	        startActivity(senderIntent2);
-		}
-	};
+        public void onClick(View v)	{
+            Intent senderIntent1 = (@IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
+            Intent) new Intent();
+            Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
+            Intent) new Intent();
+            startActivity(senderIntent1);
+            startActivity(senderIntent2);
+        }
+    };
+
+    private OnClickListener clickListenerFail = new OnClickListener() {
+        public void onClick(View v)	{
+            Intent senderIntent1 = (@IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
+            Intent) new Intent();
+            Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
+            Intent) new Intent();
+            //:: error: (send.intent)
+            startActivity(senderIntent1);
+            //:: error: (send.intent)
+            startActivity(senderIntent2);
+            }
+    };
     
 }

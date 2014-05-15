@@ -7,14 +7,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.IBinder;
 
-/**
- * Class used to test the intent analysis.
- * Class that simulates a Receiver Service
- * on the Intent analysis. Used in the Intent-checker tests from sparta-code.  
- * @author pbsf
- *
- */
-public class ServiceReceiverStub extends Service {
+
+public class ServiceReceiver extends Service {
 
 
     @Override

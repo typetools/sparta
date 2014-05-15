@@ -12,16 +12,20 @@ import android.content.Intent;
  * @author pbsf
  *
  */
-public class ActivityReceiverStub extends Activity {
+public class IntentMapBottom2ReceiverStub extends Activity {
     @Override
-    public  @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+    public  @IntentMap({
+        @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
+        @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })
     Intent getIntent() {
         return super.getIntent();
     }
     
     @Override
     @ReceiveIntent("startActivity,1")
-    public void setIntent(@IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+    public void setIntent(@IntentMap({
+        @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
+        @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })
         Intent newIntent) {
         super.setIntent(newIntent);
     }
