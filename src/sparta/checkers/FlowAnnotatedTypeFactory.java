@@ -16,7 +16,7 @@ import org.checkerframework.framework.flow.CFValue;
 import org.checkerframework.framework.qual.DefaultLocation;
 import org.checkerframework.framework.qual.PolyAll;
 
-import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.*;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
@@ -25,9 +25,6 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiv
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedUnionType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
-import org.checkerframework.framework.type.QualifierHierarchy;
-import org.checkerframework.framework.type.TreeAnnotator;
-import org.checkerframework.framework.type.TypeAnnotator;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy;
 import org.checkerframework.framework.util.QualifierDefaults;
@@ -402,36 +399,42 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
 
     @Override
-    protected TreeAnnotator createTreeAnnotator() {
-       FlowPolicyTreeAnnotator treeAnnotator = new FlowPolicyTreeAnnotator(this);
+    protected ListTreeAnnotator createTreeAnnotator() {
 
+        ImplicitsTreeAnnotator implicits = new ImplicitsTreeAnnotator(this);
         // But let's send null down any sink and give it no sources.
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, ANYSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.NULL_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.NULL_LITERAL, NOSOURCE);
 
         // Literals, other than null are different too
         // There are no Byte or Short literal types in java (0b is treated as an
         // int),
         // so there does not need to be a mapping for them here.
-        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, LITERALSOURCE);
-        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.INT_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, LITERALSOURCE);
 
-        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
-        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
-        return treeAnnotator;
+        implicits.addTreeKind(Tree.Kind.INT_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
+
+        return new ListTreeAnnotator(
+                new FlowPolicyTreeAnnotator(this),
+                new PropagationTreeAnnotator(this),
+                implicits
+        );
+
     }
 
-    class FlowPolicyTreeAnnotator extends TreeAnnotator {
+    protected class FlowPolicyTreeAnnotator extends TreeAnnotator {
 
         public FlowPolicyTreeAnnotator(FlowAnnotatedTypeFactory atypeFactory) {
             super(atypeFactory);
