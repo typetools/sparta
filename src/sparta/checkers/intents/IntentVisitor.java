@@ -30,10 +30,10 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
-import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.FlowVisitor;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
+import sparta.checkers.quals.IntentMapBottom;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.ReceiveIntent;
 import sparta.checkers.quals.SendIntent;
@@ -65,14 +65,17 @@ import com.sun.tools.javac.util.Names;
 
 public class IntentVisitor extends FlowVisitor {
 
+    IntentAnnotatedTypeFactory iatf;
+    
     public IntentVisitor(BaseTypeChecker checker) {
         super(checker);
     }
 
     @Override
-    protected FlowAnnotatedTypeFactory createTypeFactory() {
+    protected IntentAnnotatedTypeFactory createTypeFactory() {
         try {
-            return new IntentAnnotatedTypeFactory(checker);
+            iatf = new IntentAnnotatedTypeFactory(checker);
+            return iatf;
         } catch (Exception e) {
             // The SourceVisitor cuts off the stack trace,
             // so print it here and the throw again.
@@ -94,15 +97,20 @@ public class IntentVisitor extends FlowVisitor {
             AnnotatedDeclaredType enclosingType,
             AnnotatedExecutableType overridden,
             AnnotatedDeclaredType overriddenType, Void p) {
-
         AnnotatedExecutableType implementingMethod = atypeFactory
                 .getAnnotatedType(overriderTree);
         AnnotationMirror receiveAnnoOverriden = atypeFactory.getDeclAnnotation(
                 overridden.getElement(), ReceiveIntent.class);
         AnnotationMirror sendAnnoOverridden = atypeFactory.getDeclAnnotation(
                 overridden.getElement(), SendIntent.class);
-
-        if (null != receiveAnnoOverriden) {
+        
+        if (iatf.getIntent.equals(overridden.getElement())) {
+            //It is OK to override the getIntent() method.
+            //When the setIntent() method is overridden, the visitor will check
+            //if the return type of getIntent() is a supertype of the setIntent 
+            //parameter type.
+            return true;
+        } else if (null != receiveAnnoOverriden) {
             return checkReceiveIntentOverride(overriderTree,
                     implementingMethod, receiveAnnoOverriden);
             // Don't call super because the receiveIntent
@@ -180,21 +188,27 @@ public class IntentVisitor extends FlowVisitor {
             AnnotationMirror overriddenAnno) {
         ClassTree classTree = TreeUtils.enclosingClass(getCurrentPath());  
         ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
-        ExecutableElement getIntentMethod = IntentUtils.getMethodgetIntent(checker,ele.flatname.toString());
+        ExecutableElement getIntentMethod = IntentUtils.getMethodGetIntent(checker,ele.flatname.toString());
         
-        if(getIntentMethod == null) {
+        if (getIntentMethod == null) {
             checker.report(Result.failure("intent.getintent.notfound"), implementingTree);
             return;
         }
         
-        AnnotationMirror getIntentReturnTypeAnnotation = atypeFactory.getAnnotatedType(getIntentMethod).getReturnType().getAnnotation(IntentMap.class);
-        AnnotationMirror setIntentParameterAnnotation = implementingMethod.getParameterTypes().get(0).getAnnotation(IntentMap.class);
+        AnnotationMirror getIntentReturnIntentMap = atypeFactory
+                .getAnnotatedType(getIntentMethod).getReturnType()
+                .getAnnotationInHierarchy(iatf.TOP_INTENT_MAP);
+        AnnotationMirror setIntentParameterIntentMap = implementingMethod
+                .getParameterTypes().get(0)
+                .getAnnotationInHierarchy(iatf.TOP_INTENT_MAP);
+
         
-        if (!atypeFactory.getQualifierHierarchy().isSubtype(setIntentParameterAnnotation, getIntentReturnTypeAnnotation)) {
+        if (!atypeFactory.getQualifierHierarchy()
+                .isSubtype(setIntentParameterIntentMap, getIntentReturnIntentMap)) {
             checker.report(
-                    Result.failure("send.intent",
-                            setIntentParameterAnnotation.toString(),
-                            getIntentReturnTypeAnnotation.toString()), implementingTree);
+                    Result.failure("intent.getintent.setintent",
+                            setIntentParameterIntentMap.toString(),
+                            getIntentReturnIntentMap.toString()), implementingTree);
         }
     }
 
@@ -282,7 +296,7 @@ public class IntentVisitor extends FlowVisitor {
         //Get the @IntentMap annotation for the correct parameter
         ExpressionTree intentObject = node.getArguments().get(paramIndex);
         AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(intentObject);
-        AnnotationMirror rhsIntentExtras = rhs.getAnnotation(IntentMap.class);
+        AnnotationMirror rhsIntentExtras = rhs.getAnnotationInHierarchy(iatf.TOP_INTENT_MAP);
         
         for (MethodInvocationTree receiveIntentTree : getReceiversMethods(node,
                 receiverMethodName)) {
@@ -311,7 +325,8 @@ public class IntentVisitor extends FlowVisitor {
                 return;
             }
             AnnotationMirror lhsIntentExtras = receiveIntentAnno
-                    .getAnnotation(IntentMap.class);
+                    .getAnnotationInHierarchy(iatf.TOP_INTENT_MAP);
+            
             if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
                 checker.report(
                         Result.failure("send.intent",
@@ -389,10 +404,8 @@ public class IntentVisitor extends FlowVisitor {
      */
 
     public Set<String> getReceiversFromSender(String sender, Object tree) {
-        Map<String, Set<String>> map = ((IntentAnnotatedTypeFactory) atypeFactory)
-                .getComponentMap().getIntentMap();
-        Set<String> receivers = ((IntentAnnotatedTypeFactory) atypeFactory)
-                .getComponentMap().getIntentMap().get(sender);
+        Map<String, Set<String>> map = iatf.getComponentMap().getIntentMap();
+        Set<String> receivers = iatf.getComponentMap().getIntentMap().get(sender);
         if (receivers == null)
             receivers = new HashSet<>();
         // TODO: this is ignoring actions in the sending component.
@@ -515,8 +528,7 @@ public class IntentVisitor extends FlowVisitor {
             return;
         }
         // The first argument in putExtra and getExtra calls are keys
-        List<String> keys = ((IntentAnnotatedTypeFactory) atypeFactory)
-                .getKeysFromPutExtraOrGetExtraCall(node);
+        List<String> keys = iatf.getKeysFromPutExtraOrGetExtraCall(node);
 
         if (keys.isEmpty()) {
             checker.report(Result.failure("intent.key.variable", node
@@ -560,6 +572,10 @@ public class IntentVisitor extends FlowVisitor {
     private void checkGetExtra(AnnotatedExecutableType method,
             MethodInvocationTree node, String keyName, ExpressionTree receiver,
             AnnotatedTypeMirror receiverType) {
+        if (receiverType.hasAnnotation(IntentMapBottom.class)) {                
+            return;                                                            
+        }
+        
         if (receiverType.hasAnnotation(IntentMap.class)) {
             AnnotationMirror receiverIntentAnnotation = receiverType
                     .getAnnotation(IntentMap.class);
@@ -572,109 +588,6 @@ public class IntentVisitor extends FlowVisitor {
         }
     }
 
-    /**
-     * Method to type check the putExtra call. In every putExtra("key",value)
-     * call the "key" needs to be found in one of the @Extra elements from the @IntentMap
-     * of the intent, and the @Source and @Sink from the @Extra need to be a
-     * supertype of the @Source and @Sink of value. TODO In the future, we want
-     * to add inference to the putExtra() call. If the key cannot be found in
-     * the @IntentMap annotation, intent.putExtra("key",value) should update the
-     * intent's @IntentExtra annotation adding a new @Extra with key "key" and @Source
-     * and @Sink of value.
-     * 
-     * @param node
-     *            The tree of the putExtra method call
-     * @param keyName
-     *            The key of the element being added to the intent bundle
-     * @param receiver
-     *            Receiver component name in the String format. Ex: ActivityA
-     * @param receiverType
-     *            Annotations of the receiver calling intent.putExtra(...).
-     */
-    private void checkPutExtra(MethodInvocationTree node, String keyName,
-            ExpressionTree receiver, AnnotatedTypeMirror receiverType) {
-        AnnotationMirror iExtra = IntentUtils.getIExtra(receiverType, keyName);
-        if (iExtra == null) {
-            checker.report(
-                    Result.failure("intent.key.notfound", keyName,
-                            receiver.toString()), node);
-            return;
-        }
-
-        // Getting annotations of the value being added to the intent
-        // bundle.
-        AnnotatedTypeMirror valueType = atypeFactory.getAnnotatedType(node
-                .getArguments().get(1));
-        AnnotatedTypeMirror declaredKeyType = hostGetTypeOfKey(iExtra,
-                valueType.getUnderlyingType());
-
-        // Check if the value being added to the intent bundle is a
-        // subtype
-        // of what the @IntentMap annotation contains.
-        if (!atypeFactory.getTypeHierarchy().isSubtype(valueType,
-                declaredKeyType)) {
-            checker.report(Result.failure("intent.type.incompatible",
-                    receiver.toString(), keyName,
-                    declaredKeyType.getAnnotation(Source.class),
-                    declaredKeyType.getAnnotation(Sink.class),
-                    valueType.getAnnotation(Source.class),
-                    valueType.getAnnotation(Sink.class)), node);
-        }
-        // TODO: Inference on putExtra
-        // If key couldn't be found, add it to the @IntentMap with the
-        // flow of the object being inserted on the hashmap.
-        // if(!found) {
-        // IntentChecker intentChecker = (IntentChecker) checker;
-        // AnnotationMirror newIExtra =
-        // intentChecker.createIExtraAnno(keyName,
-        // valueType.getAnnotation(Source.class),
-        // valueType.getAnnotation(Sink.class));
-        // AnnotationMirror newIntentExtras =
-        // intentChecker.addIExtraToIntentExtras(receiverIntentAnnotation,
-        // newIExtra);
-        // receiverType.replaceAnnotation(newIntentExtras);
-        // System.out.println();
-        // }
-
-    }
-
-    private AnnotatedTypeMirror hostGetTypeOfKey(AnnotationMirror iExtra,
-            TypeMirror javaType) {
-        Set<ParameterizedFlowPermission> annotatedSources = IntentUtils
-                .getSourcesPFP(iExtra);
-        Set<ParameterizedFlowPermission> annotatedSinks = IntentUtils
-                .getSinksPFP(iExtra);
-
-        // Creating a type with the @Source and @Sink from value in
-        // putExtra(key,value).
-        AnnotationMirror sourceAnnotation = atypeFactory
-                .createAnnoFromSource(annotatedSources);
-        AnnotationMirror sinkAnnotation = atypeFactory
-                .createAnnoFromSink(annotatedSinks);
-
-        // annotatedType is a dummy type containing the @Source and
-        // @Sink
-        // from the IExtra, only to be used in the isSubType() call.
-        AnnotatedTypeMirror annotatedType = AnnotatedTypeMirror.createType(
-                javaType, atypeFactory);
-        // Handling array types.
-        if (annotatedType instanceof AnnotatedArrayType) {
-            ((AnnotatedArrayType) annotatedType).getComponentType()
-                    .addAnnotation(sourceAnnotation);
-            ((AnnotatedArrayType) annotatedType).getComponentType()
-                    .addAnnotation(sinkAnnotation);
-            ((AnnotatedArrayType) annotatedType)
-                    .getComponentType()
-                    .addAnnotation(
-                            ((IntentAnnotatedTypeFactory) atypeFactory).EMPTYINTENTEXTRAS);
-        }
-        annotatedType.addAnnotation(sourceAnnotation);
-        annotatedType.addAnnotation(sinkAnnotation);
-        annotatedType
-                .addAnnotation(((IntentAnnotatedTypeFactory) atypeFactory).EMPTYINTENTEXTRAS);
-        return annotatedType;
-    }
-
     @Override
     public Void visitAnnotation(AnnotationTree node, Void p) {
         List<? extends ExpressionTree> args = node.getArguments();
@@ -685,7 +598,8 @@ public class IntentVisitor extends FlowVisitor {
 
         Element anno = TreeInfo.symbol((JCTree) node.getAnnotationType());
         if (anno.toString().equals(IntentMap.class.getName())
-                || anno.toString().equals(Extra.class.getName())) {
+                || anno.toString().equals(Extra.class.getName()) 
+                || anno.toString().equals(IntentMapBottom.class.getName())) {
             return null;
         }
         return super.visitAnnotation(node, p);
@@ -710,13 +624,20 @@ public class IntentVisitor extends FlowVisitor {
         if (rhs == null || lhs == null) {
             return false;
         }
+        
+        if (AnnotationUtils.areSameByClass(rhs, IntentMapBottom.class)) {
+            return true;
+        } else if (AnnotationUtils.areSameByClass(lhs, IntentMapBottom.class)) {
+            return false;
+        }
+        
         List<AnnotationMirror> rhsIExtrasList = AnnotationUtils
                 .getElementValueArray(rhs, "value", AnnotationMirror.class,
                         true);
         List<AnnotationMirror> lhsIExtrasList = AnnotationUtils
                 .getElementValueArray(lhs, "value", AnnotationMirror.class,
                         true);
-        if (rhsIExtrasList.isEmpty()) {
+        if (lhsIExtrasList.isEmpty()) {
             return true;
         }
 
@@ -791,14 +712,13 @@ public class IntentVisitor extends FlowVisitor {
         rhsAnnotatedType.addAnnotation(rhsSourceAnnotation);
         rhsAnnotatedType.addAnnotation(rhsSinkAnnotation);
 
-        // Why is this necessary?
-        // How to set atypeFactory to IntentAnnotatedTypeFactory instead of
-        // FlowAnnotatedTypeFactory?
-        IntentAnnotatedTypeFactory intentAnnotatedTypeFactory = (IntentAnnotatedTypeFactory) atypeFactory;
+        // This is necessary to guarantee that the number of annotations is 3 
+        // (@Souce, @Sink, @IntentMap/@IntentMapBottom) when
+        //performing isSubtype operation.
         lhsAnnotatedType
-                .addAnnotation(intentAnnotatedTypeFactory.EMPTYINTENTEXTRAS);
+                .addAnnotation(iatf.TOP_INTENT_MAP);
         rhsAnnotatedType
-                .addAnnotation(intentAnnotatedTypeFactory.EMPTYINTENTEXTRAS);
+                .addAnnotation(iatf.TOP_INTENT_MAP);
         return atypeFactory.getTypeHierarchy().isSubtype(rhsAnnotatedType,
                 lhsAnnotatedType);
     }

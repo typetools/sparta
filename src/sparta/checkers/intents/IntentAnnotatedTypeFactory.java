@@ -2,7 +2,6 @@ package sparta.checkers.intents;
 
 import static org.checkerframework.framework.qual.DefaultLocation.LOCAL_VARIABLE;
 import static org.checkerframework.framework.qual.DefaultLocation.OTHERWISE;
-import static org.checkerframework.framework.qual.DefaultLocation.RECEIVERS;
 import static org.checkerframework.framework.qual.DefaultLocation.RESOURCE_VARIABLE;
 import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
 
@@ -39,6 +38,7 @@ import javax.lang.model.element.VariableElement;
 
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.IntentMapBottom;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
@@ -52,8 +52,8 @@ import com.sun.tools.javac.tree.JCTree;
 
 public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
-    protected final AnnotationMirror INTENTEXTRAS, IEXTRA, EMPTYINTENTEXTRAS,
-            INTENTEXTRASALL;
+    protected final AnnotationMirror INTENT_MAP, IEXTRA, TOP_INTENT_MAP,
+            BOTTOM_INTENT_MAP, IEXTRA_BOTTOM;
     protected final ExecutableElement getIntent;
     protected final ComponentMap componentMap;
 
@@ -66,24 +66,17 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
         getIntent = TreeUtils.getMethod("android.app.Activity", "getIntent", 0, processingEnv);
         
-        INTENTEXTRAS = AnnotationUtils.fromClass(elements, IntentMap.class);
+        INTENT_MAP = AnnotationUtils.fromClass(elements, IntentMap.class);
         IEXTRA = AnnotationUtils.fromClass(elements, Extra.class);
-        EMPTYINTENTEXTRAS = createEmptyIntentExtras(); // top
-        INTENTEXTRASALL = createAllIntentExtras(); // bottom
+        IEXTRA_BOTTOM = IntentUtils.createIExtraAnno("", NOSOURCE, ANYSINK,getProcessingEnv());
+        TOP_INTENT_MAP = createTopIntentMap(); // top
+        BOTTOM_INTENT_MAP = AnnotationUtils.fromClass(elements, IntentMapBottom.class); // bottom
         if (this.getClass().equals(IntentAnnotatedTypeFactory.class)) {
             this.postInit();
         }
     }
 
-    
-    private AnnotationMirror createAllIntentExtras() {
-        // TODO: Define the bottom type of @IntentMap
-        final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
-                IntentMap.class);
-        return builder.build();
-    }
-
-    private AnnotationMirror createEmptyIntentExtras() {
+    private AnnotationMirror createTopIntentMap() {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
                 IntentMap.class);
         return builder.build();
@@ -114,15 +107,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 hostChangeParametersToIntentMapKeyType(tree,mfuPair);
             } else if (IntentUtils.isSetIntentFilter(tree, this)) {
                 hostChangeParametersToTop(mfuPair.first.getParameterTypes());
-            } else if (TreeUtils.isMethodInvocation(tree, getIntent, getProcessingEnv())) { 
-                AnnotatedTypeMirror atm = mfuPair.first.getReturnType();
-                if (atm.hasAnnotation(Source.class)) {
-                    replaceAnnotation(atm, Source.class, ANYSOURCE);
-                }
-                if (atm.hasAnnotation(Sink.class)) {
-                    replaceAnnotation(atm, Sink.class, NOSINK);
-                }
-            }
+            } 
         }
         return mfuPair;
 
@@ -179,7 +164,15 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         
         //Replacing annotations for the value parameter
         parameterAnnotation = origResult.first.getParameterTypes().get(1);
-        if (receiverType.hasAnnotation(IntentMap.class)) {
+        
+        if (receiverType.hasAnnotation(IntentMapBottom.class)) {
+            //Setting parameters to bottom types.
+            replaceAnnotation(parameterAnnotation, Source.class, NOSOURCE);
+            replaceAnnotation(parameterAnnotation, Sink.class, ANYSINK);
+            return origResult;
+        }
+        
+        else if (receiverType.hasAnnotation(IntentMap.class)) {
             AnnotationMirror iExtraLUB = getLUBIExtraFromPutExtraOrGetExtra(
                     tree, receiverType);
             if(iExtraLUB != null) {
@@ -225,7 +218,6 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     private void replaceAnnotation(AnnotatedTypeMirror annotatedTypeMirror, 
             Class<? extends Annotation> annotation, AnnotationMirror newAnnotationMirror) {
         if (annotatedTypeMirror.hasAnnotation(annotation)) {
-            // Modifying @Source type
             if (annotatedTypeMirror instanceof AnnotatedArrayType) {
                 ((AnnotatedArrayType) annotatedTypeMirror)
                         .getComponentType().removeAnnotation(annotation);
@@ -240,29 +232,26 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     @Override
     protected QualifierDefaults createQualifierDefaults() {
         QualifierDefaults defaults = super.createQualifierDefaults();
-        DefaultLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE,
-                UPPER_BOUNDS };
-        defaults.addAbsoluteDefaults(EMPTYINTENTEXTRAS, topLocations);
-        defaults.addAbsoluteDefault(INTENTEXTRASALL, OTHERWISE);
+        DefaultLocation[] topLocations = {LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS};
+        
+        defaults.addAbsoluteDefaults(TOP_INTENT_MAP, topLocations);
+        defaults.addAbsoluteDefault(TOP_INTENT_MAP, OTHERWISE);
 
-        DefaultLocation[] conditionalSinkLocs = { RECEIVERS,
-                DefaultLocation.PARAMETERS };
-        defaults.addAbsoluteDefaults(EMPTYINTENTEXTRAS, conditionalSinkLocs);
-        defaults.addAbsoluteDefaults(EMPTYINTENTEXTRAS, conditionalSinkLocs);
         return defaults;
     }
 
     @Override
     protected TreeAnnotator createTreeAnnotator() {
         TreeAnnotator treeAnnotator = super.createTreeAnnotator();
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, EMPTYINTENTEXTRAS);
-        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, EMPTYINTENTEXTRAS);
-        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, EMPTYINTENTEXTRAS);
-        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, EMPTYINTENTEXTRAS);
-        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, EMPTYINTENTEXTRAS);
-        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, EMPTYINTENTEXTRAS);
-        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, EMPTYINTENTEXTRAS);
-        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, EMPTYINTENTEXTRAS);
+        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, BOTTOM_INTENT_MAP);
+        
+        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, TOP_INTENT_MAP);
+        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, TOP_INTENT_MAP);
+        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, TOP_INTENT_MAP);
+        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, TOP_INTENT_MAP);
+        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, TOP_INTENT_MAP);
+        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, TOP_INTENT_MAP);
+        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, TOP_INTENT_MAP);
         return treeAnnotator;
     }
 
@@ -281,7 +270,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         protected Set<AnnotationMirror> findBottoms(
                 Map<AnnotationMirror, Set<AnnotationMirror>> supertypes) {
             Set<AnnotationMirror> newBottoms = super.findBottoms(supertypes);
-            newBottoms.add(INTENTEXTRASALL);
+            newBottoms.add(BOTTOM_INTENT_MAP);
             return newBottoms;
         }
 
@@ -289,28 +278,27 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         protected Set<AnnotationMirror> findTops(
                 Map<AnnotationMirror, Set<AnnotationMirror>> supertypes) {
             Set<AnnotationMirror> newTops = super.findTops(supertypes);
-            newTops.add(EMPTYINTENTEXTRAS);
+            newTops.add(TOP_INTENT_MAP);
             return newTops;
         }
 
-        private boolean isIntentExtrasQualifier(AnnotationMirror anno) {
-            if (INTENTEXTRAS.getAnnotationType() != null
-                    && anno.getAnnotationType() != null) {
-                return INTENTEXTRAS.getAnnotationType().asElement()
-                        .equals(anno.getAnnotationType().asElement());
-            }
-            return INTENTEXTRAS.getAnnotationType().equals(
-                    anno.getAnnotationType());
+        private boolean isIntentMapQualifier(AnnotationMirror anno) {
+            return AnnotationUtils.areSameByClass(anno, IntentMap.class) 
+                    || isIntentMapBottomQualifier(anno);
         }
 
         private boolean isIExtraQualifier(AnnotationMirror anno) {
-            return IEXTRA.getAnnotationType().equals(anno.getAnnotationType());
+            return AnnotationUtils.areSameByClass(anno, Extra.class);
+        }
+        
+        private boolean isIntentMapBottomQualifier(AnnotationMirror anno) {
+            return AnnotationUtils.areSameByClass(anno, IntentMapBottom.class);
         }
 
         @Override
         public AnnotationMirror getTopAnnotation(AnnotationMirror start) {
-            if (isIntentExtrasQualifier(start)) {
-                return EMPTYINTENTEXTRAS;
+            if (isIntentMapQualifier(start)) {
+                return TOP_INTENT_MAP;
             } else if (isIExtraQualifier(start)) {
                 return IEXTRA; // What to do here?
             } else {
@@ -320,7 +308,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
         @Override
         public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
-            if (isIExtraQualifier(rhs)) {
+            if (isIntentMapBottomQualifier(rhs) && isIntentMapBottomQualifier(lhs)) {
+                return true;
+            } else if (isIntentMapBottomQualifier(rhs) && isIntentMapQualifier(lhs)) {
+                return true;
+            } else if (isIntentMapBottomQualifier(lhs) && isIntentMapQualifier(rhs)) {
+                return false;
+            } else if (isIExtraQualifier(rhs)) {
                 if (rhs == null || lhs == null || !isIExtraQualifier(lhs)) {
                     return false;
                 }
@@ -339,8 +333,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 AnnotationMirror rhsSources = createAnnoFromSource(rhsAnnotatedSources);
                 return isSubtype(rhsSources, lhsSources) && isSubtype(rhsSinks, lhsSinks);                
                 
-            } else if (isIntentExtrasQualifier(rhs)) {
-                if (rhs == null || lhs == null || !isIntentExtrasQualifier(lhs)) {
+            } else if (isIntentMapQualifier(rhs)) {
+                if (rhs == null || lhs == null || !isIntentMapQualifier(lhs)) {
                     return false;
                 }
                 List<AnnotationMirror> lhsIExtrasList = IntentUtils
@@ -361,7 +355,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     }
                 }
                 return true;
-            }
+            } 
             return super.isSubtype(rhs, lhs);
         }
 
@@ -414,7 +408,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             }
             
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
-                if (AnnotationUtils.areSameIgnoringValues(a1, INTENTEXTRAS)) {
+                if (AnnotationUtils.areSameIgnoringValues(a1, INTENT_MAP)) {
                     List<AnnotationMirror> a1IExtrasList = IntentUtils
                             .getIExtras(a1);
                     List<AnnotationMirror> IExtraOutputSet = new ArrayList<AnnotationMirror>();
@@ -432,13 +426,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
                     }
                     AnnotationMirror output = IntentUtils
-                            .addIExtrasToIntentExtras(EMPTYINTENTEXTRAS,
+                            .addIExtrasToIntentExtras(TOP_INTENT_MAP,
                                     IExtraOutputSet, processingEnv);
                     return output;
                 } else if (AnnotationUtils.areSameIgnoringValues(a1, IEXTRA)) {
                     String a1IExtraKey = IntentUtils.getKeyName(a1);
                     return hostLeastUpperBounds(a1, a1IExtraKey, a2);
-                }
+                } 
             }
 
             return super.leastUpperBound(a1, a2);
@@ -484,8 +478,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             if (AnnotationUtils.areSame(a1, a2))
                 return a1;
 
+            if (AnnotationUtils.areSameIgnoringValues(a1, BOTTOM_INTENT_MAP) 
+                    || AnnotationUtils.areSameIgnoringValues(a2, BOTTOM_INTENT_MAP)) {
+                return BOTTOM_INTENT_MAP;
+            }
+            
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
-                if (AnnotationUtils.areSameIgnoringValues(a1, INTENTEXTRAS)) {
+                if (AnnotationUtils.areSameIgnoringValues(a1, INTENT_MAP)) {
                     List<AnnotationMirror> a1IExtrasList = IntentUtils
                             .getIExtras(a1);
                     List<AnnotationMirror> a2IExtrasList = IntentUtils
@@ -520,12 +519,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     }
 
                     AnnotationMirror output = IntentUtils
-                            .addIExtrasToIntentExtras(EMPTYINTENTEXTRAS,
+                            .addIExtrasToIntentExtras(TOP_INTENT_MAP,
                                     IExtraOutputSet, processingEnv);
                     return output;
                 } else if (AnnotationUtils.areSameIgnoringValues(a1, IEXTRA)) {
                     // is this one necessary?
-                }
+                }  
             }
 
             return super.greatestLowerBound(a1, a2);
@@ -575,7 +574,11 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         ExpressionTree receiver = TreeUtils.getReceiverTree(tree);
         AnnotatedTypeMirror receiverType = getAnnotatedType(receiver);
 
-        if (!receiverType.hasAnnotation(IntentMap.class)) {
+        if(receiverType.hasAnnotation(IntentMapBottom.class)) {
+            return hostChangeMethodReturn(origResult, IEXTRA_BOTTOM);
+        }
+        
+        else if (!receiverType.hasAnnotation(IntentMap.class)) {
             checker.report(Result.failure("intent.key.notfound", tree
                     .getArguments().get(0),receiverType), tree);
             return origResult;
@@ -673,7 +676,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         atm.addAnnotation(sinkAnnotation);
 
         if (!atm.hasAnnotation(IntentMap.class)) {
-            atm.addAnnotation(EMPTYINTENTEXTRAS);
+            atm.addAnnotation(TOP_INTENT_MAP);
         }
     }
 

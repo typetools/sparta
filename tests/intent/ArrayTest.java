@@ -10,7 +10,6 @@ import android.provider.CalendarContract;
 
 public class ArrayTest extends Activity {
     
-    @SuppressWarnings("")
     @IntentMap({
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
         @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 

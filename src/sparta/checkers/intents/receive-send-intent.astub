@@ -50,7 +50,6 @@ class Service {
 
 
 class Activity {
-   // @ReceiveIntent("startActivity,1")
    Intent getIntent();
     //Methods to that aren't handled yet:
     // protected void onNewIntent(Intent arg0);
@@ -233,6 +232,3 @@ class ContextWrapper extends Context {
     boolean bindService(Intent arg0, ServiceConnection arg1, int arg2);
   
 }
-
-
-

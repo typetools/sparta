@@ -10,12 +10,12 @@ import android.content.Context;
 
 /**
  * Class used to test the intent analysis.
- * Class that simulates a Receiver of a BroadcastReceiver
+ * Temporary class to simulate the Receiver Activity
  * on the Intent analysis. Used in the Intent-checker tests from sparta-code.  
  * @author pbsf
  *
  */
-public class BReceiverReceiverStub extends BroadcastReceiver {
+public class BReceiverReceiver extends BroadcastReceiver {
     
     
     @Override
@@ -25,8 +25,10 @@ public class BReceiverReceiverStub extends BroadcastReceiver {
     }
     
     void methodNotAllowed() {
-        @Source(LITERAL) @Sink(CONDITIONAL)  
-        @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent intent = new Intent();
+        Intent intent = (@Source(LITERAL) @Sink(CONDITIONAL)  
+        @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent) new Intent();
+      //:: error: (intent.invoking.receiveintent)                              
+        onReceive(null, intent);
     }
     
 }

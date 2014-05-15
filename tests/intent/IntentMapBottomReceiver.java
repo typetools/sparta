@@ -12,17 +12,21 @@ import android.content.Intent;
  * @author pbsf
  *
  */
-public class ActivityReceiverStub extends Activity {
+public class IntentMapBottomReceiver extends Activity {
     @Override
-    public  @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+    public  @IntentMapBottom 
     Intent getIntent() {
-        return super.getIntent();
+        return (@IntentMapBottom Intent) super.getIntent();
+    }
+    
+    void m() {
+        @IntentMapBottom
+        Intent i = getIntent();
     }
     
     @Override
     @ReceiveIntent("startActivity,1")
-    public void setIntent(@IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
-        Intent newIntent) {
+    public void setIntent(@IntentMapBottom Intent newIntent) {
         super.setIntent(newIntent);
     }
     

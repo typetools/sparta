@@ -13,11 +13,7 @@ public class DeviceAdminAdd extends Activity {
                 @Extra(key="android.app.extra.ADD_EXPLANATION", source={ANY},
                         sink={BIND_DEVICE_ADMIN})
         }) Intent getIntent() {
-            @SuppressWarnings("")
-            @IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",source={ANY},
-            sink={BIND_DEVICE_ADMIN}), @Extra(key="android.app.extra.ADD_EXPLANATION", source={ANY},
-                    sink={BIND_DEVICE_ADMIN})}) Intent output = super.getIntent();
-            return output;
+            return super.getIntent();
         }
 	
 	@Override

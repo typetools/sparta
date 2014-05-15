@@ -14,14 +14,15 @@ import sparta.checkers.FlowPolicy;
 import sparta.checkers.FlowVisitor;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
+import sparta.checkers.quals.IntentMapBottom    ;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolyAll.class,
-        IntentMap.class, Extra.class })
-@StubFiles({"information_flow.astub","receive-send-intent.astub"})
+        IntentMap.class, Extra.class, IntentMapBottom.class })
+@StubFiles({"information_flow.astub","receive-send-intent.astub","intent-map.astub"})
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, ComponentMap.COMPONENT_MAP_FILE_OPTION,
         FlowChecker.MSG_FILTER_OPTION, FlowChecker.IGNORE_NOT_REVIEWED, FlowVisitor.CHECK_CONDITIONALS_OPTION })
 @SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })
