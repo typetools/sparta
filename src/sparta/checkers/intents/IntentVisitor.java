@@ -165,7 +165,7 @@ public class IntentVisitor extends FlowVisitor {
 
         } else if (!AnnotationUtils.areSame(overridenAnno, implementerAnno)) {
             checker.report(Result.failure(
-                    "intent.override.sendintent.incorrect",
+                    "intent.override.receiveintent.incorrect",
                     overridenAnno.toString()), implementingTree);
             return false;
         }
