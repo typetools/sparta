@@ -1,16 +1,5 @@
 package sparta.checkers.intents;
 
-import org.checkerframework.common.basetype.BaseTypeChecker;
-import org.checkerframework.framework.type.AnnotatedTypeFactory;
-import org.checkerframework.framework.type.AnnotatedTypeMirror;
-import org.checkerframework.framework.util.AnnotationBuilder;
-
-import org.checkerframework.javacutil.AnnotationUtils;
-import org.checkerframework.javacutil.ElementUtils;
-import org.checkerframework.javacutil.InternalUtils;
-import org.checkerframework.javacutil.TreeUtils;
-import org.checkerframework.javacutil.TypesUtils;
-
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
@@ -20,36 +9,35 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.framework.type.AnnotatedTypeFactory;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.util.AnnotationBuilder;
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.TreeUtils;
+
 import sparta.checkers.Flow;
+import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.GetExtra;
-import sparta.checkers.quals.ParameterizedFlowPermission;
-import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
+import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.PutExtra;
 import sparta.checkers.quals.ReceiveIntent;
 import sparta.checkers.quals.SendIntent;
 import sparta.checkers.quals.SetIntentFilter;
 
 import com.sun.source.tree.ClassTree;
-import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
-import com.sun.source.tree.ModifiersTree;
-import com.sun.source.tree.Tree;
-import com.sun.source.tree.Tree.Kind;
-import com.sun.source.tree.TypeParameterTree;
 import com.sun.source.tree.VariableTree;
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.code.Symbol.ClassSymbol;
 import com.sun.tools.javac.code.Type;
-import com.sun.tools.javac.code.Types;
 
 public class IntentUtils {
     
