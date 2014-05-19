@@ -79,7 +79,10 @@ public class ActivityTest extends Activity {
         i4 = i1;
     }
     
-    void startActivitySuccess(@Source(FILESYSTEM) @Sink(INTERNET) int test, String test2, Object test3, String[] test4) {
+    void startActivitySuccess(@Source(FILESYSTEM) @Sink(INTERNET) int test, 
+            @Source(FILESYSTEM) @Sink(INTERNET) String test2, 
+            @Source(FILESYSTEM) @Sink(INTERNET) Object test3, 
+            @Source(FILESYSTEM) @Sink(INTERNET) String[] test4) {
         @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
         Intent senderIntent1 = (@IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
         Intent) new Intent();
