@@ -6,8 +6,10 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.util.AnnotationBuilder;
 
 import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.TreeUtils;
+import org.checkerframework.javacutil.TypesUtils;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -18,7 +20,10 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 
 import sparta.checkers.Flow;
@@ -33,10 +38,18 @@ import sparta.checkers.quals.SendIntent;
 import sparta.checkers.quals.SetIntentFilter;
 
 import com.sun.source.tree.ClassTree;
+import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
+import com.sun.source.tree.ModifiersTree;
+import com.sun.source.tree.Tree;
+import com.sun.source.tree.Tree.Kind;
+import com.sun.source.tree.TypeParameterTree;
+import com.sun.source.tree.VariableTree;
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.code.Symbol.ClassSymbol;
+import com.sun.tools.javac.code.Type;
+import com.sun.tools.javac.code.Types;
 
 public class IntentUtils {
     
@@ -311,16 +324,34 @@ public class IntentUtils {
       ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
       senderString = ele.flatname.toString();
       
-      //senderString += .method(args)
+      //senderString += .method(
       MethodTree methodTree = TreeUtils.enclosingMethod(treePath);
-      senderString += "." + TreeUtils.elementFromDeclaration(methodTree).toString();
+      senderString += "." + methodTree.getName() + "(";
+      
+      //senderString += args)
+      //Removing annotation types from parameters
+      List<? extends VariableTree> args = methodTree.getParameters();
+      for(VariableTree arg : args) {
+          Type type = (Type) InternalUtils.typeOf(arg.getType());       
+          String typeStringFormat = type.annotatedType(Type.noAnnotations).toString();
+          String typeNoAnnotations = typeStringFormat;
+          //Handling arrays
+          if(typeStringFormat.contains(" ")) {
+              String[] typeWithAnnotations = typeStringFormat.split(" ");
+              typeNoAnnotations = typeWithAnnotations[typeWithAnnotations.length-1];
+          }
+          senderString += typeNoAnnotations + ",";
+          
+      }
+      //Removing last comma in case of args.size() != 0.
+      if(args.size() > 0) {
+          senderString = senderString.substring(0,senderString.length()-1);
+      }
+      senderString += ')';
       
       //Component map does not have entries with Generics parameters
       //due to epicc's limitations. Need to remove <?> from parameters.
       senderString = senderString.replaceAll("<([^;]*)>", "");
-      
-      //Removing annotation types from parameters
-      senderString = senderString.replaceAll("\\(@([^:]*)\\:\\: ([^)]*)\\)", "$2");
       
       return senderString;
     }
