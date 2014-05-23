@@ -1,19 +1,6 @@
 package sparta.checkers.intents;
 
 
-import org.checkerframework.common.basetype.BaseTypeChecker;
-import org.checkerframework.framework.source.Result;
-import org.checkerframework.framework.type.AnnotatedTypeMirror;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
-import org.checkerframework.framework.util.AnnotatedTypes;
-
-import org.checkerframework.javacutil.AnnotationUtils;
-import org.checkerframework.javacutil.InternalUtils;
-import org.checkerframework.javacutil.TreeUtils;
-import org.checkerframework.javacutil.TypesUtils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -30,6 +17,17 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.framework.source.Result;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
+import org.checkerframework.framework.util.AnnotatedTypes;
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.TreeUtils;
+import org.checkerframework.javacutil.TypesUtils;
+
 import sparta.checkers.FlowVisitor;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
@@ -37,8 +35,6 @@ import sparta.checkers.quals.IntentMapBottom;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.ReceiveIntent;
 import sparta.checkers.quals.SendIntent;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.ClassTree;
@@ -111,7 +107,7 @@ public class IntentVisitor extends FlowVisitor {
             //parameter type.
             return true;
         } else if (null != receiveAnnoOverriden) {
-            return checkReceiveIntentOverride(overriderTree,
+            return checkReceiveIntentOverride(overriderTree, overridden,
                     implementingMethod, receiveAnnoOverriden);
             // Don't call super because the receiveIntent
             // does not follow standard Java overriding rules
@@ -149,9 +145,10 @@ public class IntentVisitor extends FlowVisitor {
     }
 
     private boolean checkReceiveIntentOverride(MethodTree implementingTree,
+            AnnotatedExecutableType overridden, 
             AnnotatedExecutableType implementingMethod,
             AnnotationMirror overridenAnno) {
-        if (implementingTree.getName().toString().equals("setIntent")) { //Find a better way to make the setIntent() comparison
+        if (iatf.setIntent.equals(overridden.getElement())) { 
             checkSetIntentOverride(implementingTree,
                     implementingMethod, overridenAnno);
         }
@@ -188,7 +185,8 @@ public class IntentVisitor extends FlowVisitor {
             AnnotationMirror overriddenAnno) {
         ClassTree classTree = TreeUtils.enclosingClass(getCurrentPath());  
         ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
-        ExecutableElement getIntentMethod = IntentUtils.getMethodGetIntent(checker,ele.flatname.toString());
+        ExecutableElement getIntentMethod = IntentUtils.getMethodGetIntent(
+                checker,ele.flatname.toString());
         
         if (getIntentMethod == null) {
             checker.report(Result.failure("intent.getintent.notfound"), implementingTree);
@@ -215,8 +213,8 @@ public class IntentVisitor extends FlowVisitor {
     @Override
     protected void checkMethodInvocability(AnnotatedExecutableType method,
             MethodInvocationTree node) {
-    	//Code copied from superclass method
-    	if (method.getReceiverType() == null) {
+        //Code copied from superclass method
+        if (method.getReceiverType() == null) {
             // Static methods don't have a receiver.
             return;
         }

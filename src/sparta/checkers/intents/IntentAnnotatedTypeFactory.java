@@ -55,6 +55,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     protected final AnnotationMirror INTENT_MAP, IEXTRA, TOP_INTENT_MAP,
             BOTTOM_INTENT_MAP, IEXTRA_BOTTOM;
     protected final ExecutableElement getIntent;
+    protected final ExecutableElement setIntent;
     protected final ComponentMap componentMap;
 
     public IntentAnnotatedTypeFactory(BaseTypeChecker checker) {
@@ -65,6 +66,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         componentMap = new ComponentMap(ipArg);
 
         getIntent = TreeUtils.getMethod("android.app.Activity", "getIntent", 0, processingEnv);
+        setIntent = TreeUtils.getMethod("android.app.Activity", "setIntent", 1, processingEnv);
         
         INTENT_MAP = AnnotationUtils.fromClass(elements, IntentMap.class);
         IEXTRA = AnnotationUtils.fromClass(elements, Extra.class);
