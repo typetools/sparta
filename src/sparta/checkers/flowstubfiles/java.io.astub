@@ -35,7 +35,7 @@ class BufferedInputStream extends FilterInputStream {
     protected int pos;
     protected int markpos;
     protected int marklimit;
-    BufferedInputStream(InputStream arg0);
+    @PolySource @PolySink BufferedInputStream(@PolySource @PolySink InputStream arg0);
     BufferedInputStream(InputStream arg0, int arg1);
     int read() throws IOException;
     int read(byte[] arg0, int arg1, int arg2) throws IOException;
@@ -276,11 +276,10 @@ class FileDescriptor{
             void sync() throws SyncFailedException;
 }
 
-@PolyFlowReceiver
 class FileInputStream extends InputStream {
-    FileInputStream(@Source(FILESYSTEM) String arg0) throws FileNotFoundException;
+    @Source(FILESYSTEM) FileInputStream(String arg0) throws FileNotFoundException;
     FileInputStream(File arg0) throws FileNotFoundException;
-    FileInputStream(@Source(FILESYSTEM) FileDescriptor arg0);
+    FileInputStream(FileDescriptor arg0);
     int read() throws IOException;
     int read(@Source(FILESYSTEM) byte@Source(FILESYSTEM)[] arg0) throws IOException;
     int read(@Source(FILESYSTEM) byte@Source(FILESYSTEM)[] arg0, int arg1, int arg2) throws IOException;

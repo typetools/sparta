@@ -1900,6 +1900,10 @@ class ZipOutputStream{
             ZipOutputStream(OutputStream arg0);
             void closeEntry() throws IOException;
 }
+class ZipInputStream{
+        @PolySource ZipInputStream(@PolySource InputStream arg0);
+}
+
 class ZipEntry{
             ZipEntry(String arg0);
             boolean isDirectory();
