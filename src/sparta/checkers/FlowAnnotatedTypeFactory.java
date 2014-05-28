@@ -455,43 +455,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             //Doing so will cause extra annotations in on the constructor results and therefore 
             //type.invalid warning
             p.addAnnotations(atypeFactory.constructorFromUse(node).first.getReturnType().getAnnotations());
-            return super.visitNewClass(node, p);
+            return null;
         }
-        @Override
-        public Void visitTypeCast(TypeCastTree node, AnnotatedTypeMirror type) {
-            // TODO should super do this call?
-            defaultAction(node, type);
-            return super.visitTypeCast(node, type);
-        }
-
-        @Override
-        public Void visitUnary(UnaryTree node, AnnotatedTypeMirror type) {
-            // TODO should super do this call?
-            defaultAction(node, type);
-            return super.visitUnary(node, type);
-        }
-
-        @Override
-        public Void visitBinary(BinaryTree node, AnnotatedTypeMirror type) {
-            // TODO should super do this call?
-            defaultAction(node, type);
-            return super.visitBinary(node, type);
-        }
-
-        @Override
-        public Void visitCompoundAssignment(CompoundAssignmentTree node, AnnotatedTypeMirror type) {
-            // TODO should super do this call?
-            defaultAction(node, type);
-            return super.visitCompoundAssignment(node, type);
-        }
-
-        @Override
-        public Void visitNewArray(NewArrayTree tree, AnnotatedTypeMirror type) {
-            // TODO should super do this call?
-            defaultAction(tree, type);
-            return super.visitNewArray(tree, type);
-        }
-
    }
 
     @Override
