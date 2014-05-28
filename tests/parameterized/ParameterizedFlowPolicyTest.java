@@ -20,6 +20,11 @@ class ParameterizedFlowPolicyTest {
         testSinkFail1(time);
         //:: error: (argument.type.incompatible)
         testSinkFail2(time);        
+        
+        String smsString = getSmsStr();
+        //:: error: (argument.type.incompatible)
+        testSmsFail(smsString);
+        testSmsPass(smsString);
     }
     
     void testSinkFail1(@Source(LITERAL) @Sink(value={}, finesinks={@FineSink(value=WRITE_LOGS, params={"/usr/bin"})}) long time) {
@@ -31,4 +36,9 @@ class ParameterizedFlowPolicyTest {
     void testSinkPass(@Source(LITERAL) @Sink(value={}, finesinks={@FineSink(value=WRITE_LOGS, params={"/var/log"})}) long time) {
         
     }
+    
+    @Source(READ_SMS) String getSmsStr(){ return null; }
+    
+    void testSmsFail(@Sink(finesinks={@FineSink(value=FILESYSTEM, params={"SMSFAIL"})}) String s){}
+    void testSmsPass(@Sink(finesinks={@FineSink(value=FILESYSTEM, params={"SMSPASS"})}) String s){}
 }
