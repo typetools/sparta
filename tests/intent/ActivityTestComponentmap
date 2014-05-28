@@ -1,6 +1,6 @@
 #Component map used in the tests for the intent analysis.
-test.ActivityTest.startActivitySuccess(int,java.lang.String,java.lang.Object,java.lang.String[]) -> tests.ActivityReceiverStub
-test.ActivityTest.startActivityFail() -> tests.ActivityReceiverStub
-test.ActivityTest$1.onClick(android.view.View) -> tests.ActivityReceiverStub
-test.ActivityTest$2.onClick(android.view.View) -> tests.ActivityReceiverStub
+tests.ActivityTest.startActivitySuccess(int,java.lang.String,java.lang.Object,java.lang.String[]) -> tests.ActivityReceiverStub
+tests.ActivityTest.startActivityFail() -> tests.ActivityReceiverStub
+tests.ActivityTest$1.onClick(android.view.View) -> tests.ActivityReceiverStub
+tests.ActivityTest$2.onClick(android.view.View) -> tests.ActivityReceiverStub
 

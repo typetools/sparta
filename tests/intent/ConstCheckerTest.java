@@ -14,7 +14,6 @@ public class ConstCheckerTest extends Activity {
    public static final String k1 = "k1";
    public static final String k2 = "k2";
 
-    @SuppressWarnings("")
     @IntentMap({
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
         @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }),

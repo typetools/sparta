@@ -1,0 +1,10 @@
+#Component map used in the tests for the intent analysis.
+tests.IntentMapBottomTest.startActivitySuccess(int,java.lang.String,java.lang.Object,java.lang.String[]) -> tests.IntentMapBottomReceiverStub
+tests.IntentMapBottomTest.startActivityFail() -> tests.IntentMapBottomReceiverStub
+
+tests.IntentMapBottomTest.startActivitySuccess2(int,java.lang.String,java.lang.Object,java.lang.String[]) -> tests.IntentMapBottom2ReceiverStub
+tests.IntentMapBottomTest.startActivityFail2() -> tests.IntentMapBottom2ReceiverStub
+
+tests.IntentMapBottomTest.startActivitySuccess3(int,java.lang.String,java.lang.Object,java.lang.String[]) -> tests.IntentMapBottom3ReceiverStub
+tests.IntentMapBottomTest.startActivityFail3() -> tests.IntentMapBottom3ReceiverStub
+

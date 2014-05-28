@@ -12,17 +12,21 @@ import android.content.Intent;
  * @author pbsf
  *
  */
-public class ReceiverStub extends Activity {
+public class ActivityReceiver extends Activity {
+    @Override
+    public  @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+    Intent getIntent() {
+        return super.getIntent();
+    }
     
     void m() {
-        @SuppressWarnings("")
-        @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
-        Intent i = getIntent();
+    	@IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+    	Intent i = (@IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
+        Intent) getIntent();
     }
     
     @Override
     @ReceiveIntent("startActivity,1")
-    //:: error: (intent.getintent.notfound)
     public void setIntent(@IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) 
         Intent newIntent) {
         super.setIntent(newIntent);

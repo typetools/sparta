@@ -11,9 +11,7 @@ public class RingtonePickerActivity extends Activity {
     
 	@Override
         public @IntentMap() Intent getIntent() {
-            @SuppressWarnings("")
-            @IntentMap() Intent output = super.getIntent();
-            return output;
+            return super.getIntent();
         }
 	
 	@Override
