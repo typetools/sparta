@@ -15,3 +15,7 @@ ACCELEROMETER    ->  FILESYSTEM("output_file1", "output_file2", "output_file_3")
 
 # Test Both
 FILESYSTEM("test_file1", "test_file2") ->  FILESYSTEM ("output"), INTERNET("goodDomain.com", "goodDomain.org")
+
+# Test SMS parameter
+READ_SMS -> FILESYSTEM("SMSPASS")
+LITERAL -> FILESYSTEM("SMSFAIL")

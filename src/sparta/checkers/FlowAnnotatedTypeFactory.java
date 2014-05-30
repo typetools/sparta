@@ -1,3 +1,4 @@
+
 package sparta.checkers;
 
 import static org.checkerframework.framework.qual.DefaultLocation.LOCAL_VARIABLE;
@@ -78,7 +79,7 @@ import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
 import com.sun.source.tree.TypeCastTree;
 import com.sun.source.tree.UnaryTree;
-
+@PolyFlow
 public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
@@ -680,8 +681,10 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                 // TODO: more general fix
                 // This happens when casting:
                 /**
-                 * class TypeAsKeyHashMap<T> { public <S extends T> S get(T
-                 * type) { return (S) type; } }
+                 * class TypeAsKeyHashMap<T> { 
+                 *    public <S extends T> S get(T type) 
+                 *    { return (S) type; } 
+                 * }
                  */
 
                 // super will give this error

@@ -331,10 +331,19 @@ public class Flow {
     public static Set<ParameterizedFlowPermission> intersectSources(Set<ParameterizedFlowPermission> a1Set,
             Set<ParameterizedFlowPermission> a2Set) {
         if(a1Set == null || a2Set == null) return new TreeSet<>();
+       Set<ParameterizedFlowPermission> retSet = new TreeSet<ParameterizedFlowPermission>();
        Set<ParameterizedFlowPermission> a1All =  convertAnytoAllSources(a1Set, false);
        Set<ParameterizedFlowPermission> a2All =   convertAnytoAllSources(a2Set, false);
-       a1All.retainAll(a2All);
-        return  convertToAnySource(a1All, false);
+       for (ParameterizedFlowPermission a1permission : a1All) {
+           for (ParameterizedFlowPermission a2permission : a2All) {
+               // Match permission and match all parameters such that a2 is subsumed in a1
+               if (a1permission.getPermission() == a2permission.getPermission() && 
+                   FlowAnnotatedTypeFactory.allParametersMatch(a1permission.getParameters(), a2permission.getParameters())) {
+                   retSet.add(a2permission);
+               }
+           }
+       }
+        return  convertToAnySource(retSet, false);
     }
     
     
@@ -354,10 +363,19 @@ public class Flow {
     public static Set<ParameterizedFlowPermission> intersectSinks(Set<ParameterizedFlowPermission> a1Set,
             Set<ParameterizedFlowPermission> a2Set) {
         if(a1Set == null || a2Set == null) return new TreeSet<>();
+        Set<ParameterizedFlowPermission> retSet = new TreeSet<ParameterizedFlowPermission>();
         a1Set = convertAnyToAllSinks(a1Set, false);
         a2Set = convertAnyToAllSinks(a2Set, false);
-        a1Set.retainAll(a2Set);
-        return convertToAnySink(a1Set, false);
+        for (ParameterizedFlowPermission a1permission : a1Set) {
+            for (ParameterizedFlowPermission a2permission : a2Set) {
+                // Match permission and match all parameters such that a2 is subsumed in a1
+                if (a1permission.getPermission() == a2permission.getPermission() && 
+                    FlowAnnotatedTypeFactory.allParametersMatch(a2permission.getParameters(), a1permission.getParameters())) {
+                    retSet.add(a2permission);
+                }
+            }
+        }
+        return convertToAnySink(retSet, false);
     }
     
     /**
