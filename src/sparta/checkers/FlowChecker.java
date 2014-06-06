@@ -36,7 +36,7 @@ import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.FineSink;
 import sparta.checkers.quals.FineSource;
-
+import static sparta.checkers.quals.FlowPermission.getFlowPermission;
 
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolyAll.class, FineSource.class, FineSink.class })
 @StubFiles("information_flow.astub")
@@ -289,18 +289,5 @@ public void typeProcessingOver() {
         }
         return input;
     }
-    /**
-     * If the input string contains a FlowPermission, that FlowPermission is returned.
-     * Otherwise null is return
-     * @param input String to convert to FlowPermission
-     * @return FlowPermission that the input string contains, or null.
-     */
-    private static FlowPermission getFlowPermission(String input) {
-        for (FlowPermission f : FlowPermission.values()) {
-            if (input.contains(f.name())) {
-                return f;
-            }
-        }
-        return null;
-    }
+
 }

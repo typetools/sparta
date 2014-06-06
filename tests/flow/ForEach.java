@@ -6,7 +6,7 @@ import java.util.Set;
 import sparta.checkers.quals.*;
 import static sparta.checkers.quals.FlowPermission.*;
 
-
+//warning: FlowPolicy: Found transitive flow
  public class ForEach {
 //     public void test() {
 //         for (Object obj : new ArrayList<Object>()) {               

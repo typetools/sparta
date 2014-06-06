@@ -514,7 +514,20 @@ public enum FlowPermission {
         return (sourceOrSink == T.SOURCE) || sourceOrSink == T.BOTH ;
     }
 
-
+    /**
+     * If the input string contains a FlowPermission, that FlowPermission is returned.
+     * Otherwise null is return
+     * @param input String to convert to FlowPermission
+     * @return FlowPermission that the input string contains, or null.
+     */
+    public static FlowPermission getFlowPermission(String input) {
+        for (FlowPermission f : FlowPermission.values()) {
+            if (input.contains(f.name())) {
+                return f;
+            }
+        }
+        return null;
+    }
 
     /**
      * enum used to indicate if a permission is a source, sink, both, neither.

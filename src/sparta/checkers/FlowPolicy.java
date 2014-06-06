@@ -4,9 +4,7 @@ import static sparta.checkers.quals.FlowPermission.NOT_REVIEWED;
 
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
-
 import org.checkerframework.javacutil.Pair;
-
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,8 +15,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +22,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 
 import sparta.checkers.quals.ParameterizedFlowPermission;
@@ -50,6 +47,8 @@ public class FlowPolicy {
 
     public static final String EMPTY = "{}";
     public static final String EMPTY_REGEX = "\\{\\}";
+    final String PARAMETERIZED_PERMISSION_REGEX = "(.*)[(\"](.*)[\")]";
+
 
     private final Map<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> allowedSourceToSinks;
     private final Map<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> allowedSinkToSources;
@@ -63,18 +62,8 @@ public class FlowPolicy {
     private final ParameterizedFlowPermission ANY;
     private final ParameterizedFlowPermission CONDITIONAL;
     private final ParameterizedFlowPermission LITERAL;
+    private ProcessingEnvironment processingEnv;
     
-    public FlowPolicy(final Map<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> allowedFlows) {
-        ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
-        CONDITIONAL = new ParameterizedFlowPermission(FlowPermission.CONDITIONAL);
-        LITERAL = new ParameterizedFlowPermission(FlowPermission.LITERAL);
-        
-        this.allowedSourceToSinks = allowedFlows;
-        this.allowedSinkToSources = reverse(allowedFlows);
-        
-        this.sinksFromAnySource = allowedFlows.get(ANY);
-        this.strictConditionals = false;
-    }
 
     /**
      *
@@ -82,8 +71,10 @@ public class FlowPolicy {
      * @param strictConditionals
      *            if true LITERAL->CONDITIONAL is added, otherwise
      *            ANY->CONDITIONAL is added
+     * @param processingEnv2 
      */
-    public FlowPolicy(final File flowPolicyFile, boolean strictConditionals) {
+    public FlowPolicy(final File flowPolicyFile, boolean strictConditionals, ProcessingEnvironment processingEnv) {
+        this.processingEnv = processingEnv;
         ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
         CONDITIONAL = new ParameterizedFlowPermission(FlowPermission.CONDITIONAL);
         LITERAL = new ParameterizedFlowPermission(FlowPermission.LITERAL);
@@ -100,23 +91,7 @@ public class FlowPolicy {
 
     }
 
-    public FlowPolicy(final File flowPolicyFile) {
-        this(flowPolicyFile, false);
-    }
 
-    public FlowPolicy() {
-        this(false);
-    }
-
-    /**
-     *
-     * @param strictConditionals
-     *            if true LITERAL->CONDITIONAL is added, otherwise
-     *            ANY->CONDITIONAL is added
-     */
-    public FlowPolicy(boolean strictConditionals) {
-        this(null, strictConditionals);
-    }
 
     private HashMap<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> getDefaultAllowedFlows() {
         HashMap<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>> defaultAllowedFlows = new HashMap<ParameterizedFlowPermission, Set<ParameterizedFlowPermission>>();
@@ -173,7 +148,7 @@ public class FlowPolicy {
         }
 
         for (final ParameterizedFlowPermission source : sources) {
-            final Set<ParameterizedFlowPermission> allowedSink = allowedSourceToSinks.get(source);
+            final Set<ParameterizedFlowPermission> allowedSink = getAllowedSinks(source);
 
             if (allowedSink == null) {
                 forflows.add(new Flow(source, sinks));
@@ -212,7 +187,7 @@ public class FlowPolicy {
 
         // TODO: Also check for parameters
         for (final ParameterizedFlowPermission source : sources) {
-            final Set<ParameterizedFlowPermission> allowedSinks = allowedSourceToSinks.get(source);
+            final Set<ParameterizedFlowPermission> allowedSinks = getAllowedSinks(source);
 
             if (allowedSinks == null) {
                 return false;
@@ -265,7 +240,7 @@ public class FlowPolicy {
         Set<ParameterizedFlowPermission> sinks =  Flow.getSetOfAllSinks();
 
         for (ParameterizedFlowPermission source : sources) {
-            final Set<ParameterizedFlowPermission> curSinks = allowedSourceToSinks.get(source);
+            final Set<ParameterizedFlowPermission> curSinks = getAllowedSinks(source);
             sinks = Flow.intersectSinks(sinks, curSinks);
         }
         sinks.addAll(getSinkFromSource(ANY, false));
@@ -276,13 +251,39 @@ public class FlowPolicy {
         Set<ParameterizedFlowPermission> sources = Flow.getSetOfAllSources();
 
         for (ParameterizedFlowPermission sink : sinks) {
-            final Set<ParameterizedFlowPermission> curSources = allowedSinkToSources.get(sink);
+            final Set<ParameterizedFlowPermission> curSources = getAllowedSources(sink);
             sources = Flow.intersectSources(sources, curSources);
         }
         sources.addAll(getSourceFromSink(ANY, false));
         return sources;
     }
 
+
+
+    private Set<ParameterizedFlowPermission> getAllowedSources(ParameterizedFlowPermission sink) {
+        TreeSet<ParameterizedFlowPermission> sources = new TreeSet<ParameterizedFlowPermission>();
+        for(ParameterizedFlowPermission posSink: allowedSinkToSources.keySet()){
+            if(posSink.getPermission() == sink.getPermission()){
+                if(FlowAnnotatedTypeFactory.allParametersMatch(sink.getParameters(), posSink.getParameters())){
+                    Set<ParameterizedFlowPermission> newsources = allowedSinkToSources.get(posSink);
+                    sources.addAll(newsources);
+                }
+            }
+        }
+        return sources;    }
+
+    private Set<ParameterizedFlowPermission> getAllowedSinks(final ParameterizedFlowPermission source) {
+        TreeSet<ParameterizedFlowPermission> sinks = new TreeSet<ParameterizedFlowPermission>();
+        for(ParameterizedFlowPermission posSource: allowedSourceToSinks.keySet()){
+            if(posSource.getPermission() == source.getPermission()){
+                if(FlowAnnotatedTypeFactory.allParametersMatch(source.getParameters(), posSource.getParameters())){
+                    sinks.addAll(allowedSourceToSinks.get(posSource));
+                }
+            }
+        }
+        return sinks;
+    }
+    
     /**
      * Read the given file return a one to many Map of FlowPermission -> Sink
      * where each entry indicates what sinks a source is given blanket access to
@@ -316,8 +317,6 @@ public class FlowPolicy {
      */
     private void readPolicyFile(final File policyFile) {
         final Pattern linePattern = Pattern.compile("^\\s*((?:[^->]+))->\\s*((?:[^->]+)(?:,[^->]+)*)\\s*$");
-
-        final List<String> errors = new ArrayList<String>();
         
         final List<FlowPermission> allCoarseSinkButAny = Arrays.asList(FlowPermission.values());
         final Set<ParameterizedFlowPermission> allSinkButAny = new TreeSet<ParameterizedFlowPermission>();
@@ -328,151 +327,53 @@ public class FlowPolicy {
             }
         }
         
-
         BufferedReader bufferedReader = null;
         try {
             int lineNum = 1;
             bufferedReader = new BufferedReader(new FileReader(policyFile));
             String originalLine = bufferedReader.readLine().trim();
-
-            while (originalLine != null) {
+            NextLine: while (originalLine != null) {
 
                 // Remove anything from # on in the line
                 final String line = stripComment(originalLine);
 
                 if (!line.isEmpty() && !isWhiteSpaceLine(line)) {
-                    final Matcher matcher = linePattern.matcher(line);
+                    try {
+                        final Matcher matcher = linePattern.matcher(line);
 
-                    Set<ParameterizedFlowPermission> sinks;
-                    if (matcher.matches()) {
-                        final String parameterizedFlowRegex = "(.*)[(\"](.*)[\")]";
-                        String sourceStr = matcher.group(1).trim();
-                        String groupmatcher = matcher.group(2).trim();
-                        final String[] sinkStrs = groupmatcher.split(",(?![^(]*\\))");
-                        
-                        List<String> sourceParams = new ArrayList<String>();
-                        List<List<String>> sinkParams = new ArrayList<List<String>>();
-                        
-                        if (sourceStr.matches(parameterizedFlowRegex)) {
-                            String sourceParameterString = sourceStr.substring(sourceStr.indexOf('(') + 1, sourceStr.indexOf(')')).trim();
-                            sourceStr = sourceStr.substring(0, sourceStr.indexOf('(')).trim();
-                            
-                            // Save source parameters
-                            String[] sourceParameterStrings = sourceParameterString.split(",");
-                            for (String param : sourceParameterStrings) {
-                                // Strip quotes and add to parameter list
-                                param = param.substring(param.indexOf('\"') + 1);
-                                param = param.substring(0, param.indexOf('\"'));
-                                param = param.trim();
-                                sourceParams.add(param);
-                            }
-                        }
-                             
-                        // Create source object
-                        ParameterizedFlowPermission sourceObject = new ParameterizedFlowPermission(FlowPermission.valueOf(sourceStr.trim()), sourceParams);
-                                             
-                        for (int i = 0; i < sinkStrs.length; i++) {         
-                            List<String> currentSinkParams = new ArrayList<String>();
-                            sinkParams.add(currentSinkParams);
-                            if (sinkStrs[i].matches(parameterizedFlowRegex)) { 
-                                String currentSinkStr = sinkStrs[i].trim();
-                                String sinkParameterString = currentSinkStr.substring(currentSinkStr.indexOf('(') + 1, currentSinkStr.indexOf(')'));
-                                sinkStrs[i] = currentSinkStr.substring(0, currentSinkStr.indexOf('(')).trim();
-                                
-                                // Save sink parameters
-                                String[] sinkParameterStrings = sinkParameterString.split(",");
-                                for (String param: sinkParameterStrings) {
-                                    // Strip quotes and add to parameter list
-                                    param = param.substring(param.indexOf('\"') + 1);
-                                    param = param.substring(0, param.indexOf('\"'));
-                                    param = param.trim();
-                                    currentSinkParams.add(param);
-                                }
-                            }
-                        }
-                        
-                        // Create sink objects
-                        List<ParameterizedFlowPermission> sinkObjects = new ArrayList<ParameterizedFlowPermission>();
-                        for (int i = 0; i < sinkStrs.length; i++) {   
-                            String sinkStr = sinkStrs[i];
-                            List<String> sinkParameters = sinkParams.get(i);
-                            sinkObjects.add(new ParameterizedFlowPermission(FlowPermission.valueOf(sinkStr.trim()), sinkParameters));
-                        }
-                      
-                        FlowPermission source = null;
-                        boolean skip = false;
-
-                        if (sourceStr.equals(EMPTY) || sourceStr.equals(NOT_REVIEWED.toString())) {
-                            errors.add(formatPolicyFileError(policyFile, lineNum, "FlowPermission "
-                                    + sourceStr + " is not allowed in policy files", originalLine));
-                            sinks = null;
-                            skip = true;
-
+                        ParameterizedFlowPermission sourcePFP;
+                        if (!matcher.matches()) {
+                            lineError(policyFile, lineNum,
+                                    "Syntax error, Lines are of the form: flowSource -> sink1, sink2, ..., sinkN ",
+                                    originalLine);
                         } else {
-                            try {
-                                boolean foundInMap = false;
-                                sinks = null;
-                                
-                                for (ParameterizedFlowPermission allowedSource : allowedSourceToSinks.keySet()) {
-                                    if (allowedSource.getPermission() == sourceObject.getPermission()) { // already in map
-                                        foundInMap = true;
-                                        sinks = allowedSourceToSinks.get(allowedSource);
-                                        break;
-                                    }
-                                }
-
-                                if (!foundInMap) {
-                                    sinks = new TreeSet<ParameterizedFlowPermission>();
-                                    allowedSourceToSinks.put(sourceObject, sinks);
-                                }
-                            } catch (final IllegalArgumentException iaExc) {
-
-                                errors.add(formatPolicyFileError(policyFile, lineNum,
-                                        "Unrecognized source: " + sourceStr + " Known sources: "
-                                                + enumValuesToString(FlowPermission.values()),
-                                        originalLine));
-
-                                sinks = null;
-                                skip = true;
+                            String sourceStr = matcher.group(1).trim();
+                            String groupmatcher = matcher.group(2).trim();
+                            if (notAllowed(sourceStr)) {
+                                lineError(policyFile, lineNum, "FlowPermission " + sourceStr
+                                        + " is not allowed in policy files", originalLine);
+                                continue NextLine;
                             }
+                            sourcePFP = getSourcePFP(sourceStr);
 
-                        }
-                        
-                        for (final String sink : sinkStrs) {
-                            if (sink.equals(EMPTY) || sink.equals(NOT_REVIEWED.toString())) {
-                                errors.add(formatPolicyFileError(policyFile, lineNum,
-                                        "FlowPermission " + sinkStrs
-                                                + " is not allowed in policy files", originalLine));
-                                continue;
-                            }
-                            try {
-                                if (!skip) {
-                                    // Get the front of the current sink objects list
-                                    sinks.add(sinkObjects.remove(0));
+                            final String[] sinkStrs = groupmatcher.split(",(?![^(]*\\))");
+                            List<ParameterizedFlowPermission> sinkObjects = new ArrayList<ParameterizedFlowPermission>();
+                            for (String sinkStr : sinkStrs) {
+                                if (notAllowed(sinkStr)) {
+                                    lineError(policyFile, lineNum, "FlowPermission " + sinkStr
+                                            + " is not allowed in policy files", originalLine);
+                                    continue NextLine;
                                 }
-
-                            } catch (final IllegalArgumentException iaExc) {
-                                errors.add(formatPolicyFileError(policyFile, lineNum,
-                                        "Unrecognized sink: " + sink + " Known sinks: "
-                                                + enumValuesToString(FlowPermission.values()),
-                                        originalLine));
+                                ParameterizedFlowPermission sinkPFP = getSinkPFP(sinkStr);
+                                sinkObjects.add(sinkPFP);
                             }
+                            addToMap(allSinkButAny, sourcePFP, sinkObjects);
                         }
-
-                        if (!skip && sinks.containsAll(allSinkButAny)) {
-                            sinks.clear();
-                            sinks.add(ANY);
-                        }
-
-                    } else {
-                        errors.add(formatPolicyFileError(
-                                policyFile,
-                                lineNum,
-                                "Syntax error, Lines are of the form: flowSource -> sink1, sink2, ..., sinkN ",
-                                originalLine));
+                    } catch (final IllegalArgumentException iaExc) {
+                        lineError(policyFile, lineNum, "Unrecognized permisison: "
+                                + enumValuesToString(FlowPermission.values()), originalLine);
                     }
                 }
-
                 ++lineNum;
                 originalLine = bufferedReader.readLine();
             }
@@ -487,19 +388,77 @@ public class FlowPolicy {
             } catch (IOException ignoredCloseExc) {
             }
         }
-
-        if (!errors.isEmpty()) {
-            System.out.println("\nErrors parsing policy file:");
-            for (final String error : errors) {
-                System.out.println(error);
-                System.out.println();
-            }
-
-            System.out.flush();
-            throw new RuntimeException("Errors parsing policy file: "
-                    + policyFile.getAbsolutePath());
-        }
         
+    }
+
+
+
+    private void addToMap(final Set<ParameterizedFlowPermission> allSinkButAny, ParameterizedFlowPermission sourcePFP,
+            List<ParameterizedFlowPermission> sinkObjects) {
+
+        Set<ParameterizedFlowPermission> sinks =  allowedSourceToSinks.get(sourcePFP);
+
+        if (sinks == null) {
+            sinks = new TreeSet<ParameterizedFlowPermission>();
+            allowedSourceToSinks.put(sourcePFP, sinks);
+        }
+        sinks.addAll(sinkObjects);
+
+        if (sinks.containsAll(allSinkButAny)) {
+            sinks.clear();
+            sinks.add(ANY);
+        }
+    }
+
+
+    private boolean notAllowed(String sinkStr) {
+       return sinkStr.equals(EMPTY) || sinkStr.equals(NOT_REVIEWED.toString());
+    }
+
+    private ParameterizedFlowPermission getSinkPFP(String sinkStr) {
+         sinkStr = sinkStr.trim();
+        List<String> currentSinkParams = new ArrayList<String>();
+        if (sinkStr.matches(PARAMETERIZED_PERMISSION_REGEX)) { 
+            String sinkParameterString = sinkStr.substring(sinkStr.indexOf('(') + 1, sinkStr.indexOf(')'));
+            sinkStr = sinkStr.substring(0, sinkStr.indexOf('(')).trim();
+            
+            // Save sink parameters
+            String[] sinkParameterStrings = sinkParameterString.split(",");
+            for (String param: sinkParameterStrings) {
+                // Strip quotes and add to parameter list
+                param = param.substring(param.indexOf('\"') + 1);
+                param = param.substring(0, param.indexOf('\"'));
+                param = param.trim();
+                currentSinkParams.add(param);
+            }
+        }
+        ParameterizedFlowPermission sinkPFP = new ParameterizedFlowPermission(FlowPermission.valueOf(sinkStr), currentSinkParams);
+        return sinkPFP;
+    }
+
+    private ParameterizedFlowPermission getSourcePFP(String origSourceStr) {
+        ParameterizedFlowPermission sourceObject;
+        String sourceStr = origSourceStr.trim();
+        List<String> sourceParams = new ArrayList<String>();
+
+        if (sourceStr.matches(PARAMETERIZED_PERMISSION_REGEX)) {
+            String sourceParameterString = sourceStr.substring(sourceStr.indexOf('(') + 1, sourceStr.indexOf(')')).trim();
+            sourceStr = sourceStr.substring(0, sourceStr.indexOf('(')).trim();
+
+            // Save source parameters
+            String[] sourceParameterStrings = sourceParameterString.split(",");
+            for (String param : sourceParameterStrings) {
+                // Strip quotes and add to parameter list
+                param = param.substring(param.indexOf('\"') + 1);
+                param = param.substring(0, param.indexOf('\"'));
+                param = param.trim();
+                sourceParams.add(param);
+            }
+        }
+
+        // Create source object
+        sourceObject = new ParameterizedFlowPermission(FlowPermission.valueOf(sourceStr.trim()), sourceParams);
+        return sourceObject;
     }
 
     private void checkForTransitivity() {
@@ -508,15 +467,14 @@ public class FlowPolicy {
               //if the source can be a sink too, then there might be a transitive flow
               //TODO: handle what about WRITE_EXTERNAL_FILESYSTEM vs READ_EXTERNAL_FILESYSTEM
                 if (allowedSinkToSources.containsKey(source)) {
-                    Set<ParameterizedFlowPermission> sources = allowedSinkToSources.get(source);
-                    Set<ParameterizedFlowPermission> sinks = allowedSourceToSinks.get(source);
+                    Set<ParameterizedFlowPermission> sources = getAllowedSources(source);
+                    Set<ParameterizedFlowPermission> sinks = getAllowedSinks(source);
                     Pair<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> flows = Pair.of(sources, sinks);
                     if (!areFlowsAllowed(flows)) {
-                        System.err.flush();
-                        System.err.println("Warning, flow policy has transtive flow\n"
-                                + allowedSinkToSources.get(source) + "->"
-                                + allowedSourceToSinks.get(source));
-                        System.err.flush();
+                        warning("Found transitive flow\n"
+                                + getAllowedSources(source) + "->"
+                                + getAllowedSinks(source)
+                                + "\nPlease add them to the flow policy");
                     }
                 }
           }
@@ -546,9 +504,22 @@ public class FlowPolicy {
         return str;
     }
 
-    private static String formatPolicyFileError(final File file, final int lineNum,
+    private  void lineError(final File file, final int lineNum,
             final String message, final String line) {
-        return file.getAbsolutePath() + ":" + lineNum + ": " + message + "\n" + line;
+         error(file.getAbsolutePath() + ":" + lineNum + ": " + message + "\n" + line);
+    }
+
+    private void error(String warning) {
+        if (processingEnv != null)
+            processingEnv.getMessager().printMessage(javax.tools.Diagnostic.Kind.ERROR, "FlowPolicy: " + warning);
+        else
+            System.err.println("FlowPolicy: " + warning);
+    }
+    private void warning(String warning){
+        if (processingEnv != null)
+            processingEnv.getMessager().printMessage(javax.tools.Diagnostic.Kind.WARNING, "FlowPolicy: " + warning);
+        else
+            System.err.println("FlowPolicy: " + warning);
     }
 
     public Set<ParameterizedFlowPermission> getSinkFromSource(final ParameterizedFlowPermission source, boolean includeAny) {

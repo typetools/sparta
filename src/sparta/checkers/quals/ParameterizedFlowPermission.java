@@ -7,8 +7,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class ParameterizedFlowPermission implements Comparable<ParameterizedFlowPermission> {
-    private FlowPermission permission;
-    private List<String> parameters; 
+    private final FlowPermission permission;
+    private final List<String> parameters; 
     
     public ParameterizedFlowPermission(FlowPermission permission) {
         this( permission, new ArrayList<String>());     
@@ -19,8 +19,9 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
         this.permission = permission;
         this.parameters = parameters; 
         if(parameters.isEmpty()) {
-            parameters.add("*");
+            this.parameters.add("*");
         }
+        Collections.sort(this.parameters);
     }
     
     public FlowPermission getPermission() {
@@ -81,14 +82,31 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
         return true;
     }
 
+    /**
+     * {@inheritDoc} 
+     * null first, then by FlowPermission, then by size of
+     * parameters, then by String compare of sorted parameters.
+     */
     @Override
     public int compareTo(ParameterizedFlowPermission other) {
-        if (this.permission == other.permission && this.parameters.equals(other.parameters)) {
-            return 0;
-        } else if (this.permission.compareTo(other.permission) > 0) {
+        if (other == null) {
             return 1;
         }
-        return -1;
+        if (this.permission != other.permission) {
+            return this.permission.compareTo(other.permission);
+        }
+        if (this.parameters.size() != other.parameters.size()) {
+            return this.parameters.size() - other.parameters.size();
+        }
+        for (String this1 : this.parameters) {
+            for (String other1 : other.parameters) {
+                if (this1.compareTo(other1) != 0) {
+                    return this1.compareTo(other1);
+                }
+            }
+        }
+
+        return 0;
     }
 
     // TODO: Ask where this method belongs. Static method in another class?
@@ -100,7 +118,7 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
         }
         return false;
     }
-
+    
     public boolean isSink() {
         return getPermission().isSink();
     }
