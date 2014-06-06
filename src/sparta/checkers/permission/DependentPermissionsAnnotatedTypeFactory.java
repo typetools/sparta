@@ -4,9 +4,7 @@ import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.framework.qual.Bottom;
 import org.checkerframework.framework.qual.DefaultLocation;
-import org.checkerframework.framework.type.AnnotatedTypeMirror;
-import org.checkerframework.framework.type.QualifierHierarchy;
-import org.checkerframework.framework.type.TreeAnnotator;
+import org.checkerframework.framework.type.*;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.GraphQualifierHierarchy;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
@@ -19,6 +17,7 @@ import java.util.LinkedList;
 
 import javax.lang.model.element.AnnotationMirror;
 
+import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.permission.qual.DependentPermissions;
 import sparta.checkers.permission.qual.DependentPermissionsTop;
 import sparta.checkers.permission.qual.DependentPermissionsUnqualified;
@@ -414,7 +413,7 @@ public class DependentPermissionsAnnotatedTypeFactory extends BaseAnnotatedTypeF
 
         // Reuse the framework Bottom annotation and make it the default for the
         // null literal.
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, BOTTOM);
+
         //  typeAnnotator.addTypeName(java.lang.Void.class, checker.BOTTOM);
 
         defaults.addAbsoluteDefault(
@@ -429,8 +428,14 @@ public class DependentPermissionsAnnotatedTypeFactory extends BaseAnnotatedTypeF
     }
 
     @Override
-    public TreeAnnotator createTreeAnnotator() {
-        return new DPTreeAnnotator(this);
+    public ListTreeAnnotator createTreeAnnotator() {
+        ImplicitsTreeAnnotator implicits = new ImplicitsTreeAnnotator(this);
+        implicits.addTreeKind(Tree.Kind.NULL_LITERAL, BOTTOM);
+        return new ListTreeAnnotator(
+                new PropagationTreeAnnotator(this),
+                implicits,
+                new DPTreeAnnotator(this)
+        );
     }
 
     AnnotationMirror createDependentPermAnnotation(String s) {

@@ -9,12 +9,10 @@ import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.value.qual.StringVal;
 import org.checkerframework.framework.qual.DefaultLocation;
 import org.checkerframework.framework.source.Result;
-import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.*;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
-import org.checkerframework.framework.type.QualifierHierarchy;
-import org.checkerframework.framework.type.TreeAnnotator;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import org.checkerframework.framework.util.QualifierDefaults;
@@ -243,19 +241,51 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     }
 
     @Override
-    protected TreeAnnotator createTreeAnnotator() {
-        TreeAnnotator treeAnnotator = super.createTreeAnnotator();
-        treeAnnotator.addTreeKind(Tree.Kind.NULL_LITERAL, BOTTOM_INTENT_MAP);
-        
-        treeAnnotator.addTreeKind(Tree.Kind.INT_LITERAL, TOP_INTENT_MAP);
-        treeAnnotator.addTreeKind(Tree.Kind.LONG_LITERAL, TOP_INTENT_MAP);
-        treeAnnotator.addTreeKind(Tree.Kind.FLOAT_LITERAL, TOP_INTENT_MAP);
-        treeAnnotator.addTreeKind(Tree.Kind.DOUBLE_LITERAL, TOP_INTENT_MAP);
-        treeAnnotator.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, TOP_INTENT_MAP);
-        treeAnnotator.addTreeKind(Tree.Kind.CHAR_LITERAL, TOP_INTENT_MAP);
-        treeAnnotator.addTreeKind(Tree.Kind.STRING_LITERAL, TOP_INTENT_MAP);
-        return treeAnnotator;
+    protected ListTreeAnnotator createTreeAnnotator() {
+
+        ImplicitsTreeAnnotator implicits = new ImplicitsTreeAnnotator(this);
+        implicits.addTreeKind(Tree.Kind.NULL_LITERAL, BOTTOM_INTENT_MAP);
+        implicits.addTreeKind(Tree.Kind.INT_LITERAL, TOP_INTENT_MAP);
+        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, TOP_INTENT_MAP);
+        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, TOP_INTENT_MAP);
+        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, TOP_INTENT_MAP);
+        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, TOP_INTENT_MAP);
+        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, TOP_INTENT_MAP);
+        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, TOP_INTENT_MAP);
+
+        // TODO: This code is copied from the superclass. Which is not great.
+        // TODO: But this class should be going away soon.
+        // But let's send null down any sink and give it no sources.
+        implicits.addTreeKind(Tree.Kind.NULL_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.NULL_LITERAL, NOSOURCE);
+
+        // Literals, other than null are different too
+        // There are no Byte or Short literal types in java (0b is treated as an
+        // int),
+        // so there does not need to be a mapping for them here.
+        implicits.addTreeKind(Tree.Kind.INT_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, LITERALSOURCE);
+
+        implicits.addTreeKind(Tree.Kind.INT_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
+
+        return new ListTreeAnnotator(
+                new PropagationTreeAnnotator(this),
+                implicits,
+                new FlowPolicyTreeAnnotator(this)
+        );
     }
+
 
     @Override
     public QualifierHierarchy createQualifierHierarchy(MultiGraphFactory factory) {
