@@ -512,44 +512,32 @@ or
 \end{alltt}
 
 \subsection{Type-check information flow types across communicating components}
+This section explains how to generate a component map file for an app, how to
+run \theIntentChecker{} for this app and remove the raised false warnings.
 
-\subsubsection{Component map generation\label{component-map-generation}}
+\subsubsection{Component map file generation\label{component-map-generation}}
 
-The first step to type-check information flow types across communicating
-components is to generate a component map for the application.
-A file named \<filter-map> is used by the component map generation. It is
-located at:
+Generating a component map file for an app is a precursor to type-check its
+information flow types across communicating components and within components.
+In order to
+generate a component map file it is necessary to create a folder containing the
+target app's .apk file and all .apk files from the apps that may
+communicate with the target app. After creating this folder, run the
+\<generate-filters> script located in the \<sparta-code> folder as follows:
+ \begin{alltt}
+ generate-filters   \textit{path to a folder containing .apk files}
+ \end{alltt}
 
-\<src/sparta/checkers/intents/componentmap/filter-map>
-
-This file contains
-information about every Android system component and using it
-\theIntentChecker{} can identify if a component from the analyzed app might 
-interact with one of the Android system components. It uses the intent filters
-from the manifest file of the application to find this information.
-
-The filter-map can be auto-generated and include information about other
-apps that might interact with the current app being analyzed other than the
-Android built-in apps. To generate
-the filter-map file, create a folder with  every .apk of the apps
-that might interact with the app being analyzed and run the \<generate-filters>
- script located at the sparta-code folder as follows:
- 
+After running the \<generate-filters> script, run the \<generate-cm> script,
+which is located in the \<sparta-code> folder.
+It receives as arguments the path of the application's .apk and the output
+path of the component map file. The second one is optional and the component
+map file will be output to a file named component-map in the same folder as the
+.apk if it is not specified. The .apk of the app must be built without
+annotations by running \<ant debug> in the app's folder.
 \begin{alltt}
-generate-filters [path to a folder containing .apk files]
+generate-cm   \textit{path to app's .apk}   [component map path]
 \end{alltt}
-
-To generate a component map for an application, the \<generate-cm> script, which 
-can be found in the sparta-code folder, is used.
-It receives as arguments the path of the application's apk and the output
-path of the component map. The second one is optional and the component map
-will be output to a file named component-map in the same folder as the apk if 
-it is not specified. The apk of the application must be built without
-annotations.
-\begin{alltt}
-generate-cm [path to app's .apk] [component map path]
-\end{alltt}
-
 
 Currently the component map generation does not differentiate intent filters
 with same action and categories but different data (URI). Every communication
@@ -558,36 +546,36 @@ the developer can uncomment the ones he think in fact occur after manually
 analyzing the code.
 
 \subsubsection{Annotating components from other applications}
-In case the application being analyzed communicates with components from
-other apps, these components need to be correctly annotated and added in the 
-\<annotated-intent-receivers> folder.
+In case the app being analyzed communicates with components from
+other apps, these components need to be correctly annotated and you need to add
+their .java files in the \<sparta-code/annotated-intent-receivers> folder.
 
 \subsubsection{Running \theIntentChecker{} with \theFlowChecker{}}
 
 \TheIntentChecker{} type-checks information flow types across communicating
-components. To run \theIntentChecker{} with \theFlowChecker{} in the command
-line use the command \<check-intent> instead of \<check-flow>:
+components and within components. To run \theIntentChecker{} with
+\theFlowChecker{} in the command line use the command \<check-intent> instead
+of \<check-flow>:
 
 \begin{alltt}
-ant -DflowPolicy=myflowpolicy -DcomponentMap=mycomponentmap check-intent
+    ant [-DflowPolicy=myflowpolicy] [-DcomponentMap=mycomponentmap] check-intent
 \end{alltt}
 
 \subsubsection{Common warnings and errors in \theIntentChecker{}}
 
-If \theIntentChecker{} produces any errors or warnings, then the app
-has not been properly annotated and should be rejected.
-
-Below there are a few common warnings and errors from \theIntentChecker and
-how to solve them:
+Below there is a description of each warning and error from \theIntentChecker{}
+and how to solve it:
 \subsubsection{Error: intent.receiver.notfound}
 
 This error occurs when type-checking a \sendIntent{} call whose method in which
 it is called is not in the component map file.
 
 \begin{Verbatim}
-error: Could not find receivers for class: com.package.ActivityA.foo()
+error: Could not find receivers for the intent sent in method: com.package.ActivityA.foo().
+Please add an entry in the component map file from this method to one or more components.
 \end{Verbatim}
 
+\todo{add this in the warning message}
 To solve this error you need to add an entry in the component map from 
 \<com.package.ActivityA.foo()> to one or more components. For example:
 
@@ -604,9 +592,8 @@ ReceiverIntentTest.java:25: warning: [intent.getintent.notfound]
      public void setIntent(@IntentMap({ @Extra(key = "k5", source = 
                               { ACCESS_FINE_LOCATION }, sink = {}) }) 
                  ^
-Could not find getIntent() method implementation in the same component of this
-setIntent call. Please override this method and make sure that the return type
-of getIntent() is a supertype of the setIntent(intent) parameter.
+Could not find getIntent() method implementation in the same component of this setIntent call.
+Please override the getIntent() method in this component.
 \end{Verbatim}
 
 To solve this warning you need to override the \<getIntent()> method in 
@@ -616,38 +603,54 @@ To solve this warning you need to override the \<getIntent()> method in
 \begin{Verbatim}
 @Override
 public @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION },
-        sink = {})} Intent getIntent() {
+                                        sink = {})} Intent getIntent() {
     return super.getIntent();
 }
 \end{Verbatim}
 
-\subsubsection{Warning: send.intent}
-This warning occurs when a \sendIntent{} call does not type-check. The
-\sendIntent{}'s intent parameter annotation type must be copyable to all
-\onReceive{} method declaration intent's parameter annotation type from the
-components indicated in the component map.
+\subsubsection{Warning: send.intent.missing.key}
+This warning occurs when the receiver's \<@IntentMap> has one \<@Extra>
+annotation with key missing from the sender's \<@IntentMap>.
 
 \begin{Verbatim}
- tests/intent/BReceiverTest.java:29: warning: [send.intent] 
-         sendBroadcast(senderIntent1);
-                      ^
-Forbidden communication. 
-Intent type found: @sparta.checkers.quals.IntentMap({@sparta.
-checkers.quals.Extra(key="k2", source={sparta.checkers.quals.
-FlowPermission.ACCESS_FINE_LOCATION}, sink={})}). 
-Intent type required: @sparta.checkers.quals.IntentMap({@sparta.
-checkers.quals.Extra(key="k5", source={sparta.checkers.quals.
-FlowPermission.ACCESS_FINE_LOCATION}, sink={})}).
+tests/intent/ActivityTest.java:128: error: [send.intent.missing.key] 
+            startActivity(senderIntent1);
+                          ^
+The receiver's @IntentMap has an @Extra with key string value "k5", which is
+missing in the sender's @IntentMap.
+Sender's intent type: @sparta.checkers.quals.IntentMap({@sparta.checkers.quals.
+Extra(key="k2", source={sparta.checkers.quals.FlowPermission.ACCESS_FINE_LOCATION},
+sink={})}). 
+Receiver's intent type: @sparta.checkers.quals.IntentMap({@sparta.checkers.quals.
+Extra(key="k5", source={sparta.checkers.quals.FlowPermission.ACCESS_FINE_LOCATION},
+sink={})}).
 \end{Verbatim}
 
-To solve this warning you need to change either the type of the sender intent
-or the receiver intent so that the sender is copyable to the receiver, that is,
-the intent type of the receiver must not have additional \<@Extra> with \<key>
-values that are not in the sender's intent type, and for all \<@Extra> with
-matching keys in both sender and receiver, the source and sink type of the
-\<@Extra> in the sender must be a subtype of the source and sink type of
-the \<@Extra> in the receiver. In this example, the sender intent is
-\<senderIntent1> and the receiver can be found using the component map.
+To solve this warning you need to add an \<@Extra> with key \<"k5"> in the
+sender's \<@IntentMap>.
+
+\subsubsection{Warning: send.intent.incompatible.types}
+This warning occurs when the receiver's \<@IntentMap> has one \<@Extra> annotation
+whose \<@Source> and/or \<@Sink> type are not a subtype of the receiver's extra with
+same key.
+
+\begin{Verbatim}
+tests/intent/ActivityTest.java:130: error: [send.intent.incompatible.types] 
+            startActivity(senderIntent2);
+                          ^
+The sender's @IntentMap has an @Extra annotation with key string value "k5",
+with @Source and/or @Sink types which are not a subtype of the receiver's @Extra
+with same key. 
+Sender's intent type: @sparta.checkers.quals.IntentMap({@sparta.checkers.quals.
+Extra(key="k5", source={sparta.checkers.quals.FlowPermission.ANY}, sink={})}). 
+Receiver's intent type: @sparta.checkers.quals.IntentMap({@sparta.checkers.quals.
+Extra(key="k5", source={sparta.checkers.quals.FlowPermission.ACCESS_FINE_LOCATION},
+sink={})}).
+
+\end{Verbatim}
+
+To solve this warning you need to modify the \<@Source> type of the
+\<@Extra> with key \<"k5"> in the sender's \<@IntentMap> to \<ACCESS\_FINE\_LOCATION>.
 
 \subsubsection{Warning: intent.key.notfound}
 This warning occurs when a key \<"key"> cannot be found in the \<@IntentMap>
@@ -662,41 +665,38 @@ Key k2OrPhoneNumber missing from @IntentMap annotation of i1!
 \end{Verbatim}
 
 To solve this warning you need to add an \<@Extra> in the \<@IntentMap> from
-\<i1> containing \<k2OrPhoneNumber> as a key.
+\<i1> containing \<k2OrPhoneNumber>'s value as a key.
 
 \subsubsection{Warning: intent.key.variable}
-This warning occurs when a key cannot be resolved at compile time.
+This warning occurs when a key is not a compile time constant.
 
 \begin{Verbatim}
 warning: [intent.key.variable] 
 i1.putExtra(VALUE_KEY, getVal());
              ^
-Key VALUE_KEY cannot be resolved at compile time.
+Key VALUE_KEY is not a compile time constant.
 \end{Verbatim}
 
-To solve this warning you need to replace \<VALUE\_KEY> with its
-String value.
-
-%CF warning below. Should it be included in this section as well?
+To solve this warning you need to replace \<VALUE\_KEY> with a compile time
+constant value.
 
 \subsubsection{Warning: argument.type.incompatible}
+This warning occurs when an element is inserted into an intent's map but it
+does not have its expected \<@Source> and/or \<@Sink> type according the
+intent's \<@IntentMap> annotation.
 
 \begin{Verbatim}
  IntentMapBottomTest.java:60: warning: [argument.type.incompatible] 
  incompatible types in argument.
          intentMapBottom1.putExtra("RandomKey1", getFile());
                                                         %^
-found   : @IntentMap @Sink(FlowPermission.INTERNET) @Source(
-    FlowPermission.FILESYSTEM) String
+found   : @IntentMap @Sink(FlowPermission.INTERNET) @Source(FlowPermission.FILESYSTEM) String
 required: @IntentMap @Sink(finesinks=@sparta.checkers.quals.
     FineSink(value=sparta.checkers.quals.FlowPermission.ANY, 
     params={"*"}), value={}) @Source(finesources={}, value={}) String
 \end{Verbatim}
 
-To solve this warning you need to either modify the source and sink type of the
-\<@Extra> with key \<"RandomKey1"> or modify the type of the return of
-\<getFile()>. The type of \<@Extra> must be a supertype of the return type of
-\<getFile()>. One solution to the case above is to modify the \<@Extra> with
+To solve this warning you need to modify the \<@Extra> with
 key \<"RandomKey1"> to have its \<source> as \<FILESYSTEM> and its \<sink> as
 \<INTERNET>. Another solution would be to annotate the return type of
 \<getFile()> with \<@Source({}) @Sink(ANY)>. The first option is the best one
