@@ -99,9 +99,9 @@ public class IntentMapBottomTest extends Activity {
     }
         
     void startActivityFail() {
-      //:: error: (send.intent)
+      //:: error: (send.intent.missing.key)
         startActivity(intentMapTop);
-      //:: error: (send.intent)
+      //:: error: (send.intent.missing.key)
         startActivity(intentMap);
     }
     
@@ -112,7 +112,7 @@ public class IntentMapBottomTest extends Activity {
     }
 
     void startActivityFail2() {
-        //:: error: (send.intent)
+        //:: error: (send.intent.missing.key)
         startActivity(intentMapTop);
     }
    

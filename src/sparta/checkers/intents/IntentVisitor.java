@@ -58,13 +58,18 @@ import com.sun.tools.javac.tree.TreeMaker;
 import com.sun.tools.javac.util.Context;
 import com.sun.tools.javac.util.Name;
 import com.sun.tools.javac.util.Names;
+import com.sun.tools.javac.util.Pair;
 
 public class IntentVisitor extends FlowVisitor {
 
     IntentAnnotatedTypeFactory iatf;
     
+    private final Pair<Copyable,String> isCopyable;
+    
     public IntentVisitor(BaseTypeChecker checker) {
         super(checker);
+        isCopyable = new Pair<IntentVisitor.Copyable, String>(Copyable.
+                IS_COPYABLE, null);
     }
 
     @Override
@@ -325,11 +330,25 @@ public class IntentVisitor extends FlowVisitor {
             AnnotationMirror lhsIntentExtras = receiveIntentAnno
                     .getAnnotationInHierarchy(iatf.TOP_INTENT_MAP);
             
-            if (!isCopyableTo(rhsIntentExtras, lhsIntentExtras)) {
-                checker.report(
-                        Result.failure("send.intent",
-                                rhsIntentExtras.toString(),
+            Pair<Copyable, String> result = isCopyableTo(rhsIntentExtras, 
+                    lhsIntentExtras);
+            
+            switch(result.fst) {
+            case MISSING_KEY:
+                //if missing key String == null, the sender has type IntentMapBottom 
+                checker.report(Result.failure("send.intent.missing.key",
+                                result.snd, rhsIntentExtras.toString(),
                                 lhsIntentExtras.toString()), node);
+                
+                break;  
+            case INCOMPATIBLE_TYPES:
+                checker.report(Result.failure("send.intent.incompatible.types",
+                                result.snd, rhsIntentExtras.toString(),
+                                 lhsIntentExtras.toString()), node);
+                break;
+            case IS_COPYABLE:
+            default:
+                break;
             }
         }
     }
@@ -618,15 +637,17 @@ public class IntentVisitor extends FlowVisitor {
      *         with annotations lhs.
      */
 
-    private boolean isCopyableTo(AnnotationMirror rhs, AnnotationMirror lhs) {
+    private Pair<Copyable,String> isCopyableTo(AnnotationMirror rhs, AnnotationMirror lhs) {
         if (rhs == null || lhs == null) {
-            return false;
+            return new Pair<IntentVisitor.Copyable, String>(Copyable.
+                    INCOMPATIBLE_TYPES, null);
         }
         
         if (AnnotationUtils.areSameByClass(rhs, IntentMapBottom.class)) {
-            return true;
+            return isCopyable;
         } else if (AnnotationUtils.areSameByClass(lhs, IntentMapBottom.class)) {
-            return false;
+            return new Pair<IntentVisitor.Copyable, String>(Copyable.MISSING_KEY, 
+                    null);
         }
         
         List<AnnotationMirror> rhsIExtrasList = AnnotationUtils
@@ -636,7 +657,7 @@ public class IntentVisitor extends FlowVisitor {
                 .getElementValueArray(lhs, "value", AnnotationMirror.class,
                         true);
         if (lhsIExtrasList.isEmpty()) {
-            return true;
+            return isCopyable;
         }
 
         // Iterating on the @Extra from lhs
@@ -652,7 +673,8 @@ public class IntentVisitor extends FlowVisitor {
                     // of @Extra in lhs.
                     found = true;
                     if (!hostIsCopyableTo(lhsIExtra, rhsIExtra)) {
-                        return false;
+                        return new Pair<IntentVisitor.Copyable, String>(Copyable.
+                                INCOMPATIBLE_TYPES, leftKey);
                     } else {
                         // if it is a subtype, exit the inner loop and
                         // check another @Extra in lhs
@@ -661,13 +683,31 @@ public class IntentVisitor extends FlowVisitor {
                 }
             }
             if (!found) {
-                // If key is missing in the rhs, return false
-                return false;
+                // If key is missing in rhs, return a pair containing the key
+                return new Pair<IntentVisitor.Copyable, String>(Copyable.
+                        MISSING_KEY, leftKey);
             }
         }
-        return true;
+        return isCopyable;
     }
 
+    /**
+     *  Enum that represents the result of a isCopyable method call.
+     *  0 = is copyable.
+     *  1 = is not copyable because LHS has more keys.
+     *  2 = is not copyable because types are incompatible.
+     */
+    
+    private enum Copyable {
+        IS_COPYABLE (0),
+        MISSING_KEY (1),
+        INCOMPATIBLE_TYPES (2);
+        
+        Copyable(int isCopyable) { 
+        }
+        
+    }
+    
     /**
      * temporary auxiliar method used to type-check the isCopyableTo rule for
      * information flow analysis on intents.

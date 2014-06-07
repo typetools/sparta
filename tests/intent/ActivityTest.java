@@ -101,9 +101,9 @@ public class ActivityTest extends Activity {
         Intent) new Intent();
         Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
         Intent) new Intent();
-     //:: error: (send.intent)
+     //:: error: (send.intent.missing.key)
         startActivity(senderIntent1);
-     //:: error: (send.intent)
+     //:: error: (send.intent.incompatible.types)
         startActivity(senderIntent2);
     }
     
@@ -124,9 +124,9 @@ public class ActivityTest extends Activity {
             Intent) new Intent();
             Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
             Intent) new Intent();
-            //:: error: (send.intent)
+            //:: error: (send.intent.missing.key)
             startActivity(senderIntent1);
-            //:: error: (send.intent)
+            //:: error: (send.intent.incompatible.types)
             startActivity(senderIntent2);
             }
     };

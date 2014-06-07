@@ -25,9 +25,9 @@ public class BReceiverTest extends Activity {
         Intent) new Intent();
         Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
         Intent) new Intent();
-     //:: error: (send.intent)
+     //:: error: (send.intent.missing.key)
         sendBroadcast(senderIntent1);
-     //:: error: (send.intent)
+     //:: error: (send.intent.incompatible.types)
         sendBroadcast(senderIntent2);
     }
     

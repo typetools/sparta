@@ -55,9 +55,9 @@ public class AndroidSystemTest extends Activity {
     }
     
     void startActivityFail2() {
-        Intent senderIntent = (@IntentMap({@Extra(key = "android.app.extra.DEVICE_ADMIN", source = {ANY}, sink = {}) })
+        Intent senderIntent = (@IntentMap({@Extra(key = "android.app.extra.DEVICE_ADMIN", source = {ANY}, sink = {BIND_DEVICE_ADMIN}) })
         Intent) new Intent();
-        //:: error: (send.intent)
+        //:: error: (send.intent.missing.key)
         startActivity(senderIntent);
     }
     
