@@ -2,7 +2,7 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
-
+//warning: FlowPolicy: Found transitive flow
 class DefaultFlowTest {
 	@Source({INTERNET,LITERAL}) int source = 1;
         @Sink(INTERNET) int sink = 2;

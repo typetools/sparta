@@ -139,9 +139,9 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         final boolean scArg = checker.getLintOption(FlowPolicy.STRICT_CONDITIONALS_OPTION, false);
         final String pfArg = checker.getOption(FlowPolicy.POLICY_FILE_OPTION);
         if (pfArg == null || pfArg.trim().isEmpty()) {
-            flowPolicy = new FlowPolicy(new File("flow-policy"),scArg);
+            flowPolicy = new FlowPolicy(new File("flow-policy"),scArg, processingEnv);
         } else {
-            flowPolicy = new FlowPolicy(new File(pfArg), scArg);
+            flowPolicy = new FlowPolicy(new File(pfArg), scArg, processingEnv);
         }
 
         final String ignoreArg = checker.getOption(FlowChecker.IGNORE_NOT_REVIEWED);
