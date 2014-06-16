@@ -1463,7 +1463,7 @@ void writeToXml(XmlSerializer serializer);
 
 class Intent implements Parcelable, Cloneable {
 //SOM, We have a special FlowPermission for INTENTS
-  
+@Source(LITERAL) String EXTRA_PHONE_NUMBER; 
     Intent();
     Intent(@Sink(INTENT) Intent arg0);
     Intent(@Sink(INTENT)  String arg0);
