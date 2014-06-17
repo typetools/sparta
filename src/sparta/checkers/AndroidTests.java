@@ -7,7 +7,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.ToolProvider;
+
 import org.checkerframework.framework.test.ParameterizedCheckerTest;
+import org.checkerframework.framework.test.TestInput;
+import org.checkerframework.framework.test.TestRun;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized.Parameters;
@@ -277,5 +284,54 @@ public class AndroidTests {
             return testDirs(OPTIONS, inTestDir("validation"), inTestDir("suppression"));
         }
     }
+
+    public static class NotReviewedLibraryCheckerTests extends ParameterizedCheckerTest {
+        final static String dirname="testOutput";
+        final static String filename="testmissing.astub";
+        final static String stubname=dirname+File.separator+filename;
+        final static String dirOpt = "-A"+NotReviewedLibraryChecker.OUTPUT_DIR_OPTION+"="+dirname;
+        final static String fileOpt = "-A"+NotReviewedLibraryChecker.OUTPUT_FILE_OPTION+"="+filename;
+        final static String freqOpt = "-A"+NotReviewedLibraryChecker.PRINT_FREQUENCY_OPTION;
+        
+        public NotReviewedLibraryCheckerTests(File testFile) {
+
+            super(testFile, NotReviewedLibraryChecker.class, "sparta.checkers", "-Anomsgtext", dirOpt,fileOpt, freqOpt);
+        }
+
+        protected NotReviewedLibraryCheckerTests(File testFile, String... checkerOptions) {
+            super(testFile, NotReviewedLibraryChecker.class, "sparta.checkers", checkerOptions);
+        }
+
+        @Parameters
+        public static Collection<Object[]> data() {
+            return testFiles("not-reviewed");
+        }
+
+        @Override
+        protected void test(final File testFile) {
+            //Test it once, with expected errors
+            test(checkerName, checkerOptions, testFile);
+            List<String> checkOptionsPlusStub = new ArrayList<String>(checkerOptions);
+            checkOptionsPlusStub.add("-Astubs="+stubname);
+            //Test it again with the generated stub file,
+            //and expect not errors/warnings, but "Note: All methods reviewed"
+            testExpected(checkerName, checkOptionsPlusStub, testFile,"Note: All methods reviewed.");
+        }
+
+         void testExpected(String checkerName, List<String> checkerOptions, File testFile, String expected ){
+            final JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            StandardJavaFileManager fileManager
+                    = compiler.getStandardFileManager(null, null, null);
+            Iterable<? extends JavaFileObject> tests
+                    = fileManager.getJavaFileObjects(testFile);
+
+            TestRun run = TestInput.compileAndCheck(null, tests, checkerName, checkerOptions);
+            List<String> expectedErrors = new ArrayList<String>();
+            expectedErrors.add(expected);
+            checkTestResult(run, expectedErrors, expectedErrors.isEmpty(), testFile.toString(), checkerOptions);
+        }
+
+    }
+
 
 }

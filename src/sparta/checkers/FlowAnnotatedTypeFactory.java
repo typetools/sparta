@@ -85,7 +85,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK;
     protected final AnnotationMirror POLYALL;
     protected final AnnotationMirror LITERALSOURCE,  FROMLITERALSINK;
-    protected final AnnotationMirror NR_SOURCE, NR_SINK;
     protected final AnnotationMirror CONDITIONALSINK, FROMCONDITIONALSOURCE;
 
     protected final AnnotationMirror SOURCE;
@@ -95,14 +94,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     // FlowVisitor uses these to hold flow state
     protected final FlowAnalyzer flowAnalizer;
-
-    // List of methods that are not in a stub file
-    private Map<String, Map<String, Map<Element, Integer>>> notInStubFile;
-
-    public final boolean IGNORENR;
     
     private final ParameterizedFlowPermission ANY;
-    private final ParameterizedFlowPermission NOT_REVIEWED;
     private final ParameterizedFlowPermission LITERAL;
     private final ParameterizedFlowPermission CONDITIONAL;
 
@@ -110,7 +103,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         super(checker);
 
         ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
-        NOT_REVIEWED = new ParameterizedFlowPermission(FlowPermission.NOT_REVIEWED);
         LITERAL = new ParameterizedFlowPermission(FlowPermission.LITERAL);
         CONDITIONAL = new ParameterizedFlowPermission(FlowPermission.CONDITIONAL);
         
@@ -120,9 +112,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         POLYSOURCE = AnnotationUtils.fromClass(elements, PolySource.class);
         POLYSINK = AnnotationUtils.fromClass(elements, PolySink.class);
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
-        
-        NR_SOURCE = createAnnoFromSource( NOT_REVIEWED);
-        NR_SINK =  createAnnoFromSink(NOT_REVIEWED);
 
         ANYSOURCE = createAnnoFromSource(ANY);
         ANYSINK = createAnnoFromSink( ANY);
@@ -144,8 +133,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             flowPolicy = new FlowPolicy(new File(pfArg), scArg, processingEnv);
         }
 
-        final String ignoreArg = checker.getOption(FlowChecker.IGNORE_NOT_REVIEWED);
-        IGNORENR = (ignoreArg != null && ignoreArg.trim().equals("on"));
         
         LITERALSOURCE = createAnnoFromSource(new TreeSet<ParameterizedFlowPermission>(
                 Arrays.asList(LITERAL)));
@@ -162,16 +149,11 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         FROMCONDITIONALSOURCE = createAnnoFromSource(condtionalSource);
 
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
-        this.notInStubFile = new HashMap<String, Map<String,Map<Element,Integer>>>();
 
      // Every subclass must call postInit!
         if (this.getClass().equals(FlowAnnotatedTypeFactory.class)) {
             this.postInit();
         }
-
-        ((FlowChecker)checker).notInStubFile.putAll(notInStubFile);
-        notInStubFile = ((FlowChecker)checker). notInStubFile;
-
     }
 
     private AnnotationMirror createAnnoFromSink(
@@ -304,17 +286,37 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 //        }
         while (iter != null) {
             if (this.isFromByteCode(iter)) {
-                notAnnotated(element);
-                // Checking if ignoring NOT_REVIEWED warnings
-                if (!IGNORENR) {
-                    // TODO:instead of not reviewed we could issue a new
-                    // error
-                    // Something like Error: ByteCode method, method, has
-                    // not been reviewed
-                    applier.apply(NR_SINK, DefaultLocation.OTHERWISE);
-                    applier.apply(NR_SOURCE, DefaultLocation.OTHERWISE);
-
+                if(iter.getKind() == ElementKind.FIELD){
+                    if (ElementUtils.isEffectivelyFinal(iter)){
+                        //This is a final field, so it is must be from 
+                        // a literal source, so use that default.
+                        //This way, all the Android constant don't 
+                        //need to be annotated.
+                        applier.apply(LITERALSOURCE, DefaultLocation.FIELD);
+                        applier.apply(FROMLITERALSINK, DefaultLocation.FIELD);
+                    }else{
+                        //this is a public non-final field, it could be from any 
+                        //source and it could be sent any where.
+                        applier.apply(ANYSOURCE, DefaultLocation.FIELD);
+                        applier.apply(ANYSINK, DefaultLocation.FIELD);
+                    }
                 }
+
+                //A parameter of an not reviewed method could go any where
+                applier.apply(ANYSINK, DefaultLocation.PARAMETERS);
+                //Don't add a source, this way it will be 
+                //defaulted based on what is in the flow policy
+                //applier.apply(NOSOURCE, DefaultLocation.PARAMETERS);
+                
+                //A return type could be from any source
+                applier.apply(ANYSOURCE, DefaultLocation.RETURNS);             
+                //Don't add a sink, this way it will be 
+                //defaulted based on what is in the flow policy
+                //applier.apply(ANYSINK, DefaultLocation.RETURNS);
+                
+                //All other types could be from any where or go any where.
+                applier.apply(ANYSOURCE, DefaultLocation.OTHERWISE);
+                applier.apply(ANYSINK, DefaultLocation.OTHERWISE);
 
             } else if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
                 // Use poly flow sources and sinks for return types .
@@ -353,49 +355,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         }
     }
 
-    /**
-     * Adds the element to list of methods that need to be added to the stub
-     * file and reviewed
-     *
-     * @param element
-     *            element that needs to be reviewed
-     */
-    private void notAnnotated(final Element element) {
-
-        if (!(element.getEnclosingElement() instanceof TypeElement))
-            return;
-
-        TypeElement clssEle = (TypeElement) element.getEnclosingElement();
-        String fullClassName = clssEle.getQualifiedName().toString();
-        String pkg = "";
-        String clss = "";
-        if (fullClassName.indexOf('.') != -1) {
-            int index = fullClassName.lastIndexOf('.');
-            pkg = fullClassName.substring(0, index);
-            clss = fullClassName.substring(index + 1);
-        }
-        Map<String, Map<Element, Integer>> classmap = this.notInStubFile.get(pkg);
-        if (classmap == null) {
-            classmap = new HashMap<>();
-            Map<Element, Integer> elelist = new HashMap<Element, Integer>();
-            classmap.put(clss, elelist);
-            this.notInStubFile.put(pkg, classmap);
-        }
-        Map<Element, Integer> elementmap = classmap.get(clss);
-        if (elementmap == null) {
-            elementmap = new HashMap<Element, Integer>();
-            classmap.put(clss, elementmap);
-        }
-
-        if (elementmap.containsKey(element)) {
-            Integer i = elementmap.get(element);
-            i++;
-            elementmap.put(element, i);
-
-        } else {
-            elementmap.put(element, 1);
-        }
-    }
 
 
     @Override

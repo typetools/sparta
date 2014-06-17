@@ -17,10 +17,10 @@ class TestNoParamConstructor {
 @FromByteCode
 class TestParamConstructor {
 
-    
+    @FromByteCode
   //:: error: (forbidden.flow)   
     TestParamConstructor(String name) { }
-    
+    @FromByteCode
     //:: error: (forbidden.flow)
     static void test(String test) { }
 }

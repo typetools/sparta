@@ -41,7 +41,7 @@ class ExampleApi {
     @Sink(WRITE_SMS) String reviewedSomeAnnos3(@Source(READ_TIME) String s);
 	
 //	 void notReviewed();
-    @Source(READ_SMS) @Sink(WRITE_SMS) String notReviewed1();
+//   String notReviewed1();
 //	 void notReviewed2(String s);
 //	 String notReviewed3(String s);
 

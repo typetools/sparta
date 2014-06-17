@@ -107,6 +107,8 @@
         <delete dir="${build}"/>
         <delete dir="${build.reports}"/>
         <delete dir="${sparta.jar.file}"/>
+        <delete dir="sparta-out"/>
+        <delete dir="testOutput"/>
         <delete failonerror="false">
             <fileset dir="${build.tests}" includes="**/*.class"/>
         </delete>
@@ -317,8 +319,15 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- Make sure to add all individual tests as dependency. -->
-    <target name="all-tests" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests, param-flow-tests"
+    <target name="all-tests" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests, param-flow-tests, not-reviewed-tests"
       description="Run tests for all checkers"/>
+
+    <target name="not-reviewed-tests" depends="jar,build-tests"
+      description="Run tests for the Not Reviewed Library Checker">
+        <antcall target="-run-tests">
+            <param name="testclass" value="sparta.checkers.AndroidTests$NotReviewedLibraryCheckerTests"/>
+        </antcall>
+    </target>
 
     <target name="permissions-tests" depends="jar,build-tests"
       description="Run tests for the Permissions Checker">

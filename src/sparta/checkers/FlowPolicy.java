@@ -1,7 +1,5 @@
 package sparta.checkers;
 
-import static sparta.checkers.quals.FlowPermission.NOT_REVIEWED;
-
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.javacutil.Pair;
@@ -404,7 +402,7 @@ public class FlowPolicy {
 
 
     private boolean notAllowed(String sinkStr) {
-       return sinkStr.equals(EMPTY) || sinkStr.equals(NOT_REVIEWED.toString());
+       return false;//sinkStr.equals(EMPTY) || sinkStr.equals(NOT_REVIEWED.toString());
     }
 
     private ParameterizedFlowPermission getPFP(String sinkStr) {
