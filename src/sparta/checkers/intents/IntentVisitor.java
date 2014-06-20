@@ -732,9 +732,9 @@ public class IntentVisitor extends FlowVisitor {
         TypeMirror dummy = atypeFactory.getProcessingEnv().getTypeUtils()
                 .getPrimitiveType(TypeKind.BOOLEAN);
         AnnotatedTypeMirror lhsAnnotatedType = AnnotatedTypeMirror.createType(
-                dummy, atypeFactory);
+                dummy, atypeFactory,false);
         AnnotatedTypeMirror rhsAnnotatedType = AnnotatedTypeMirror.createType(
-                dummy, atypeFactory);
+                dummy, atypeFactory,false);
 
         AnnotationMirror lhsSourceAnnotation = atypeFactory
                 .createAnnoFromSource(lhsAnnotatedSources);
