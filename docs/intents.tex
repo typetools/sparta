@@ -11,204 +11,64 @@
 \chapter{Intent Checker\label{intent-checker}}
 
 This chapter describes \theIntentChecker{},
-which type-checks the information flows across communicating components possibly
-in different apps.
+which type-checks information flows across communicating components of an
+Android app.
 
 Android intents are the standard inter-component communication
-mechanism in Android. They are used for communication within an app,
-among apps, and with the Android system. An Android component can
-send or broadcast intents and can register interest in receiving
-intents.
-
-Intents can be seen as messages exchanged between components; the
-payloads of these messages are maps. Sensitive data can flow in and
-out of intent objects. Consequently, to detect forbidden flows derived
-from inter-component communication, \theFlowChecker{} must correctly identify
-the information flow types of the values in intent maps.
-
-\TheIntentChecker{} uses new type qualifiers for intent
-declarations, which indicates the type of data in the intent.
-It verifies that for any sending intent method
-call and its matching receiving intent method declarations,
-the intent argument of the caller is compatible with that of the corresponding
-callee. In addition, the checker verifies that the intent payload is used 
-consistently at each site.
+mechanism in Android. An Android component can send intents. They are used for
+communication within an app, among apps, and with the Android system.
+Intents can be seen as messages exchanged between components. Sensitive
+data can flow in and out of intent objects. Consequently, to detect forbidden
+flows derived from inter-component communication, \theIntentChecker{} aims to
+correctly identify the information flow types of the data in an intent.
 
 To use \theIntentChecker{}, a programmer must supply two types of information:
 \begin{itemize}
 \item
-The new type qualifiers written on all \code{Intent} type variables which
-contains a non-empty map in the program.
-
+Information about inter-component communication across apps for the target
+program. Section \ref{component-map} shows how to obtain and supply that
+information.
 \item
-A component map that contains information about the inter-component
-communication across apps for the target program. Section \ref{component-map}
-describes the component map and how to use it.
+Type qualifiers used to express the data types in an intent. Section
+\ref{intent-types} describes the type qualifiers used by \theIntentChecker.
 \end{itemize}
 
-For simplicity in this manual, we abstract all methods that send intents as the
-method call \sendIntent{}, and all methods that receive an intent as the method
-declaration \onReceive{}.
+Sending an intent is similar to an ordinary method call,
+where the data in the intent are the method's arguments. 
+\TheIntentChecker{} uses type qualifiers and inter-component communication
+information to verify that for any sending intent method
+call and its matching receiving intent method declarations,
+the intent argument of the caller is compatible with that of the corresponding
+callee. 
 
-\section{IntentMap and Extra annotations}
-An intent contains a map from string keys to arbitrary values. Consider an
-intent variable declared as \<i>. Data can be added to the map of \<i> by
-the sender component with \<i.putExtra("key",val)> and then retrieved by the
-receiver component with \<i.getExtra("key",default)>. An intent type is an
-approximation to the keys that may be in the intent object at run time and to
-the type of the values that those keys may map to.
+Intents can start an Activity calling the method \<startActivity>, a
+Service calling the method \<startService>, or a BroadcastReceiver
+calling \<sendBroadcast>. Intents are received in an Activity by the method
+\<setIntent>, in a Service by the method \<onBind> or
+\<onStartCommand> and in a BroadcastReceiver by the method
+\<onReceive>. For simplicity in this manual, we abstract all methods
+that send an intent as the method call \sendIntent{}, and all methods that
+receive an intent as the method declaration \onReceive{}.
 
-\subsection{Syntax}
-The type qualifier \<@IntentMap> on an intent variable's type indicates the
-types of the key/value mappings that are permitted to be accessed via
-\<putExtra> and \<getExtra> calls.
-An \<@IntentMap> type qualifier contains a set of \<@Extra> type qualifiers. An
-\<@Extra> type qualifier contains a key \<K>, a source type \<SOURCE>, and a 
-sink type \<SINK>. This means that the key \<K> maps to a value of source type 
-\<SOURCE> and sink type \<SINK>. Consider the declaration below:
+\section{Inter-component communication\label{component-map}}
 
-\begin{Verbatim}
-@IntentMap({@Extra(key = "k1", source = {FILESYSTEM}, sink = {INTERNET}),
-            @Extra(key = "k2", source = {FILESYSTEM}, sink = {DISPLAY})}) 
-Intent i = new Intent();
-\end{Verbatim}
+To represent the inter-component communication of an app, we use a data
+structure named component-map. Every app has a component map. The component map
+of an app contains information regarding how the components of this app
+communicate with each other, and how they communicate with components from other
+apps. A component map file expresses a component map. The procedure to generate
+a component map file for an app is detailed in section \ref{component-map-generation}.
 
-The variable \<i> is annotated with an \<@IntentMap> type containing a set of
-two \<@Extra> types, allowing this variable to be accessed via
-\<i.putExtra("k1",val)>, \<i.putExtra("k2",val)>,
-\<i.getExtra("k1",default)> and \<i.getExtra("k2",default)>. No other keys are
-allowed to be accessed via \<putExtra> or \<getExtra> calls. 
-
-Each intent variable's type must have only one \<@IntentMap> type qualifier, and
-this type qualifier may have a finite set of \<@Extra> type qualifiers. Two
-different \<@Extra> type qualifiers in the same \<@IntentMap> may not have the
-same key \<K>.
-
-For local variables the type qualifiers \<@IntentMap> and \<@Extra> must be used
-as cast types. Below is an example of an annotated local variable:
-
-\begin{Verbatim}
-void foo() {
-    Intent i = (@IntentMap({
-            @Extra(key = "k1", source = {FILESYSTEM}, sink = {INTERNET}),
-            @Extra(key = "k2", source = {FILESYSTEM}, sink = {DISPLAY})}) Intent)
-                new Intent();
-}
-\end{Verbatim}
-
-Other than declarations of intent types, it is also necessary to annotate intent
-type parameters when their map is not empty. Every \onReceive{} method has an
-intent type parameter. Below there is an example of an annotated intent type
-parameter for the \onReceive{} method \<setIntent>:
-
-\begin{Verbatim}
-@Override
-public void setIntent( @IntentMap({
-        @Extra(key = "location", source = {ACCESS_FINE_LOCATION }, sink = {})})
-        Intent newIntent) {
-    super.setIntent(newIntent);
-}
-\end{Verbatim}
-
-\subsection{Semantics}
-If variable \<i> is declared to have an intent type \textit{T}, then two facts must be
-true. (1) The value referenced by variable \<i> contains no more keys than are
-listed in \textit{T}. That is, the keys of the value of \<i> is a subset of
-\textit{T}'s keys. It is
-permitted for the run-time value of variable \<i> to have fewer keys than those
-permitted by its type. (2) For any key \<k> that is a key in the run-time value
-of \<i>, the value mapped by \<k> in the value has the type mapped by \<k> in
-\textit{T}. This can be more concisely expressed as $\forall k.i[k] <: T[k]$.
-As permitted by
-object-oriented typing, the run-time class of \<i[k]> may be a subtype of
-\textit{T}.
-
-As an example, consider the declarations and method calls below:
-
-\begin{Verbatim}
-@IntentMap({@Extra(key = "picture", source = {FILESYSTEM}, sink = {INTERNET}),
-            @Extra(key = "location", source = {FILESYSTEM}, sink = {DISPLAY})}) 
-Intent i = new Intent();
-
-@Source(FILESYSTEM) @Sink(INTERNET) File getPicture() {...}
-@Source(ACCESS_FINE_LOCATION) @Sink(INTERNET) String getLocation() {...}
-
-void fillIntent() {
-    i.putExtra("picture", getPicture());        // Legal.
-    i.putExtra("location", getLocation());      // Violates requirement (2).
-    i.putExtra("someRandomKey", getPicture());  // Violates requirement (1).
-    ...
-}
-
-void processDataFromIntent() {
-    // pic has source type FILESYSTEM and sink type INTERNET.
-    File pic = i.getExtra("picture", null);               // Legal.
-    // loc has source type FILESYSTEM and sink type DISPLAY.
-    String loc = i.getStringExtra("location", null);      // Legal.
-    
-    Object randomObject = i.getExtra("someRandomKey");    // Violates requirement (1)
-    ...
-}
-\end{Verbatim}
-
-\noindent
-The type of variable \<i> indicates that this object must contain up to two
-elements in its map which
-will be accessed, one with key \<"picture">, source type \<FILESYSTEM>, and sink type
-\<INTERNET>, and another with key \<"location">, source type \<FILESYSTEM>, and sink
-type \<DISPLAY>. This object may contain more elements but they cannot be
-accessed. The method calls in the method \<fillIntent> shows that it is only
-valid to invoke putExtra if the value passed as argument is a subtype of the
-declared type for the corresponding key. The method \<processDataFromIntent> has 3
-local variables: \<pic> and \<loc>, which have their source and sink types
-inferred from the type of \<i>, and the variable \<randomObject> which cannot be
-accessed because it violates requirement (1).
-
-
-\subsubsection{Subtyping}
-Intent type \<T1> is a subtype of intent type \<T2> if the key set of 
-\<T2> is a subset of the key set of \<T1> and, for each key \<k> in both 
-\<T1> and \<T2>, \<k> is mapped to the exact same type, that is, 
-\<T1[k]> = \<T2[k]>.
-
-\subsubsection{sendIntent calls and copyable rule}
-A \sendIntent{} call is interpreted by the Android system as a call to one
-or more \onReceive{} methods.
-A \sendIntent{} call type-checks if its intent argument is
-copyable to the formal parameter of each corresponding \onReceive{} methods.
-Copyable is a subtyping-like relationship with the weaker requirement: 
-\<T1[k]> <: \<T2[k]> instead of \<T1[k]> = \<T2[k]>.
-This is sound because the Android system passes a copy of the intent argument to
-\onReceive{}, so aliasing is not a concern.
-
-\subsubsection{Overriding and calling onReceive methods}
-Every \onReceive{} method has a parameter of type \<Intent>. If a \onReceive{}
-method is overridden and its map is not empty, then this parameter must be
-annotated with \<@IntentMap> and \<@Extra>.
-
-The normal Java overriding rules do not apply to declarations of \onReceive{}. The
-type of the formal parameter of \onReceive{} is not restricted by the type of the
-parameter in the overridden declaration. This is allowable because by convention
-\onReceive{} is never called directly but rather is only called by the Android
-system. \TheIntentChecker{} prohibits direct calls to \onReceive{} methods.
-
-\section{Component map\label{component-map}}
 
 \subsection{Semantics of a component map}
-The action of sending an intent can be seen as an ordinary method call,
-where the objects in the intent's
-map are equivalent to the method's arguments. The component map helps
-determining the call graph of an app, by matching \sendIntent{} calls to
+The component map helps
+determining the call graph of an app by matching \sendIntent{} calls to
 declarations of the \onReceive{} methods they implicitly invoke. A \sendIntent{}
 call may be paired with more than one \onReceive{} declaration. One such pair
 indicates that both components, possibly from different apps, may communicate
 through intents. The set of pairs of communicating components is
 conservative, that is it includes all possible pairs of methods that might
-communicate. In order to compute these pairs, all apps that might be
-communicating are analyzed using the tools \code{APKParser}, \code{Dare}, and
-\code{Epicc}. The procedure to generate a component map is detailed in section
-\ref{component-map-generation}.
-
+communicate.
 
 \subsection{Syntax of a component map file}
 Each line of a component map file specifies a set of receiver components for 
@@ -237,5 +97,150 @@ to ant:
 
 \code{ant -DcomponentMap=mycomponentmapfilepath check-intent}
 
+\section{Intent types\label{intent-types}}
+An intent contains a map from string keys to arbitrary values. Consider an
+intent variable \<i>. Data can be added to the map of \<i> by
+the sender component with \<i.putExtra("key",val)> and then retrieved by the
+receiver component with \<i.getExtra("key",default)>. An intent type is an
+approximation to the keys that may be in the intent object at run time and to
+the type of the values that those keys may map to. The type qualifiers used to
+represent an intent type are \<@IntentMap> and \<@Extra>.
+
+\subsection{Syntax}
+The type qualifier \<@IntentMap> on an intent variable's type indicates the
+types of the key/value mappings that are permitted to be accessed via
+\<putExtra> and \<getExtra> calls.
+An \<@IntentMap> type qualifier contains a set of \<@Extra> type qualifiers. An
+\<@Extra> type qualifier contains a key \<K>, a source type \<SOURCE>, and a 
+sink type \<SINK>. This means that the key \<K> maps to a value of source type 
+\<SOURCE> and sink type \<SINK>. Consider the declaration below:
+
+\begin{Verbatim}
+@IntentMap({@Extra(key = "k1", source = {FILESYSTEM}, sink = {INTERNET}),
+            @Extra(key = "k2", source = {FILESYSTEM}, sink = {DISPLAY})}) 
+Intent i = new Intent();
+\end{Verbatim}
+
+The variable \<i> is annotated with an \<@IntentMap> type containing a set of
+two \<@Extra> types, allowing this variable to be accessed via
+\<i.putExtra("k1",val)>, \<i.putExtra("k2",val)>,
+\<i.getExtra("k1",default)> and \<i.getExtra("k2",default)>. No other keys are
+allowed to be accessed via \<putExtra> or \<getExtra> calls. 
+
+Each intent variable's type must have only one \<@IntentMap> type qualifier, and
+this type qualifier may have a finite set of \<@Extra> type qualifiers. Two
+different \<@Extra> type qualifiers in the same \<@IntentMap> may not have the
+same key \<K>.
+
+For local variables, the type qualifiers \<@IntentMap> and \<@Extra> must be used
+as cast types. Below is an example of an annotated local variable:
+
+\begin{Verbatim}
+void foo() {
+    Intent i = (@IntentMap({
+            @Extra(key = "k1", source = {FILESYSTEM}, sink = {INTERNET}),
+            @Extra(key = "k2", source = {FILESYSTEM}, sink = {DISPLAY})}) Intent)
+                new Intent();
+}
+\end{Verbatim}
+
+Every \onReceive{} method has an intent formal parameter.
+Below there is an example of an annotated intent formal
+parameter for the \onReceive{} method \<setIntent>:
+
+\begin{Verbatim}
+@Override
+public void setIntent( @IntentMap({
+        @Extra(key = "location", source = {ACCESS_FINE_LOCATION }, sink = {})})
+        Intent newIntent) {
+    super.setIntent(newIntent);
+}
+\end{Verbatim}
+
+\subsection{Semantics}
+If variable \<i> is declared to have an intent type \textit{T}, then two facts must be
+true. (1) All keys accessed at run-time by the value of variable \<i> must be
+listed in \textit{T}. That is, the keys of the value of \<i> which are accessed
+are a subset of \textit{T}'s keys. It is
+permitted for the run-time value of variable \<i> to have fewer keys than those
+listed by its type. It is also permitted for the run-time value of variable
+\<i> to have more keys than those listed by its type but they may not be
+accessed. (2) For any key \<k> that is accessed at run-time by the value of
+variable \<i>, the type of its value is the type mapped by \<k> in \textit{T}. This can be more
+concisely expressed as $\forall k.i[k] <: T[k]$. As permitted by object-oriented
+typing, the run-time class of \<i[k]> may be a subtype of \textit{T}.
+
+As an example, consider the declarations and method calls below:
+
+\begin{Verbatim}
+@IntentMap({@Extra(key = "picture", source = {FILESYSTEM}, sink = {INTERNET}),
+            @Extra(key = "location", source = {FILESYSTEM}, sink = {DISPLAY})}) 
+Intent i = new Intent();
+
+@Source(FILESYSTEM) @Sink(INTERNET) File getPicture() {...}
+@Source(ACCESS_FINE_LOCATION) @Sink(INTERNET) String getLocation() {...}
+
+void fillIntent() {
+    i.putExtra("picture", getPicture());        // Legal.
+    i.putExtra("someRandomKey", getPicture());  // Violates requirement (1).
+    i.putExtra("location", getLocation());      // Violates requirement (2).
+    ...
+}
+
+void processDataFromIntent() {
+    // pic will have source type FILESYSTEM and sink type INTERNET.
+    File pic = i.getExtra("picture", null);               // Legal.
+    // loc will have source type FILESYSTEM and sink type DISPLAY.
+    String loc = i.getStringExtra("location", null);      // Legal.
+    Object randomObject = i.getExtra("someRandomKey");    // Violates requirement (1)
+    ...
+}
+\end{Verbatim}
+
+\noindent
+The type of variable \<i> indicates that this object must contain up to two
+elements in its map which
+will be accessed, one with key \<"picture">, source type \<FILESYSTEM>, and sink type
+\<INTERNET>, and another with key \<"location">, source type \<FILESYSTEM>, and sink
+type \<DISPLAY>. This object may contain more elements but they cannot be
+accessed. The method calls in the method \<fillIntent> shows that it is only
+valid to invoke putExtra if the value passed as argument is a subtype of the
+declared type for the corresponding key. In the method \<processDataFromIntent>,
+the variables \<pic> and \<loc> will have their source and sink types
+inferred from the type of \<i>. Trying to access key \<randomObject> violates
+requirement (1).
+
+
+\subsubsection{Subtyping}
+Intent type \<T1> is a subtype of intent type \<T2> if the key set of 
+\<T2> is a subset of the key set of \<T1> and, for each key \<k> in both 
+\<T1> and \<T2>, \<k> is mapped to the exact same type, that is, 
+\<T1[k]> = \<T2[k]>.
+
+\subsubsection{sendIntent calls and copyable rule}
+A \sendIntent{} call is a call to one or more \onReceive{} methods.
+A \sendIntent{} call type-checks if its intent argument is
+copyable to the formal parameter of each corresponding \onReceive{} methods.
+Copyable is a subtyping-like relationship with the weaker requirement: 
+\<T1[k]> <: \<T2[k]> instead of \<T1[k]> = \<T2[k]>.
+This is sound because the Android system passes a copy of the intent argument to
+\onReceive{}, so aliasing is not a concern.
+
+\subsubsection{Overriding and calling onReceive methods\label{override-onreceive}}
+Every \onReceive{} method has a parameter of type \<Intent>, and this
+parameter must be annotated with \<@IntentMap> and \<@Extra>.
+
+The normal Java overriding rules do not apply to declarations of \onReceive{}. The
+type of the formal parameter of \onReceive{} is not restricted by the type of the
+parameter in the overridden declaration. This is allowable because by convention
+\onReceive{} is never called directly but rather is only called by the Android
+system via a \sendIntent{} method call. \TheIntentChecker{} prohibits direct
+calls to \onReceive{} methods.
+
+There is a particularity for the \onReceive{} method in Activities, \<setIntent>.
+Every Activity that calls the method \<getIntent> must override both methods
+\<setIntent> and \<getIntent>. The return type of \<getIntent> must be annotated
+with the same type as the formal parameter of \<setIntent>, so that when the
+method \<getIntent> is called the correct type is returned.
 
 %%  LocalWords:  \sendIntent{} \onReceive{} typeof callee
