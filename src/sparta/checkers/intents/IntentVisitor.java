@@ -301,12 +301,12 @@ public class IntentVisitor extends FlowVisitor {
         AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(intentObject);
         AnnotationMirror rhsIntentExtras = rhs.getAnnotationInHierarchy(iatf.TOP_INTENT_MAP);
         
-        for (MethodInvocationTree receiveIntentTree : getReceiversMethods(node,
+        for (Pair<String, MethodInvocationTree> receiveIntentTree : getReceiversMethods(node,
                 receiverMethodName)) {
             ExecutableElement methodElt = TreeUtils
-                    .elementFromUse(receiveIntentTree);
+                    .elementFromUse(receiveIntentTree.snd);
             AnnotatedTypeMirror receiverType = atypeFactory
-                    .getReceiverType(receiveIntentTree);
+                    .getReceiverType(receiveIntentTree.snd);
             AnnotatedExecutableType receiveIntentMethod = AnnotatedTypes
                     .asMemberOf(types, atypeFactory, receiverType, methodElt);
             
@@ -330,21 +330,29 @@ public class IntentVisitor extends FlowVisitor {
             AnnotationMirror lhsIntentExtras = receiveIntentAnno
                     .getAnnotationInHierarchy(iatf.TOP_INTENT_MAP);
             
+            //Read javadoc of isCopyableTo method 
             Pair<Copyable, String> result = isCopyableTo(rhsIntentExtras, 
                     lhsIntentExtras);
+            
+            //A string for a particular receiveIntent method of the format:
+            //com.package.ReceiverComponent.receiveIntent()
+            String receiveIntentMethodString = receiveIntentTree.fst + "." +
+                    receiverMethodName.split(",")[0] + "()";
             
             switch(result.fst) {
             case MISSING_KEY:
                 //if missing key String == null, the sender has type IntentMapBottom 
                 checker.report(Result.failure("send.intent.missing.key",
-                                result.snd, rhsIntentExtras.toString(),
-                                lhsIntentExtras.toString()), node);
-                
+                        result.snd, intentObject.toString(), 
+                        receiveIntentMethodString), node);
                 break;  
             case INCOMPATIBLE_TYPES:
                 checker.report(Result.failure("send.intent.incompatible.types",
-                                result.snd, rhsIntentExtras.toString(),
-                                 lhsIntentExtras.toString()), node);
+                        intentObject.toString(), receiveIntentMethodString,
+                        result.snd, intentObject.toString(), 
+                        receiveIntentMethodString, intentObject.toString(), 
+                        rhsIntentExtras.toString(), receiveIntentMethodString, 
+                        lhsIntentExtras.toString()), node);
                 break;
             case IS_COPYABLE:
             default:
@@ -450,7 +458,7 @@ public class IntentVisitor extends FlowVisitor {
      *            the Tree of the sendIntent() call
      * @return A list of getIntent() methods
      */
-    private List<MethodInvocationTree> getReceiversMethods(
+    private List<Pair<String,MethodInvocationTree>> getReceiversMethods(
             MethodInvocationTree tree, String method) {
 
         // Return the sender intent in the String format. Check method @Javadoc.
@@ -459,7 +467,8 @@ public class IntentVisitor extends FlowVisitor {
         // Component map
         Set<String> receiversStrList = getReceiversFromSender(senderString,
                 tree);
-        List<MethodInvocationTree> receiversList = new ArrayList<MethodInvocationTree>();
+        List<Pair<String,MethodInvocationTree>> receiversList = 
+                new ArrayList<Pair<String,MethodInvocationTree>>();
 
         // Resolve the Symbol for the current method
         for (String receiverStr : receiversStrList) {
@@ -477,7 +486,8 @@ public class IntentVisitor extends FlowVisitor {
                 checker.report(Result.failure("intent.receiveintent.notfound",
                         methodName), tree);
             } else {
-                receiversList.add(spoofedMethod);
+                receiversList.add(new Pair<String,MethodInvocationTree>
+                        (receiverStr, spoofedMethod));
             }
         }
 
@@ -624,11 +634,9 @@ public class IntentVisitor extends FlowVisitor {
 
     /**
      * This method receives annotations of 2 Intents and returns true if rhs can
-     * be sent to lsh. For that to happen, every key in lhs need to exists in
+     * be sent to lhs. For that to happen, every key in lhs needs to exist in
      * rhs, and the @Source and @Sink with that key in rhs needs to be a subtype
-     * of the
-     * 
-     * @Source and @Sink with that same key in lhs.
+     * of the @Source and @Sink with that same key in lhs.
      * @param rhs
      *            Sender intent annotations
      * @param lhs
