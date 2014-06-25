@@ -5,15 +5,15 @@ import  sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
 public class ParameterizedSinksSubtypingTest {
-    @Sink(value={}, finesinks={@FineSink(value=CONDITIONAL, params={"/usr/bin"})}) String wildcardSrc1;
-    @Sink(value={}, finesinks={@FineSink(value=CONDITIONAL, params={"/usr/*"})}) String wildcardSrc2;
-    @Sink(value={}, finesinks={@FineSink(value=CONDITIONAL, params={"/dev/null/", "/usr/*"})}) String wildcardSrc3;
+    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"/usr/bin"})}) String wildcardSrc1;
+    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"/usr/*"})}) String wildcardSrc2;
+    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"/dev/null/", "/usr/*"})}) String wildcardSrc3;
     
-    @Sink(value={}, finesinks={@FineSink(value=CONDITIONAL, params={"myfile.txt"})}) String singleSrc1;
-    @Sink(value={}, finesinks={@FineSink(value=CONDITIONAL, params={"myfile.txt"})}) String singleSrc2;
+    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"myfile.txt"})}) String singleSrc1;
+    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"myfile.txt"})}) String singleSrc2;
   
     
-    @Sink(value={}, finesinks={@FineSink(value=CONDITIONAL, params={"myfile2.txt", "myfile.txt"})}) String multipleSrc1;
+    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"myfile2.txt", "myfile.txt"})}) String multipleSrc1;
     
     // Testing the subtyping heirarchy from the parameterized permissions documentation
     @Sink({INTERNET}) String sourceTop;

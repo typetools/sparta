@@ -135,24 +135,13 @@ class AbstractHttpEntity{
             void setContentType(String ctString);
 }
 
-package org.apache.http.client.entity;
-
-@PolyFlowReceiver
-class UrlEncodedFormEntity {
-
-    // Added by mcarthur
-    // Constructor returns do not work yet.
-    // And I have my doubts about Poly for Generic types.
-    @PolySource @PolySink UrlEncodedFormEntity(@Sink(FlowPermission.CONDITIONAL) List<? extends @PolySource @PolySink NameValuePair> parameters); 
-        UrlEncodedFormEntity(List<? extends NameValuePair> parameters, String encoding) throws UnsupportedEncodingException;
-}
 
 
 
 package org.apache.http.client.methods;
 
 class HttpGet{
-            HttpGet(@Sink(INTERNET) String uri);
+            @Source(INTERNET) HttpGet(@Sink(INTERNET) String uri);
 }
 
 class HttpHead{

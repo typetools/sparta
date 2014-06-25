@@ -297,7 +297,7 @@ final Application getApplication();
 ComponentName getCallingActivity();
 //Return the name of the activity that invoked this activity.
 
-@Source(LITERAL) String getCallingPackage();
+ String getCallingPackage();
 //Return the name of the package that invoked this activity.
 
 int getChangingConfigurations();
@@ -324,7 +324,7 @@ LayoutInflater getLayoutInflater();
 LoaderManager getLoaderManager();
 //Return the LoaderManager for this fragment, creating it if needed.
 
-@Source(LITERAL) String getLocalClassName();
+ String getLocalClassName();
 //Returns class name for this activity with the package prefix removed.
 
 MenuInflater getMenuInflater();
@@ -383,7 +383,7 @@ boolean isFinishing();
 boolean isTaskRoot();
 //Return whether this activity is the root of a task.
 
-final @Source(CONTENT_PROVIDER) Cursor managedQuery(@Sink(CONDITIONAL) Uri uri, @Sink(CONDITIONAL) String[] projection, @Sink(CONDITIONAL) String selection, @Sink(CONDITIONAL) String[] selectionArgs, @Sink(CONDITIONAL) String sortOrder);
+final @Source(CONTENT_PROVIDER) Cursor managedQuery(@Sink({}) Uri uri, @Sink({}) String[] projection, @Sink({}) String selection, @Sink({}) String[] selectionArgs, @Sink({}) String sortOrder);
 //This method was deprecated in API level 11. Use CursorLoader instead.
 
 boolean moveTaskToBack(boolean nonRoot);
@@ -1382,10 +1382,10 @@ final Resources getResources();
 
 final boolean getRetainInstance();
 
-final @Source(LITERAL) String getString(int resId);
+final  String getString(int resId);
 //Return a localized string from the application's package's default string table.
 
-final @Source(LITERAL) String getString(int resId, Object... formatArgs);
+final  String getString(int resId, Object... formatArgs);
 //Return a localized formatted string from the application's package's default string table, substituting the format arguments as defined in Formatter and format(String, Object...);.
 
 final String getTag();
@@ -1397,7 +1397,7 @@ final Fragment getTargetFragment();
 final int getTargetRequestCode();
 //Return the target request code set by setTargetFragment(Fragment, int);.
 
-final @Source(LITERAL) CharSequence getText(int resId);
+final  CharSequence getText(int resId);
 //Return a localized, styled CharSequence from the application's package's default string table.
 
 boolean getUserVisibleHint();
@@ -1898,7 +1898,7 @@ abstract <D> Loader<D> restartLoader(int id, Bundle args, LoaderCallbacks<D> cal
 
 class Notification {
     
-Notification(int icon, CharSequence tickerText, long when);
+Notification(int icon, CharSequence tickerText, @Sink(DISPLAY) long when);
 //This constructor was deprecated in API level 11. Use Notification.Builder instead.
 
 Notification clone();
@@ -1916,7 +1916,7 @@ String toString();
 void writeToParcel(Parcel parcel, int flags);
 //Flatten this notification from a parcel.
 
-
+ @Sink({}) int flags;
 
 }
 

@@ -1,4 +1,5 @@
 package mypakage;
+import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import static sparta.checkers.quals.FlowPermission.*;
 
@@ -47,30 +48,27 @@ class TestStubExplicitConstructorType {
 
 
 class ConstructorStubAnnotation {
-
+    @Source(READ_LOGS) String s;
     void testConstructor() {
+        
         // Make sure that the stub files are actually working (pointing to the right class, etc).
         //:: error: (argument.type.incompatible)
-        TestStubImplicitConstructor.stubSanity("test");
+        TestStubImplicitConstructor.stubSanity(s);
         //:: error: (argument.type.incompatible)
-        TestStubNoParamConstructor.stubSanity("test");
+        TestStubNoParamConstructor.stubSanity(s);
         //:: error: (argument.type.incompatible)
-        TestStubParamConstructor.stubSanity("test");
+        TestStubParamConstructor.stubSanity(s);
         //:: error: (argument.type.incompatible)
-        TestStubExplicitConstructorType.stubSanity("test");
+        TestStubExplicitConstructorType.stubSanity(s);
         
+        @Source({}) @Sink({}) TestStubImplicitConstructor imp = new TestStubImplicitConstructor();
+        @Source({}) @Sink({}) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
 
-        //:: error: (assignment.type.incompatible) 
-        @Source(READ_SMS) TestStubImplicitConstructor imp = new TestStubImplicitConstructor();
-
-        //:: error: (assignment.type.incompatible)
-        @Source(READ_SMS) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
-
-        //:: error: (argument.type.incompatible) :: error: (assignment.type.incompatible)
-        @Source(READ_SMS) TestStubParamConstructor param = new TestStubParamConstructor("hello");
+        //:: error: (argument.type.incompatible)
+        @Source({}) @Sink({}) TestStubParamConstructor param = new TestStubParamConstructor(s);
 
         //:: error: (assignment.type.incompatible)
-        @Source(READ_SMS) TestStubExplicitConstructorType explicit = new TestStubExplicitConstructorType();
+        @Source({}) @Sink({}) TestStubExplicitConstructorType explicit = new TestStubExplicitConstructorType();
 
         @Source(INTERNET) TestStubExplicitConstructorType explicit2 = new TestStubExplicitConstructorType();
     }

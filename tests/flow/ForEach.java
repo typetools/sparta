@@ -8,64 +8,55 @@ import static sparta.checkers.quals.FlowPermission.*;
 
 //warning: FlowPolicy: Found transitive flow
  public class ForEach {
-//     public void test() {
-//         for (Object obj : new ArrayList<Object>()) {               
-//          }
-//        }
-//     public void testSMS() {
-//         for (Object obj : new ArrayList<@Source(READ_SMS) Object>()) {   
-//             sendToInternet(obj);
-//          }
-//         
-//         for (Object obj : new ArrayList<@Source(INTERNET) Object>()) {   
-//             //:: error: (argument.type.incompatible)
-//             sendToInternet(obj);
-//          }
-//        }
-//     
-//     void sendToInternet(@Source(READ_SMS) Object obj){}
-//     //Below are copied from CF all-systems tests.
-//     void m1() {
-//       Set<? extends @Source(LITERAL) CharSequence> s = new HashSet<@Source(LITERAL) CharSequence>( );
-//       for( CharSequence cs : s ) {
-//         cs.toString();
-//       }
-//     }
-//
-//     void m2() {
-//       Set<CharSequence> s = new HashSet<CharSequence>( );
-//       for( CharSequence cs : s ) {
-//         cs.toString();
-//       }
-//     }
-//
-//     <T extends @Source(LITERAL) Object> void m3(T p) {
-//       Set<T> s = new HashSet<T>( );
-//       for( T cs : s ) {
-//         cs.toString();
-//       }
-//     }
-//
-//     <T extends @Source(LITERAL) Object> void m4(T p) {
-//       Set<T> s = new HashSet<T>( );
-//       for( Object cs : s ) {
-//         cs.toString();
-//       }
-//     }
-
-     // An example taken from plume-lib's UtilMDE
-     public static <T extends Object> List<T> removeDuplicates(List<T> l) {
-       // There are shorter solutions that do not maintain order.
-       HashSet<T> hs = new HashSet<T>(l.size());
-       List<T> result = new ArrayList<T>();
-       for (T t : l) {
-         if (hs.add(t)) {
-           result.add(t);
-         }
-       }
-       return result;
+     public void test() {
+         for (Object obj : new ArrayList<Object>()) {               
+          }
+        }
+     
+     public void testSMS() {
+         for (Object obj : new ArrayList<@Source(READ_SMS) @Sink(INTERNET) Object>()) {   
+             sendToInternet(obj);
+          }
+         
+         for (Object obj : new ArrayList<@Source(INTERNET) @Sink({}) Object>()) {   
+             //:: error: (argument.type.incompatible)
+             sendToInternet(obj);
+          }
      }
-
+     @Source(READ_SMS) @Sink(INTERNET) Object @Source({}) @Sink({}) [] internetArray;
+     @Source(READ_SMS) @Sink({}) Object @Source({}) @Sink({}) [] noSinkArray;
+     public void testArrays(){
+         for(Object obj : internetArray){
+             @Source(READ_SMS) @Sink(INTERNET) Object correct = obj;
+             //:: error: (assignment.type.incompatible)
+             @Source({}) @Sink(INTERNET) Object wrong = obj;
+             //:: error: (assignment.type.incompatible)
+             @Source({}) @Sink(ANY) Object bot = obj;
+         }
+         for(Object obj : noSinkArray){
+             @Source(READ_SMS) @Sink({}) Object correct = obj;
+             //:: error: (assignment.type.incompatible)
+             @Source(READ_SMS) @Sink(INTERNET) Object wrong = obj;
+             //:: error: (assignment.type.incompatible)
+             @Source({}) @Sink(ANY) Object bot = obj;         
+         }
+         
+         for(@Source(READ_SMS) @Sink(INTERNET) Object obj : internetArray){}
+         //:: error: (enhancedfor.type.incompatible)
+         for(@Source({}) @Sink(INTERNET) Object obj : internetArray){}
+         //:: error: (enhancedfor.type.incompatible)
+         for(@Source(ANY) @Sink({WRITE_CONTACTS}) Object obj : internetArray){}
+         
+         //:: error: (enhancedfor.type.incompatible)
+         for(@Source(READ_SMS) @Sink(INTERNET) Object obj : noSinkArray){}
+         //:: error: (enhancedfor.type.incompatible)
+         for(@Source(ANY) @Sink(WRITE_CONTACTS) Object obj : noSinkArray){}
+         for(@Source(READ_SMS) @Sink({}) Object obj : noSinkArray){
+         }
+         
+     }
+     
+     void sendToInternet(@Source(READ_SMS) @Sink(INTERNET) Object obj){}
    }
 
 

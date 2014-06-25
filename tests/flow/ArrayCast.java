@@ -14,7 +14,7 @@ void bar(){
     
     //Make sure the current work around for the constructor bug is working:
     @SuppressWarnings("flow")
-    ByteArrayOutputStream bytes2 = (/*@Source(CAMERA)@Sink({CONDITIONAL, DISPLAY})*/ ByteArrayOutputStream) new ByteArrayOutputStream();
+    ByteArrayOutputStream bytes2 = (/*@Source(CAMERA)@Sink({ DISPLAY})*/ ByteArrayOutputStream) new ByteArrayOutputStream();
     @Source(CAMERA) byte /*@Source(CAMERA)*/ [] bas2 = bytes2.toByteArray();
 
 
@@ -28,11 +28,9 @@ void bar(){
     
     void foo() {
         
-        //:: error: (assignment.type.incompatible)
         @Sink(INTERNET) Object @Source(FlowPermission.ACCELEROMETER) [] params = new /*@Sink(INTERNET)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
       //strict:: warning: (cast.unsafe)
-        //:: error: (forbidden.flow)  
         Object[] result = (Object[]) call("method", params);
 
         // The annotations are on the array type, not on the array component type.
@@ -45,7 +43,7 @@ void bar(){
     }
 
     @Source(INTERNET) @Sink(INTERNET) Object call(
-            @Source(FlowPermission.LITERAL) String method, @Sink(INTERNET) Object[] params) {
+            @Source({}) String method, @Sink(INTERNET) Object[] params) {
         @Source(INTERNET) @Sink(INTERNET) Object a = params[0];
         return a;
     }

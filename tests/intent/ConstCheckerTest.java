@@ -18,12 +18,11 @@ public class ConstCheckerTest extends Activity {
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
         @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }),
         @Extra(key = "k3", source = { FILESYSTEM }, sink = { DISPLAY }),
-        @Extra(key = "k4", source = { LITERAL }, sink = { INTERNET }),
+        @Extra(key = "k4", source = {  }, sink = { INTERNET }),
         @Extra(key = Intent.EXTRA_PHONE_NUMBER, source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
     Intent i1 = new Intent();
     
     @Source(FILESYSTEM) @Sink(INTERNET) String getVal() {
-        //:: error: (return.type.incompatible)
         return "";
     }
     

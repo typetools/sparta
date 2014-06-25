@@ -12,11 +12,11 @@ public class AndroidSystemTest extends Activity {
     public static  final String key2 = "android.app.extra.DEVICE_ADMIN";
 
 
-    @Source(LITERAL) @Sink(BIND_DEVICE_ADMIN) String getValueOK() {
+    @Source({}) @Sink(BIND_DEVICE_ADMIN) String getValueOK() {
         return null;
     }
     
-    @Source(LITERAL) @Sink(CONDITIONAL) String getValueNotOK() {
+    @Source({}) @Sink({}) String getValueNotOK() {
         return null;
     }
     

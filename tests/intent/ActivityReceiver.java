@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 /**
- * Class used to test the intent analysis.
+ * Class used to test the intent analysis.ss
  * Temporary class to simulate the Receiver Activity
  * on the Intent analysis. Used in the Intent-checker tests from sparta-code.  
  * @author pbsf

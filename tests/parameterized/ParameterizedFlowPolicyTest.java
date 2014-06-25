@@ -1,44 +1,50 @@
 import sparta.checkers.quals.*;
 import static sparta.checkers.quals.FlowPermission.*;
 
-class ParameterizedFlowPolicyTest {
-    @Source(LITERAL) @Sink(value={}, finesinks={@FineSink(value=WRITE_LOGS, params={"/var/*"})}) long time = 5;
+class ParameterizedFlowPolicyTestSinks {
+
+    //Testing: READ_SMS -> WRITE_LOGS("/var/*", "tmp")
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params="/var/*")) long oneExactParam;    
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params="/var/www/html")) long oneMatchingParam;
+    //:: error: (forbidden.flow)
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params="*")) long oneNotMathingReverseDoesMatch;
+    //:: error: (forbidden.flow)
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params="/other/var/")) long oneNotMatching;
+    //:: error: (forbidden.flow)
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params="tmpabc")) long otherParamNotMatch;
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params={"/var/*", "tmp"})) long twoEqualParams;    
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params={"tmp","/var/www/html"})) long twoMatching;
+    //:: error: (forbidden.flow)
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params={"/var/*", "tmpabc"})) long twoOneEqualsOneDoesNot;
+    //:: error: (forbidden.flow)    
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params={"/tmp","/var/www/html"})) long twoOneMatchesOneDoesNot ;
+    //:: error: (forbidden.flow)
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params={"/home/var/*", "tmp"})) long anothertwoOneMatchesOneDoesNot;
+    //:: error: (forbidden.flow)   
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params={"/tmp","banana"})) long twoNotMatching;
+    //:: error: (forbidden.flow)
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params={"/var/*", "no"})) long anothertwoOneEqualsOneDoesNot;   
+    //:: error: (forbidden.flow)
+    @Source(READ_SMS) @Sink(value=FILESYSTEM, finesinks=@FineSink(value=WRITE_LOGS, params="/var/*")) long extraSink;     
+    //:: error: (forbidden.flow)
+    @Source(READ_SMS) @Sink(value=FILESYSTEM, finesinks=@FineSink(value=WRITE_LOGS, params="/var/www/html")) long extraSinkMatching;
+    @Source(finesources=@FineSource(READ_SMS)) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params="/var/*")) long matchingFineSourceNoParam; 
+    @Source(finesources=@FineSource(value=READ_SMS, params="*")) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params="/var/*")) long matchingFineSourceStarPara;   
+    @Source(finesources=@FineSource(value=READ_SMS, params="tomyfriend")) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params="/var/*")) long matchingFineSourceMathingPara;
+    //:: error: (forbidden.flow)
+    @Source(READ_SMS) @Sink(finesinks=@FineSink(WRITE_LOGS)) long noParamsFineSink;
+    //:: error: (forbidden.flow)
+    @Source(READ_SMS) @Sink(WRITE_LOGS) long noParams;
+    @Source(finesources=@FineSource(value=READ_SMS, params="tmp")) @Sink(finesinks=@FineSink(value=WRITE_LOGS, params="/var/*")) long matchingFineSourceParaMathingPara;
+}
+
+class TestSources{
     
-    void testFlowPolicy() {    
-        @Source(LITERAL) @Sink(value={}, finesinks={@FineSink(value=WRITE_LOGS, params={"/var/www/html"})}) long timePass;
-        @Source(LITERAL) @Sink(value={}, finesinks={@FineSink(value=WRITE_LOGS, params={"/*"})}) long timeFail;
-        
-        // Test assignments
-        timePass = time;
-        //:: error: (assignment.type.incompatible)
-        timeFail = time;
-        
-        // Test method calls
-        testSinkPass(time);
-        
-        //:: error: (argument.type.incompatible)
-        testSinkFail1(time);
-        //:: error: (argument.type.incompatible)
-        testSinkFail2(time);        
-        
-        String smsString = getSmsStr();
-        //:: error: (argument.type.incompatible)
-        testSmsFail(smsString);
-        testSmsPass(smsString);
-    }
-    
-    void testSinkFail1(@Source(LITERAL) @Sink(value={}, finesinks={@FineSink(value=WRITE_LOGS, params={"/usr/bin"})}) long time) {
-    }
-    
-    void testSinkFail2(@Source(LITERAL) @Sink(value={}, finesinks={@FineSink(value=WRITE_LOGS, params={"/*"})}) long time) {
-    }
-    
-    void testSinkPass(@Source(LITERAL) @Sink(value={}, finesinks={@FineSink(value=WRITE_LOGS, params={"/var/log"})}) long time) {
-        
-    }
-    
-    @Source(READ_SMS) String getSmsStr(){ return null; }
-    
-    void testSmsFail(@Sink(finesinks={@FineSink(value=FILESYSTEM, params={"SMSFAIL"})}) String s){}
-    void testSmsPass(@Sink(finesinks={@FineSink(value=FILESYSTEM, params={"SMSPASS"})}) String s){}
+    /*
+     *    INTERNET("domain.com", "otherdomain.com/*") -> WRITE_SMS
+    FILESYSTEM("myfile1.txt", "home/*") -> FILESYSTEM("myfile1.txt", "home/*") 
+     */
+    //Testing: INTERNET("domain.com", "otherdomain.com/*") -> WRITE_SMS
+//    @Source(finesources=@FineSource(value=INTERNET, p), params="tomyfriend") @Sink(finesinks=@FineSink(value=WRITE_LOGS, params="/var/*")) String s;    
+
 }

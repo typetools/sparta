@@ -91,71 +91,71 @@ class Byte extends Number implements Comparable<Byte> {
 
 @PolyFlowReceiver
 class Character implements Serializable, Comparable<Character> {
-    final @Source(FlowPermission.LITERAL) int MIN_RADIX;
-    final @Source(FlowPermission.LITERAL) int MAX_RADIX;
-    final @Source(FlowPermission.LITERAL) char MIN_VALUE;
-    final @Source(FlowPermission.LITERAL) char MAX_VALUE;
+    final @Source({}) int MIN_RADIX;
+    final @Source({}) int MAX_RADIX;
+    final @Source({}) char MIN_VALUE;
+    final @Source({}) char MAX_VALUE;
     final Class<Character> TYPE;
-    final @Source(FlowPermission.LITERAL) byte UNASSIGNED;
-    final @Source(FlowPermission.LITERAL) byte UPPERCASE_LETTER;
-    final @Source(FlowPermission.LITERAL) byte LOWERCASE_LETTER;
-    final @Source(FlowPermission.LITERAL) byte TITLECASE_LETTER;
-    final @Source(FlowPermission.LITERAL) byte MODIFIER_LETTER;
-    final @Source(FlowPermission.LITERAL) byte OTHER_LETTER;
-    final @Source(FlowPermission.LITERAL) byte NON_SPACING_MARK;
-    final @Source(FlowPermission.LITERAL) byte ENCLOSING_MARK;
-    final @Source(FlowPermission.LITERAL) byte COMBINING_SPACING_MARK;
-    final @Source(FlowPermission.LITERAL) byte DECIMAL_DIGIT_NUMBER;
-    final @Source(FlowPermission.LITERAL) byte LETTER_NUMBER;
-    final @Source(FlowPermission.LITERAL) byte OTHER_NUMBER;
-    final @Source(FlowPermission.LITERAL) byte SPACE_SEPARATOR;
-    final @Source(FlowPermission.LITERAL) byte LINE_SEPARATOR;
-    final @Source(FlowPermission.LITERAL) byte PARAGRAPH_SEPARATOR;
-    final @Source(FlowPermission.LITERAL) byte CONTROL;
-    final @Source(FlowPermission.LITERAL) byte FORMAT;
-    final @Source(FlowPermission.LITERAL) byte PRIVATE_USE;
-    final @Source(FlowPermission.LITERAL) byte SURROGATE;
-    final @Source(FlowPermission.LITERAL) byte DASH_PUNCTUATION;
-    final @Source(FlowPermission.LITERAL) byte START_PUNCTUATION;
-    final @Source(FlowPermission.LITERAL) byte END_PUNCTUATION;
-    final @Source(FlowPermission.LITERAL) byte CONNECTOR_PUNCTUATION;
-    final @Source(FlowPermission.LITERAL) byte OTHER_PUNCTUATION;
-    final @Source(FlowPermission.LITERAL) byte MATH_SYMBOL;
-    final @Source(FlowPermission.LITERAL) byte CURRENCY_SYMBOL;
-    final @Source(FlowPermission.LITERAL) byte MODIFIER_SYMBOL;
-    final @Source(FlowPermission.LITERAL) byte OTHER_SYMBOL;
-    final @Source(FlowPermission.LITERAL) byte INITIAL_QUOTE_PUNCTUATION;
-    final @Source(FlowPermission.LITERAL) byte FINAL_QUOTE_PUNCTUATION;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_UNDEFINED;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_LEFT_TO_RIGHT;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_RIGHT_TO_LEFT;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_EUROPEAN_NUMBER;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_EUROPEAN_NUMBER_SEPARATOR;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_ARABIC_NUMBER;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_COMMON_NUMBER_SEPARATOR;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_NONSPACING_MARK;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_BOUNDARY_NEUTRAL;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_PARAGRAPH_SEPARATOR;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_SEGMENT_SEPARATOR;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_WHITESPACE;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_OTHER_NEUTRALS;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE;
-    final @Source(FlowPermission.LITERAL) byte DIRECTIONALITY_POP_DIRECTIONAL_FORMAT;
-    final @Source(FlowPermission.LITERAL) char MIN_HIGH_SURROGATE;
-    final @Source(FlowPermission.LITERAL) char MAX_HIGH_SURROGATE;
-    final @Source(FlowPermission.LITERAL) char MIN_LOW_SURROGATE;
-    final @Source(FlowPermission.LITERAL) char MAX_LOW_SURROGATE;
-    final @Source(FlowPermission.LITERAL) char MIN_SURROGATE;
-    final @Source(FlowPermission.LITERAL) char MAX_SURROGATE;
-    final @Source(FlowPermission.LITERAL) int MIN_SUPPLEMENTARY_CODE_POINT;
-    final @Source(FlowPermission.LITERAL) int MIN_CODE_POINT;
-    final @Source(FlowPermission.LITERAL) int MAX_CODE_POINT;
-    final @Source(FlowPermission.LITERAL) int SIZE;
+    final @Source({}) byte UNASSIGNED;
+    final @Source({}) byte UPPERCASE_LETTER;
+    final @Source({}) byte LOWERCASE_LETTER;
+    final @Source({}) byte TITLECASE_LETTER;
+    final @Source({}) byte MODIFIER_LETTER;
+    final @Source({}) byte OTHER_LETTER;
+    final @Source({}) byte NON_SPACING_MARK;
+    final @Source({}) byte ENCLOSING_MARK;
+    final @Source({}) byte COMBINING_SPACING_MARK;
+    final @Source({}) byte DECIMAL_DIGIT_NUMBER;
+    final @Source({}) byte LETTER_NUMBER;
+    final @Source({}) byte OTHER_NUMBER;
+    final @Source({}) byte SPACE_SEPARATOR;
+    final @Source({}) byte LINE_SEPARATOR;
+    final @Source({}) byte PARAGRAPH_SEPARATOR;
+    final @Source({}) byte CONTROL;
+    final @Source({}) byte FORMAT;
+    final @Source({}) byte PRIVATE_USE;
+    final @Source({}) byte SURROGATE;
+    final @Source({}) byte DASH_PUNCTUATION;
+    final @Source({}) byte START_PUNCTUATION;
+    final @Source({}) byte END_PUNCTUATION;
+    final @Source({}) byte CONNECTOR_PUNCTUATION;
+    final @Source({}) byte OTHER_PUNCTUATION;
+    final @Source({}) byte MATH_SYMBOL;
+    final @Source({}) byte CURRENCY_SYMBOL;
+    final @Source({}) byte MODIFIER_SYMBOL;
+    final @Source({}) byte OTHER_SYMBOL;
+    final @Source({}) byte INITIAL_QUOTE_PUNCTUATION;
+    final @Source({}) byte FINAL_QUOTE_PUNCTUATION;
+    final @Source({}) byte DIRECTIONALITY_UNDEFINED;
+    final @Source({}) byte DIRECTIONALITY_LEFT_TO_RIGHT;
+    final @Source({}) byte DIRECTIONALITY_RIGHT_TO_LEFT;
+    final @Source({}) byte DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC;
+    final @Source({}) byte DIRECTIONALITY_EUROPEAN_NUMBER;
+    final @Source({}) byte DIRECTIONALITY_EUROPEAN_NUMBER_SEPARATOR;
+    final @Source({}) byte DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR;
+    final @Source({}) byte DIRECTIONALITY_ARABIC_NUMBER;
+    final @Source({}) byte DIRECTIONALITY_COMMON_NUMBER_SEPARATOR;
+    final @Source({}) byte DIRECTIONALITY_NONSPACING_MARK;
+    final @Source({}) byte DIRECTIONALITY_BOUNDARY_NEUTRAL;
+    final @Source({}) byte DIRECTIONALITY_PARAGRAPH_SEPARATOR;
+    final @Source({}) byte DIRECTIONALITY_SEGMENT_SEPARATOR;
+    final @Source({}) byte DIRECTIONALITY_WHITESPACE;
+    final @Source({}) byte DIRECTIONALITY_OTHER_NEUTRALS;
+    final @Source({}) byte DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING;
+    final @Source({}) byte DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE;
+    final @Source({}) byte DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING;
+    final @Source({}) byte DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE;
+    final @Source({}) byte DIRECTIONALITY_POP_DIRECTIONAL_FORMAT;
+    final @Source({}) char MIN_HIGH_SURROGATE;
+    final @Source({}) char MAX_HIGH_SURROGATE;
+    final @Source({}) char MIN_LOW_SURROGATE;
+    final @Source({}) char MAX_LOW_SURROGATE;
+    final @Source({}) char MIN_SURROGATE;
+    final @Source({}) char MAX_SURROGATE;
+    final @Source({}) int MIN_SUPPLEMENTARY_CODE_POINT;
+    final @Source({}) int MIN_CODE_POINT;
+    final @Source({}) int MAX_CODE_POINT;
+    final @Source({}) int SIZE;
     Character(char arg0);
     static Character valueOf(char arg0);
     char charValue();
@@ -678,9 +678,9 @@ class NumberFormatException{
 @PolyFlowReceiver
 class Integer extends Number implements Comparable<Integer> {
 //Added by smillst
-    final @Source(FlowPermission.LITERAL) int MIN_VALUE;
-    final @Source(FlowPermission.LITERAL) int MAX_VALUE;
-    final @Source(FlowPermission.LITERAL) int SIZE;
+    final @Source({}) int MIN_VALUE;
+    final @Source({}) int MAX_VALUE;
+    final @Source({}) int SIZE;
 
     static String toString(int arg0, int arg1);
     static String toHexString(int arg0);
@@ -1229,10 +1229,15 @@ void setLength(int arg0);
     String[] split(String arg0, int arg1);
     @PolyFlowReceiver
     String[] split(String arg0);
+    @PolyFlowReceiver
     String toLowerCase(Locale arg0);
+    @PolyFlowReceiver
     String toLowerCase();
+    @PolyFlowReceiver
     String toUpperCase(Locale arg0);
+    @PolyFlowReceiver
     String toUpperCase();
+    @PolyFlowReceiver
     String trim();
     @PolyFlowReceiver
     String toString();
@@ -1422,9 +1427,9 @@ class System {
 
 @PolyFlowReceiver
 class Thread implements Runnable {
-    final @Source(FlowPermission.LITERAL) int MIN_PRIORITY;
-    final @Source(FlowPermission.LITERAL) int NORM_PRIORITY;
-    final @Source(FlowPermission.LITERAL) int MAX_PRIORITY;
+    final @Source({}) int MIN_PRIORITY;
+    final @Source({}) int NORM_PRIORITY;
+    final @Source({}) int MAX_PRIORITY;
     static Thread currentThread();
     static void yield();
     static void sleep(long arg0) throws InterruptedException;
@@ -1709,18 +1714,18 @@ class Method {
 
 @PolyFlowReceiver
 class Modifier {
-    final @Source(FlowPermission.LITERAL) int PUBLIC;
-    final @Source(FlowPermission.LITERAL) int PRIVATE;
-    final @Source(FlowPermission.LITERAL) int PROTECTED;
-    final @Source(FlowPermission.LITERAL) int STATIC;
-    final @Source(FlowPermission.LITERAL) int FINAL;
-    final @Source(FlowPermission.LITERAL) int SYNCHRONIZED;
-    final @Source(FlowPermission.LITERAL) int VOLATILE;
-    final @Source(FlowPermission.LITERAL) int TRANSIENT;
-    final @Source(FlowPermission.LITERAL) int NATIVE;
-    final @Source(FlowPermission.LITERAL) int INTERFACE;
-    final @Source(FlowPermission.LITERAL) int ABSTRACT;
-    final @Source(FlowPermission.LITERAL) int STRICT;
+    final @Source({}) int PUBLIC;
+    final @Source({}) int PRIVATE;
+    final @Source({}) int PROTECTED;
+    final @Source({}) int STATIC;
+    final @Source({}) int FINAL;
+    final @Source({}) int SYNCHRONIZED;
+    final @Source({}) int VOLATILE;
+    final @Source({}) int TRANSIENT;
+    final @Source({}) int NATIVE;
+    final @Source({}) int INTERFACE;
+    final @Source({}) int ABSTRACT;
+    final @Source({}) int STRICT;
     Modifier();
     static boolean isPublic(int arg0);
     static boolean isPrivate(int arg0);

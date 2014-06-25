@@ -20,12 +20,12 @@ public class BReceiverReceiver extends BroadcastReceiver {
     
     @Override
     @ReceiveIntent("sendBroadcast,1")
-    public  void onReceive(Context context, @Source(LITERAL) @Sink(CONDITIONAL) 
+    public  void onReceive(Context context, @Source({}) @Sink({}) 
             @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent intent) {
     }
     
     void methodNotAllowed() {
-        Intent intent = (@Source(LITERAL) @Sink(CONDITIONAL)  
+        Intent intent = (@Source({}) @Sink({})  
         @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent) new Intent();
       //:: error: (intent.invoking.receiveintent)                              
         onReceive(null, intent);

@@ -5,15 +5,15 @@ import  sparta.checkers.quals.FlowPermission;
 import static sparta.checkers.quals.FlowPermission.*;
 
 public class ParameterizedSourcesSubtypingTest {
-    @Source(value={}, finesources={@FineSource(value=LITERAL, params={"/usr/bin"})}) String wildcardSrc1;
-    @Source(value={}, finesources={@FineSource(value=LITERAL, params={"/usr/*"})}) String wildcardSrc2;
-    @Source(value={}, finesources={@FineSource(value=LITERAL, params={"/dev/null/", "/usr/*"})}) String wildcardSrc3;
+    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"/usr/bin"})}) String wildcardSrc1;
+    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"/usr/*"})}) String wildcardSrc2;
+    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"/dev/null/", "/usr/*"})}) String wildcardSrc3;
     
-    @Source(value={}, finesources={@FineSource(value=LITERAL, params={"myfile.txt"})}) String singleSrc1;
-    @Source(value={}, finesources={@FineSource(value=LITERAL, params={"myfile.txt"})}) String singleSrc2;
+    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"myfile.txt"})}) String singleSrc1;
+    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"myfile.txt"})}) String singleSrc2;
   
     
-    @Source(value={}, finesources={@FineSource(value=LITERAL, params={"myfile2.txt", "myfile.txt"})}) String multipleSrc1;
+    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"myfile2.txt", "myfile.txt"})}) String multipleSrc1;
     
     // Testing the subtyping heirarchy from the parameterized permissions documentation
     @Source({INTERNET}) String sourceTop;

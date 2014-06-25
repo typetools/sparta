@@ -25,7 +25,6 @@ import sparta.checkers.quals.Source;
 @StubFiles({"information_flow.astub","receive-send-intent.astub","intent-map.astub"})
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, ComponentMap.COMPONENT_MAP_FILE_OPTION,
         FlowChecker.MSG_FILTER_OPTION, FlowVisitor.CHECK_CONDITIONALS_OPTION })
-@SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })
 public class IntentChecker extends FlowChecker {
 //    @Override
 //    public void report(Result r, Object src) {

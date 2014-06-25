@@ -416,6 +416,11 @@ String toString();
 
 }
 
+class SensorEvent{
+        @Source({}) Sensor sensor;
+        final @Source(SENSOR) float[] values;
+}
+
 class SensorEventListener {
 
 void onSensorChanged(SensorEvent arg0);

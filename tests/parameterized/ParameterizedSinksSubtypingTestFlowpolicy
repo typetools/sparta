@@ -1,9 +1,9 @@
-LITERAL -> CONDITIONAL,INTERNET
-ANY -> CONDITIONAL("/usr/bin")
-ANY -> CONDITIONAL("/usr/*")
-ANY -> CONDITIONAL("/dev/null/", "/usr/*")
-ANY -> CONDITIONAL("myfile2.txt", "myfile.txt")
-ANY -> CONDITIONAL("myfile.txt")
-ANY -> INTERNET("*.google.com")
-ANY -> INTERNET("maps.google.com")
-ANY -> INTERNET("voice.google.com")
+
+READ_SMS -> FILESYSTEM("/usr/bin")
+READ_SMS -> FILESYSTEM("/usr/*")
+READ_SMS -> FILESYSTEM("/dev/null/", "/usr/*")
+READ_SMS -> FILESYSTEM("myfile2.txt", "myfile.txt")
+READ_SMS -> FILESYSTEM("myfile.txt")
+READ_SMS -> INTERNET("*.google.com")
+READ_SMS -> INTERNET("maps.google.com")
+READ_SMS -> INTERNET("voice.google.com")

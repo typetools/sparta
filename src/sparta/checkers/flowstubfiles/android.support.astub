@@ -259,7 +259,7 @@ class Fragment{
         boolean onOptionsItemSelected(MenuItem item);
         void onActivityCreated( Bundle savedInstanceState);
         LoaderManager getLoaderManager();
-        void setArguments(@Source({INTENT,LITERAL}) Bundle args);
+        void setArguments(@Source({INTENT}) Bundle args);
         Bundle getArguments();
         boolean isResumed();
         FragmentActivity getActivity();

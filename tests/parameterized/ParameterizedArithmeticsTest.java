@@ -8,7 +8,7 @@ import static sparta.checkers.quals.FlowPermission.*;
 
 class ParameterizedArithmeticsTest {
     @Source({ACCELEROMETER}) 
-    @Sink(value={CONDITIONAL}, 
+    @Sink(value={}, 
           finesinks={@FineSink(value=FILESYSTEM, params={"*"})}) 
     int accel;
 
@@ -36,8 +36,8 @@ class ParameterizedArithmeticsTest {
         int j = accel + 2;
 
         //Tests LUB
-        @Source({ACCELEROMETER, LITERAL})
-        @Sink(value={CONDITIONAL}, 
+        @Source({ACCELEROMETER})
+        @Sink(value={}, 
               finesinks={@FineSink(value=FILESYSTEM, params={"myfile1.txt", "myfile2.txt"})}) 
         int x = j;
         x += 3;

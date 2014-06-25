@@ -4,42 +4,20 @@ package sparta.checkers;
 import org.checkerframework.checker.compilermsgs.qual.*;
 */
 
-import android.text.Annotation;
+import java.util.Set;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeValidator;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.framework.source.Result;
-import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedNoType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiveType;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
-
-import org.checkerframework.javacutil.AnnotationUtils;
-import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.Pair;
-import org.checkerframework.javacutil.TreeUtils;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
-import javax.lang.model.type.TypeKind;
-
-import sparta.checkers.permission.qual.DependentPermissions;
-import sparta.checkers.permission.qual.MayRequiredPermissions;
-import sparta.checkers.permission.qual.RequiredPermissions;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.ParameterizedFlowPermission;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.AnnotatedTypeTree;
 import com.sun.source.tree.AnnotationTree;
@@ -49,34 +27,22 @@ import com.sun.source.tree.DoWhileLoopTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.ForLoopTree;
 import com.sun.source.tree.IfTree;
-import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.SwitchTree;
 import com.sun.source.tree.Tree;
-import com.sun.source.tree.VariableTree;
 import com.sun.source.tree.WhileLoopTree;
-import com.sun.tools.javac.tree.JCTree;
-import com.sun.tools.javac.tree.TreeInfo;
 
 public class FlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
 
-    private boolean topAllowed = false;
     /**
      * Should the checker warn when a non-literal source is used in
      * a conditional (regardless of the flow policy)?  
      */
     public static final String CHECK_CONDITIONALS_OPTION = "checkconditionals";
     
-    private ParameterizedFlowPermission ANY;
-    private ParameterizedFlowPermission CONDITIONAL;
-    private ParameterizedFlowPermission LITERAL;
     private boolean checkConditional = Boolean.valueOf(checker.getOption(CHECK_CONDITIONALS_OPTION, "false"));
 
     public FlowVisitor(BaseTypeChecker checker) {
         super(checker);
-        
-        ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
-        CONDITIONAL = new ParameterizedFlowPermission(FlowPermission.CONDITIONAL);
-        LITERAL = new ParameterizedFlowPermission(FlowPermission.LITERAL);
     }
     @Override
     public Void visitAnnotatedType(AnnotatedTypeTree node, Void p) {
@@ -105,43 +71,31 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
         return areFlowsValid(type, tree);
     }
 
-    private void ensureConditionalSink(ExpressionTree tree) {
-
-        
+    private void checkConditionalPredicate(ExpressionTree tree) {       
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
-        final Set<ParameterizedFlowPermission> sinks = Flow.getSinks(type);
         final Set<ParameterizedFlowPermission> sources = Flow.getSources(type);
-
-        if (!ParameterizedFlowPermission.coarsePermissionExists(ANY, sinks) && 
-            !ParameterizedFlowPermission.coarsePermissionExists(CONDITIONAL, sinks)) {
-            checker.report(Result.failure("condition.flow",sources ), tree);
-
-        }
         if(checkConditional){
-            if(sources.size() > 1 || 
-                    !ParameterizedFlowPermission.coarsePermissionExists(LITERAL, sources)){
+            if(sources.size() > 1){
                 checker.report(Result.failure("condition.flow", sources), tree);
-                
             }
-
         }
     }
 
     @Override
     public Void visitConditionalExpression(ConditionalExpressionTree node, Void p) {
-        ensureConditionalSink(node.getCondition());
+        checkConditionalPredicate(node.getCondition());
         return super.visitConditionalExpression(node, p);
     }
 
     @Override
     public Void visitIf(IfTree node, Void p) {
-        ensureConditionalSink(node.getCondition());
+        checkConditionalPredicate(node.getCondition());
         return super.visitIf(node, p);
     }
 
     @Override
     public Void visitSwitch(SwitchTree node, Void p) {
-        ensureConditionalSink(node.getExpression());
+        checkConditionalPredicate(node.getExpression());
         return super.visitSwitch(node, p);
     }
 
@@ -149,19 +103,19 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
     public Void visitCase(CaseTree node, Void p) {
         ExpressionTree exprTree = node.getExpression();
         if (exprTree != null)
-            ensureConditionalSink(exprTree);
+            checkConditionalPredicate(exprTree);
         return super.visitCase(node, p);
     }
 
     @Override
     public Void visitDoWhileLoop(DoWhileLoopTree node, Void p) {
-        ensureConditionalSink(node.getCondition());
+        checkConditionalPredicate(node.getCondition());
         return super.visitDoWhileLoop(node, p);
     }
 
     @Override
     public Void visitWhileLoop(WhileLoopTree node, Void p) {
-        ensureConditionalSink(node.getCondition());
+        checkConditionalPredicate(node.getCondition());
         return super.visitWhileLoop(node, p);
     }
 
@@ -170,7 +124,7 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
     public Void visitForLoop(ForLoopTree node, Void p) {
         if (node.getCondition() != null) {
             // Condition is null e.g. in "for (;;) {...}"
-            ensureConditionalSink(node.getCondition());
+            checkConditionalPredicate(node.getCondition());
         }
 
         return super.visitForLoop(node, p);
@@ -206,72 +160,7 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
         }
     }
 
-    private void warnForbiddenFlows(final AnnotatedTypeMirror type,  Tree tree) {
-        if (!areFlowsValid(type, tree)) {
-           reportError(type, tree);
-        }
-    }
-
-    void reportError(AnnotatedTypeMirror type, Tree tree) {
-        StringBuffer buf = new StringBuffer();
-        for (Flow flow : atypeFactory.getFlowPolicy().forbiddenFlows(type)) {
-            buf.append(flow.toString() + "\n");
-        }
-        checker.report(Result.failure("forbidden.flow", type.toString(), buf.toString()), tree);
-    }
-
     private boolean areFlowsValid(final AnnotatedTypeMirror atm, Tree tree) {
-
-        Element ele = InternalUtils.symbol(tree);
-        boolean local = (ele != null && ele.getKind() == ElementKind.LOCAL_VARIABLE);
-        boolean field = (ele != null && ele.getKind() == ElementKind.FIELD);
-        boolean wild = atm.getKind() == TypeKind.WILDCARD;
-        boolean typeVar = atm.getKind() == TypeKind.TYPEVAR;
-        boolean typePara = (ele != null && ele.getKind() == ElementKind.TYPE_PARAMETER);
-        boolean nullLiteral = tree.getKind() == Tree.Kind.NULL_LITERAL;
-
-        if ((local || this.topAllowed || typePara|| typeVar|| wild) && Flow.isTop(atm))
-        {
-            // Local variables are allowed to be top type so a more specific
-            // type can be inferred.
-            return true;
-        }
-
-        //The null literal is allow to be bottom
-        //A variable may be bottom if null is assigned to it
-        //and flow refinement changes the type.
-        if(Flow.isBottom(atm) && (local || nullLiteral || field)) {
-            
-            //Make sure bottom was not explicitly written by the programmer.
-            if (tree instanceof VariableTree) {
-                //Get the annotations written on the type
-                VariableTree vtree = (VariableTree) tree;
-                List<? extends AnnotationTree> annoTrees = vtree.getModifiers().getAnnotations();
-                List<AnnotationMirror> annos = InternalUtils
-                        .annotationsFromTypeAnnotationTrees(annoTrees);
-                
-                //Get the sets of sources and sinks off the annotations
-                Flow flow = new Flow();
-                for (AnnotationMirror anno : annos) {
-                    if (AnnotationUtils.areSameByClass(anno, Source.class)) {
-                        flow.addSource(Flow.getSources(anno));
-                    } else if (AnnotationUtils.areSameByClass(anno, Sink.class)) {
-                        flow.addSink(Flow.getSinks(anno));
-                    }
-                }
-                //If programmer actually wrote {}->ANY, 
-                //then give an error
-                if(flow.isBottom()){
-                    return false; 
-                }
-            }
-            
-            //if the flow is bottom because it is null
-            //or it is a local variable that was inferred to be null
-            return true;
-        }
-
-
         Flow flow = new Flow(atm);
         atypeFactory.getFlowAnalizer().getTypeFlows().add(flow);
 
@@ -289,79 +178,16 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
 
     @Override
     protected BaseTypeValidator createTypeValidator() {
-        return new FlowTypeValidator(checker, this, atypeFactory);
+        return new BaseTypeValidator(checker, this, atypeFactory){
+            @Override
+            protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
+                StringBuffer buf = new StringBuffer();
+                for (Flow flow : ((FlowAnnotatedTypeFactory)atypeFactory).getFlowPolicy().forbiddenFlows(type)) {
+                    buf.append(flow.toString() + "\n");
+                }
+                checker.report(Result.failure("forbidden.flow", type.toString(), buf.toString()), p);
+            }
+        };
     }
 
-    protected class FlowTypeValidator extends BaseTypeValidator {
-        private final FlowVisitor flowVisitor;
-        public FlowTypeValidator(BaseTypeChecker checker, FlowVisitor visitor,
-                AnnotatedTypeFactory atypeFactory) {
-            super(checker, visitor, atypeFactory);
-            this.flowVisitor = visitor;
-        }
-
-        @Override
-        public Void visitTypeVariable(AnnotatedTypeVariable type, Tree tree) {
-            // Keep in sync with visitWildcard
-            // getUpperBound() has side effects we don't want
-            // So we just get the field
-            AnnotatedTypeMirror upperbound = type.getUpperBoundField();
-            if (upperbound != null) {
-                // Allow top on upper bounds
-                flowVisitor.setAllowTop(true);
-            }
-            Void tmpReturn = super.visitTypeVariable(type, tree);
-            // Disallow top, done processing type variable
-            flowVisitor.setAllowTop(false);
-            return tmpReturn;
-        }
-
-        @Override
-        public Void visitWildcard(AnnotatedWildcardType type, Tree tree) {
-            // Keep in sync with visitTypeVariable
-            // getExtendsBound() has side effects we don't want
-            // So we just get the field
-            AnnotatedTypeMirror upperbound = type.getExtendsBoundField();
-            if (upperbound != null) {
-                // Allow top on upper bounds
-                flowVisitor.setAllowTop(true);
-            }
-            Void tmpReturn = super.visitWildcard(type, tree);
-            // Disallow top, done processing wildcard
-            flowVisitor.setAllowTop(false);
-            return tmpReturn;
-        }
-
-        @Override
-        protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
-            StringBuffer buf = new StringBuffer();
-            for (Flow flow : ((FlowAnnotatedTypeFactory)atypeFactory).getFlowPolicy().forbiddenFlows(type)) {
-                buf.append(flow.toString() + "\n");
-            }
-            checker.report(Result.failure("forbidden.flow", type.toString(), buf.toString()), p);
-
-            isValid = false;
-        }
-
-        @Override
-        protected void reportValidityResult(final String errorType, final AnnotatedTypeMirror type,
-                final Tree p) {
-
-            checker.report(Result.failure(errorType, type.toString()), p);
-            isValid = false;
-        }
-
-    }
-
-    /**
-     * Do not warn if any type is ANY->{}
-     *
-     * This turned on when visiting type parameters or wildcards with upper
-     * bounds.
-     *
-     * @param topAllowed
-     */
-    public void setAllowTop(boolean topAllowed) {
-        this.topAllowed = topAllowed;
-    }
 }

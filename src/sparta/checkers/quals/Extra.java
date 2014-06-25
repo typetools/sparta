@@ -24,6 +24,6 @@ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_
 @SubtypeOf({})
 public @interface Extra {
     String key() default "";
-    FlowPermission[] source() default {FlowPermission.LITERAL};
+    FlowPermission[] source() default {};
     FlowPermission[] sink() default {};
 }

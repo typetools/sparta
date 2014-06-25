@@ -15,8 +15,8 @@ import org.checkerframework.framework.flow.CFStore;
 import org.checkerframework.framework.flow.CFTransfer;
 import org.checkerframework.framework.flow.CFValue;
 import org.checkerframework.framework.qual.DefaultLocation;
+import org.checkerframework.framework.qual.FromStubFile;
 import org.checkerframework.framework.qual.PolyAll;
-
 import org.checkerframework.framework.type.*;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
@@ -32,22 +32,17 @@ import org.checkerframework.framework.util.QualifierDefaults;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import org.checkerframework.framework.util.QualifierDefaults.DefaultApplierElement;
 import org.checkerframework.framework.util.QualifierPolymorphism;
-
 import org.checkerframework.dataflow.analysis.TransferResult;
 import org.checkerframework.dataflow.cfg.node.Node;
-
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.TreeUtils;
 
 import java.io.File;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,8 +53,6 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeKind;
 
 import sparta.checkers.quals.FineSink;
 import sparta.checkers.quals.FineSource;
@@ -72,20 +65,14 @@ import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
-import com.sun.source.tree.BinaryTree;
-import com.sun.source.tree.CompoundAssignmentTree;
-import com.sun.source.tree.NewArrayTree;
 import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
-import com.sun.source.tree.TypeCastTree;
-import com.sun.source.tree.UnaryTree;
+
 public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
     protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK;
     protected final AnnotationMirror POLYALL;
-    protected final AnnotationMirror LITERALSOURCE,  FROMLITERALSINK;
-    protected final AnnotationMirror CONDITIONALSINK, FROMCONDITIONALSOURCE;
 
     protected final AnnotationMirror SOURCE;
     protected final AnnotationMirror SINK;
@@ -96,15 +83,11 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     protected final FlowAnalyzer flowAnalizer;
     
     private final ParameterizedFlowPermission ANY;
-    private final ParameterizedFlowPermission LITERAL;
-    private final ParameterizedFlowPermission CONDITIONAL;
 
     public FlowAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
 
         ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
-        LITERAL = new ParameterizedFlowPermission(FlowPermission.LITERAL);
-        CONDITIONAL = new ParameterizedFlowPermission(FlowPermission.CONDITIONAL);
         
         NOSOURCE = createAnnoFromSource(Collections.<ParameterizedFlowPermission> emptySet());
         NOSINK = createAnnoFromSink(Collections.<ParameterizedFlowPermission> emptySet());
@@ -125,28 +108,12 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         sinkValue = TreeUtils.getMethod("sparta.checkers.quals.Sink", "value", 0, processingEnv);
 
         // Must call super.initChecker before the lint option can be checked.
-        final boolean scArg = checker.getLintOption(FlowPolicy.STRICT_CONDITIONALS_OPTION, false);
         final String pfArg = checker.getOption(FlowPolicy.POLICY_FILE_OPTION);
         if (pfArg == null || pfArg.trim().isEmpty()) {
-            flowPolicy = new FlowPolicy(new File("flow-policy"),scArg, processingEnv);
+            flowPolicy = new FlowPolicy(new File("flow-policy"), processingEnv);
         } else {
-            flowPolicy = new FlowPolicy(new File(pfArg), scArg, processingEnv);
+            flowPolicy = new FlowPolicy(new File(pfArg), processingEnv);
         }
-
-        
-        LITERALSOURCE = createAnnoFromSource(new TreeSet<ParameterizedFlowPermission>(
-                Arrays.asList(LITERAL)));
-
-        final Set<ParameterizedFlowPermission> literalSink = new TreeSet<ParameterizedFlowPermission>(
-                flowPolicy.getSinkFromSource(LITERAL, true));
-        FROMLITERALSINK = createAnnoFromSink(literalSink);
-
-        CONDITIONALSINK = createAnnoFromSink(new TreeSet<ParameterizedFlowPermission>(
-                Arrays.asList(CONDITIONAL)));
-
-        final Set<ParameterizedFlowPermission> condtionalSource = new TreeSet<ParameterizedFlowPermission>(
-                flowPolicy.getSourceFromSink(CONDITIONAL, true));
-        FROMCONDITIONALSOURCE = createAnnoFromSource(condtionalSource);
 
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
 
@@ -190,22 +157,26 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     @Override
     protected QualifierDefaults createQualifierDefaults() {
         QualifierDefaults defaults =  super.createQualifierDefaults();
-        // Use the top type for local variables and let flow refine the type.
-        //Upper bounds should be top too.
+        //CLIMB-to-the-top defaults
         DefaultLocation[] topLocations = {LOCAL_VARIABLE,RESOURCE_VARIABLE, UPPER_BOUNDS};
-
         defaults.addAbsoluteDefaults(ANYSOURCE, topLocations);
         defaults.addAbsoluteDefaults(NOSINK, topLocations);
 
-        //Default for receivers and parameters is (All sources allowed) -> CONDITIONAL
-        DefaultLocation[] conditionalSinkLocs = {RECEIVERS, DefaultLocation.PARAMETERS};
-        defaults.addAbsoluteDefaults(CONDITIONALSINK, conditionalSinkLocs);
-        defaults.addAbsoluteDefaults(FROMCONDITIONALSOURCE, conditionalSinkLocs);
+        //Default for receivers is top
+        DefaultLocation[] conditionalSinkLocs = {RECEIVERS};
+        defaults.addAbsoluteDefaults(ANYSOURCE, conditionalSinkLocs);
+        defaults.addAbsoluteDefaults(NOSINK, conditionalSinkLocs);
+        
+ 
+        //Default for returns and fields is {}->ANY (bottom)
+        defaults.addAbsoluteDefault(NOSOURCE, DefaultLocation.RETURNS);
+        defaults.addAbsoluteDefault(ANYSINK, DefaultLocation.RETURNS);
+        defaults.addAbsoluteDefault(NOSOURCE, DefaultLocation.FIELD);
+        defaults.addAbsoluteDefault(ANYSINK, DefaultLocation.FIELD);
 
-
-        // Default is LITERAL -> (ALL MAPPED SINKS) for everything else
-        defaults.addAbsoluteDefault(FROMLITERALSINK, OTHERWISE);
-        defaults.addAbsoluteDefault(LITERALSOURCE, OTHERWISE);
+        // Default is {} -> {} for everything else
+        defaults.addAbsoluteDefault(NOSINK, OTHERWISE);
+        defaults.addAbsoluteDefault(NOSOURCE, OTHERWISE);
 
         return defaults;
     }
@@ -269,56 +240,44 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     }
 
     protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
-        Element iter = element;
+        if( element == null) return;
         DefaultApplierElement applier = new DefaultApplierElement(this, element, type);
+        handlePolyFlow(element, applier);
+        
+        
+        if (this.isFromByteCode(element)
+                && element.getKind() == ElementKind.FIELD
+                && ElementUtils.isEffectivelyFinal(element)) {
+            //Final fields from byte code are {} -> ANY
+            applier.apply(NOSOURCE, OTHERWISE);
+            applier.apply(ANYSINK, OTHERWISE);
+            return;
+        }
+            
+        if (this.isFromByteCode(element)){
+            //All locations besides non-final fields in byte code are 
+            //conservatively ANY -> ANY
+            applier.apply(ANYSOURCE, DefaultLocation.OTHERWISE);
+            applier.apply(ANYSINK, DefaultLocation.OTHERWISE);
 
-//        if (iter != null && iter.getKind() == ElementKind.CONSTRUCTOR
-//                && type !=null && type.getKind() == TypeKind.DECLARED){
-//            //TODO constructor hack
-//            Set<FlowPermission> sources = Flow.getSources(type);
-//            Set<FlowPermission> sinks = Flow.getSinks(type);
-//            AnnotationMirror polysink = type.getAnnotation(PolySink.class);
-//            AnnotationMirror polysource = type.getAnnotation(PolySource.class);
-//            if(sources.isEmpty() && sinks.isEmpty() && polysink == null && polysource == null){
-//                type.addAnnotation(NOSOURCE);
-//                type.addAnnotation(ANYSINK);
-//            }
-//        }
-        while (iter != null) {
-            if (this.isFromByteCode(iter)) {
-                if(iter.getKind() == ElementKind.FIELD){
-                    if (ElementUtils.isEffectivelyFinal(iter)){
-                        //This is a final field, so it is must be from 
-                        // a literal source, so use that default.
-                        //This way, all the Android constant don't 
-                        //need to be annotated.
-                        applier.apply(LITERALSOURCE, DefaultLocation.FIELD);
-                        applier.apply(FROMLITERALSINK, DefaultLocation.FIELD);
-                    }else{
-                        //this is a public non-final field, it could be from any 
-                        //source and it could be sent any where.
-                        applier.apply(ANYSOURCE, DefaultLocation.FIELD);
-                        applier.apply(ANYSINK, DefaultLocation.FIELD);
-                    }
+        } else if (this.getDeclAnnotation(element, FromStubFile.class) != null){
+            if (type instanceof AnnotatedExecutableType) {
+                //non-callback library method parameters should either
+                // are defaulted to ANY -> {}, but flow policy
+                // defaulting should be applied first.
+                for (AnnotatedTypeMirror atm : ((AnnotatedExecutableType) type)
+                        .getParameterTypes()) {
+                    completePolicyFlows(atm);
                 }
+                applier.apply(NOSINK, DefaultLocation.PARAMETERS);
+                applier.apply(ANYSOURCE, DefaultLocation.PARAMETERS);
+            }
+        }
+    }
 
-                //A parameter of an not reviewed method could go any where
-                applier.apply(ANYSINK, DefaultLocation.PARAMETERS);
-                //Don't add a source, this way it will be 
-                //defaulted based on what is in the flow policy
-                //applier.apply(NOSOURCE, DefaultLocation.PARAMETERS);
-                
-                //A return type could be from any source
-                applier.apply(ANYSOURCE, DefaultLocation.RETURNS);             
-                //Don't add a sink, this way it will be 
-                //defaulted based on what is in the flow policy
-                //applier.apply(ANYSINK, DefaultLocation.RETURNS);
-                
-                //All other types could be from any where or go any where.
-                applier.apply(ANYSOURCE, DefaultLocation.OTHERWISE);
-                applier.apply(ANYSINK, DefaultLocation.OTHERWISE);
-
-            } else if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
+    private void handlePolyFlow(Element iter, DefaultApplierElement applier) {
+        while (iter != null) {
+            if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
                 // Use poly flow sources and sinks for return types .
                 applier.apply(POLYSOURCE, DefaultLocation.RETURNS);
                 applier.apply(POLYSINK, DefaultLocation.RETURNS);
@@ -348,7 +307,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             }
 
             if (iter instanceof PackageElement) {
-                iter = ElementUtils.parentPackage(this.elements, (PackageElement) iter);
+                iter = ElementUtils.parentPackage(this.elements,
+                        (PackageElement) iter);
             } else {
                 iter = iter.getEnclosingElement();
             }
@@ -369,22 +329,30 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         // There are no Byte or Short literal types in java (0b is treated as an
         // int),
         // so there does not need to be a mapping for them here.
-        implicits.addTreeKind(Tree.Kind.INT_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.INT_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, NOSOURCE);
 
-        implicits.addTreeKind(Tree.Kind.INT_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.INT_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, ANYSINK);
+        
+        
+        //  This is the annotation between new and a constructor call
+        //  new @HERE Object.
+        //It must be the same
+        implicits.addTreeKind(Tree.Kind.NEW_CLASS, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.NEW_CLASS, ANYSINK);
 
+        
         return new ListTreeAnnotator(
                 new FlowPolicyTreeAnnotator(this),
                 new PropagationTreeAnnotator(this),
@@ -408,12 +376,20 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror p) {
             //This is a horrible hack around the bad implementation of constructor results
             //(CF treats annotations on constructor results in stub files as if it were a 
-            //default and therefore ignores it. 
+            //default and therefore ignores it.) 
             //This hack makes it impossible to write any annotation in the following location:
             //new @A SomeClass();
-            //Doing so will cause extra annotations in on the constructor results and therefore 
-            //type.invalid warning
-            p.addAnnotations(atypeFactory.constructorFromUse(node).first.getReturnType().getAnnotations());
+            AnnotatedTypeMirror defaulted = atypeFactory.constructorFromUse(node).first.getReturnType();
+            Set<AnnotationMirror> defaultedSet = defaulted.getAnnotations();
+            //The default of OTHERWISE locations such as constructor results
+            //is {}{}, but for constructor results we really want bottom.
+            //So if the result is {}{}, then change it to {}->ANY (bottom)
+            if(Flow.getSources(defaulted).isEmpty() && Flow.getSinks(defaulted).isEmpty()){
+                defaulted.replaceAnnotation(ANYSINK);
+                defaultedSet = defaulted.getAnnotations();
+            }
+            
+            p.replaceAnnotations(defaultedSet);
             return null;
         }
    }

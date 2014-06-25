@@ -17,7 +17,7 @@ public class TypeParameterReturn {
         Object c = myClass.myMethod();
     }
     
-    void wildCardLiteral(MyClass< ? extends @Source(LITERAL) Object> myClass) {
+    void wildCardLiteral(MyClass< ? extends @Source(READ_TIME) @Sink(SEND_SMS) Object> myClass) {
         Object c = myClass.myMethod();
     }
     void wildCardLiteralBad () {
@@ -47,7 +47,7 @@ public class TypeParameterReturn {
         sendToInternet(c);
     }
     @SuppressWarnings("flow")
-     static MyClass< ? extends @Source(LITERAL) @Sink({CONDITIONAL,SEND_SMS, INTERNET}) Object> bad(){
+     static MyClass< ? extends @Source({READ_TIME}) @Sink({SEND_SMS, INTERNET}) Object> bad(){
         return null;
     }
 

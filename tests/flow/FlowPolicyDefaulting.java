@@ -12,37 +12,34 @@ class FlowPoilcyDefaulting {
     List<@Source(FlowPermission.INTERNET) Object> netok = new ArrayList<@Source(FlowPermission.INTERNET) Object>();
     
    
-    List<@Source(FlowPermission.INTERNET) Object> netok2 = foo();
+    @Source(ANY) @Sink({}) List<@Source(FlowPermission.INTERNET) Object> netok2 = foo();
  
     //:: error: (assignment.type.incompatible)
     List<@Source(INTERNET) Object> neterr = new ArrayList<Object>();
-    void use(Object o, @Source(INTERNET) Object neto) {
+    void use(@Source(ANY) Object o, @Source(INTERNET) Object neto) {
 
         netok.add(neto);
         neto = netok.get(4);
         o = netok.get(4);
     }
 
-    List<@Source(FlowPermission.INTERNET) Object> foo() {
+    @Source(ANY) @Sink({}) List<@Source(FlowPermission.INTERNET) Object> foo() {
         return new ArrayList<@Source(FlowPermission.INTERNET) Object>();
     }
-    
+
+   @Source({}) @Sink({}) RecieverTest rt = new RecieverTest();
     void method(@Source(INTERNET) String s){
         sendToInternet(s);
-        //:: warning: (cast.unsafe)
         String s1 = (@Source(INTERNET) String) "hello";
-        //TODO: BUG
         sendToInternet(s1);
         
         UpperObject<@Source(INTERNET)  Object> uo = new UpperObject<>();
         sendToInternet(uo.getT());
-        RecieverTest rt = new RecieverTest();
 
         //:: error: (method.invocation.invalid)
         rt.internetReciever();
         
 
-        //:: warning: (cast.unsafe)
         RecieverTest uo2 = (@Source(INTERNET) RecieverTest) new RecieverTest();
         uo2.internetReciever();
 

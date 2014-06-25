@@ -20,12 +20,12 @@ public class BReceiverReceiverStub extends BroadcastReceiver {
     
     @Override
     @ReceiveIntent("sendBroadcast,1")
-    public  void onReceive(Context context, @Source(LITERAL) @Sink(CONDITIONAL) 
+    public  void onReceive(Context context, @Source({}) @Sink({}) 
             @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent intent) {
     }
     
     void methodNotAllowed() {
-        @Source(LITERAL) @Sink(CONDITIONAL)  
+        @Source({}) @Sink({})  
         @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent intent = new Intent();
     }
     

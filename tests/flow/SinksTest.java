@@ -4,19 +4,19 @@ import static sparta.checkers.quals.FlowPermission.*;
 
 
 class SinkTest {
-    void sendData(@Sink({INTERNET, CONDITIONAL}) Object p) {
+    void sendData(@Source({}) @Sink({INTERNET}) Object p) {
         // Allowed: fewer sinks
         noComm(p);
     }
 
 
-    void noComm(@Sink(CONDITIONAL) Object p) {
+    void noComm(@Source({}) @Sink({}) Object p) {
         // Forbidden: more sinks
         //:: error: (argument.type.incompatible)
         sendData(p);
     }
 
-    void two(@Sink({INTERNET, WRITE_SMS, CONDITIONAL}) Object p) {
+    void two(@Source({}) @Sink({INTERNET, WRITE_SMS}) Object p) {
         // Allowed: fewer sinks
         sendData(p);
         // Forbidden: more sinks
@@ -24,7 +24,7 @@ class SinkTest {
         any(p);
     }
 
-    void any(@Sink(ANY) Object p) {
+    void any(@Source({}) @Sink(ANY) Object p) {
         // Allowed: fewer sinks
         two(p);
     }

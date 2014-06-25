@@ -149,6 +149,12 @@
         <process-proj processor="org.checkerframework.common.value.ValueChecker"/>
     </target>
     
+    <target name="report-not-reviewed"
+                depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="Reports methods, fields, or constructors that have not been reviewed.">
+        <process-proj ignorenr="on" processor="sparta.checkers.NotReviewedLibraryChecker"/>
+    </target>
+    
     <target name="check-intentkey"
                 depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="run the Value Checker">
@@ -339,8 +345,8 @@
             <arg line="--solver sparta.checkers.SpartaSourceSolver" />
             <!--<arg line="- -solver checkers.inference.solver.DebugSolver" />-->
             <arg line="--checker sparta.checkers.SpartaSourceChecker" />
-            <arg line="--log-level=DEBUG" />
-            <arg line="--prog-args='--proc-only=false --hackmode'" />
+            <arg line="--log-level=ALL" />
+            <arg line="--prog-args='--proconly=false --hackmode'" />
             <arg line="--mode roundtrip" />
             <arg line="--in-place" />
             <arg line="${debug}" />
@@ -371,8 +377,8 @@
             <arg line="--extra-classpath='${cmdClasspath}:src/:gen:.'" />
             <arg line="--solver sparta.checkers.SpartaSinkSolver" />
             <arg line="--checker sparta.checkers.SpartaSinkChecker" />
-            <arg line="--log-level=DEBUG" />
-            <arg line="--prog-args='--proc-only=false --hackmode'" />
+            <arg line="--log-level=ALL" />
+            <arg line="--prog-args='--proconly=false --hackmode'" />
             <arg line="--mode roundtrip" />
             <arg line="--in-place" />
             <arg line="${debug}" />

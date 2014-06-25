@@ -263,21 +263,21 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         // There are no Byte or Short literal types in java (0b is treated as an
         // int),
         // so there does not need to be a mapping for them here.
-        implicits.addTreeKind(Tree.Kind.INT_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, LITERALSOURCE);
-        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, LITERALSOURCE);
+        implicits.addTreeKind(Tree.Kind.INT_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, NOSOURCE);
+        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, NOSOURCE);
 
-        implicits.addTreeKind(Tree.Kind.INT_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, FROMLITERALSINK);
-        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, FROMLITERALSINK);
+        implicits.addTreeKind(Tree.Kind.INT_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.LONG_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.DOUBLE_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.STRING_LITERAL, ANYSINK);
 
         return new ListTreeAnnotator(
                 new PropagationTreeAnnotator(this),

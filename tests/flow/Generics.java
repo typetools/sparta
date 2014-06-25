@@ -8,11 +8,11 @@ import static sparta.checkers.quals.FlowPermission.*;
 class ListTest {
     // Simple test to ensure that defaulting on java.util.List works correctly.
     java.util.List<String> s;
-    String t = s.get(1);
+    @Source({}) @Sink({}) String t = s.get(1);
 }
 
 
-class List<T extends @Sink(CONDITIONAL) @Source(ANY) Object> {
+class List<T extends @Sink({}) @Source(ANY) Object> {
     
     T getF( @Source(ANY) List<T> this, int index) { return null; }
     void addF(T p) {}
@@ -24,18 +24,18 @@ class Generics {
     List<@Source(FlowPermission.INTERNET) Object> netok = new List<@Source(FlowPermission.INTERNET) Object>();
     
    
-    List<@Source(FlowPermission.INTERNET) Object> netok2 = foo();
+    @Source(ANY) @Sink({}) List<@Source(FlowPermission.INTERNET) Object> netok2 = foo();
  
     //:: error: (assignment.type.incompatible)
     List<@Source(INTERNET) Object> neterr = new List<Object>();
-    void use(Object o, @Source(INTERNET) Object neto) {
+    void use(@Source(ANY) Object o, @Source(INTERNET) Object neto) {
 
         netok.addF(neto);
         neto = netok.getF(4);
         o = netok.getF(4);
     }
 
-    List<@Source(FlowPermission.INTERNET) Object> foo() {
+    @Source(ANY) @Sink({}) List<@Source(FlowPermission.INTERNET) Object> foo() {
 
     	return new List<@Source(FlowPermission.INTERNET) Object>();
     }
@@ -58,14 +58,12 @@ class GenObjectLit<Object>{
 class TestUpperObject{
     void test(){
         UpperObject<Object> lit;
-        UpperObject<@Source(LITERAL) @Sink(CONDITIONAL) Object> lit2;
+        UpperObject<@Source({}) @Sink({}) Object> lit2;
 
-        //:: error: (forbidden.flow)
         UpperObject<@Source(ANY) @Sink({}) Object> lit3;
         //:: error: (type.argument.type.incompatible)
         GenObject<Object> gen;
         
-        //:: error: (forbidden.flow)
         GenObject<@Source(ANY) @Sink({}) Object> gen2;
         GenObjectLit<String> o;
     }

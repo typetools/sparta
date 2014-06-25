@@ -13,7 +13,7 @@ import java.net.*;
 //
 //    void method1() {
 //        sink = new TestClass1(param);
-//        sink = new @Sink({INTERNET, CONDITIONAL}) TestClass1(param);
+//        sink = new @Sink({INTERNET}) TestClass1(param);
 //        //:: error: (assignment.type.incompatible)
 //        sink = new @Sink(FILESYSTEM) TestClass1(param);
 //    }
@@ -26,9 +26,9 @@ import java.net.*;
 //    }
 //
 //    TestClass2 unqual_field;
-//    @Sink({CONDITIONAL,FILESYSTEM}) TestClass2 fs_field;
+//    @Sink({FILESYSTEM}) TestClass2 fs_field;
 //
-//   	@Sink({CONDITIONAL, FILESYSTEM})  String fs;
+//   	@Sink({ FILESYSTEM})  String fs;
 //
 //    void foo() {
 // 
@@ -39,13 +39,13 @@ import java.net.*;
 //        local = new @Source(CAMERA) TestClass2(fs);
 //
 //        // Specific sink is a subtype of empty sinks.
-//        unqual_field = new @Sink({BIND_ACCESSIBILITY_SERVICE, FILESYSTEM, CONDITIONAL, INTERNET}) @Source(LITERAL) TestClass2(fs);
+//        unqual_field = new @Sink({BIND_ACCESSIBILITY_SERVICE, FILESYSTEM, INTERNET}) @Source(LITERAL) TestClass2(fs);
 //        //:: error: (assignment.type.incompatible)
 //        unqual_field = new @Source(CAMERA) TestClass2(fs);
 //
 //        fs_field = new @Sink({FILESYSTEM,CONDITIONAL}) TestClass2(fs);
 //
-//        fs_field = new @Source({CAMERA, LITERAL}) TestClass2(fs); //Allowed via Flow-policy
+//        fs_field = new @Source({CAMERA}) TestClass2(fs); //Allowed via Flow-policy
 //
 //        //:: error: (assignment.type.incompatible)
 //        fs_field = new @Source(INTERNET) TestClass2(fs);

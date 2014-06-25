@@ -766,10 +766,10 @@ abstract String getPackageCodePath();
 abstract PackageManager getPackageManager();
 //Return PackageManager instance to find global package information.
 
-abstract @Source(LITERAL) String getPackageName();
+abstract  String getPackageName();
 //Return the name of this application's package.
 
-abstract @Source(LITERAL)String getPackageResourcePath();
+abstract String getPackageResourcePath();
 //Return the full path to this context's primary Android package.
 
 abstract Resources getResources();
@@ -778,7 +778,7 @@ abstract Resources getResources();
 abstract @Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences(@Sink(SHARED_PREFERENCES) String name, @Sink(SHARED_PREFERENCES) int mode);
 //Retrieve and hold the contents of the preferences file 'name', returning a SharedPreferences through which you can retrieve and modify its values.
 
-final @Source(LITERAL) String getString(int resId);
+final  String getString(int resId);
 //Return a localized string from the application's package's default string table.
 @PolyFlow
 final String getString(int resId, @PolySource @PolySink Object... formatArgs);
@@ -787,7 +787,7 @@ final String getString(int resId, @PolySource @PolySink Object... formatArgs);
 abstract Object getSystemService(String name);
 //Return the handle to a system-level service by name.
 
-final @Source(LITERAL) CharSequence getText(int resId);
+final  CharSequence getText(int resId);
 //Return a localized, styled CharSequence from the application's package's default string table.
 
 abstract Resources.Theme getTheme();
@@ -1463,7 +1463,7 @@ void writeToXml(XmlSerializer serializer);
 
 class Intent implements Parcelable, Cloneable {
 //SOM, We have a special FlowPermission for INTENTS
-@Source(LITERAL) String EXTRA_PHONE_NUMBER; 
+ String EXTRA_PHONE_NUMBER; 
     Intent();
     Intent(@Sink(INTENT) Intent arg0);
     Intent(@Sink(INTENT)  String arg0);
@@ -2099,10 +2099,10 @@ XmlResourceParser getAnimation(int id);
 final AssetManager getAssets();
 //Retrieve underlying AssetManager storage for these resources.
 
-@Source(LITERAL) boolean getBoolean(int id);
+ boolean getBoolean(int id);
 //Return a boolean associated with a particular resource ID.
 
-@Source(LITERAL) int getColor(int id);
+ int getColor(int id);
 //Return a color integer associated with a particular resource ID.
 
 ColorStateList getColorStateList(int id);
@@ -2111,84 +2111,84 @@ ColorStateList getColorStateList(int id);
 Configuration getConfiguration();
 //Return the current configuration that is in effect for this resource object.
 
-@Source(LITERAL) float getDimension(int id);
+ float getDimension(int id);
 //Retrieve a dimensional for a particular resource ID.
 
-@Source(LITERAL) int getDimensionPixelOffset(int id);
+ int getDimensionPixelOffset(int id);
 //Retrieve a dimensional for a particular resource ID for use as an offset in raw pixels.
 
-@Source(LITERAL) int getDimensionPixelSize(int id);
+ int getDimensionPixelSize(int id);
 //Retrieve a dimensional for a particular resource ID for use as a size in raw pixels.
 
 DisplayMetrics getDisplayMetrics();
 //Return the current display metrics that are in effect for this resource object.
 
-@Source(LITERAL) Drawable getDrawable(int id);
+ Drawable getDrawable(int id);
 //Return a drawable object associated with a particular resource ID.
 
-@Source(LITERAL) Drawable getDrawableForDensity(int id, int density);
+ Drawable getDrawableForDensity(int id, int density);
 //Return a drawable object associated with a particular resource ID for the given screen density in DPI.
 
-@Source(LITERAL) float getFraction(int id, int base, int pbase);
+ float getFraction(int id, int base, int pbase);
 //Retrieve a fractional unit for a particular resource ID.
 
-@Source(LITERAL) int getIdentifier(String name, String defType, String defPackage);
+ int getIdentifier(String name, String defType, String defPackage);
 //Return a resource identifier for the given resource name.
 
-@Source(LITERAL) int[] getIntArray(int id);
+ int[] getIntArray(int id);
 //Return the int array associated with a particular resource ID.
 
-@Source(LITERAL) int getInteger(int id);
+ int getInteger(int id);
 //Return an integer associated with a particular resource ID.
 
 XmlResourceParser getLayout(int id);
 //Return an XmlResourceParser through which you can read a view layout description for the given resource ID.
 
-@Source(LITERAL) Movie getMovie(int id);
+ Movie getMovie(int id);
 //Return a movie object associated with the particular resource ID.
 
-@Source(LITERAL) String getQuantityString(int id, int quantity);
+ String getQuantityString(int id, int quantity);
 //Return the string value associated with a particular resource ID for a particular numerical quantity.
 
 @PolyFlow
 String getQuantityString(int id, int quantity, @PolySource @PolySink Object... formatArgs);
 //Return the string value associated with a particular resource ID for a particular numerical quantity, substituting the format arguments as defined in Formatter and format(String, Object...);. It will be stripped of any styled text information.
 
-@Source(LITERAL) CharSequence getQuantityText(int id, int quantity);
+ CharSequence getQuantityText(int id, int quantity);
 //Return the character sequence associated with a particular resource ID for a particular numerical quantity.
 
-@Source(LITERAL) String getResourceEntryName(int resid);
+ String getResourceEntryName(int resid);
 //Return the entry name for a given resource identifier.
 
-@Source(LITERAL) String getResourceName(int resid);
+ String getResourceName(int resid);
 //Return the full name for a given resource identifier.
 
-@Source(LITERAL) String getResourcePackageName(int resid);
+ String getResourcePackageName(int resid);
 //Return the package name for a given resource identifier.
 
-@Source(LITERAL) String getResourceTypeName(int resid);
+ String getResourceTypeName(int resid);
 //Return the type name for a given resource identifier.
 
-@Source(LITERAL) String getString(int id);
+ String getString(int id);
 //Return the string value associated with a particular resource ID. It will be stripped of any styled text information.
 
 @PolyFlow
 final String getString(int resId, @PolySource @PolySink Object... formatArgs);
 //Return the string value associated with a particular resource ID, substituting the format arguments as defined in Formatter and format(String, Object...);. It will be stripped of any styled text information.
 
-@Source(LITERAL) String[] getStringArray(int id);
+ String[] getStringArray(int id);
 //Return the string array associated with a particular resource ID.
 
 static Resources getSystem();
 //Return a global shared Resources object that provides access to only system resources (no application resources);, and is not configured for the current screen (can not use dimension units, does not change based on orientation, etc);.
 
-@Source(LITERAL) CharSequence getText(int id, CharSequence def);
+ CharSequence getText(int id, CharSequence def);
 //Return the string value associated with a particular resource ID.
 
-@Source(LITERAL) CharSequence getText(int id);
+ CharSequence getText(int id);
 //Return the string value associated with a particular resource ID. The returned object will be a String if this is a plain string; it will be some other type of CharSequence if it is styled.
 
-@Source(LITERAL) CharSequence[] getTextArray(int id);
+ CharSequence[] getTextArray(int id);
 //Return the styled text array associated with a particular resource ID.
 
 void getValue(String name, TypedValue outValue, boolean resolveRefs);
