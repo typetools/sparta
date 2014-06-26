@@ -46,8 +46,9 @@ import static sparta.checkers.quals.FlowPermission.getFlowPermission;
 public class FlowChecker extends BaseTypeChecker {
     public static final String SPARTA_OUTPUT_DIR = System.getProperty("user.dir")+File.separator+"sparta-out"+File.separator;
     public static final String MSG_FILTER_OPTION = "msgFilter";
+    public static final String PRETTY_PRINT_OPTION = "prettyPrint";
     //Set to true to turn on "pretty" error messages
-    private static final boolean PRETTY_PRINT = false;
+    private boolean PRETTY_PRINT = false;
 
     protected Set<String> unfilteredMessages;
 
@@ -63,6 +64,7 @@ public class FlowChecker extends BaseTypeChecker {
     public void initChecker() {
         super.initChecker();
 
+        PRETTY_PRINT = ( hasOption(PRETTY_PRINT_OPTION));
         String unfilteredStr = getOption(MSG_FILTER_OPTION);
         if (unfilteredStr == null) {
             unfilteredMessages = null;

@@ -55,7 +55,7 @@
             <!-- Option to enforce stricter checks, in particular for casts. -->
             <!-- Note that only one -Alint argument can be provided. -->
             <condition property="strictoptions"
-                   value="-AcheckCastElementType -AinvariantArrays -Alint=strict-conditional"
+                   value="-AcheckCastElementType -AinvariantArrays -Acheckconditionals=true"
                    else="">
                 <or>
                     <equals arg1="${stricter}" arg2="true" />
@@ -195,22 +195,17 @@
                 </exec><echo/>
     </target>
 
-    <target name="check-flow-ignorenr"
+    <target name="check-flow-pp"
                 depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="runs the flow checker but ignores NOT_REVIEWED warnings from methods that are not annotated in the stubfiles.">
+                description="runs the Flow Checker and outputs the information flow types as PERMISSION -> PERMISSION instead of @Source(PERMISISON) @Sink(PERMISSION) " >
+        <property name="cfOpts" value="-AprettyPrint="/>
         <process-proj ignorenr="on" processor="sparta.checkers.FlowChecker"/>
     </target>
 
-    <target name="conditiontest"
-            depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package"
-            description="Test program conditions for types that flow to conditions and do not contain the @FlowPermission.CONDITIONAL flow-sink.">
-        <property name="cfOpts" value="-AmsgFilter=condition.flow"/>
-        <process-proj processor="sparta.checkers.FlowChecker"/>
-    </target>
     
         <target name="check-conditionals"
             depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package"
-            description="Output all the locations a non-literal source is used in a conditional regardless of the flow policy.">
+            description="Output all the locations a sensitive source is used in a conditional.">
         <property name="cfOpts" value="-Acheckconditionals=true"/>
         <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
