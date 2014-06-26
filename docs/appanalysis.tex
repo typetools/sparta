@@ -513,13 +513,14 @@ or
 
 \subsection{Type-check information flow types across communicating components}
 This section explains how to generate a component map file for an app, how to
-run \theIntentChecker{} for this app and remove the raised false warnings.
+run \theIntentChecker{} for this app, and how to identify which of the raised
+warnings are false warnings.
 
 \subsubsection{Component map file generation\label{component-map-generation}}
 The component map contains information about inter-component communication of
 an app. To type-check information flow types across communicating components of
 an app, a component map file must be generated for that app. The steps to
-generate a component map file are listed below:
+generate a component map file are:
 
 \begin{enumerate}
 
@@ -534,62 +535,84 @@ the apps that may communicate with the target app. If there are no apps
 communicating with the target app, skip to step 4.
 
 \item
-Run the
-\<generate-filters> script located in the \<sparta-code> folder as follows:
- \begin{alltt}
- generate-filters   \textit{path\_to\_folder\_containing\_.apk\_files}
- \end{alltt}
+Run the \<generate-filters> script, located in the \<sparta-code> folder. It
+processes the manifest file contained in each .apk and identifies their
+components. The output of this script is used by the \<generate-cm> script.
+Run it as follows:
+\begin{alltt}
+    generate-filters   \textit{path\_to\_folder\_containing\_.apk\_files}
+\end{alltt}
+
 \item
-Run the \<generate-cm> script, which is located in the \<sparta-code> folder. It
+Run the \<generate-cm> script, located in the \<sparta-code> folder. It
 receives as argument the \<path> of the application's .apk and it outputs a file
 named \<component-map> into the \<path/sparta-out/> directory.
 \begin{alltt}
-generate-cm   \textit{path\_to\_app's\_.apk}
+    generate-cm   \textit{path\_to\_app's\_.apk}
 \end{alltt}
-\end{enumerate}
 
+%Verbatim used for indentation purposes below.
+\begin{Verbatim}
+
+\end{Verbatim}
 Example of a generated component map file:
 \begin{alltt}
-com.VideoActivity.onOptionsItemSelected(MenuItem) -> com.VideoActivity.PictureListActivity
-com.VideoActivity.GCMRegistrar.internalRegister(String[]) -> com.gtalkservice.PushMessaging
+com.VideoActivity.onOptionsItemSelected(MenuItem) -> com.VideoActivity.PictureActivity
+com.VideoActivity.GCMRegistrar.internalRegister(String) -> com.gtalkservice.PushMessage
 
 #Broadcast Receivers:
 #com.VideoActivity.AboutUs.onDestroy(Bundle) -> BroadcastReceiver registered in
                                 com.VideoActivity.DisplayService.onBind(Intent)
 
-#Unresolved Intents:
+#Intents assigned at run-time:
 com.VideoActivity.AboutUs.onCreate(Bundle) -> unknown
 
-#The following communication occurs with uses of URIs:
-#com.VideoGame.DisplayService\$3.run() -> com.VideoActivity.MyBringBack
-#com.VideoGame.DisplayService\$3.run() -> com.VideoActivity.SoundListActivity
+#No receiver found for these intents:
+#com.VideoActivity.AboutUs.onPause(Bundle) -> unknown
+
+#Intents using URIs:
+com.VideoActivity.DisplayService\$3.run() -> com.VideoActivity.MyBringBack
+com.VideoActivity.DisplayService\$3.run() -> com.VideoActivity.SoundListActivity
 
 \end{alltt}
-
+\item
 After the component map file is generated, it is possible to refine it if
 receiver components could not be resolved in some cases. To check if your
 \<component-map> can be refined, open it and look for the comments:
 \begin{itemize}
 \item
 \<\#Broadcast Receivers:> BroadcastReceivers can be dynamically registered to
-receive intents. The generated component map shows where a BroadcastReceiver
-is registered, so the user can manually inspect it to replace the 
-location with a component. The example above suggests that the user must inspect
-the method \<onBind(Intent)> from the class \<DisplayService> to find out which
-BroadcastReceiver is registered in that method that receives an intent sent at
-\<AboutUs.onDestroy(Bundle)>.
+receive intents. The generated component map shows a method \<m> where a
+BroadcastReceiver is registered. The user must manually inspect \<m> and replace
+\<"BroadcastReceiver registered in m"> in the component map file by the
+fully-qualified names of the BroadcastReceivers
+registered in that method. The example above suggests that the user must inspect
+the method \<onBind(Intent)> from the class \<DisplayService>, and replace
+\<"BroadcastReceiver registered in
+com.VideoActivity.DisplayService.onBind(Intent)"> by the fully-qualified names of
+the BroadcastReceivers registered in that method.
 \item
-\<\#Unresolved Intents:> The receiver component could not be statically
-resolved and a manual inspection is needed to refine these cases. In the
-example above the \<onCreate(Bundle)> method of the class \<AboutUs>
-must be inspected to find out the correct receiver components of this intent.
+\<\#Intents assigned at run-time:> The receiver component for this intent is
+assigned at run-time and could not be statically resolved. A manual inspection
+is needed to refine these cases. In the example above the \<onCreate(Bundle)>
+method of the class \<AboutUs> must be inspected to find out the receiver
+components of this intent. The \<unknown> string in this component map file line
+should be replaced by the fully-qualified names of the receiver components
+assigned at run-time.
 \item
-\<\#The following communication occurs with uses of URIs:> The component map
-generation does not differentiate intent filters with the same action and
-categories but different data (URI). Every communication that uses URIs will be
-shown commented in the component map file so that the developer can uncomment
-the ones he think in fact occur after manually inspecting the code.
+\<\#No receiver found for these intents:> There are no receiver components for
+these intent-sending methods in the set of apps provided in step 3 of the
+component map generation and the target app. Either step 3 must be done
+correctly or an intent is being sent but not received by any component.
+\item
+\<\#Intents using URIs:> The component map generation does not differentiate
+intent filters with the same action and categories but different data (URI).
+You must manually inspect the intent-sending method and discover the receiver
+components. Every communication that uses URIs will be shown in the component
+map file so that the you can comment the ones you are certain that are not
+receiving an intent from that intent-sending method.
 \end{itemize}
+\end{enumerate}
 
 \subsubsection{Annotating components from other applications}
 In case the app being analyzed communicates with components from
@@ -607,74 +630,61 @@ components and within components. To run \theIntentChecker{} with
 of \<check-flow>:
 
 \begin{alltt}
-    ant [-DflowPolicy=myflowpolicy] [-DcomponentMap=mycomponentmap] check-intent
+    ant [-DflowPolicy=\textit{myflowpolicyfile}] [-DcomponentMap=\textit{mycomponentmapfile}] check-intent
 \end{alltt}
 
 \subsubsection{Common warnings and errors in \theIntentChecker{}}
+\noindent
+Error: intent.receiver.notfound:
 
-Below there is a description of each warning and error from \theIntentChecker{}
-and how to solve it:
-\subsubsection{Error: intent.receiver.notfound}
+\begin{Verbatim}
+error: Could not find receivers for the intent sent in method: com.package.ActivityA.foo().
+Regenerate the component map file or add a line in it from this method to one or more
+receiver components of that intent.
+\end{Verbatim}
 
 This error occurs when type-checking a \sendIntent{} call whose method in which
 it is called is not in the component map file. This happens when the component
 map file wasn't correctly generated or when it is necessary to do a manual
 inspection to add the correct receivers of an intent.
 
-\begin{Verbatim}
-error: Could not find receivers for the intent sent in method: com.package.ActivityA.foo().
-Please add an entry in the component map file from this method to one or more components.
-\end{Verbatim}
-
-\todo{add this in the warning message}
-To solve this error, you must first make sure the component map file was
-correctly generated. In case it was, you need to manually inspect the method
-stated in the error message and add an entry in the component map file from this
-method to one or more components. For example:
+To solve this error, regenerate the component map file. If the error
+persists you need to manually inspect the method stated in the error message,
+look for intents sent in that method, identify the receiver components, and add
+add an entry in the component map file from this method to the receiver
+components. For example:
 
 \begin{Verbatim}
 com.package.ActivityA.foo() -> com.package.ActivityB
 \end{Verbatim}
 
-\subsubsection{Warning: intent.getintent.notfound}
-This warning occurs when type-checking a \<setIntent> declaration in a component
-that has not overridden the \<getIntent> method. As explained in the bottom of
-Section \ref{override-onreceive}, every Activity that calls the method
-\<getIntent> must override both methods \<setIntent> and \<getIntent>.
-
+If the line added could not be obtained by a refinement in step 5 of the
+component map generation, please report a bug.
+%Verbatim used for indentation purposes below.
 \begin{Verbatim}
-ReceiverIntentTest.java:25: warning: [intent.getintent.notfound] 
-     public void setIntent(@IntentMap({ @Extra(key = "k5", source = 
-                              { ACCESS_FINE_LOCATION }, sink = {}) }) 
-                 ^
-Could not find getIntent() method implementation in the same component of this setIntent call.
-Please override the getIntent() method in this component.
+
 \end{Verbatim}
 
-To solve this warning you need to override the \<getIntent> method in 
-\<ReceiverIntentTest.java> and annotate its return type with a supertype of the
-\<setIntent> parameter:
-
-\begin{Verbatim}
-@Override
-public @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION },
-                                        sink = {})} Intent getIntent() {
-    return super.getIntent();
-}
-\end{Verbatim}
-
-\subsubsection{Warning: send.intent.missing.key}
-This warning occurs when either a key is missing from the sender's intent type
-or should not be present in the intent type of the receiver.
+\noindent
+Warning: send.intent.missing.key:
 
 \begin{Verbatim}
 tests/intent/ActivityTest.java:128: warning: [send.intent.missing.key] 
             startActivity(senderIntent1);
                           ^
-The key "k5" is either missing from the intent type of senderIntent1, or should
-not be present in the intent type of 
-com.package.ActivityReceiver.receiveIntent.setIntent()'s intent parameter.
+There is a type mismatch in the intents types of senderIntent1 and
+tests.ActivityReceiverStub.setIntent()'s intent parameter.
+Key "k5" is either missing from the intent type of senderIntent1, or should not be present in
+the intent type of com.package.ActivityReceiver.receiveIntent.setIntent()'s intent parameter.
+
+senderIntent1's intent type:
+@IntentMap({@Extra(key="k2", source={ACCESS_FINE_LOCATION}, sink={})}).
+tests.ActivityReceiverStub.setIntent()'s intent parameter intent type:
+@IntentMap({@Extra(key="k5", source={ACCESS_FINE_LOCATION}, sink={})}).
 \end{Verbatim}
+
+This warning occurs when either a key is missing from the sender's intent type
+or should not be present in the intent type of the receiver.
 
 To solve this warning you need to verify how this key is used in the receiver
 component, to make sure that it makes sense for the receiver to have it in its
@@ -682,27 +692,34 @@ intent type. If that is the case, you need to add an \<@Extra> with this key in 
 sender's intent type, otherwise remove the \<@Extra> with this key from the
 receiver's intent type.
 
-\subsubsection{Warning: send.intent.incompatible.types}
+%Verbatim used for indentation purposes below.
+\begin{Verbatim}
+
+\end{Verbatim}
+
+\noindent
+Warning: send.intent.incompatible.types:
+
+\begin{Verbatim}
+
+tests/intent/ActivityTest.java:107: error: [send.intent.incompatible.types] 
+            startActivity(senderIntent2);
+                          ^
+There is a type mismatch in the intents types of senderIntent2 and
+tests.ActivityReceiverStub.setIntent()'s intent parameter. The @Extra with key "k5"
+in the intent map of senderIntent2 must be a subtype of the @Extra with key "k5" in
+the intent map of tests.ActivityReceiverStub.setIntent()'s intent parameter.
+
+senderIntent2's intent type:
+@IntentMap({@Extra(key="k5", source={ANY}, sink={})}).
+tests.ActivityReceiverStub.setIntent()'s intent parameter intent type:
+@IntentMap({@Extra(key="k5", source={ACCESS_FINE_LOCATION}, sink={})}).
+
+\end{Verbatim}
+
 This warning occurs when an \<@Extra> from the sender's intent type has
 \<@Source> and/or \<@Sink> types that are not subtypes of the receiver's
 \<@Extra> with same key.
-
-\begin{Verbatim}
-tests/intent/ActivityTest.java:130: warning: [send.intent.incompatible.types] 
-            startActivity(senderIntent2);
-                          ^
-senderIntent2 is not copyable to tests.ServiceReceiverStub.onStartCommand()'s 
-intent parameter. The @Extra with key "k5" in the @IntentMap of senderIntent2 must be a
-subtype of the @Extra with same key in the @IntentMap of 
-tests.ServiceReceiverStub.onStartCommand()'s intent parameter.
-
-senderIntent2's intent type:@sparta.checkers.quals.IntentMap({@sparta.checkers.quals.Extra(
-key="k5", source={sparta.checkers.quals.FlowPermission.ANY}, sink={})}).
-
-tests.ServiceReceiverStub.onStartCommand()'s intent parameter intent type:@sparta.checkers.
-quals.IntentMap({@sparta.checkers.quals.Extra(key="k5", source={sparta.checkers.quals.
-FlowPermission.ACCESS_FINE_LOCATION}, sink={})}).
-\end{Verbatim}
 
 To solve this warning you must first understand what should be the correct
 intent type of both intent variables by checking how the key mentioned in the
@@ -714,49 +731,48 @@ key \<"k5"> in \<senderIntent2>'s intent type to \<ACCESS\_FINE\_LOCATION>, or
 modify the \<@Source> type of the \<@Extra> with key \<"k5"> 
 in \<onStartCommand()'s intent parameter>'s intent type to \<ANY>.
 
-\subsubsection{Warning: intent.key.notfound}
-This warning occurs when a key \<"k"> is missing from the intent
-type of an intent variable \<i> and either \<i.putExtra("k",val)> or
-\<i.getExtra("k",default)> is called.
+%Verbatim used for indentation purposes below.
+\begin{Verbatim}
+
+\end{Verbatim}
+
+\noindent
+Warning: intent.key.notfound:
 
 \begin{Verbatim}
  tests/intent/ConstCheckerTest.java:44: warning: [intent.key.notfound] 
-         String test1 = i1.getStringExtra(k2OrPhoneNumber);
+         String test1 = i1.getStringExtra("k2");
                                          ^
-Key k2OrPhoneNumber missing from @IntentMap annotation of i1.
+Key "k2" missing from @IntentMap annotation of i1.
 \end{Verbatim}
+
+This warning occurs when a key \<"k"> is missing from the intent
+type of an intent variable \<i> and either \<i.getExtra("k")> or 
+\<i.putExtra("k",...)> is called.
 
 To solve this warning you need to add an \<@Extra> in the intent type of
-\<i1> containing \<k2OrPhoneNumber>'s value as a key.
+\<i1> containing \<"k2">'s as a key.
 
-\subsubsection{Warning: intent.key.variable}
-This warning occurs when a key is not a compile time constant.
-
+%Verbatim used for indentation purposes below.
 \begin{Verbatim}
-warning: [intent.key.variable] 
-i1.putExtra(VALUE_KEY, getVal());
-             ^
-Key VALUE_KEY is not a compile time constant.
+
 \end{Verbatim}
 
-To solve this warning you need to replace \<VALUE\_KEY> by its compile time
-constant value.
-
-\subsubsection{Warning: argument.type.incompatible}
-This warning occurs when an object is inserted into an intent's map but it
-does not have the expected \<@Source> and/or \<@Sink> type according the
-intent type.
+\noindent
+Warning: argument.type.incompatible:
 
 \begin{Verbatim}
  IntentMapBottomTest.java:60: warning: [argument.type.incompatible] 
  incompatible types in argument.
          intentMapBottom1.putExtra("RandomKey1", getFile());
-                                                        %^
-found   : @IntentMap @Sink(FlowPermission.INTERNET) @Source(FlowPermission.FILESYSTEM) String
-required: @IntentMap @Sink(finesinks=@sparta.checkers.quals.
-    FineSink(value=sparta.checkers.quals.FlowPermission.ANY, 
-    params={"*"}), value={}) @Source(finesources={}, value={}) String
+                                                         ^
+found   : @Sink(FlowPermission.INTERNET) @Source(FlowPermission.FILESYSTEM) String
+required: @Sink(FlowPermission.ANY) @Source({}) String
 \end{Verbatim}
+
+This warning occurs when an object is inserted into an intent's map but it
+does not have the expected \<@Source> and/or \<@Sink> type according the
+intent type.
 
 To solve this warning you must first understand the \<@Source> and \<@Sink>
 types of the object that is being inserted in the intent and annotate it
