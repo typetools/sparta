@@ -100,7 +100,10 @@ or more sinks.  For example,
 MICROPHONE data is always allowed to flow to INTERNET.
 The source or sink must be a member of the enum
 \<sparta.checkers.quals.FlowPermission>.  
-ANY is allowed just as it is in @Source and @Sink, but empty, \ttcbs, is not allowed.
+ANY is allowed just as it is in @Source and @Sink.  Note that non-sensitive  
+data is always allowed to flow to a sensitive sink.  This means that
+\code{\{\} -> ANY} and \code{ANY -> \{\}} are always allowed and need not be 
+written in the flow policy. 
 
 Multiple sinks can appear on the same line if they are separated by commas. 
 For example, this policy file:

@@ -84,22 +84,6 @@ sinks.
 %and others are new ``permissions'' that provide finer-grained control over
 %the behavior of an application.
 
-\subsection{FineSource and FineSink Annotations\label{sec:fine-source-and-sink}}
-\<@FineSource> and \<@FineSink> annotations follow the same conventions as 
-regular \<@Source> and \<@Sink> annotations. However, they are embedded within
-the respective \<@Source> and \<@Sink> annotations that are being parameterized.
-That is, \<@Source> and \<@Sink> annotations have optional attributes for
-finesources and finesinks, respectively. Each FineSource and FineSink annotation
-takes a value attribute consisting of the coarse FlowPermission to be parameterized.
-Each finer grained annotation also has a params attritibute, which is a
-string list of parameters associated with the finer-grained permission.
-
-As an example, we parameterize the example declaration above
-\begin{Verbatim}
-    @Source(LOCATION) 
-    @Sink(finesinks={@FineSink(value=INTERNET, params={"mydomain.org"})}) double loc;
-\end{Verbatim}
-
 \subsection{Subtyping\label{sec:subtyping}}
 
 \begin{figure}
@@ -202,24 +186,97 @@ the subtype's regular expression.
 \label{sec:permissions}
 
 
-\TheFlowChecker is finer-grained than standard Android manifest permissions
+TheFlowChecker's permissions are finer-grained than standard Android manifest permissions
 in two ways.  First, Android permits any flow
-between any pair of permissions in the manifest --- that is, any resource
-mentioned in the manifest may be used in an arbitrary way.
-  In contrast, the Information Flow Checker enforces the information flows in the flow policy.
-Second,
-\theFlowChecker uses finer-grained permissions than Android does, in
-particular by adding additional permissions.
-Such finer-grained analysis is necessary in order to detect Trojans that would 
-look innocuous, given Android's coarser model.
+between any pair of permissions in the manifest --- that is, an Android
+program may use any resource
+mentioned in the manifest in an arbitrary way.  Second,
+\theFlowChecker refines Android's permissions, as
+we now discuss.
+
+\TheFlowChecker's permissions are not enforced at run time as Android
+permissions are (the latter potentially resulting in an exception during execution).
+Rather, they are statically guaranteed at compile time.  Even if an app
+inherited a permission from another app with the same sharedUserId, 
+\theFlowChecker will require that permission to be listed in the flow policy.   
+
+\subsubsection{Restricting existing permissions}
+\label{sec:parameterized-permissions}
+
+Android's \perm{INTERNET} permission represents all reachable 
+hosts on the Internet, which is too coarse-grained to express the
+developer's intention.  \TheFlowChecker allows this permission to be parameterized with a domain name,
+as in \perm{INTERNET(``*.google.com'')}.
+Other permissions can be parameterized in a similar style in which 
+the meaning of the optional parameter varies based on the permission 
+it qualifies.
+For example, a parameter to \perm{FILESYSTEM} represents a file or
+directory name or wildcard, whereas the 
+parameter to \perm{SEND\_SMS} represents the number that receives the
+SMS\@.
+
+Other permissions that need to be parameterized include 
+\perm{CONTACTS}, \perm{*\_EXTERNAL\_FILESYSTEM},
+\perm{NFC}, \perm{*\_SMS}, and \perm{USE\_SIP}, plus several of those
+described in \secref{sec:new-permissions}, such as \perm{USER\_INPUT} to
+distinguish sensitive from non-sensitive user input.
+
+% Examples:  USER_INPUT, ...
+
+\subsubsection{Sinks and sources for additional resources}
+\label{sec:new-permissions}
+
+\TheFlowChecker adds additional sources and sinks to the Android permissions.
 For example, \theFlowChecker requires 
 a permission to retrieve data from the accelerometer, which can indicate the user's
-physical activity, and to retrieve the time of day, which can be used
-as a trigger for malicious behavior.
+physical activity, and to write to the logs, which a colluding app could potentially read.
+\tabref{tab:perms} lists
+the additional sources and sinks.
+We selected and refined these by examining the Android
+API and Android programs, and it is easy to add additional ones.
+%\todo{Should we mention something about the source/sinks that 
+%SuSi found here or in the related works?}
+%The related work in the appropriate place.  
+%SuSi doesn't not claim to find all the categories of sensitive sources/sinks
+% or even all the methods that access resources. 
+%Our system does not add much complexity: 
+%it only adds \numIFCperms permissions to
+%Android's standard \numandroidperms, or \percentIFCperms more permissions.  
 
-Our system does not add much complexity:  it only adds 28 permissions to
-Android's standard 130, or 22\% more permissions.  \tabref{tab:perms} lists
-the additional permissions.
+
+Some researchers feel that the Android permission model is already too complicated for
+users to understand~\cite{FeltCHSW2011}.  But our perspective is that of a
+full-time auditor who
+is trained to analyze applications.  The flow policy is examined once
+per application by that skilled engineer, not on every download by a user, so
+the total human burden is less.  (See
+\secref{sec:empirical-study:appstore} for empirical measurements.)
+  The more detailed flow
+policy file yields more insight than simple Android permissions,
+because the flow policy (\secref{sec:system:policy})
+makes clear how each resource is used, not just
+that it is used.
+
+
+
+
+
+%\subsection{FineSource and FineSink Annotations\label{sec:fine-source-and-sink}}
+%\<@FineSource> and \<@FineSink> annotations follow the same conventions as 
+%regular \<@Source> and \<@Sink> annotations. However, they are embedded within
+%the respective \<@Source> and \<@Sink> annotations that are being parameterized.
+%That is, \<@Source> and \<@Sink> annotations have optional attributes for
+%finesources and finesinks, respectively. Each FineSource and FineSink annotation
+%takes a value attribute consisting of the coarse FlowPermission to be parameterized.
+%Each finer grained annotation also has a params attribute, which is a
+%string list of parameters associated with the finer-grained permission.
+%
+%As an example, we parameterize the example declaration above
+%\begin{Verbatim}
+%    @Source(LOCATION) 
+%    @Sink(finesinks={@FineSink(value=INTERNET, params={"mydomain.org"})}) double loc;
+%\end{Verbatim}
+
 
 %Some researchers feel that the Android permission model is already too complicated for
 %users to understand~\cite{felt:2011:permissions}.  But our perspective is that of an auditor who
@@ -232,71 +289,71 @@ the additional permissions.
 
 \input{permission-table}
 
-We now discuss two permissions, \perm{LITERAL} and \perm{CONDITIONAL}, and empty  whose meaning may not be obvious.
-
-\subsubsection{Literals}
-The \perm{LITERAL} source is used for programmer-written manifest
-constants, such as \<"Hello world!">.
-This enables \theFlowChecker to distinguish information derived
-from the program source code from other inputs.
-Manifest literals are used benignly for many 
-purposes, such as configuring default settings.
-The flow policy shows the ways they are used in the program, and they can
-be directly examined by the analyst.
-
-
-\subsubsection{Conditionals \label{sec:conditionals}}
-\TheFlowChecker treats conditional statements as a flow sink
-to enable detection of indirect flows that leak private information.
-For example, without any treatment of conditionals, the following code would
-be permitted under a flow policy containing \flow{LITERAL}{INTERNET} and \flow{USER\_INPUT}{FILESYSTEM}:
-
-\begin{Verbatim}
-    @Source(USER_INPUT) @Sink(FILESYSTEM)
-    long creditCard = getCCNumber();
-    final long MAX_CC_NUM = 9999999999999999;
-    for (long i = 0 ; i < MAX_CC_NUM ; i++) {
-        if (i == creditCard)
-            sendToInternet(i);
-    }
-\end{Verbatim}
-
-To prevent malicious developers from bypassing the type system in this manner,
-\theFlowChecker requires the type of a
-conditional expression to include the sink \perm{CONDITIONAL}.
-By default, literals are allowed to flow
-to a conditional; that is, \flow{LITERAL}{CONDITIONAL} is added to the flow policy by default.
-
-Data containing sensitive information is often passed through conditional statements for benign reasons.  
-For example, an app might verify that a credit card number entered is valid by checking the number of digits.
-
-\begin{Verbatim}
-    @Source(USER_INPUT) @Sink(FILESYSTEM)
-    long creditCard = getCCNumber();
-    final long MAX_CC_NUM = 9999999999999999;
-
-    if (MAX_CC_NUM < creditCard)
-        reportTooManyDigits();
-\end{Verbatim}
-
-In this case, the credit card number is not indirectly leaked, but \theFlowChecker  
-cannot determine this and will report a false positive.
-The auditor must examine the code nearby
-to ensure that the conditional is not being used to indirectly leak information.
-
-
-\subsubsection{Empty sink or source\label{sec:emptyflow}}
-
-Programmers may not use @Source(\ttcbs) or @Sink(\ttcbs).
-Every value should either flow from a literal or from some sensitive
-source.  Likewise, every value must flow to a sensitive sink or to a
-conditional expression.  Any variable that does not have
- a flow sink does not actually affect the output of the program and
-should therefore be removed.
-  
-Note that this does not mean you must specify both a flow source
-annotation and a flow sink annotation as explained in
-\secref{sec:system:defaults}. 
+%We now discuss two permissions, \perm{LITERAL} and \perm{CONDITIONAL}, and empty  whose meaning may not be obvious.
+%
+%\subsubsection{Literals}
+%The \perm{LITERAL} source is used for programmer-written manifest
+%constants, such as \<"Hello world!">.
+%This enables \theFlowChecker to distinguish information derived
+%from the program source code from other inputs.
+%Manifest literals are used benignly for many 
+%purposes, such as configuring default settings.
+%The flow policy shows the ways they are used in the program, and they can
+%be directly examined by the analyst.
+%
+%
+%\subsubsection{Conditionals \label{sec:conditionals}}
+%\TheFlowChecker treats conditional statements as a flow sink
+%to enable detection of indirect flows that leak private information.
+%For example, without any treatment of conditionals, the following code would
+%be permitted under a flow policy containing \flow{LITERAL}{INTERNET} and \flow{USER\_INPUT}{FILESYSTEM}:
+%
+%\begin{Verbatim}
+%    @Source(USER_INPUT) @Sink(FILESYSTEM)
+%    long creditCard = getCCNumber();
+%    final long MAX_CC_NUM = 9999999999999999;
+%    for (long i = 0 ; i < MAX_CC_NUM ; i++) {
+%        if (i == creditCard)
+%            sendToInternet(i);
+%    }
+%\end{Verbatim}
+%
+%To prevent malicious developers from bypassing the type system in this manner,
+%\theFlowChecker requires the type of a
+%conditional expression to include the sink \perm{CONDITIONAL}.
+%By default, literals are allowed to flow
+%to a conditional; that is, \flow{LITERAL}{CONDITIONAL} is added to the flow policy by default.
+%
+%Data containing sensitive information is often passed through conditional statements for benign reasons.  
+%For example, an app might verify that a credit card number entered is valid by checking the number of digits.
+%
+%\begin{Verbatim}
+%    @Source(USER_INPUT) @Sink(FILESYSTEM)
+%    long creditCard = getCCNumber();
+%    final long MAX_CC_NUM = 9999999999999999;
+%
+%    if (MAX_CC_NUM < creditCard)
+%        reportTooManyDigits();
+%\end{Verbatim}
+%
+%In this case, the credit card number is not indirectly leaked, but \theFlowChecker  
+%cannot determine this and will report a false positive.
+%The auditor must examine the code nearby
+%to ensure that the conditional is not being used to indirectly leak information.
+%
+%
+%\subsubsection{Empty sink or source\label{sec:emptyflow}}
+%
+%Programmers may not use @Source(\ttcbs) or @Sink(\ttcbs).
+%Every value should either flow from a literal or from some sensitive
+%source.  Likewise, every value must flow to a sensitive sink or to a
+%conditional expression.  Any variable that does not have
+% a flow sink does not actually affect the output of the program and
+%should therefore be removed.
+%  
+%Note that this does not mean you must specify both a flow source
+%annotation and a flow sink annotation as explained in
+%\secref{sec:system:defaults}. 
 
   \section{Inference and defaults}
  \label{sec:system:defaults}
@@ -367,28 +424,7 @@ computation in terms of only its sources or only its sinks.
 The programmer should not have to consider the rest of the program
 that provides context indicating the other end of the flow.
 
-\newcommand{\FCnumstubmethods}{10,553\xspace}
-\newcommand{\FCnumstubmethodsrounded}{10,000\xspace}
-% Number of stub file methods with explicit @Source and/or @Sink annotations
-% on some argument or the return type or receiver.  (The remaining methods use
-% some variant of @PolyFlow.)
-\newcommand{\FCnumstubmethodswitheither}{915\xspace}
-% Number of stub file methods with both @Source and @Sink annotations
-\newcommand{\FCnumstubmethodswithboth}{76\xspace}
-% numstubmethodswitheither / numstubmethodswithboth, as a percentage
-\newcommand{\FCpercentstubmethodswithboth}{8\%\xspace}
-\newcommand{\FCpercentstubmethodswithone}{92\%\xspace}
 
-This defaulting mechanism is essential for annotating
-libraries.  \TheFlowChecker ships with manual annotations for more than
-\FCnumstubmethodsrounded methods of the Android standard library.
-%% Mike tweaked the wording.  I hope it's still accurate.
-% Of the
-% % \FCnumstubmethodswitheither
-% methods with explicit \<@Source> or \<@Sink> annotations,
-\FCpercentstubmethodswithone of methods use only a
-\<@Source> or \<@Sink> annotation but not both.
-% \todo{These numbers are weird:  if only \FCnumstubmethodswitheither have \<@Source> or \<@Sink>, what about the other 9,000+ methods?  Were they manually-verified to not required any annotation?  That should be clarified here.}
 An example is the \<File> constructor:
 a newly-created readable file should be annotated with
 \<@Source(FILESYSTEM)>, but there is no possible \<@Sink> annotation
@@ -413,16 +449,16 @@ based on the application's flow policy.
        \<@Sink($\omega$)>,  $\omega$ is the set of  sinks allowed to flow from all sources in $\alpha$ \\
      \<@Sink($\omega$)>&\<@Source($\alpha$)>
        \<@Sink($\omega$)>, $\alpha$ is the set of  sources allowed to flow to all sinks in $\omega$ \\
-    Method parameters &  \<@Sink(CONDITIONAL)> \\
-    Method receivers &  \<@Sink(CONDITIONAL)> \\
-    Return types &  \<@Source(LITERAL)> \\
-    Fields &  \<@Source(LITERAL)> \\
+    Method parameters & \<@Source(\{\}) @Sink(\{\})>  \\
+    Method receivers & \<@Source(ANY) @Sink(\{\})>  \\
+    Return types &  \<@Source(\{\}) @Sink(ANY)> \\
+    Fields &  \<@Source(\{\}) @Sink(ANY)> \\
     \<null> &  \<@Source(\{\}) @Sink(ANY)>\\
-    Other literals & \<@Source(LITERAL) >\\
-    Type arguments & \<@Source(LITERAL) >\\
+    Other literals & \<@Source(\{\}) @Sink(ANY) >\\
     Local variables &   \<@Source(ANY) @Sink(\{\})> \\
     Upper bounds &   \<@Source(ANY) @Sink(\{\})> \\
     Resource variables  &   \<@Source(ANY) @Sink(\{\})> \\
+    All other locations & \<@Source(\{\}) @Sink(\{\})>\\
   
   \end{tabular}
 
@@ -436,12 +472,6 @@ When the default is only a source or only a sink, the other qualifier is
 inferred from the policy file as explained in
 \secref{sec:infer-from-flow-policy}.
 
-Most unannotated types (including field types, return
-types, generic type arguments, and non-\<null>
-literals) are given the qualifier \<@Source(LITERAL)>.  
-This is so that simple computation involving manifest literals, but not
-depending on Android permissions, does not require 
-annotations. 
 
 As is standard, the \<null> literal is given the bottom type qualifier, which allows it to be assigned to any variable.
 For \theFlowChecker, the bottom type qualifier is \srcnone\  \<@Sink(ANY)>.
@@ -470,15 +500,14 @@ chapter
 written in apps, including flow policy inference.  
 (See the defaulting section, \secref{sec:system:defaults}.) 
 
-  The Information Flow Checker  outputs all of the methods missing from the stub files in
-  a file called \<missingAPI.astub> in the current working directory. It also 
-  contains a comment the number of times an API method is used by the app.
-
-Any method not written in the stub files or found in source code is not defaulted normally. 
- Instead, its return, receiver, and parameter types are annotated with \<@Sources(NOT\_REVIEWED)> 
- \<@Sinks(NOT\_REVIEWED)>. 
+Any method, constructor, or field  not written in the stub files or found in source code is not defaulted normally. 
+ Instead,  all locations except final fields are default to \<@Source(ANY) @Sink(ANY)>.  
+ (Final fields are defaulted to \<@Source(\{\})>.)
  This way, if such an API method is used, a type error
-  will occur and alert the user to review and annotate the method. It is possible, but dangerous, to ignore these kind of warnings as explained in \secref{sec:run-type-checker}.
+  will occur and alert the user to review and annotate the method. 
+  A tool, discussed in Section \ref{flow-task-annotate-apis}, issues a warning every time a type declared in a 
+  library that does not appear in a stub file is used.  This tool also outputs a list of declarations missing from
+  the stub files. 
 
 
 \section{Polymorphism \label{sec:polyflowsources}}
@@ -598,13 +627,10 @@ expressions depending on the left-hand side.
 
 \medskip
 
-Enabling stricter checking will also enable the \<-Alint=strict-conditional> option to limit 
-allowed sinks to conditionals.
-
 \section{Guidance on writing annotations}
 \chapref{tutorial} is a tutorial on how to annotate an existing application. 
-See \chapref{app-annotation} for tips about
-writing information-flow annotations. 
+%See \chapref{app-annotation} for tips about
+%writing information-flow annotations. 
 
 %\section{Miscellaneous\label{sec:miscellaneous}}
 

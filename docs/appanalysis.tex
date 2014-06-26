@@ -289,7 +289,7 @@ yet contain information about the library APIs that your application uses.
 (Over time, the stub files will become more complete, and you will have to
 do less work in this step for each new app.)
 
-Run \<ant check-flow> to create the \<missingAPI.astub> file. For each method in the 
+Run \<ant report-not-reviewed> to create the \<missingAPI.astub> file. For each method in the 
 file do the following.  
 \begin{itemize}
 \item
@@ -308,10 +308,9 @@ and a \<@Sink> annotation.
 If the method does is not directly related to information flow (its inputs
 and outputs could be anything and are not required to have a specific
 \<@Source> annotation), then either added the method to the stub file with no 
-annotations, which is the same as annotating the returns and parameters with
-\<@Source(LITERAL)> or to annotate it with \<@PolyFlow> or \<@PolyFlowReceiver>, 
+annotations or to annotate it with \<@PolyFlow> or \<@PolyFlowReceiver>, 
 which essentially says that the
-output can have all the flow sources and sinks of the inputs..
+output can have all the flow sources and sinks of the inputs.
 (See Section \secref{sec:addtionalanno} for more details.)
 
 \end{itemize}
@@ -324,7 +323,11 @@ After changing or adding stub files, run \<ant jar> to rebuild \<sparta.jar>.
 
 The stub files can include any third-party library that is not compiled
 along with your application.  You can add a new \<.astub> file to the
-\<flowstubfiles/> directory.
+\<flowstubfiles/> directory. When creating a new stub file, see the section
+``\ahref{\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#stub-creating}}{Creating
+  a stub file}'' in the Checker Framework Manual to learn how to create an
+initial file and prevent a great deal of repetitive cut-and-paste editing.
+
 Alternately, you can put a new \<.astub> file elsewhere and then pass this
 file to the \<ant check-flow> target:
 
@@ -338,8 +341,8 @@ Here is an example from a stub file:
 package android.telephony;
 
 class TelephonyManager {
-    public @Source(FlowPermission.PHONE_NUMBER) String getLine1Number();
-    public @Source(FlowPermission.IMEI) String getDeviceId();
+    public @Source(READ_PHONE_STATE) String getLine1Number();
+    public @Source(READ_PHONE_STATE) String getDeviceId();
 }
 \end{Verbatim}
 
@@ -352,18 +355,12 @@ the
   Libraries}'' chapter in the Checker Framework Manual\ifhevea\else\ (\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.pdf})\fi.
 
 
-When creating a new stub file, see the section
-``\ahref{\url{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#stub-creating}}{Creating
-  a stub file}'' in the Checker Framework Manual to learn how to create an
-initial file and prevent a great deal of repetitive cut-and-paste editing.
 
 
 It is usually a good idea to annotate an entire API class at a time, rather
 than to just annotate the specific methods that your app uses.  Annotating
 an entire class lets you think about it once, which takes less time in the
-long run.  It also reduces confusion for people who will later wonder
-whether a particular method was intended to be unannotated or had not yet
-been annotated.
+long run. 
 
 
 Note: at the end of this step, you have not yet added any annotations to
@@ -399,68 +396,40 @@ the app itself, only to libraries.
 %more annotations to the application. So, you can periodically rerun
 %this step. 
 
+\subsection{Infer information flow types for the app\label{flow-task-annotate-app}}
+Use whole program inference to infer annotations for method signatures and fields.  
+These inferred 
+annotations are written back into source code for use in type checking.  In order to use whole program
+inference, you first must download an install the inference framework.  To do so, clone the repository 
+using the following command,
+\begin{Verbatim}
+hg clone -b remove-scala -r 1ea67baca24f https://code.google.com/p/checker-framework-inference
+\end{Verbatim}
+\noindent
+then follow the instructions in README.sparta to install.
 
-\subsection{Write information flow types for the app\label{flow-task-annotate-app}}
-
-Write information flow annotations for your application, in the same way as
-you did for the libraries.  Read the documentation, decide on the types,
-and write those.  A fast and effective way to do this is to grep the source
-code for words related to information flow properties, such as ``camera''
-or ``network''.  These words might appear in documentation or in source
-code.  Wherever the words appear, you may be able to write information flow
-type qualifiers.  This approach is both faster and less error-prone than
-iteratively running the type-checker and fixing the errors that it reports
-one-by-one.
-
-\todo{provide a tool that does this grepping.  Also tell the user how to
-take advantage of the \<@RequiredPermissions> annotations and other tool
-output.}
-
-
-Focus on the most interesting flow sources and try to connect the flow
-sources and sinks in the application. Instead of trying to completely
-annotate only the sources or only the sinks, skim over all the reports
-and use your intuition to decide which parts of the application to
-focus on. Try to focus on the parts with the (most) connections
-between sources and sinks.
-
-Most types will only use either a \srcsome or \sinksome
-annotation.
-The goal is to find places where you need both annotations, e.g. to
-express that information that comes from the camera may go to the
-network:
-
-\begin{alltt}
-    @Source(CAMERA)
-    @Sink(INTERNET) Picture data;
-\end{alltt}
-
-Such a type connects sources and sinks and one needs to carefully
-decide whether this is a desired information flow or not.
-\begin{itemize}
-\item If this is good information flow, then write both the \<@Source>
-  and the \<@Sink> annotations at the same place. You will not
-  receive any more error messages, but you can find all these places
-  with grep or (better) with \<ant flowshow>.
-\item If this is bad information flow, then either leave it unannotated,
-  or annotate it but record both in the source code and elsewhere that
-  you have found a security flaw.
-\end{itemize}
-
-
-Once you have written as many type qualifiers as possible, proceed to
-type-checking (\secref{sec:run-type-checker}).
-
-\subsubsection{Syntax for Parameterized Annotations\label{sec:parameterized-syntax}}
-When using @FineSource and @FineSink annotations, they must be embedded in their
-respective @Source and @Sink annotations, under attributes finesources and finesinks, respetively.
-For example, if a Picture had an information flow of FILESYSTEM("/home/pics")->INTERNET("mydomain.org"),
-then the annotation should have the syntax:
+Run inference to annotate an app:
 
 \begin{Verbatim}
-  @Source(finesources={@FineSource(value=FILESYSTEM, params={"/home/pics"})})
-  @Sink(finesinks={@FineSink(value=INTERNET, params={"mydomain.org"})}) Picture data;
+  ant infer
 \end{Verbatim}
+
+The inference framework is not complete, for example, it does not correctly infer annotations 
+for generic types, so you will need to correct annotations.  The inference framework will
+not change annotations that already appear in source code, so you may wish to remove the inferred 
+annotations, add some manual annotations, and then re-run inference. 
+
+%TODO: Add a section explaining how to use report-strings to add parameterized permissions. 
+%\subsubsection{Write information flow types using parameterized permissions} \label{sec:parameterized-syntax}
+%When using @FineSource and @FineSink annotations, they must be embedded in their
+%respective @Source and @Sink annotations, under attributes finesources and finesinks, respetively.
+%For example, if a Picture had an information flow of FILESYSTEM("/home/pics")->INTERNET("mydomain.org"),
+%then the annotation should have the syntax:
+%
+%\begin{Verbatim}
+%  @Source(finesources={@FineSource(value=FILESYSTEM, params={"/home/pics"})})
+%  @Sink(finesinks={@FineSink(value=INTERNET, params={"mydomain.org"})}) Picture data;
+%\end{Verbatim}
 
 \subsection{Type-check the information flow types in the application\label{sec:run-type-checker}}
 
@@ -481,35 +450,33 @@ that are beyond the capabilities of the type system. Always write a
 comment that justifies that the code is safe, and why the type system
 cannot recognize that fact.
 
-An example is a String literal that should be allowed to be sent
-over the network. By default, every literal has \<@Sink(CONDITIONAL)> 
-and \<@Source(LITERAL)>.
-
-\begin{alltt}
-    @SuppressWarnings("flow") // manually verified to not contain secret data
-    @Sink(INTERNET) String url = "http://bazinga.com/";
-\end{alltt}
-
-Without warning suppression the assignment raises an error, because string literals
-have a default annotation of \<Source(LITERAL)>. By adding the suppression, you
-assert that it's OK to send this string to the network. 
-
 \end{enumerate}
+
+Review the found forbidden flows in \<sparta-out/forbiddenFlows.txt>.  
+Flows found in the app but not list in the flow policy will appear in this file.  
+You may wish to add these flows to the policy.
+
+For easier to read warning messages, use the \<check-flow-pp> ant target.
 
 After you have corrected some of the errors, re-run \<ant check-flow>.
 Repeat the process until there are no more errors, or until you find bad
 code (malicious, or buggy and prone to abuse).
 
-Note: If you want to suppress the \<NOT\_REVIEWED> warnings you can run the Information Flow Checker
-in the following ways:
+\subsection{Check for implicit information flow via conditionals}
+Because the then clause of a conditional only executes if the predicate is true, a write
+ to a sink in the then clause may leak that the predicate evaluated to true.  If the predicate
+  contains information from a sensitive source, then the body of a conditional may leak some 
+  fact about the sensitive source.  This possible information flow is considered implicit.
 
-\begin{alltt}
-    ant check-flow-ignorenr
-\end{alltt}
-or
-\begin{alltt}
-    ant -Dignorenr=on check-flow
-\end{alltt}
+Run the conditional checker, after the flow checker reports no more warnings.
+
+\begin{Verbatim}
+  ant check-conditionals 
+\end{Verbatim}
+
+This ant target outputs a warning in every location a sensitive sources is used in a 
+predicate.  For each warning, you should manually verify that the source is not
+implicitly leaked to some sink.
 
 \subsection{Type-check information flow types across communicating components}
 This section explains how to generate a component map file for an app, how to
@@ -858,14 +825,6 @@ source file to trace and begin the process again.
 Repeat the tracing process until there are no more errors, or until you find bad code
 (malicious, or buggy and prone to abuse).
 
-\subsection{Review sensitive sources used in conditionals}
-\begin{Verbatim}
-  ant check-conditionals
-\end{Verbatim}
-This ant target prints a warning for every non-literal source used in a conditional regardless
-of the flow policy.  Review each warning a determine whether or not the code is leaking a 
-sensitive value to a sensitive source. 
-
 \subsection{Type-check with stricter checking}
 
 Once all warnings were resolved, run 
@@ -880,8 +839,6 @@ required for soundness, but would be disruptive to enable initially.
 In particular, the tests for casts and array subtyping are stricter.
 See the discussion in \chapterpageref{flow-checker}.
 
-This option will also use the stricter conditional rule. (\<LITERAL
-\flowsto{} CONDITIONAL> rather than the relaxed \<ANY \flowsto{} CONDITIONAL>)
 
 %%% Local Variables: 
 %%% mode: latex
