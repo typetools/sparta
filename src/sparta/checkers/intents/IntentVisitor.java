@@ -343,8 +343,11 @@ public class IntentVisitor extends FlowVisitor {
             case MISSING_KEY:
                 //if missing key String == null, the sender has type IntentMapBottom 
                 checker.report(Result.failure("send.intent.missing.key",
+                        intentObject.toString(), receiveIntentMethodString,
                         result.snd, intentObject.toString(), 
-                        receiveIntentMethodString), node);
+                        receiveIntentMethodString, intentObject.toString(), 
+                        rhsIntentExtras.toString(), receiveIntentMethodString, 
+                        lhsIntentExtras.toString()), node);
                 break;  
             case INCOMPATIBLE_TYPES:
                 checker.report(Result.failure("send.intent.incompatible.types",
