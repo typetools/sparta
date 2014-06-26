@@ -6,6 +6,7 @@ import static org.checkerframework.framework.qual.DefaultLocation.OTHERWISE;
 import static org.checkerframework.framework.qual.DefaultLocation.RECEIVERS;
 import static org.checkerframework.framework.qual.DefaultLocation.RESOURCE_VARIABLE;
 import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
+import static org.checkerframework.framework.qual.DefaultLocation.*;
 
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
@@ -169,10 +170,10 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         
  
         //Default for returns and fields is {}->ANY (bottom)
-        defaults.addAbsoluteDefault(NOSOURCE, DefaultLocation.RETURNS);
-        defaults.addAbsoluteDefault(ANYSINK, DefaultLocation.RETURNS);
-        defaults.addAbsoluteDefault(NOSOURCE, DefaultLocation.FIELD);
-        defaults.addAbsoluteDefault(ANYSINK, DefaultLocation.FIELD);
+        defaults.addAbsoluteDefault(NOSOURCE, RETURNS);
+        defaults.addAbsoluteDefault(ANYSINK, RETURNS);
+        defaults.addAbsoluteDefault(NOSOURCE, FIELD);
+        defaults.addAbsoluteDefault(ANYSINK, FIELD);
 
         // Default is {} -> {} for everything else
         defaults.addAbsoluteDefault(NOSINK, OTHERWISE);
@@ -240,12 +241,12 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     }
 
     protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
-        if( element == null) return;
+        if (element == null)
+            return;
         DefaultApplierElement applier = new DefaultApplierElement(this, element, type);
         handlePolyFlow(element, applier);
         
-        
-        if (this.isFromByteCode(element)
+        if (isFromByteCode(element)
                 && element.getKind() == ElementKind.FIELD
                 && ElementUtils.isEffectivelyFinal(element)) {
             //Final fields from byte code are {} -> ANY
@@ -254,13 +255,13 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             return;
         }
             
-        if (this.isFromByteCode(element)){
+        if (isFromByteCode(element)){
             //All locations besides non-final fields in byte code are 
             //conservatively ANY -> ANY
             applier.apply(ANYSOURCE, DefaultLocation.OTHERWISE);
             applier.apply(ANYSINK, DefaultLocation.OTHERWISE);
 
-        } else if (this.getDeclAnnotation(element, FromStubFile.class) != null){
+        } else if (isFromStubFile(element)){
             if (type instanceof AnnotatedExecutableType) {
                 //non-callback library method parameters should either
                 // are defaulted to ANY -> {}, but flow policy
@@ -319,16 +320,18 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     @Override
     protected ListTreeAnnotator createTreeAnnotator() {
+        return new ListTreeAnnotator(
+                new FlowPolicyTreeAnnotator(this),
+                new PropagationTreeAnnotator(this),
+                getFlowCheckerImplicits()
+        );
+    }
 
+    protected final ImplicitsTreeAnnotator getFlowCheckerImplicits() {
         ImplicitsTreeAnnotator implicits = new ImplicitsTreeAnnotator(this);
-        // But let's send null down any sink and give it no sources.
-        implicits.addTreeKind(Tree.Kind.NULL_LITERAL, ANYSINK);
+        
+        //All literals are bottom
         implicits.addTreeKind(Tree.Kind.NULL_LITERAL, NOSOURCE);
-
-        // Literals, other than null are different too
-        // There are no Byte or Short literal types in java (0b is treated as an
-        // int),
-        // so there does not need to be a mapping for them here.
         implicits.addTreeKind(Tree.Kind.INT_LITERAL, NOSOURCE);
         implicits.addTreeKind(Tree.Kind.LONG_LITERAL, NOSOURCE);
         implicits.addTreeKind(Tree.Kind.FLOAT_LITERAL, NOSOURCE);
@@ -344,21 +347,9 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         implicits.addTreeKind(Tree.Kind.BOOLEAN_LITERAL, ANYSINK);
         implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, ANYSINK);
         implicits.addTreeKind(Tree.Kind.STRING_LITERAL, ANYSINK);
+        implicits.addTreeKind(Tree.Kind.NULL_LITERAL, ANYSINK);
         
-        
-        //  This is the annotation between new and a constructor call
-        //  new @HERE Object.
-        //It must be the same
-        implicits.addTreeKind(Tree.Kind.NEW_CLASS, NOSOURCE);
-        implicits.addTreeKind(Tree.Kind.NEW_CLASS, ANYSINK);
-
-        
-        return new ListTreeAnnotator(
-                new FlowPolicyTreeAnnotator(this),
-                new PropagationTreeAnnotator(this),
-                implicits
-        );
-
+        return implicits;
     }
 
     protected class FlowPolicyTreeAnnotator extends TreeAnnotator {
