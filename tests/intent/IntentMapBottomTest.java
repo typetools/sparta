@@ -35,7 +35,6 @@ public class IntentMapBottomTest extends Activity {
         return null;
     }
     
-    //:: error: (forbidden.flow)
     @Source() @Sink(ANY) String getTop() {
         return null;
     }
@@ -49,9 +48,8 @@ public class IntentMapBottomTest extends Activity {
         //of this test does not allow {} -> ANY.
         //But there is no argument.type.incompatible error.
         
-      //:: error: (forbidden.flow)
         intentMapBottom1.putExtra("RandomKey", getTop());
-      //:: error: (forbidden.flow)
+        //:: error: (forbidden.flow)
         intentMapBottom1.putExtra("RandomKey2", getFile2());
     }
     
@@ -66,7 +64,6 @@ public class IntentMapBottomTest extends Activity {
 
     //every getExtra operation returns @Souce and @Sink top types.
     void getExtraSuccess() {
-      //:: error: (forbidden.flow)
         String s = intentMapBottom1.getStringExtra("k2");
         //SHOULD NOT FAIL
         sendToDisplay(s);

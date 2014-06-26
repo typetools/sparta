@@ -4,13 +4,13 @@ import static sparta.checkers.quals.FlowPermission.*;
 import java.util.*;
 
 class ParameterizedGenericsTest {
-    @Source(value={}, finesources={@FineSource(value=LITERAL, params={"literal"})}) String literal_string;
-    @Source(value={}, finesources={@FineSource(value=LITERAL, params={"bad_literal"})}) String bad_literal;
-    @Source(value={}, finesources={@FineSource(value=LITERAL, params={"*te*"})}) String wildcard_string;
+    @Source(finesources=@FineSource(value=FILESYSTEM, params="literal")) String literal_string;
+    @Source(finesources=@FineSource(value=FILESYSTEM, params="bad_literal")) String bad_literal;
+    @Source(finesources=@FineSource(value=FILESYSTEM, params="*te*")) String wildcard_string;
     
     public void testSourceGenerics() {
-        List<@Source(value={}, finesources={@FineSource(value=LITERAL, params={"literal"})})String> strings = 
-                new ArrayList<@Source(value={}, finesources={@FineSource(value=LITERAL, params={"literal"})})String>();
+        List<@Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"literal"})})String> strings = 
+                new ArrayList<@Source(value={}, finesources={@FineSource(value=FILESYSTEM ,params={"literal"})})String>();
         
         // Fill array with good strings
         for (int i = 0; i < 5; i++) {

@@ -10,19 +10,19 @@ class MiscTests {
         @Sink({FlowPermission.INTERNET}) double lat = 1.0;
         clean = lat;
 
-        @Sink({FlowPermission.INTERNET, FlowPermission.CONDITIONAL}) @Source(FlowPermission.LITERAL) double lat2 = 1.0;
+        @Sink({FlowPermission.INTERNET}) @Source({}) double lat2 = 1.0;
         clean = lat2;
     }
 
     @SuppressWarnings("flow")
-    @Sink({FlowPermission.INTERNET, FlowPermission.CONDITIONAL}) String WEBSERVICE_URL = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
+    @Sink({FlowPermission.INTERNET}) String WEBSERVICE_URL = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
 
-    @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) String WEBSERVICE_URL2 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
+    @Source({ FlowPermission.ACCESS_FINE_LOCATION}) String WEBSERVICE_URL2 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
 
-    String WEBSERVICE_URL3 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
-    @Source({FlowPermission.LITERAL, FlowPermission.ACCESS_FINE_LOCATION}) String result; //With FP effective Sink(INTERNET,CONDITIONAL}
+    @Sink(ANY) String WEBSERVICE_URL3 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
+    @Source({ FlowPermission.ACCESS_FINE_LOCATION}) String result; //With FP effective Sink(INTERNET}
 
-    @Source({FlowPermission.LITERAL}) @Sink({FlowPermission.CONDITIONAL}) String result2;
+    @Source({}) @Sink({}) String result2;
 
     @Sink({FlowPermission.INTERNET}) String result3;
 
@@ -51,9 +51,9 @@ class MiscTests {
     }
 
     void test_StringFormat_ObjectFlowPermissionSource() {
-        Double lat = (@Source({READ_CALENDAR,LITERAL}) Double) Double.valueOf(1.0);
-        Double lon = (@Source({READ_CALENDAR,LITERAL})Double) Double.valueOf(2.0);
-        Integer days = (@Source({READ_CALENDAR,LITERAL})Integer) Integer.valueOf(3);
+        Double lat = (@Source({READ_CALENDAR}) Double) Double.valueOf(1.0);
+        Double lon = (@Source({READ_CALENDAR})Double) Double.valueOf(2.0);
+        Integer days = (@Source({READ_CALENDAR})Integer) Integer.valueOf(3);
         
         //::error: (assignment.type.incompatible)
         result = String.format(WEBSERVICE_URL3, lat, lon, days);

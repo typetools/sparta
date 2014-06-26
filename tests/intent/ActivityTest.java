@@ -34,8 +34,7 @@ public class ActivityTest extends Activity {
     Intent i4 = new Intent();
     
     @Source(FILESYSTEM) @Sink(INTERNET) String getFile() {
-      //:: error: (return.type.incompatible)
-        return "";
+        return null;
     }
     
     void sendToDisplay(@Sink(DISPLAY) String s) {
@@ -108,7 +107,7 @@ public class ActivityTest extends Activity {
     }
     
     private OnClickListener clickListenerOK = new OnClickListener() {
-        public void onClick(View v)	{
+        public void onClick(@Source(ANY) @Sink({})  View v)	{
             Intent senderIntent1 = (@IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
             Intent) new Intent();
             Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
@@ -119,7 +118,7 @@ public class ActivityTest extends Activity {
     };
 
     private OnClickListener clickListenerFail = new OnClickListener() {
-        public void onClick(View v)	{
+        public void onClick(@Source(ANY) @Sink({}) View v)	{
             Intent senderIntent1 = (@IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
             Intent) new Intent();
             Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })

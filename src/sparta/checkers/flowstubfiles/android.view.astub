@@ -981,7 +981,7 @@ class SubMenu{
 
 class SurfaceView{
 //SOM
- @Sink({DISPLAY, CONDITIONAL}) SurfaceHolder getHolder ();
+ @Sink({DISPLAY}) SurfaceHolder getHolder ();
 }        
      
 class SoundEffectConstants {

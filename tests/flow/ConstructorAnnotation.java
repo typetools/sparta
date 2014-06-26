@@ -37,15 +37,15 @@ class TestClassAnnotationType {
 
 
 class ConstructorAnnotation {
-
+@Source(ANY) @Sink({}) String top;
     void testConstructor() {
         
         // Sanity check -- OK
         //:: error: (argument.type.incompatible)
-        TestParamConstructor.test("test");
+        TestParamConstructor.test(top);
         // OK -- Conservative flow on parameter
         //:: error: (argument.type.incompatible)  :: error: (forbidden.flow)
-        new TestParamConstructor("hello");
+        new TestParamConstructor(top);
         
         @Source(INTERNET) @Sink(CAMERA) TestClassAnnotationType classAnnotation = new TestClassAnnotationType();
         

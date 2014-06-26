@@ -480,7 +480,7 @@ class AdapterView {
 //int getFirstVisiblePosition();
 //Returns the position within the adapter's data set for the first item displayed on screen.
 
-@PolySource @PolySink Object getItemAtPosition(@Sink(FlowPermission.CONDITIONAL) int position) @PolySource @PolySink;
+@PolySource @PolySink Object getItemAtPosition(@Sink({}) int position) @PolySource @PolySink;
 //Gets the data associated with the specified position in the list.
 
 //long getItemIdAtPosition(int position);
@@ -609,7 +609,7 @@ Context getContext();
 
 int getCount();
 
-@Source(LITERAL) View getDropDownView(int position, @Source(LITERAL) View convertView, ViewGroup parent);
+ View getDropDownView(int position,  View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
 Filter getFilter();
@@ -651,7 +651,7 @@ BaseAdapter();
 boolean areAllItemsEnabled();
 //Indicates whether all the items in this adapter are enabled.
 
-@Source(LITERAL) View getDropDownView(int position, @Source(LITERAL) View convertView, ViewGroup parent);
+ View getDropDownView(int position,  View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
 int getItemViewType(int position);
@@ -799,7 +799,7 @@ int getCount();
 Cursor getCursor();
 //Returns the cursor.
 
-@Source(LITERAL) View getDropDownView(int position, @Source(LITERAL) View convertView, ViewGroup parent);
+ View getDropDownView(int position,  View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
 Filter getFilter();
@@ -3379,7 +3379,7 @@ class TabHost$TabContentFactory{
         View createTabContent(String arg0);
 }
 class SpinnerAdapter{
-@Source(LITERAL) View getDropDownView(int position, @Source(LITERAL) View convertView, ViewGroup parent);
+ View getDropDownView(int position,  View convertView, ViewGroup parent);
 }
 class TabWidget{
         TabWidget(Context context);

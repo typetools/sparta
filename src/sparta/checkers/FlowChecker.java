@@ -42,7 +42,6 @@ import static sparta.checkers.quals.FlowPermission.getFlowPermission;
 @StubFiles("information_flow.astub")
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, FlowChecker.MSG_FILTER_OPTION,
         FlowVisitor.CHECK_CONDITIONALS_OPTION })
-@SupportedLintOptions({ FlowPolicy.STRICT_CONDITIONALS_OPTION })
 
 public class FlowChecker extends BaseTypeChecker {
     public static final String SPARTA_OUTPUT_DIR = System.getProperty("user.dir")+File.separator+"sparta-out"+File.separator;

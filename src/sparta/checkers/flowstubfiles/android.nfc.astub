@@ -148,7 +148,7 @@ class BasicTagTechnology{
 
 class MifareClassic{
             boolean authenticateSectorWithKeyA(int sectorIndex, byte[] key) throws IOException;
-            static @Source(NFC) MifareClassic get(@Source({NFC, LITERAL}) Tag tag);
+            static @Source(NFC) MifareClassic get(@Source({NFC}) Tag tag);
             @Source(NFC) byte @Source(NFC) [] readBlock(int blockIndex) throws IOException;
             int getSectorCount();
             int getBlockCountInSector(int sectorIndex);

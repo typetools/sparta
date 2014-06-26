@@ -16,7 +16,6 @@ public class ArrayTest extends Activity {
     Intent i1 = new Intent();
     
     @Source(FILESYSTEM) @Sink(INTERNET) String getVal() {
-      //:: error: (return.type.incompatible)
         return "";
     }
     

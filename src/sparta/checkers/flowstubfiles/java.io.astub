@@ -3,7 +3,7 @@ package java.io;
 
 @PolyFlowReceiver
 class StringWriter {
-@Source(LITERAL) StringWriter();
+StringWriter();
 String toString();
 void write(char[] arg0, int arg1, int arg2);
 void write(int arg0);
@@ -210,10 +210,10 @@ class DataOutputStream extends FilterOutputStream implements DataOutput {
 
 class File implements Serializable, Comparable<File> {
 //Added by smillst
-   @Source(LITERAL) final char separatorChar;
-   @Source(LITERAL)  final String separator;
-   @Source(LITERAL) final char pathSeparatorChar;
-   @Source(LITERAL) final String pathSeparator;
+    final char separatorChar;
+     final String separator;
+    final char pathSeparatorChar;
+    final String pathSeparator;
     
     File( @Sink(FILESYSTEM) String path);
     File( @Sink(FILESYSTEM) String arg0, @Sink(FILESYSTEM) String arg1);
@@ -323,15 +323,18 @@ class FilenameFilter{
 
 class FileOutputStream extends OutputStream {
 //Added by SOM
-    FileOutputStream(@Sink(FILESYSTEM) String arg0) throws FileNotFoundException;
-    FileOutputStream(@Sink(FILESYSTEM) String arg0, boolean arg1) throws FileNotFoundException;
-    FileOutputStream(File arg0) throws FileNotFoundException;
-    FileOutputStream(File arg0, boolean arg1) throws FileNotFoundException;
-    FileOutputStream(@Sink(FILESYSTEM) FileDescriptor arg0);
-    void write(@Sink(FILESYSTEM) int arg0) @Sink(FILESYSTEM);
-    void write(@Sink(FILESYSTEM) byte @Sink(FILESYSTEM) [] arg0) @Sink(FILESYSTEM);
-    void write(@Sink(FILESYSTEM) byte @Sink(FILESYSTEM) [] arg0, int arg1, int arg2) @Sink(FILESYSTEM);
-    void close() @Sink(FILESYSTEM);
+    @Sink(FILESYSTEM) FileOutputStream(@Sink(FILESYSTEM) String arg0) throws FileNotFoundException;
+    @Sink(FILESYSTEM) FileOutputStream(@Sink(FILESYSTEM) String arg0, boolean arg1) throws FileNotFoundException;
+    @Sink(FILESYSTEM) FileOutputStream(File arg0) throws FileNotFoundException;
+    @Sink(FILESYSTEM) FileOutputStream(File arg0, boolean arg1) throws FileNotFoundException;
+    @Sink(FILESYSTEM) FileOutputStream(@Sink(FILESYSTEM) FileDescriptor arg0);
+@PolyFlowReceiver
+    void write( int arg0);
+@PolyFlowReceiver
+    void write( @PolySource @PolySink byte [] arg0);
+@PolyFlowReceiver
+    void write( @PolySource @PolySink byte [] arg0, int arg1, int arg2);
+    void close();
     @Sink(FILESYSTEM) FileDescriptor getFD() @Sink(FILESYSTEM);
     @Sink(FILESYSTEM) FileChannel getChannel() @Sink(FILESYSTEM);
     protected void finalize() @Sink(FILESYSTEM);

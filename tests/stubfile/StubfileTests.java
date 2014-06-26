@@ -29,17 +29,19 @@
 //warning: StubParser: Type not found: android.support.v4.print.PrintHelperKitKat
 
 
+import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import stubfile.*;
 import static sparta.checkers.quals.FlowPermission.*;
 
 public class StubfileTests {
+    @Source(READ_SMS) @Sink({}) int sms;
     void constructorTest() {
         ExampleApi api = new ExampleApi();
         ExampleApi api1 = new ExampleApi("hello");
         
         //:: error: (argument.type.incompatible) :: error: (forbidden.flow)
-        ExampleApi api2 = new ExampleApi(2);
+        ExampleApi api2 = new ExampleApi(sms);
     }
 
     void polyFlow() {
@@ -48,7 +50,6 @@ public class StubfileTests {
         String s = "";
 
         api.polyFlow();
-        //:: error: (forbidden.flow)
         x = api.polyFlow1();
         api.polyFlow2(s);
         x = api.polyFlow3(s);
@@ -76,12 +77,12 @@ public class StubfileTests {
         api.reviewed2(s);
         x = api.reviewed3(s);
     }
-
+    @Source({ READ_CONTACTS }) @Sink({INTERNET})
+    String s = "";
     void reviewedSom() {
         ExampleApi api = new ExampleApi();
         String x = "";
-        @Source({ READ_CONTACTS, LITERAL })
-        String s = "";
+
 
         api.reviewedSomeAnnos();
         x = api.reviewedSomeAnnos1();
@@ -89,11 +90,11 @@ public class StubfileTests {
         //:: error: (argument.type.incompatible)
         x = api.reviewedSomeAnnos3(s);
     }
-
+    @Source({ READ_CONTACTS }) @Sink({})
+    String s2 = "";
+    @Source({}) @Sink({}) ExampleApi api = new ExampleApi();
     void notReviewed() {
-        ExampleApi api = new ExampleApi();
-        String x = "";
-        String s = "";
+        String x = "";    
 
         //::error: (method.invocation.invalid)
         api.notReviewed();
@@ -101,9 +102,9 @@ public class StubfileTests {
         x = api.notReviewed1();
 
         //:: error: (argument.type.incompatible) ::error: (method.invocation.invalid)
-        api.notReviewed2(s);
+        api.notReviewed2(s2);
         //::error: (argument.type.incompatible) ::error: (forbidden.flow) 
-        x = api.notReviewed3(s);
+        x = api.notReviewed3(s2);
     }
 
     void staticImports() {

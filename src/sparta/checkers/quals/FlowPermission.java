@@ -29,8 +29,6 @@ public enum FlowPermission {
      * whatever permission you add is not the same as any permission already
      * added.
      */
-    LITERAL(T.SOURCE), CONDITIONAL(T.SINK),
-
 
     CAMERA_SETTINGS(T.BOTH), DISPLAY(T.SINK), FILESYSTEM(T.BOTH), RANDOM(T.SOURCE), READ_TIME(
             T.SOURCE), // WRITE_TIME is an Android Permission, but read time
@@ -48,13 +46,15 @@ public enum FlowPermission {
     WRITE_CLIPBOARD(T.SINK),
     READ_CLIPBOARD(T.SOURCE),
     SPEAKER(T.SINK), // Physical speaker / headphones 
-
+    SENSOR(T.SOURCE), //See android.hardware.Sensor
+    
     /**
      * These are old sources or sinks that may or may not be of use
      */
     PHONE_NUMBER(T.SOURCE),
     SHARED_PREFERENCES(T.BOTH),
     ACCELEROMETER(T.SOURCE),
+    
 
     /**
      * The following permissions are temporary and implemented now in a simple
