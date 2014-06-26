@@ -17,15 +17,16 @@ import java.util.Set;
 public class ProcessEpicOutput {
    
 
-    static File componentMapFile;
-    static List<IntentFilter> filters;
-    static File file;
-    static FileWriter fw;
-    static HashMap<String,Set<String>> componentMap;
-    static HashMap<String,Set<String>> componentMapURI;
-    static HashMap<String,List<String>> receivers;
-    static HashMap<String,List<String>> senderFilterMap;
-    static List<String> unresolvedIntents;
+    private static File componentMapFile;
+    private static List<IntentFilter> filters;
+    private static File file;
+    private static FileWriter fw;
+    private static HashMap<String,Set<String>> componentMap;
+    private static HashMap<String,Set<String>> componentMapURI;
+    private static HashMap<String,List<String>> receivers;
+    private static HashMap<String,List<String>> senderFilterMap;
+    private static List<String> runtimeAssignedIntents;
+    private static List<String> receiverNotFoundIntents;
     
     static String UNKNOWN = "unknown";
     
@@ -82,8 +83,8 @@ public class ProcessEpicOutput {
                 currentLine = bufferedReaderFilters.readLine();
             }
             if(!found) {
-                if(!unresolvedIntents.contains(component)) {
-                    unresolvedIntents.add(component);
+                if(!receiverNotFoundIntents.contains(component)) {
+                    receiverNotFoundIntents.add(component);
                 }
             }
             bufferedReaderFilters.close();
@@ -243,8 +244,8 @@ public class ProcessEpicOutput {
                         if(nextLine.startsWith("No field set") || nextLine.startsWith("No value found.") || 
                                 nextLine.startsWith("Found top element")) {
                             nextLine = bufferedReaderEpicc.readLine();
-                            if(!unresolvedIntents.contains(component)) {
-                                unresolvedIntents.add(component);
+                            if(!runtimeAssignedIntents.contains(component)) {
+                                runtimeAssignedIntents.add(component);
                             }
                             continue;
                         }
@@ -392,40 +393,49 @@ public class ProcessEpicOutput {
                     if(senderComponents == null || senderComponents.size() == 0) {
                         fw.write("#" + UNKNOWN + " -> " + "BroadcastReceiver registered in " + whereComponents.toString() );
                         fw.write("\n");
-                        fw.write(UNKNOWN + " -> " + UNKNOWN);
-                        fw.write("\n");
+//                        fw.write(UNKNOWN + " -> " + UNKNOWN);
+//                        fw.write("\n");
                         continue;
                     } else {
                         for(String sender : senderComponents) {
                             fw.write("#" + sender + " -> " + "BroadcastReceiver registered in " + whereComponents.toString() );
                             fw.write("\n");
-                            fw.write(sender + " -> " + UNKNOWN);
-                            fw.write("\n");
+//                            fw.write(sender + " -> " + UNKNOWN);
+//                            fw.write("\n");
                         }
                     }
                 }
             }
             
-            if(!unresolvedIntents.isEmpty()) {
+            if(!runtimeAssignedIntents.isEmpty()) {
                 fw.write("\n");
-                fw.write("#Unresolved Intents:");
+                fw.write("#Intents assigned at run-time:");
                 fw.write("\n");
-                for(String component : unresolvedIntents) {
+                for(String component : runtimeAssignedIntents) {
                     fw.write(component + " -> " + UNKNOWN);
+                    fw.write("\n");
+                }
+            }
+            
+            if(!receiverNotFoundIntents.isEmpty()) {
+                fw.write("\n");
+                fw.write("#No receiver found for these intents:");
+                fw.write("\n");
+                for(String component : receiverNotFoundIntents) {
+                    fw.write("# " + component + " -> " + UNKNOWN);
                     fw.write("\n");
                 }
             }
             
             if(!componentMapURI.isEmpty()) {
                 fw.write("\n");
-                fw.write("#The following communication occurs with uses of URIs \n");
-                fw.write("#Please verify the code manually \n");
-                
+                fw.write("#Intents using URIs:");
+                fw.write("\n");
                 for(String component : componentMapURI.keySet()) {
                     String receivers = componentMapURI.get(component).toString();
                     receivers = receivers.substring(1,receivers.length()-1); // Removing [] from set
                     for(String receiver : receivers.split(",")) {
-                        fw.write("# "+ component + " -> " + receiver);
+                        fw.write(component + " -> " + receiver);
                         fw.write("\n");
                     }
                 }
@@ -441,7 +451,8 @@ public class ProcessEpicOutput {
         componentMapURI = new HashMap<String,Set<String>>();
         receivers = new HashMap<String,List<String>>();
         senderFilterMap = new HashMap<String,List<String>>();
-        unresolvedIntents = new ArrayList<String>();
+        runtimeAssignedIntents = new ArrayList<String>();
+        receiverNotFoundIntents = new ArrayList<String>();
         readFile(args[0],args[1],args[2]);
     }
 
