@@ -12,14 +12,19 @@ CHECKERFRAMEWORK ?= ../../checker-framework/checker
 TEX_FILES = \
 manual.tex \
 manual-style.tex \
+macros.tex \
 introduction.tex \
 installation.tex \
 flow.tex \
+flow-flow-policy.tex \
+permission-table.tex \
+intents.tex \
 annotated-app.tex \
-app-annotation.tex \
 appanalysis.tex \
+app-annotation.tex \
 rules-of-engagement.tex \
-sparta-internals.tex
+sparta-internals.tex \
+tutorial.tex
 
 all: figures-all manual.pdf manual.html # javadoc
 
