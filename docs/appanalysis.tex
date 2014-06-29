@@ -106,7 +106,7 @@ Run
 \end{Verbatim}
 \noindent
 to get a list of all constant strings used in the the program grouped by
-category.  A file, \<found-strings.txt> ,  in the sparta-out directory, lists a
+category.  A file, \<found-strings.txt> in the \<sparta-out> directory, lists a
 summary of all strings used in the app grouped by category.   Categories are
 URLs, content URIs, class names, file or path names, SQL statements, messages
 to the user, and no category.  Each string is only assigned to one category.
@@ -312,7 +312,7 @@ annotations, which is the same as annotating the returns and parameters with
 \<@Source(LITERAL)> or to annotate it with \<@PolyFlow> or \<@PolyFlowReceiver>, 
 which essentially says that the
 output can have all the flow sources and sinks of the inputs..
-(See Section \secref{sec:addtionalanno} for more details.)
+(See Section \secref{sec:additionalanno} for more details.)
 
 \end{itemize}
 
@@ -452,8 +452,8 @@ Once you have written as many type qualifiers as possible, proceed to
 type-checking (\secref{sec:run-type-checker}).
 
 \subsubsection{Syntax for Parameterized Annotations\label{sec:parameterized-syntax}}
-When using @FineSource and @FineSink annotations, they must be embedded in their
-respective @Source and @Sink annotations, under attributes finesources and finesinks, respetively.
+When using \<@FineSource> and \<@FineSink> annotations, they must be embedded in their
+respective \<@Source> and \<@Sink> annotations, under attributes \<finesources> and \<finesinks>, respectively.
 For example, if a Picture had an information flow of FILESYSTEM("/home/pics")->INTERNET("mydomain.org"),
 then the annotation should have the syntax:
 
@@ -530,7 +530,7 @@ creates an .apk file inside the project \<bin/> directory, named
 \<project\_name-debug.apk>.
 
 \item
-Create a folder containing the target app's .apk file and all .apk files from
+Create a new folder and copy to it the target app's .apk file and all .apk files from
 the apps that may communicate with the target app. If there are no apps
 communicating with the target app, skip to step 4.
 
@@ -551,10 +551,8 @@ named \<component-map> into the \<path/sparta-out/> directory.
     generate-cm   \textit{path\_to\_app's\_.apk}
 \end{alltt}
 
-%Verbatim used for indentation purposes below.
-\begin{Verbatim}
+\bigskip
 
-\end{Verbatim}
 Example of a generated component map file:
 \begin{alltt}
 com.VideoActivity.onOptionsItemSelected(MenuItem) -> com.VideoActivity.PictureActivity
@@ -564,7 +562,7 @@ com.VideoActivity.GCMRegistrar.internalRegister(String) -> com.gtalkservice.Push
 #com.VideoActivity.AboutUs.onDestroy(Bundle) -> BroadcastReceiver registered in
                                 com.VideoActivity.DisplayService.onBind(Intent)
 
-#Intents assigned at run-time:
+#Intents assigned at run time:
 com.VideoActivity.AboutUs.onCreate(Bundle) -> unknown
 
 #No receiver found for these intents:
@@ -592,13 +590,13 @@ the method \<onBind(Intent)> from the class \<DisplayService>, and replace
 com.VideoActivity.DisplayService.onBind(Intent)"> by the fully-qualified names of
 the BroadcastReceivers registered in that method.
 \item
-\<\#Intents assigned at run-time:> The receiver component for this intent is
-assigned at run-time and could not be statically resolved. A manual inspection
+\<\#Intents assigned at run time:> The receiver component for this intent is
+assigned at run time and could not be statically resolved. A manual inspection
 is needed to refine these cases. In the example above the \<onCreate(Bundle)>
 method of the class \<AboutUs> must be inspected to find out the receiver
 components of this intent. The \<unknown> string in this component map file line
 should be replaced by the fully-qualified names of the receiver components
-assigned at run-time.
+assigned at run time.
 \item
 \<\#No receiver found for these intents:> There are no receiver components for
 these intent-sending methods in the set of apps provided in step 3 of the
@@ -660,11 +658,8 @@ com.package.ActivityA.foo() -> com.package.ActivityB
 
 If the line added could not be obtained by a refinement in step 5 of the
 component map generation, please report a bug.
-%Verbatim used for indentation purposes below.
-\begin{Verbatim}
 
-\end{Verbatim}
-
+\bigskip
 \noindent
 Warning: send.intent.missing.key:
 
@@ -672,7 +667,7 @@ Warning: send.intent.missing.key:
 tests/intent/ActivityTest.java:128: warning: [send.intent.missing.key] 
             startActivity(senderIntent1);
                           ^
-There is a type mismatch in the intents types of senderIntent1 and
+There is a type mismatch in the intent types of senderIntent1 and
 tests.ActivityReceiverStub.setIntent()'s intent parameter.
 Key "k5" is either missing from the intent type of senderIntent1, or should not be present in
 the intent type of com.package.ActivityReceiver.receiveIntent.setIntent()'s intent parameter.
@@ -692,11 +687,7 @@ intent type. If that is the case, you need to add an \<@Extra> with this key in 
 sender's intent type, otherwise remove the \<@Extra> with this key from the
 receiver's intent type.
 
-%Verbatim used for indentation purposes below.
-\begin{Verbatim}
-
-\end{Verbatim}
-
+\bigskip
 \noindent
 Warning: send.intent.incompatible.types:
 
@@ -705,7 +696,7 @@ Warning: send.intent.incompatible.types:
 tests/intent/ActivityTest.java:107: error: [send.intent.incompatible.types] 
             startActivity(senderIntent2);
                           ^
-There is a type mismatch in the intents types of senderIntent2 and
+There is a type mismatch in the intent types of senderIntent2 and
 tests.ActivityReceiverStub.setIntent()'s intent parameter. The @Extra with key "k5"
 in the intent map of senderIntent2 must be a subtype of the @Extra with key "k5" in
 the intent map of tests.ActivityReceiverStub.setIntent()'s intent parameter.
@@ -731,11 +722,7 @@ key \<"k5"> in \<senderIntent2>'s intent type to \<ACCESS\_FINE\_LOCATION>, or
 modify the \<@Source> type of the \<@Extra> with key \<"k5"> 
 in \<onStartCommand()'s intent parameter>'s intent type to \<ANY>.
 
-%Verbatim used for indentation purposes below.
-\begin{Verbatim}
-
-\end{Verbatim}
-
+\bigskip
 \noindent
 Warning: intent.key.notfound:
 
@@ -753,11 +740,7 @@ type of an intent variable \<i> and either \<i.getExtra("k")> or
 To solve this warning you need to add an \<@Extra> in the intent type of
 \<i1> containing \<"k2">'s as a key.
 
-%Verbatim used for indentation purposes below.
-\begin{Verbatim}
-
-\end{Verbatim}
-
+\bigskip
 \noindent
 Warning: argument.type.incompatible:
 
@@ -781,7 +764,8 @@ intent type with that key so that the type of \<@Extra> will match the object's
 type. Considering the example above, you could either modify the \<@Extra> with
 key \<"RandomKey1"> to have its \<@Source> as \<FILESYSTEM> and its \<@Sink> as
 \<INTERNET>, or annotate the return type of
-\<getFile()> with \<@Source({})> and \<@Sink(ANY)>. The first option is the best one
+\<getFile()> with \<@Source({})> and \<@Sink(ANY)>.
+In this particular case, the first option is the best one
 because it doesn't require a flow with \<@Sink(ANY)> in the flow-policy, which
 is too permissive.
 
@@ -892,7 +876,7 @@ This option will also use the stricter conditional rule. (\<LITERAL
 %  LocalWords:  App xml env basename sparta dir app check-flow Dstrict SDK
 %  LocalWords:  report-suspicious report-permissions reportapiusage buildfile dirname
 %  LocalWords:  AndroidManifest classpath java flowpolicy enum astub app's
-%  LocalWords:  RequiredPermissions Source Sink apiusage Dstubs
+%  LocalWords:  RequiredPermissions Source Sink apiusage Dstubs antsetup
 %  LocalWords:  flowstubfiles TelephonyManager getLine1Number flowshow url
-%  LocalWords:  PolySource PloySink FlowPermission FlowPermission grep
-%  LocalWords:  Dstricter
+%  LocalWords:  PolySource PloySink FlowPermission FlowPermission grep txt
+%  LocalWords:  Dstricter URIs src

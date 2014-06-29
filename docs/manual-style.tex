@@ -13,6 +13,12 @@
 \usepackage{tikz}
 % Not supported by Hevea, so don't bother: \usepackage{minitoc}
 
+% \|name| or \mathid{name} denotes identifiers and slots in formulas
+\def\|#1|{\mathid{#1}}
+\newcommand{\mathid}[1]{\ensuremath{\mathit{#1}}}
+% \<name> or \code{name} denotes computer code identifiers
+\def\<#1>{\code{#1}}
+
 \usepackage{relsize}
 % \def\codesize{\smaller}
 \def\codesize{\relax}           % for "pslatex"
@@ -21,12 +27,7 @@
 % This can't handle a URL with an embedded "#" -- at least at UW CSE
 \newcommand{\myurl}[1]{{\codesize\url{#1}}}
 %HEVEA \def\myurl{\url}
-\def\<#1>{\code{#1}}
 
-% The bar rarely appears in Java code and makes generics easier to write.
-% (A disadvantage is that this violates the group's convention about what
-% \| means in other documents...)
-\def\|#1|{\code{#1}}
 
 
 \usepackage{fancyvrb}
