@@ -609,7 +609,7 @@ Context getContext();
 
 int getCount();
 
- @Source({})  View getDropDownView(@Source({}) int position,  @Source({})  View convertView, @Source({})  ViewGroup parent);
+ @Source(ANY) @Sink({}) View getDropDownView(@Source({}) int position,  @Source({})  View convertView, @Source({})  ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
 Filter getFilter();
@@ -651,7 +651,7 @@ BaseAdapter();
 boolean areAllItemsEnabled();
 //Indicates whether all the items in this adapter are enabled.
 
- View getDropDownView(int position,  View convertView, ViewGroup parent);
+@Source(ANY) @Sink({})  View getDropDownView(int position,  View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
 int getItemViewType(int position);
@@ -799,7 +799,7 @@ int getCount();
 Cursor getCursor();
 //Returns the cursor.
 
- View getDropDownView(int position,  View convertView, ViewGroup parent);
+@Source(ANY)  @Sink({}) View getDropDownView(int position,  View convertView, ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
 Filter getFilter();
@@ -3379,7 +3379,7 @@ class TabHost$TabContentFactory{
         View createTabContent(String arg0);
 }
 class SpinnerAdapter{
- View getDropDownView(int position,  View convertView, ViewGroup parent);
+@Source(ANY)  @Sink({}) View getDropDownView(int position,  View convertView, ViewGroup parent);
 }
 class TabWidget{
         TabWidget(Context context);
