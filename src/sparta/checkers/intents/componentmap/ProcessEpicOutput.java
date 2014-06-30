@@ -409,7 +409,7 @@ public class ProcessEpicOutput {
             
             if(!runtimeAssignedIntents.isEmpty()) {
                 fw.write("\n");
-                fw.write("#Intents assigned at run-time:");
+                fw.write("#Intents assigned at run time:");
                 fw.write("\n");
                 for(String component : runtimeAssignedIntents) {
                     fw.write(component + " -> " + UNKNOWN);
