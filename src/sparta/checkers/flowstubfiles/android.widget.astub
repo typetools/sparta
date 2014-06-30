@@ -609,7 +609,7 @@ Context getContext();
 
 int getCount();
 
- View getDropDownView(int position,  View convertView, ViewGroup parent);
+ @Source({})  View getDropDownView(@Source({}) int position,  @Source({})  View convertView, @Source({})  ViewGroup parent);
 //Get a View that displays in the drop down popup the data at the specified position in the data set.
 
 Filter getFilter();

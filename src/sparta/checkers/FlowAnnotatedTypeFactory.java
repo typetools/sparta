@@ -164,7 +164,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         defaults.addAbsoluteDefaults(NOSINK, topLocations);
 
         //Default for receivers is top
-        DefaultLocation[] conditionalSinkLocs = {RECEIVERS};
+        DefaultLocation[] conditionalSinkLocs = {RECEIVERS, PARAMETERS};
         defaults.addAbsoluteDefaults(ANYSOURCE, conditionalSinkLocs);
         defaults.addAbsoluteDefaults(NOSINK, conditionalSinkLocs);
         
@@ -174,6 +174,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         defaults.addAbsoluteDefault(ANYSINK, RETURNS);
         defaults.addAbsoluteDefault(NOSOURCE, FIELD);
         defaults.addAbsoluteDefault(ANYSINK, FIELD);
+        
 
         // Default is {} -> {} for everything else
         defaults.addAbsoluteDefault(NOSINK, OTHERWISE);
@@ -261,19 +262,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             applier.apply(ANYSOURCE, DefaultLocation.OTHERWISE);
             applier.apply(ANYSINK, DefaultLocation.OTHERWISE);
 
-        } else if (isFromStubFile(element)){
-            if (type instanceof AnnotatedExecutableType) {
-                //non-callback library method parameters should either
-                // are defaulted to ANY -> {}, but flow policy
-                // defaulting should be applied first.
-                for (AnnotatedTypeMirror atm : ((AnnotatedExecutableType) type)
-                        .getParameterTypes()) {
-                    completePolicyFlows(atm);
-                }
-                applier.apply(NOSINK, DefaultLocation.PARAMETERS);
-                applier.apply(ANYSOURCE, DefaultLocation.PARAMETERS);
-            }
-        }
+        } 
     }
 
     private void handlePolyFlow(Element iter, DefaultApplierElement applier) {
