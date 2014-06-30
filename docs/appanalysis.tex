@@ -755,8 +755,8 @@ is too permissive.
 
 \subsection{Trace information flows\label{sec:trace-types}}
 
-On execution, the Information Flow Checker creates a file called \<forbiddenFlows.txt> in the current
-working directory. This file contains a summary of all of the information flows
+On execution, the Information Flow Checker creates a file called \<forbiddenFlows.txt> in the 
+\<sparta-out>  directory. This file contains a summary of all of the information flows
 in the app that did not have a flow-policy entry when the Information Flow Checker was ran.
 \<forbiddenFlows.txt> is recreated on every execution.
 
@@ -784,8 +784,7 @@ To start tracing information flows, begin by running the Information Flow Checke
   ant check-flow
 \end{Verbatim}
 
-Next, inspect the \<forbiddenFlows.txt> file. Concrete flows are flows that do not have
-\<\{\}> or \<CONDITIONAL> sinks. Each concrete flow should be evaluated:
+Next, inspect the \<forbiddenFlows.txt> file. 
 
 \begin{itemize}
 \item
@@ -795,15 +794,9 @@ If the flow is a undesired information flow, do not add it to the flow-policy,
 but record both in the source code and elsewhere that you have found a security flaw.
 \end{itemize}
 
-After evaluating concrete flows, select a source from the \<forbiddenFlows.txt> to trace.
-\<LITERAL> sources should be traced last because the unannotated variables have
-a default source of \<LITERAL> which may be revised. Use flow filtering to display
+After evaluating all flows, select a source from the \<forbiddenFlows.txt> to trace.
+Use flow filtering to display
 all forbidden flow locations for the selected source.
-
-For example, if \<forbiddenFlows.txt> contains an entry \<CAMERA\flowsto \{\}>
-this would indicate that a type \<@Source(CAMERA)> flows to a type that had no declared sinks,
-\<@Sink(\{\})>. \<CAMERA> would be a candidate for tracing. The following command
-could be used to perform flow-filtering for any flow with a source \<CAMERA>.
 
 \begin{Verbatim}
   ant command filter-flows -Dflow-filter="CAMERA ->"

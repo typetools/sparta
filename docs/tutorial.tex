@@ -14,42 +14,38 @@ This chapter demonstrates how to annotate an existing app, ContactManger,
 \section{Set up}
 Download the ContactManager app here: \url{http://types.cs.washington.edu/sparta/tutorial/ContactManager.tgz}
 Install the Information Flow Checker and set up ContactManger to use the Information Flow Checker. 
-See \secref{sec:antsetup}  and \secref{sec:install} for instructions. Also add 
-the following imports to both source files:
-\begin{Verbatim} 
-import static sparta.checkers.quals.FlowPermission.*;
-import sparta.checkers.quals.*;
-\end{Verbatim}
+See \secref{sec:antsetup}  and \secref{sec:install} for instructions. Also, install the inference framework
+see \secref{} for details.
 
-Run the Information Flow Checker, \<ant check-flow>, if the output is similar to 
-the output shown below, then your setup is correct.  (You should get 43 warnings.)
+Infer types, \<ant infer>.
+Then, run the Information Flow Checker, \<ant check-flow>, if the output is similar to 
+the output shown below, then your setup is correct.  (You should get 14 warnings.)
 
 \begin{Verbatim}
 Buildfile: .../ContactManager/build.xml
 ...
-check-flow:
+check-flow-pp:
 [jsr308.javac] Compiling 4 source files to .../ContactManager/bin/classes
-[jsr308.javac] javac 1.8.0-jsr308-1.7.0
-[jsr308.javac] warning: The following options were not recognized by any processor: '[componentMap]'
-[jsr308.javac] .../ContactManager/src/com/example/android/contactmanager/ContactAdder.java:75: warning: incompatible types in argument.
-[jsr308.javac]         Log.v(TAG, "Activity State: onCreate()");
-[jsr308.javac]               ^
-[jsr308.javac]   found   : @Sink(FlowPermission.CONDITIONAL) @Source(FlowPermission.LITERAL) String
-[jsr308.javac]   required: @Sink(FlowPermission.WRITE_LOGS) @Source({}) String
+[jsr308.javac] javac 1.8.0-jsr308-1.8.2
+[jsr308.javac] warning: The following options were not recognized by any processor: '[componentMap, ignorenr, prettyPrint]'
+[jsr308.javac] .../ContactManager/src/com/example/android/contactmanager/ContactAdder.java:195: warning: [argument.type.incompatible] incompatible types in argument.
+[jsr308.javac]                 .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, name)
+[jsr308.javac]                                                                                          ^
+[jsr308.javac]   found   :  { USER_INPUT  ->   }  String
+[jsr308.javac]   required:  {   ->  CONTENT_PROVIDER }  Object
 \end{Verbatim} 
 
 \section{Drafting a flow policy}
 
-The Information Flow Checker outputs a file, \<forbiddenFlows.txt>, that lists all the flows
+The Information Flow Checker outputs a file, \<sparta-out/forbiddenFlows.txt>, that lists all the flows
  it found in the app that are not allowed by the current flow policy.  For this app, 
  \<forbiddenFlows.txt> is shown below. 
 
 \begin{Verbatim} 
 # Flows currently forbidden
- ANY -> WRITE_LOGS 
- CONTENT_PROVIDER -> {}
- LITERAL -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
- USER_INPUT -> WRITE_LOGS, CONTENT_PROVIDER 
+ ANY -> ANY
+ CONTENT_PROVIDER -> ANY
+ USER_INPUT -> WRITE_LOGS, CONTENT_PROVIDER
 \end{Verbatim} 
 Because this app does not yet have a flow policy, this file lists all the flows that the 
 Information Flow Checker was able to detect.  This is not a complete list of flows in the program,
@@ -57,45 +53,26 @@ because the Information Flow Checker issued warnings, but it offers a good start
 for the flow policy. 
 
 Create a file named \<flow-policy> in the ContactManger directory.  Copy all the flows that   
-do not flow to or from \perm{ANY} or \perm{\{\}}.  These flows should not be copied because 
+do not flow to or from \perm{ANY}.  These flows should not be copied because 
 they are too permissive.  So, for this app the initial flow policy is shown below.
 \begin{Verbatim} 
- LITERAL -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
- USER_INPUT -> WRITE_LOGS, CONTENT_PROVIDER 
+ USER_INPUT -> WRITE_LOGS, CONTENT_PROVIDER
 \end{Verbatim}
 
  Run the Information Flow Checker again.  (Because you named your flow policy 
 \<flow-policy>, the Information Flow Checker will automatically read it.)  The Information Flow Checker should
-now only report 5 warnings.  The \<forbiddenFlows.txt> file should also have changed as shown
+now only report 10 warnings.  The \<forbiddenFlows.txt> file should also have changed as shown
 below.
 
 \begin{Verbatim}
 # Flows currently forbidden
- ANY -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
- CONTENT_PROVIDER -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
+ ANY -> ANY
+ CONTENT_PROVIDER -> ANY
 \end{Verbatim}
  
-Using the initial flow policy, the Information Flow Checker was able to find more forbidden flows. 
-Copy the new flows to the flow-policy,
-so the flow policy should now contain the following flows:
-
-\begin{Verbatim} 
- LITERAL -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
- USER_INPUT -> WRITE_LOGS, CONTENT_PROVIDER 
- CONTENT_PROVIDER -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
-\end{Verbatim}
-
-
- 
- Run the Information Flow Checker again. The \<forbiddenFlows.txt> file changed again.
-\begin{Verbatim}
-# Flows currently forbidden
- ANY -> DISPLAY, WRITE_LOGS, CONTENT_PROVIDER 
- CONTENT_PROVIDER -> {}
- \end{Verbatim}
- Since both of these flows contain either \perm{ANY} or \perm{\{\}}, there is nothing to add 
+ Since both of these flows contain \perm{ANY}, there is nothing to add 
  to the flow policy.  However, the flow policy may not be complete, because the Information Flow Checker
- issued 5 warnings.  
+ issued 10 warnings.  
 
 
 

@@ -186,7 +186,7 @@ the subtype's regular expression.
 \label{sec:permissions}
 
 
-TheFlowChecker's permissions are finer-grained than standard Android manifest permissions
+The Information Flow Checker's permissions are finer-grained than standard Android manifest permissions
 in two ways.  First, Android permits any flow
 between any pair of permissions in the manifest --- that is, an Android
 program may use any resource
@@ -249,11 +249,10 @@ users to understand~\cite{FeltCHSW2011}.  But our perspective is that of a
 full-time auditor who
 is trained to analyze applications.  The flow policy is examined once
 per application by that skilled engineer, not on every download by a user, so
-the total human burden is less.  (See
-\secref{sec:empirical-study:appstore} for empirical measurements.)
+the total human burden is less.  
   The more detailed flow
 policy file yields more insight than simple Android permissions,
-because the flow policy (\secref{sec:system:policy})
+because the flow policy 
 makes clear how each resource is used, not just
 that it is used.
 
@@ -627,8 +626,8 @@ expressions depending on the left-hand side.
 
 \medskip
 
-\section{Guidance on writing annotations}
-\chapref{tutorial} is a tutorial on how to annotate an existing application. 
+%\section{Guidance on writing annotations}
+%\chapref{tutorial} is a tutorial on how to annotate an existing application. 
 %See \chapref{app-annotation} for tips about
 %writing information-flow annotations. 
 
