@@ -32,7 +32,6 @@
         <attribute name="stub" default="${stubs}"/>
          <attribute name="flowPolicy" default="${flowPolicy}"/>
          <attribute name="componentMap" default="${componentMap}"/>
-         <attribute name="ignorenr" default="${ignorenr}"/>
         <!-- Optional additional tasks to perform at the end. -->
         <element name="more-tasks" optional="yes"/>
         <sequential>
