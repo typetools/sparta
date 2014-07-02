@@ -138,10 +138,9 @@ public void setIntent(@IntentMap({
 }
 \end{Verbatim}
 
-\TheFlowChecker{} uses data flow inference, which is currently not working for
-\theIntentChecker{}. Because of that, to annotate local variables using the type
-qualifiers \<@IntentMap> and \<@Extra> you must annotate the expression in the
-assignment of a local variable using a cast. Below is an example:
+To annotate intent variables instantiated in method bodies, you must use a cast
+to annotate the instantiation expression using the qualifiers \<@IntentMap> and
+\<@Extra> in the constructor. Below is an example:
 
 \begin{Verbatim}
 void foo() {

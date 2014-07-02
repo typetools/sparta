@@ -497,53 +497,70 @@ creates an .apk file inside the project \<bin/> directory, named
 \<project\_name-debug.apk>.
 
 \item
-Create a new folder and copy to it the target app's .apk file and all .apk files from
-the apps that may communicate with the target app. If there are no apps
-communicating with the target app, skip to step 4.
+Run the \<generate-cm> script, located in the \<sparta-code> folder. This
+script receives as argument the path of the target app's .apk file created in
+the previous step,
+followed by a set of .apk files of apps that might communicate with the target
+app. It is not necessary to pass the .apk of built-in Android apps as arguments.
+You must call it from the \<sparta-code> folder:
+\bigskip
 
-\item
-Run the \<generate-filters> script, located in the \<sparta-code> folder. It
-processes the manifest file contained in each .apk and identifies their
-components. The output of this script is used by the \<generate-cm> script.
-Run it as follows:
 \begin{alltt}
-    generate-filters   \textit{path\_to\_folder\_containing\_.apk\_files}
-\end{alltt}
-
-\item
-Run the \<generate-cm> script, located in the \<sparta-code> folder. It
-receives as argument the \<path> of the application's .apk and it outputs a file
-named \<component-map> into the \<path/sparta-out/> directory.
-\begin{alltt}
-    generate-cm   \textit{path\_to\_app's\_.apk}
+generate-cm \textit{target\_app's\_.apk} \textit{[app1.apk app2.apk ... appN.apk]}
 \end{alltt}
 
 \bigskip
 
 Example of a generated component map file:
+\bigskip
+
 \begin{alltt}
 com.VideoActivity.onOptionsItemSelected(MenuItem) -> com.VideoActivity.PictureActivity
 com.VideoActivity.GCMRegistrar.internalRegister(String) -> com.gtalkservice.PushMessage
 
 #Broadcast Receivers:
-#com.VideoActivity.AboutUs.onDestroy(Bundle) -> BroadcastReceiver registered in
+#Inspect the method com.VideoActivity.AboutUs.onDestroy(Bundle)
+#and replace the "BroadcastReceiver registed in..." text below by
+#the fully-qualified name of the BroadcastReceiver registered in
+#that location. 
+#Also, remove the "Update Line: " prefix.
+
+Update line: com.VideoActivity.AboutUs.onDestroy(Bundle) -> BroadcastReceiver registered in
                                 com.VideoActivity.DisplayService.onBind(Intent)
 
 #Intents assigned at run time:
-com.VideoActivity.AboutUs.onCreate(Bundle) -> unknown
+#Inspect the method com.VideoActivity.AboutUs.onCreate(android.os.Bundle)
+#and replace the RUN_TIME_ASSIGNED text below by 
+#the fully-qualified names of the components that might 
+#receive an intent sent from com.VideoActivity.AboutUs.onCreate(android.os.Bundle). 
+#Also, remove the "Update Line: " prefix.
 
-#No receiver found for these intents:
-#com.VideoActivity.AboutUs.onPause(Bundle) -> unknown
+Update line: com.VideoActivity.AboutUs.onCreate(android.os.Bundle) -> RUN_TIME_ASSIGNED
 
 #Intents using URIs:
 com.VideoActivity.DisplayService\$3.run() -> com.VideoActivity.MyBringBack
 com.VideoActivity.DisplayService\$3.run() -> com.VideoActivity.SoundListActivity
 
+#No receiver found for these intents:
+com.VideoActivity.AboutUs.onPause(Bundle) -> RECEIVER_NOT_FOUND
 \end{alltt}
+
+\bigskip
+
 \item
-After the component map file is generated, it is possible to refine it if
+After the component map file is generated you may need to refine it if
 receiver components could not be resolved in some cases. To check if your
-\<component-map> can be refined, open it and look for the comments:
+\<component-map> needs a refinement, open it and look for lines starting with:
+
+\begin{alltt}
+Update line:
+\end{alltt}
+\bigskip
+If the component map has at
+least one occurrence of \<Update line:>, it must be refined.
+The component map is divided into comment sections. Below is
+explained each comment section, and how to update each line when necessary.
+
 \begin{itemize}
 \item
 \<\#Broadcast Receivers:> BroadcastReceivers can be dynamically registered to
@@ -556,19 +573,16 @@ the method \<onBind(Intent)> from the class \<DisplayService>, and replace
 \<"BroadcastReceiver registered in
 com.VideoActivity.DisplayService.onBind(Intent)"> by the fully-qualified names of
 the BroadcastReceivers registered in that method.
+
 \item
 \<\#Intents assigned at run time:> The receiver component for this intent is
 assigned at run time and could not be statically resolved. A manual inspection
-is needed to refine these cases. In the example above the \<onCreate(Bundle)>
+is needed to update these cases. In the example above the \<onCreate(Bundle)>
 method of the class \<AboutUs> must be inspected to find out the receiver
-components of this intent. The \<unknown> string in this component map file line
+components of this intent. The \<RUN\_TIME\_ASSIGNED> string in this line
 should be replaced by the fully-qualified names of the receiver components
 assigned at run time.
-\item
-\<\#No receiver found for these intents:> There are no receiver components for
-these intent-sending methods in the set of apps provided in step 3 of the
-component map generation and the target app. Either step 3 must be done
-correctly or an intent is being sent but not received by any component.
+
 \item
 \<\#Intents using URIs:> The component map generation does not differentiate
 intent filters with the same action and categories but different data (URI).
@@ -576,8 +590,14 @@ You must manually inspect the intent-sending method and discover the receiver
 components. Every communication that uses URIs will be shown in the component
 map file so that the you can comment the ones you are certain that are not
 receiving an intent from that intent-sending method.
+
+\item
+\<\#No receiver found for these intents:> There are no receiver components for
+these intent-sending methods in the set of apps provided in the component map
+generation.
 \end{itemize}
 \end{enumerate}
+
 
 \subsubsection{Annotating components from other applications}
 In case the app being analyzed communicates with components from
@@ -599,13 +619,18 @@ of \<check-flow>:
 \end{alltt}
 
 \subsubsection{Common warnings and errors in \theIntentChecker{}}
+
 \noindent
 Error: intent.receiver.notfound:
 
 \begin{Verbatim}
-error: Could not find receivers for the intent sent in method: com.package.ActivityA.foo().
-Regenerate the component map file or add a line in it from this method to one or more
-receiver components of that intent.
+tests/intent/ActivityTest.java:118: error: [intent.receiver.notfound]
+            startActivity(i);
+                          ^
+Could not find receivers for the intent sent in method:
+tests.ActivityTest.receiverNotFound(). Regenerate the component map file or add
+a line in it from this method to one or more receiver components of that intent.
+
 \end{Verbatim}
 
 This error occurs when type-checking a \sendIntent{} call whose method in which
@@ -621,10 +646,11 @@ components. For example:
 
 \begin{Verbatim}
 com.package.ActivityA.foo() -> com.package.ActivityB
+or
+com.package.ActivityA.foo() -> RECEIVER_NOT_FOUND
 \end{Verbatim}
 
-If the line added could not be obtained by a refinement in step 5 of the
-component map generation, please report a bug.
+Use the later if the intent is not being received by any component.
 
 \bigskip
 \noindent
@@ -644,9 +670,6 @@ senderIntent1's intent type:
 tests.ActivityReceiverStub.setIntent()'s intent parameter intent type:
 @IntentMap({@Extra(key="k5", source={ACCESS_FINE_LOCATION}, sink={})}).
 \end{Verbatim}
-
-This warning occurs when either a key is missing from the sender's intent type
-or should not be present in the intent type of the receiver.
 
 To solve this warning you need to verify how this key is used in the receiver
 component, to make sure that it makes sense for the receiver to have it in its
@@ -697,15 +720,12 @@ Warning: intent.key.notfound:
  tests/intent/ConstCheckerTest.java:44: warning: [intent.key.notfound] 
          String test1 = i1.getStringExtra("k2");
                                          ^
-Key "k2" missing from @IntentMap annotation of i1.
+Invalid access: key "k2" is not in the @IntentMap annotation of i1.
 \end{Verbatim}
 
-This warning occurs when a key \<"k"> is missing from the intent
+This warning occurs when a key \<"k"> is not in the intent
 type of an intent variable \<i> and either \<i.getExtra("k")> or 
 \<i.putExtra("k",...)> is called.
-
-To solve this warning you need to add an \<@Extra> in the intent type of
-\<i1> containing \<"k2">'s as a key.
 
 \bigskip
 \noindent
@@ -732,10 +752,6 @@ type. Considering the example above, you could either modify the \<@Extra> with
 key \<"RandomKey1"> to have its \<@Source> as \<FILESYSTEM> and its \<@Sink> as
 \<INTERNET>, or annotate the return type of
 \<getFile()> with \<@Source({})> and \<@Sink(ANY)>.
-In this particular case, the first option is the best one
-because it doesn't require a flow with \<@Sink(ANY)> in the flow-policy, which
-is too permissive.
-
 
 \subsection{Trace information flows\label{sec:trace-types}}
 
