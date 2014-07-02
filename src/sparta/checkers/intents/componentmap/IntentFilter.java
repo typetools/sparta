@@ -57,14 +57,14 @@ public class IntentFilter {
             }
             output = output.substring(0, output.length() - 1);
         }
-        if (categories.size() > 0) {
-            output = output + ",";
-            for (String category : this.categories) {
-                output += category + "|";
-
-            }
-            output = output.substring(0, output.length() - 1);
-        }
+//        if (categories.size() > 0) {
+//            output = output + ",";
+//            for (String category : this.categories) {
+//                output += category + "|";
+//
+//            }
+//            output = output.substring(0, output.length() - 1);
+//        }
         String URIContent = "";
         if (data.size() > 0) {
             for (String data : this.data) {

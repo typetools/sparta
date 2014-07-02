@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import sparta.checkers.intents.ComponentMap;
+
 
 public class ProcessEpicOutput {
    
@@ -28,10 +30,20 @@ public class ProcessEpicOutput {
     private static List<String> runtimeAssignedIntents;
     private static List<String> receiverNotFoundIntents;
     
-    static String UNKNOWN = "unknown";
+    public static String UNKNOWN = "unknown";
+    public static String RUN_TIME_ASSIGNED = "RUN_TIME_ASSIGNED";
+    public static String NOT_FOUND = "RECEIVER_NOT_FOUND";
     
     static void matchFilters(String component, IntentFilter filter, String filtersPath) {
         
+        if (filter.toString().contains("<any_string>") || 
+                filter.toString().contains("<any_class>") ) {
+            if (!runtimeAssignedIntents.contains(component)) {
+                runtimeAssignedIntents.add(component);
+            }
+            return;
+        }
+            
         List<String> actions = filter.action;
         for(String action : actions) {
             List<String> temp;
@@ -54,7 +66,7 @@ public class ProcessEpicOutput {
                 String[] filterToComponent = currentLine.split(" ");
                 if(filterToComponent[0].contains("|")) {
                     //handling several actions case
-                    String[] filterActions = filterToComponent[0].split("|");
+                    String[] filterActions = filterToComponent[0].split("\\|");
                     filterActions[0] += ")";
                     filterActions[filterActions.length-1] = "(" + filterActions[filterActions.length-1];
                     for(int i = 1; i < filterActions.length-1; i++) {
@@ -83,7 +95,8 @@ public class ProcessEpicOutput {
                 currentLine = bufferedReaderFilters.readLine();
             }
             if(!found) {
-                if(!receiverNotFoundIntents.contains(component)) {
+                if (!receiverNotFoundIntents.contains(component) && 
+                        !componentMap.keySet().contains(component)) {
                     receiverNotFoundIntents.add(component);
                 }
             }
@@ -391,17 +404,24 @@ public class ProcessEpicOutput {
                     List<String> senderComponents = senderFilterMap.get(action);
                     
                     if(senderComponents == null || senderComponents.size() == 0) {
-                        fw.write("#" + UNKNOWN + " -> " + "BroadcastReceiver registered in " + whereComponents.toString() );
+                        fw.write("#" + "Inspect the method " + whereComponents.toString() + 
+                                "\n#and replace the \"BroadcastReceiver registed in...\" text below by " +
+                                "\n#the fully-qualified name of the BroadcastReceiver registered in " +
+                                "\n#that location. Also, remove the \"Update Line: \" prefix.\n");
+                        fw.write(ComponentMap.updateLine);
+                        fw.write(UNKNOWN + " -> " + "BroadcastReceiver registered in " + whereComponents.toString() );
                         fw.write("\n");
-//                        fw.write(UNKNOWN + " -> " + UNKNOWN);
-//                        fw.write("\n");
                         continue;
                     } else {
                         for(String sender : senderComponents) {
-                            fw.write("#" + sender + " -> " + "BroadcastReceiver registered in " + whereComponents.toString() );
+                            fw.write("#" + "Inspect the method " + whereComponents.toString() + 
+                                    "\n#and replace the \"BroadcastReceiver registered in...\" text below by " +
+                                    "\n#the fully-qualified name of the BroadcastReceiver registered in " +
+                                    "\n#that location." +
+                                    "\nAlso, remove the \"Update Line: \" prefix.\n" );
+                            fw.write(ComponentMap.updateLine);
+                            fw.write(sender + " -> " + "BroadcastReceiver registered in " + whereComponents.toString() );
                             fw.write("\n");
-//                            fw.write(sender + " -> " + UNKNOWN);
-//                            fw.write("\n");
                         }
                     }
                 }
@@ -412,25 +432,23 @@ public class ProcessEpicOutput {
                 fw.write("#Intents assigned at run time:");
                 fw.write("\n");
                 for(String component : runtimeAssignedIntents) {
-                    fw.write(component + " -> " + UNKNOWN);
-                    fw.write("\n");
-                }
-            }
-            
-            if(!receiverNotFoundIntents.isEmpty()) {
-                fw.write("\n");
-                fw.write("#No receiver found for these intents:");
-                fw.write("\n");
-                for(String component : receiverNotFoundIntents) {
-                    fw.write("# " + component + " -> " + UNKNOWN);
+                    fw.write("#" + "Inspect the method " + component + 
+                            "\n#and replace the " + RUN_TIME_ASSIGNED + " text below by " +
+                            "\n#the fully-qualified names of the components that might " +
+                            "\n#receive an intent sent from " + component + ". " +
+                            "\n#Also, remove the \"Update Line: \" prefix.\n");
+                    fw.write(ComponentMap.updateLine);
+                    fw.write(component + " -> " + RUN_TIME_ASSIGNED);
                     fw.write("\n");
                 }
             }
             
             if(!componentMapURI.isEmpty()) {
                 fw.write("\n");
-                fw.write("#Intents using URIs:");
-                fw.write("\n");
+                fw.write("#Intents using URIs:\n");
+                fw.write("#Examine the URIs of the intents sent in each method\n");
+                fw.write("#on the left side of the lines below and comment\n");
+                fw.write("#the lines below where the communication is impossible to occur\n");
                 for(String component : componentMapURI.keySet()) {
                     String receivers = componentMapURI.get(component).toString();
                     receivers = receivers.substring(1,receivers.length()-1); // Removing [] from set
@@ -438,6 +456,16 @@ public class ProcessEpicOutput {
                         fw.write(component + " -> " + receiver);
                         fw.write("\n");
                     }
+                }
+            }
+            
+            if(!receiverNotFoundIntents.isEmpty()) {
+                fw.write("\n");
+                fw.write("#No receiver found for these intents:\n");
+                fw.write("\n");
+                for(String component : receiverNotFoundIntents) {
+                    fw.write(component + " -> " + NOT_FOUND);
+                    fw.write("\n");
                 }
             }
             

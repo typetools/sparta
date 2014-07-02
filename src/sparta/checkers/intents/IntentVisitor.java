@@ -29,6 +29,7 @@ import org.checkerframework.javacutil.TreeUtils;
 import org.checkerframework.javacutil.TypesUtils;
 
 import sparta.checkers.FlowVisitor;
+import sparta.checkers.intents.componentmap.ProcessEpicOutput;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.IntentMapBottom;
@@ -280,6 +281,15 @@ public class IntentVisitor extends FlowVisitor {
     private void checkSendIntent(AnnotatedExecutableType method,
             MethodInvocationTree node, String receiverMethodName) {
 
+        Set<String> receiversFromSender = getReceiversFromSender(IntentUtils.
+                retrieveSendIntentPath(getCurrentPath()),node);
+
+        if (receiversFromSender.contains(ProcessEpicOutput.NOT_FOUND)) {
+            //No receiver found for this sender.
+            //Assuming the component map is correct, this should type-check.
+            return;
+        }
+
         //All send intents have an intent parameter, find it
         int paramIndex = -1;
         for (AnnotatedTypeMirror atm : method.getParameterTypes()) {
@@ -295,14 +305,14 @@ public class IntentVisitor extends FlowVisitor {
                     node);
             return;
         }
-        
+
         //Get the @IntentMap annotation for the correct parameter
         ExpressionTree intentObject = node.getArguments().get(paramIndex);
         AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(intentObject);
         AnnotationMirror rhsIntentExtras = rhs.getAnnotationInHierarchy(iatf.TOP_INTENT_MAP);
-        
+
         for (Pair<String, MethodInvocationTree> receiveIntentTree : getReceiversMethods(node,
-                receiverMethodName)) {
+                receiverMethodName, receiversFromSender)) {
             ExecutableElement methodElt = TreeUtils
                     .elementFromUse(receiveIntentTree.snd);
             AnnotatedTypeMirror receiverType = atypeFactory
@@ -462,14 +472,8 @@ public class IntentVisitor extends FlowVisitor {
      * @return A list of getIntent() methods
      */
     private List<Pair<String,MethodInvocationTree>> getReceiversMethods(
-            MethodInvocationTree tree, String method) {
+            MethodInvocationTree tree, String method, Set<String> receiversStrList) {
 
-        // Return the sender intent in the String format. Check method @Javadoc.
-        String senderString = IntentUtils.retrieveSendIntentPath(getCurrentPath());
-        // Getting the receivers components in the String format from the
-        // Component map
-        Set<String> receiversStrList = getReceiversFromSender(senderString,
-                tree);
         List<Pair<String,MethodInvocationTree>> receiversList = 
                 new ArrayList<Pair<String,MethodInvocationTree>>();
 

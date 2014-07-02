@@ -3,4 +3,5 @@ tests.ActivityTest.startActivitySuccess(int,java.lang.String,java.lang.Object,ja
 tests.ActivityTest.startActivityFail() -> tests.ActivityReceiverStub
 tests.ActivityTest$1.onClick(android.view.View) -> tests.ActivityReceiverStub
 tests.ActivityTest$2.onClick(android.view.View) -> tests.ActivityReceiverStub
+tests.ActivityTest.unknownReceiver() -> RECEIVER_NOT_FOUND
 

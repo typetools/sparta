@@ -62,6 +62,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         final String ipArg = checker
                 .getOption(ComponentMap.COMPONENT_MAP_FILE_OPTION);
         componentMap = new ComponentMap(ipArg);
+        checkForRefinementCM();
 
         getIntent = TreeUtils.getMethod("android.app.Activity", "getIntent", 0, processingEnv);
         setIntent = TreeUtils.getMethod("android.app.Activity", "setIntent", 1, processingEnv);
@@ -73,6 +74,23 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         BOTTOM_INTENT_MAP = AnnotationUtils.fromClass(elements, IntentMapBottom.class); // bottom
         if (this.getClass().equals(IntentAnnotatedTypeFactory.class)) {
             this.postInit();
+        }
+    }
+
+    /**
+     * This method is used to immediately stop the analysis and ask the user to
+     * refine the component map, when necessary.
+     */
+    
+    private void checkForRefinementCM() {
+        if (componentMap != null && componentMap.linesToUpdate != null && 
+                !componentMap.linesToUpdate.isEmpty()) {
+            String updateMsg = "Please update the following lines in the " +
+                "component map:" + "\n";
+            for (String lineToUpdate : componentMap.linesToUpdate) {
+                updateMsg += lineToUpdate + "\n";
+            }
+            checker.userErrorAbort(updateMsg);
         }
     }
 

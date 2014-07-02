@@ -106,6 +106,18 @@ public class ActivityTest extends Activity {
         startActivity(senderIntent2);
     }
     
+    void unknownReceiver() {
+        Intent i = (@IntentMap() Intent) new Intent();
+        startActivity(i);
+    }
+    
+    //Not in the component map
+    void receiverNotFound() {
+        Intent i = new Intent();
+      //:: error: (intent.receiver.notfound)
+        startActivity(i);
+    }
+    
     private OnClickListener clickListenerOK = new OnClickListener() {
         public void onClick(@Source(ANY) @Sink({})  View v)	{
             Intent senderIntent1 = (@IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })

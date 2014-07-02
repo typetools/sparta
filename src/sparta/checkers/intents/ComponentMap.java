@@ -16,11 +16,13 @@ import java.util.regex.Pattern;
 
 public class ComponentMap {
 
-	public static final String COMPONENT_MAP_FILE_OPTION = "componentMap";
-	
-    public static final String EMPTY = "{}";
-    public static final String EMPTY_REGEX = "\\{\\}";
-
+    public static final String COMPONENT_MAP_FILE_OPTION = "componentMap";
+    
+    private static final String EMPTY = "{}";
+    private static final String EMPTY_REGEX = "\\{\\}";
+    public static final String updateLine = "Update line: ";
+    public List<String> linesToUpdate;
+    
     private final Map<String, Set<String>> componentMap;
 
     public ComponentMap(final String filename) {
@@ -59,6 +61,7 @@ public class ComponentMap {
             EMPTY_REGEX + "))\\s*->\\s*((?:\\S+)(?:\\s*,\\s*\\S+)*)\\s*$");
 
         final List<String> errors = new ArrayList<String>();
+        linesToUpdate = new ArrayList<String>();
 
         BufferedReader bufferedReader = null;
         try {
@@ -70,45 +73,52 @@ public class ComponentMap {
                 originalLine = originalLine.trim();
                 // Remove anything from # on in the line
                 final String line = stripComment(originalLine);
-
-                if (!line.isEmpty() && !isWhiteSpaceLine(line)) {
-                    final Matcher matcher = linePattern.matcher(line);
-
-                    Set<String> receivers = new HashSet<String>();
-                    if (matcher.matches()) {
-                        final String senderStr = matcher.group(1).trim();
-                        final String[] receiversStrs = matcher.group(2).split(",");
-                        if (senderStr.equals(EMPTY)) {
-                            errors.add(formatComponentMapError(mapFile, 
-                                lineNum, "Sender missing.", originalLine));
-                            receivers = null;
-
-                        } else {
-                            try {
-                                for(String s : receiversStrs) {
-                                    s = s.trim();
-                                    receivers.add(s);
-                                }
-                                if (receivers != null && !receivers.isEmpty()) {
-                                    if(componentMap.containsKey(senderStr)) {
-                                        receivers.addAll(componentMap.get(senderStr));
-                                    }
-                                    componentMap.put(senderStr, receivers);
-                                }
-                            } catch (final IllegalArgumentException iaExc) {
-                                errors.add(formatComponentMapError(mapFile, lineNum,
-                                    "Unrecognized class: " + iaExc.getMessage(),
-                                    originalLine));
+                
+                if (line.startsWith(updateLine)) {
+                    linesToUpdate.add(formatComponentMapError(mapFile, 
+                        lineNum, "", originalLine));
+                } else {
+                
+                    if (!line.isEmpty() && !isWhiteSpaceLine(line)) {
+                        final Matcher matcher = linePattern.matcher(line);
+    
+                        Set<String> receivers = new HashSet<String>();
+                        if (matcher.matches()) {
+                            final String senderStr = matcher.group(1).trim();
+                            final String[] receiversStrs = matcher.group(2).split(",");
+                            if (senderStr.equals(EMPTY)) {
+                                errors.add(formatComponentMapError(mapFile, 
+                                    lineNum, "Sender missing.", originalLine));
                                 receivers = null;
+    
+                            } else {
+                                try {
+                                    for(String s : receiversStrs) {
+                                        s = s.trim();
+                                        receivers.add(s);
+                                    }
+                                    if (receivers != null && !receivers.isEmpty()) {
+                                        if(componentMap.containsKey(senderStr)) {
+                                            receivers.addAll(componentMap.get(senderStr));
+                                        }
+                                        componentMap.put(senderStr, receivers);
+                                    }
+                                } catch (final IllegalArgumentException iaExc) {
+                                    errors.add(formatComponentMapError(mapFile, lineNum,
+                                        "Unrecognized class: " + iaExc.getMessage(),
+                                        originalLine));
+                                    receivers = null;
+                                }
                             }
+    
+                        } else {
+                            errors.add(formatComponentMapError(
+                                    mapFile,
+                                    lineNum,
+                                    "Syntax error, Lines are of the form: Sender -> Receiver1, Receiver2, ..., ReceiverN ",
+                                    originalLine));
                         }
-
-                    } else {
-                        errors.add(formatComponentMapError(
-                                mapFile,
-                                lineNum,
-                                "Syntax error, Lines are of the form: Sender -> Receiver1, Receiver2, ..., ReceiverN ",
-                                originalLine));
+                        
                     }
                 }
 
@@ -126,6 +136,7 @@ public class ComponentMap {
             } catch (IOException ignoredCloseExc) {
             }
         }
+        
 
         if (!errors.isEmpty()) {
             System.out.println("\nErrors parsing map file:");
@@ -138,6 +149,7 @@ public class ComponentMap {
             throw new RuntimeException("Errors parsing map file: "
                     + mapFile.getAbsolutePath());
         }
+        
     }
 
     private static final Pattern WHITE_SPACE_PATTERN = Pattern.compile("^\\s*$");
