@@ -138,9 +138,9 @@ public void setIntent(@IntentMap({
 }
 \end{Verbatim}
 
-To annotate intent variables instantiated in method bodies, you must use a cast
-to annotate the instantiation expression using the qualifiers \<@IntentMap> and
-\<@Extra> in the constructor. Below is an example:
+When instantiating an intent object in method bodies, the instantiation
+expression must be annotated using a cast with the qualifiers \<@IntentMap> and
+\<@Extra>. Below is an example:
 
 \begin{Verbatim}
 void foo() {
