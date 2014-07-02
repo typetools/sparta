@@ -404,21 +404,24 @@ public class ProcessEpicOutput {
                     List<String> senderComponents = senderFilterMap.get(action);
                     
                     if(senderComponents == null || senderComponents.size() == 0) {
+                        fw.write("\n");
                         fw.write("#" + "Inspect the method " + whereComponents.toString() + 
-                                "\n#and replace the \"BroadcastReceiver registed in...\" text below by " +
+                                "\n#and replace the \"BroadcastReceiver registered in...\" text below by " +
                                 "\n#the fully-qualified name of the BroadcastReceiver registered in " +
-                                "\n#that location. Also, remove the \"Update Line: \" prefix.\n");
+                                "\n#that location." +
+                                "\n#Also, remove the \"Update Line: \" prefix.\n" );
                         fw.write(ComponentMap.updateLine);
                         fw.write(UNKNOWN + " -> " + "BroadcastReceiver registered in " + whereComponents.toString() );
                         fw.write("\n");
                         continue;
                     } else {
                         for(String sender : senderComponents) {
+                            fw.write("\n");
                             fw.write("#" + "Inspect the method " + whereComponents.toString() + 
                                     "\n#and replace the \"BroadcastReceiver registered in...\" text below by " +
                                     "\n#the fully-qualified name of the BroadcastReceiver registered in " +
                                     "\n#that location." +
-                                    "\nAlso, remove the \"Update Line: \" prefix.\n" );
+                                    "\n#Also, remove the \"Update Line: \" prefix.\n" );
                             fw.write(ComponentMap.updateLine);
                             fw.write(sender + " -> " + "BroadcastReceiver registered in " + whereComponents.toString() );
                             fw.write("\n");
@@ -432,6 +435,7 @@ public class ProcessEpicOutput {
                 fw.write("#Intents assigned at run time:");
                 fw.write("\n");
                 for(String component : runtimeAssignedIntents) {
+                    fw.write("\n");
                     fw.write("#" + "Inspect the method " + component + 
                             "\n#and replace the " + RUN_TIME_ASSIGNED + " text below by " +
                             "\n#the fully-qualified names of the components that might " +
