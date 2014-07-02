@@ -31,8 +31,6 @@
         <attribute name="processor"/>
         <attribute name="stub" default="${stubs}"/>
          <attribute name="flowPolicy" default="${flowPolicy}"/>
-         <attribute name="componentMap" default="${componentMap}"/>
-         <attribute name="ignorenr" default="${ignorenr}"/>
         <!-- Optional additional tasks to perform at the end. -->
         <element name="more-tasks" optional="yes"/>
         <sequential>
@@ -75,7 +73,7 @@
                     <pathelement location="${sparta-code_dir}/sparta.jar"/>
                 </classpath>
                 <compilerarg line="${java.compilerargs} ${showchecks} ${strictoptions}" />
-                <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy} -AcomponentMap=@{componentMap} -Aignorenr=@{ignorenr} ${checkerFrameworkOpts}"/>
+                <compilerarg line=" -processor @{processor} -Astubs=@{stub} -AflowPolicy=@{flowPolicy}  ${checkerFrameworkOpts}"/>
                 <compilerarg line="-encoding ISO8859-1 -AprintErrorStack -AsuppressWarnings=purity.invalid.overriding " />
             </jsr308.javac>
             <more-tasks/>
@@ -134,6 +132,10 @@
     <target name="check-intent"
                 depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for check-intent.">
+            <condition property="cMap" value="${componentMap}" else="component-map">
+                <isset property="componentMap"/>
+            </condition>
+        <property name="cfOpts" value="-AcomponentMap=${cMap}"/>
         <process-proj processor="sparta.checkers.intents.IntentChecker"/>
     </target>
 
@@ -152,7 +154,7 @@
     <target name="report-not-reviewed"
                 depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="Reports methods, fields, or constructors that have not been reviewed.">
-        <process-proj ignorenr="on" processor="sparta.checkers.NotReviewedLibraryChecker"/>
+        <process-proj  processor="sparta.checkers.NotReviewedLibraryChecker"/>
     </target>
     
     <target name="check-intentkey"
@@ -199,7 +201,7 @@
                 depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="runs the Flow Checker and outputs the information flow types as PERMISSION -> PERMISSION instead of @Source(PERMISISON) @Sink(PERMISSION) " >
         <property name="cfOpts" value="-AprettyPrint="/>
-        <process-proj ignorenr="on" processor="sparta.checkers.FlowChecker"/>
+        <process-proj  processor="sparta.checkers.FlowChecker"/>
     </target>
 
     
