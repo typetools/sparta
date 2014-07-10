@@ -211,7 +211,8 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <target name="validate-stubfiles" depends="build" description="Show stubfile errors">
-      
+        <delete file="${build}/Test.class"/>
+
       <path id="libs.stubfiletests">
     <pathelement location="${build}"/>
     <pathelement location="${latestAndroid.jar}"/>
@@ -234,7 +235,8 @@ ${build.version} of the 'javac.jar' library."/>
     
     <target name="build-intent-tests" depends="build" description="Compiles intent 
         receivers Java classes with the IntentChecker.">
-    
+        <delete dir="${build}/tests"/>
+
         <path id="libs.stubfiletests">
             <pathelement location="${build}"/>
             <pathelement location="${latestAndroid.jar}"/>
@@ -243,7 +245,7 @@ ${build.version} of the 'javac.jar' library."/>
         <pathconvert pathsep=" " property="intent.java.classes.spaceseparated">
             <path>
                 <fileset dir="${tests}">
-                    <include name="**/intent/*ReceiverStub.java"/>
+                    <include name="**/intentreceivers/*.java"/>
                 </fileset>
             </path>
         </pathconvert>
