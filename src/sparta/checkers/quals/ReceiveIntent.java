@@ -6,12 +6,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.checkerframework.framework.qual.InheritedAnnotation;
+
 /*
  * A @ReceiveIntent annotation is used to identify methods that receive an intent.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.CONSTRUCTOR })
+@InheritedAnnotation
 public @interface ReceiveIntent {
     String value() default "";
 }
