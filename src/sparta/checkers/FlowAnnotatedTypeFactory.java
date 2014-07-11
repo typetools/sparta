@@ -457,8 +457,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
 
     protected void completePolicyFlows(final AnnotatedTypeMirror type) {
-        Set<ParameterizedFlowPermission> sources = Collections.<ParameterizedFlowPermission> emptySet();
-        Set<ParameterizedFlowPermission> sinks = Collections.<ParameterizedFlowPermission> emptySet();
+        Set<ParameterizedFlowPermission> sources = null;
+        Set<ParameterizedFlowPermission> sinks = null;
         if ((type instanceof AnnotatedTypeVariable)) {
             if (shouldNotComplete(type.getAnnotations())) {
                 return;
@@ -466,24 +466,34 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             for (AnnotationMirror anno : type.getAnnotations()) {
                 if (AnnotationUtils.areSameByClass(anno, Source.class)) {
                     sources = Flow.getSources(anno);
+                    break;
                 } else if (AnnotationUtils.areSameByClass(anno, Sink.class)) {
                     sinks = Flow.getSinks(anno);
+                    break;
                 }
             }
         } else {
             if (shouldNotComplete(type.getEffectiveAnnotations())) {
                 return;
             }
-            sources = Flow.getSources(type);
-            sinks = Flow.getSinks(type);
+            for (AnnotationMirror anno : type.getEffectiveAnnotations()) {
+                if (AnnotationUtils.areSameByClass(anno, Source.class)) {
+                    sources = Flow.getSources(anno);
+                    break;
+                } else if (AnnotationUtils.areSameByClass(anno, Sink.class)) {
+                    sinks = Flow.getSinks(anno);
+                    break;
+                }
+            }
+
         }
 
         AnnotationMirror newAnno;
-        if (!sources.isEmpty()) {
+        if (sources != null) {
             Set<ParameterizedFlowPermission> newSink = getFlowPolicy().getIntersectionAllowedSinks(sources);
-            newAnno=  createAnnoFromSink(newSink);
+            newAnno =  createAnnoFromSink(newSink);
             type.replaceAnnotation(newAnno);
-        } else if (!sinks.isEmpty()) {
+        } else if (sinks != null) {
             Set<ParameterizedFlowPermission> newSource = getFlowPolicy().getIntersectionAllowedSources(sinks);
             newAnno=  createAnnoFromSource(newSource);
             type.replaceAnnotation(newAnno);

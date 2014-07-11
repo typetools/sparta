@@ -30,6 +30,9 @@ class FlowCompleteWays{
     @Sink({FILESYSTEM, WRITE_TIME}) Object twoSinkNoIntersect(){return null;}
     @Sink(WRITE_TIME) Object oneSinkOneSource(){return null;}
     
+    @Sink({}) Object emptySinkAnySource(){return null;}
+    @Source({}) Object emptySourceAnySink(){return null;}
+    
     void test(){
         @Source(READ_SMS) @Sink(FILESYSTEM) Object a = oneSource();
         @Source(READ_TIME) @Sink({FILESYSTEM, INTERNET}) Object b = oneSourceMapsToTwoSinks();
@@ -40,6 +43,9 @@ class FlowCompleteWays{
         @Source(READ_TIME) @Sink({FILESYSTEM, INTERNET}) Object f = twoSink();
         @Source({}) @Sink({FILESYSTEM,WRITE_TIME}) Object g = twoSinkNoIntersect();    
         @Source(READ_CONTACTS) @Sink(WRITE_TIME) Object h = oneSinkOneSource();
+        
+        @Source(ANY) @Sink({}) Object i = emptySinkAnySource();
+        @Source({}) @Sink (ANY) Object j = emptySourceAnySink();
     }
 }
 

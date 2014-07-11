@@ -200,6 +200,8 @@ public class FlowPolicy {
 
     public Set<ParameterizedFlowPermission> getIntersectionAllowedSinks(
             final Set<ParameterizedFlowPermission> sources) {
+        if(sources.isEmpty()) return Collections.singleton(ANY);
+
         // Start with all sinks and remove those that are not allowed
         Set<ParameterizedFlowPermission> sinks = Flow.getSetOfAllSinks();
 
@@ -213,6 +215,7 @@ public class FlowPolicy {
 
     public Set<ParameterizedFlowPermission> getIntersectionAllowedSources(
             final/* Collection?? */Collection<ParameterizedFlowPermission> sinks) {
+        if(sinks.isEmpty()) return Collections.singleton(ANY);
         Set<ParameterizedFlowPermission> sources = Flow.getSetOfAllSources();
 
         for (ParameterizedFlowPermission sink : sinks) {
