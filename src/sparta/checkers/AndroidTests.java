@@ -314,7 +314,7 @@ public class AndroidTests {
             List<String> checkOptionsPlusStub = new ArrayList<String>(checkerOptions);
             checkOptionsPlusStub.add("-Astubs="+stubname);
             //Test it again with the generated stub file,
-            //and expect not errors/warnings, but "Note: All methods reviewed"
+            //and expect no errors/warnings, but "Note: All methods reviewed"
             testExpected(checkerName, checkOptionsPlusStub, testFile,"Note: All methods reviewed.");
         }
 

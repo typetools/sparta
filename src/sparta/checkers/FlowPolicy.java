@@ -396,8 +396,7 @@ public class FlowPolicy {
     }
 
     private boolean notAllowed(String sinkStr) {
-        return false;// sinkStr.equals(EMPTY) ||
-                     // sinkStr.equals(NOT_REVIEWED.toString());
+        return false;
     }
 
     private ParameterizedFlowPermission getPFP(String sinkStr) {

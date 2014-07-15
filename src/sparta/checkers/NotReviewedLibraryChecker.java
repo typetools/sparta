@@ -163,8 +163,6 @@ public class NotReviewedLibraryChecker extends BaseTypeChecker {
                 .get(pkg);
         if (classmap == null) {
             classmap = new HashMap<>();
-            Map<Element, Integer> elelist = new HashMap<Element, Integer>();
-            classmap.put(clss, elelist);
             this.notInStubFile.put(pkg, classmap);
         }
         Map<Element, Integer> elementmap = classmap.get(clss);
