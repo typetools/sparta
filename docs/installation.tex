@@ -111,7 +111,6 @@ Ensure the following environment variables are set.
 \<ANDROID\_HOME> is the \<.../android-sdk> directory
 
 \end{itemize}
-
 \item
 Update the app configuration by running the following command in the main directory of the
 app.
@@ -119,26 +118,32 @@ app.
 $ANDROID_HOME/tools/android update project --path .
 \end{Verbatim}
 
+\item
+Copy the file \<sparta.jar> generated in Section~\ref{sec:install} to the
+directory \<libs/> in the main directory of the app. If that folder doesn't
+exist it must be created.
+
 \item Build the app
 
 \begin{Verbatim}
 ant release
 \end{Verbatim}
-If the app does not build with the above commend, then the SPARTA tool set will 
-not be able to analyze the app.  Below are two common compilation issues are solutions.
-
+If the app does not build with the above command, then the SPARTA tool set will 
+not be able to analyze the app.  Below are two common compilation issues and
+solutions.
+\begin{itemize}
+\item
 Most Android apps will rely on an auto-generated \<R.java> file
 in the \</gen> directory of the project. This will only be generated
 if there are no errors in the project. There may be errors in the
 resources (\<.../res> directory) that could cause \<R.java> to not be
 generated.
 
-Additionally, if the app depends on an external \<.jar> file (often
-located in the \<lib/> directory), it will compile in Eclipse but not
-with Ant. To fix this, in ant.properties, add ``\<jar.libs.dir=lib>''
-(or wherever the \<.jar> is located).
-
-
+\item
+Additionally, if the app depends on an external \<.jar> file, it will compile
+in Eclipse but not with Ant. All dependent \<.jar> files must be in the
+\<libs/> directory.
+\end{itemize}
 
 
 
