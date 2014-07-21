@@ -1,6 +1,7 @@
 #!/bin/bash
 
-#Receives as argument the path of the target .apk followed by  a set of apps
+#Receives as argument the root directory of the target app containing the
+#AndroidManifest.xml file, followed by  a set of apps
 #that might interact with it. Generates a component-map for the target app.
 
 if [ -z "$1" ]
@@ -69,16 +70,29 @@ do
 done
 }
 
+#Building SPARTA
 cd $SPARTA_CODE
 if [ ! -d ./build ]; then
     ant
 fi
 
-#Setting variables
-#Target app path
-APKPATH=$(cd $(dirname $1); pwd)/$(basename $1)
+#Building target app
+APP_DIR=$1
+cd $APP_DIR
+FINDMANIFEST='find `pwd` -name 'AndroidManifest.xml' | head -1'
+MANIFESTFOLDER=$(dirname $(eval $FINDMANIFEST))
+cd $MANIFESTFOLDER
+mkdir -p libs
+rm -f libs/sparta.jar
+cp $SPARTA_CODE/sparta.jar libs/sparta.jar
+ant debug
+
+#Target app's apk path
+FINDAPK='find `pwd`/bin -name '*-debug.apk' | head -1'
+APKPATH=$(eval $FINDAPK)
+
 #Output directory
-OUTDIR=$(dirname ${APKPATH})/sparta-out/
+OUTDIR="$APP_DIR"/sparta-out/
 #Filter-map with android built-in components
 FILTERSMAPBASE="$SPARTA_CODE"/src/sparta/checkers/intents/componentmap/filter-map-base
 #Filter-map with android built-in components and all apps passed as argument
@@ -95,12 +109,12 @@ TARGETFOLDER=${TARGETFOLDER_WITH_EXTENSION%.apk}
 #Dare's output folder, used by epicc.
 RETARGETEDPATH=./download-libs/epicc/retargeted/"$TARGETFOLDER"
 
-
+cd $SPARTA_CODE
 if [ ! -f ./download-libs/APKParser.jar ]; then
     downloadJars
 fi
 
-generateFilters $@
+generateFilters "$APKPATH" "${@:2}"
 
 #Using DARE
 ./download-libs/dare/dare -d ../epicc/ "$APKPATH"

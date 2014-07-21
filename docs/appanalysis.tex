@@ -492,21 +492,15 @@ generate a component map file are:
 \begin{enumerate}
 
 \item
-Build the target app by running \<ant debug> in the app's project folder. This
-creates an .apk file inside the project \<bin/> directory, named
-\<project\_name-debug.apk>.
-
-\item
 Run the \<generate-cm> script, located in the \<sparta-code> folder. This
-script receives as argument the path of the target app's .apk file created in
-the previous step,
+script receives as argument the path of the target app's root folder,
 followed by a set of .apk files of apps that might communicate with the target
 app. It is not necessary to pass the .apk of built-in Android apps as arguments.
-You must call it from the \<sparta-code> folder:
+Below is an example running the script from the \<sparta-code> folder:
 \bigskip
 
 \begin{alltt}
-generate-cm \textit{target\_app's\_.apk} \textit{[app1.apk app2.apk ... appN.apk]}
+./generate-cm \textit{target\_app's\_root\_folder} \textit{[app1.apk app2.apk ... appN.apk]}
 \end{alltt}
 
 \bigskip
@@ -525,8 +519,8 @@ com.VideoActivity.GCMRegistrar.internalRegister(String) -> com.gtalkservice.Push
 #that location. 
 #Also, remove the "Update Line: " prefix.
 
-Update line: com.VideoActivity.AboutUs.onDestroy(Bundle) -> BroadcastReceiver registered in
-                                com.VideoActivity.DisplayService.onBind(Intent)
+Update line: com.VideoActivity.AboutUs.onDestroy(Bundle) -> BroadcastReceiver 
+                     registered in com.VideoActivity.DisplayService.onBind(Intent)
 
 #Intents assigned at run time:
 #Inspect the method com.VideoActivity.AboutUs.onCreate(android.os.Bundle)
