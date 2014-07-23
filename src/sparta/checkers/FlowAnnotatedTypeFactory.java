@@ -197,7 +197,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                 builderFine.setValue("params", params);
                 finesinks.add(builderFine.build());
         }            
-
+        if(!finesinks.isEmpty())
         builder.setValue("finesinks", finesinks.toArray(new AnnotationMirror[0]));
         builder.setValue("value", new FlowPermission[0]);
         return builder.build();
@@ -217,7 +217,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                 builderFine.setValue("value",permission );
                 finesources.add(builderFine.build());
         }          
-
+if(!finesources.isEmpty())
         builder.setValue("finesources", finesources.toArray(new AnnotationMirror[0]));         
         builder.setValue("value", new FlowPermission[0]);
         return builder.build();
