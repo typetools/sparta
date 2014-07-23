@@ -81,7 +81,41 @@ answered in the Checker Framework Manual.
 
 If you encounter a problem you cannot solve, contact the SPARTA developers (\secref{sec:incaseoftrouble}).
 
+\paragraph{Incompatible Types}
 
+In general, 
+Information Flow Checker warnings are written as shown below.
+
+\begin{Verbatim}  
+../SomeClass.java:line number: warning: some types are incompatible 
+             source code causing warning
+                     a caret (^) pointing to the location of the warning.
+   found   : Qualified type found by the Information Flow Checker
+   required: Qualified type that the Information Flow Checker was expecting.
+\end{Verbatim}
+ 
+In order to correct a warning and correctly capture the app behavior, answer 
+the following questions for each warning.
+\begin{enumerate}
+\item Why are the found and required annotations those listed in the warning message?
+   \begin{itemize}
+    \item Is the annotation explicitly written in the source code? 
+    \item Is the annotation from an API method that was annotated in stub file? \secref{sec:apispecs}
+    \item Is the annotation inferred? \secref{sec:type-inference}
+    \item Is the annotation defaulted? \secref{sec:unannotated-types}
+    \end{itemize}
+\item Why is the found type not a subtype of the required type? \secref{sec:subtyping}
+  \begin{itemize}
+   \item Does the found type have more or different found sources than required?
+   \item Does the found type have less or different found sinks than required? 
+   \end{itemize}
+\item What annotation or annotations correctly capture the behavior of the app at
+  this location? (In other words, what annotation will make the found type a 
+  subtype of the required type?)
+   \begin{itemize}
+   \item Add only a source or a sink annotation
+   \end{itemize}
+\end{enumerate}
 
 \subsection{Forbidden flow}  
 Every source-sink pair in your code must be listed in the flow policy or else a \emph{forbidden flow} error will occur.
@@ -97,47 +131,6 @@ NewTest.java:43: error: flow forbidden by flow-policy
     LITERAL -> FILESYSTEM
 \end{Verbatim}
 
-\subsection{Incompatible types}
-The most common error type is \emph{incompatible types}.  They can be in arguments,  assignment, return, etc.
-
-\paragraph{Conservative Typing}
-
-APIs that have not been annotated have been typed so conservatively that they will always produce incompatible types errors where the required is \<@Sink(NOT\_REVIEWED) @Source(NOT\_REVIEWED)>.  These errors can be fixed by annotating the API method; 
-Section \ref{flow-task-annotate-apis} explains how to annotate APIs. 
-Below is an example of this sort of error.
-
-\begin{Verbatim}
-HelloWorld.java:84: error: incompatible types in argument
-                 .replace(R.id.container, fragment)
-                                          ^
-   found   : @Sink(CONDITIONAL) @Source(LITERAL) Fragment
-   required: @Sink(NOT_REVIEWED) @Source(NOT_REVIEWED) Fragment
-\end{Verbatim}
-
-\paragraph{Incompatible Types}
-
-If the error is not because of an unannotated API, then the error must be fixed by adding or
-removing annotations in the application.  For example, the error below can be fixed by adding ACCELEROMETER to the FlowPermission of the return type.  
-
-\begin{Verbatim}
-HelloWorld.java:49: error: incompatible types in return.
-       return x;
-              ^
-   found   : @Sink(CONDITIONAL) @Source({LITERAL, ACCELEROMETER}) int
-   required: @Sink(CONDITIONAL) @Source(LITERAL) int
-\end{Verbatim}
-
-\subsection{Conditionals}
-As explained in \secref{sec:conditionals}, any item in a conditional statement must have CONDITIONAL listed as a FlowPermission.  If a variable is only annotated with \<@Source> and strict conditionals are not used, then CONDITIONAL is added as a flow sink by default. 
-
-For example, if input is a parameter in a method and is annotated with @Sink(FlowPermission.INTERNET), the following error will occur.  To fix the error, add CONDITIONAL to the flow sink annotation.  
-
-\begin{Verbatim}
-.../HelloWorld.java:43: warning: sensitive source information found in a conditional.
-     if(location.equals(WASHINGTON))
-       ^
-   found: [ACCESS_FINE_LOCATION]
-\end{Verbatim}
 
 
 

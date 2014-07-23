@@ -18,21 +18,22 @@ See \secref{sec:antsetup}  and \secref{sec:install} for instructions. Also, inst
 see \secref{} for details.
 
 Infer types, \<ant infer>.
-Then, run the Information Flow Checker, \<ant check-flow>, if the output is similar to 
-the output shown below, then your setup is correct.  (You should get 14 warnings.)
+Then, run the Information Flow Checker, \<ant check-flow-pp>, if the output is similar to 
+the output shown below, then your setup is correct.  (You should get 33 warnings.)
 
 \begin{Verbatim}
 Buildfile: .../ContactManager/build.xml
 ...
 check-flow-pp:
-[jsr308.javac] Compiling 4 source files to .../ContactManager/bin/classes
-[jsr308.javac] javac 1.8.0-jsr308-1.8.2
-[jsr308.javac] warning: The following options were not recognized by any processor: '[componentMap, ignorenr, prettyPrint]'
-[jsr308.javac] .../ContactManager/src/com/example/android/contactmanager/ContactAdder.java:195: warning: [argument.type.incompatible] incompatible types in argument.
-[jsr308.javac]                 .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, name)
-[jsr308.javac]                                                                                          ^
-[jsr308.javac]   found   :  { USER_INPUT  ->   }  String
-[jsr308.javac]   required:  {   ->  CONTENT_PROVIDER }  Object
+Compiling 4 source files to /Users/smillst/Downloads/ContactManager/bin/classes
+javac 1.8.0-jsr308-1.8.2
+.../ContactAdder.java:64: warning: [forbidden.flow]
+    private @Source({}) @Sink({}) ArrayList<@Source({FlowPermission.ANY}) @Sink({FlowPermission.CONTENT_PROVIDER}) Integer> mContactEmailTypes;
+                                            ^
+  flow forbidden by flow-policy
+  found:  { ANY  ->  CONTENT_PROVIDER }  Integer
+  forbidden flows:
+    ANY -> CONTENT_PROVIDER
 \end{Verbatim} 
 
 \section{Drafting a flow policy}
@@ -43,37 +44,78 @@ The Information Flow Checker outputs a file, \<sparta-out/forbiddenFlows.txt>, t
 
 \begin{Verbatim} 
 # Flows currently forbidden
- ANY -> ANY
- CONTENT_PROVIDER -> ANY
+ ANY -> CONTENT_PROVIDER
+ CONTENT_PROVIDER -> DISPLAY
  USER_INPUT -> WRITE_LOGS, CONTENT_PROVIDER
 \end{Verbatim} 
 Because this app does not yet have a flow policy, this file lists all the flows that the 
 Information Flow Checker was able to detect.  This is not a complete list of flows in the program,
 because the Information Flow Checker issued warnings, but it offers a good starting point 
-for the flow policy. 
+for the flow policy.  Because some of the inserted annotations are too permissive, so of the forbidden
+flows involve \perm{ANY}.  
 
 Create a file named \<flow-policy> in the ContactManger directory.  Copy all the flows that   
 do not flow to or from \perm{ANY}.  These flows should not be copied because 
 they are too permissive.  So, for this app the initial flow policy is shown below.
 \begin{Verbatim} 
+ CONTENT_PROVIDER -> DISPLAY
  USER_INPUT -> WRITE_LOGS, CONTENT_PROVIDER
 \end{Verbatim}
 
  Run the Information Flow Checker again.  (Because you named your flow policy 
 \<flow-policy>, the Information Flow Checker will automatically read it.)  The Information Flow Checker should
-now only report 10 warnings.  The \<forbiddenFlows.txt> file should also have changed as shown
+now only report 17 warnings.  The \<forbiddenFlows.txt> file should also have changed as shown
 below.
 
 \begin{Verbatim}
 # Flows currently forbidden
- ANY -> ANY
- CONTENT_PROVIDER -> ANY
+ ANY -> CONTENT_PROVIDER
 \end{Verbatim}
  
- Since both of these flows contain \perm{ANY}, there is nothing to add 
- to the flow policy.  However, the flow policy may not be complete, because the Information Flow Checker
- issued 10 warnings.  
+ Since this flow contains \perm{ANY}, there is nothing to add 
+ to the flow policy.  
+ 
+Because \flow{USER\_INPUT}{CONTENT\_PROVIDER} and \flow{CONTENT\_PROVIDER}{DISPLAY} are legal flows,
+  the Information Flow Checker reports a possible transitive flow, \flow{USER\_INPUT}{DISPLAY} see \secref{}. 
+ 
+\begin{Verbatim}
+warning: FlowPolicy: Found transitive flow
+  [USER_INPUT]->[DISPLAY]
+  Please add them to the flow policy
+\end{Verbatim} 
 
+Add  \flow{USER\_INPUT}{DISPLAY} to the flow policy.
+
+\section{Correcting Annotations}
+Inference sometimes inserts annotations that are correct, but too permissive.  
+They use the \perm{ANY} instead of a more specific permission.  Because we did
+not add any flow with \perm{ANY} to the flow policy, all uses of these types will 
+issue a forbidden flow warning.  
+
+Run the Information Flow Checker and filter for forbidden flows.
+
+\begin{Verbatim}
+ant check-flow -DcfOpts=-AmsgFilter=forbidden.flow
+\end{Verbatim}
+
+\begin{Verbatim}
+.../ContactAdder.java:64: warning: [forbidden.flow]
+    private @Source({}) @Sink({}) ArrayList<@Source({FlowPermission.ANY}) @Sink({FlowPermission.CONTENT_PROVIDER}) Integer> mContactEmailTypes;
+                                            ^
+  flow forbidden by flow-policy
+  found: @Sink(FlowPermission.CONTENT_PROVIDER) @Source(FlowPermission.ANY) Integer
+  forbidden flows:
+    ANY -> CONTENT_PROVIDER
+.../ContactAdder.java:68: warning: [forbidden.flow]
+    private @Source({}) @Sink({}) ArrayList<@Source({FlowPermission.ANY}) @Sink({FlowPermission.CONTENT_PROVIDER}) Integer> mContactPhoneTypes;
+                                            ^
+  flow forbidden by flow-policy
+  found: @Sink(FlowPermission.CONTENT_PROVIDER) @Source(FlowPermission.ANY) Integer
+  forbidden flows:
+    ANY -> CONTENT_PROVIDER
+\end{Verbatim}
+
+Remove \<@Source({FlowPermission.ANY})> from both locations. 
 
 
 \section{Adding Annotations}
@@ -118,16 +160,38 @@ the following questions for each warning.
 This tutorial only covers incompatibility warnings; see section \secref{errors} for 
 other warnings and how to handle them.
 
+\subsection{Warning }
+
+\begin{enumerate}
+\item Why are the found and required annotations those listed in the warning message?
+   \begin{itemize}
+    \item Is the annotation explicitly written in the source code? 
+    \item Is the annotation from an API method that was annotated in stub file? \secref{sec:apispecs}
+    \item Is the annotation inferred? \secref{sec:type-inference}
+    \item Is the annotation defaulted? \secref{sec:unannotated-types}
+    \end{itemize}
+\item Why is the found type not a subtype of the required type? \secref{sec:subtyping}
+  \begin{itemize}
+   \item Does the found type have more or different found sources than required?
+   \item Does the found type have less or different found sinks than required? 
+   \end{itemize}
+\item What annotation or annotations correctly capture the behavior of the app at
+  this location? (In other words, what annotation will make the found type a 
+  subtype of the required type?)
+   \begin{itemize}
+   \item Add only a source or a sink annotation
+   \end{itemize}
+\end{enumerate}
+
 \subsection{Warning 1}
 Run the Information Flow Checker again.
 
 \begin{Verbatim}  
-.../ContactManager/src/com/example/android/contactmanager/ContactAdder.java:309:
- warning: incompatible types in assignment.
-             mName = name;
-                     ^
-   found   : @Sink(CONDITIONAL) @Source(ANY) String
-   required: @Sink({CONDITIONAL, DISPLAY, WRITE_LOGS, CONTENT_PROVIDER})  @Source(LITERAL) String
+.../ContactAdder.java:96: warning: [assignment.type.incompatible] incompatible types in assignment.
+        mContactPhoneTypes = new ArrayList<Integer>();
+                             ^
+  found   :  {   ->  ANY } ArrayList< {   ->   }  Integer>
+  required:  {   ->   } ArrayList< { USER_INPUT  ->  CONTENT_PROVIDER }  Integer>
 \end{Verbatim}
 This is an ``incompatible types in assignment'' error.  It means that the type
 of the left hand side, the found type, is not a subtype of the right hand side,
@@ -137,111 +201,72 @@ the required type.
 
 \item \textbf{Where do the found  and required types come from?}
 
-The type of \<name> is they found type and the type of \<mName> is
-shown as \emph{required}.  
+The type of \<new ArrayList\textless Integer\textgreater()> is the \emph{found} type and the type of \<mContactPhoneTypes> is
+the \emph{required} type.  
+
 
  \begin{itemize}
-    \item Was it explicitly annotated in the source code? No, we have not added 
-    any annotations.
-    \item Is it from an API method that was annotated in stub file? No, \<mName> 
-    is a field and \<name> is a parameter to this method.
-    \item Was it inferred from an assignment? No, neither variable was assigned 
-    perviously in this method. 
-    \item Was it defaulted? Yes.
+    \item Was it explicitly annotated in the source code?  \<mContactPhoneTypes> was, but \<new ArrayList\textless Integer\textgreater()> was not.
+    \item Is it from an API method that was annotated in stub file? No
+    \item Was it inferred from an assignment? No
+    \item Was it defaulted? Yes, \<new ArrayList\textless Integer\textgreater()> 
     \end{itemize}
 
- According to the defaulting rules explained in \secref{sec:unannotated-types} fields, like \emph{mName} 
- are annotated with \<@Source(LITERAL)> and the sink annotation is defaulted base on the  
- flow policy.  For this app, literals are allowed to flow to \perm{DISPLAY}, 
- \perm{WRITE\_LOGS}, and\perm{CONTENT\_PROVIDER}, so the sink annotation is 
- defaulted to \<@Sink(\{DISPLAY, WRITE\_LOGS, and CONTENT\_PROVIDER\})>.
- 
- Method parameters, like \emph{name}, are annotated with \<@Sink(CONDITIONAL)> by 
- default and the source is defaulted base on what is allowed to flow to conditionals.
-   \flow{ANY}{CONDTIONAL} is added to the flow policy by default, so the default types
-    for fields in this class is \<@Sink(CONDITIONAL)> \<@Source(ANY)>.
+ According to the defaulting rules explained in \secref{sec:unannotated-types} constructor results
+ are annotated with \<@Source(\{\}) @Sink(\{\})> and type arguments are annotated 
+ with \<@Source(\{\}) @Sink(\{\})> by 
+ default. Notice that the source annotation on \<mContactPhoneTypes> has been defaulted based on the 
+ flow policy.  \perm{USER\_INPUT} is the only source allowed to flow to \perm{CONTENT_PROVIDER}. 
 
- 
  \item\textbf{ Why is the found type not a subtype of the required type?}
-The found type has more sources than the required type. (Remember that \perm{ANY}
-is the set of all Flow Permissions). Also, the \emph{found} type has fewer sinks 
-than the required type.
+The primary qualifiers on \<mContactPhoneTypes>, \<@Source(\{\}) @Sink(\{\})> 
+is a super type of the primary qualifiers on \<new ArrayList\textless Integer\textgreater()>,
+ \<@Source(\{\}) @Sink(ANY)>.  The qualifiers on the type arguments must be the same. 
+For more details, see
+\url{http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#generics}.
 
 \item\textbf{What annotation or annotations would make the found type a subtype of the required?}
-One of the defaults described above needs to be overridden by annotating the 
- either to the type of \<name> or the type of \<mName>. So which type should be 
- annotated? Because the current type of \<name> allows more flows than the type
- of \<mName>, its annotation should be changed so that it is a sub type of \<mName>.
-  The type of \<name> should therefore be changed to \<@Source(LITERAL)>. The 
-  sink annotation will be defaulted base on the flow policy and will match the 
-  sink annotation from the required type.
+Because the annotations on \<mContactPhoneTypes> were inferred,  annotations should be add to 
+\<new ArrayList\textless Integer\textgreater()> so that the type argument matches  \<mContactPhoneTypes> 
 
- \annomethod{public AccountData(\textbf{@Source(LITERAL)} String name, AuthenticatorDescription description) }
-
- This warning could also have been corrected by annotating \<mName> with \<@Sink(CONDITIONAL)>.
-   In general, you should pick that least permissive one.  Literals are only 
-   allowed to flow to four sinks, but any source can flow to conditionals, so
- \<@Source(LITERAL)> is less permissive than \<@Sink(CONDITIONAL)>.
+ \annomethod{  mContactEmailTypes = new ArrayList<\textbf{@Sink(CONTENT_PROVIDER)} Integer>(); }
+ 
+ The source annotation will be defaulted to \<@Source(USER\_INPUT) >.
  \end{enumerate}
- Run the Information Flow Checker again.  Only four errors should be issued.
+ Run the Information Flow Checker again.  Only three warnings should be issued.
  
  \subsection{Warning 2}
  \begin{Verbatim}
-.../ContactManager/src/com/example/android/contactmanager/ContactAdder.java:387: 
-warning: incompatible types in return.
-             return convertView;
-                    ^
-   found   : @Sink(CONDITIONAL) @Source(ANY) View
-   required: @Sink({CONDITIONAL, DISPLAY, WRITE_LOGS, CONTENT_PROVIDER}) @Source(LITERAL) View
+[jsr308.javac] /Users/smillst/Downloads/ContactManager/src/com/example/android/contactmanager/ContactAdder.java:101: warning: [assignment.type.incompatible] incompatible types in assignment.
+[jsr308.javac]         mContactEmailTypes = new ArrayList<Integer>();
+[jsr308.javac]                              ^
+[jsr308.javac]   found   :  {   ->  ANY } ArrayList< {   ->   }  Integer>
+[jsr308.javac]   required:  {   ->   } ArrayList< { USER_INPUT  ->  CONTENT_PROVIDER }  Integer>
 \end{Verbatim} 
-This is an ``incompatible types in return'' error.  It means that the type
-of returned by this method, the found type, is not a subtype of the declared 
-return type of this method, the required type.
- \begin{enumerate}
-
-\item\textbf{Where do the found and required types come from?}
-\<convertView> is a parameter that is defaulted to \<@Sink(CONDITIONAL)> and 
-the required type is the return type of this method. Because there is not an
-annotation on the return type of this method, its type is defaulted to \<@Source(LITERAL)>.
-
-  \item\textbf{ Why is the found type not a subtype of the required type?}
-The found type has more sources than the required type.
- Also, the \emph{found} type has fewer sinks 
-than the required type.
-
-  \item\textbf{What annotation or annotations would make the found type a
-   subtype of the required?} This warning is similar to the first warning and 
-   should also be fixed by annotating the found type with \<@Source(LITERAL)>.\newline
-  
-        \annomethod{public View getDropDownView(int position, \textbf{@Source(LITERAL)} View convertView, ViewGroup parent)}
-   \end{enumerate}
-
-   Run the Information Flow Checker again.  Only three errors should be issued.
+This warning is nearly identical to the previous warning and can be corrected the same way.
+ 
+   Run the Information Flow Checker again.  Only two errors should be issued.
 
 
   \subsection{Warning 3 }
    \begin{Verbatim}
-.../ContactManager/src/com/example/android/contactmanager/ContactManager.java:74: 
-warning: incompatible types in argument.
-                 Log.d(TAG, "mShowInvisibleControl changed: " + isChecked);
-                                                              ^
-   found   : @Sink(CONDITIONAL) @Source(ANY) String
-   required: @Sink(WRITE_LOGS) @Source({LITERAL, USER_INPUT, CONTENT_PROVIDER}) String
+[jsr308.javac] /Users/smillst/Downloads/ContactManager/src/com/example/android/contactmanager/ContactAdder.java:282: warning: [return.type.incompatible] incompatible types in return.
+[jsr308.javac]                 return dictionary[i];
+[jsr308.javac]                                  ^
+[jsr308.javac]   found   :  {   ->   }  AuthenticatorDescription
+[jsr308.javac]   required:  {   ->  ANY }  AuthenticatorDescription
 \end{Verbatim} 
-This is an ``incompatible types in argument'' error.  It means that the type
-of argument, the found type, is not a subtype of the formal 
-parameter type of the method called, the required type.
+This is an ``incompatible types in return'' warning.  It means that the type
+of the returned expression, the found type, is not a subtype of the declared  
+return type of the method, the required type.
+
  \begin{enumerate}
 
 \item\textbf{Where do the found and required types come from?}
-The found type is the type of the concatenation of the literal string and \<isChecked>.  The
-resulting type of a concatenation is the least upper bounds, LUB, of the two types.   The LUB
-of a flow type is simply 
- the union of sources and the intersection of sinks.  The string literal is of type 
-\<@Source(LITERAL)>.  \<isChecked> is a parameter of a methods that overrides an
-Android API method.  The types of overriding methods must match those of the overridden
-method, so check the stub files for this method.  \<isChecked> is annotated with 
-\<@Source(USER\_INPUT)>  in the stub file, so it must be annotated the same here.\newline
+ The found type is the type an index of the array \<dictionary> which is declared in the method signature, \<@Source(\{\}) the sink is defaulted to \<@Sink({})>
+ 
+ and the required type is .
+
 
        \annomethod{public void onCheckedChanged(CompoundButton buttonView, \textbf{@Source(USER\_INPUT)} boolean isChecked)}
  \end{enumerate}
