@@ -138,6 +138,11 @@ class AbstractHttpEntity{
 
 
 
+package org.apache.http.client.entity;
+class UrlEncodedFormEntity{
+        UrlEncodedFormEntity(List<@Sink(INTERNET)? extends @Sink(INTERNET) NameValuePair> parameters); 
+}
+
 package org.apache.http.client.methods;
 
 class HttpGet{
@@ -282,7 +287,8 @@ class AbstractHttpMessage{
 }
 
 class BasicNameValuePair{
-        BasicNameValuePair(String name, @PolySource @PolySink String value);
+
+      @PolySource @PolySink  BasicNameValuePair(@PolySource @PolySink String name, @PolySource @PolySink String value);
 }
 
 

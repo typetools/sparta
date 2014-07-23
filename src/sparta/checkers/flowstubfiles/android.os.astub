@@ -32,7 +32,7 @@ class AsyncTask<Params, Progress, Result> {
 
 
 class Environment {
-    
+@Source({}) String DIRECTORY_PICTURES;    
 static @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getDataDirectory();
 //Gets the Android data directory.
 
