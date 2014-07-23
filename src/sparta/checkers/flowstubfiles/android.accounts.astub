@@ -25,7 +25,7 @@ class AccountManager {
     AccountManagerFuture<@Source(USE_CREDENTIALS) Bundle> confirmCredentials(Account arg0, Bundle arg1, Activity arg2, AccountManagerCallback<Bundle> arg3, Handler arg4);
     AccountManagerFuture<@Source(USE_CREDENTIALS) Bundle> updateCredentials(Account arg0, String arg1, Bundle arg2, Activity arg3, AccountManagerCallback<Bundle> arg4, Handler arg5);
     AccountManagerFuture<@Source(MANAGE_ACCOUNTS) Bundle> editProperties(String arg0, Activity arg1, AccountManagerCallback<Bundle> arg2, Handler arg3);
-    AccountManagerFuture<@Source(USER_CREDENTIALS) Bundle> getAuthTokenByFeatures(String arg0, String arg1, String[] arg2, Activity arg3, Bundle arg4, Bundle arg5, AccountManagerCallback<Bundle> arg6, Handler arg7);
+    AccountManagerFuture<@Source(USE_CREDENTIALS) Bundle> getAuthTokenByFeatures(String arg0, String arg1, String[] arg2, Activity arg3, Bundle arg4, Bundle arg5, AccountManagerCallback<Bundle> arg6, Handler arg7);
     static Intent newChooseAccountIntent(Account arg0, ArrayList<Account> arg1, String[] arg2, boolean arg3, String arg4, String arg5, String[] arg6, Bundle arg7);
     void addOnAccountsUpdatedListener(OnAccountsUpdateListener arg0, Handler arg1, boolean arg2);
     void removeOnAccountsUpdatedListener(OnAccountsUpdateListener arg0);
