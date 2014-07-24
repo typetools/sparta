@@ -216,7 +216,7 @@ the \emph{required} type.
  are annotated with \<@Source(\{\}) @Sink(\{\})> and type arguments are annotated 
  with \<@Source(\{\}) @Sink(\{\})> by 
  default. Notice that the source annotation on \<mContactPhoneTypes> has been defaulted based on the 
- flow policy.  \perm{USER\_INPUT} is the only source allowed to flow to \perm{CONTENT_PROVIDER}. 
+ flow policy.  \perm{USER\_INPUT} is the only source allowed to flow to \perm{CONTENT\_PROVIDER}. 
 
  \item\textbf{ Why is the found type not a subtype of the required type?}
 The primary qualifiers on \<mContactPhoneTypes>, \<@Source(\{\}) @Sink(\{\})> 
@@ -229,7 +229,7 @@ For more details, see
 Because the annotations on \<mContactPhoneTypes> were inferred,  annotations should be add to 
 \<new ArrayList\textless Integer\textgreater()> so that the type argument matches  \<mContactPhoneTypes> 
 
- \annomethod{  mContactEmailTypes = new ArrayList<\textbf{@Sink(CONTENT_PROVIDER)} Integer>(); }
+ \annomethod{  mContactEmailTypes = new ArrayList<\textbf{@Sink(CONTENT\_PROVIDER)} Integer>(); }
  
  The source annotation will be defaulted to \<@Source(USER\_INPUT) >.
  \end{enumerate}
@@ -263,7 +263,7 @@ return type of the method, the required type.
  \begin{enumerate}
 
 \item\textbf{Where do the found and required types come from?}
- The found type is the type an index of the array \<dictionary> which is declared in the method signature, \<@Source(\{\}) the sink is defaulted to \<@Sink({})>
+ The found type is the type an index of the array \<dictionary> which is declared in the method signature, \<@Source(\{\})> the sink is defaulted to \<@Sink(\{\})>
  
  and the required type is .
 
