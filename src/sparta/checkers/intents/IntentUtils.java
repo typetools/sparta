@@ -25,6 +25,7 @@ import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.GetExtra;
 import sparta.checkers.quals.IntentMap;
+import sparta.checkers.quals.IntentMapBottom;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.PutExtra;
 import sparta.checkers.quals.ReceiveIntent;
@@ -61,29 +62,22 @@ public class IntentUtils {
         return AnnotationUtils
             .getElementValueArray(intentExtra, "value", AnnotationMirror.class, true);
     }
-    
-
-    public static AnnotationMirror getIExtra(AnnotatedTypeMirror intentMapAnno, String keyName) {
-        if (intentMapAnno.hasAnnotation(IntentMap.class)) {
-            return getIExtra(
-                    intentMapAnno.getAnnotation(IntentMap.class), keyName);
-        }
-        return null;
-    }
 
     /**
-     * Return true if @IntentMap has this key
+     * Method that returns the @Extra AM from an @IntentMap ATM with a certain key.
+     * @param atm AnnotatedTypeMirror that might contain an @IntentMap
+     * @param keyName Key
+     * @param declaredType If true, look for the @Extra in the declared type.
+     * @return AnnotationMirror of the @Extra with that key, or null if not found.
      */
 
-    public static boolean hasKey(AnnotationMirror intentExtras, String key) {
-        List<AnnotationMirror> iExtrasList = getIExtras(intentExtras);
-        for(AnnotationMirror iExtra : iExtrasList) {
-            String iExtraKey = getKeyName(iExtra);
-            if(iExtraKey.equals(key)) {
-                return true;
-            }
+    public static AnnotationMirror getIExtra(AnnotatedTypeMirror atm,
+            String keyName) {
+        if (atm.hasAnnotation(IntentMap.class)) {
+            return getIExtra(
+                    atm.getAnnotation(IntentMap.class), keyName);
         }
-        return false;
+        return null;
     }
 
     /**
@@ -125,28 +119,6 @@ public class IntentUtils {
                 iExtra, "sink", FlowPermission.class, true));
     }
 
-
-
-
-    /**
-     * Return the intersection of sources from 2 @Extra annotations
-     */
-
-    public static Set<ParameterizedFlowPermission> intersectionSourcesIExtras(AnnotationMirror iExtra1, 
-            AnnotationMirror iExtra2) {
-        return Flow.intersectSinks(getSourcesPFP(iExtra1), getSourcesPFP(iExtra2));
-    }
-
-    /**
-     * Return the intersection of sinks from 2 @Extra annotations
-     */
-
-    public static Set<ParameterizedFlowPermission> intersectionSinksIExtras(AnnotationMirror iExtra1, 
-            AnnotationMirror iExtra2) {
-        return Flow.intersectSinks(getSinksPFP(iExtra1),  getSinksPFP(iExtra2));
-
-    }
-
     /**
      * Creates a new IExtra AnnotationMirror
      * @param key
@@ -181,8 +153,8 @@ public class IntentUtils {
      * @return
      */
 
-    public static AnnotationMirror addIExtraToIntentExtras(
-            AnnotationMirror intentExtras, AnnotationMirror iExtra, 
+    public static AnnotationMirror addIExtraInIntentExtras(
+            AnnotationMirror intentExtras, AnnotationMirror iExtra,
             ProcessingEnvironment processingEnv) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
             IntentMap.class);
@@ -205,7 +177,7 @@ public class IntentUtils {
             List<AnnotationMirror> iExtras, ProcessingEnvironment processingEnv) {
         AnnotationMirror result = intentExtras;
         for (AnnotationMirror iExtra : iExtras) {
-            result = addIExtraToIntentExtras(result, iExtra, processingEnv);
+            result = addIExtraInIntentExtras(result, iExtra, processingEnv);
         }
         return result;
     }
@@ -303,8 +275,14 @@ public class IntentUtils {
         return atypeFactory.getDeclAnnotation(ele, SetIntentFilter.class) != null;
     }
 
-    
-    
+    public static boolean isIntentMapBottom(AnnotatedTypeMirror atm) {
+        return atm.hasAnnotation(IntentMapBottom.class);
+    }
+
+    public static boolean isIntentMap(AnnotatedTypeMirror atm) {
+        return atm.hasAnnotation(IntentMap.class) || isIntentMapBottom(atm);
+    }
+
     public static String retrieveSendIntentPath(TreePath treePath) {
       String senderString = "";
       //senderString = package.class

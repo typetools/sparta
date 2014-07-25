@@ -368,7 +368,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 for (AnnotationMirror lhsIExtra : lhsIExtrasList) {
                     String leftKey = IntentUtils.getKeyName(lhsIExtra);
 
-                    if (IntentUtils.hasKey(rhs, leftKey)) {
+                    if (IntentUtils.getIExtra(rhs, leftKey) != null) {
                         if (!hostIsExactType(rhs, lhsIExtra, leftKey)) {
                             return false;
                         }
@@ -412,24 +412,21 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
         /**
          * The LUB between 2 @IntentMap is an @IntentMap containing all the @Extra
-         * with keys both have in common. For each pair of 2
-         * 
-         * @Extra with the same key in the 2 @IntentMap, the resulting @Source
-         *        is the union of the @Source of both @Extra, and the resulting @Sink
-         *        is the intersection of @Sink in both @Extra.
+         * with keys both have in common. If the types differ for the @Extra with
+         * same key in both @IntentMap, the @Extra with that key is not in the LUB.
          */
 
         @Override
         public AnnotationMirror leastUpperBound(AnnotationMirror a1,
                 AnnotationMirror a2) {
-            
+
             if (isSubtype(a1, a2)) {
                 return a2;
             }
             if (isSubtype(a2, a1)) {
                 return a1;
             }
-            
+
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, INTENT_MAP)) {
                     List<AnnotationMirror> a1IExtrasList = IntentUtils
@@ -438,13 +435,15 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
                     for (AnnotationMirror a1IExtra : a1IExtrasList) {
                         String a1IExtraKey = IntentUtils.getKeyName(a1IExtra);
-                        if (IntentUtils.hasKey(a2, a1IExtraKey)) {
-                            AnnotationMirror a2IExtra = IntentUtils.getIExtra(
-                                    a2, a1IExtraKey);
+                        AnnotationMirror a2IExtra = IntentUtils.getIExtra(
+                                a2, a1IExtraKey);
+                        if (a2IExtra != null) {
                             // Here we have found matching keys.
-                            AnnotationMirror newIExtra = hostLeastUpperBounds(
-                                    a1IExtra, a1IExtraKey, a2IExtra);
-                            IExtraOutputSet.add(newIExtra);
+                            // Only add to the LUB if they have matching types.
+                            if (hostKeysMapToSameType(a1IExtra, a1IExtraKey,
+                                    a2IExtra)) {
+                                IExtraOutputSet.add(a1IExtra);
+                            }
                         }
 
                     }
@@ -453,51 +452,23 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                                     IExtraOutputSet, processingEnv);
                     return output;
                 } else if (AnnotationUtils.areSameIgnoringValues(a1, IEXTRA)) {
-                    String a1IExtraKey = IntentUtils.getKeyName(a1);
-                    return hostLeastUpperBounds(a1, a1IExtraKey, a2);
-                } 
+                    // Top IEXTRA?
+                }
             }
 
             return super.leastUpperBound(a1, a2);
         }
 
         /**
-         * temporary auxiliary method used to calculate the LUB between 2 @IntentMap
-         * whose @Extra contains information flow.
-         */
-
-        private AnnotationMirror hostLeastUpperBounds(
-                AnnotationMirror a1IExtra, String a1IExtraKey,
-                AnnotationMirror a2IExtra) {
-            // First do the union of sources:
-            Set<ParameterizedFlowPermission> unionSources = IntentUtils
-                    .unionSourcesIExtras(a1IExtra, a2IExtra);
-
-            // Intersection of sinks:
-            Set<ParameterizedFlowPermission> intersectedSinks = IntentUtils
-                    .intersectionSinksIExtras(a1IExtra, a2IExtra);
-
-            // Create a new IExtra with the results of sources
-            // and sinks
-            AnnotationMirror newIExtra = IntentUtils.createIExtraAnno(
-                    a1IExtraKey, createAnnoFromSource(unionSources),
-                    createAnnoFromSink(intersectedSinks), processingEnv);
-            return newIExtra;
-        }
-
-        /**
          * The GLB between 2 @IntentMap will contain the union of keys that
-         * these annotations contain, and the @Source of the @Extra with this
-         * key will be the intersection of sources and the @Sink will be the
-         * union of sinks.
+         * these annotations contain and the respective type. If the types
+         * differ for the @Extra with same key in both @IntentMap, the GLB is
+         * bottom.
          */
 
         @Override
         public AnnotationMirror greatestLowerBound(AnnotationMirror a1,
                 AnnotationMirror a2) {
-            // What would be the GLB between (Key k1, source s1) and (Key k1,
-            // source s2) ?
-            // (Key k1, source empty) ? I think so. Need to do the same on LUB.
             if (AnnotationUtils.areSame(a1, a2))
                 return a1;
 
@@ -505,7 +476,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     || AnnotationUtils.areSameIgnoringValues(a2, BOTTOM_INTENT_MAP)) {
                 return BOTTOM_INTENT_MAP;
             }
-            
+
             if (AnnotationUtils.areSameIgnoringValues(a1, a2)) {
                 if (AnnotationUtils.areSameIgnoringValues(a1, INTENT_MAP)) {
                     List<AnnotationMirror> a1IExtrasList = IntentUtils
@@ -515,13 +486,17 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     List<AnnotationMirror> IExtraOutputSet = new ArrayList<AnnotationMirror>();
                     for (AnnotationMirror a1IExtra : a1IExtrasList) {
                         String a1IExtraKey = IntentUtils.getKeyName(a1IExtra);
-                        if (IntentUtils.hasKey(a2, a1IExtraKey)) {
-                            AnnotationMirror a2IExtra = IntentUtils.getIExtra(
-                                    a2, a1IExtraKey);
+                        AnnotationMirror a2IExtra = IntentUtils.getIExtra(
+                                a2, a1IExtraKey);
+                        if (a2IExtra != null) {
                             // If we have found matching keys:
-                            AnnotationMirror newIExtra = hostGreatestLowerBound(
-                                    a1IExtra, a1IExtraKey, a2IExtra);
-                            IExtraOutputSet.add(newIExtra);
+                            // If the the values with same key have different types, return bottom.
+                            if (!hostKeysMapToSameType(a1IExtra, a1IExtraKey, a2IExtra)) {
+                                return BOTTOM_INTENT_MAP;
+                            } else {
+                                //Else add this IExtra in the results
+                                IExtraOutputSet.add(a1IExtra);
+                            }
                         } else {
                             // If we could not find the key in a2, add the
                             // @Extra
@@ -535,8 +510,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     // that are in a2 but not in a1.
                     for (AnnotationMirror a2IExtra : a2IExtrasList) {
                         String a2IExtraKey = IntentUtils.getKeyName(a2IExtra);
-                        ;
-                        if (!IntentUtils.hasKey(a1, a2IExtraKey)) {
+                        if (IntentUtils.getIExtra(a1, a2IExtraKey) == null) {
                             IExtraOutputSet.add(a2IExtra);
                         }
                     }
@@ -546,35 +520,30 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                                     IExtraOutputSet, processingEnv);
                     return output;
                 } else if (AnnotationUtils.areSameIgnoringValues(a1, IEXTRA)) {
-                    // is this one necessary?
-                }  
+                    //Bottom IExtra?
+                }
             }
 
             return super.greatestLowerBound(a1, a2);
         }
 
         /**
-         * temporary auxiliary method used to type-check the calculate the LUB
-         * between 2 @IntentMap whose @Extra contains information flow.
+         * temporary auxiliary method that return true if a certain key maps
+         * to the same type for two different @Extra.
          */
 
-        private AnnotationMirror hostGreatestLowerBound(
+        private boolean hostKeysMapToSameType(
                 AnnotationMirror a1IExtra, String a1IExtraKey,
                 AnnotationMirror a2IExtra) {
-            // First do the intersection of sources:
-            Set<ParameterizedFlowPermission> intersectedSources = IntentUtils
-                    .intersectionSourcesIExtras(a1IExtra, a2IExtra);
-
-            // Union of sinks:
-            Set<ParameterizedFlowPermission> unionSinks = IntentUtils
-                    .unionSinksIExtras(a1IExtra, a2IExtra);
-
-            // Create a new IExtra with the results of sources
-            // and sinks
-            AnnotationMirror newIExtra = IntentUtils.createIExtraAnno(
-                    a1IExtraKey, createAnnoFromSource(intersectedSources),
-                    createAnnoFromSink(unionSinks), processingEnv);
-            return newIExtra;
+            Set<ParameterizedFlowPermission> a1Sources = IntentUtils.
+                    getSourcesPFP(a1IExtra);
+            Set<ParameterizedFlowPermission> a2Sources = IntentUtils.
+                    getSourcesPFP(a1IExtra);
+            Set<ParameterizedFlowPermission> a1Sinks = IntentUtils.
+                    getSinksPFP(a1IExtra);
+            Set<ParameterizedFlowPermission> a2Sinks = IntentUtils.
+                    getSinksPFP(a2IExtra);
+            return a1Sources.equals(a2Sources) && a1Sinks.equals(a2Sinks);
         }
 
     }

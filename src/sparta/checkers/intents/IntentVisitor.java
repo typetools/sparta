@@ -613,7 +613,7 @@ public class IntentVisitor extends FlowVisitor {
         if (receiverType.hasAnnotation(IntentMap.class)) {
             AnnotationMirror receiverIntentAnnotation = receiverType
                     .getAnnotation(IntentMap.class);
-            if (!IntentUtils.hasKey(receiverIntentAnnotation, keyName)) {
+            if (IntentUtils.getIExtra(receiverIntentAnnotation, keyName) == null) {
                 // If key could not be found in the @IntentMap, raise a warning.
                 checker.report(
                         Result.failure("intent.key.notfound", keyName,
