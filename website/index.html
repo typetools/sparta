@@ -11,15 +11,67 @@
 
 <h1>SPARTA!</h1>
 <h2>Static Program Analysis for Reliable Trusted Apps</h2>
-
 <p>
-Soon to come to a smartphone near you!
+SPARTA is a research project funded by the DARPA Automated Program Analysis for
+Cybersecurity (APAC) program. SPARTA aims to detect certain types of malware in
+Android applications, or to verify that the app contains no such malware.
+SPARTA’s verification approach is type-checking: the developer states a
+security property, annotates the source code with type qualifiers that express
+that security property, then runs a pluggable type-checker to verify that the
+type qualifiers are right (and thus that the program satisfies the security
+property).
 </p>
+<p>
+In addition to type-checking, SPARTA also provides tools to aide in manual
+identification of malware in source code. These tools include a tool to show
+what permissions are needed for each API call used and a tool to report the use
+of suspicious APIs.
+</p>
+
+<ul>
+  <li>
+    Download:
+    <ul>
+      <li>
+        <a href="current/sparta-toolset.tgz">SPARTA Toolset</a>
+        version <!-- sparta-version -->1.8.3, 1 Jul 2014<!-- /sparta-version -->
+      </li>
+      <li><a href="current/sparta-vm.tar.bz2">SPARTA VM </a>
+        version  <!-- sparta-vm-version -->1.8.3, 1 Jul 2014<!-- /sparta-vm-version -->
+      </li>
+      <li><a href="current/sparta-sample-apps.tgz">Sample apps</a>
+      </li>
+      <li><a href="releases/index.html">Previous releases</a>
+      </li>
+    </ul>
+  <li>
+    Documentation:
+    <ul>
+      <li>
+	<a href="current/sparta-manual.pdf">SPARTA Manual (PDF)</a>
+      </li>
+
+      <li>
+	<a href="current/sparta-manual.html">SPARTA Manual (HTML)</a>
+      </li>
+    </ul>
+  </li>
+    <li> Technical Report:
+        <ul>
+      <li><b>&#8220;Collaborative Verification of Information Flow for a High-Assurance App Store&#8221;</b><br />
+by Michael D. Ernst, Ren&eacute; Just, Suzanne Millstein, Werner M. Dietl, Stuart Pernsteiner, Franziska Roesner, Karl Koscher, Paulo Barros, Ravi Bhoraskar, Seungyeop Han, Paul Vines, and Edward X. Wu.<br />
+University of Washington Department of Computer Science and Engineering technical report UW-CSE-14-04-02, Apr. 2014.<br />
+<a href="ftp://ftp.cs.washington.edu/tr/2014/04/UW-CSE-14-04-02.PDF"> Download</a>.
+    </li>
+      </ul>
+</li>
+</ul>
+
 
 
 <hr />
 <p>
-Last updated: August 12, 2012
+Last updated: August 1, 2014
 </p>
 
 </body>
