@@ -19,7 +19,7 @@ see \secref{} for details.
 
 Infer types, \<ant infer>.
 Then, run the Information Flow Checker, \<ant check-flow-pp>, if the output is similar to 
-the output shown below, then your setup is correct.  (You should get 33 warnings.)
+the output shown below, then your setup is correct.  (You should get 31 warnings.)
 
 \begin{Verbatim}
 Buildfile: .../ContactManager/build.xml
@@ -88,7 +88,7 @@ Add  \flow{USER\_INPUT}{DISPLAY} to the flow policy.
 
 \section{Correcting Annotations}
 Inference sometimes inserts annotations that are correct, but too permissive.  
-They use the \perm{ANY} instead of a more specific permission.  Because we did
+It may infer the \perm{ANY} instead of a more specific permission.  Because we did
 not add any flow with \perm{ANY} to the flow policy, all uses of these types will 
 issue a forbidden flow warning.  
 
@@ -160,29 +160,6 @@ the following questions for each warning.
 This tutorial only covers incompatibility warnings; see section \secref{errors} for 
 other warnings and how to handle them.
 
-\subsection{Warning }
-
-\begin{enumerate}
-\item Why are the found and required annotations those listed in the warning message?
-   \begin{itemize}
-    \item Is the annotation explicitly written in the source code? 
-    \item Is the annotation from an API method that was annotated in stub file? \secref{sec:apispecs}
-    \item Is the annotation inferred? \secref{sec:type-inference}
-    \item Is the annotation defaulted? \secref{sec:unannotated-types}
-    \end{itemize}
-\item Why is the found type not a subtype of the required type? \secref{sec:subtyping}
-  \begin{itemize}
-   \item Does the found type have more or different found sources than required?
-   \item Does the found type have less or different found sinks than required? 
-   \end{itemize}
-\item What annotation or annotations correctly capture the behavior of the app at
-  this location? (In other words, what annotation will make the found type a 
-  subtype of the required type?)
-   \begin{itemize}
-   \item Add only a source or a sink annotation
-   \end{itemize}
-\end{enumerate}
-
 \subsection{Warning 1}
 Run the Information Flow Checker again.
 
@@ -233,125 +210,90 @@ Because the annotations on \<mContactPhoneTypes> were inferred,  annotations sho
  
  The source annotation will be defaulted to \<@Source(USER\_INPUT) >.
  \end{enumerate}
+ 
  Run the Information Flow Checker again.  Only three warnings should be issued.
  
  \subsection{Warning 2}
  \begin{Verbatim}
-[jsr308.javac] /Users/smillst/Downloads/ContactManager/src/com/example/android/contactmanager/ContactAdder.java:101: warning: [assignment.type.incompatible] incompatible types in assignment.
-[jsr308.javac]         mContactEmailTypes = new ArrayList<Integer>();
-[jsr308.javac]                              ^
-[jsr308.javac]   found   :  {   ->  ANY } ArrayList< {   ->   }  Integer>
-[jsr308.javac]   required:  {   ->   } ArrayList< { USER_INPUT  ->  CONTENT_PROVIDER }  Integer>
+.../ContactAdder.java:101: warning: [assignment.type.incompatible] incompatible types in assignment.
+        mContactEmailTypes = new ArrayList<Integer>();
+                             ^
+  found   :  {   ->  ANY } ArrayList< {   ->   }  Integer>
+  required:  {   ->   } ArrayList< { USER_INPUT  ->  CONTENT_PROVIDER }  Integer>
 \end{Verbatim} 
 This warning is nearly identical to the previous warning and can be corrected the same way.
- 
-   Run the Information Flow Checker again.  Only two errors should be issued.
+
+ \noindent 
+Run the Information Flow Checker again.  Only two errors should be issued.
 
 
   \subsection{Warning 3 }
    \begin{Verbatim}
-[jsr308.javac] /Users/smillst/Downloads/ContactManager/src/com/example/android/contactmanager/ContactAdder.java:282: warning: [return.type.incompatible] incompatible types in return.
-[jsr308.javac]                 return dictionary[i];
-[jsr308.javac]                                  ^
-[jsr308.javac]   found   :  {   ->   }  AuthenticatorDescription
-[jsr308.javac]   required:  {   ->  ANY }  AuthenticatorDescription
+.../ContactAdder.java:262: warning: [argument.type.incompatible] incompatible types in argument.
+                    accountTypes);
+                    ^
+  found   :  {   ->   } AuthenticatorDescription  {   ->  ANY }  []
+  required:  {   ->  ANY } AuthenticatorDescription  {   ->  ANY }  []
 \end{Verbatim} 
-This is an ``incompatible types in return'' warning.  It means that the type
-of the returned expression, the found type, is not a subtype of the declared  
-return type of the method, the required type.
+This is an ``incompatible types in argument'' warning.  It means that the type
+of argument, the found type, is not a subtype of the formal parameter   
+ of the method, the required type.
 
  \begin{enumerate}
 
 \item\textbf{Where do the found and required types come from?}
- The found type is the type an index of the array \<dictionary> which is declared in the method signature, \<@Source(\{\})> the sink is defaulted to \<@Sink(\{\})>
+ The found type is the type the local variable , \<accountTypes> . The annotation on the array type 
+ (i.e. the annotation before \<[]>) was refined after the assignment on line 254.  Annotations on the element 
+ array types (i.e. the annotation before \<AuthenticatorDescription>)  are never refined, so this annotation was 
+ defaulted. 
  
- and the required type is .
+The required type is the type of the \<dictionary> parameter of the method \<getAuthenticatorDescription>.  
+The source annotation were inferred, but the sink annotations were not. 
 
+\item \textbf{Why is the found type not a subtype of the required type? }
+The element array types are not equal.
 
-       \annomethod{public void onCheckedChanged(CompoundButton buttonView, \textbf{@Source(USER\_INPUT)} boolean isChecked)}
+\item\textbf{What annotation or annotations would make the found type a subtype of the required?}
+Either the declaration of \<accountTypes> needs its array elements type annotated with \<@Sink(ANY)> 
+or the del cation of the  \<dictionary> needs its array elements type annotated with \<@Sink(\{\})> .  
+If the type of \<accountTypes> is changed the assignment on line 256 will fail.  Because of this and 
+because the \<@Sink(\{\})> is less permissive, the method signature should be update.
+
+The inference tool did not infer any sink annotation for this method, so they should be add to all types.
+
+  
+  \annomethod{    private static @Source(\{\}) \textbf{@Sink(\{\})} AuthenticatorDescription getAuthenticatorDescription(@Source(\{\}) \textbf{@Sink(\{\})} String type,
+    		 @Source(\{\}) \textbf{@Sink(\{\})}
+    		 AuthenticatorDescription @Source(\{\}) \textbf{@Sink(\{\})} [] dictionary) }
+
  \end{enumerate}
 
-Run the Information Flow Checker; there should be 2 warnings.
+Run the Information Flow Checker; there should be 1 warning.
   
   \subsection{Warning 4 }
    \begin{Verbatim}
-.../ContactManager/src/com/example/android/contactmanager/ContactManager.java:77: 
-warning: incompatible types in assignment.
-                 mShowInvisible = isChecked;
-                                  ^
-   found   : @Sink({CONDITIONAL, WRITE_LOGS, CONTENT_PROVIDER}) @Source(USER_INPUT) boolean
-   required: @Sink({CONDITIONAL, DISPLAY, WRITE_LOGS, CONTENT_PROVIDER}) @Source(LITERAL) boolean
-    \end{Verbatim} 
+.../ContactAdder.java:313: warning: [assignment.type.incompatible] incompatible types in assignment.
+            mName = name;
+                    ^
+  found   :  {   ->   }  String
+  required:  {   ->  CONTENT_PROVIDER, DISPLAY, WRITE_LOGS }  String
+ \end{Verbatim} 
 
  \begin{enumerate}
 
 \item\textbf{Where do the found and required types come from?}
-   The found type is a parameter that is annotated and the required type is a field that was 
-   defaulted.
+   The found type is a parameter that is annotated and the required type is a field.  Both 
+   types were inferred.
 \item  \textbf{ Why is the found type not a subtype of the required type?}
-  The found source is \perm{USER\_INPUT} and the required source is \perm{LITERAL}. 
+  The found type sink does not include and the required sinks is \perm{CONTENT\_PROVIDER}, 
+  \perm{DISPLAY}, \perm{WRITE\_LOGS }. 
 \item  \textbf{What annotation or annotations would make the found type a subtype of the required?}
-  The required type has already been annotated, so it should not be changed; therefore, the
-  found type should be annotated with \<@Source(USER\_INPUT)>.\newline
-  
-  \annomethod{private \textbf{@Source(USER\_INPUT)} boolean mShowInvisible;}
-  
+Assuming the inferred annotations on the field are correct, the annotation on the parameter should be 
+updated to include the required sinks.
    \end{enumerate}
 
-Run the Information Flow Checker; there should be 3 warnings.  Two of the warnings are because of the
-annotation that was just added.
+Run the Information Flow Checker; there should be no warnings.
 
-  \subsection{Warning 5}
-   \begin{Verbatim}
-.../ContactManager/src/com/example/android/contactmanager/ContactManager.java:63: 
-warning: incompatible types in assignment.
-         mShowInvisible = false;
-                          ^
-   found   : @Sink({CONDITIONAL,DISPLAY, WRITE_LOGS, CONTENT_PROVIDER}) @Source(LITERAL) boolean
-   required: @Sink({CONDITIONAL, WRITE_LOGS, CONTENT_PROVIDER}) @Source(USER_INPUT) boolean
-    \end{Verbatim} 
-
- \begin{enumerate}
-
-\item\textbf{Where do the found and required types come from?}
-   The found type is from the boolean literal.  The required type is from an annotated field.
-  \item\textbf{ Why is the found type not a subtype of the required type?}
-  The found source is \perm{LITERAL} and the required type is \perm{USER\_INPUT}
-  \item\textbf{What annotation or annotations would make the found type a subtype of the required?}
-  The annotation on the boolean literal cannot be changed, so the annotation of the field must be changed.  The annotation is \<@Source(USER\_INPUT)>, so we can add the 
-  \perm{LITERAL} to the list of sources.\newline
-  
-    \annomethod{    private \textbf{@Source(\{USER\_INPUT, LITERAL\})} boolean mShowInvisible;}
-      \end{enumerate}
-
-    Run the Information Flow Checker; there should be 1 warning.  The last change fixed two warnings.
-    
-  \subsection{Warning 6}
-   \begin{Verbatim}
-.../ContactManager/src/com/example/android/contactmanager/ContactManager.java:118: 
-warning: incompatible types in return.
-         return managedQuery(uri, projection, selection, selectionArgs, sortOrder);
-                            ^
-   found   : @Sink({CONDITIONAL, DISPLAY, WRITE_LOGS, CONTENT_PROVIDER}) @Source(CONTENT_PROVIDER) Cursor
-   required: @Sink({CONDITIONAL, DISPLAY, WRITE_LOGS, CONTENT_PROVIDER}) @Source(LITERAL) Cursor
-    \end{Verbatim} 
-
- \begin{enumerate}
-
-\item\textbf{Where do the found and required types come from?}
-   The found type is from the return type of an API method that was annotated in a stub file.  The required type is the return type of this method, \<getContacts()>, which is defaulted. 
-  \item\textbf{ Why is the found type not a subtype of the required type?}
-  The found source is \<@Source(CONTENT\_PROVIDER)> and the required source is 
-  \<@Source(LITERAL>.
-  \item\textbf{What annotation or annotations would make the found type a subtype of the required?}
-  Because the found type is from a stub file annotation, it cannot be changed. So, the return type of this method, \<getContacts()> must be annotated with 
-  \<@Source(CONTENT\_PROVIDER>.\newline
-  
-             \annomethod{ private \textbf{@Source(CONTENT\_PROVIDER)}
-             Cursor getContacts()}
-              \end{enumerate}
-
-    Run the Information Flow Checker; there should be no warnings.
   \section{Correctly annotated app}  
      Now that the Information Flow Checker no longer reports any warnings, it guarantees that
      ContactManger only contains the information flows in the flow policy.  
