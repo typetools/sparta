@@ -1,3 +1,18 @@
+Version 0.9.8 1 August 2014
+
+Intent Checker:
+  New checker that type-checks information flows across communicating components 
+  of an Android app.
+
+Information Flow Checker changes:
+  LITERAL and CONDTIONAL have been removed.  See manual for new defualting 
+  rules.
+
+Report Not Reviewed Checker:
+  A new tool has been add to report all API methods used that do not apear 
+  in stub files.
+
+----------------------------------------------------------------------
 Version 0.9.7 5 May 2014
 
 Detection Tools
