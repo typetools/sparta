@@ -34,4 +34,4 @@ check sparta-subjects
 
 tar up the READ.VM with the vdi
 tar -cf sparta-vm-v0.9.7.tar sparta-vm-v0.9.7/
-bzip2 sparta-vm-v0.9.7.tar
+bzip2 sparta-vm-v0.9.8.tar
