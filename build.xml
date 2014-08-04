@@ -189,6 +189,13 @@ ${build.version} of the 'javac.jar' library."/>
               jar="${checkers.lib}">
             <arg line="-cp ${libs.external.deps.platformpath}" />
             <arg value="-g"/>
+            <!-- Make sure we only have Java 7 source code and generate Java 7 bytecode. -->
+            <arg value="-source"/>
+            <arg value="7"/>
+            <arg value="-target"/>
+            <arg value="7"/>
+            <!-- To not get a warning about bootstrap classpath -->
+            <arg value="-Xlint:-options"/>
             <arg line="-sourcepath ${src}"/>
             <arg line="-d ${build}"/>
             <arg line="${src.files.spaceseparated}"/>
@@ -284,6 +291,13 @@ ${build.version} of the 'javac.jar' library."/>
               jar="${checkers.lib}">
             <arg line="-cp ${build}:${junit.jar}:${gson.jar}" />
             <arg value="-g"/>
+            <!-- Make sure we only have Java 7 source code and generate Java 7 bytecode. -->
+            <arg value="-source"/>
+            <arg value="7"/>
+            <arg value="-target"/>
+            <arg value="7"/>
+            <!-- To not get a warning about bootstrap classpath -->
+            <arg value="-Xlint:-options"/>
             <arg line="-sourcepath ${tests}"/>
             <arg line="-d ${build.tests}"/>
             <arg line="${src.tests}"/>
