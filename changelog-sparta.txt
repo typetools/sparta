@@ -5,11 +5,11 @@ Intent Checker:
   of an Android app.
 
 Information Flow Checker changes:
-  LITERAL and CONDTIONAL have been removed.  See manual for new defualting 
+  LITERAL and CONDITIONAL have been removed.  See manual for new defaulting 
   rules.
 
 Report Not Reviewed Checker:
-  A new tool has been add to report all API methods used that do not apear 
+  A new tool has been add to report all API methods used that do not appear 
   in stub files.
 
 ----------------------------------------------------------------------
