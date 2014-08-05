@@ -327,6 +327,11 @@
 
         <pathconvert property="cmdClasspath" refid="project.target.class.path" pathsep=":"/>
 
+        <fileset dir="libs" id="projectLibs">
+            <include name="**/*.jar" />
+        </fileset>
+        <pathconvert property="cmdLibs" refid="projectLibs" pathsep=":" />
+
         <fileset dir="${source.absolute.dir}" id="mySourceJava">
             <include name="**/*.java" />
         </fileset>
@@ -338,7 +343,7 @@
         <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
 
         <exec executable="${env.CHECKER_INFERENCE}/scripts/inference.py" failonerror="true">
-            <arg line="--extra-classpath='${cmdClasspath}:src/:gen:.'" />
+            <arg line="--extra-classpath='${cmdClasspath}:${cmdLibs}:src/:gen/:.'" />
             <arg line="--solver sparta.checkers.SpartaSourceSolver" />
             <!--<arg line="- -solver checkers.inference.solver.DebugSolver" />-->
             <arg line="--checker sparta.checkers.SpartaSourceChecker" />
@@ -360,6 +365,11 @@
 
         <pathconvert property="cmdClasspath" refid="project.target.class.path" pathsep=":"/>
 
+        <fileset dir="libs" id="projectLibs">
+            <include name="**/*.jar" />
+        </fileset>
+        <pathconvert property="cmdLibs" refid="projectLibs" pathsep=":" />
+
         <fileset dir="${source.absolute.dir}" id="mySourceJava">
             <include name="**/*.java" />
         </fileset>
@@ -371,7 +381,7 @@
         <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
 
         <exec executable="${env.CHECKER_INFERENCE}/scripts/inference.py" failonerror="true">
-            <arg line="--extra-classpath='${cmdClasspath}:src/:gen:.'" />
+            <arg line="--extra-classpath='${cmdClasspath}:${cmdLibs}:src/:gen/:.'" />
             <arg line="--solver sparta.checkers.SpartaSinkSolver" />
             <arg line="--checker sparta.checkers.SpartaSinkChecker" />
             <arg line="--log-level=ALL" />
