@@ -1689,7 +1689,6 @@ class InvocationTargetException{
             Throwable getCause();
 }
 
-@PolyFlowReceiver
 class Method {
 //Added by pbsf
     Class<?> getDeclaringClass();
