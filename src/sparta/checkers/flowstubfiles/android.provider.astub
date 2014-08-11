@@ -158,8 +158,3 @@ class MediaStore$Audio$Playlists$Members{
         static @Source(FlowPermission.MEDIA) Uri getContentUri(String volumeName, long playlistId);
 }
 
-class Secure{
-        static boolean isLocationProviderEnabled(ContentResolver cr, String provider);
-        static void setLocationProviderEnabled(ContentResolver cr, String provider, boolean enabled);
-}
-
