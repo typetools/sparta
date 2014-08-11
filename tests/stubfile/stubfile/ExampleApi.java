@@ -2,7 +2,6 @@ package stubfile;
 /*These warnings are from information-flow.astub and they may change*/
 //warning: StubParser: Skipping annotation type: android.annotation.TargetApi
 //warning: StubParser: Skipping enum type: android.net.NetworkInfo.State
-//warning: StubParser: Type not found: android.provider.Secure
 //warning: StubParser: Method getNextPoolable() not found in type android.view.VelocityTracker
 //warning: StubParser: Method isPooled() not found in type android.view.VelocityTracker
 //warning: StubParser: Method setNextPoolable(T) not found in type android.view.VelocityTracker
