@@ -980,6 +980,8 @@ class SubMenu{
 }
 
 class SurfaceView{
+SurfaceView(Context context);
+
 //SOM
  @Sink({DISPLAY}) SurfaceHolder getHolder ();
 }        
@@ -3790,6 +3792,12 @@ void writeToParcel(Parcel dest, int flags);
 
 
 }
+
+class EditorInfo{
+        final int IME_ACTION_SEND;
+        final int IME_NULL;
+}
+
 
 class InputConnection {
     

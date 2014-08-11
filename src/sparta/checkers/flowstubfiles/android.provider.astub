@@ -1,9 +1,26 @@
 package android.provider;
 
+class BaseColumns{
+        final String _ID;
+}
+
 class Browser {
 static void clearHistory(ContentResolver cr);
 static void clearSearches(ContentResolver cr);
 }
+
+class CallLog$Calls{
+        final String NUMBER;
+        final String DURATION;
+        final int INCOMING_TYPE;
+        final String CACHED_NAME;
+        final String TYPE;
+        final String DATE;
+        final int MISSED_TYPE;
+        final Uri CONTENT_URI;
+        final int OUTGOING_TYPE;
+}
+
 
 class Contacts$People {
 static Bitmap loadContactPhoto(Context context, Uri person, int placeholderImageResource, Options options);
@@ -25,12 +42,41 @@ static @Source(CONTENT_PROVIDER) Bitmap getThumbnail(ContentResolver cr, long or
 static @Source(CONTENT_PROVIDER) Cursor queryMiniThumbnail(ContentResolver cr, long origId, int kind, String[] projection);
 }
 
+class Settings$Secure{
+        static boolean isLocationProviderEnabled(ContentResolver cr, String provider);
+        static void setLocationProviderEnabled(ContentResolver cr, String provider, boolean enabled);
+}
+
 class Settings$System {
 static boolean putInt(ContentResolver cr, String name, @Sink(WRITE_SETTINGS) int value);
 }
 
 class ContactsContract$CommonDataKinds$Phone {
-    
+
+        final int TYPE_OTHER_FAX;
+        final int TYPE_COMPANY_MAIN;
+        final int TYPE_RADIO;
+        final int TYPE_ASSISTANT;
+        final int TYPE_FAX_HOME;
+        final int TYPE_TTY_TDD;
+        final int TYPE_MOBILE;
+        final String NUMBER;
+        final int TYPE_PAGER;
+        final int TYPE_WORK_PAGER;
+        final int TYPE_MMS;
+        final int TYPE_TELEX;
+        final int TYPE_FAX_WORK;
+        final int TYPE_HOME;
+        final String CONTENT_ITEM_TYPE;
+        final int TYPE_WORK_MOBILE;
+        final int TYPE_WORK;
+        final int TYPE_OTHER;
+        final int TYPE_CAR;
+        final int TYPE_ISDN;
+        final int TYPE_MAIN;
+        final int TYPE_CALLBACK;
+
+
 final static CharSequence getTypeLabel(Resources res, int type, CharSequence label);
 //Return a CharSequence that best describes the given type, possibly substituting the given LABEL value for TYPE_CUSTOM.
 
@@ -40,6 +86,16 @@ final static int getTypeLabelResource(int type);
 
 
 }
+
+class ContactsContract$CommonDataKinds$CommonColumns{
+        final String TYPE;
+        final String LABEL;
+}
+class ContactsContract$CommonDataKinds$BaseTypes{
+        final int TYPE_CUSTOM;
+}
+
+
 class ContactsContract$CommonDataKinds$Email {
     
 final static CharSequence getTypeLabel(Resources res, int type, CharSequence label);
@@ -53,7 +109,8 @@ final static int getTypeLabelResource(int type);
 }
 
 class ContactsContract$Contacts {
-    
+ final Uri CONTENT_FILTER_URI;
+
 static Uri getLookupUri(ContentResolver resolver, Uri contactUri);
 //Builds a CONTENT_LOOKUP_URI style Uri describing the requested Contacts entry.
 
@@ -76,7 +133,33 @@ static InputStream openContactPhotoInputStream(ContentResolver cr, Uri contactUr
 
 }
 
+class ContactsContract$ContactsColumns{
+        final String DISPLAY_NAME;
+        final String LOOKUP_KEY;
+}
+
+
+class ContactsContract$DataColumns{
+        final String MIMETYPE;
+}
+class ContactsContract$Data{
+        final Uri CONTENT_URI;
+}
+
+
+class ContactsContract$RawContactsColumns{
+        final String CONTACT_ID;
+}
+class ContactsContract$PhoneLookup{
+        final Uri CONTENT_FILTER_URI;
+}
 
 class MediaStore$Audio$Playlists$Members{
         static @Source(FlowPermission.MEDIA) Uri getContentUri(String volumeName, long playlistId);
 }
+
+class Secure{
+        static boolean isLocationProviderEnabled(ContentResolver cr, String provider);
+        static void setLocationProviderEnabled(ContentResolver cr, String provider, boolean enabled);
+}
+

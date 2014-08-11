@@ -31,6 +31,7 @@ String getName();
 class InetSocketAddress {
 int getPort();
 String getHostName();
+InetSocketAddress(String arg0, int arg1);
 }
 
 class DatagramPacket {
@@ -210,6 +211,7 @@ class URLEncoder{
             static String encode(String arg0, String arg1) throws UnsupportedEncodingException;
 }
 class HttpURLConnection {
+    void setFixedLengthStreamingMode(int arg0);
     @Source(FlowPermission.INTERNET) int getResponseCode() throws IOException;
     void setRequestMethod(@Sink(FlowPermission.INTERNET) String arg0) throws ProtocolException;
     @Source(INTERNET) InputStream getErrorStream();

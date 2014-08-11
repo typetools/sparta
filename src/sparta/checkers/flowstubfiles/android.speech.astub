@@ -2,6 +2,9 @@ package android.speech.tts;
 
 class TextToSpeech {
 
+final int SUCCESS;
+final int QUEUE_ADD;
+
 int stop();
 
 int setOnUtteranceCompletedListener(OnUtteranceCompletedListener listener);

@@ -585,9 +585,10 @@ class AdapterView$OnItemSelectedListener{
 }
 
 class ArrayAdapter<T> {
-        ArrayAdapter(Context context, int textViewResourceId, List<T> objects);
-        ArrayAdapter(Context context, int textViewResourceId);
-        ArrayAdapter(Context context, int textViewResourceId, T[] objects);
+ArrayAdapter(Context context, int resource, int textViewResourceId, T[] objects);
+ArrayAdapter(Context context, int textViewResourceId, List<T> objects);
+ArrayAdapter(Context context, int textViewResourceId);
+ArrayAdapter(Context context, int textViewResourceId, T[] objects);
 
 void add(T object);
 //Adds the specified object at the end of the array.
@@ -688,6 +689,8 @@ void notifyDataSetChanged();
 }
 
 class Button {
+
+@Sink(DISPLAY) Button(Context context);
 
 void onInitializeAccessibilityEvent(AccessibilityEvent event);
 //Initializes an AccessibilityEvent with information about this View which is the event source.
@@ -1278,7 +1281,11 @@ boolean verifyDrawable(Drawable dr);
 
 class LinearLayout {
 
-LinearLayout(Context context, AttributeSet attrs);
+final int VERTICAL;
+
+@Sink(DISPLAY) LinearLayout(Context context);
+
+@Sink(DISPLAY) LinearLayout(Context context, AttributeSet attrs);
 
 LinearLayout.LayoutParams generateLayoutParams(AttributeSet attrs);
 //Returns a new set of layout parameters based on the supplied attributes set.
@@ -2865,6 +2872,11 @@ boolean verifyDrawable(Drawable who);
 //If your view subclass is displaying its own Drawable objects, it should override this function and return true for any Drawable it is displaying.
 }
 
+class TextView$OnEditorActionListener{
+        boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2);
+}
+
+
 class ScrollView{
 void addView(View child);
 ScrollView(Context context);
@@ -3239,7 +3251,10 @@ void onSizeChanged(int w, int h, int oldw, int oldh);
 
 
 class Toast {
-    
+
+final int LENGTH_LONG;
+final int LENGTH_SHORT;
+
 void cancel();
 //Close the view if it's showing, or don't show it if it isn't showing yet.
 

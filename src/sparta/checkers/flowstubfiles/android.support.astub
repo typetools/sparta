@@ -32,6 +32,11 @@ void ensureHierarchy(Context context);
 void initFragmentTabHost(Context context, AttributeSet attrs);
 }
 
+class NotificationCompat{
+        final int PRIORITY_MIN;
+}
+
+
 class NotificationCompat$Style {
 void setBuilder(Builder builder);
 void setBuilder(Builder builder);
@@ -100,15 +105,19 @@ class NotificationCompat$Builder {
 void setFlag(int mask, boolean value);
 Builder setStyle(Style style);
 Notification build();
+Builder setContentText(CharSequence text);
+Builder setContentTitle(CharSequence title);
+Builder setSmallIcon(int icon);
+Builder setPriority(int pri);
+Builder setContentIntent(PendingIntent intent);
+Builder(Context context);
+Builder setOngoing(boolean ongoing);
 }
 
-
-
-
-
-
-
-
+class NotificationCompat$InboxStyle{
+        InboxStyle(Builder builder);
+        InboxStyle addLine(CharSequence cs);
+}
 
 
 class FragmentActivity {
@@ -424,6 +433,7 @@ static LocalBroadcastManager getInstance(Context context);
 void registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
 boolean sendBroadcast(@Sink(INTENT) Intent intent);
 void executePendingBroadcasts();
+void unregisterReceiver(BroadcastReceiver receiver);
 }
 
 package android.support.v4.util;

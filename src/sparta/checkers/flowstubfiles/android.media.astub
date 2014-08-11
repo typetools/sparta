@@ -26,7 +26,13 @@ void setTransportControlFlags(int transportControlFlags);
 }
 
 class AudioManager{
-        void setRingerMode(@Sink(SPEAKER) int ringerMode);
+
+final int STREAM_RING;
+final int RINGER_MODE_NORMAL;
+final int RINGER_MODE_SILENT;
+final int RINGER_MODE_VIBRATE;
+
+void setRingerMode(@Sink(SPEAKER) int ringerMode);
         int getStreamVolume(int streamType);
         int getStreamMaxVolume(int streamType);
         void setStreamVolume(int streamType, @Sink(SPEAKER) int index, int flags);
@@ -238,8 +244,12 @@ class Ringtone{
 }
 
 class RingtoneManager{
-        static Ringtone getRingtone(Context context, Uri ringtoneUri);
+
+final int TYPE_RINGTONE;
+        static Uri getDefaultUri(int type);
+static Ringtone getRingtone(Context context, Uri ringtoneUri);
         Cursor getCursor();
+        Uri getValidRingtoneUri(Context context);
 int getRingtonePosition(Uri ringtoneUri);
 Uri getRingtoneUri(int position);
 }

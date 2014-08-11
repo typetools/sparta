@@ -230,6 +230,9 @@ abstract ActionBar.Tab setText(@Sink(DISPLAY) CharSequence text);
 
 class Activity{
 
+final int RESULT_OK;
+final int RESULT_CANCELED;
+
 void dump(String prefix, @Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE, INTERNET})FileDescriptor fd, PrintWriter writer, String[] args);
 //Print the Fragments's state into the given stream.
 
@@ -1897,7 +1900,12 @@ abstract <D> Loader<D> restartLoader(int id, Bundle args, LoaderCallbacks<D> cal
 }
 
 class Notification {
-    
+PendingIntent deleteIntent;
+int ledARGB;
+int ledOnMS;
+int ledOffMS;
+int flags;
+
 Notification(int icon, CharSequence tickerText, @Sink(DISPLAY) long when);
 //This constructor was deprecated in API level 11. Use Notification.Builder instead.
 
@@ -2085,7 +2093,9 @@ class NotificationManager{
 }
 
 class PendingIntent {
-    
+
+final int FLAG_UPDATE_CURRENT;
+
 void cancel();
 //Cancel a currently active PendingIntent.
 
@@ -2164,6 +2174,8 @@ void writeToParcel(Parcel out, int flags);
 }
 
 class ProgressDialog {
+
+ProgressDialog(Context ctx);
 
 int getMax();
 
@@ -2364,6 +2376,12 @@ class TimePickerDialog$OnTimeSetListener {
 
 package android.app.admin;
 class DevicePolicyManager{
+        final String EXTRA_DEVICE_ADMIN;
+        void wipeData(int flags);
+        final String ACTION_ADD_DEVICE_ADMIN;
+        final int WIPE_EXTERNAL_STORAGE;
+
+        int getCurrentFailedPasswordAttempts();
         void setMaximumTimeToLock(ComponentName admin, long timeMs);
         long getMaximumTimeToLock(ComponentName admin);
         void removeActiveAdmin(ComponentName who);
@@ -2373,13 +2391,26 @@ class DevicePolicyManager{
 }
 
 class DeviceAdminReceiver{
-        DeviceAdminReceiver();
+ void onPasswordSucceeded(Context context, Intent intent);
+        void onPasswordChanged(Context context, Intent intent);
+        void onEnabled(Context context, Intent intent);
+        void onPasswordFailed(Context context, Intent intent);
+        void onDisabled(Context context, Intent intent);
+        CharSequence onDisableRequested(Context context, Intent intent);
+
+DeviceAdminReceiver();
 }
 
 package android.app.backup;
 
+class BackupAgent{
+        void onCreate();
+}
+
 class BackupAgentHelper {
-    
+
+BackupAgentHelper();
+
 void addHelper(String keyPrefix, BackupHelper helper);
 //Add a helper for a given data subset to the agent's configuration.
 
@@ -2430,8 +2461,9 @@ void finalize();
 }
 
 class SharedPreferencesBackupHelper {
-    
-    
+
+SharedPreferencesBackupHelper(Context context, String[] prefGroups);
+
 void performBackup(ParcelFileDescriptor oldState, BackupDataOutput data, ParcelFileDescriptor newState);
 //Backs up the configured SharedPreferences groups.
 

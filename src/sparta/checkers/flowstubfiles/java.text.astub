@@ -1,8 +1,7 @@
 package java.text;
 
-@PolyFlowReceiver
 
-class Collator {
+class Collator implements Comparator<Object>, Cloneable {
 int compare(Object arg0, Object arg1);
 int compare(String arg0, String arg1);
 static Collator getInstance();

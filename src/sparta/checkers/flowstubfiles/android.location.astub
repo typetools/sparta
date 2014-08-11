@@ -305,7 +305,9 @@ abstract void onStatusChanged(String provider, int status, Bundle extras);
 
 class LocationManager {
     
-    
+final String GPS_PROVIDER;
+final String NETWORK_PROVIDER;
+
 boolean addGpsStatusListener(GpsStatus.Listener listener) @Source(ACCESS_FINE_LOCATION);
 //Adds a GPS status listener.
 
@@ -411,3 +413,10 @@ void setTestProviderStatus(String provider, int status, Bundle extras, long upda
 
 
 }
+
+class LocationProvider{
+        final int OUT_OF_SERVICE;
+        final int AVAILABLE;
+        final int TEMPORARILY_UNAVAILABLE;
+}
+

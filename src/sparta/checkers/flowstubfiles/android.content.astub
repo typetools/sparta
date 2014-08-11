@@ -648,6 +648,18 @@ ContentProviderOperation.Builder withYieldAllowed(boolean yieldAllowed);
 
 
 class Context {
+
+        final String DEVICE_POLICY_SERVICE;
+        final String NOTIFICATION_SERVICE;
+        final String AUDIO_SERVICE;
+        final String CONNECTIVITY_SERVICE;
+        final String WIFI_SERVICE;
+        final String VIBRATOR_SERVICE;
+        final String LOCATION_SERVICE;
+        final String POWER_SERVICE;
+        final String TELEPHONY_SERVICE;
+
+
 abstract boolean bindService(Intent service, ServiceConnection conn, int flags);
 //Connect to an application service, creating it if needed.
 
@@ -1323,6 +1335,7 @@ class DialogInterface$OnDismissListener{
 
 
 class IntentFilter {
+IntentFilter();
 
 IntentFilter(String action);
 //New IntentFilter that matches a single action with no data.
@@ -1463,7 +1476,21 @@ void writeToXml(XmlSerializer serializer);
 
 class Intent implements Parcelable, Cloneable {
 //SOM, We have a special FlowPermission for INTENTS
- String EXTRA_PHONE_NUMBER; 
+        final @Source(INTENT) int FLAG_ACTIVITY_NEW_TASK;
+        final @Source(INTENT) String ACTION_HEADSET_PLUG;
+        final @Source(INTENT) String ACTION_BATTERY_OKAY;
+        final @Source(INTENT) int FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
+
+        final @Source(INTENT) String ACTION_VIEW;
+        final @Source(INTENT) int FLAG_ACTIVITY_NO_USER_ACTION;
+        final @Source(INTENT) String ACTION_BATTERY_LOW;
+        final @Source(INTENT) String ACTION_BOOT_COMPLETED;
+        final @Source(INTENT) int FLAG_FROM_BACKGROUND;
+        final @Source(INTENT) String ACTION_CALL;
+        final @Source(INTENT) String ACTION_BATTERY_CHANGED;
+
+String EXTRA_PHONE_NUMBER; 
+ static final @Source(INTENT) String EXTRA_SHORTCUT_INTENT;
     Intent();
     Intent(@Sink(INTENT) Intent arg0);
     Intent(@Sink(INTENT)  String arg0);
@@ -1760,6 +1787,12 @@ class SharedPreferences$OnSharedPreferenceChangeListener {
 }
 
 package android.content.pm;
+
+class ApplicationInfo{
+        final int FLAG_SYSTEM;
+        int flags;
+        String sourceDir;
+}
 
 class ComponentInfo {
 CharSequence loadLabel(PackageManager pm);

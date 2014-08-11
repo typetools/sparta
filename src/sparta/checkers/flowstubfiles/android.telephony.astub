@@ -21,12 +21,16 @@ int getGsmSignalStrength();
 }
 
 class PhoneStateListener{
-        PhoneStateListener();
+final int LISTEN_CALL_STATE;
+PhoneStateListener();
         void onCallStateChanged(int state, String incomingNumber);
 }
 
 class TelephonyManager{
-            @Source(READ_PHONE_STATE) String getDeviceId();
+        final int CALL_STATE_RINGING;
+        final int CALL_STATE_IDLE;
+        final int CALL_STATE_OFFHOOK;
+      @Source(READ_PHONE_STATE) String getDeviceId();
             @Source(READ_PHONE_STATE) String getSimSerialNumber();
             @Source(READ_PHONE_STATE) String getNetworkOperatorName();
             @Source(READ_PHONE_STATE) int getPhoneType();
@@ -39,7 +43,13 @@ class TelephonyManager{
 
 
 class SmsManager {
-    
+
+        final int RESULT_ERROR_NO_SERVICE;
+        final int RESULT_ERROR_RADIO_OFF;
+        final int RESULT_ERROR_NULL_PDU;
+        final int RESULT_ERROR_GENERIC_FAILURE;
+
+
 ArrayList<String> divideMessage(String text);
 //Divide a message text into several fragments, none bigger than the maximum SMS message size.
 

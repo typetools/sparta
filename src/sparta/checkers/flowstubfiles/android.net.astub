@@ -11,6 +11,8 @@ Uri build();
 
 class ConnectivityManager {
 
+final String CONNECTIVITY_ACTION;
+
 @Source(ACCESS_NETWORK_STATE) NetworkInfo getActiveNetworkInfo();
 //Returns details about the currently active data network.
 
@@ -515,6 +517,7 @@ void acquire();
 }
 
 class WifiManager {
+@Source(ACCESS_WIFI_STATE) boolean isWifiEnabled();
 @Source(ACCESS_WIFI_STATE) boolean setWifiEnabled(@Sink (CHANGE_WIFI_STATE) boolean enabled);
 @Source(ACCESS_WIFI_STATE) boolean startScan();
 @Source(ACCESS_NETWORK_STATE) DhcpInfo getDhcpInfo();

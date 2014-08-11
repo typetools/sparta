@@ -90,6 +90,8 @@ abstract int getStyleAttribute();
 
 class Base64 {
     
+final int NO_WRAP;
+
 static byte[] decode(byte[] input, int offset, int len, int flags);
 //Decode the Base64-encoded data in input and return the data in a new byte array.
 

@@ -907,6 +907,10 @@ void finalize();
 
 }
 
+class ImageFormat{
+        final int JPEG;
+}
+
 class Point {
     
     
@@ -1443,7 +1447,6 @@ boolean onStateChange(int[] state);
 
     
 }
-
 class ShapeDrawable {
 
 void draw(Canvas canvas);

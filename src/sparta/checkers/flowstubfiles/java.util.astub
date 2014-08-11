@@ -1438,6 +1438,7 @@ void release(int arg0);
 }
 
 class Executors {
+static ScheduledExecutorService newSingleThreadScheduledExecutor();
 static ExecutorService newFixedThreadPool(int arg0, ThreadFactory arg1);
 static ExecutorService newFixedThreadPool(int arg0);
 }

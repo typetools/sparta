@@ -1,9 +1,23 @@
 package org.json;
 class JSONObject{
+
+@PolyFlowReceiver
+String getString(String name) throws JSONException;
+@PolyFlowReceiver
+JSONArray getJSONArray(String name) throws JSONException;
+boolean has(String name);
+
         JSONObject();
-@PolyFlowReciever
+@PolyFlowReceiver
         JSONObject accumulate(String name, Object value) throws JSONException;
-@PolyFlowReciever
+@PolyFlowReceiver
         String toString();
 }
+
+class JSONArray{
+        @PolyFlowReceiver JSONObject getJSONObject(int index) throws JSONException;
+        @PolyFlowReceiver String getString(int index) throws JSONException;
+        JSONArray(String json) throws JSONException;
+}
+
 

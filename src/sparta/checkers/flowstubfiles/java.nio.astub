@@ -189,6 +189,7 @@ int read(ByteBuffer arg0) throws IOException;
 
 @PolyFlowReceiver
 class FileChannel {
+long transferTo(long arg0, long arg1, WritableByteChannel arg2) throws IOException;
 long size() throws IOException;
 }
 

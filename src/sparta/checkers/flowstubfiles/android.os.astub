@@ -1,6 +1,24 @@
 
 package android.os;
 
+class BatteryManager{
+        final String EXTRA_SCALE;
+        final int BATTERY_STATUS_DISCHARGING;
+        final String EXTRA_STATUS;
+        final int BATTERY_STATUS_FULL;
+        final int BATTERY_STATUS_NOT_CHARGING;
+        final int BATTERY_PLUGGED_USB;
+        final String EXTRA_LEVEL;
+        final String EXTRA_PLUGGED;
+        final int BATTERY_PLUGGED_AC;
+        final int BATTERY_STATUS_CHARGING;
+        final int BATTERY_PLUGGED_WIRELESS;
+        final String EXTRA_VOLTAGE;
+        final String EXTRA_TEMPERATURE;
+        final int BATTERY_STATUS_UNKNOWN;
+}
+
+
 class CountDownTimer {
 SinkCountDownTimer start();
 Sinkvoid cancel();
@@ -66,7 +84,10 @@ class IInterface{
 }
 
 class IBinder {
-    //Added by Carl Hartung
+
+final int FIRST_CALL_TRANSACTION;
+
+//Added by Carl Hartung
     abstract boolean transact(int code, Parcel data, Parcel reply, int flags);
     //Perform a generic operation with the object.
     
@@ -529,6 +550,8 @@ class FileObserver{
 }
 
 class Handler {
+
+Handler(Looper looper);
 
 Looper getLooper();
 
@@ -1002,6 +1025,7 @@ void finalize();
 class PowerManager{
         @Source(FlowPermission.WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
         boolean isScreenOn();
+        void reboot(String reason);
 }
 
 class PowerManager$WakeLock{
