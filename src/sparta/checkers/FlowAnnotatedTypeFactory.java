@@ -31,7 +31,6 @@ import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy;
 import org.checkerframework.framework.util.QualifierDefaults;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
-import org.checkerframework.framework.util.QualifierDefaults.DefaultApplierElement;
 import org.checkerframework.framework.util.QualifierPolymorphism;
 import org.checkerframework.dataflow.analysis.TransferResult;
 import org.checkerframework.dataflow.cfg.node.Node;
@@ -84,6 +83,12 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     protected final FlowAnalyzer flowAnalizer;
     
     private final ParameterizedFlowPermission ANY;
+    
+    //Qualifier defaults for byte code and poly flow defaulting
+	final QualifierDefaults byteCodeFieldDefault = new QualifierDefaults(elements, this);
+	final QualifierDefaults byteCodeDefaults = new QualifierDefaults(elements, this);
+	final QualifierDefaults polyFlowDefaults = new QualifierDefaults(elements, this);
+	final QualifierDefaults polyFlowReceiverDefaults = new QualifierDefaults(elements, this);
 
     public FlowAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
@@ -123,6 +128,13 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             this.postInit();
         }
     }
+    @Override
+    protected void postInit() {
+    	super.postInit();
+    	//Has to be called after postInit 
+    	//has been called for every subclass.
+        initQualifierDefaults();
+    }
 
     private AnnotationMirror createAnnoFromSink(
 			ParameterizedFlowPermission sinks) {
@@ -154,6 +166,39 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         };
         return ret;
     }
+
+
+	/**
+	 * Initializes qualifier defaults for 
+	 * @PolyFlow, @PolyFlowReceiver, and @FromByteCode
+	 */
+	private void initQualifierDefaults(){
+		// Final fields from byte code are {} -> ANY
+		byteCodeFieldDefault.addAbsoluteDefault(NOSOURCE, OTHERWISE);
+		byteCodeFieldDefault.addAbsoluteDefault(ANYSINK, OTHERWISE);
+
+		// All locations besides non-final fields in byte code are
+		// conservatively ANY -> ANY
+		byteCodeDefaults.addAbsoluteDefault(ANYSOURCE,
+				DefaultLocation.OTHERWISE);
+		byteCodeDefaults.addAbsoluteDefault(ANYSINK, DefaultLocation.OTHERWISE);
+
+		// Use poly flow sources and sinks for return types and
+		// parameter types (This is excluding receivers).
+		DefaultLocation[] polyFlowLoc = { DefaultLocation.RETURNS,
+				DefaultLocation.PARAMETERS };
+		polyFlowDefaults.addAbsoluteDefaults(POLYSOURCE, polyFlowLoc);
+		polyFlowDefaults.addAbsoluteDefaults(POLYSINK, polyFlowLoc);
+
+		// Use poly flow sources and sinks for return types and
+		// parameter types and receivers).
+		DefaultLocation[] polyFlowReceiverLoc = { DefaultLocation.RETURNS,
+				DefaultLocation.PARAMETERS, DefaultLocation.RECEIVERS };
+		polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSOURCE,
+				polyFlowReceiverLoc);
+		polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSINK,
+				polyFlowReceiverLoc);
+	}
 
     @Override
     protected QualifierDefaults createQualifierDefaults() {
@@ -244,55 +289,29 @@ if(!finesources.isEmpty())
     protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
         if (element == null)
             return;
-        DefaultApplierElement applier = new DefaultApplierElement(this, element, type);
-        handlePolyFlow(element, applier);
+        handlePolyFlow(element, type);
         
         if (isFromByteCode(element)
                 && element.getKind() == ElementKind.FIELD
                 && ElementUtils.isEffectivelyFinal(element)) {
-            //Final fields from byte code are {} -> ANY
-            applier.apply(NOSOURCE, OTHERWISE);
-            applier.apply(ANYSINK, OTHERWISE);
+            byteCodeFieldDefault.annotate(element, type);
             return;
         }
             
         if (isFromByteCode(element)){
-            //All locations besides non-final fields in byte code are 
-            //conservatively ANY -> ANY
-            applier.apply(ANYSOURCE, DefaultLocation.OTHERWISE);
-            applier.apply(ANYSINK, DefaultLocation.OTHERWISE);
-
+            byteCodeDefaults.annotate(element, type);
         } 
     }
 
-    private void handlePolyFlow(Element iter, DefaultApplierElement applier) {
+    private void handlePolyFlow(Element element, AnnotatedTypeMirror type) {
+    	Element iter = element;
         while (iter != null) {
             if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
-                // Use poly flow sources and sinks for return types .
-                applier.apply(POLYSOURCE, DefaultLocation.RETURNS);
-                applier.apply(POLYSINK, DefaultLocation.RETURNS);
-
-                // Use poly flow sources and sinks for Parameter types (This is
-                // excluding receivers)
-                applier.apply(POLYSINK, DefaultLocation.PARAMETERS);
-                applier.apply(POLYSOURCE, DefaultLocation.PARAMETERS);
-
+                polyFlowDefaults.annotate(element, type);
                 return;
 
             } else if (this.getDeclAnnotation(iter, PolyFlowReceiver.class) != null) {
-                // Use poly flow sources and sinks for return types .
-                applier.apply(POLYSOURCE, DefaultLocation.RETURNS);
-                applier.apply(POLYSINK, DefaultLocation.RETURNS);
-
-                // Use poly flow sources and sinks for Parameter types (This is
-                // excluding receivers)
-                applier.apply(POLYSINK, DefaultLocation.PARAMETERS);
-                applier.apply(POLYSOURCE, DefaultLocation.PARAMETERS);
-
-                // Use poly flow sources and sinks for receiver types
-                applier.apply(POLYSINK, DefaultLocation.RECEIVERS);
-                applier.apply(POLYSOURCE, DefaultLocation.RECEIVERS);
-
+                polyFlowReceiverDefaults.annotate(element, type);
                 return;
             }
 
