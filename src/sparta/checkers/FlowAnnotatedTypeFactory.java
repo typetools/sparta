@@ -29,7 +29,7 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedUnionTyp
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy;
-import org.checkerframework.framework.util.QualifierDefaults;
+import org.checkerframework.framework.util.defaults.QualifierDefaults;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import org.checkerframework.framework.util.QualifierPolymorphism;
 import org.checkerframework.dataflow.analysis.TransferResult;
@@ -224,6 +224,11 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         // Default is {} -> {} for everything else
         defaults.addAbsoluteDefault(NOSINK, OTHERWISE);
         defaults.addAbsoluteDefault(NOSOURCE, OTHERWISE);
+        
+        //Default for lower bounds is bottom
+        defaults.addAbsoluteDefault(NOSOURCE, LOWER_BOUNDS);
+        defaults.addAbsoluteDefault(ANYSINK, LOWER_BOUNDS);
+
 
         return defaults;
     }
