@@ -963,6 +963,7 @@ class ContextWrapper {
   void startActivity(@Sink(INTENT) Intent intent, @Sink(BUNDLE) Bundle options);
 			ApplicationInfo getApplicationInfo();
             File getDir(String name, int mode);
+            String getPackageCodePath();
             ContextWrapper(Context base);
              Context createPackageContext(String packageName, int flags) throws NameNotFoundException;            
                         String getPackageName();
@@ -1801,6 +1802,10 @@ CharSequence loadLabel(PackageManager pm);
 class PackageItemInfo{
         CharSequence loadLabel(PackageManager pm);
         XmlResourceParser loadXmlMetaData(PackageManager pm, String name);
+}
+
+class PackageInfo {
+    int versionCode;
 }
 
 class PackageManager {

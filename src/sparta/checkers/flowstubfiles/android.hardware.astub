@@ -63,10 +63,10 @@ final void setPreviewCallback(Camera.PreviewCallback cb);
 final void setPreviewCallbackWithBuffer(Camera.PreviewCallback cb);
 //Installs a callback to be invoked for every preview frame, using buffers supplied with addCallbackBuffer(byte[]);, in addition to displaying them on the screen.
 
-final void setPreviewDisplay(@Source(CAMERA) @Sink(DISPLAY) SurfaceHolder holder);
+final void setPreviewDisplay(@Sink(DISPLAY) SurfaceHolder holder);
 //Sets the Surface to be used for live preview.
 
-final void setPreviewTexture(@Source(CAMERA) @Sink(DISPLAY) SurfaceTexture surfaceTexture);
+final void setPreviewTexture(@Sink(DISPLAY) SurfaceTexture surfaceTexture);
 //Sets the SurfaceTexture to be used for live preview.
 
 final void setZoomChangeListener(Camera.OnZoomChangeListener listener);

@@ -263,16 +263,59 @@ class GestureDetector$SimpleOnGestureListener{
 }
 
 class KeyEvent {
-static KeyEvent changeAction(KeyEvent event, int action);
+
+       final @Source(USER_INPUT)   int KEYCODE_F;
+       final @Source(USER_INPUT)  int KEYCODE_Y;
+       final @Source(USER_INPUT)  int KEYCODE_DPAD_DOWN;
+       final @Source(USER_INPUT) int KEYCODE_V;
+       final @Source(USER_INPUT) int KEYCODE_W;
+       final @Source(USER_INPUT) int KEYCODE_B;
+       final @Source(USER_INPUT) int KEYCODE_C;
+       final @Source(USER_INPUT) int KEYCODE_L;
+       final @Source(USER_INPUT) int KEYCODE_G;
+       final @Source(USER_INPUT) int KEYCODE_I;
+       final @Source(USER_INPUT) int KEYCODE_2;
+       final @Source(USER_INPUT) int KEYCODE_6;
+  final @Source(USER_INPUT) int KEYCODE_DPAD_RIGHT;
+  final @Source(USER_INPUT) int KEYCODE_N;
+  final @Source(USER_INPUT) int KEYCODE_Q;
+  final @Source(USER_INPUT) int KEYCODE_T;
+  final @Source(USER_INPUT) int KEYCODE_K;
+  final @Source(USER_INPUT) int KEYCODE_A;
+  final @Source(USER_INPUT) int KEYCODE_D;
+  final @Source(USER_INPUT) int FLAG_SOFT_KEYBOARD;
+  final @Source(USER_INPUT) int KEYCODE_5;
+  final @Source(USER_INPUT) int KEYCODE_U;
+  final @Source(USER_INPUT) int KEYCODE_4;
+  final @Source(USER_INPUT) int KEYCODE_J;
+  final @Source(USER_INPUT) int KEYCODE_O;
+  final @Source(USER_INPUT) int KEYCODE_M;
+  final @Source(USER_INPUT) int KEYCODE_1;
+  final @Source(USER_INPUT) int KEYCODE_MINUS;
+  final @Source(USER_INPUT) int KEYCODE_Z;
+  final @Source(USER_INPUT) int KEYCODE_8;
+  final @Source(USER_INPUT) int ACTION_UP;
+  final @Source(USER_INPUT) int ACTION_DOWN;
+  final @Source(USER_INPUT) int KEYCODE_S;
+  final @Source(USER_INPUT) int KEYCODE_DPAD_UP;
+  final @Source(USER_INPUT) int KEYCODE_DPAD_LEFT;
+  final @Source(USER_INPUT) int KEYCODE_PLUS;
+  final @Source(USER_INPUT) int KEYCODE_H;
+
+KeyEvent(long downTime, long eventTime, @Source(USER_INPUT) int action, @Source(USER_INPUT) int code, int repeat, int metaState, int deviceId, int scancode, int flags);
+KeyEvent(@Source(USER_INPUT) int action, @Source(USER_INPUT) int code);
+@Source(FlowPermission.USER_INPUT) int getKeyCode();
+
+static KeyEvent changeAction(@Source(USER_INPUT)  KeyEvent event, @Source(USER_INPUT) int action);
 //Create a new key event that is the same as the given one, but whose action is replaced with the given value.
 
-static KeyEvent changeFlags(KeyEvent event, int flags);
+static KeyEvent changeFlags(@Source(USER_INPUT)  KeyEvent event, int flags);
 //Create a new key event that is the same as the given one, but whose flags are replaced with the given value.
 
-static KeyEvent changeTimeRepeat(KeyEvent event, long eventTime, int newRepeat);
+static KeyEvent changeTimeRepeat(@Source(USER_INPUT)  KeyEvent event, long eventTime, int newRepeat);
 //Create a new key event that is the same as the given one, but whose event time and repeat count are replaced with the given value.
 
-static KeyEvent changeTimeRepeat(KeyEvent event, long eventTime, int newRepeat, int newFlags);
+static KeyEvent changeTimeRepeat(@Source(USER_INPUT) KeyEvent event, long eventTime, int newRepeat, int newFlags);
 //Create a new key event that is the same as the given one, but whose event time and repeat count are replaced with the given value.
 
 final boolean dispatch(KeyEvent.Callback receiver, KeyEvent.DispatcherState state, Object target);
@@ -3325,294 +3368,11 @@ abstract void removeViewImmediate(View view);
 
 }
 
-class KeyEvent {
-    @Source(FlowPermission.USER_INPUT) int getKeyCode();
-}
-
-package android.view.animation;
-
-class AccelerateInterpolator {
-
-float getInterpolation(float input);
-//Maps a value representing the elapsed fraction of an animation to a value that represents the interpolated fraction.
-
-}
-
-class AlphaAnimation {
-    
-boolean willChangeBounds();
-//Indicates whether or not this animation will affect the bounds of the animated view.
-
-boolean willChangeTransformationMatrix();
-//Indicates whether or not this animation will affect the transformation matrix.
-
-//Protected Methods
-void applyTransformation(float interpolatedTime, Transformation t);
-//Changes the alpha property of the supplied Transformation
-
-
-}
-class Animation {
-    
-void cancel();
-//Cancel the animation.
-
-long computeDurationHint();
-//Compute a hint at how long the entire animation may last, in milliseconds.
-
-int getBackgroundColor();
-//Returns the background color behind the animation.
-
-boolean getDetachWallpaper();
-//Return value of setDetachWallpaper(boolean);.
-
-long getDuration();
-//How long this animation should last
-
-boolean getFillAfter();
-//If fillAfter is true, this animation will apply its transformation after the end time of the animation.
-
-boolean getFillBefore();
-//If fillBefore is true, this animation will apply its transformation before the start time of the animation.
-
-Interpolator getInterpolator();
-//Gets the acceleration curve type for this animation.
-
-int getRepeatCount();
-//Defines how many times the animation should repeat.
-
-int getRepeatMode();
-//Defines what this animation should do when it reaches the end.
-
-long getStartOffset();
-//When this animation should start, relative to StartTime
-
-long getStartTime();
-//When this animation should start.
-
-boolean getTransformation(long currentTime, Transformation outTransformation, float scale);
-//Gets the transformation to apply at a specified point in time.
-
-boolean getTransformation(long currentTime, Transformation outTransformation);
-//Gets the transformation to apply at a specified point in time.
-
-int getZAdjustment();
-//Returns the Z ordering mode to use while running the animation as previously set by setZAdjustment(int);.
-
-boolean hasEnded();
-//Indicates whether this animation has ended or not.
-
-boolean hasStarted();
-//Indicates whether this animation has started or not.
-
-void initialize(int width, int height, int parentWidth, int parentHeight);
-//Initialize this animation with the dimensions of the object being animated as well as the objects parents.
-
-boolean isFillEnabled();
-//If fillEnabled is true, this animation will apply the value of fillBefore.
-
-boolean isInitialized();
-//Whether or not the animation has been initialized.
-
-void reset();
-//Reset the initialization state of this animation.
-
-void restrictDuration(long durationMillis);
-//Ensure that the duration that this animation will run is not longer than durationMillis.
-
-void scaleCurrentDuration(float scale);
-//How much to scale the duration by.
-
-void setAnimationListener(Animation.AnimationListener listener);
-//Binds an animation listener to this animation.
-
-void setBackgroundColor(int bg);
-//Set background behind animation.
-
-void setDetachWallpaper(boolean detachWallpaper);
-//If detachWallpaper is true, and this is a window animation of a window that has a wallpaper background, then the window will be detached from the wallpaper while it runs.
-
-void setDuration(long durationMillis);
-//How long this animation should last.
-
-void setFillAfter(boolean fillAfter);
-//If fillAfter is true, the transformation that this animation performed will persist when it is finished.
-
-void setFillBefore(boolean fillBefore);
-//If fillBefore is true, this animation will apply its transformation before the start time of the animation.
-
-void setFillEnabled(boolean fillEnabled);
-//If fillEnabled is true, the animation will apply the value of fillBefore.
-
-void setInterpolator(Context context, int resID);
-//Sets the acceleration curve for this animation.
-
-void setInterpolator(Interpolator i);
-//Sets the acceleration curve for this animation.
-
-void setRepeatCount(@Sink(DISPLAY) int repeatCount);
-//Sets how many times the animation should be repeated.
-
-void setRepeatMode(int repeatMode);
-//Defines what this animation should do when it reaches the end.
-
-void setStartOffset(long startOffset);
-//When this animation should start relative to the start time.
-
-void setStartTime(long startTimeMillis);
-//When this animation should start.
-
-void setZAdjustment(int zAdjustment);
-//Set the Z ordering mode to use while running the animation.
-
-void start();
-//Convenience method to start the animation the first time getTransformation(long, Transformation); is invoked.
-
-void startNow();
-//Convenience method to start the animation at the current time in milliseconds.
-
-boolean willChangeBounds();
-//Indicates whether or not this animation will affect the bounds of the animated view.
-
-boolean willChangeTransformationMatrix();
-//Indicates whether or not this animation will affect the transformation matrix.
-
-//Protected Methods
-void applyTransformation(float interpolatedTime, Transformation t);
-//Helper for getTransformation.
-
-Animation clone();
-//Creates and returns a copy of this Object.
-
-void ensureInterpolator();
-//Gurantees that this animation has an interpolator.
-
-void finalize();
-//Invoked when the garbage collector has detected that this instance is no longer reachable.
-
-float getScaleFactor();
-//The scale factor is set by the call to getTransformation.
-
-float resolveSize(int type, float value, int size, int parentSize);
-//Convert the information in the description of a size to an actual dimension
-    
-}
-class Animation$AnimationListener {
-    void onAnimationRepeat(Animation arg0);
-    void onAnimationStart(Animation arg0);
-    void onAnimationEnd(Animation arg0);
-}
-
-class AnimationSet {
-    
-void addAnimation(@Sink(DISPLAY) Animation a);
-//Add a child animation to this animation set.
-
-long computeDurationHint();
-//The duration hint of an animation set is the maximum of the duration hints of all of its component animations.
-
-List<Animation> getAnimations();
-
-long getDuration();
-//The duration of an AnimationSet is defined to be the duration of the longest child animation.
-
-long getStartTime();
-//When this animation should start.
-
-boolean getTransformation(long currentTime, Transformation t);
-//The transformation of an animation set is the concatenation of all of its component animations.
-
-void initialize(int width, int height, int parentWidth, int parentHeight);
-//Initialize this animation with the dimensions of the object being animated as well as the objects parents.
-
-void reset();
-//Reset the initialization state of this animation.
-
-void restrictDuration(long durationMillis);
-//Ensure that the duration that this animation will run is not longer than durationMillis.
-
-void scaleCurrentDuration(float scale);
-//How much to scale the duration by.
-
-void setDuration(long durationMillis);
-//Sets the duration of every child animation.
-
-void setFillAfter(boolean fillAfter);
-//If fillAfter is true, the transformation that this animation performed will persist when it is finished.
-
-void setFillBefore(boolean fillBefore);
-//If fillBefore is true, this animation will apply its transformation before the start time of the animation.
-
-void setRepeatMode(int repeatMode);
-//Defines what this animation should do when it reaches the end.
-
-void setStartOffset(long startOffset);
-//When this animation should start relative to the start time.
-
-void setStartTime(long startTimeMillis);
-//Sets the start time of this animation and all child animations
-
-boolean willChangeBounds();
-//Indicates whether or not this animation will affect the bounds of the animated view.
-
-boolean willChangeTransformationMatrix();
-//Indicates whether or not this animation will affect the transformation matrix.
-
-//Protected Methods
-AnimationSet clone();
-//Creates and returns a copy of this Object.
-
-    
-    
-}
-
-class AnimationUtils {
-
-
-static long currentAnimationTimeMillis();
-//Returns the current animation time in milliseconds.
-
-static Animation loadAnimation(Context context, int id);
-//Loads an Animation object from a resource
-
-static Interpolator loadInterpolator(Context context, int id);
-//Loads an Interpolator object from a resource
-
-static LayoutAnimationController loadLayoutAnimation(Context context, int id);
-//Loads a LayoutAnimationController object from a resource
-
-static Animation makeInAnimation(Context c, boolean fromLeft);
-//Make an animation for objects becoming visible.
-
-static Animation makeInChildBottomAnimation(Context c);
-//Make an animation for objects becoming visible.
-
-static Animation makeOutAnimation(Context c, boolean toRight);
-//Make an animation for objects becoming invisible.
-
-}
-class DecelerateInterpolator {
-    
-float getInterpolation(float input);
-//Maps a value representing the elapsed fraction of an animation to a value that represents the interpolated fraction.
-
-
-}
-class ScaleAnimation {
-    
-    
-void initialize(int width, int height, int parentWidth, int parentHeight);
-//Initialize this animation with the dimensions of the object being animated as well as the objects parents.
-
-//Protected Methods
-void applyTransformation(float interpolatedTime, Transformation t);
-//Helper for getTransformation.
-
-
-}
-
-class TranslateAnimation{
-        TranslateAnimation(int fromXType, float fromXValue, int toXType, float toXValue, int fromYType, float fromYValue, int toYType, float toYValue);
+class WindowManager$LayoutParams {
+        final int FLAG_ALT_FOCUSABLE_IM;
+        IBinder token;
+        final int TYPE_APPLICATION_ATTACHED_DIALOG;
+        int type;
 }
 
 package android.view.accessibility;

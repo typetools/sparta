@@ -1371,6 +1371,9 @@ class TreeMap<K, V> extends AbstractMap<K,V> implements NavigableMap<K,V>, Clone
     SortedMap<K,V> tailMap(K arg0);
 }
 
+class UUID{
+    static UUID fromString(String arg0);
+}
 
 @PolyFlowReceiver
 class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, Serializable {

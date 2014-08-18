@@ -355,7 +355,7 @@ class InputStream implements Closeable {
 //Added by pbsf
     InputStream();
     int read() throws IOException;
-    int read(byte[] arg0) throws IOException;
+    int read(@PolySource @PolySink byte @PolySource @PolySink [] arg0) throws IOException;
     int read(byte[] arg0, int arg1, int arg2) throws IOException;
     long skip(long arg0) throws IOException;
     int available() throws IOException;

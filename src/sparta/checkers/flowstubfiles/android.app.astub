@@ -1779,6 +1779,8 @@ abstract FragmentTransaction remove(Fragment fragment);
 }
 
 class IntentService{
+        void onCreate();
+        IBinder onBind(Intent intent);
         IntentService(String name);
         protected void onHandleIntent(Intent arg0);
         void onStart(Intent intent, int startId);

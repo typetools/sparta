@@ -61,6 +61,10 @@ void onSetInitialValue(@Sink(SHARED_PREFERENCES) boolean restoreValue, @Sink(SHA
 }
 
 class ListPreference{
+        @Source(SHARED_PREFERENCES) CharSequence @Source(SHARED_PREFERENCES) [] getEntries();
+        void setValueIndex(int index);
+        @Source(SHARED_PREFERENCES) CharSequence @Source(SHARED_PREFERENCES) [] getEntryValues();
+        ListPreference(Context context);
         void setSummary(@Sink(SHARED_PREFERENCES) CharSequence summary);
         @Source(SHARED_PREFERENCES) String getValue();
         void setEntryValues(@Sink(SHARED_PREFERENCES) CharSequence[] entryValues);
@@ -71,8 +75,9 @@ class ListPreference{
 }
 
 class Preference {
-    
-    
+
+Preference(Context context);
+
 @Source(SHARED_PREFERENCES) int compareTo(@Sink(SHARED_PREFERENCES) Preference another);
 //Compares Preference objects based on order (if set);, otherwise alphabetically on the titles.
 
@@ -495,6 +500,8 @@ void setPreferenceScreen(@Sink(DISPLAY) PreferenceScreen preferenceScreen);
 }
 
 class PreferenceGroup{
+        void removeAll();
+        boolean addPreference(@Sink(SHARED_PREFERENCES) Preference preference);
         boolean removePreference(@Sink(SHARED_PREFERENCES) Preference preference);
         @Source(SHARED_PREFERENCES) Preference findPreference(@Sink(SHARED_PREFERENCES) CharSequence key);
 }

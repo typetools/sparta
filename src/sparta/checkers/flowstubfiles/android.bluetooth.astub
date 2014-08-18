@@ -7,10 +7,28 @@ class BluetoothAdapter {
         @Source(BLUETOOTH_ADMIN) boolean cancelDiscovery();
         @Source(BLUETOOTH) boolean isEnabled();
         @Source(BLUETOOTH_ADMIN) boolean startDiscovery();
+        @Source(BLUETOOTH_ADMIN) boolean isDiscovering();
+        @Source(BLUETOOTH_ADMIN) Set<BluetoothDevice> getBondedDevices();
+        @Source(BLUETOOTH) BluetoothDevice getRemoteDevice(String address);
+
 }
 
 class BluetoothDevice {
   @Source(BLUETOOTH) String getAddress();
+    @Source(BLUETOOTH) BluetoothClass getBluetoothClass();
+    @Source(BLUETOOTH) int describeContents();
+    void writeToParcel(@Sink(BLUETOOTH) Parcel out, int flags);
+    BluetoothSocket createRfcommSocketToServiceRecord(UUID uuid) throws IOException;
+    @Source(BLUETOOTH) int getBondState();
+    @Source(BLUETOOTH) String toString();
+    @Source(BLUETOOTH) String getName();
+}
+
+class BluetoothSocket{
+        @Source(BLUETOOTH) InputStream getInputStream() throws IOException;
+        @Source(BLUETOOTH) OutputStream getOutputStream() throws IOException;
+        void close() throws IOException;
+        void connect() throws IOException;
 }
 
 class BluetoothClass {

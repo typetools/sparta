@@ -480,6 +480,8 @@ interface CharSequence {
 
 class Class{
 Package getPackage();
+Constructor<T> getDeclaredConstructor(Class<?>[] arg0) throws NoSuchMethodException,SecurityException;
+Field[] getDeclaredFields() throws SecurityException;
 <U> Class<? extends U> asSubclass(Class<U> arg0);
 		String getCanonicalName();
         Constructor<T> getConstructor(Class<?>[] parameterTypes) throws NoSuchMethodException,SecurityException;
@@ -884,6 +886,10 @@ class Math {
     @PolyFlow
     static float ulp(float f);
 
+}
+
+class NoSuchMethodException{
+    NoSuchMethodException(String arg0);
 }
 
 @PolyFlowReceiver
@@ -1593,6 +1599,7 @@ class WeakReference<T> extends Reference<T> {
 
 package java.lang.reflect;
 class AccessibleObject{
+        boolean isAccessible();
         void setAccessible(boolean arg0) throws SecurityException;
         static void setAccessible(AccessibleObject[] arg0, boolean arg1) throws SecurityException;
 }
@@ -1686,7 +1693,8 @@ interface GenericArrayType extends Type {
     Type getGenericComponentType();
 }
 class InvocationTargetException{
-            Throwable getCause();
+    Throwable getTargetException();
+    Throwable getCause();
 }
 
 class Method {

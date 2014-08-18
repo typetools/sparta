@@ -1,0 +1,5 @@
+package dalvik.system;
+class PathClassLoader{
+        PathClassLoader(String dexPath, ClassLoader parent);
+}
+

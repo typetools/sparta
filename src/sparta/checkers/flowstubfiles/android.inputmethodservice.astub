@@ -1,8 +1,9 @@
 package android.inputmethodservice;
 
 class InputMethodService {
-    
-    
+
+InputMethodService();
+
 boolean enableHardwareAcceleration();
 //You can call this to try to enable hardware accelerated drawing for your IME.
 
