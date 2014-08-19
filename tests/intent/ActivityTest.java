@@ -40,7 +40,15 @@ public class ActivityTest extends Activity {
     void sendToDisplay(@Sink(DISPLAY) String s) {
 
     }
-    
+
+    @Source(ANY) @Sink() String getTop() {
+        return null;
+    }
+
+    @Source() @Sink(ANY) String getBottom() {
+        return null;
+    }
+
     void putExtraSuccess() {
         i1.putExtra("k1", getFile());
     }
@@ -48,13 +56,10 @@ public class ActivityTest extends Activity {
     void putExtraFail() {
         //:: error: (argument.type.incompatible)
         i1.putExtra("k2", getFile());
-        //:: error: (argument.type.incompatible) ::error: (intent.key.notfound)
-        i1.putExtra("k3", getFile());
     }
     
     void getExtraSuccess() {
         String s = i1.getStringExtra("k2");
-        //SHOULD NOT FAIL
         sendToDisplay(s);
     }
 
@@ -77,29 +82,28 @@ public class ActivityTest extends Activity {
      //:: error: (assignment.type.incompatible)
         i4 = i1;
     }
-    
+
+    //Parameters of the method below are used to test the component map.
     void startActivitySuccess(@Source(FILESYSTEM) @Sink(INTERNET) int test, 
             @Source(FILESYSTEM) @Sink(INTERNET) String test2, 
             @Source(FILESYSTEM) @Sink(INTERNET) Object test3, 
             @Source(FILESYSTEM) @Sink(INTERNET) String[] test4) {
         @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-        Intent senderIntent1 = (@IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-        Intent) new Intent();
+        Intent senderIntent1 = new Intent();
         senderIntent1.setAction("action1");
         senderIntent1.addCategory("cat1");
         senderIntent1.addCategory("cat2");
         @IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
-        Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
-        Intent) new Intent();
+        Intent senderIntent2 = new Intent();
         startActivity(senderIntent1);
         startActivity(senderIntent2);
     }
     
     void startActivityFail() {
-        Intent senderIntent1 = (@IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-        Intent) new Intent();
-        Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
-        Intent) new Intent();
+        @IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
+        Intent senderIntent1 = new Intent();
+        @IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
+        Intent senderIntent2 = new Intent();
      //:: error: (send.intent.missing.key)
         startActivity(senderIntent1);
      //:: error: (send.intent.incompatible.types)
@@ -120,10 +124,10 @@ public class ActivityTest extends Activity {
     
     private OnClickListener clickListenerOK = new OnClickListener() {
         public void onClick(@Source(ANY) @Sink({})  View v)	{
-            Intent senderIntent1 = (@IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-            Intent) new Intent();
-            Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
-            Intent) new Intent();
+            @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
+            Intent senderIntent1 = new Intent();
+            @IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
+            Intent senderIntent2 = new Intent();
             startActivity(senderIntent1);
             startActivity(senderIntent2);
         }
@@ -131,10 +135,10 @@ public class ActivityTest extends Activity {
 
     private OnClickListener clickListenerFail = new OnClickListener() {
         public void onClick(@Source(ANY) @Sink({}) View v)	{
-            Intent senderIntent1 = (@IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-            Intent) new Intent();
-            Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
-            Intent) new Intent();
+            @IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
+            Intent senderIntent1 = new Intent();
+            @IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
+            Intent senderIntent2 = new Intent();
             //:: error: (send.intent.missing.key)
             startActivity(senderIntent1);
             //:: error: (send.intent.incompatible.types)

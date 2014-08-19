@@ -1,0 +1,220 @@
+import sparta.checkers.quals.*;
+
+package android.content;
+class Intent implements Parcelable, Cloneable {
+   @GetExtra  boolean getBooleanExtra( String arg0,  boolean arg1);
+   @GetExtra  byte getByteExtra( String arg0,  byte arg1);
+   @GetExtra  short getShortExtra( String arg0,  short arg1);
+   @GetExtra  char getCharExtra( String arg0,  char arg1);
+   @GetExtra   int getIntExtra( String arg0,  int arg1);
+   @GetExtra  long getLongExtra( String arg0,  long arg1);
+   @GetExtra  float getFloatExtra( String arg0,  float arg1);
+   @GetExtra  double getDoubleExtra( String arg0,  double arg1);
+   @GetExtra  String getStringExtra( String arg0);
+   @GetExtra  CharSequence getCharSequenceExtra( String arg0);
+   @GetExtra <T extends  Object> T getParcelableExtra( String arg0);
+   @GetExtra  Parcelable[] getParcelableArrayExtra( String arg0);
+   @GetExtra  <T> ArrayList<T> getParcelableArrayListExtra( String arg0);
+   @GetExtra   Serializable getSerializableExtra( String arg0);
+   @GetExtra  ArrayList<  Integer> getIntegerArrayListExtra( String arg0);
+   @GetExtra  ArrayList<  String> getStringArrayListExtra( String arg0);
+   @GetExtra   ArrayList<  CharSequence> getCharSequenceArrayListExtra( String arg0);
+   @GetExtra  boolean  [] getBooleanArrayExtra( String arg0);
+   @GetExtra   byte  [] getByteArrayExtra( String arg0);
+   @GetExtra   short  [] getShortArrayExtra( String arg0);
+   @GetExtra   char  [] getCharArrayExtra( String arg0);
+   @GetExtra   int  [] getIntArrayExtra( String arg0);
+   @GetExtra   long  [] getLongArrayExtra( String arg0);
+   @GetExtra   float  [] getFloatArrayExtra( String arg0);
+   @GetExtra   double  [] getDoubleArrayExtra( String arg0);
+   @GetExtra   String  [] getStringArrayExtra( String arg0);
+   @GetExtra    CharSequence  [] getCharSequenceArrayExtra( String arg0);
+   @GetExtra   Bundle getBundleExtra( String arg0);
+
+   Bundle getExtras();
+
+    @SetIntentFilter Intent setAction( String arg0);
+    @SetIntentFilter Intent setData( Uri arg0);
+    @SetIntentFilter Intent setType( String arg0);
+    @SetIntentFilter Intent setDataAndType( Uri arg0,  String arg1);
+    @SetIntentFilter Intent addCategory( String arg0);
+    @SetIntentFilter void removeCategory( String arg0);
+    @PutExtra Intent putExtra( String arg0,  boolean arg1);
+    @PutExtra Intent putExtra( String arg0,  byte arg1);
+    @PutExtra Intent putExtra( String arg0,  char arg1);
+    @PutExtra Intent putExtra( String arg0,  short arg1);
+    @PutExtra Intent putExtra( String arg0,  int arg1);
+    @PutExtra Intent putExtra( String arg0,  long arg1);
+    @PutExtra Intent putExtra( String arg0,  float arg1);
+    @PutExtra Intent putExtra( String arg0,  double arg1);
+    @PutExtra Intent putExtra( String arg0,  String arg1);
+    @PutExtra Intent putExtra( String arg0,  CharSequence arg1);
+    @PutExtra Intent putExtra( String arg0,  Parcelable arg1);
+    @PutExtra Intent putExtra( String arg0,  Parcelable[] arg1);
+    @PutExtra Intent putParcelableArrayListExtra( String arg0,  ArrayList<? extends Parcelable> arg1);
+    @PutExtra Intent putIntegerArrayListExtra( String arg0,  ArrayList< Integer> arg1);
+    @PutExtra Intent putStringArrayListExtra( String arg0,  ArrayList< String> arg1);
+    @PutExtra  Intent putCharSequenceArrayListExtra( String arg0,  ArrayList< CharSequence> arg1);
+    @PutExtra Intent putExtra( String arg0,  Serializable arg1);
+    @PutExtra Intent putExtra( String arg0,  boolean  [] arg1);
+    @PutExtra Intent putExtra( String arg0,  byte  [] arg1);
+    @PutExtra Intent putExtra( String arg0,  short  [] arg1);
+    @PutExtra Intent putExtra( String arg0,  char  [] arg1);
+    @PutExtra Intent putExtra( String arg0,  int  [] arg1);
+    @PutExtra Intent putExtra( String arg0,  long  [] arg1);
+    @PutExtra Intent putExtra( String arg0,  float  [] arg1);
+    @PutExtra Intent putExtra( String arg0,  double  [] arg1);
+    @PutExtra Intent putExtra( String arg0,  String  [] arg1);
+    @PutExtra Intent putExtra( String arg0,  CharSequence  [] arg1);
+    @PutExtra Intent putExtra( String arg0,  Bundle arg1);
+    @SetIntentFilter Intent setFlags(  int arg0);
+    @SetIntentFilter Intent addFlags(  int arg0);
+    @SetIntentFilter Intent setPackage(  String arg0);
+    @SetIntentFilter Intent setComponent(  ComponentName arg0);
+    @SetIntentFilter Intent setClassName(  Context arg0,   String arg1);
+    @SetIntentFilter Intent setClassName(  String arg0,   String arg1);
+    @SetIntentFilter Intent setClass(  Context arg0,   Class<?> arg1);
+}
+
+
+package android.os;
+
+class Bundle implements Parcelable, Cloneable {
+    Object get(String arg0);
+    @PutExtra
+    void putAll(Bundle arg0);
+    @PutExtra void putBoolean(String arg0, boolean arg1);
+    @PutExtra void putByte(String arg0, byte arg1);
+    @PutExtra void putChar(String arg0, char arg1);
+  @PutExtra   void putShort(String arg0, short arg1);
+    @PutExtra void putInt(String arg0, int arg1);
+    void putLong(String arg0, long arg1);
+    @PutExtra
+    void putFloat(String arg0, float arg1);
+    @PutExtra
+    void putDouble(String arg0, double arg1);
+    @PutExtra
+    void putString(String arg0, String arg1);
+    @PutExtra
+    void putCharSequence(String arg0, CharSequence arg1);
+    @PutExtra
+    void putParcelable(String arg0, Parcelable arg1);
+    @PutExtra
+    void putParcelableArray(String arg0, Parcelable[] arg1);
+    @PutExtra
+    void putParcelableArrayList(String arg0, ArrayList<? extends Parcelable> arg1);
+    @PutExtra
+    void putSparseParcelableArray(String arg0, SparseArray<? extends Parcelable> arg1);
+    @PutExtra
+    void putIntegerArrayList(String arg0, ArrayList<Integer> arg1);
+    @PutExtra
+    void putStringArrayList(String arg0, ArrayList<String> arg1);
+    @PutExtra
+    void putCharSequenceArrayList(String arg0, ArrayList<CharSequence> arg1);
+    @PutExtra
+    void putSerializable(String arg0, Serializable arg1);
+    @PutExtra
+    void putBooleanArray(String arg0, boolean[] arg1);
+    @PutExtra
+    void putByteArray(String arg0, byte[] arg1);
+    @PutExtra
+    void putShortArray(String arg0, short[] arg1);
+    @PutExtra
+    void putCharArray(String arg0, char[] arg1);
+    @PutExtra
+    void putIntArray(String arg0, int[] arg1);
+    @PutExtra
+    void putLongArray(String arg0, long[] arg1);
+    @PutExtra
+    void putFloatArray(String arg0, float[] arg1);
+    @PutExtra
+    void putDoubleArray(String arg0, double[] arg1);
+    @PutExtra
+    void putStringArray(String arg0, String[] arg1);
+    @PutExtra
+    void putCharSequenceArray(String arg0, CharSequence[] arg1);
+    @PutExtra
+    void putBundle(String arg0, Bundle arg1);
+    @PutExtra
+    void putBinder(String arg0, IBinder arg1);
+    @GetExtra
+    boolean getBoolean(String arg0);
+    @GetExtra
+    boolean getBoolean(String arg0, boolean arg1);
+    byte getByte(String arg0);
+    @GetExtra
+    Byte getByte(String arg0, byte arg1);
+    @GetExtra
+    char getChar(String arg0);
+    @GetExtra
+    char getChar(String arg0, char arg1);
+    @GetExtra
+    short getShort(String arg0);
+    @GetExtra
+    short getShort(String arg0, short arg1);
+    @GetExtra
+    int getInt(String arg0);
+    @GetExtra
+    int getInt(String arg0, int arg1);
+    @GetExtra
+    long getLong(String arg0);
+    @GetExtra
+    long getLong(String arg0, long arg1);
+    @GetExtra
+    float getFloat(String arg0);
+    @GetExtra
+    float getFloat(String arg0, float arg1);
+    @GetExtra
+    double getDouble(String arg0);
+    @GetExtra
+    double getDouble(String arg0, double arg1);
+    @GetExtra
+    String getString(String arg0);
+    @GetExtra
+    String getString(String arg0, String arg1);
+    @GetExtra
+    CharSequence getCharSequence(String arg0);
+    @GetExtra
+    CharSequence getCharSequence(String arg0, CharSequence arg1);
+    @GetExtra
+    Bundle getBundle(String arg0);
+    @GetExtra
+    <T> T getParcelable(String arg0);
+    @GetExtra
+    Parcelable[] getParcelableArray(String arg0);
+    @GetExtra
+    <T> ArrayList<T> getParcelableArrayList(String arg0);
+    @GetExtra
+    <T> SparseArray<T> getSparseParcelableArray(String arg0);
+    @GetExtra
+    Serializable getSerializable(String arg0);
+    @GetExtra
+    ArrayList<Integer> getIntegerArrayList(String arg0);
+    @GetExtra
+    ArrayList<String> getStringArrayList(String arg0);
+    @GetExtra
+    ArrayList<CharSequence> getCharSequenceArrayList(String arg0);
+    @GetExtra
+    boolean[] getBooleanArray(String arg0);
+    @GetExtra
+    byte[] getByteArray(String arg0);
+    @GetExtra
+    short[] getShortArray(String arg0);
+    @GetExtra
+    char[] getCharArray(String arg0);
+    @GetExtra
+    int[] getIntArray(String arg0);
+    @GetExtra
+    long[] getLongArray(String arg0);
+    @GetExtra
+    float[] getFloatArray(String arg0);
+    @GetExtra
+    double[] getDoubleArray(String arg0);
+    @GetExtra
+    String[] getStringArray(String arg0);
+    @GetExtra
+    CharSequence[] getCharSequenceArray(String arg0);
+    @GetExtra
+    IBinder getBinder(String arg0);
+}
+

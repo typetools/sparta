@@ -138,20 +138,6 @@ public void setIntent(@IntentMap({
 }
 \end{Verbatim}
 
-When instantiating an intent object in method bodies, the instantiation
-expression must be annotated using a cast with the qualifiers \<@IntentMap> and
-\<@Extra>. Below is an example:
-
-\begin{Verbatim}
-void foo() {
-    Intent i = (@IntentMap({
-            @Extra(key = "k1", source = {FILESYSTEM}, sink = {INTERNET}),
-            @Extra(key = "k2", source = {FILESYSTEM}, sink = {DISPLAY})}) Intent)
-                new Intent();
-}
-\end{Verbatim}
-
-
 \subsection{Semantics}
 If variable \<i> is declared to have an intent type \textit{T}, then two facts must be
 true. (1) For any key \<k> that is accessed at run time in \<i>, it must be

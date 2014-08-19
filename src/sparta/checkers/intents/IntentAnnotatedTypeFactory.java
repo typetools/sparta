@@ -7,6 +7,10 @@ import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.value.qual.StringVal;
+import org.checkerframework.framework.flow.CFAbstractAnalysis;
+import org.checkerframework.framework.flow.CFStore;
+import org.checkerframework.framework.flow.CFTransfer;
+import org.checkerframework.framework.flow.CFValue;
 import org.checkerframework.framework.qual.DefaultLocation;
 import org.checkerframework.framework.source.Result;
 import org.checkerframework.framework.type.*;
@@ -37,6 +41,7 @@ import javax.lang.model.element.VariableElement;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IntentMapBottom;
+import sparta.checkers.quals.IntentMapNew;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
@@ -45,6 +50,7 @@ import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
+import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
 import com.sun.tools.javac.tree.JCTree;
 
@@ -94,7 +100,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         }
     }
 
-    private AnnotationMirror createTopIntentMap() {
+    protected AnnotationMirror createTopIntentMap() {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
                 IntentMap.class);
         return builder.build();
@@ -119,16 +125,22 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 // Modifying type of getExtra call
                 mfuPair = changeMethodReturnType(tree, mfuPair);
                 // Modifying @Source and @Sink types for parameters
-                hostChangeParametersToTop(mfuPair.first.getParameterTypes());
+                setTypeToTop(mfuPair.first.getParameterTypes());
             } else if (IntentUtils.isPutExtra(tree, this)) {
                 // Modifying @Source and @Sink types for parameters
-                hostChangeParametersToIntentMapKeyType(tree,mfuPair);
+                changeParametersToIntentMapKeyType(tree, mfuPair);
             } else if (IntentUtils.isSetIntentFilter(tree, this)) {
-                hostChangeParametersToTop(mfuPair.first.getParameterTypes());
-            } 
+                setTypeToTop(mfuPair.first.getParameterTypes());
+            }
         }
         return mfuPair;
 
+    }
+
+    @Override
+    public CFTransfer createFlowTransferFunction(
+            CFAbstractAnalysis<CFValue, CFStore, CFTransfer> analysis) {
+        return new IntentTransfer(analysis);
     }
 
     /**
@@ -141,77 +153,96 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
      * @param parametersAnnotations
      */
 
-    private void hostChangeParametersToTop(
-            List<AnnotatedTypeMirror> parametersAnnotations) {
-        for (AnnotatedTypeMirror parameterAnnotation : parametersAnnotations) {
-            if (parameterAnnotation.hasAnnotation(Source.class)) {
-                // Modifying @Source type
-                replaceAnnotation(parameterAnnotation, Source.class, ANYSOURCE);
-            }
-            if (parameterAnnotation.hasAnnotation(Sink.class)) {
-                // Modifying @Sink type
-                replaceAnnotation(parameterAnnotation, Sink.class, NOSINK);
-            }
+    private void setTypeToTop(
+            List<AnnotatedTypeMirror> parametersATMs) {
+        for (AnnotatedTypeMirror parameterATM : parametersATMs) {
+            hostSetTypeToTop(parameterATM);
         }
     }
-    
+
+    /**
+     * Changes the parameters to BOTTOM in the host type system.
+     */
+    private void hostSetTypeToBottom(AnnotatedTypeMirror atm) {
+        if (atm.hasAnnotation(Source.class)) {
+            replaceAnnotation(atm, Source.class, NOSOURCE);
+        }
+        if (atm.hasAnnotation(Sink.class)) {
+            replaceAnnotation(atm, Sink.class, ANYSINK);
+        }
+    }
+
+    private void hostSetTypeToTop(AnnotatedTypeMirror atm) {
+        if (atm.hasAnnotation(Source.class)) {
+            replaceAnnotation(atm, Source.class, ANYSOURCE);
+        }
+        if (atm.hasAnnotation(Sink.class)) {
+            replaceAnnotation(atm, Sink.class, NOSINK);
+        }
+    }
+
+    /**
+     * Sets the source and sink type of <code>iExtraAM</code> to be the source
+     * and sink type of <code>atm</code>.
+     * @param atm
+     * @param iExtraAM
+     */
+    private void hostSetType(AnnotatedTypeMirror atm,
+            AnnotationMirror iExtraAM) {
+        Set<ParameterizedFlowPermission> annotatedSources = IntentUtils
+                .getSourcesPFP(iExtraAM);
+        Set<ParameterizedFlowPermission> annotatedSinks = IntentUtils
+                .getSinksPFP(iExtraAM);
+        AnnotationMirror sourceAnnotation = createAnnoFromSource(annotatedSources);
+        AnnotationMirror sinkAnnotation = createAnnoFromSink(annotatedSinks);
+        replaceAnnotation(atm, Source.class, sourceAnnotation);
+        replaceAnnotation(atm, Sink.class, sinkAnnotation);
+    }
+
     /**
      * Changes the parameters to the type of the key in the @IntentMap.
-     * If a key cannot be resolved, they are set to @Sink(ANY)
+     * Keys that cannot be resolved are set to Bottom.
      * 
      * @param parametersAnnotations
      */
 
     private Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> 
-            hostChangeParametersToIntentMapKeyType(MethodInvocationTree tree,
+            changeParametersToIntentMapKeyType(MethodInvocationTree tree,
             Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> origResult) {
         ExpressionTree receiver = TreeUtils.getReceiverTree(tree);
         AnnotatedTypeMirror receiverType = getAnnotatedType(receiver);
         if(origResult.first.getParameterTypes().size() < 2) {
             throw new RuntimeException("tree must be a putExtra");
         }
-        
         //Replacing annotations for the key parameter
-        AnnotatedTypeMirror parameterAnnotation = origResult.first.getParameterTypes().get(0);
-        if (parameterAnnotation.hasAnnotation(Source.class)) {
-            replaceAnnotation(parameterAnnotation, Source.class, ANYSOURCE);
-        }
-        if (parameterAnnotation.hasAnnotation(Sink.class)) {
-            replaceAnnotation(parameterAnnotation, Sink.class, NOSINK);
-        }
-        
+        AnnotatedTypeMirror keyATM = origResult.first.getParameterTypes().get(0);
+        //Setting key host type to top
+        hostSetTypeToTop(keyATM);
+
         //Replacing annotations for the value parameter
-        parameterAnnotation = origResult.first.getParameterTypes().get(1);
-        
-        if (receiverType.hasAnnotation(IntentMapBottom.class)) {
-            //Setting parameters to bottom types.
-            replaceAnnotation(parameterAnnotation, Source.class, NOSOURCE);
-            replaceAnnotation(parameterAnnotation, Sink.class, ANYSINK);
+        AnnotatedTypeMirror valueATM = origResult.first.getParameterTypes().get(1);
+        if (IntentUtils.isIntentMapBottom(receiverType)) {
+            //Setting value host type to bottom.
+            hostSetTypeToBottom(valueATM);
+            return origResult;
+        } else if (IntentUtils.isIntentMapNew(receiverType)) {
+            //Setting value host type to top.
+            hostSetTypeToTop(valueATM);
             return origResult;
         }
-        
-        else if (receiverType.hasAnnotation(IntentMap.class)) {
+
+        else if (IntentUtils.isIntentMap(receiverType)) {
             AnnotationMirror iExtraLUB = getLUBIExtraFromPutExtraOrGetExtra(
                     tree, receiverType);
             if(iExtraLUB != null) {
-                Set<ParameterizedFlowPermission> annotatedSources = IntentUtils
-                        .getSourcesPFP(iExtraLUB);
-                Set<ParameterizedFlowPermission> annotatedSinks = IntentUtils
-                        .getSinksPFP(iExtraLUB);
-                AnnotationMirror sourceAnnotation = createAnnoFromSource(annotatedSources);
-                AnnotationMirror sinkAnnotation = createAnnoFromSink(annotatedSinks);
-                replaceAnnotation(parameterAnnotation, Source.class, sourceAnnotation);
-                replaceAnnotation(parameterAnnotation, Sink.class, sinkAnnotation);
-                return origResult;
+                hostSetType(valueATM, iExtraLUB);
+            } else {
+                //@Extra with that key not found. Set it to bottom.
+                hostSetTypeToBottom(valueATM);
             }
         }
-        replaceAnnotation(parameterAnnotation, Sink.class, ANYSINK);
-        checker.report(
-                Result.failure("intent.key.notfound", "UNKNOWN",
-                        receiver.toString()), tree);
         return origResult;
     }
-
 
     private AnnotationMirror getLUBIExtraFromPutExtraOrGetExtra(
             MethodInvocationTree tree, AnnotatedTypeMirror receiverType) {
@@ -306,8 +337,9 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         }
 
         private boolean isIntentMapQualifier(AnnotationMirror anno) {
-            return AnnotationUtils.areSameByClass(anno, IntentMap.class) 
-                    || isIntentMapBottomQualifier(anno);
+            return AnnotationUtils.areSameByClass(anno, IntentMap.class) ||
+                    isIntentMapBottomQualifier(anno) ||
+                    isIntentMapNewQualifier(anno);
         }
 
         private boolean isIExtraQualifier(AnnotationMirror anno) {
@@ -316,6 +348,10 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         
         private boolean isIntentMapBottomQualifier(AnnotationMirror anno) {
             return AnnotationUtils.areSameByClass(anno, IntentMapBottom.class);
+        }
+
+        private boolean isIntentMapNewQualifier(AnnotationMirror anno) {
+            return AnnotationUtils.areSameByClass(anno, IntentMapNew.class);
         }
 
         @Override
@@ -331,11 +367,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
         @Override
         public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
-            if (isIntentMapBottomQualifier(rhs) && isIntentMapBottomQualifier(lhs)) {
+            if (isIntentMapNewQualifier(rhs) && isIntentMapQualifier(lhs)) {
                 return true;
             } else if (isIntentMapBottomQualifier(rhs) && isIntentMapQualifier(lhs)) {
                 return true;
             } else if (isIntentMapBottomQualifier(lhs) && isIntentMapQualifier(rhs)) {
+                return false;
+            } else if (isIntentMapNewQualifier(lhs) && isIntentMapQualifier(rhs)) {
                 return false;
             } else if (isIExtraQualifier(rhs)) {
                 if (rhs == null || lhs == null || !isIExtraQualifier(lhs)) {
@@ -566,23 +604,23 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         ExpressionTree receiver = TreeUtils.getReceiverTree(tree);
         AnnotatedTypeMirror receiverType = getAnnotatedType(receiver);
 
-        if(receiverType.hasAnnotation(IntentMapBottom.class)) {
+        if(IntentUtils.isIntentMapBottom(receiverType) ||
+                IntentUtils.isIntentMapNew(receiverType)) {
             return hostChangeMethodReturn(origResult, IEXTRA_BOTTOM);
         }
-        
-        else if (!receiverType.hasAnnotation(IntentMap.class)) {
-            checker.report(Result.failure("intent.key.notfound", tree
-                    .getArguments().get(0),receiverType), tree);
+
+        else if (!IntentUtils.isIntentMap(receiverType)) {
             return origResult;
         }
         AnnotationMirror iExtraLUB = getLUBIExtraFromPutExtraOrGetExtra(tree,
                 receiverType);
         if(iExtraLUB != null) {
             return hostChangeMethodReturn(origResult, iExtraLUB);
+        } else {
+            // Key not found. Set to bottom so it could be assignable anywhere
+            // and the visitor will raise an intent.key.notfound warning.
+            return hostChangeMethodReturn(origResult, IEXTRA_BOTTOM);
         }
-        
-        checker.report(Result.failure("intent.key.notfound", tree.getArguments().get(0), receiverType), tree);
-        return origResult;
     }
 /**
  * 
@@ -667,7 +705,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         atm.addAnnotation(sourceAnnotation);
         atm.addAnnotation(sinkAnnotation);
 
-        if (!atm.hasAnnotation(IntentMap.class)) {
+        if (!IntentUtils.isIntentMap(atm)) {
             atm.addAnnotation(TOP_INTENT_MAP);
         }
     }

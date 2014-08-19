@@ -42,12 +42,12 @@ public class AndroidSystemTest extends Activity {
     }
     
     void startActivityFail() {
-        Intent senderIntent = (@IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",source={ANY},
+        @IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",source={ANY},
                 sink={BIND_DEVICE_ADMIN}),
                 @Extra(key="android.app.extra.ADD_EXPLANATION", source={ANY},
                     sink={BIND_DEVICE_ADMIN})
                 })
-                Intent) new Intent();
+                Intent senderIntent = new Intent();
 
         //:: error: (argument.type.incompatible)
         senderIntent.putExtra(key1, getValueNotOK());
@@ -55,8 +55,8 @@ public class AndroidSystemTest extends Activity {
     }
     
     void startActivityFail2() {
-        Intent senderIntent = (@IntentMap({@Extra(key = "android.app.extra.DEVICE_ADMIN", source = {ANY}, sink = {BIND_DEVICE_ADMIN}) })
-        Intent) new Intent();
+        @IntentMap({@Extra(key = "android.app.extra.DEVICE_ADMIN", source = {ANY}, sink = {BIND_DEVICE_ADMIN}) })
+        Intent senderIntent = new Intent();
         //:: error: (send.intent.missing.key)
         startActivity(senderIntent);
     }

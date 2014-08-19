@@ -14,10 +14,6 @@ import android.view.View.OnClickListener;
 
 public class IntentMapBottomTest extends Activity {
      
-    @IntentMapBottom Intent intentMapBottom1 = new Intent(); //@IntentMapBottom
- 
-    @IntentMapBottom Intent intentMapBottom2 = new Intent(); //@IntentMapBottom
-    
     @IntentMap()
     Intent intentMapTop = new Intent();
     
@@ -43,79 +39,47 @@ public class IntentMapBottomTest extends Activity {
 
     }
     
-    void putExtraSuccess() {
-        //Forbidden flow occurs here because the flow policy
-        //of this test does not allow {} -> ANY.
-        //But there is no argument.type.incompatible error.
-        
-        intentMapBottom1.putExtra("RandomKey", getTop());
-        //:: error: (forbidden.flow)
-        intentMapBottom1.putExtra("RandomKey2", getFile2());
-    }
-    
-    void putExtraFail() {
-      //:: error: (argument.type.incompatible)
+    //IntentMapBottom.putExtra() and IntentMapBottom.getExtra() should always fail.
+    void extrasFail() {
+        Intent intentMapBottom1 = null;
+        Intent intentMapBottom2 = null;
+        //:: error: (argument.type.incompatible) :: error: (intent.not.initialized)
         intentMapBottom1.putExtra("RandomKey1", getFile());
-      //:: error: (argument.type.incompatible)
-        intentMapBottom1.putExtra("RandomKey2", getFile());
-      //:: error: (argument.type.incompatible)
-        intentMapBottom1.putExtra("RandomKey3", getFile());
+        //:: error: (intent.not.initialized)
+        intentMapBottom1.getStringExtra("RandomKey1");
     }
-
-    //every getExtra operation returns @Souce and @Sink top types.
-    void getExtraSuccess() {
-        String s = intentMapBottom1.getStringExtra("k2");
-        //SHOULD NOT FAIL
-        sendToDisplay(s);
-    }
-
 
     void intentAssignmentSuccess() {
-        Intent i4 = intentMapBottom2;
+        Intent intentMapBottom1 = null;
+        Intent intentMapBottom2 = null;
+        Intent itemp = intentMapBottom2;
         intentMapBottom2 = intentMapBottom1;
-        intentMapBottom1 = i4;
-        intentMapTop = i4;
+        intentMapBottom1 = itemp;
+        intentMapTop = itemp;
     }
 
-    void intentAssignmentFail() {
-      //:: error: (assignment.type.incompatible)
-        intentMapBottom1 = intentMapTop;
-      //:: error: (assignment.type.incompatible)
-        intentMapBottom2 = intentMapTop;
-    }
-    
     //intentMapBottom1 and intentMapBottom2 = Bottom.
     //intentMapTop = Top
     //Bottom <: intentMap <: Top
     
     //For the tests below pay attention to the component map.
     
-    //Sending to @IntentMapBottom Receiver - Bottom.
-    void startActivitySuccess(@Source(FILESYSTEM) @Sink(INTERNET) int test, String test2, Object test3, String[] test4) {
-        startActivity(intentMapBottom1);
-    }
-        
-    void startActivityFail() {
-      //:: error: (send.intent.missing.key)
-        startActivity(intentMapTop);
-      //:: error: (send.intent.missing.key)
-        startActivity(intentMap);
-    }
     
   //Sending to [type of intentMap] Receiver
     void startActivitySuccess2(@Source(FILESYSTEM) @Sink(INTERNET) int test, String test2, Object test3, String[] test4) {
-        startActivity(intentMapBottom1);
         startActivity(intentMap);
     }
 
     void startActivityFail2() {
         //:: error: (send.intent.missing.key)
         startActivity(intentMapTop);
+        Intent bottom = null;
+        //:: error: (intent.not.initialized)
+        startActivity(bottom);
     }
    
   //Sending to @IntentMap() Receiver - Top 
     void startActivitySuccess3(@Source(FILESYSTEM) @Sink(INTERNET) int test, String test2, Object test3, String[] test4) {
-        startActivity(intentMapBottom1);
         startActivity(intentMap);
         startActivity(intentMapTop);
     }

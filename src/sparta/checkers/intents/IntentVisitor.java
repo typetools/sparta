@@ -33,6 +33,7 @@ import sparta.checkers.intents.componentmap.ProcessEpicOutput;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.IntentMapBottom;
+import sparta.checkers.quals.IntentMapNew;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.ReceiveIntent;
 import sparta.checkers.quals.SendIntent;
@@ -231,8 +232,6 @@ public class IntentVisitor extends FlowVisitor {
             // rcv = ((AnnotatedExecutableType)atypeFactory.getAnnotatedType(atypeFactory.getEnclosingMethod(node))).getReceiverType();
             return;
         }
-        //
-        
         if (isTypeOf(method, android.content.Intent.class)
                 || isTypeOf(method, android.os.Bundle.class)) {
             checkIntentExtraMethods(method, node);
@@ -311,6 +310,12 @@ public class IntentVisitor extends FlowVisitor {
         AnnotatedTypeMirror rhs = atypeFactory.getAnnotatedType(intentObject);
         AnnotationMirror rhsIntentExtras = rhs.getAnnotationInHierarchy(iatf.TOP_INTENT_MAP);
 
+        if (IntentUtils.isIntentMapBottom(rhs)) {
+            // sendIntent(null) case. Raise error and return.
+            checker.report(Result.failure("intent.not.initialized"), node);
+            return;
+        }
+
         for (Pair<String, MethodInvocationTree> receiveIntentTree : getReceiversMethods(node,
                 receiverMethodName, receiversFromSender)) {
             ExecutableElement methodElt = TreeUtils
@@ -341,7 +346,7 @@ public class IntentVisitor extends FlowVisitor {
                     .getAnnotationInHierarchy(iatf.TOP_INTENT_MAP);
             
             //Read javadoc of isCopyableTo method 
-            Pair<Copyable, String> result = isCopyableTo(rhsIntentExtras, 
+            Pair<Copyable, String> result = isCopyableTo(rhsIntentExtras,
                     lhsIntentExtras);
             
             //A string for a particular receiveIntent method of the format:
@@ -561,6 +566,15 @@ public class IntentVisitor extends FlowVisitor {
                 .isGetExtra(node, atypeFactory))) {
             return;
         }
+
+        ExpressionTree receiver = TreeUtils.getReceiverTree(node);
+        AnnotatedTypeMirror receiverType = atypeFactory
+                .getAnnotatedType(receiver);
+        if (IntentUtils.isIntentMapBottom(receiverType)) {
+            checker.report(Result.failure("intent.not.initialized"), node);
+            return;
+        }
+
         // The first argument in putExtra and getExtra calls are keys
         List<String> keys = iatf.getKeysFromPutExtraOrGetExtraCall(node);
 
@@ -570,46 +584,43 @@ public class IntentVisitor extends FlowVisitor {
             return;
         }
         for (String key : keys) {
-            ExpressionTree receiver = TreeUtils.getReceiverTree(node);
-            AnnotatedTypeMirror receiverType = atypeFactory
-                    .getAnnotatedType(receiver);
-            if (IntentUtils.isPutExtra(node, atypeFactory)) {
-                //Check not required since it is done by the checkAssignment() now that the 
-                //type of value in a putExtra(key,value) call is assigned in the IAFT.
-//                checkPutExtra(node, key, receiver, receiverType);
-            } else if (IntentUtils.isGetExtra(node, atypeFactory)) {
-                checkGetExtra(method, node, key, receiver, receiverType);
+            if (IntentUtils.isPutExtra(node, atypeFactory) || IntentUtils.
+                    isGetExtra(node, atypeFactory)) {
+                checkKeyIsInIntentMap(method, node, key, receiver, receiverType);
             }
         }
     }
 
     /**
-     * Method used to type-check a <code>intent.getExtra(...)</code> method
-     * call. Here we just need to check if the key can be found in the @IntentMap
-     * from <code>intent</code>. The modification of the return type of this
-     * method is made in the IntentAnnotatedTypeFactory.
+     * Method used to verify if in <code>intent.getExtra(key)</code> and 
+     * <code>intent.putExtra(key,val)</code> method calls, <code>key</code> can
+     * be found in the @IntentMap from <code>intent</code>.
+     * 
+     * The modification of the return type of a getExtra(...)
+     * method call is made in the IntentAnnotatedTypeFactory.methodFromUse().
      * 
      * @param method
-     *            Actual getExtra method
+     *            Actual getExtra or putExtra method
      * @param node
-     *            Tree of the getExtra() method call, used only to show where a
-     *            warning is being raised, in case it is.
+     *            Tree of the getExtra or putExtra method call, used only to
+     *            show where a warning is being raised, in case it is.
      * @param keyName
-     *            The key parameter of the getExtra(...) call. Ex:
-     *            getExtra("key").
+     *            The key parameter of the getExtra(...) or putExtra(...) call.
+     *            Ex: getExtra("key").
      * @param receiver
      *            Receiver component name in the String format. Ex: "ActivityA"
      * @param receiverType
-     *            Annotations of the receiver calling intent.getExtra(...).
+     *            Annotations of the receiver calling intent.getExtra(...) or
+     *            intent.putExtra(...).
      */
 
-    private void checkGetExtra(AnnotatedExecutableType method,
+    private void checkKeyIsInIntentMap(AnnotatedExecutableType method,
             MethodInvocationTree node, String keyName, ExpressionTree receiver,
             AnnotatedTypeMirror receiverType) {
         if (receiverType.hasAnnotation(IntentMapBottom.class)) {                
             return;                                                            
         }
-        
+
         if (receiverType.hasAnnotation(IntentMap.class)) {
             AnnotationMirror receiverIntentAnnotation = receiverType
                     .getAnnotation(IntentMap.class);
@@ -624,16 +635,14 @@ public class IntentVisitor extends FlowVisitor {
 
     @Override
     public Void visitAnnotation(AnnotationTree node, Void p) {
-        List<? extends ExpressionTree> args = node.getArguments();
-        if (args.isEmpty()) {
-            // Nothing to do if there are no annotation arguments.
-            return null;
-        }
-
         Element anno = TreeInfo.symbol((JCTree) node.getAnnotationType());
         if (anno.toString().equals(IntentMap.class.getName())
-                || anno.toString().equals(Extra.class.getName()) 
-                || anno.toString().equals(IntentMapBottom.class.getName())) {
+                || anno.toString().equals(Extra.class.getName())) {
+            return null;
+        }
+        if (IntentUtils.notAllowedAnnos.contains(anno.toString())) {
+            checker.report(Result.failure("annotation.not.allowed.in.src",
+                            anno.toString()), node);
             return null;
         }
         return super.visitAnnotation(node, p);
@@ -653,18 +662,18 @@ public class IntentVisitor extends FlowVisitor {
      */
 
     private Pair<Copyable,String> isCopyableTo(AnnotationMirror rhs, AnnotationMirror lhs) {
+        assert !AnnotationUtils.areSameByClass(rhs, IntentMapBottom.class) :
+            "rhs can't be @IntentMapBottom.";
+
         if (rhs == null || lhs == null) {
             return new Pair<IntentVisitor.Copyable, String>(Copyable.
                     INCOMPATIBLE_TYPES, null);
         }
-        
-        if (AnnotationUtils.areSameByClass(rhs, IntentMapBottom.class)) {
+
+        if (AnnotationUtils.areSameByClass(rhs, IntentMapNew.class)) {
             return isCopyable;
-        } else if (AnnotationUtils.areSameByClass(lhs, IntentMapBottom.class)) {
-            return new Pair<IntentVisitor.Copyable, String>(Copyable.MISSING_KEY, 
-                    null);
         }
-        
+
         List<AnnotationMirror> rhsIExtrasList = AnnotationUtils
                 .getElementValueArray(rhs, "value", AnnotationMirror.class,
                         true);

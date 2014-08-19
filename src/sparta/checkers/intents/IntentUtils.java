@@ -1,6 +1,7 @@
 package sparta.checkers.intents;
 
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -26,6 +27,7 @@ import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.GetExtra;
 import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.IntentMapBottom;
+import sparta.checkers.quals.IntentMapNew;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.PutExtra;
 import sparta.checkers.quals.ReceiveIntent;
@@ -41,6 +43,13 @@ import com.sun.tools.javac.code.Symbol.ClassSymbol;
 import com.sun.tools.javac.code.Type;
 
 public class IntentUtils {
+
+    public static final String qualsPackage = "sparta.checkers.quals.";
+    //List of annotations not allowed in source code.
+    public static final List<String> notAllowedAnnos = Arrays.asList(
+            new String[]{qualsPackage + "SendIntent", qualsPackage +
+                    "IntentMapNew", qualsPackage + "PutExtra", qualsPackage +
+                    "GetExtra", qualsPackage + "SetIntentFilter"});
     
     /**
      * Method that receives an @IntentMap and a <code> key </code>
@@ -203,7 +212,7 @@ public class IntentUtils {
         Element ele = InternalUtils.symbol(tree);
         return atypeFactory.getDeclAnnotation(ele, PutExtra.class) != null;
     }
-    
+
     /**
      * Returns true if the MethodInvocationTree corresponds to one of the <code>sendIntent()</code> calls:
      * E.g.: startActivity(); startService(); sendBroadcast();
@@ -215,7 +224,7 @@ public class IntentUtils {
         Element ele = InternalUtils.symbol(tree);
         return atypeFactory.getDeclAnnotation(ele, SendIntent.class) != null;
     }
-    
+
     /**
      * Returns the ExecutableElement of the getIntent() method declaration
      * for the class passed as parameter.
@@ -280,7 +289,12 @@ public class IntentUtils {
     }
 
     public static boolean isIntentMap(AnnotatedTypeMirror atm) {
-        return atm.hasAnnotation(IntentMap.class) || isIntentMapBottom(atm);
+        return atm.hasAnnotation(IntentMap.class) || isIntentMapBottom(atm)
+                || isIntentMapNew(atm);
+    }
+
+    public static boolean isIntentMapNew(AnnotatedTypeMirror atm) {
+        return atm.hasAnnotation(IntentMapNew.class);
     }
 
     public static String retrieveSendIntentPath(TreePath treePath) {

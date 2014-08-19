@@ -17,9 +17,7 @@ import org.checkerframework.framework.qual.TypeQualifier;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_PARAMETER, ElementType.TYPE_USE,
-/* The following only added to make Eclipse work. */
-ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE })
+@Target({})
 @TypeQualifier
 @SubtypeOf({IntentMap.class})
 public @interface IntentMapBottom {
