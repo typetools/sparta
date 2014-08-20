@@ -12,6 +12,7 @@ import org.checkerframework.framework.flow.CFStore;
 import org.checkerframework.framework.flow.CFTransfer;
 import org.checkerframework.framework.flow.CFValue;
 import org.checkerframework.framework.qual.DefaultLocation;
+import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.source.Result;
 import org.checkerframework.framework.type.*;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
@@ -29,6 +30,7 @@ import org.checkerframework.javacutil.TreeUtils;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,6 +47,7 @@ import sparta.checkers.quals.IntentMapNew;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
+import sparta.checkers.quals.PolyIntentMap;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
@@ -57,7 +60,7 @@ import com.sun.tools.javac.tree.JCTree;
 public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
     protected final AnnotationMirror INTENT_MAP, IEXTRA, TOP_INTENT_MAP,
-            BOTTOM_INTENT_MAP, IEXTRA_BOTTOM;
+            BOTTOM_INTENT_MAP, IEXTRA_BOTTOM, POLY_INTENT_MAP;
     protected final ExecutableElement getIntent;
     protected final ExecutableElement setIntent;
     protected final ComponentMap componentMap;
@@ -78,6 +81,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         IEXTRA_BOTTOM = IntentUtils.createIExtraAnno("", NOSOURCE, ANYSINK,getProcessingEnv());
         TOP_INTENT_MAP = createTopIntentMap(); // top
         BOTTOM_INTENT_MAP = AnnotationUtils.fromClass(elements, IntentMapBottom.class); // bottom
+        POLY_INTENT_MAP = AnnotationUtils.fromClass(elements, PolyIntentMap.class);
+
         if (this.getClass().equals(IntentAnnotatedTypeFactory.class)) {
             this.postInit();
         }
@@ -339,13 +344,14 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         private boolean isIntentMapQualifier(AnnotationMirror anno) {
             return AnnotationUtils.areSameByClass(anno, IntentMap.class) ||
                     isIntentMapBottomQualifier(anno) ||
-                    isIntentMapNewQualifier(anno);
+                    isIntentMapNewQualifier(anno) ||
+                    isPolyIntentMapQualifier(anno);
         }
 
         private boolean isIExtraQualifier(AnnotationMirror anno) {
             return AnnotationUtils.areSameByClass(anno, Extra.class);
         }
-        
+
         private boolean isIntentMapBottomQualifier(AnnotationMirror anno) {
             return AnnotationUtils.areSameByClass(anno, IntentMapBottom.class);
         }
@@ -354,6 +360,10 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             return AnnotationUtils.areSameByClass(anno, IntentMapNew.class);
         }
 
+        private boolean isPolyIntentMapQualifier(AnnotationMirror anno) {
+            return AnnotationUtils.areSameByClass(anno, PolyIntentMap.class) ||
+                    AnnotationUtils.areSameByClass(anno, PolyAll.class);
+        }
         @Override
         public AnnotationMirror getTopAnnotation(AnnotationMirror start) {
             if (isIntentMapQualifier(start)) {
@@ -367,7 +377,15 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
         @Override
         public boolean isSubtype(AnnotationMirror rhs, AnnotationMirror lhs) {
-            if (isIntentMapNewQualifier(rhs) && isIntentMapQualifier(lhs)) {
+            if (isPolyIntentMapQualifier(rhs) && isPolyIntentMapQualifier(lhs)) {
+                return true;
+            } else if (isPolyIntentMapQualifier(lhs) && isIntentMapQualifier(rhs)) {
+                // If lhs is poly, only bottom is a subtype.
+                return isIntentMapBottomQualifier(rhs);
+            } else if (isPolyIntentMapQualifier(rhs) && isIntentMapQualifier(lhs)) {
+                // if rhs is poly, only top is a supertype
+                return AnnotationUtils.areSame(lhs, TOP_INTENT_MAP);
+            } else if (isIntentMapNewQualifier(rhs) && isIntentMapQualifier(lhs)) {
                 return true;
             } else if (isIntentMapBottomQualifier(rhs) && isIntentMapQualifier(lhs)) {
                 return true;
@@ -418,6 +436,23 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 return true;
             } 
             return super.isSubtype(rhs, lhs);
+        }
+
+        @Override
+        protected void addPolyRelations(QualifierHierarchy qualHierarchy,
+                Map<AnnotationMirror, Set<AnnotationMirror>> fullMap,
+                Map<AnnotationMirror, AnnotationMirror> polyQualifiers,
+                Set<AnnotationMirror> tops, Set<AnnotationMirror> bottoms) {
+            AnnotationUtils.updateMappingToImmutableSet(fullMap, BOTTOM_INTENT_MAP,
+                    Collections.singleton(POLYALL));
+            AnnotationUtils.updateMappingToImmutableSet(fullMap, BOTTOM_INTENT_MAP,
+                    Collections.singleton(POLY_INTENT_MAP));
+            Set<AnnotationMirror> polyallTops = AnnotationUtils.createAnnotationSet();
+            polyallTops.add(TOP_INTENT_MAP);
+            AnnotationUtils.updateMappingToImmutableSet(fullMap, POLYALL, polyallTops);
+            AnnotationUtils.updateMappingToImmutableSet(fullMap, POLY_INTENT_MAP,
+                    Collections.singleton(TOP_INTENT_MAP));
+            super.addPolyRelations(qualHierarchy, fullMap, polyQualifiers, tops, bottoms);
         }
 
         /**
@@ -492,6 +527,11 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 } else if (AnnotationUtils.areSameIgnoringValues(a1, IEXTRA)) {
                     // Top IEXTRA?
                 }
+            } else if ((AnnotationUtils.areSameIgnoringValues(a1, POLY_INTENT_MAP) &&
+                    AnnotationUtils.areSameIgnoringValues(a2, INTENT_MAP)) ||
+                    (AnnotationUtils.areSameIgnoringValues(a2, POLY_INTENT_MAP) &&
+                    AnnotationUtils.areSameIgnoringValues(a1, INTENT_MAP))) {
+                return TOP_INTENT_MAP;
             }
 
             return super.leastUpperBound(a1, a2);
@@ -560,6 +600,11 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 } else if (AnnotationUtils.areSameIgnoringValues(a1, IEXTRA)) {
                     //Bottom IExtra?
                 }
+            } else if ((AnnotationUtils.areSameIgnoringValues(a1, POLY_INTENT_MAP) &&
+                    AnnotationUtils.areSameIgnoringValues(a2, INTENT_MAP)) ||
+                    (AnnotationUtils.areSameIgnoringValues(a2, POLY_INTENT_MAP) &&
+                    AnnotationUtils.areSameIgnoringValues(a1, INTENT_MAP))) {
+                return BOTTOM_INTENT_MAP;
             }
 
             return super.greatestLowerBound(a1, a2);

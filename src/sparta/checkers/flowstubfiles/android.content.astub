@@ -1493,7 +1493,8 @@ class Intent implements Parcelable, Cloneable {
 String EXTRA_PHONE_NUMBER; 
  static final @Source(INTENT) String EXTRA_SHORTCUT_INTENT;
     Intent();
-    Intent(@Sink(ANY) Intent arg0);
+    @PolyFlow
+    Intent(Intent arg0);
     Intent(@Sink(ANY)  String arg0);
     Intent(@Sink(ANY) String arg0, @Sink(ANY)  Uri arg1);
     Intent(@Source(ANY) @Sink Context arg0, Class<?> arg1);
@@ -1549,7 +1550,7 @@ String EXTRA_PHONE_NUMBER;
    @Source(INTENT)  String @Source(INTENT) [] getStringArrayExtra(@Sink(INTENT) String arg0);
    @Source(INTENT)   CharSequence @Source(INTENT) [] getCharSequenceArrayExtra(@Sink(INTENT) String arg0);
    @Source(INTENT)  Bundle getBundleExtra(@Sink(INTENT) String arg0);
-   @Source(INTENT)   Bundle getExtras();
+   @PolyFlow  Bundle getExtras();
     @Source(INTENT)  int getFlags();
     @Source(INTENT)  String getPackage();
     @Source(INTENT)  ComponentName getComponent();

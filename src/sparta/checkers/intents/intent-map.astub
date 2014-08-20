@@ -10,8 +10,8 @@ package android.content;
 
 class Intent implements Parcelable, Cloneable {
     @IntentMapNew Intent();
-    // Copy constructor. 
-    @IntentMap() Intent(Intent arg0); 
+    // Copy constructor.
+    @PolyIntentMap Intent(@PolyIntentMap Intent arg0);
     @IntentMapNew Intent(String arg0);
     @IntentMapNew Intent(String arg0, Uri arg1);
     @IntentMapNew Intent(Context arg0, Class<?> arg1);
