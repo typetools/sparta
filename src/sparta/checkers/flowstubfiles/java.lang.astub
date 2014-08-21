@@ -1229,10 +1229,8 @@ void setLength(int arg0);
     String replaceAll(String arg0, String arg1);
     @PolyFlowReceiver
     String replace(CharSequence arg0, CharSequence arg1);
-    @PolyFlowReceiver
-    String[] split(String arg0, int arg1);
-    @PolyFlowReceiver
-    String[] split(String arg0);
+    @PolySource @PolySink String[] split(@PolySource @PolySink String arg0, int arg1)@PolySource @PolySink;
+    @PolySource @PolySink String[] split(@PolySource @PolySink String arg0)@PolySource @PolySink;
     @PolyFlowReceiver
     String toLowerCase(Locale arg0);
     @PolyFlowReceiver
