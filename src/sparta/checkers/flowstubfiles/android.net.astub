@@ -505,29 +505,83 @@ class SipSession$State {
 
 package android.net.wifi;
 
-class WifiManager$WifiLock {
-boolean isHeld();
-void acquire();
-void release();
-}
-
-class WifiManager$MulticastLock {
-boolean isHeld();
-void acquire();
-}
 
 class WifiManager {
-@Source(ACCESS_WIFI_STATE) boolean isWifiEnabled();
-@Source(ACCESS_WIFI_STATE) boolean setWifiEnabled(@Sink (CHANGE_WIFI_STATE) boolean enabled);
-@Source(ACCESS_WIFI_STATE) boolean startScan();
-@Source(ACCESS_NETWORK_STATE) DhcpInfo getDhcpInfo();
-@Source(ACCESS_WIFI_STATE) int getWifiState();
-@Source(ACCESS_WIFI_STATE) List<ScanResult> getScanResults();
-@Source(ACCESS_WIFI_STATE) MulticastLock createMulticastLock(@Sink (CHANGE_WIFI_STATE) String tag);
-@Source(ACCESS_WIFI_STATE) WifiInfo getConnectionInfo();
-@Source(ACCESS_WIFI_STATE) WifiLock createWifiLock(@Sink(CHANGE_WIFI_STATE) int lockType, @Sink (CHANGE_WIFI_STATE)String tag);
-@Source(ACCESS_WIFI_STATE) WifiLock createWifiLock(@Sink(CHANGE_WIFI_STATE) String tag);
+    final int ERROR_AUTHENTICATING;
+    final String WIFI_STATE_CHANGED_ACTION;
+    final String EXTRA_WIFI_STATE;
+    final String EXTRA_PREVIOUS_WIFI_STATE;
+    final int WIFI_STATE_DISABLING;
+    final int WIFI_STATE_DISABLED;
+    final int WIFI_STATE_ENABLING;
+    final int WIFI_STATE_ENABLED;
+    final int WIFI_STATE_UNKNOWN;
+    final String SUPPLICANT_CONNECTION_CHANGE_ACTION;
+    final String EXTRA_SUPPLICANT_CONNECTED;
+    final String NETWORK_STATE_CHANGED_ACTION;
+    final String EXTRA_NETWORK_INFO;
+    final String EXTRA_BSSID;
+    final String EXTRA_WIFI_INFO;
+    final String SUPPLICANT_STATE_CHANGED_ACTION;
+    final String EXTRA_NEW_STATE;
+    final String EXTRA_SUPPLICANT_ERROR;
+    final String SCAN_RESULTS_AVAILABLE_ACTION;
+    final String RSSI_CHANGED_ACTION;
+    final String EXTRA_NEW_RSSI;
+    final String NETWORK_IDS_CHANGED_ACTION;
+    final String ACTION_REQUEST_SCAN_ALWAYS_AVAILABLE;
+    final String ACTION_PICK_WIFI_NETWORK;
+    final int WIFI_MODE_FULL;
+    final int WIFI_MODE_SCAN_ONLY;
+    final int WIFI_MODE_FULL_HIGH_PERF;
+    List<@Source(ACCESS_WIFI_STATE) WifiConfiguration> getConfiguredNetworks();
+    int addNetwork(@Sink(CHANGE_WIFI_STATE) WifiConfiguration arg0);
+    int updateNetwork(@Sink(CHANGE_WIFI_STATE) WifiConfiguration arg0);
+    boolean removeNetwork(@Sink(CHANGE_WIFI_STATE) int arg0);
+    boolean enableNetwork(@Sink(CHANGE_WIFI_STATE) int arg0, boolean arg1);
+    boolean disableNetwork(@Sink(CHANGE_WIFI_STATE) int arg0);
+    boolean disconnect();
+    boolean reconnect();
+    boolean reassociate();
+    boolean pingSupplicant();
+    boolean startScan();
+    @Source(ACCESS_WIFI_STATE) WifiInfo getConnectionInfo();
+    List<@Source(ACCESS_WIFI_STATE) ScanResult> getScanResults();
+    boolean isScanAlwaysAvailable();
+    boolean saveConfiguration();
+    @Source(ACCESS_WIFI_STATE) DhcpInfo getDhcpInfo();
+    boolean setWifiEnabled(@Sink(CHANGE_WIFI_STATE) boolean arg0);
+    @Source(ACCESS_WIFI_STATE) int getWifiState();
+    @Source(ACCESS_WIFI_STATE) boolean isWifiEnabled();
+    @PolyFlow
+    static int calculateSignalLevel(int arg0, int arg1);
+    @PolyFlow
+    static int compareSignalLevel(int arg0, int arg1);
+    void setTdlsEnabled(@Sink(CHANGE_WIFI_STATE) InetAddress arg0,@Sink(CHANGE_WIFI_STATE) boolean arg1);
+    void setTdlsEnabledWithMacAddress(@Sink(CHANGE_WIFI_STATE) String arg0, @Sink(CHANGE_WIFI_STATE) boolean arg1);
+    WifiLock createWifiLock(int arg0, String arg1);
+    WifiLock createWifiLock(String arg0);
+    MulticastLock createMulticastLock(String arg0);
+    protected void finalize() throws Throwable;
 }
+class WifiManager$MulticastLock {
+    void acquire();
+    void release();
+    void setReferenceCounted(boolean arg0);
+    boolean isHeld();
+    String toString();
+    protected void finalize() throws Throwable;
+}
+class WifiManager$WifiLock {
+    void acquire();
+    void release();
+    void setReferenceCounted(boolean arg0);
+    boolean isHeld();
+    void setWorkSource(WorkSource arg0);
+    String toString();
+    protected void finalize() throws Throwable;
+}
+
 
 class WifiInfo {
 @Source(ACCESS_WIFI_STATE) int getLinkSpeed();
@@ -535,7 +589,83 @@ class WifiInfo {
 @Source(ACCESS_WIFI_STATE) String getMacAddress();
 @Source(ACCESS_WIFI_STATE) String getSSID();
 @Source(ACCESS_WIFI_STATE) SupplicantState getSupplicantState();
+    final String LINK_SPEED_UNITS;
+    @Source(ACCESS_WIFI_STATE) int getRssi();
+    @Source(ACCESS_WIFI_STATE) int getLinkSpeed();
+    @Source(ACCESS_WIFI_STATE) int getNetworkId();
+    @Source(ACCESS_WIFI_STATE) int getIpAddress();
+    @Source(ACCESS_WIFI_STATE) boolean getHiddenSSID();
+    static DetailedState getDetailedStateOf(SupplicantState arg0);
+@PolyFlow
+    String toString();
+    @Source(ACCESS_WIFI_STATE) int describeContents();
+    void writeToParcel(@Source(ACCESS_WIFI_STATE) Parcel arg0, int arg1);
 }
+class WifiConfiguration implements Parcelable {
+    @Source(ACCESS_WIFI_STATE)  int networkId;
+    @Source(ACCESS_WIFI_STATE)  int status;
+    @Source(ACCESS_WIFI_STATE)  String SSID;
+    @Source(ACCESS_WIFI_STATE)  String BSSID;
+    @Source(ACCESS_WIFI_STATE)  String preSharedKey;
+    @Source(ACCESS_WIFI_STATE)  String[] wepKeys;
+    @Source(ACCESS_WIFI_STATE)  int wepTxKeyIndex;
+    @Source(ACCESS_WIFI_STATE)  int priority;
+    @Source(ACCESS_WIFI_STATE)  boolean hiddenSSID;
+    @Source(ACCESS_WIFI_STATE)  BitSet allowedKeyManagement;
+    @Source(ACCESS_WIFI_STATE)  BitSet allowedProtocols;
+    @Source(ACCESS_WIFI_STATE)  BitSet allowedAuthAlgorithms;
+    @Source(ACCESS_WIFI_STATE)  BitSet allowedPairwiseCiphers;
+    @Source(ACCESS_WIFI_STATE)  BitSet allowedGroupCiphers;
+    @Source(ACCESS_WIFI_STATE)  WifiEnterpriseConfig enterpriseConfig;
+    @Source(ACCESS_WIFI_STATE)  WifiConfiguration();
+@PolyReceiverFlow
+    String toString();
+    @Source(ACCESS_WIFI_STATE)  int describeContents();
+    void writeToParcel(@Source(ACCESS_WIFI_STATE)  Parcel arg0, int arg1);
+}
+class WifiConfiguration$Status {
+    final @Source(ACCESS_WIFI_STATE)  int CURRENT;
+    final @Source(ACCESS_WIFI_STATE)  int DISABLED;
+    final @Source(ACCESS_WIFI_STATE)  int ENABLED;
+    final @Source(ACCESS_WIFI_STATE)  String[] strings;
+}
+class WifiConfiguration$GroupCipher {
+    final int WEP40;
+    final int WEP104;
+    final int TKIP;
+    final int CCMP;
+    final String varName;
+    final String[] strings;
+}
+class WifiConfiguration$PairwiseCipher {
+    final int NONE;
+    final int TKIP;
+    final int CCMP;
+    final String varName;
+    final String[] strings;
+}
+class WifiConfiguration$AuthAlgorithm {
+    final int OPEN;
+    final int SHARED;
+    final int LEAP;
+    final String varName;
+    final String[] strings;
+}
+class WifiConfiguration$Protocol {
+    final int WPA;
+    final int RSN;
+    final String varName;
+    final String[] strings;
+}
+class WifiConfiguration$KeyMgmt {
+    final int NONE;
+    final int WPA_PSK;
+    final int WPA_EAP;
+    final int IEEE8021X;
+    final String varName;
+    final String[] strings;
+}
+
 
 package android.net.wifi.p2p;
 
