@@ -299,112 +299,43 @@ int squaredDistanceFrom(int x, int y);
 }
 
 class KeyboardView {
-    
-    
 void closing();
-
 Keyboard getKeyboard();
-//Returns the current keyboard being displayed by this view.
-
 boolean handleBack();
-
 void invalidateAllKeys();
-//Requests a redraw of the entire keyboard.
-
 void invalidateKey(int keyIndex);
-//Invalidates a key so that it will be redrawn on the next repaint.
-
 boolean isPreviewEnabled();
-//Returns the enabled state of the key feedback popup.
-
 boolean isProximityCorrectionEnabled();
-//Returns true if proximity correction is enabled.
-
 boolean isShifted();
-//Returns the state of the shift key of the keyboard, if any.
-
 void onDetachedFromWindow();
-//This is called when the view is detached from a window.
-
 void onDraw(Canvas canvas);
-//Implement this to do your drawing.
-
 boolean onHoverEvent(MotionEvent event);
-//Implement this method to handle hover events.
-
 void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
-//Measure the view and its content to determine the measured width and the measured height.
-
 void onSizeChanged(int w, int h, int oldw, int oldh);
-//This is called during layout when the size of this view has changed.
-
 boolean onTouchEvent(MotionEvent me);
-//Implement this method to handle touch screen motion events.
-
 void setKeyboard(Keyboard keyboard);
-//Attaches a keyboard to this view.
-
 void setOnKeyboardActionListener(KeyboardView.OnKeyboardActionListener listener);
-
 void setPopupOffset(int x, int y);
-
 void setPopupParent(View v);
-
 void setPreviewEnabled(boolean previewEnabled);
-//Enables or disables the key feedback popup.
-
 void setProximityCorrectionEnabled(boolean enabled);
-//When enabled, calls to onKey(int, int[]); will include key codes for adjacent keys.
-
 boolean setShifted(boolean shifted);
-//Sets the state of the shift key of the keyboard, if any.
-
 void setVerticalCorrection(int verticalOffset);
-//Protected Methods
-
 KeyboardView.OnKeyboardActionListener getOnKeyboardActionListener();
-//Returns the KeyboardView.OnKeyboardActionListener object.
-
 boolean onLongPress(@Source(USER_INPUT) Keyboard.Key popupKey);
-//Called when a key is long pressed.
-
 void swipeDown();
-
 void swipeLeft();
-
 void swipeRight();
-
 void swipeUp();
-
-
 }
 
 class KeyboardView$OnKeyboardActionListener {
-    
 abstract void onKey(@Source(USER_INPUT) int primaryCode, @Source(USER_INPUT) int[] keyCodes);
-//Send a key press to the listener.
-
 abstract void onPress(@Source(USER_INPUT) int primaryCode);
-//Called when the user presses a key.
-
 abstract void onRelease(@Source(USER_INPUT) int primaryCode);
-//Called when the user releases a key.
-
-abstract void onText(CharSequence text);
-//Sends a sequence of characters to the listener.
-
+abstract void onText(@Source(USER_INPUT) CharSequence text);
 abstract void swipeDown();
-//Called when the user quickly moves the finger from up to down.
-
 abstract void swipeLeft();
-//Called when the user quickly moves the finger from right to left.
-
 abstract void swipeRight();
-//Called when the user quickly moves the finger from left to right.
-
 abstract void swipeUp();
-//Called when the user quickly moves the finger from down to up.
-
-
-
 }

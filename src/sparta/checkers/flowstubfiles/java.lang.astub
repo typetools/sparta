@@ -10,12 +10,57 @@ class AutoCloseable{
 }
 
 @PolyFlowReceiver
-class AbstractStringBuilder{
-        int length();
-        setLength(int arg0);
-        char charAt(int arg0);
-        void setCharAt(int arg0, char arg1);
-        void setLength(int arg0);
+class AbstractStringBuilder implements Appendable, CharSequence {
+    int length();
+    int capacity();
+    void ensureCapacity(int arg0);
+    void trimToSize();
+    void setLength(int arg0);
+    char charAt(int arg0);
+    int codePointAt(int arg0);
+    int codePointBefore(int arg0);
+    int codePointCount(int arg0, int arg1);
+    int offsetByCodePoints(int arg0, int arg1);
+    void getChars(int arg0, int arg1, @PolySource @PolySink char[] arg2, int arg3);
+    void setCharAt(int arg0, char arg1);
+    AbstractStringBuilder append(Object arg0);
+    AbstractStringBuilder append(String arg0);
+    AbstractStringBuilder append(StringBuffer arg0);
+    AbstractStringBuilder append(CharSequence arg0);
+    AbstractStringBuilder append(CharSequence arg0, int arg1, int arg2);
+    AbstractStringBuilder append(@PolySource @PolySink char[] arg0);
+    AbstractStringBuilder append(@PolySource @PolySink char[] arg0, int arg1, int arg2);
+    AbstractStringBuilder append(boolean arg0);
+    AbstractStringBuilder append(char arg0);
+    AbstractStringBuilder append(int arg0);
+    AbstractStringBuilder append(long arg0);
+    AbstractStringBuilder append(float arg0);
+    AbstractStringBuilder append(double arg0);
+    AbstractStringBuilder delete(int arg0, int arg1);
+    AbstractStringBuilder appendCodePoint(int arg0);
+    AbstractStringBuilder deleteCharAt(int arg0);
+    AbstractStringBuilder replace(int arg0, int arg1, String arg2);
+    String substring(int arg0);
+    CharSequence subSequence(int arg0, int arg1);
+    String substring(int arg0, int arg1);
+    AbstractStringBuilder insert(int arg0, @PolySource @PolySink char[] arg1, int arg2, int arg3);
+    AbstractStringBuilder insert(int arg0, Object arg1);
+    AbstractStringBuilder insert(int arg0, String arg1);
+    AbstractStringBuilder insert(int arg0, @PolySource @PolySink char[] arg1);
+    AbstractStringBuilder insert(int arg0, CharSequence arg1);
+    AbstractStringBuilder insert(int arg0, CharSequence arg1, int arg2, int arg3);
+    AbstractStringBuilder insert(int arg0, boolean arg1);
+    AbstractStringBuilder insert(int arg0, char arg1);
+    AbstractStringBuilder insert(int arg0, int arg1);
+    AbstractStringBuilder insert(int arg0, long arg1);
+    AbstractStringBuilder insert(int arg0, float arg1);
+    AbstractStringBuilder insert(int arg0, double arg1);
+    int indexOf(String arg0);
+    int indexOf(String arg0, int arg1);
+    int lastIndexOf(String arg0);
+    int lastIndexOf(String arg0, int arg1);
+    AbstractStringBuilder reverse();
+    String toString();
 }
 
 @PolyFlowReceiver
