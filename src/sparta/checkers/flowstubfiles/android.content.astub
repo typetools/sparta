@@ -1615,6 +1615,8 @@ String EXTRA_PHONE_NUMBER;
     void writeToParcel( @Sink(INTENT) Parcel arg0,  @Sink(INTENT) int arg1);
     void readFromParcel( @Sink(INTENT) Parcel arg0);
     static Intent parseIntent( @Sink(INTENT) Resources arg0, @Sink(INTENT)  XmlPullParser arg1,  @Sink(INTENT) AttributeSet arg2) throws XmlPullParserException,IOException;
+      @Source(INTENT)  ClipData getClipData();
+        void setClipData(@Sink(INTENT) ClipData clip);
 }
 
 class Loader {

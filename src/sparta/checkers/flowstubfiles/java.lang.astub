@@ -523,31 +523,71 @@ interface CharSequence {
     String toString();
 }
 
-class Class{
-Package getPackage();
-Constructor<T> getDeclaredConstructor(Class<?>[] arg0) throws NoSuchMethodException,SecurityException;
-Field[] getDeclaredFields() throws SecurityException;
-<U> Class<? extends U> asSubclass(Class<U> arg0);
-		String getCanonicalName();
-        Constructor<T> getConstructor(Class<?>[] parameterTypes) throws NoSuchMethodException,SecurityException;
-        Field getDeclaredField(String name) throws NoSuchFieldException,SecurityException;
-        String getSimpleName();
-        int getModifiers();
-        boolean isMemberClass();
-        ClassLoader getClassLoader();
-        static Class<?> forName(String arg0) throws ClassNotFoundException;
-        Method getDeclaredMethod(String arg0, Class<?>[] arg1) throws NoSuchMethodException,SecurityException;
-        T newInstance() throws InstantiationException,IllegalAccessException;
-         String getName();
-            boolean isInstance(Object arg0);
-            static Class<?> forName(String arg0, boolean arg1, ClassLoader arg2) throws ClassNotFoundException;
-            boolean desiredAssertionStatus();
-        boolean isAssignableFrom(Class<?> arg0);
-        Class<?> getComponentType();
-        Field getField(String arg0) throws NoSuchFieldException,SecurityException;
-        Method getMethod(String arg0, Class<?>[] arg1) throws NoSuchMethodException,SecurityException;
-        Method[] getMethods() throws SecurityException;
-        String toString();
+class Class<T> implements Serializable, GenericDeclaration, Type, AnnotatedElement {
+    String toString();
+    String toGenericString();
+    static Class<?> forName(String arg0) throws ClassNotFoundException;
+    static Class<?> forName(String arg0, boolean arg1, ClassLoader arg2) throws ClassNotFoundException;
+    T newInstance() throws InstantiationException,IllegalAccessException;
+    boolean isInstance(Object arg0);
+    boolean isAssignableFrom(Class<?> arg0);
+    boolean isInterface();
+    boolean isArray();
+    boolean isPrimitive();
+    boolean isAnnotation();
+    boolean isSynthetic();
+    String getName();
+    ClassLoader getClassLoader();
+    TypeVariable<Class<T>>[] getTypeParameters();
+    Class<? super T> getSuperclass();
+    Type getGenericSuperclass();
+    Package getPackage();
+    Class<?>[] getInterfaces();
+    Type[] getGenericInterfaces();
+    Class<?> getComponentType();
+    int getModifiers();
+    Object[] getSigners();
+    Method getEnclosingMethod() throws SecurityException;
+    Constructor<?> getEnclosingConstructor() throws SecurityException;
+    Class<?> getDeclaringClass();
+    Class<?> getEnclosingClass() throws SecurityException;
+    String getSimpleName();
+    String getTypeName();
+    String getCanonicalName();
+    boolean isAnonymousClass();
+    boolean isLocalClass();
+    boolean isMemberClass();
+    Class<?>[] getClasses();
+    Field[] getFields() throws SecurityException;
+    Method[] getMethods() throws SecurityException;
+    Constructor<?>[] getConstructors() throws SecurityException;
+    Field getField(String arg0) throws NoSuchFieldException,SecurityException;
+    Method getMethod(String arg0, Class<?>[] arg1) throws NoSuchMethodException,SecurityException;
+    Constructor<T> getConstructor(Class<?>[] arg0) throws NoSuchMethodException,SecurityException;
+    Class<?>[] getDeclaredClasses() throws SecurityException;
+    Field[] getDeclaredFields() throws SecurityException;
+    Method[] getDeclaredMethods() throws SecurityException;
+    Constructor<?>[] getDeclaredConstructors() throws SecurityException;
+    Field getDeclaredField(String arg0) throws NoSuchFieldException,SecurityException;
+    Method getDeclaredMethod(String arg0, Class<?>[] arg1) throws NoSuchMethodException,SecurityException;
+    Constructor<T> getDeclaredConstructor(Class<?>[] arg0) throws NoSuchMethodException,SecurityException;
+    InputStream getResourceAsStream(String arg0);
+    URL getResource(String arg0);
+    ProtectionDomain getProtectionDomain();
+    boolean desiredAssertionStatus();
+    boolean isEnum();
+    T[] getEnumConstants();
+    T cast(Object arg0);
+    <U> Class<? extends U> asSubclass(Class<U> arg0);
+    <A> A getAnnotation(Class<A> arg0);
+    boolean isAnnotationPresent(Class<? extends Annotation> arg0);
+    <A> A[] getAnnotationsByType(Class<A> arg0);
+    Annotation[] getAnnotations();
+    <A> A getDeclaredAnnotation(Class<A> arg0);
+    <A> A[] getDeclaredAnnotationsByType(Class<A> arg0);
+    Annotation[] getDeclaredAnnotations();
+    AnnotatedType getAnnotatedSuperclass();
+    AnnotatedType[] getAnnotatedInterfaces();
 }
 
 @PolyFlowReceiver
@@ -1157,177 +1197,150 @@ void setCharAt(int arg0, char arg1);
 void setLength(int arg0);
 }
 
+package java.lang;
 
-/*[equals, length, valueOf, trim, substring, charAt, indexOf, contains, replace, startsWith, format, split, 
-   toUpperCase, <init>, hashCode, toCharArray, getChars, replaceAll, getBytes, endsWith, equalsIgnoreCase, 
-   lastIndexOf, toLowerCase, compareTo, toString, intern, isEmpty, contentEquals, replaceFirst, concat, compareToIgnoreCase, 
-   matches, copyValueOf]*/
-   
-   class String implements Serializable, Comparable<String>, CharSequence {
-   //Added by SOM
-   //TODO: Should indexs into the char[] be PolyFlow or just LITERAL?
+class String {
     final Comparator<String> CASE_INSENSITIVE_ORDER;
-    @PolyFlow
     String();
-    @PolyFlow
+@PolyFlow
     String(String arg0);
-    @PolyFlow
-    String(char[] arg0);
-    @PolyFlow
-    String(char[] arg0, int arg1, int arg2);
-    @PolyFlow
-    String(int[] arg0, int arg1, int arg2);
-    @PolyFlow
-    String(byte[] arg0, int arg1, int arg2, int arg3);
-    @PolyFlow
-    String(byte[] arg0, int arg1);
-    @PolyFlow
-    String(byte[] arg0, int arg1, int arg2, String arg3) throws UnsupportedEncodingException;
-    @PolyFlow
-    String(byte[] arg0, int arg1, int arg2, Charset arg3);
-    @PolyFlow
-    String(byte[] arg0, String arg1) throws UnsupportedEncodingException;
-    @PolyFlow
-    String(byte[] arg0, Charset arg1);
-    @PolyFlow
-    String(byte[] arg0, int arg1, int arg2);
-    @PolyFlow
-    String(byte[] arg0);
-    @PolyFlow
-    String(StringBuffer arg0);
-    @PolyFlow
-    String(StringBuilder arg0);
-    
+    @PolySource @PolySink String(@PolySource @PolySink char[] arg0);
+    @PolySource @PolySink String(@PolySource @PolySink char[] arg0, int arg1, int arg2);
+    @PolySource @PolySink String(@PolySource @PolySink int[] arg0, int arg1, int arg2);
+    @PolySource @PolySink String(@PolySource @PolySink byte[] arg0, int arg1, int arg2, int arg3);
+    @PolySource @PolySink String(@PolySource @PolySink byte[] arg0, int arg1);
+//The String arugment will appear in the exception, so it should not be sensitive.
+    @PolySource @PolySink String(@PolySource @PolySink byte[] arg0, int arg1, int arg2, @Sink(ANY) String arg3) throws UnsupportedEncodingException;
+    @PolySource @PolySink String(@PolySource @PolySink byte[] arg0, int arg1, int arg2, @PolySource @PolySink Charset arg3);
+//The String arugment will appear in the exception, so it should not be sensitive.
+    @PolySource @PolySink String(@PolySource @PolySink byte[] arg0, @Sink(ANY) String arg1) throws UnsupportedEncodingException;
+    @PolySource @PolySink String(@PolySource @PolySink byte[] arg0, Charset arg1);
+    @PolySource @PolySink String(@PolySource @PolySink byte[] arg0, int arg1, int arg2);
+    @PolySource @PolySink String(@PolySource @PolySink byte[] arg0);
+    @PolySource @PolySink String(@PolySource @PolySink StringBuffer arg0);
+    @PolySource @PolySink String(@PolySource @PolySink StringBuilder arg0);
     int length();
     boolean isEmpty();
-    @PolyFlowReceiver
+@PolyFlowReceiver
     char charAt(int arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int codePointAt(int arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int codePointBefore(int arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int codePointCount(int arg0, int arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int offsetByCodePoints(int arg0, int arg1);
-    @PolyFlowReceiver
-    void getChars(int arg0, int arg1, char[] arg2, int arg3);
-    @PolyFlowReceiver
-    void getBytes(int arg0, int arg1, byte[] arg2, int arg3);
-    @PolyFlowReceiver
-    byte[] getBytes(String arg0) throws UnsupportedEncodingException;
-    @PolyFlowReceiver
-    byte[] getBytes(Charset arg0);
-    @PolyFlowReceiver
-    byte[] getBytes();
-    @PolyFlowReceiver
+@PolyFlowReceiver
+    void getChars(int arg0, int arg1, @PolySource @PolySink char[] arg2, int arg3);
+@PolyFlowReceiver
+    void getBytes(int arg0, int arg1, @PolySource @PolySink byte[] arg2, int arg3);
+    @PolySource @PolySink byte[] getBytes(@Sink(ANY) String arg0) @PolySource @PolySink ;
+    @PolySource @PolySink byte[] getBytes(Charset arg0) @PolySource @PolySink ;
+    @PolySource @PolySink byte[] getBytes() 	@PolySource @PolySink ;
+@PolyFlowReceiver
     boolean equals(Object arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     boolean contentEquals(StringBuffer arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     boolean contentEquals(CharSequence arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     boolean equalsIgnoreCase(String arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int compareTo(String arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int compareToIgnoreCase(String arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     boolean regionMatches(int arg0, String arg1, int arg2, int arg3);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     boolean regionMatches(boolean arg0, int arg1, String arg2, int arg3, int arg4);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     boolean startsWith(String arg0, int arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     boolean startsWith(String arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     boolean endsWith(String arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int hashCode();
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int indexOf(int arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int indexOf(int arg0, int arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int lastIndexOf(int arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int lastIndexOf(int arg0, int arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int indexOf(String arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int indexOf(String arg0, int arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int lastIndexOf(String arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     int lastIndexOf(String arg0, int arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String substring(int arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String substring(int arg0, int arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     CharSequence subSequence(int arg0, int arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String concat(String arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String replace(char arg0, char arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     boolean matches(String arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     boolean contains(CharSequence arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String replaceFirst(String arg0, String arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String replaceAll(String arg0, String arg1);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String replace(CharSequence arg0, CharSequence arg1);
-    @PolySource @PolySink String[] split(@PolySource @PolySink String arg0, int arg1)@PolySource @PolySink;
-    @PolySource @PolySink String[] split(@PolySource @PolySink String arg0)@PolySource @PolySink;
-    @PolyFlowReceiver
+    @PolySource @PolySink String[] split(@PolySource @PolySink String arg0, int arg1) @PolySource @PolySink ;
+@PolySource @PolySink String[] split(@PolySource @PolySink String arg0) @PolySource @PolySink ;
+@PolyFlowReceiver
     String toLowerCase(Locale arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String toLowerCase();
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String toUpperCase(Locale arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String toUpperCase();
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String trim();
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String toString();
-    @PolyFlowReceiver
-    @PolySource @PolySink char[] toCharArray();
-    @PolyFlow
-    static String format(String arg0, @PolySource @PolySink Object[] arg1);
-    @PolyFlow
-    static String format(Locale arg0, String arg1, @PolySource @PolySink Object[] arg2);
-    @PolyFlow
+@PolySource @PolySink char[] toCharArray();
+    static @PolySource @PolySink String format(@PolySource @PolySink String arg0, @PolySource @PolySink Object[] arg1);
+    static @PolySource @PolySink String format(Locale arg0, @PolySource @PolySink String arg1,@PolySource @PolySink Object[] arg2);
+@PolyFlow
     static String valueOf(Object arg0);
-    @PolyFlow
-    static String valueOf(char[] arg0);
-    @PolyFlow
-    static String valueOf(char[] arg0, int arg1, int arg2);
-    @PolyFlow
-    static String copyValueOf(char[] arg0, int arg1, int arg2);
-    @PolyFlow
-    static String copyValueOf(char[] arg0);
-    @PolyFlow
+    static @PolySource @PolySink String valueOf(@PolySource @PolySink char[] arg0);
+    static @PolySource @PolySink String valueOf(@PolySource @PolySink char[] arg0, int arg1, int arg2);
+    static @PolySource @PolySink String copyValueOf(@PolySource @PolySink char[] arg0, int arg1, int arg2);
+    static @PolySource @PolySink String copyValueOf(@PolySource @PolySink char[] arg0);
+@PolyFlow
     static String valueOf(boolean arg0);
-    @PolyFlow
+@PolyFlow
     static String valueOf(char arg0);
-    @PolyFlow
+@PolyFlow
     static String valueOf(int arg0);
-    @PolyFlow
+@PolyFlow
     static String valueOf(long arg0);
-    @PolyFlow
+@PolyFlow
     static String valueOf(float arg0);
-    @PolyFlow
+@PolyFlow
     static String valueOf(double arg0);
-    @PolyFlowReceiver
+@PolyFlowReceiver
     String intern();
-    
-    static int indexOf(char[] arg0, int arg1, int arg2, char[] arg3, int arg4, int arg5, int arg6);
-    static int lastIndexOf(char[] arg0, int arg1, int arg2, char[] arg3, int arg4, int arg5, int arg6);
+    static int indexOf(@PolySource @PolySink char[] arg0, int arg1, int arg2, @PolySource @PolySink char[] arg3, int arg4, int arg5, int arg6);
+    static int lastIndexOf(@PolySource @PolySink char[] arg0, int arg1, int arg2, @PolySource @PolySink char[] arg3, int arg4, int arg5, int arg6);
+
+     void getChars(@PolySource @PolySink char[] arg0, int arg1) @PolySource @PolySink;
 }
+
 
 // [append, toString, <init>, length, insert, indexOf, substring, setCharAt, setLength]
 class StringBuffer implements Serializable, CharSequence {
@@ -1474,8 +1487,9 @@ class System {
     static void exit(int arg0);
 
     static @Source(SYSTEM_PROPERTIES) String mapLibraryName(String arg0);
+    static void loadLibrary(@Sink(SYSTEM_PROPERTIES) String arg0);
+    static void gc();
     
-    //[ getSecurityManager, loadLibrary]
 }
 
 @PolyFlowReceiver

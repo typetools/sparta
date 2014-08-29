@@ -1852,6 +1852,36 @@ class Matcher{
             Matcher region(int arg0, int arg1);
             int regionEnd();
 }
+class Pattern implements Serializable {
+    final int UNIX_LINES;
+    final int CASE_INSENSITIVE;
+    final int COMMENTS;
+    final int MULTILINE;
+    final int LITERAL;
+    final int DOTALL;
+    final int UNICODE_CASE;
+    final int CANON_EQ;
+    final int UNICODE_CHARACTER_CLASS;
+@PolyFlow
+    static Pattern compile(String arg0);
+@PolyFlow
+    static Pattern compile(String arg0, int arg1);
+@PolyFlowReceiver
+    String pattern();
+@PolyFlowReceiver
+    String toString();
+@PolyFlowReceiver
+    Matcher matcher(CharSequence arg0);
+    int flags();
+@PolyFlow
+    static boolean matches(String arg0, CharSequence arg1);
+    @PolySource @PolySink String[] split(@PolySource @PolySink CharSequence arg0, int arg1);
+    @PolySource @PolySink String[] split(@PolySource @PolySink CharSequence arg0);
+@PolyFlow
+    static String quote(String arg0);
+    Predicate<@PolySource @PolySink String> asPredicate() @PolySource @PolySink;
+    Stream<@PolySource @PolySink String> splitAsStream(@PolySource @PolySink CharSequence arg0) @PolySource @PolySink;
+}
 
 package java.util.zip;
 
