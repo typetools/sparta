@@ -35,6 +35,8 @@ import sparta.checkers.intents.ComponentMap;
  * Example: 
 /Users/pbsf/src/projects/MyProject/MyProject,2,1,2,1
  * 
+ * Call "ant check-intentstats" to use it.
+ * 
  * @author pbsf
  *
  */

@@ -159,10 +159,16 @@
     
     <target name="check-intentkey"
                 depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
-                description="run the Value Checker">
+                description="run the IntentKey Checker">
         <process-proj processor="sparta.checkers.util.IntentKeyChecker"/>
     </target>
-    
+
+    <target name="check-intentstats"
+                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package"
+                description="run the IntentStats Checker">
+        <process-proj processor="sparta.checkers.util.IntentStatsChecker"/>
+    </target>
+
     <target name="filter-flows">
         <property name="filter.flow_file" value="./sparta-output/forbiddenFlowLocations.txt" />
         <property name="filter" value="" />
