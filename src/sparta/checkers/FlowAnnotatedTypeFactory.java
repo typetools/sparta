@@ -1,6 +1,5 @@
 
 package sparta.checkers;
-
 import static org.checkerframework.framework.qual.DefaultLocation.LOCAL_VARIABLE;
 import static org.checkerframework.framework.qual.DefaultLocation.OTHERWISE;
 import static org.checkerframework.framework.qual.DefaultLocation.RECEIVERS;
@@ -557,6 +556,54 @@ if(!finesources.isEmpty())
     @Override
     public QualifierHierarchy createQualifierHierarchy(MultiGraphFactory factory) {
         return new FlowQualifierHierarchy(factory);
+    }
+/**
+ * TODO: The code below involving the FlowTypeHierarchy should be changed once
+ * there is a hook to specify equality between qualifiers.
+ * @Source(PERM) = @FineSource(PERM,{}) and @Sink(PERM) = @FineSink(PERM,{}) 
+ * when the refined version has no parameters and both have the same permission.
+ */
+    @Override
+    protected TypeHierarchy createTypeHierarchy() {
+        return new FlowTypeHierarchy(checker, getQualifierHierarchy());
+    }
+
+    protected class FlowTypeHierarchy extends TypeHierarchy {
+
+        public FlowTypeHierarchy(BaseTypeChecker checker,
+                QualifierHierarchy qualifierHierarchy) {
+            super(checker, qualifierHierarchy);
+        }
+
+        @Override
+        protected boolean isSubtypeAsTypeArgument(AnnotatedTypeMirror atm1,
+                AnnotatedTypeMirror atm2) {
+            normalizePermissions(atm1);
+            normalizePermissions(atm2);
+            return super.isSubtypeAsTypeArgument(atm1, atm2);
+        }
+
+    }
+
+    /**
+     * This method replaces non-parameterized Source and Sink AnnotationMirrors
+     * in <code>atm</code> by parameterized permissions of the same type.
+     * @param atm
+     */
+    private void normalizePermissions(AnnotatedTypeMirror atm) {
+        if (atm.hasAnnotation(Source.class)) {
+            AnnotationMirror sourceAnno = atm.getAnnotation(Source.class);
+            Set<ParameterizedFlowPermission> sources = Flow.getSources(sourceAnno);
+            AnnotationMirror fineSource = createAnnoFromSource(sources);
+            atm.replaceAnnotation(fineSource);
+        }
+
+        if (atm.hasAnnotation(Sink.class)) {
+            AnnotationMirror sinkAnno = atm.getAnnotation(Sink.class);
+            Set<ParameterizedFlowPermission> sinks = Flow.getSinks(sinkAnno);
+            AnnotationMirror fineSink = createAnnoFromSink(sinks);
+            atm.replaceAnnotation(fineSink);
+        }
     }
 
     protected class FlowQualifierHierarchy extends MultiGraphQualifierHierarchy {
