@@ -523,9 +523,8 @@ interface CharSequence {
     String toString();
 }
 
-class Class<T> implements Serializable, GenericDeclaration, Type, AnnotatedElement {
+class Class<T> {
     String toString();
-    String toGenericString();
     static Class<?> forName(String arg0) throws ClassNotFoundException;
     static Class<?> forName(String arg0, boolean arg1, ClassLoader arg2) throws ClassNotFoundException;
     T newInstance() throws InstantiationException,IllegalAccessException;
@@ -552,7 +551,6 @@ class Class<T> implements Serializable, GenericDeclaration, Type, AnnotatedEleme
     Class<?> getDeclaringClass();
     Class<?> getEnclosingClass() throws SecurityException;
     String getSimpleName();
-    String getTypeName();
     String getCanonicalName();
     boolean isAnonymousClass();
     boolean isLocalClass();
@@ -581,13 +579,8 @@ class Class<T> implements Serializable, GenericDeclaration, Type, AnnotatedEleme
     <U> Class<? extends U> asSubclass(Class<U> arg0);
     <A> A getAnnotation(Class<A> arg0);
     boolean isAnnotationPresent(Class<? extends Annotation> arg0);
-    <A> A[] getAnnotationsByType(Class<A> arg0);
     Annotation[] getAnnotations();
-    <A> A getDeclaredAnnotation(Class<A> arg0);
-    <A> A[] getDeclaredAnnotationsByType(Class<A> arg0);
     Annotation[] getDeclaredAnnotations();
-    AnnotatedType getAnnotatedSuperclass();
-    AnnotatedType[] getAnnotatedInterfaces();
 }
 
 @PolyFlowReceiver

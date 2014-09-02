@@ -1882,8 +1882,6 @@ class Pattern implements Serializable {
     @PolySource @PolySink String[] split(@PolySource @PolySink CharSequence arg0);
 @PolyFlow
     static String quote(String arg0);
-    Predicate<@PolySource @PolySink String> asPredicate() @PolySource @PolySink;
-    Stream<@PolySource @PolySink String> splitAsStream(@PolySource @PolySink CharSequence arg0) @PolySource @PolySink;
 }
 
 package java.util.zip;

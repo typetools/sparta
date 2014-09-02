@@ -1147,8 +1147,6 @@ void computeCurrentVelocity(int units, float maxVelocity);
 void computeCurrentVelocity(int units);
 //Equivalent to invoking computeCurrentVelocity(int, float); with a maximum velocity of Float.MAX_VALUE.
 
-abstract T getNextPoolable();
-
 float getXVelocity();
 //Retrieve the last computed X velocity.
 
@@ -1161,17 +1159,11 @@ float getYVelocity(int id);
 float getYVelocity();
 //Retrieve the last computed Y velocity.
 
-abstract boolean isPooled();
-
 static VelocityTracker obtain();
 //Retrieve a new VelocityTracker object to watch the velocity of a motion.
 
 void recycle();
 //Return a VelocityTracker object back to be re-used by others.
-
-abstract void setNextPoolable(T element);
-
-abstract void setPooled(boolean isPooled);
 
 //Protected Methods
 void finalize();
