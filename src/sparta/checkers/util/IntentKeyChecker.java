@@ -30,7 +30,7 @@ import org.checkerframework.framework.qual.StubFiles;
  * @author smillst
  *
  */
-@StubFiles("receive-send-intent.astub")
+@StubFiles({"receive-send-intent.astub", "put-get-extra.astub", "intent-map.astub"})
 public class IntentKeyChecker extends ValueChecker {
     public  FileOutputStream writer;
     //number of getExtra calls
