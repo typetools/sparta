@@ -495,6 +495,9 @@ class Collections {
     static <T> boolean addAll(Collection<? super T> arg0, T[] arg1);
     static <E> Set<E> newSetFromMap(Map<E,Boolean> arg0);
     static <T> Queue<T> asLifoQueue(Deque<T> arg0);
+        static <T> Set<T> synchronizedSet(Set<T> arg0, Object arg1);
+        static <T> List<T> synchronizedList(List<T> arg0, Object arg1);
+        static void swap(Object[] arg0, int arg1, int arg2);
 }
 
 interface Comparator<T> {
