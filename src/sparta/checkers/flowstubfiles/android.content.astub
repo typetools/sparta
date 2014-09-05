@@ -1532,7 +1532,7 @@ String EXTRA_PHONE_NUMBER;
    @Source(INTENT) double getDoubleExtra(@Sink(INTENT) String arg0, @Sink(INTENT) double arg1);
    @Source(INTENT) String getStringExtra(@Sink(INTENT) String arg0);
    @Source(INTENT) CharSequence getCharSequenceExtra(@Sink(INTENT) String arg0);
-   <T extends @Source(INTENT) Object> T getParcelableExtra(@Sink(INTENT) String arg0);
+   <T extends @Source(INTENT) Object> @Source(INTENT) T getParcelableExtra(@Sink(INTENT) String arg0);
    @Source(INTENT) Parcelable[] getParcelableArrayExtra(@Sink(INTENT) String arg0);
     <T> ArrayList<T> getParcelableArrayListExtra(@Sink(INTENT) String arg0);
     @Source(INTENT) Serializable getSerializableExtra(@Sink(INTENT) String arg0);
