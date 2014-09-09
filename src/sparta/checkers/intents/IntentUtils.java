@@ -11,6 +11,7 @@ import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.util.ElementFilter;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
@@ -41,6 +42,8 @@ import com.sun.source.tree.VariableTree;
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.code.Symbol.ClassSymbol;
 import com.sun.tools.javac.code.Type;
+import com.sun.tools.javac.code.Type.ArrayType;
+import com.sun.tools.javac.code.Type.TypeVar;
 
 public class IntentUtils {
 
@@ -298,43 +301,47 @@ public class IntentUtils {
     }
 
     public static String retrieveSendIntentPath(TreePath treePath) {
-      String senderString = "";
-      //senderString = package.class
-      ClassTree classTree = TreeUtils.enclosingClass(treePath);  
-      ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
-      senderString = ele.flatname.toString();
-      
-      //senderString += .method(
-      MethodTree methodTree = TreeUtils.enclosingMethod(treePath);
-      senderString += "." + methodTree.getName() + "(";
-      
-      //senderString += args)
-      //Removing annotation types from parameters
-      List<? extends VariableTree> args = methodTree.getParameters();
-      for(VariableTree arg : args) {
-          Type type = (Type) InternalUtils.typeOf(arg.getType());       
-          String typeStringFormat = type.annotatedType(Type.noAnnotations).toString();
-          String typeNoAnnotations = typeStringFormat;
-          //Handling arrays
-          if(typeStringFormat.contains(" ")) {
-              String[] typeWithAnnotations = typeStringFormat.split(" ");
-              typeNoAnnotations = typeWithAnnotations[typeWithAnnotations.length-1];
-          }
-          senderString += typeNoAnnotations + ",";
-          
+        String senderString = "";
+        //senderString = package.class
+        ClassTree classTree = TreeUtils.enclosingClass(treePath);  
+        ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
+        senderString = ele.flatname.toString();
+
+        //senderString += .method(
+        MethodTree methodTree = TreeUtils.enclosingMethod(treePath);
+        senderString += "." + methodTree.getName() + "(";
+
+        //senderString += args)
+        //Removing annotation types from parameters
+        List<? extends VariableTree> args = methodTree.getParameters();
+        for(VariableTree arg : args) {
+            Type type = (Type) InternalUtils.typeOf(arg.getType());
+            String typeStringFormat = "";
+            //TODO: Remove loop below when unannotatedType gets implemented for
+            //com.sun.tools.javac.code.Type.ArrayType.
+            //Use only type.unannotatedType().toString().
+            while (type.getKind() == TypeKind.ARRAY) {
+                if (type.getKind() == TypeKind.ARRAY) {
+                    typeStringFormat += "[]";
+                    type = ((ArrayType)type).getComponentType();
+                }
+            }
+            typeStringFormat = type.unannotatedType().toString() + typeStringFormat;
+            String typeNoAnnotations = typeStringFormat;
+            senderString += typeNoAnnotations + ",";
+        }
+        //Removing last comma in case of args.size() != 0.
+        if(args.size() > 0) {
+            senderString = senderString.substring(0,senderString.length()-1);
+        }
+        senderString += ')';
+        
+        //Component map does not have entries with Generics parameters
+        //due to epicc's limitations. Need to remove <?> from parameters.
+        senderString = senderString.replaceAll("<([^;]*)>", "");
+        
+        return senderString;
       }
-      //Removing last comma in case of args.size() != 0.
-      if(args.size() > 0) {
-          senderString = senderString.substring(0,senderString.length()-1);
-      }
-      senderString += ')';
-      
-      //Component map does not have entries with Generics parameters
-      //due to epicc's limitations. Need to remove <?> from parameters.
-      senderString = senderString.replaceAll("<([^;]*)>", "");
-      
-      return senderString;
-    }
     
     public  AnnotationMirror createAnnoFromValues(ProcessingEnvironment processingEnv, 
         Class<? extends Annotation> anno, 
