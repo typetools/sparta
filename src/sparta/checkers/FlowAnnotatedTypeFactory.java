@@ -113,13 +113,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         ANYSOURCE = createAnnoFromSource(ANY);
         ANYSINK = createAnnoFromSink( ANY);
         
-        
         SOURCE = AnnotationUtils.fromClass(elements, Source.class);
         SINK = AnnotationUtils.fromClass(elements, Sink.class);
-
-        sourceValue = TreeUtils
-                .getMethod("sparta.checkers.quals.Source", "value", 0, processingEnv);
-        sinkValue = TreeUtils.getMethod("sparta.checkers.quals.Sink", "value", 0, processingEnv);
 
         // Must call super.initChecker before the lint option can be checked.
         final String pfArg = checker.getOption(FlowPolicy.POLICY_FILE_OPTION);
@@ -136,38 +131,38 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             this.postInit();
         }
     }
+
     @Override
     protected void postInit() {
-    	super.postInit();
-    	//Has to be called after postInit 
-    	//has been called for every subclass.
+        super.postInit();
+        // Has to be called after postInit
+        // has been called for every subclass.
         initQualifierDefaults();
     }
 
     private AnnotationMirror createAnnoFromSink(
-			ParameterizedFlowPermission sinks) {
-		return createAnnoFromSink(Collections.singleton(sinks));
-	}
+            ParameterizedFlowPermission sinks) {
+        return createAnnoFromSink(Collections.singleton(sinks));
+    }
 
-	private AnnotationMirror createAnnoFromSource(
-			ParameterizedFlowPermission source) {
-		return createAnnoFromSource(Collections.singleton(source));
-	}
+    private AnnotationMirror createAnnoFromSource(
+            ParameterizedFlowPermission source) {
+        return createAnnoFromSource(Collections.singleton(source));
+    }
 
-	@Override
+    @Override
     public CFTransfer createFlowTransferFunction(
             CFAbstractAnalysis<CFValue, CFStore, CFTransfer> analysis) {
-  
-        CFTransfer ret = new CFTransfer(analysis){
+
+        CFTransfer ret = new CFTransfer(analysis) {
             /**
-             * This method overrides super so that variables are not
-             * refined in conditionals see test case in flow/Conditions.java
+             * This method overrides super so that variables are not refined in
+             * conditionals see test case in flow/Conditions.java
              */
             @Override
             protected TransferResult<CFValue, CFStore> strengthenAnnotationOfEqualTo(
-                    TransferResult<CFValue, CFStore> res,
-                    Node firstNode, Node secondNode,
-                    CFValue firstValue, CFValue secondValue,
+                    TransferResult<CFValue, CFStore> res, Node firstNode,
+                    Node secondNode, CFValue firstValue, CFValue secondValue,
                     boolean notEqualTo) {
                 return res;
             }
@@ -176,37 +171,38 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     }
 
 
-	/**
-	 * Initializes qualifier defaults for 
-	 * @PolyFlow, @PolyFlowReceiver, and @FromByteCode
-	 */
-	private void initQualifierDefaults(){
-		// Final fields from byte code are {} -> ANY
-		byteCodeFieldDefault.addAbsoluteDefault(NOSOURCE, OTHERWISE);
-		byteCodeFieldDefault.addAbsoluteDefault(ANYSINK, OTHERWISE);
+    /**
+     * Initializes qualifier defaults for
+     * 
+     * @PolyFlow, @PolyFlowReceiver, and @FromByteCode
+     */
+    private void initQualifierDefaults() {
+        // Final fields from byte code are {} -> ANY
+        byteCodeFieldDefault.addAbsoluteDefault(NOSOURCE, OTHERWISE);
+        byteCodeFieldDefault.addAbsoluteDefault(ANYSINK, OTHERWISE);
 
-		// All locations besides non-final fields in byte code are
-		// conservatively ANY -> ANY
-		byteCodeDefaults.addAbsoluteDefault(ANYSOURCE,
-				DefaultLocation.OTHERWISE);
-		byteCodeDefaults.addAbsoluteDefault(ANYSINK, DefaultLocation.OTHERWISE);
+        // All locations besides non-final fields in byte code are
+        // conservatively ANY -> ANY
+        byteCodeDefaults.addAbsoluteDefault(ANYSOURCE,
+                DefaultLocation.OTHERWISE);
+        byteCodeDefaults.addAbsoluteDefault(ANYSINK, DefaultLocation.OTHERWISE);
 
-		// Use poly flow sources and sinks for return types and
-		// parameter types (This is excluding receivers).
-		DefaultLocation[] polyFlowLoc = { DefaultLocation.RETURNS,
-				DefaultLocation.PARAMETERS };
-		polyFlowDefaults.addAbsoluteDefaults(POLYSOURCE, polyFlowLoc);
-		polyFlowDefaults.addAbsoluteDefaults(POLYSINK, polyFlowLoc);
+        // Use poly flow sources and sinks for return types and
+        // parameter types (This is excluding receivers).
+        DefaultLocation[] polyFlowLoc = { DefaultLocation.RETURNS,
+                DefaultLocation.PARAMETERS };
+        polyFlowDefaults.addAbsoluteDefaults(POLYSOURCE, polyFlowLoc);
+        polyFlowDefaults.addAbsoluteDefaults(POLYSINK, polyFlowLoc);
 
-		// Use poly flow sources and sinks for return types and
-		// parameter types and receivers).
-		DefaultLocation[] polyFlowReceiverLoc = { DefaultLocation.RETURNS,
-				DefaultLocation.PARAMETERS, DefaultLocation.RECEIVERS };
-		polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSOURCE,
-				polyFlowReceiverLoc);
-		polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSINK,
-				polyFlowReceiverLoc);
-	}
+        // Use poly flow sources and sinks for return types and
+        // parameter types and receivers).
+        DefaultLocation[] polyFlowReceiverLoc = { DefaultLocation.RETURNS,
+                DefaultLocation.PARAMETERS, DefaultLocation.RECEIVERS };
+        polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSOURCE,
+                polyFlowReceiverLoc);
+        polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSINK,
+                polyFlowReceiverLoc);
+    }
 
     @Override
     protected QualifierDefaults createQualifierDefaults() {
@@ -268,17 +264,13 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                 builderFine.setValue("value",permission );
                 finesources.add(builderFine.build());
         }          
-if(!finesources.isEmpty())
-        builder.setValue("finesources", finesources.toArray(new AnnotationMirror[0]));         
+        if (!finesources.isEmpty())
+            builder.setValue("finesources",
+                    finesources.toArray(new AnnotationMirror[0]));
         builder.setValue("value", new FlowPermission[0]);
         return builder.build();
     }
-
-    protected ExecutableElement sourceValue;
-    protected ExecutableElement sinkValue;
-
-
-
+    
     @Override
     protected void annotateImplicit(Tree tree, AnnotatedTypeMirror type, boolean useFlow) {
         Element element = InternalUtils.symbol(tree);
@@ -572,12 +564,15 @@ if(!finesources.isEmpty())
     public QualifierHierarchy createQualifierHierarchy(MultiGraphFactory factory) {
         return new FlowQualifierHierarchy(factory);
     }
-/**
- * TODO: The code below involving the FlowTypeHierarchy should be changed once
- * there is a hook to specify equality between qualifiers.
- * @Source(PERM) = @FineSource(PERM,{}) and @Sink(PERM) = @FineSink(PERM,{}) 
- * when the refined version has no parameters and both have the same permission.
- */
+
+    /**
+     * TODO: The code below involving the FlowTypeHierarchy should be changed
+     * once there is a hook to specify equality between qualifiers.
+     * 
+     * @Source(PERM) = @FineSource(PERM,{}) and @Sink(PERM) = @FineSink(PERM,{})
+     *               when the refined version has no parameters and both have
+     *               the same permission.
+     */
     @Override
     protected TypeHierarchy createTypeHierarchy() {
         return new FlowTypeHierarchy(checker, getQualifierHierarchy());
