@@ -268,20 +268,14 @@ public class AndroidTests {
 
     }
 
-    public static class FlowPolicyTests extends GenericFlowPolicyTest {
-        private static String[] OPTIONS = new String[] { "-Anomsgtext" };
+    public static class FlowPolicyTests extends FlowCheckerTests {
+        public FlowPolicyTests(File testFile) {
+            super(testFile);
 
-        public FlowPolicyTests(final String testDir, final String[] options) {
-            super(testDir, options);
         }
-
-        public static String inTestDir(final String subFolder) {
-            return "policyfile" + File.separator + subFolder;
-        }
-
         @Parameters
         public static Collection<Object[]> data() {
-            return testDirs(OPTIONS, inTestDir("validation"), inTestDir("suppression"));
+            return testFiles("policyfile");
         }
     }
 
