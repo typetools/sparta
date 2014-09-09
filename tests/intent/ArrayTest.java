@@ -20,8 +20,7 @@ public class ArrayTest extends Activity {
     }
     
     @Source(FILESYSTEM) @Sink(INTERNET) String @Source(FILESYSTEM) @Sink(INTERNET) [] getValArray() {
-      //:: error: (return.type.incompatible)
-          return new String[]{};
+          return null;
     }
     
     void sendToDisplay(@Sink(DISPLAY) String s) {
