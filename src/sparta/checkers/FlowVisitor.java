@@ -14,9 +14,7 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiveType;
-import org.checkerframework.javacutil.Pair;
 
-import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 
 import com.sun.source.tree.AnnotatedTypeTree;
@@ -148,30 +146,18 @@ protected FlowAnnotatedTypeFactory createTypeFactory() {
 
         super.commonAssignmentCheck(varType, valueType, valueTree, errorKey,
                 isLocalVariableAssignement);
-
-        Set<ParameterizedFlowPermission> sinks = Flow.getSinks(varType);
-        Set<ParameterizedFlowPermission> sources = Flow.getSources(valueType);
-        Flow flow = new Flow(sources, sinks);
-        atypeFactory.getFlowAnalizer().getAssignmentFlows().add(flow);
-        boolean success = atypeFactory.getTypeHierarchy().isSubtype(valueType, varType);
-        if (!success) {
-            atypeFactory.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
-            atypeFactory.getFlowAnalizer().getForbiddenAssignmentFlows().add(flow);
-        }
+        atypeFactory.getFlowAnalizer().addAssignmentFlow(varType, valueType,
+                atypeFactory.getTypeHierarchy(), getCurrentPath());
     }
 
-    private boolean areFlowsValid(final AnnotatedTypeMirror atm, Tree tree) {
-        Flow flow = new Flow(atm);
-        atypeFactory.getFlowAnalizer().getTypeFlows().add(flow);
 
+    private boolean areFlowsValid(final AnnotatedTypeMirror atm, Tree tree) {
+        atypeFactory.getFlowAnalizer().addTypeFlow(atm,
+                atypeFactory.getTypeHierarchy(), getCurrentPath());
+      
         final FlowPolicy flowPolicy = atypeFactory.getFlowPolicy();
         if (flowPolicy != null) {
-            boolean allowed = flowPolicy.areFlowsAllowed(atm);
-            if (!allowed) {
-                atypeFactory.getFlowAnalizer().getAllFlows().add(Pair.of(getCurrentPath(), flow));
-                atypeFactory.getFlowAnalizer().getForbiddenTypeFlows().add(flow);
-            }
-            return allowed;
+           return flowPolicy.areFlowsAllowed(atm);
         }
         return true;
     }

@@ -7,7 +7,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class ParameterizedFlowPermission implements Comparable<ParameterizedFlowPermission> {
-    private final FlowPermission permission;
+    public static final ParameterizedFlowPermission ANY = new ParameterizedFlowPermission(
+            FlowPermission.ANY);
+	private final FlowPermission permission;
     private final List<String> parameters; 
     
     public ParameterizedFlowPermission(FlowPermission permission) {
@@ -93,7 +95,8 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
             return 1;
         }
         if (this.permission != other.permission) {
-            return this.permission.compareTo(other.permission);
+            return this.permission.toString().compareTo(
+                    other.permission.toString());
         }
         if (this.parameters.size() != other.parameters.size()) {
             return this.parameters.size() - other.parameters.size();
