@@ -82,8 +82,7 @@ class PolicyTest {
         
         @Source({PHONE_NUMBER}) @Sink({WRITE_EMAIL, WRITE_LOGS})
         class Whatever {
-//:: error: receiver parameter not applicable for constructor of top-level class 
-            public Whatever(@Source({PHONE_NUMBER}) @Sink({INTERNET}) Whatever this) {
+            public Whatever(@Source({PHONE_NUMBER}) @Sink({INTERNET}) PolicyTest PolicyTest.this) {
 
             }
         }
