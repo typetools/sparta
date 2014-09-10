@@ -33,7 +33,7 @@ public class TypeParameterReturn {
         sendToInternet(c);
     }
     
-    void object(MyClass<Object> myClass) {
+    void object(MyClass<  @Source({}) @Sink({}) Object> myClass) {
         
         Object  c = myClass.myMethod();
         //:: error: (argument.type.incompatible)

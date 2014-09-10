@@ -1,5 +1,7 @@
 package sparta.checkers;
 
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.TypeHierarchy;
 import org.checkerframework.javacutil.Pair;
 
 import java.io.FileNotFoundException;
@@ -14,8 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
-import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.ParameterizedFlowPermission;
 import static  sparta.checkers.FlowChecker.SPARTA_OUTPUT_DIR;
 
@@ -23,6 +25,7 @@ import com.sun.source.util.TreePath;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.util.DiagnosticSource;
 
+import static sparta.checkers.quals.ParameterizedFlowPermission.ANY;
 /**
  * Class to perform extra processing on flow information.
  * 
@@ -42,7 +45,7 @@ import com.sun.tools.javac.util.DiagnosticSource;
 public class FlowAnalyzer {
 
     private static final String IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"forbiddenFlows.txt";
-    private static final String IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"foundFlows.txt";
+    private static final String IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"flow-policy";
     private static final String ALL_FLOWS_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"forbiddenFlowLocations.txt";
     private static final String INTENT_FLOWS_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"intentFlows.txt";
 
@@ -52,9 +55,7 @@ public class FlowAnalyzer {
     private String allFlowsFile = ALL_FLOWS_FILE_DEFAULT;
     private String intentFlowsFile = INTENT_FLOWS_FILE_DEFAULT;
 
-    private final Set<Flow> forbiddenTypeFlows;
     private final Set<Flow> assignmentFlows;
-    private final Set<Flow> forbiddenAssignmentFlows;
     private final Set<Flow> typeFlows;
     private final Set<Pair<TreePath, Flow>> allFlows;
 
@@ -64,11 +65,28 @@ public class FlowAnalyzer {
         this.flowPolicy = flowPolicy;
         assignmentFlows = new HashSet<Flow>();
         typeFlows = new HashSet<Flow>();
-        forbiddenAssignmentFlows = new HashSet<Flow>();
-        forbiddenTypeFlows = new HashSet<Flow>();
         allFlows = new HashSet<Pair<TreePath, Flow>>();
     }
     
+    public void addAssignmentFlow(AnnotatedTypeMirror varType,
+            AnnotatedTypeMirror valueType, TypeHierarchy typeHierarchy,
+            TreePath currentPath) {
+        Set<ParameterizedFlowPermission> sinks = Flow.getSinks(varType);
+        Set<ParameterizedFlowPermission> sources = Flow.getSources(valueType);
+        if (!(sources.contains(ANY) || sinks.contains(ANY))) {
+            Flow flow = new Flow(sources, sinks);
+            assignmentFlows.add(flow);
+        }
+    }
+
+    public void addTypeFlow(AnnotatedTypeMirror atm,
+            TypeHierarchy typeHierarchy, TreePath currentPath) {
+        Flow flow = new Flow(atm);
+        typeFlows.add(flow);
+        allFlows.add(Pair.of(currentPath, flow));
+    }
+    
+
     public void printIntentFlowsByComponent() {
     	PrintWriter writer = null;
         try {
@@ -106,7 +124,7 @@ public class FlowAnalyzer {
         }
     }
 
-    public void printAllFlows() {
+    public void printAllFlowsWithSourceLocation() {
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(new FileOutputStream(allFlowsFile));
@@ -133,35 +151,53 @@ public class FlowAnalyzer {
         }
     }
 
-    public void printImpliedFlowsVerbose() {
+    private void printSourcesAndSinks(PrintWriter writer) {
+        TreeSet<ParameterizedFlowPermission> sources = new TreeSet<>();
+        TreeSet<ParameterizedFlowPermission> sinks = new TreeSet<>();
+
+        for (Flow f : typeFlows) {
+            sources.addAll(f.sources);
+            sinks.addAll(f.sinks);
+        }
+        sources.remove(ANY);
+        sinks.remove(ANY);
+
+        printFlows(writer, "# " + sources.toString(), "#Sources: ");
+        printFlows(writer, "# " + sinks.toString(), "#Sinks: ");
+
+    }
+    
+    public void printAllFlows() {
         PrintWriter writer = null;
         try {
-            writer = new PrintWriter(new FileOutputStream(impliedFlowsVerboseFile));
-            printFlows(writer, getFlowStrList(
-                    groupFlowsOnSource(typeFlows)),
-                    "# Type Flows Grouped");
+            writer = new PrintWriter(new FileOutputStream(
+                    impliedFlowsVerboseFile));
+            printSourcesAndSinks(writer);
 
-            printFlows(writer, getFlowStrList(
-                    groupFlowsOnSource(
-                    getForbiddenFlowsPairwise(
-                    groupFlowsOnSource(forbiddenTypeFlows)))),
-                    "# Forbidden Type Flows Grouped");
+            Set<Flow> typeFlowsNoEmpty = new HashSet<Flow>();
 
-            printFlows(writer, getFlowStrList(
-                    groupFlowsOnSource(assignmentFlows)),
-                    "# Assignment Flows Grouped");
+            for (Flow f : typeFlows) {
+                Flow copy = new Flow();
+                copy.addSource(f.sources);
+                copy.addSink(f.sinks);
+                copy.sources.remove(ANY);
+                copy.sinks.remove(ANY);
+                if (!(copy.sinks.isEmpty() || copy.sources.isEmpty())) {
+                    typeFlowsNoEmpty.add(f);
+                }
+            }
 
-            printFlows(writer, getFlowStrList(
-                    groupFlowsOnSource(
-                    getForbiddenFlowsPairwise(
-                    groupFlowsOnSource(forbiddenAssignmentFlows)))),
-                    "# Forbidden Assignment Flows Grouped");
+            printFlows(writer,
+                    getFlowStrList(groupFlowsOnSource(typeFlowsNoEmpty)),
+                    "# Type Flows");
 
-            printFlows(writer, getFlowStrList(typeFlows), "# Type Flows (as written)");
-            printFlows(writer, getFlowStrList(forbiddenTypeFlows), "# Forbidden Type Flows (as written)");
-            printFlows(writer, getFlowStrList(assignmentFlows), "# Assignment Flows (as written)");
-            printFlows(writer, getFlowStrList(forbiddenAssignmentFlows),
-                    "# Forbidden Assignment Flows (as written)");
+            Set<Flow> justAssignFlows = new HashSet<Flow>(assignmentFlows);
+            justAssignFlows.removeAll(typeFlows);
+
+            printFlows(writer,
+                    getFlowStrList(groupFlowsOnSource(justAssignFlows)),
+                    "# Assignment Flows");
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -171,13 +207,13 @@ public class FlowAnalyzer {
         }
     }
 
-    public void printImpliedFlowsForbidden() {
+    public void printForbiddenFlows() {
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(new FileOutputStream(impliedFlowsForbiddenFile));
-            Set<Flow> forbiddenTypeFlowsGrouped = getForbiddenFlowsPairwise(groupFlowsOnSource(forbiddenTypeFlows));
+            Set<Flow> forbiddenTypeFlowsGrouped = getForbiddenFlowsPairwise(groupFlowsOnSource(typeFlows));
 
-            Set<Flow> forbiddenAssignmentFlowsGrouped = getForbiddenFlowsPairwise(groupFlowsOnSource(forbiddenAssignmentFlows));
+            Set<Flow> forbiddenAssignmentFlowsGrouped = getForbiddenFlowsPairwise(groupFlowsOnSource(assignmentFlows));
 
             forbiddenAssignmentFlowsGrouped.addAll(forbiddenTypeFlowsGrouped);
             // Need to regroup on source because after adding two sets together.
@@ -211,7 +247,8 @@ public class FlowAnalyzer {
                     forbiddenSinks.add(sink);
                 }
             }
-            results.add(new Flow(flow.sources, forbiddenSinks));
+			if (!forbiddenSinks.isEmpty())
+				results.add(new Flow(flow.sources, forbiddenSinks));
         }
         return results;
     }
@@ -239,6 +276,10 @@ public class FlowAnalyzer {
         writer.println("");
     }
 
+    private void printFlows(PrintWriter writer, String flows, String header) {
+        printFlows(writer, Collections.singletonList(flows), header);
+    }
+
     private List<String> getFlowStrList(Collection<Flow> flows) {
         List<String> result = new ArrayList<String>();
         for (Flow flow : flows) {
@@ -248,32 +289,12 @@ public class FlowAnalyzer {
         return result;
     }
 
-    public Set<Flow> getForbiddenTypeFlows() {
-        return forbiddenTypeFlows;
-    }
-
-    public Set<Flow> getAssignmentFlows() {
-        return assignmentFlows;
-    }
-
-    public Set<Flow> getForbiddenAssignmentFlows() {
-        return forbiddenAssignmentFlows;
-    }
-
-    public Set<Flow> getTypeFlows() {
-        return typeFlows;
-    }
-
     public void setImpliedFlowsForbiddenFile(String impliedFlowsForbiddenFile) {
         this.impliedFlowsForbiddenFile = impliedFlowsForbiddenFile;
     }
 
     public void setImpliedFlowsVerboseFile(String impliedFlowsVerboseFile) {
         this.impliedFlowsVerboseFile = impliedFlowsVerboseFile;
-    }
-
-    public Set<Pair<TreePath, Flow>> getAllFlows() {
-        return allFlows;
     }
 
     public String getAllFlowsFile() {

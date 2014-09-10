@@ -150,15 +150,10 @@ public class NotReviewedLibraryChecker extends BaseTypeChecker {
      *            element that needs to be reviewed
      */
     void notAnnotated(final Element element) {
-        TypeElement clssEle = (TypeElement) element.getEnclosingElement();
-        String fullClassName = clssEle.getQualifiedName().toString();
-        String pkg = "";
-        String clss = "";
-        if (fullClassName.indexOf('.') != -1) {
-            int index = fullClassName.lastIndexOf('.');
-            pkg = fullClassName.substring(0, index);
-            clss = fullClassName.substring(index + 1);
-        }
+        String pkg = ElementUtils.getVerboseName(ElementUtils
+                .enclosingPackage(element));
+        String clss = getClassName(element);
+
         Map<String, Map<Element, Integer>> classmap = this.notInStubFile
                 .get(pkg);
         if (classmap == null) {
@@ -181,6 +176,17 @@ public class NotReviewedLibraryChecker extends BaseTypeChecker {
         }
     }
 
+    private String getClassName(Element element) {
+        TypeElement typeElement = ElementUtils.enclosingClass(element);
+        String pck = ElementUtils.getVerboseName(ElementUtils
+                .enclosingPackage(element));
+
+        String fullClassName = ElementUtils.getQualifiedClassName(typeElement)
+                .toString();
+        String className = fullClassName.substring(fullClassName.indexOf(pck)
+                + pck.length() + 1);
+        return className.replace('.', '$');
+    }
 }
 
 class NotReviewedLibraryVisitor extends

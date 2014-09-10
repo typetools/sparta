@@ -90,9 +90,9 @@ public void typeProcessingOver() {
         }
         if (outputDir.exists() && outputDir.isDirectory()) {
             FlowAnnotatedTypeFactory factory = ((FlowVisitor) visitor).getTypeFactory();
-            factory.flowAnalizer.printImpliedFlowsVerbose();
-            factory.flowAnalizer.printImpliedFlowsForbidden();
             factory.flowAnalizer.printAllFlows();
+            factory.flowAnalizer.printForbiddenFlows();
+            factory.flowAnalizer.printAllFlowsWithSourceLocation();
             factory.flowAnalizer.printIntentFlowsByComponent();
         }
     }

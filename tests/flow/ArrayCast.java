@@ -31,7 +31,8 @@ void bar(){
         @Sink(INTERNET) Object @Source(FlowPermission.ACCELEROMETER) [] params = new /*@Sink(INTERNET)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
       //strict:: warning: (cast.unsafe)
-        Object[] result = (Object[]) call("method", params);
+        Object @Source(INTERNET) @Sink(INTERNET) [] result = (Object[]) call("method", params);
+        
 
         // The annotations are on the array type, not on the array component type.
         //:: error: (argument.type.incompatible)
@@ -43,15 +44,15 @@ void bar(){
     }
 
     @Source(INTERNET) @Sink(INTERNET) Object call(
-            @Source({}) String method, @Sink(INTERNET) Object[] params) {
+            @Source({}) String method, @Sink(INTERNET) Object  @Source({}) @Sink({}) [] params) {
         @Source(INTERNET) @Sink(INTERNET) Object a = params[0];
         return a;
     }
 
-    void callStart(@Source(INTERNET) @Sink(INTERNET) Object []  result) {}
+    void callStart(@Source(INTERNET) @Sink(INTERNET) Object  @Source({}) @Sink({})  []  result) {}
     void callFinished(Object @Source(INTERNET) @Sink(INTERNET) [] result) {}
 
-    @Sink(INTERNET) Object [] getObjs() {
+    @Sink(INTERNET) Object   @Source({}) @Sink({}) [] getObjs() {
         return null;
     }
 }
