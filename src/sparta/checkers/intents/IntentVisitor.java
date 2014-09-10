@@ -31,6 +31,7 @@ import org.checkerframework.javacutil.TypesUtils;
 import sparta.checkers.FlowVisitor;
 import sparta.checkers.intents.componentmap.ProcessEpicOutput;
 import sparta.checkers.quals.Extra;
+import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.IntentMapBottom;
 import sparta.checkers.quals.IntentMapNew;
@@ -43,6 +44,7 @@ import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
+import com.sun.source.tree.VariableTree;
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.api.JavacScope;
 import com.sun.tools.javac.code.Symbol;
@@ -155,6 +157,8 @@ public class IntentVisitor extends FlowVisitor {
             AnnotatedExecutableType overridden, 
             AnnotatedExecutableType implementingMethod,
             AnnotationMirror overridenAnno) {
+        checkReceiveIntentDefaulting(implementingTree);
+
         if (iatf.setIntent.equals(overridden.getElement())) { 
             checkSetIntentOverride(implementingTree,
                     implementingMethod, overridenAnno);
@@ -176,17 +180,54 @@ public class IntentVisitor extends FlowVisitor {
 
         return true;
     }
-    
+
     /**
-     * Method used to verify that if a ReceiveIntent setIntent method is overriden, the first parameter 
+     * Checks for all @Extra in the @IntentMap if it has both a source and a sink.
+     * Defaulting cannot be applied to Intent types of parameters of a
+     * @ReceiveIntent. That happens because in a scenario
+     * where the app being analyzed sends an intent to a component in another app,
+     * the flow policy that should be used to perform the defaulting in the receiver
+     * intent is the flow policy from the app that contains the receiver component.
+     * It would be complex and confusing to handle several flow policy files,
+     * and because of that we opted for not allowing defaulting of @Extra for
+     * receiver intents.
+     *
+     * This method raises a warning asking for the user to be explicit about
+     * both sources and sinks if a receive intent doesn't have both for every
+     * @Extra.
+     */
+    private void checkReceiveIntentDefaulting(MethodTree implementingTree) {
+        List<? extends VariableTree> params = implementingTree.getParameters();
+        //@ReceiveIntent method 1st parameter always has type Intent.
+        assert (params.size() > 0); //@ReceiveIntent method must have an Intent type param.
+        VariableTree intentVar = params.get(0);
+        Element var = InternalUtils.symbol(intentVar);
+        AnnotatedTypeMirror atm = atypeFactory.getAnnotatedType(var);
+        List<AnnotationMirror> extras = IntentUtils.getIExtras(atm.
+                getAnnotation(IntentMap.class));
+        for (AnnotationMirror extra : extras) {
+            if (IntentUtils.getSources(extra).contains(FlowPermission.EXTRA_DEFAULT)) {
+                checker.report(Result.failure(
+                        "intent.defaulting.receiveintent.source",
+                        IntentUtils.getKeyName(extra)), intentVar);
+            } else if (IntentUtils.getSinks(extra).contains(FlowPermission.EXTRA_DEFAULT)) {
+                checker.report(Result.failure(
+                        "intent.defaulting.receiveintent.sink",
+                        IntentUtils.getKeyName(extra)), intentVar);
+            }
+        }
+    }
+
+    /**
+     * Method used to verify that if a ReceiveIntent setIntent method is overridden, the first parameter
      * of this method (an intent) needs to be a subtype of the return type of the method getIntent()
      * on the same class.
-     *   
+     *
      * @param implementingTree
      * @param implementingMethod
      * @param overriddenAnno
-     */     
-    
+     */
+
     private void checkSetIntentOverride(MethodTree implementingTree,
             AnnotatedExecutableType implementingMethod,
             AnnotationMirror overriddenAnno) {

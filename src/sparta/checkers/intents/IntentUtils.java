@@ -43,7 +43,6 @@ import com.sun.source.util.TreePath;
 import com.sun.tools.javac.code.Symbol.ClassSymbol;
 import com.sun.tools.javac.code.Type;
 import com.sun.tools.javac.code.Type.ArrayType;
-import com.sun.tools.javac.code.Type.TypeVar;
 
 public class IntentUtils {
 
@@ -132,22 +131,19 @@ public class IntentUtils {
     }
 
     /**
-     * Creates a new IExtra AnnotationMirror
-     * @param key
-     * @param sources
-     * @param sinks
-     * @param processingEnv
-     * @return
+     * Creates a new @Extra AnnotationMirror
      */
-
     public static AnnotationMirror createIExtraAnno(String key,
-            AnnotationMirror sources, AnnotationMirror sinks, 
+            Set<ParameterizedFlowPermission> sources,
+            Set<ParameterizedFlowPermission> sinks,
             ProcessingEnvironment processingEnv) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
             Extra.class);
-        Set<FlowPermission> sourcesSet = Flow.convertFromParameterizedFlowPermission(Flow.getSources(sources));
-        Set<FlowPermission> sinksSet = Flow.convertFromParameterizedFlowPermission(Flow.getSinks(sinks));
-        
+        Set<FlowPermission> sourcesSet = Flow.
+                convertFromParameterizedFlowPermission(sources);
+        Set<FlowPermission> sinksSet = Flow.
+                convertFromParameterizedFlowPermission(sinks);
+
         builder.setValue("key", key);
         builder.setValue("source",
             sourcesSet.toArray(new FlowPermission[sourcesSet.size()]));
@@ -172,6 +168,35 @@ public class IntentUtils {
             IntentMap.class);
         List<AnnotationMirror> iExtrasList = getIExtras(intentExtras);
         iExtrasList.add(iExtra);
+        builder.setValue("value", iExtrasList.toArray());
+        return builder.build();
+    }
+
+    /**
+     * Returns a new @IntentMap with the same @Extras contained in
+     * <code>intentExtras</code> except for the @Extra with key <code>key</code>.
+     * Instead, the result will contain a new @Extra with key <code>key</code>,
+     * sources <code>sources</code> and sinks <code>sinks</code>. This method
+     * requires <code>intentExtras</code> to have an @Extra with key <code>key</code>.
+     *
+     * @param intentExtras
+     * @param key
+     * @param sources
+     * @param sinks
+     * @param processingEnv
+     * @return
+     */
+    public static AnnotationMirror getNewIMapWithExtra(AnnotationMirror intentExtras,
+            String key, Set<ParameterizedFlowPermission> sources,
+            Set<ParameterizedFlowPermission> sinks,
+            ProcessingEnvironment processingEnv) {
+        final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
+                IntentMap.class);
+        AnnotationMirror originalExtra = getIExtra(intentExtras, key);
+        assert (originalExtra != null); // @Extra with key must exist.
+        List<AnnotationMirror> iExtrasList = getIExtras(intentExtras);
+        iExtrasList.remove(originalExtra);
+        iExtrasList.add(createIExtraAnno(key, sources, sinks, processingEnv));
         builder.setValue("value", iExtrasList.toArray());
         return builder.build();
     }

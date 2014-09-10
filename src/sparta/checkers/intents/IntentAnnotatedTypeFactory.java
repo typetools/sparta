@@ -40,6 +40,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.VariableElement;
 
+import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IntentMapBottom;
@@ -50,11 +51,13 @@ import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.PolyIntentMap;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
+import sparta.checkers.quals.ReceiveIntent;
 
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
+import com.sun.source.tree.VariableTree;
 import com.sun.tools.javac.tree.JCTree;
 
 public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
@@ -66,6 +69,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     protected final ExecutableElement setIntent;
     protected final ComponentMap componentMap;
     private final HostSetTypeVisitor hostSetTypeVisitor;
+    private final ParameterizedFlowPermission EXTRA_DEFAULT;
 
     public IntentAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
@@ -80,11 +84,17 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
         INTENT_MAP = AnnotationUtils.fromClass(elements, IntentMap.class);
         IEXTRA = AnnotationUtils.fromClass(elements, Extra.class);
-        HOST_IEXTRA_BOTTOM = IntentUtils.createIExtraAnno("", NOSOURCE, ANYSINK,getProcessingEnv());
-        HOST_IEXTRA_TOP = IntentUtils.createIExtraAnno("", ANYSOURCE, NOSINK, getProcessingEnv());
+        HOST_IEXTRA_BOTTOM = IntentUtils.createIExtraAnno("",
+                Flow.getSources(NOSOURCE), Flow.getSinks(ANYSINK),
+                getProcessingEnv());
+        HOST_IEXTRA_TOP = IntentUtils.createIExtraAnno("",
+                Flow.getSources(ANYSOURCE), Flow.getSinks(NOSINK),
+                getProcessingEnv());
         TOP_INTENT_MAP = createTopIntentMap(); // top
         BOTTOM_INTENT_MAP = AnnotationUtils.fromClass(elements, IntentMapBottom.class); // bottom
         POLY_INTENT_MAP = AnnotationUtils.fromClass(elements, PolyIntentMap.class);
+
+        EXTRA_DEFAULT = new ParameterizedFlowPermission(FlowPermission.EXTRA_DEFAULT);
 
         if (this.getClass().equals(IntentAnnotatedTypeFactory.class)) {
             this.postInit();
@@ -249,12 +259,75 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         implicits.addTreeKind(Tree.Kind.STRING_LITERAL, TOP_INTENT_MAP);
 
         return new ListTreeAnnotator(
-                new FlowPolicyTreeAnnotator(this),
+                new IntentTreeAnnotator(this),
                 new PropagationTreeAnnotator(this),
                 implicits
         );
     }
 
+    protected class IntentTreeAnnotator extends FlowPolicyTreeAnnotator {
+
+        public IntentTreeAnnotator(FlowAnnotatedTypeFactory atypeFactory) {
+            super(atypeFactory);
+        }
+
+        @Override
+        public Void defaultAction(Tree tree, AnnotatedTypeMirror type) {
+            completeIExtraFlows(tree, type);
+            return super.defaultAction(tree, type);
+        }
+
+        /**
+         * This method replaces occurrences of the permission <code>EXTRA_DEFAULT</code>
+         * in the source or sink of an @Extra according to the flow policy.
+         * E.g. @Extra(key="k", sink="INTERNET") and flow policy: FILESYSTEM -> INTERNET.
+         * The @Extra is updated to @Extra(key="k", source="FILESYSTEM", sink="INTERNET").
+         * This does not work for intent types that are parameters of a @ReceiveIntent
+         * method. For those cases, both a source and a sink must be written explicitly.
+         * @see sparta.checkers.intents.IntentVisitor#checkReceiveIntentDefaulting.
+         */
+        private void completeIExtraFlows(Tree tree, AnnotatedTypeMirror type) {
+            //Do not apply defaulting for parameters of @ReceiveIntent methods
+            if (tree instanceof VariableTree) {
+                Element elt = TreeUtils.elementFromDeclaration((VariableTree)tree);
+                Element parentElt = elt.getEnclosingElement();
+                if (getDeclAnnotation(parentElt, ReceiveIntent.class) != null) {
+                    return;
+                }
+            }
+
+            //Apply defaulting for other cases.
+            AnnotationMirror anno = type.getAnnotation(IntentMap.class);
+            if (anno != null) {
+                List<AnnotationMirror> iExtras = IntentUtils.getIExtras(anno);
+                for (AnnotationMirror iExtra : iExtras) {
+                    Set<ParameterizedFlowPermission> sources = IntentUtils.
+                            getSourcesPFP(iExtra);
+                    Set<ParameterizedFlowPermission> sinks = IntentUtils.
+                            getSinksPFP(iExtra);
+                    if (sinks.contains(EXTRA_DEFAULT) &&
+                            sources.contains(EXTRA_DEFAULT)) {
+                        anno = IntentUtils.getNewIMapWithExtra(anno,
+                                IntentUtils.getKeyName(iExtra),
+                                Flow.getSources(NOSOURCE), Flow.getSinks(ANYSINK),
+                                processingEnv);
+                    } else if (sinks.contains(EXTRA_DEFAULT)) {
+                        Set<ParameterizedFlowPermission> newSink = getFlowPolicy().
+                                getIntersectionAllowedSinks(sources);
+                        anno = IntentUtils.getNewIMapWithExtra(anno, IntentUtils.
+                                getKeyName(iExtra), sources, newSink, processingEnv);
+                    } else if (sources.contains(EXTRA_DEFAULT)) {
+                        Set<ParameterizedFlowPermission> newSource = getFlowPolicy().
+                                getIntersectionAllowedSources(sinks);
+                        anno = IntentUtils.getNewIMapWithExtra(anno, IntentUtils.
+                                getKeyName(iExtra), newSource, sinks, processingEnv);
+                    }
+                }
+                type.replaceAnnotation(anno);
+            }
+        }
+
+    }
 
     @Override
     public QualifierHierarchy createQualifierHierarchy(MultiGraphFactory factory) {
