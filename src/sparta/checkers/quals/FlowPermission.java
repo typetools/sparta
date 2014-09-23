@@ -39,7 +39,6 @@ public enum FlowPermission {
     CAMERA_SETTINGS(T.BOTH), DISPLAY(T.SINK), FILESYSTEM(T.BOTH), RANDOM(T.SOURCE), READ_TIME(
             T.SOURCE), // WRITE_TIME is an Android Permission, but read time
                        // isn't
-    SQLITE_DATABASE(T.BOTH),
     USER_INPUT(T.SOURCE),
     WRITE_LOGS(T.SINK), // READ_LOGS is an Android Permission, but there is no
                         // WRITE_LOGS

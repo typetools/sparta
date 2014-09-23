@@ -838,10 +838,10 @@ abstract @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) FileInputStream openFileIn
 abstract @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) FileOutputStream openFileOutput(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String name, int mode);
 //Open a private file associated with this Context's application package for writing.
 
-abstract @Source(SQLITE_DATABASE) SQLiteDatabase openOrCreateDatabase(@Sink(SQLITE_DATABASE) String name, @Sink(SQLITE_DATABASE) int mode, @Sink(SQLITE_DATABASE) SQLiteDatabase.CursorFactory factory);
+abstract @Source(DATABASE) SQLiteDatabase openOrCreateDatabase(@Sink(DATABASE) String name, @Sink(DATABASE) int mode, @Sink(DATABASE) SQLiteDatabase.CursorFactory factory);
 //Open a new private SQLiteDatabase associated with this Context's application package.
 
-abstract @Source(SQLITE_DATABASE) SQLiteDatabase openOrCreateDatabase(@Sink(SQLITE_DATABASE) String name, @Sink(SQLITE_DATABASE) int mode, @Sink(SQLITE_DATABASE) SQLiteDatabase.CursorFactory factory, @Sink(SQLITE_DATABASE) DatabaseErrorHandler errorHandler);
+abstract @Source(DATABASE) SQLiteDatabase openOrCreateDatabase(@Sink(DATABASE) String name, @Sink(DATABASE) int mode, @Sink(DATABASE) SQLiteDatabase.CursorFactory factory, @Sink(DATABASE) DatabaseErrorHandler errorHandler);
 //Open a new private SQLiteDatabase associated with this Context's application package.
 
 abstract Drawable peekWallpaper();
