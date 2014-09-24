@@ -497,13 +497,12 @@ class SQLiteQueryBuilder {
  @Source(DATABASE) Cursor query(@Sink(DATABASE) SQLiteDatabase db, @Sink(DATABASE) String[] projectionIn, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String groupBy, @Sink(DATABASE) String having, @Sink(DATABASE) String sortOrder);
             void setProjectionMap(Map<String,String> columnMap);
             
-//Added by Philip
-    void appendWhere(@Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) CharSequence inWhere) @Source(FlowPermission.ANY) @Sink({});
-    @Source(FlowPermission.DATABASE) Cursor query(@Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) SQLiteDatabase db, @Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) [] projectionIn, @Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) String selection, @Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) String @Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) [] selectionArgs, @Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) String groupBy, @Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) String having, @Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) String sortOrder, @Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) String limit) @Source(FlowPermission.ANY) @Sink({});
-    void setTables(@Source(FlowPermission.ANY) @Sink(FlowPermission.DATABASE) String inTables) @Source(FlowPermission.ANY) @Sink({});
-    @Source(FlowPermission.DATABASE) SQLiteQueryBuilder();
+    void appendWhere(@Sink(FlowPermission.DATABASE) CharSequence inWhere); 
+    @Source(DATABASE) Cursor query( @Sink(DATABASE) SQLiteDatabase db,  @Sink(DATABASE) String  @Sink(DATABASE) [] projectionIn,  @Sink(DATABASE) String selection,  @Sink(DATABASE) String  @Sink(DATABASE) [] selectionArgs,  @Sink(DATABASE) String groupBy,  @Sink(DATABASE) String having,  @Sink(DATABASE) String sortOrder,  @Sink(DATABASE) String limit);
+    void setTables( @Sink(DATABASE) String inTables)  @Sink({});
+    @Source(DATABASE) SQLiteQueryBuilder();
 
-void appendWhereEscapeString(@Sink(FlowPermission.DATABASE) String inWhere);
+void appendWhereEscapeString(@Sink(DATABASE) String inWhere);
 
 void setDistinct(boolean distinct);
 }

@@ -13,7 +13,6 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclared
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiveType;
 
 import sparta.checkers.validator.BaseFlowVisitor;
-import sparta.checkers.validator.BaseValidator;
 
 import com.sun.source.tree.AnnotatedTypeTree;
 import com.sun.source.tree.AnnotationTree;
@@ -28,9 +27,11 @@ public class FlowVisitor extends BaseFlowVisitor {
     public FlowVisitor(BaseTypeChecker checker) {
         super(checker);
         if(checkConditional){
-            this.setValidator(new ConditionalValidator(atypeFactory, checker));
+            this.setValidator(new ConditionalValidator(atypeFactory, checker),
+                    new AddsSourceValidator(atypeFactory, checker));
+        }else{
+            this.setValidator( new AddsSourceValidator(atypeFactory, checker));
         }
-        this.setValidator( new BaseValidator());
     }
     @Override
     public Void visitAnnotatedType(AnnotatedTypeTree node, Void p) {  

@@ -122,15 +122,19 @@ boolean onGenericMotionEvent(MotionEvent event);
 void onInitializeInterface();
 //This is a hook that subclasses can use to perform initialization of their interface.
 
+@AddsSourceData({1, 2})
 boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Override this to intercept key down events before they are processed by the application.
 
+@AddsSourceData({1, 2})
 boolean onKeyLongPress(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyLongPress();: always returns false (doesn't handle the event);.
 
+@AddsSourceData({1, 2, 3})
 boolean onKeyMultiple(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) int count, @Source(USER_INPUT) KeyEvent event);
 //Override this to intercept special key multiple events before they are processed by the application.
 
+@AddsSourceData({1, 2})
 boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Override this to intercept key up events before they are processed by the application.
 
@@ -182,9 +186,11 @@ void requestHideSelf(int flags);
 boolean sendDefaultEditorAction(boolean fromEnterKey);
 //Ask the input target to execute its default action via InputConnection.performEditorAction();.
 
+@AddsSourceData
 void sendDownUpKeyEvents(@Source(USER_INPUT) int keyEventCode);
 //Send the given key event code (as defined by KeyEvent); to the current input connection is a key down + key up event pair.
 
+@AddsSourceData
 void sendKeyChar(@Source(USER_INPUT) char charCode);
 //Send the given UTF-16 character to the current input connection.
 
@@ -322,6 +328,7 @@ void setProximityCorrectionEnabled(boolean enabled);
 boolean setShifted(boolean shifted);
 void setVerticalCorrection(int verticalOffset);
 KeyboardView.OnKeyboardActionListener getOnKeyboardActionListener();
+@AddsSourceData
 boolean onLongPress(@Source(USER_INPUT) Keyboard.Key popupKey);
 void swipeDown();
 void swipeLeft();
@@ -330,9 +337,13 @@ void swipeUp();
 }
 
 class KeyboardView$OnKeyboardActionListener {
+@AddsSourceData({1, 2})
 abstract void onKey(@Source(USER_INPUT) int primaryCode, @Source(USER_INPUT) int[] keyCodes);
+@AddsSourceData
 abstract void onPress(@Source(USER_INPUT) int primaryCode);
+@AddsSourceData
 abstract void onRelease(@Source(USER_INPUT) int primaryCode);
+@AddsSourceData
 abstract void onText(@Source(USER_INPUT) CharSequence text);
 abstract void swipeDown();
 abstract void swipeLeft();

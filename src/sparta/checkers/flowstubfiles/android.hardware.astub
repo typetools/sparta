@@ -15,7 +15,7 @@ final void cancelAutoFocus();
 final boolean enableShutterSound(@Sink(CAMERA_SETTINGS) boolean enabled);
 //Enable or disable the default shutter sound when taking a picture.
 
-static void getCameraInfo( int cameraId, @Source(CAMERA) Camera.CameraInfo cameraInfo);
+static void getCameraInfo( int cameraId, Camera.CameraInfo cameraInfo);
 //Returns the information about a particular camera.
 
 static int getNumberOfCameras();
@@ -104,6 +104,7 @@ void finalize();
 //Invoked when the garbage collector has detected that this instance is no longer reachable.
 }
 interface Camera$PictureCallback {
+@AddsSourceData
     void onPictureTaken(@Source(CAMERA) byte @Source(CAMERA) [] arg0, Camera arg1);
 }
  

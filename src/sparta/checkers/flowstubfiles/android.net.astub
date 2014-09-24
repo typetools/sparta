@@ -311,31 +311,43 @@ static void writeToParcel(Parcel out, Uri uri);
 
 package android.net.rtp;
 
+class AudioGroup {
+    static final int MODE_ON_HOLD;
+    static final int MODE_MUTED;
+    static final @Source(RECORD_AUDIO) int MODE_NORMAL;
+    static final @Source(RECORD_AUDIO) int MODE_ECHO_SUPPRESSION;
+    AudioGroup();
+    AudioStream[] getStreams();
+    int getMode();
+    void setMode(@Sink(INTERNET) int arg0);
+    void sendDtmf(int arg0);
+    void clear();
+    protected void finalize() throws Throwable;
+}
 class AudioStream {
 //CSH: using this class requires INTERNET permission
+AudioStream(@Sink(INTERNET) InetAddress address);
     
-AudioCodec getCodec() @Source(INTERNET);
+AudioCodec getCodec();
 //Returns the AudioCodec, or null if it is not set.
 
-int getDtmfType() @Source(INTERNET);
+int getDtmfType();
 //Returns the RTP payload type for dual-tone multi-frequency (DTMF); digits, or -1 if it is not enabled.
 
-AudioGroup getGroup() @Source(INTERNET);
+AudioGroup getGroup();
 //Returns the joined AudioGroup.
 
-final boolean isBusy() @Source(INTERNET);
+final boolean isBusy();
 //Returns true if the stream has already joined an AudioGroup.
 
-void join(AudioGroup group) @Source(INTERNET);
+void join(AudioGroup group);
 //Joins an AudioGroup.
 
-void setCodec(AudioCodec codec) @Source(INTERNET);
+void setCodec(AudioCodec codec);
 //Sets the AudioCodec.
 
-void setDtmfType(int type) @Source(INTERNET);
+void setDtmfType(int type);
 //Sets the RTP payload type for dual-tone multi-frequency (DTMF); digits.
-
-
 
 }
 
@@ -362,21 +374,31 @@ class SipAudioCall {
     void toggleMute();
     @Source(USE_SIP) boolean isMuted();
     void setSpeakerMode(@Sink(MODIFY_AUDIO_SETTINGS) boolean arg0);
-    void sendDtmf(@SINK({USE_SIP, INTERNET}) int arg0);
-    void sendDtmf(@SINK({USE_SIP, INTERNET}) int arg0, @SINK({USE_SIP, INTERNET}) Message arg1);
+    void sendDtmf(@Sink({USE_SIP, INTERNET}) int arg0);
+    void sendDtmf(@Sink({USE_SIP, INTERNET}) int arg0, @Sink({USE_SIP, INTERNET}) Message arg1);
     void startAudio() @Source({RECORD_AUDIO, ACCESS_WIFI_STATE, WAKE_LOCK, USE_SIP, INTERNET});
 }
 class SipAudioCall$Listener {
     Listener();
+@AddsSourceData
     void onReadyToCall(@Source(USE_SIP) SipAudioCall arg0);
+@AddsSourceData
     void onCalling(@Source(USE_SIP) SipAudioCall arg0);
+@AddsSourceData
     void onRinging(@Source(USE_SIP) SipAudioCall arg0, SipProfile arg1);
+@AddsSourceData
     void onRingingBack(@Source(USE_SIP) SipAudioCall arg0);
+@AddsSourceData
     void onCallEstablished(@Source(USE_SIP) SipAudioCall arg0);
+@AddsSourceData
     void onCallEnded(@Source(USE_SIP) SipAudioCall arg0);
+@AddsSourceData
     void onCallBusy(@Source(USE_SIP) SipAudioCall arg0);
+@AddsSourceData
     void onCallHeld(@Source(USE_SIP) SipAudioCall arg0);
+@AddsSourceData
     void onError(@Source(USE_SIP) SipAudioCall arg0, int arg1, String arg2);
+@AddsSourceData
     void onChanged(@Source(USE_SIP) SipAudioCall arg0);
 }
 
@@ -479,24 +501,35 @@ class SipSession {
     void setListener(Listener arg0);
     void register(int arg0);
     void unregister();
-    void makeCall(SipProfile arg0, String arg1, int arg2);
-    void answerCall(String arg0, int arg1);
+    void makeCall(SipProfile arg0, @Sink(USE_SIP) String arg1, int arg2);
+    void answerCall(@Sink(USE_SIP) String arg0, int arg1);
     void endCall();
-    void changeCall(String arg0, int arg1);
+    void changeCall(@Sink(USE_SIP) String arg0, int arg1);
 }
 class SipSession$Listener {
     Listener();
+@AddsSourceData
     void onCalling(@Source(USE_SIP) SipSession arg0);
+@AddsSourceData({1,2,3})
     void onRinging(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) SipProfile arg1, @Source(USE_SIP) String arg2);
+@AddsSourceData
     void onRingingBack(@Source(USE_SIP) SipSession arg0);
+@AddsSourceData({1,2})
     void onCallEstablished(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) String arg1);
+@AddsSourceData
     void onCallEnded(@Source(USE_SIP) SipSession arg0);
+@AddsSourceData
     void onCallBusy(@Source(USE_SIP) SipSession arg0);
+@AddsSourceData({1,2,3})
     void onError(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) int arg1, @Source(USE_SIP) String arg2);
     void onCallChangeFailed(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) int arg1, @Source(USE_SIP) String arg2);
+@AddsSourceData
     void onRegistering(@Source(USE_SIP) SipSession arg0);
+@AddsSourceData({1,2})
     void onRegistrationDone(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) int arg1);
+@AddsSourceData({1,2})
     void onRegistrationFailed(@Source(USE_SIP) SipSession arg0, @Source(USE_SIP) int arg1, @Source(USE_SIP) String arg2);
+@AddsSourceData
     void onRegistrationTimeout(@Source(USE_SIP) SipSession arg0);
 }
 class SipSession$State {
@@ -599,6 +632,7 @@ class WifiInfo {
 @PolyFlow
     String toString();
     @Source(ACCESS_WIFI_STATE) int describeContents();
+@AddsSourceData
     void writeToParcel(@Source(ACCESS_WIFI_STATE) Parcel arg0, int arg1);
 }
 class WifiConfiguration implements Parcelable {
@@ -621,6 +655,7 @@ class WifiConfiguration implements Parcelable {
 @PolyReceiverFlow
     String toString();
     @Source(ACCESS_WIFI_STATE)  int describeContents();
+@AddsSourceData
     void writeToParcel(@Source(ACCESS_WIFI_STATE)  Parcel arg0, int arg1);
 }
 class WifiConfiguration$Status {

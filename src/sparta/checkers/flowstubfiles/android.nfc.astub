@@ -1,9 +1,6 @@
 package android.nfc;
 
 
-class Tag{
-             @Source(NFC) String @Source(NFC) [] getTechList() @Source(NFC) ;
-}
 class NfcAdapter {
     
 void disableForegroundDispatch(@Sink(NFC) Activity activity);
@@ -138,6 +135,16 @@ void writeToParcel(Parcel dest, int flags);
 
 }
 
+class Tag implements Parcelable {
+    static final Creator< @Source(NFC) Tag> CREATOR;
+    @Source(NFC) byte[] getId();
+    @Source(NFC) String[] getTechList();
+    @Source(NFC) String toString();
+    int describeContents();
+@AddsSourceData
+    void writeToParcel(@Source(NFC) Parcel arg0, int arg1);
+}
+
 package android.nfc.tech;
 
 
@@ -160,10 +167,10 @@ class Ndef {
 boolean canMakeReadOnly();
 //Indicates whether a tag can be made read-only with makeReadOnly();.
 
-void close() @Source(NFC);
+void close(); 
 //Disable I/O operations to the tag from this TagTechnology object, and release resources.
 
-void connect() @Source(NFC);
+void connect();
 //Enable I/O operations to the tag from this TagTechnology object.
 
 static Ndef get(Tag tag);
@@ -200,5 +207,4 @@ void writeNdefMessage(@Sink(NFC) NdefMessage msg);
 
 
 }
-
 

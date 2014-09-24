@@ -317,6 +317,7 @@ boolean shouldPersist();
 
 }
 class Preference$OnPreferenceChangeListener{
+@AddsSourceData
         boolean onPreferenceChange(Preference arg0, @Source(USER_INPUT) Object arg1);
 }
 

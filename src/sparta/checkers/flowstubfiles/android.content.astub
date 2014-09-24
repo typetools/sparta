@@ -98,9 +98,6 @@ final void setResultExtras(Bundle extras);
 
 
 }
-class ClipData{
-        static ClipData newPlainText(CharSequence label, CharSequence text);
-}
 
 class ClipboardManager extends ClipboardManager {
 //ClipData objects not annotated, because the class itself is annoated
@@ -127,6 +124,7 @@ class ClipData implements Parcelable {
     int getItemCount();
     @Source(READ_CLIPBOARD) Item getItemAt(@Sink(WRITE_CLIPBOARD) int arg0);
     int describeContents();
+@AddsSourceData
     void writeToParcel(@Source(READ_CLIPBOARD) Parcel arg0, int arg1);
 }
 class ClipData$Item {
@@ -1497,7 +1495,7 @@ String EXTRA_PHONE_NUMBER;
     Intent(Intent arg0);
     Intent(@Sink(ANY)  String arg0);
     Intent(@Sink(ANY) String arg0, @Sink(ANY)  Uri arg1);
-    Intent(@Source(ANY) @Sink Context arg0, Class<?> arg1);
+    Intent(Context arg0, Class<?> arg1);
     Intent(@Sink(ANY) String arg0, @Sink(ANY) Uri arg1, @Sink(ANY)  Context arg2,@Sink(ANY)  Class<?> arg3);
    @Source(INTENT) static Intent createChooser(@Sink(INTENT) Intent arg0, @Sink(INTENT) CharSequence arg1);
     Object clone();

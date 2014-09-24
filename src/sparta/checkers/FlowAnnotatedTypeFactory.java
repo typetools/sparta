@@ -138,6 +138,9 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         // Has to be called after postInit
         // has been called for every subclass.
         initQualifierDefaults();
+        //Uncomment this line to check stub files
+        //see StubChecker for more details.
+        //StubChecker.checkStubs(indexDeclAnnos, indexTypes, checker, this, processingEnv);
     }
 
     private AnnotationMirror createAnnoFromSink(
