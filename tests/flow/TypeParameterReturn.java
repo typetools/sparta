@@ -41,7 +41,7 @@ public class TypeParameterReturn {
     }
 
     
-    <@Source(READ_SMS) F > void correct(MyClass<F> myClass) {
+    <@Source(READ_SMS) F extends @Source(READ_SMS) Object> void correct(MyClass<F> myClass) {
         
         F  c = myClass.myMethod();
         sendToInternet(c);
