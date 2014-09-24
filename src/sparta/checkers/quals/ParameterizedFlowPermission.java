@@ -48,7 +48,7 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
         }
         parameterizedToString += "(";
         for (String param : getParameters()) {
-            parameterizedToString += param + ","; 
+            parameterizedToString += "\""+param + "\","; 
         }
         // Return the built string, removing the final comma, and closing it with the parenthesis
         return parameterizedToString.substring(0, parameterizedToString.length() - 1) + ")";
@@ -124,5 +124,15 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
     
     public boolean isSink() {
         return getPermission().isSink();
+    }
+
+
+    public void removeStar() {
+        this.parameters.remove("*");
+    }
+
+
+    public void addParameters(List<String> params) {
+        this.parameters.addAll(params);
     }
 }
