@@ -16,6 +16,8 @@ import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
 import org.checkerframework.framework.type.visitor.AnnotatedTypeScanner;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ElementUtils;
@@ -149,10 +151,9 @@ public class StubChecker {
 
     /**
      * Creates a list of parameter indexes that have @Source annotations
-     * anywhere in its type.
+     * anywhere in its type. 
      * 
-     * Call visitExecutable(...) to start then getParams to get list of
-     * parameters.
+     * Call visitExecutable(...) to start then getParams to get list of parameters.
      */
     class SourceScanner extends AnnotatedTypeScanner<Boolean, Void> {
         private ArrayList<Integer> params;
@@ -161,13 +162,14 @@ public class StubChecker {
         protected Boolean scan(AnnotatedTypeMirror type, Void p) {
             if (type == null)
                 return false;
-            boolean hasSource = false;
+            
             Set<ParameterizedFlowPermission> sources = Flow.getSources(type);
             if (!sources.isEmpty()) {
-                hasSource = true;
+               return true;
             }
-
-            return hasSource || type.accept(this, p);
+            
+            Boolean b = type.accept(this, p);
+            return (b == null) ? false : b;
         }
 
         @Override
@@ -184,7 +186,11 @@ public class StubChecker {
         @Override
         public Boolean visitExecutable(AnnotatedExecutableType type, Void p) {
             params = new ArrayList<>();
-            boolean receiverSource = scan(type.getReceiverType(), p);
+            if (type == null)
+                return false;
+            boolean receiverSource = false;
+            if (type.getReceiverType() != null)
+                receiverSource = scan(type.getReceiverType(), p);
             if (receiverSource)
                 params.add(0);
 
@@ -197,6 +203,19 @@ public class StubChecker {
 
             return params.isEmpty();
         }
+        
+        @Override
+        public Boolean visitTypeVariable(AnnotatedTypeVariable type, Void p) {
+            //do nothing, currently this is causing infinite recursion
+            return false;
+        }
+        
+        @Override
+        public Boolean visitWildcard(AnnotatedWildcardType type, Void p) {
+            //do nothing, currently this is causing infinite recursion
+            return false;
+        }
+
 
         public ArrayList<Integer> getParams() {
             return params;
