@@ -47,6 +47,7 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiv
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedUnionType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
+import org.checkerframework.framework.type.visitor.AbstractAtmComboVisitor;
 import org.checkerframework.framework.type.visitor.VisitHistory;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.defaults.QualifierDefaults;
@@ -637,6 +638,21 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                                      checker.hasOption("invariantArrays"));
     }
 
+
+    class NormalizingStructuralEqualityComparer extends StructuralEqualityComparer {
+
+        NormalizingStructuralEqualityComparer(AbstractAtmComboVisitor<Boolean, VisitHistory> fallback) {
+            super(fallback);
+        }
+
+        @Override
+        protected boolean arePrimeAnnosEqual(AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype) {
+            normalizePermissions(subtype);
+            normalizePermissions(supertype);
+            return super.arePrimeAnnosEqual(subtype, supertype);
+        }
+    }
+
     protected class FlowTypeHierarchy extends DefaultTypeHierarchy {
 
         public FlowTypeHierarchy(BaseTypeChecker checker,
@@ -645,26 +661,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         }
 
         @Override
-        public Boolean visitArray_Array(AnnotatedArrayType subtype, AnnotatedArrayType supertype, VisitHistory visited) {
-            if(!isPrimarySubtype(subtype, supertype)) {
-                return false;
-            }
-
-            final AnnotatedTypeMirror subComponent = subtype.getComponentType();
-            normalizePermissions(subComponent);
-
-            final AnnotatedTypeMirror superComponent = supertype.getComponentType();
-            normalizePermissions(superComponent);
-
-            return areEqual(subComponent, superComponent);
-        }
-
-        @Override
-        public boolean compareTypeArgs(AnnotatedTypeMirror subTypeArg, AnnotatedTypeMirror superTypeArg,
-                                       boolean subtypeRaw, boolean supertypeRaw, VisitHistory visited) {
-            normalizePermissions(subTypeArg);
-            normalizePermissions(superTypeArg);
-            return super.compareTypeArgs(subTypeArg, superTypeArg, subtypeRaw, supertypeRaw, visited);
+        public StructuralEqualityComparer createEqualityComparer() {
+            return new NormalizingStructuralEqualityComparer(rawnessComparer);
         }
     }
 
