@@ -21,15 +21,15 @@ class AbstractStringBuilder implements Appendable, CharSequence {
     int codePointBefore(int arg0);
     int codePointCount(int arg0, int arg1);
     int offsetByCodePoints(int arg0, int arg1);
-    void getChars(int arg0, int arg1, @PolySource @PolySink char[] arg2, int arg3);
+    void getChars(int arg0, int arg1, @PolySourceR @PolySinkR char[] arg2, int arg3);
     void setCharAt(int arg0, char arg1);
     AbstractStringBuilder append(Object arg0);
     AbstractStringBuilder append(String arg0);
     AbstractStringBuilder append(StringBuffer arg0);
     AbstractStringBuilder append(CharSequence arg0);
     AbstractStringBuilder append(CharSequence arg0, int arg1, int arg2);
-    AbstractStringBuilder append(@PolySource @PolySink char[] arg0);
-    AbstractStringBuilder append(@PolySource @PolySink char[] arg0, int arg1, int arg2);
+    AbstractStringBuilder append(@PolySourceR @PolySinkR char[] arg0);
+    AbstractStringBuilder append(@PolySourceR @PolySinkR char[] arg0, int arg1, int arg2);
     AbstractStringBuilder append(boolean arg0);
     AbstractStringBuilder append(char arg0);
     AbstractStringBuilder append(int arg0);
@@ -43,10 +43,10 @@ class AbstractStringBuilder implements Appendable, CharSequence {
     String substring(int arg0);
     CharSequence subSequence(int arg0, int arg1);
     String substring(int arg0, int arg1);
-    AbstractStringBuilder insert(int arg0, @PolySource @PolySink char[] arg1, int arg2, int arg3);
+    AbstractStringBuilder insert(int arg0, @PolySourceR @PolySinkR char[] arg1, int arg2, int arg3);
     AbstractStringBuilder insert(int arg0, Object arg1);
     AbstractStringBuilder insert(int arg0, String arg1);
-    AbstractStringBuilder insert(int arg0, @PolySource @PolySink char[] arg1);
+    AbstractStringBuilder insert(int arg0, @PolySourceR @PolySinkR char[] arg1);
     AbstractStringBuilder insert(int arg0, CharSequence arg1);
     AbstractStringBuilder insert(int arg0, CharSequence arg1, int arg2, int arg3);
     AbstractStringBuilder insert(int arg0, boolean arg1);
@@ -520,6 +520,7 @@ interface CharSequence {
     int length();
     char charAt(int arg0);
     CharSequence subSequence(int arg0, int arg1);
+@PolyFlowReceiver
     String toString();
 }
 
@@ -991,7 +992,8 @@ class Object {
     boolean equals(Object arg0);
     @PolyFlowReceiver
     protected Object clone() throws CloneNotSupportedException;
-    @PolySource @PolySink String toString() @PolySource @PolySink;
+    @PolyFlowReceiver
+    String toString();
     void notify();
     void notifyAll();
     void wait(long arg0) throws InterruptedException;
@@ -1394,9 +1396,7 @@ class StringBuffer implements Serializable, CharSequence {
     StringBuffer    deleteCharAt(int index);
     // TODO: Need polyflow on receiver and params with no return type.
     void    ensureCapacity(int minimumCapacity);
-    // TODO: Need polyflow on receiver and params with no return type.
-    // Especially here since the data is being set in an out param.
-    void    getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin);
+    void    getChars(int srcBegin, int srcEnd, @PolySourceR @PolySinkR char[] dst, int dstBegin) @PolySourceR @PolySinkR;
     @PolyFlowReceiver
     int indexOf(String str);
     @PolyFlowReceiver
@@ -1437,9 +1437,9 @@ class StringBuffer implements Serializable, CharSequence {
     StringBuffer    replace(int start, int end, String str);
     @PolyFlowReceiver
     StringBuffer    reverse();
-    // TODO: Need polyflow on receiver and params with no return type.
+@PolyFlowReceiver
     void    setCharAt(int index, char ch);
-    // TODO: Need polyflow on receiver and params with no return type.
+@PolyFlowReceiver
     void    setLength(int newLength);
     @PolyFlowReceiver
     CharSequence    subSequence(int start, int end);

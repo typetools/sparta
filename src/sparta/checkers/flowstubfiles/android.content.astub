@@ -137,6 +137,9 @@ class ClipData$Item {
     @Source(READ_CLIPBOARD) Uri getUri();
     @Source(READ_CLIPBOARD) CharSequence coerceToText(@Sink(WRITE_CLIPBOARD) Context arg0);
 }
+class ClipboardManager$OnPrimaryClipChangedListener{
+        void onPrimaryClipChanged();
+}
 
 class ComponentName {
 ComponentName(String pkg, String cls);    
@@ -461,107 +464,72 @@ static Uri withAppendedId(Uri contentUri, long id);
 
 }
 
+class ContentValues implements Parcelable {
+    static final String TAG;
+    static final Creator<ContentValues> CREATOR;
+    ContentValues();
+    ContentValues(int arg0);
+   @PolySource @PolySink  ContentValues(@PolySource @PolySink ContentValues arg0);
 @PolyFlowReceiver
-class ContentValues {
-
-ContentValues();
-    
-void clear();
-//Removes all values.
-
-boolean containsKey(String key);
-//Returns true if this object has the named value.
-
-int describeContents();
-//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
-
-boolean equals(Object object);
-//Compares this instance with the specified object and indicates if they are equal.
-
-Object get(String key);
-//Gets a value.
-
-Boolean getAsBoolean(String key);
-//Gets a value and converts it to a Boolean.
-
-Byte getAsByte(String key);
-//Gets a value and converts it to a Byte.
-
-byte[] getAsByteArray(String key);
-//Gets a value that is a byte array.
-
-Double getAsDouble(String key);
-//Gets a value and converts it to a Double.
-
-Float getAsFloat(String key);
-//Gets a value and converts it to a Float.
-
-Integer getAsInteger(String key);
-//Gets a value and converts it to an Integer.
-
-Long getAsLong(String key);
-//Gets a value and converts it to a Long.
-
-Short getAsShort(String key);
-//Gets a value and converts it to a Short.
-
-String getAsString(String key);
-//Gets a value and converts it to a String.
-
-int hashCode();
-//Returns an integer hash code for this object.
-
-Set<String> keySet();
-//Returns a set of all of the keys
-void put(String key, Byte value);
-//Adds a value to the set.
-
-void put(String key, Integer value);
-//Adds a value to the set.
-
-void put(String key, Float value);
-//Adds a value to the set.
-
-void put(String key, Short value);
-//Adds a value to the set.
-
-void put(String key, byte[] value);
-//Adds a value to the set.
-
-void put(String key, String value);
-//Adds a value to the set.
-
-void put(String key, Double value);
-//Adds a value to the set.
-
-void put(String key, Long value);
-//Adds a value to the set.
-
-void put(String key, Boolean value);
-//Adds a value to the set.
-
-void putAll(ContentValues other);
-//Adds all values from the passed in ContentValues.
-
-void putNull(String key);
-//Adds a null value to the set.
-
-void remove(String key);
-//Remove a single value.
-
-int size();
-//Returns the number of values.
-
-String toString();
-//Returns a string containing a concise, human-readable description of this object.
-
-Set<Entry<String, Object>> valueSet();
-//Returns a set of all of the keys and values
-
-void writeToParcel(Parcel parcel, int flags);
-//Flatten this object in to a Parcel.
-
+    boolean equals(Object arg0);
+    int hashCode();
+@PolyFlowReceiver
+    void put(String arg0, String arg1);
+@PolyFlowReceiver
+    void putAll(ContentValues arg0);
+@PolyFlowReceiver
+    void put(String arg0, Byte arg1);
+@PolyFlowReceiver
+    void put(String arg0, Short arg1);
+@PolyFlowReceiver
+    void put(String arg0, Integer arg1);
+@PolyFlowReceiver
+    void put(String arg0, Long arg1);
+@PolyFlowReceiver
+    void put(String arg0, Float arg1);
+@PolyFlowReceiver
+    void put(String arg0, Double arg1);
+@PolyFlowReceiver
+    void put(String arg0, Boolean arg1);
+@PolyFlowReceiver
+    void put(String arg0, @PolySourceR @PolySinkR byte[] arg1);
+@PolyFlowReceiver
+    void putNull(String arg0);
+    int size();
+    void remove(String arg0);
+    void clear();
+@PolyFlowReceiver
+    boolean containsKey(String arg0);
+@PolyFlowReceiver
+    Object get(String arg0);
+@PolyFlowReceiver
+    String getAsString(String arg0);
+@PolyFlowReceiver
+    Long getAsLong(String arg0);
+@PolyFlowReceiver
+    Integer getAsInteger(String arg0);
+@PolyFlowReceiver
+    Short getAsShort(String arg0);
+@PolyFlowReceiver
+    Byte getAsByte(String arg0);
+@PolyFlowReceiver
+    Double getAsDouble(String arg0);
+@PolyFlowReceiver
+    Float getAsFloat(String arg0);
+@PolyFlowReceiver
+    Boolean getAsBoolean(String arg0);
+@PolyFlowReceiver
+    @PolySourceR @PolySinkR byte[] getAsByteArray(String arg0);
+    Set<Entry<@PolySourceR @PolySinkR String,@PolySourceR @PolySinkR Object>> valueSet() @PolySourceR @PolySinkR;
+    Set<@PolySourceR @PolySinkR String> keySet()@PolySourceR @PolySinkR;
+    int describeContents();
+@AddsSourceData
+@PolyFlowReceiver
+    void writeToParcel(Parcel arg0, int arg1);
+@PolyFlowReceiver
+    String toString();
 }
+
 
 
 class ContentProviderOperation {
@@ -830,10 +798,12 @@ final TypedArray obtainStyledAttributes(int resid, int[] attrs);
 final TypedArray obtainStyledAttributes(AttributeSet set, int[] attrs, int defStyleAttr, int defStyleRes);
 //Retrieve styled attribute information in this Context's theme.
 
-abstract @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) FileInputStream openFileInput(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String name);
+
+abstract @Source({FILESYSTEM}) FileInputStream openFileInput( String name);
 //Open a private file associated with this Context's application package for reading.
 
-abstract @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) FileOutputStream openFileOutput(@Sink({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) String name, int mode);
+
+abstract @Sink({FILESYSTEM}) FileOutputStream openFileOutput(String name, int mode);
 //Open a private file associated with this Context's application package for writing.
 
 abstract @Source(DATABASE) SQLiteDatabase openOrCreateDatabase(@Sink(DATABASE) String name, @Sink(DATABASE) int mode, @Sink(DATABASE) SQLiteDatabase.CursorFactory factory);
@@ -1141,6 +1111,7 @@ Object getSystemService(String name);
 
 //boolean isRestricted();
 //Indicates whether this Context is restricted.
+
 
 @Source(FILESYSTEM) FileInputStream openFileInput(String name);
 //Open a private file associated with this Context's application package for reading.

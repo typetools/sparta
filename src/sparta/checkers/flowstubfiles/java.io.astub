@@ -513,17 +513,23 @@ class ObjectStreamClass{
         String getName();
 }
 
-@PolyFlowReceiver
 class OutputStreamWriter extends Writer {
-//Added by pbsf
+@PolyFlow
     OutputStreamWriter(OutputStream arg0, String arg1) throws UnsupportedEncodingException;
-    OutputStreamWriter(OutputStream arg0);
+    @PolySource @PolySink OutputStreamWriter( @PolySource @PolySink OutputStream arg0);
+@PolyFlow
     OutputStreamWriter(OutputStream arg0, Charset arg1);
+@PolyFlow
     OutputStreamWriter(OutputStream arg0, CharsetEncoder arg1);
     String getEncoding();
+@PolyFlowReceiver
     void write(int arg0) throws IOException;
-    void write(char[] arg0, int arg1, int arg2) throws IOException;
+@PolyFlowReceiver
+    void write(@PolySourceR @PolySinkR char[] arg0, int arg1, int arg2) throws IOException;
+@PolyFlowReceiver
     void write(String arg0, int arg1, int arg2) throws IOException;
+@PolyFlowReceiver
+    void write(String arg0) throws IOException;
     void flush() throws IOException;
     void close() throws IOException;
 }
@@ -653,18 +659,25 @@ class Reader implements Readable, Closeable {
     void close() throws IOException;
 }
 
-@PolyFlowReceiver
 class Writer implements Appendable, Closeable, Flushable {
-    protected Object lock;
-    protected Writer();
-    protected Writer(Object arg0);
+@PolyFlowReceiver
     void write(int arg0) throws IOException;
-    void write(char[] arg0) throws IOException;
-    void write(char[] arg0, int arg1, int arg2) throws IOException;
-    void write(String arg0) throws IOException;
+@PolyFlowReceiver
+    void write(int arg0) throws IOException;
+@PolyFlowReceiver
+    void write(int arg0) throws IOException;
+@PolyFlowReceiver
+    void write(@PolySourceR @PolySinkR char[] arg0) throws IOException;
+@PolyFlowReceiver
+    void write(@PolySourceR @PolySinkR char[] arg0, int arg1, int arg2) throws IOException;
+    void write(@PolySourceR @PolySinkR String arg0) @PolySourceR @PolySinkR;
+@PolyFlowReceiver
     void write(String arg0, int arg1, int arg2) throws IOException;
+@PolyFlowReceiver
     Writer append(CharSequence arg0) throws IOException;
+@PolyFlowReceiver
     Writer append(CharSequence arg0, int arg1, int arg2) throws IOException;
+@PolyFlowReceiver
     Writer append(char arg0) throws IOException;
     void flush() throws IOException;
     void close() throws IOException;

@@ -1996,6 +1996,8 @@ Notification.InboxStyle setSummaryText(@Sink(DISPLAY) CharSequence cs);
 
 
 class Notification$Builder {
+        Builder(Context context);
+
 Notification.Builder addAction(@Sink(DISPLAY) int icon, @Sink(DISPLAY) CharSequence title, PendingIntent intent);
 //Add an action to this notification.
 
