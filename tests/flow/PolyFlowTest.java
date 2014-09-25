@@ -107,7 +107,7 @@ class TestGetterSetter {
         @Source(READ_SMS) @Sink(INTERNET) GetterSetter gs = new GetterSetter(readsms);
         @Source(READ_SMS) @Sink(INTERNET) String test1 = gs.getField();
         gs.setField(readsms);
-        //TODO: This should give an error of some kind.
+        //:: error: (argument.type.incompatible)
         gs.setField(time);
         @Source(READ_SMS) @Sink(INTERNET) String test2 = gs.toString();
         //:: error: (assignment.type.incompatible)

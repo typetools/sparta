@@ -255,10 +255,11 @@ final void dismissDialog(int id);
 
 boolean dispatchGenericMotionEvent(MotionEvent ev);
 //Called to process generic motion events.
-
+@AddsSourceData
 boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
 //Called to process key events.
 
+@AddsSourceData
 boolean dispatchKeyShortcutEvent(@Source(USER_INPUT) KeyEvent event);
 //Called to process a key shortcut event.
 
@@ -458,15 +459,17 @@ void onDetachedFromWindow();
 boolean onGenericMotionEvent(MotionEvent event);
 //Called when a generic motion event was not handled by any of the views inside of the activity.
 
+@AddsSourceData({1, 2}) 
 boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Called when a key was pressed down and not handled by any of the views inside of the activity.
 
+@AddsSourceData({1, 2}) 
 boolean onKeyLongPress(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyLongPress();: always returns false (doesn't handle the event);.
-
+@AddsSourceData({1, 2}) 
 boolean onKeyMultiple(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) int repeatCount, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyMultiple();: always returns false (doesn't handle the event);.
-
+@AddsSourceData({1, 2}) 
 boolean onKeyShortcut(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Called when a key shortcut event is not handled by any of the views in the Activity.
 
@@ -853,10 +856,10 @@ Button getButton(int whichButton);
 
 ListView getListView();
 //Gets the list view used in the dialog.
-
+@AddsSourceData({1, 2})
 boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT)KeyEvent event);
 ////A key was pressed down.
-
+@AddsSourceData({1, 2})
 boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //A key was released.
 
@@ -1047,10 +1050,11 @@ void dismiss();
 
 boolean dispatchGenericMotionEvent(MotionEvent ev);
 //Called to process generic motion events.
-
+@AddsSourceAdd
 boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
 //Called to process key events.
 
+@AddsSourceAdd
 boolean dispatchKeyShortcutEvent(@Source(USER_INPUT) KeyEvent event);
 //Called to process a key shortcut event.
 
@@ -1129,18 +1133,21 @@ void onDetachedFromWindow();
 boolean onGenericMotionEvent(MotionEvent event);
 //Called when a generic motion event was not handled by any of the views inside of the dialog.
 
+@AddsSourceData({1, 2})
 boolean onKeyDown(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //A key was pressed down.
 
+@AddsSourceData({1, 2})
 boolean onKeyLongPress(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyLongPress();: always returns false (doesn't handle the event);.
-
+@AddsSourceData({1, 2, 3})
 boolean onKeyMultiple(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) int repeatCount, @Source(USER_INPUT) KeyEvent event);
 //Default implementation of KeyEvent.Callback.onKeyMultiple();: always returns false (doesn't handle the event);.
-
+@AddsSourceData({1, 2})
 boolean onKeyShortcut(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //Called when a key shortcut event is not handled by any of the views in the Dialog.
 
+@AddsSourceData({1, 2})
 boolean onKeyUp(@Source(USER_INPUT) int keyCode, @Source(USER_INPUT) KeyEvent event);
 //A key was released.
 
@@ -1989,6 +1996,8 @@ Notification.InboxStyle setSummaryText(@Sink(DISPLAY) CharSequence cs);
 
 
 class Notification$Builder {
+        Builder(Context context);
+
 Notification.Builder addAction(@Sink(DISPLAY) int icon, @Sink(DISPLAY) CharSequence title, PendingIntent intent);
 //Add an action to this notification.
 
@@ -2373,6 +2382,7 @@ class TimePickerDialog {
 }
 
 class TimePickerDialog$OnTimeSetListener {
+@AddsSourceData({2, 3})
 	void onTimeSet(TimePicker arg0, @Source(USER_INPUT) int arg1, @Source(USER_INPUT) int arg2);
 }
 

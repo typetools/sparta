@@ -113,9 +113,8 @@ class PlainSocketFactory{
 }
 
 package org.apache.http.entity;
-@PolyFlowReceiver
 class InputStreamEntity{
-            InputStreamEntity(InputStream instream, long length);
+            @PolySource @PolySink InputStreamEntity(@PolySource @PolySink InputStream instream, long length);
 }
 class HttpEntityWrapper{
             long getContentLength();
@@ -155,13 +154,7 @@ class HttpHead{
 
 class HttpPost {
 
-    HttpPost(@Sink(FlowPermission.INTERNET) String postUrl);
-
-    // Added by mcarthur
-    // I would like for this to actually work, but it does not.
-//    void setEntity(@PolySource @PolySink HttpEntity entity) @PolySource @PolySink;
-    void setEntity(@Sink(FlowPermission.INTERNET) HttpEntity entity) @Sink(FlowPermission.INTERNET);
-
+    @Sink(INTERNET) HttpPost( String postUrl);
 }
 
 
@@ -174,6 +167,10 @@ class HttpUriRequest{
             boolean isAborted();
 }
 
+class HttpEntityEnclosingRequestBase extends HttpRequestBase implements HttpEntityEnclosingRequest {
+@PolyFlowReceiver
+    void setEntity(HttpEntity arg0);
+}
 
 package org.apache.http.client;
 

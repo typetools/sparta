@@ -76,7 +76,9 @@ public class FlowAnalyzer {
         if (!(sources.contains(ANY) || sinks.contains(ANY))) {
             Flow flow = new Flow(sources, sinks);
             assignmentFlows.add(flow);
+            allFlows.add(Pair.of(currentPath, flow));
         }
+
     }
 
     public void addTypeFlow(AnnotatedTypeMirror atm,
@@ -187,16 +189,22 @@ public class FlowAnalyzer {
                 }
             }
 
+            
+            for (Flow f : assignmentFlows) {
+                Flow copy = new Flow();
+                copy.addSource(f.sources);
+                copy.addSink(f.sinks);
+                copy.sources.remove(ANY);
+                copy.sinks.remove(ANY);
+                if (!(copy.sinks.isEmpty() || copy.sources.isEmpty())) {
+                    typeFlowsNoEmpty.add(f);
+                }
+            }
+
             printFlows(writer,
                     getFlowStrList(groupFlowsOnSource(typeFlowsNoEmpty)),
                     "# Type Flows");
 
-            Set<Flow> justAssignFlows = new HashSet<Flow>(assignmentFlows);
-            justAssignFlows.removeAll(typeFlows);
-
-            printFlows(writer,
-                    getFlowStrList(groupFlowsOnSource(justAssignFlows)),
-                    "# Assignment Flows");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

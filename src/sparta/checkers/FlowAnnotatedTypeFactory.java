@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,8 +56,9 @@ import org.checkerframework.framework.util.QualifierPolymorphism;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.InternalUtils;
-import org.checkerframework.javacutil.TreeUtils;
+import org.checkerframework.javacutil.Pair;
 
+import sparta.checkers.poly.ReceiverPolymorphism;
 import sparta.checkers.quals.FineSink;
 import sparta.checkers.quals.FineSource;
 import sparta.checkers.quals.FlowPermission;
@@ -64,17 +66,20 @@ import sparta.checkers.quals.ParameterizedFlowPermission;
 import sparta.checkers.quals.PolyFlow;
 import sparta.checkers.quals.PolyFlowReceiver;
 import sparta.checkers.quals.PolySink;
+import sparta.checkers.quals.PolySinkR;
 import sparta.checkers.quals.PolySource;
+import sparta.checkers.quals.PolySourceR;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
+import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
 
 public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
-    protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE;
-    protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK;
+    protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE, POLYSOURCER;
+    protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK,POLYSINKR;
     protected final AnnotationMirror POLYALL;
 
     protected final AnnotationMirror SOURCE;
@@ -86,6 +91,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     protected final FlowAnalyzer flowAnalizer;
     
     private final ParameterizedFlowPermission ANY;
+    
+    protected ReceiverPolymorphism polyReceiver;
     
     //Qualifier defaults for byte code and poly flow defaulting
 	final QualifierDefaults byteCodeFieldDefault = new QualifierDefaults(elements, this);
@@ -103,6 +110,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
         POLYSOURCE = AnnotationUtils.fromClass(elements, PolySource.class);
         POLYSINK = AnnotationUtils.fromClass(elements, PolySink.class);
+        POLYSOURCER = AnnotationUtils.fromClass(elements, PolySourceR.class);
+        POLYSINKR = AnnotationUtils.fromClass(elements, PolySinkR.class);
         POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
 
         ANYSOURCE = createAnnoFromSource(ANY);
@@ -133,6 +142,12 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         // Has to be called after postInit
         // has been called for every subclass.
         initQualifierDefaults();
+
+        //Uncomment this line to check stub files
+        //see StubChecker for more details.
+        //StubChecker.checkStubs(indexDeclAnnos, indexTypes, checker, this, processingEnv);
+        
+        polyReceiver = new ReceiverPolymorphism(processingEnv, this);
     }
 
     private AnnotationMirror createAnnoFromSink(
@@ -193,9 +208,9 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         // parameter types and receivers).
         DefaultLocation[] polyFlowReceiverLoc = { DefaultLocation.RETURNS,
                 DefaultLocation.PARAMETERS, DefaultLocation.RECEIVERS };
-        polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSOURCE,
+        polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSOURCER,
                 polyFlowReceiverLoc);
-        polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSINK,
+        polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSINKR,
                 polyFlowReceiverLoc);
     }
 
@@ -313,12 +328,15 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                     }
                 }
                 polyFlowDefaults.annotate(element, type);
+                addAnnotationsToComponetTypes(type, POLYSOURCE, POLYSINK);
                 return;
             } else if (this.getDeclAnnotation(iter, PolyFlowReceiver.class) != null) {
                 if (ElementUtils.hasReceiver(element)) {
                     polyFlowReceiverDefaults.annotate(element, type);
+                    addAnnotationsToComponetTypes(type, POLYSOURCER, POLYSINKR);
                 } else {
                     polyFlowDefaults.annotate(element, type);
+                    addAnnotationsToComponetTypes(type, POLYSOURCE, POLYSINK);
                 }
                 return;
             }
@@ -328,6 +346,26 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                         (PackageElement) iter);
             } else {
                 iter = iter.getEnclosingElement();
+            }
+        }
+    }
+
+    private void addAnnotationsToComponetTypes(AnnotatedTypeMirror type, AnnotationMirror polySource, AnnotationMirror polySink) {
+        if (type instanceof AnnotatedExecutableType) {
+            for (AnnotatedTypeMirror atm : ((AnnotatedExecutableType) type)
+                    .getParameterTypes()) {
+                boolean loopedOnce = false;
+                while (atm instanceof AnnotatedArrayType) {
+                    loopedOnce = true;
+                    atm = ((AnnotatedArrayType) atm)
+                            .getComponentType();
+                }
+                if (loopedOnce) {
+                    if (atm.getAnnotationInHierarchy(NOSOURCE) == null)
+                        atm.addAnnotation(polySource);
+                    if (atm.getAnnotationInHierarchy(ANYSINK) == null)
+                        atm.addAnnotation(polySink);
+                }
             }
         }
     }
@@ -554,6 +592,25 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     }
 
 
+    @Override
+    public Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> methodFromUse(
+            MethodInvocationTree tree) {
+        Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> mfuPair = super
+                .methodFromUse(tree);
+        AnnotatedExecutableType method = mfuPair.first;
+        polyReceiver.annotate(tree, method);
+        return mfuPair;
+    }
+
+    @Override
+    public Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> constructorFromUse(
+            NewClassTree tree) {
+        Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> mfuPair = super
+                .constructorFromUse(tree);
+        AnnotatedExecutableType method = mfuPair.first;
+        polyReceiver.annotate(tree, method);
+        return mfuPair;
+    }
 
     @Override
     protected MultiGraphQualifierHierarchy.MultiGraphFactory createQualifierHierarchyFactory() {
@@ -664,7 +721,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
         private boolean isPolySourceQualifier(AnnotationMirror anno) {
             return AnnotationUtils.areSameByClass(anno, PolySource.class)
-                    || AnnotationUtils.areSameByClass(anno, PolyAll.class);
+                    || AnnotationUtils.areSameByClass(anno, PolyAll.class)
+                    || AnnotationUtils.areSameByClass(anno, PolySourceR.class);
         }
 
         private boolean isSinkQualifier(AnnotationMirror anno) {
@@ -673,7 +731,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
         private boolean isPolySinkQualifier(AnnotationMirror anno) {
             return AnnotationUtils.areSameByClass(anno, PolySink.class)
-                    || AnnotationUtils.areSameByClass(anno, PolyAll.class);
+                    || AnnotationUtils.areSameByClass(anno, PolyAll.class)
+                    || AnnotationUtils.areSameByClass(anno, PolySinkR.class);
         }
 
         @Override
@@ -939,5 +998,13 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     public static boolean wildcardMatch(String child, String parent) {
         String regex = parent.replaceAll("\\*", "(.*)");
         return child.matches(regex);
+    }
+
+    public Map<AnnotationMirror, AnnotationMirror> getPolyReceiverQuals() {
+        Map<AnnotationMirror, AnnotationMirror> map = new HashMap<AnnotationMirror, AnnotationMirror>();
+        map.put(ANYSOURCE,POLYSOURCER);
+        map.put(NOSINK,POLYSINKR);
+
+        return map;
     }
 }

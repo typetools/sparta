@@ -286,7 +286,7 @@ void writeToParcel(Parcel parcel, int flags);
 
 class LocationListener {
     
-    
+ @AddsSourceData   
 abstract void onLocationChanged(@Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Location location);
 //Called when the location has changed.
 
@@ -308,25 +308,25 @@ class LocationManager {
 final String GPS_PROVIDER;
 final String NETWORK_PROVIDER;
 
-boolean addGpsStatusListener(GpsStatus.Listener listener) @Source(ACCESS_FINE_LOCATION);
+boolean addGpsStatusListener(GpsStatus.Listener listener);
 //Adds a GPS status listener.
 
-boolean addNmeaListener(GpsStatus.NmeaListener listener) @Source(ACCESS_FINE_LOCATION);
+boolean addNmeaListener(GpsStatus.NmeaListener listener);
 //Adds an NMEA listener.
 
-void addProximityAlert(double latitude, double longitude, float radius, long expiration, PendingIntent intent) @Source(ACCESS_FINE_LOCATION);
+void addProximityAlert(double latitude, double longitude, float radius, long expiration, PendingIntent intent);
 //Set a proximity alert for the location given by the position (latitude, longitude); and the given radius.
 
-void addTestProvider(String name, boolean requiresNetwork, boolean requiresSatellite, boolean requiresCell, boolean hasMonetaryCost, boolean supportsAltitude, boolean supportsSpeed, boolean supportsBearing, int powerRequirement, int accuracy) @Source(ACCESS_MOCK_LOCATION);
+void addTestProvider(String name, boolean requiresNetwork, boolean requiresSatellite, boolean requiresCell, boolean hasMonetaryCost, boolean supportsAltitude, boolean supportsSpeed, boolean supportsBearing, int powerRequirement, int accuracy);
 //Creates a mock location provider and adds it to the set of active providers.
 
-void clearTestProviderEnabled(String provider) @Source(ACCESS_MOCK_LOCATION);
+void clearTestProviderEnabled(String provider);
 //Removes any mock enabled value associated with the given provider.
 
-void clearTestProviderLocation(String provider) @Source(ACCESS_MOCK_LOCATION);
+void clearTestProviderLocation(String provider) ;
 //Removes any mock location associated with the given provider.
 
-void clearTestProviderStatus(String provider) @Source(ACCESS_MOCK_LOCATION);
+void clearTestProviderStatus(String provider) ;
 //Removes any mock status values associated with the given provider.
 
 List<String> getAllProviders();
@@ -359,10 +359,10 @@ void removeGpsStatusListener(GpsStatus.Listener listener);
 void removeNmeaListener(GpsStatus.NmeaListener listener);
 //Removes an NMEA listener.
 
-void removeProximityAlert(PendingIntent intent) @Source(ACCESS_FINE_LOCATION);
+void removeProximityAlert(PendingIntent intent) ;
 //Removes the proximity alert with the given PendingIntent.
 
-void removeTestProvider(String provider) @Source(ACCESS_MOCK_LOCATION);
+void removeTestProvider(String provider) ;
 //Removes the mock location provider with the given name.
 
 void removeUpdates(PendingIntent intent);
@@ -371,43 +371,50 @@ void removeUpdates(PendingIntent intent);
 void removeUpdates(LocationListener listener);
 //Removes all location updates for the specified LocationListener.
 
-void requestLocationUpdates(long minTime, float minDistance, Criteria criteria, PendingIntent intent) @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION});
+@AddsSourceData(4)
+void requestLocationUpdates(long minTime, float minDistance, Criteria criteria, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) PendingIntent intent);
 //Register for location updates using a Criteria and pending intent.
-
-void requestLocationUpdates(long minTime, float minDistance, Criteria criteria, LocationListener listener, Looper looper) @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION});
+@AddsSourceData(5)
+void requestLocationUpdates(long minTime, float minDistance, Criteria criteria, LocationListener listener, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper) ;
 //Register for location updates using a Criteria, and a callback on the specified looper thread.
 
-void requestLocationUpdates(String provider, long minTime, float minDistance, LocationListener listener) @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION});
+void requestLocationUpdates(String provider, long minTime, float minDistance, LocationListener listener) ;
 //Register for location updates using the named provider, and a pending intent.
 
-void requestLocationUpdates(String provider, long minTime, float minDistance, LocationListener listener, Looper looper) @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION});
+@AddsSourceData(5)
+void requestLocationUpdates(String provider, long minTime, float minDistance, LocationListener listener,  @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper) ;
 //Register for location updates using the named provider, and a callback on the specified looper thread.
 
-void requestLocationUpdates(String provider, long minTime, float minDistance, PendingIntent intent) @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION});
+@AddsSourceData(4)
+void requestLocationUpdates(String provider, long minTime, float minDistance, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) PendingIntent intent);
 //Register for location updates using the named provider, and a pending intent.
 
-void requestSingleUpdate(String provider, LocationListener listener, Looper looper) @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION});
+@AddsSourceData(3)
+void requestSingleUpdate(String provider, LocationListener listener, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper);
 //Register for a single location update using the named provider and a callback.
 
-void requestSingleUpdate(Criteria criteria, LocationListener listener, Looper looper) @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION});
+@AddsSourceData(3)
+void requestSingleUpdate(Criteria criteria, LocationListener listener, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper);
 //Register for a single location update using a Criteria and a callback.
 
-void requestSingleUpdate(String provider, PendingIntent intent) @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION});
+@AddsSourceData(2)
+void requestSingleUpdate(String provider, PendingIntent intent);
 //Register for a single location update using a named provider and pending intent.
 
-void requestSingleUpdate(Criteria criteria, PendingIntent intent) @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION});
+@AddsSourceData(2)
+void requestSingleUpdate(Criteria criteria, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) PendingIntent intent);
 //Register for a single location update using a Criteria and pending intent.
 
 boolean sendExtraCommand(String provider, String command, Bundle extras);
 //Sends additional commands to a location provider.
 
-void setTestProviderEnabled(String provider, boolean enabled) @Source(ACCESS_MOCK_LOCATION);
+void setTestProviderEnabled(String provider, boolean enabled);
 //Sets a mock enabled value for the given provider.
 
-void setTestProviderLocation(String provider, Location loc) @Source(ACCESS_MOCK_LOCATION);
+void setTestProviderLocation(String provider, Location loc);
 //Sets a mock location for the given provider.
 
-void setTestProviderStatus(String provider, int status, Bundle extras, long updateTime) @Source(ACCESS_MOCK_LOCATION);
+void setTestProviderStatus(String provider, int status, Bundle extras, long updateTime);
 //Sets mock status values for the given provider.
 
 
