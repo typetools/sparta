@@ -1805,221 +1805,42 @@ class PackageItemInfo{
         XmlResourceParser loadXmlMetaData(PackageManager pm, String name);
 }
 
-class PackageInfo {
-    int versionCode;
+class PackageInfo implements Parcelable {
+    @Source(PACKAGE_INFO) String packageName;
+    @Source(PACKAGE_INFO) int versionCode;
+    @Source(PACKAGE_INFO) String versionName;
+    @Source(PACKAGE_INFO) String sharedUserId;
+    @Source(PACKAGE_INFO) int sharedUserLabel;
+    @Source(PACKAGE_INFO) ApplicationInfo applicationInfo;
+    @Source(PACKAGE_INFO) long firstInstallTime;
+    @Source(PACKAGE_INFO) long lastUpdateTime;
+    @Source(PACKAGE_INFO) int[] gids;
+    @Source(PACKAGE_INFO) ActivityInfo[] activities;
+    @Source(PACKAGE_INFO) ActivityInfo[] receivers;
+    @Source(PACKAGE_INFO) ServiceInfo[] services;
+    @Source(PACKAGE_INFO) ProviderInfo[] providers;
+    @Source(PACKAGE_INFO) InstrumentationInfo[] instrumentation;
+    @Source(PACKAGE_INFO) PermissionInfo[] permissions;
+    @Source(PACKAGE_INFO) String[] requestedPermissions;
+    @Source(PACKAGE_INFO) int[] requestedPermissionsFlags;
+    static final int REQUESTED_PERMISSION_REQUIRED;
+    static final int REQUESTED_PERMISSION_GRANTED;
+    @Source(PACKAGE_INFO) Signature[] signatures;
+    @Source(PACKAGE_INFO) ConfigurationInfo[] configPreferences;
+    @Source(PACKAGE_INFO) FeatureInfo[] reqFeatures;
+    static final Creator<PackageInfo> CREATOR;
+    PackageInfo();
+    @Source(PACKAGE_INFO) String toString();
+    int describeContents();
+@AddsSourceData
+    void writeToParcel(@Source(PACKAGE_INFO) Parcel arg0, int arg1);
 }
 
-class PackageManager {
-    
-abstract void addPackageToPreferred(String packageName);
-//This method was deprecated in API level 7. This function no longer does anything; it was an old approach to managing preferred activities, which has been superceeded (and conflicts with); the modern activity-based preferences.
-
-abstract boolean addPermission(PermissionInfo info);
-//Add a new dynamic permission to the system.
-
-abstract boolean addPermissionAsync(PermissionInfo info);
-//Like addPermission(PermissionInfo); but asynchronously persists the package manager state after returning from the call, allowing it to return quicker and batch a series of adds at the expense of no guarantee the added permission will be retained if the device is rebooted before it is written.
-
-abstract void addPreferredActivity(IntentFilter filter, int match, ComponentName[] set, ComponentName activity);
-//This method was deprecated in API level 8. This is a protected API that should not have been available to third party applications. It is the platform's responsibility for assigning preferred activities and this can not be directly modified. Add a new preferred activity mapping to the system. This will be used to automatically select the given activity component when Context.startActivity(); finds multiple matching activities and also matches the given filter.
-
-abstract String[] canonicalToCurrentPackageNames(String[] names);
-//Map from a packages canonical name to the current name in use on the device.
-
-abstract int checkPermission(String permName, String pkgName);
-//Check whether a particular package has been granted a particular permission.
-
-abstract int checkSignatures(int uid1, int uid2);
-//Like checkSignatures(String, String);, but takes UIDs of the two packages to be checked.
-
-abstract int checkSignatures(String pkg1, String pkg2);
-//Compare the signatures of two packages to determine if the same signature appears in both of them.
-
-abstract void clearPackagePreferredActivities(String packageName);
-//Remove all preferred activity mappings, previously added with addPreferredActivity(IntentFilter, int, ComponentName[], ComponentName);, from the system whose activities are implemented in the given package name.
-
-abstract String[] currentToCanonicalPackageNames(String[] names);
-//Map from the current package names in use on the device to whatever the current canonical name of that package is.
-
-abstract void extendVerificationTimeout(int id, int verificationCodeAtTimeout, long millisecondsToDelay);
-//Allows a package listening to the package verification broadcast to extend the default timeout for a response and declare what action to perform after the timeout occurs.
-
-abstract Drawable getActivityIcon(Intent intent);
-//Retrieve the icon associated with an Intent.
-
-abstract Drawable getActivityIcon(ComponentName activityName);
-//Retrieve the icon associated with an activity.
-
-abstract ActivityInfo getActivityInfo(ComponentName component, int flags);
-//Retrieve all of the information we know about a particular activity class.
-
-abstract Drawable getActivityLogo(Intent intent);
-//Retrieve the logo associated with an Intent.
-
-abstract Drawable getActivityLogo(ComponentName activityName);
-//Retrieve the logo associated with an activity.
-
-abstract List<PermissionGroupInfo> getAllPermissionGroups(int flags);
-//Retrieve all of the known permission groups in the system.
-
-abstract int getApplicationEnabledSetting(String packageName);
-//Return the the enabled setting for an application.
-
-abstract Drawable getApplicationIcon(String packageName);
-//Retrieve the icon associated with an application.
-
-abstract Drawable getApplicationIcon(ApplicationInfo info);
-//Retrieve the icon associated with an application.
-
-abstract ApplicationInfo getApplicationInfo(String packageName, int flags);
-//Retrieve all of the information we know about a particular package/application.
-
-abstract CharSequence getApplicationLabel(ApplicationInfo info);
-//Return the label to use for this application.
-
-abstract Drawable getApplicationLogo(String packageName);
-//Retrieve the logo associated with an application.
-
-abstract Drawable getApplicationLogo(ApplicationInfo info);
-//Retrieve the logo associated with an application.
-
-abstract int getComponentEnabledSetting(ComponentName componentName);
-//Return the the enabled setting for a package component (activity, receiver, service, provider);.
-
-abstract Drawable getDefaultActivityIcon();
-//Return the generic icon for an activity that is used when no specific icon is defined.
-
-abstract Drawable getDrawable(String packageName, int resid, ApplicationInfo appInfo);
-//Retrieve an image from a package.
-
-abstract List<ApplicationInfo> getInstalledApplications(int flags);
-//Return a List of all application packages that are installed on the device.
-
-abstract List<PackageInfo> getInstalledPackages(int flags);
-//Return a List of all packages that are installed on the device.
-
-abstract String getInstallerPackageName(String packageName);
-//Retrieve the package name of the application that installed a package.
-
-abstract InstrumentationInfo getInstrumentationInfo(ComponentName className, int flags);
-//Retrieve all of the information we know about a particular instrumentation class.
-
-abstract Intent getLaunchIntentForPackage(String packageName);
-//Return a "good" intent to launch a front-door activity in a package, for use for example to implement an "open" button when browsing through packages.
-
-abstract String getNameForUid(int uid);
-//Retrieve the official name associated with a user id.
-
-PackageInfo getPackageArchiveInfo(String archiveFilePath, int flags);
-//Retrieve overall information about an application package defined in a package archive file
-
-abstract int[] getPackageGids(String packageName);
-//Return an array of all of the secondary group-ids that have been assigned to a package.
-
-abstract PackageInfo getPackageInfo(String packageName, int flags);
-//Retrieve overall information about an application package that is installed on the system.
-
-abstract String[] getPackagesForUid(int uid);
-//Retrieve the names of all packages that are associated with a particular user id.
-
-abstract PermissionGroupInfo getPermissionGroupInfo(String name, int flags);
-//Retrieve all of the information we know about a particular group of permissions.
-
-abstract PermissionInfo getPermissionInfo(String name, int flags);
-//Retrieve all of the information we know about a particular permission.
-
-abstract int getPreferredActivities(List<IntentFilter> outFilters, List<ComponentName> outActivities, String packageName);
-//Retrieve all preferred activities, previously added with addPreferredActivity(IntentFilter, int, ComponentName[], ComponentName);, that are currently registered with the system.
-
-abstract List<PackageInfo> getPreferredPackages(int flags);
-//Retrieve the list of all currently configured preferred packages.
-
-abstract ProviderInfo getProviderInfo(ComponentName component, int flags);
-//Retrieve all of the information we know about a particular content provider class.
-
-abstract ActivityInfo getReceiverInfo(ComponentName component, int flags);
-//Retrieve all of the information we know about a particular receiver class.
-
-abstract Resources getResourcesForActivity(ComponentName activityName);
-//Retrieve the resources associated with an activity.
-
-abstract Resources getResourcesForApplication(String appPackageName);
-//Retrieve the resources associated with an application.
-
-abstract Resources getResourcesForApplication(ApplicationInfo app);
-//Retrieve the resources for an application.
-
-abstract ServiceInfo getServiceInfo(ComponentName component, int flags);
-//Retrieve all of the information we know about a particular service class.
-
-abstract FeatureInfo[] getSystemAvailableFeatures();
-//Get a list of features that are available on the system.
-
-abstract String[] getSystemSharedLibraryNames();
-//Get a list of shared libraries that are available on the system.
-
-abstract CharSequence getText(String packageName, int resid, ApplicationInfo appInfo);
-//Retrieve text from a package.
-
-abstract XmlResourceParser getXml(String packageName, int resid, ApplicationInfo appInfo);
-//Retrieve an XML file from a package.
-
-abstract boolean hasSystemFeature(String name);
-//Check whether the given feature name is one of the available features as returned by getSystemAvailableFeatures();.
-
-abstract boolean isSafeMode();
-//Return whether the device has been booted into safe mode.
-
-abstract List<ResolveInfo> queryBroadcastReceivers(Intent intent, int flags);
-//Retrieve all receivers that can handle a broadcast of the given intent.
-
-abstract List<ProviderInfo> queryContentProviders(String processName, int uid, int flags);
-//Retrieve content provider information.
-
-abstract List<InstrumentationInfo> queryInstrumentation(String targetPackage, int flags);
-//Retrieve information about available instrumentation code.
-
-abstract List<ResolveInfo> queryIntentActivities(Intent intent, int flags);
-//Retrieve all activities that can be performed for the given intent.
-
-abstract List<ResolveInfo> queryIntentActivityOptions(ComponentName caller, Intent[] specifics, Intent intent, int flags);
-//Retrieve a set of activities that should be presented to the user as similar options.
-
-abstract List<ResolveInfo> queryIntentServices(Intent intent, int flags);
-//Retrieve all services that can match the given intent.
-
-abstract List<PermissionInfo> queryPermissionsByGroup(String group, int flags);
-//Query for all of the permissions associated with a particular group.
-
-abstract void removePackageFromPreferred(String packageName);
-//This method was deprecated in API level 7. This function no longer does anything; it was an old approach to managing preferred activities, which has been superceeded (and conflicts with); the modern activity-based preferences.
-
-abstract void removePermission(String name);
-//Removes a permission that was previously added with addPermission(PermissionInfo);.
-
-abstract ResolveInfo resolveActivity(Intent intent, int flags);
-//Determine the best action to perform for a given Intent.
-
-abstract ProviderInfo resolveContentProvider(String name, int flags);
-//Find a single content provider by its base path name.
-
-abstract ResolveInfo resolveService(Intent intent, int flags);
-//Determine the best service to handle for a given Intent.
-
-abstract void setApplicationEnabledSetting(String packageName, int newState, int flags);
-//Set the enabled setting for an application This setting will override any enabled state which may have been set by the application in its manifest.
-
-abstract void setComponentEnabledSetting(ComponentName componentName, int newState, int flags);
-//Set the enabled setting for a package component (activity, receiver, service, provider);.
-
-abstract void setInstallerPackageName(String targetPackage, String installerPackageName);
-//Change the installer associated with a given package.
-
-abstract void verifyPendingInstall(int id, int verificationCode);
-//Allows a package listening to the package verification broadcast to respond to the package manager.
-
-
-
+class PackageManager{
+        static final int GET_PERMISSIONS;
+        @Source(PACKAGE_INFO) String[] getPackagesForUid(int arg0);
+        List<PackageInfo> getInstalledPackages(int arg0);
+        PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
 }
 
 class ResolveInfo {
@@ -2359,22 +2180,4 @@ String toString();
 
 
 }
-
-
-package android.content.pm;
-class PackageManager{
-            CharSequence getApplicationLabel(ApplicationInfo arg0);
-            ActivityInfo getActivityInfo(ComponentName arg0, int arg1) throws NameNotFoundException;
-            Drawable getApplicationIcon(String arg0) throws NameNotFoundException;
-            ApplicationInfo getApplicationInfo(String arg0, int arg1) throws NameNotFoundException;
-            Drawable getActivityIcon(ComponentName arg0) throws NameNotFoundException;
-            PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
-            List<ResolveInfo> queryIntentActivities(Intent arg0, int arg1);
-            boolean hasSystemFeature(String arg0);
-            ResolveInfo resolveActivity(Intent arg0, int arg1);
-}
-class Signature{
-            String toCharsString();
-}
-
 

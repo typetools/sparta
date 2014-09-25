@@ -52,6 +52,7 @@ public enum FlowPermission {
     READ_CLIPBOARD(T.SOURCE),
     SPEAKER(T.SINK), // Physical speaker / headphones 
     SENSOR(T.SOURCE), //See android.hardware.Sensor
+    PACKAGE_INFO(T.BOTH), //For data from/to android.content.pm.PackageManager
     
     /**
      * These are old sources or sinks that may or may not be of use
