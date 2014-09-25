@@ -328,15 +328,15 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                     }
                 }
                 polyFlowDefaults.annotate(element, type);
-                addAnnotationsToComponetTypes(type, POLYSOURCE, POLYSINK);
+                addAnnotationsToComponentTypes(type, POLYSOURCE, POLYSINK);
                 return;
             } else if (this.getDeclAnnotation(iter, PolyFlowReceiver.class) != null) {
                 if (ElementUtils.hasReceiver(element)) {
                     polyFlowReceiverDefaults.annotate(element, type);
-                    addAnnotationsToComponetTypes(type, POLYSOURCER, POLYSINKR);
+                    addAnnotationsToComponentTypes(type, POLYSOURCER, POLYSINKR);
                 } else {
                     polyFlowDefaults.annotate(element, type);
-                    addAnnotationsToComponetTypes(type, POLYSOURCE, POLYSINK);
+                    addAnnotationsToComponentTypes(type, POLYSOURCE, POLYSINK);
                 }
                 return;
             }
@@ -350,7 +350,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         }
     }
 
-    private void addAnnotationsToComponetTypes(AnnotatedTypeMirror type, AnnotationMirror polySource, AnnotationMirror polySink) {
+    private void addAnnotationsToComponentTypes(AnnotatedTypeMirror type, AnnotationMirror polySource, AnnotationMirror polySink) {
         if (type instanceof AnnotatedExecutableType) {
             for (AnnotatedTypeMirror atm : ((AnnotatedExecutableType) type)
                     .getParameterTypes()) {
