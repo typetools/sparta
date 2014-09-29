@@ -177,7 +177,13 @@ public class AddsSourceValidator extends BaseValidator {
         AnnotatedTypeMirror argument = atypeFactory
                 .getAnnotatedType(argumentTree);
         checkforMissingSource(argumentTree, warningKey, formalParam, argument);
-        formalParam.accept(comparer, argument);
+        if (formalParam.getClass().equals(argument.getClass())) {
+            formalParam.accept(comparer, argument);
+        } else {
+            checkforMissingSource(argumentTree, warningKey, formalParam,
+                    argument);
+        }
+            
     }
 
     private void checkforMissingSource(final ExpressionTree argumentTree,
