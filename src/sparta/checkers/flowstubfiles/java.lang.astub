@@ -1485,7 +1485,6 @@ class System {
     
 }
 
-@PolyFlowReceiver
 class Thread implements Runnable {
     final @Source({}) int MIN_PRIORITY;
     final @Source({}) int NORM_PRIORITY;

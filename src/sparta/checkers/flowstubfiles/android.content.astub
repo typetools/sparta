@@ -1057,7 +1057,7 @@ ClassLoader getClassLoader();
 //File getExternalCacheDir();
 //Returns the absolute path to the directory on the external filesystem (that is somewhere on Environment.getExternalStorageDirectory(); where the application can place cache files it owns.
 
-//File getExternalFilesDir(String type);
+@Source(WRITE_EXTERNAL_STORAGE) File getExternalFilesDir(String type);
 //Returns the absolute path to the directory on the external filesystem (that is somewhere on Environment.getExternalStorageDirectory();); where the application can place persistent files it owns.
 
 //File getFileStreamPath(String name);
