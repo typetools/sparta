@@ -27,8 +27,8 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.type.TypeKind;
 
-import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.common.reflection.ReflectionResolutionAnnotatedTypeFactory;
 import org.checkerframework.dataflow.analysis.TransferResult;
 import org.checkerframework.dataflow.cfg.node.Node;
 import org.checkerframework.framework.flow.CFAbstractAnalysis;
@@ -63,6 +63,7 @@ import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.Pair;
 
+import sparta.checkers.poly.ParameterizedPermissonPolymorphism;
 import sparta.checkers.poly.ReceiverPolymorphism;
 import sparta.checkers.quals.FineSink;
 import sparta.checkers.quals.FineSource;
@@ -81,7 +82,7 @@ import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
 
-public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
+public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeFactory{
 
     protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE, POLYSOURCER;
     protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK,POLYSINKR;
@@ -98,6 +99,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     private final ParameterizedFlowPermission ANY;
     
     protected ReceiverPolymorphism polyReceiver;
+    private ParameterizedPermissonPolymorphism polyParameterPerm;
+
     
     //Qualifier defaults for byte code and poly flow defaulting
 	final QualifierDefaults byteCodeFieldDefault = new QualifierDefaults(elements, this);
@@ -153,6 +156,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         //StubChecker.checkStubs(indexDeclAnnos, indexTypes, checker, this, processingEnv);
         
         polyReceiver = new ReceiverPolymorphism(processingEnv, this);
+        polyParameterPerm = new ParameterizedPermissonPolymorphism(processingEnv, this);
     }
 
     private AnnotationMirror createAnnoFromSink(
@@ -599,6 +603,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                 .methodFromUse(tree);
         AnnotatedExecutableType method = mfuPair.first;
         polyReceiver.annotate(tree, method);
+        polyParameterPerm.annotate(tree, method);
         return mfuPair;
     }
 
@@ -609,6 +614,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                 .constructorFromUse(tree);
         AnnotatedExecutableType method = mfuPair.first;
         polyReceiver.annotate(tree, method);
+        polyParameterPerm.annotate(tree, method);
         return mfuPair;
     }
 
