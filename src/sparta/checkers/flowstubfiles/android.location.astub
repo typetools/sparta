@@ -7,6 +7,9 @@ void setAltitudeRequired(boolean altitudeRequired);
 void setBearingRequired(boolean bearingRequired);
 void setCostAllowed(boolean costAllowed);
 void setPowerRequirement(int level);
+        void setHorizontalAccuracy(int accuracy);
+        void setSpeedRequired(boolean speedRequired);
+        static final int ACCURACY_HIGH;
 }
 
 class Address {

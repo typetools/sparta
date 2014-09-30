@@ -133,6 +133,9 @@ void setWakeMode(Context context, int mode);
 class MediaPlayer$OnPreparedListener{
         void onPrepared(MediaPlayer arg0);
 }
+class MediaPlayer$OnCompletionListener{
+        void onCompletion(MediaPlayer arg0);
+}
 
 class MediaRecorder {
 

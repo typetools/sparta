@@ -1,0 +1,22 @@
+package android.sax;
+class EndTextElementListener{
+        void end(String arg0);
+}
+class EndElementListener{
+        void end();
+}
+class StartElementListener{
+        void start(Attributes arg0);
+}
+class RootElement{
+        ContentHandler getContentHandler();
+        RootElement(String localName);
+}
+class Element{
+        void setElementListener(ElementListener elementListener);
+        void setEndTextElementListener(EndTextElementListener endTextElementListener);
+        Element getChild(String localName);
+        void setStartElementListener(StartElementListener startElementListener);
+        Element requireChild(String localName);
+}
+

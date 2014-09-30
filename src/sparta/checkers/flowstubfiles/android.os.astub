@@ -45,7 +45,7 @@ class AsyncTask<Params, Progress, Result> {
     AsyncTask<Params,Progress,Result> execute(Params[] arg0);
     AsyncTask<Params,Progress,Result> executeOnExecutor(Executor arg0, Params[] arg1);
     static void execute(Runnable arg0);
-    protected void publishProgress(Progress[] arg0);
+    protected void publishProgress(@Sink(DISPLAY) Progress[] arg0);
 }
 
 

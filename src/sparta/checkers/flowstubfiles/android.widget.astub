@@ -1542,7 +1542,7 @@ void onSizeChanged(int w, int h, int oldw, int oldh);
 }
 
 class MediaController {
-    
+         MediaController(Context context, boolean useFastForward);
     
 boolean dispatchKeyEvent(@Source(USER_INPUT) KeyEvent event);
 //Dispatch a key event to the next view on the focus path.
