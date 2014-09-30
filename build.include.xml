@@ -324,11 +324,17 @@
     <target name="-setup-infer">
         <property name="build.target" value="infer" />
     </target>
+    <target name="-setup-infer-sink">
+        <property name="build.target" value="infer-sink" />
+    </target>
+    <target name="-setup-infer-source">
+        <property name="build.target" value="infer-source" />
+    </target>
     <target name="infer" depends="-setup-infer,infer-source, infer-sink"
             description="Infer annotations">
     </target>
     <!-- Only run inference on @Source annotations -->
-    <target name="infer-source" depends="-build-setup, -set-release-mode, -code-gen, -post-package">
+    <target name="infer-source" depends="-setup-infer-source,-build-setup, -set-release-mode, -code-gen, -post-package">
         <property name="debug" value=""/>
 
         <exec executable="/usr/bin/find">
@@ -366,7 +372,7 @@
         </exec>
     </target>
     <!-- Only run inference on @Sink annotations -->
-    <target name="infer-sink" depends="-build-setup, -set-release-mode, -code-gen, -post-package">
+    <target name="infer-sink" depends="-setup-infer-sink,-build-setup, -set-release-mode, -code-gen, -post-package">
         <property name="debug" value=""/>
 
         <exec executable="/usr/bin/find">
