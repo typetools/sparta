@@ -321,7 +321,10 @@
     <target name="cfi-debug">
         <property name="debug" value="--debug"/>
     </target>
-    <target name="infer" depends="infer-source, infer-sink"
+    <target name="-setup-infer">
+        <property name="build.target" value="infer" />
+    </target>
+    <target name="infer" depends="-setup-infer,infer-source, infer-sink"
             description="Infer annotations">
     </target>
     <!-- Only run inference on @Source annotations -->
