@@ -16,6 +16,7 @@ URL toURL() throws MalformedURLException;
 
 
 class ServerSocket {
+        ServerSocket(@Sink(INTERNET) int arg0,@Sink(INTERNET) int arg1,@Sink(INTERNET) InetAddress arg2);
 Socket accept() throws IOException;
 void close() throws IOException;
 }
@@ -37,18 +38,15 @@ InetSocketAddress(String arg0, int arg1);
 class DatagramPacket {
 byte[] getData();
 InetAddress getAddress();
-    //8 (setAddress)
         void setAddress(@Sink(INTERNET) InetAddress arg0);
-    //23 (<init>)
         DatagramPacket(@Sink(INTERNET) byte[] arg0, @Sink(INTERNET) int arg1);
-    //8 (setPort)
         void setPort(@Sink(INTERNET) int arg0);
-    //23 (<init>)
         DatagramPacket(@Sink(INTERNET) byte[] arg0, @Sink(INTERNET) int arg1, @Sink(INTERNET) InetAddress arg2, @Sink(INTERNET) int arg3);
-    //8 (setData)
         void setData(@Sink(INTERNET) byte[] arg0);
-    //20 (getPort)
         @Source(INTERNET) int getPort();
+        int getLength();
+        void setLength(int arg0);
+
 }
 
 @PolyFlowReceiver
@@ -222,14 +220,10 @@ class HttpURLConnection {
 
 
 class DatagramSocket{
-    //7 (<init>)
         DatagramSocket() throws SocketException;
-    //16 (<init>)
+        DatagramSocket(@Sink(INTERNET) int arg0, @Sink(INTERNET) InetAddress arg1); 
         DatagramSocket(@Sink(INTERNET) int arg0) throws SocketException;
-    //16 (receive)
         void receive(@Source(INTERNET) DatagramPacket arg0) throws IOException;
-    //24 (send)
         void send(@Sink(INTERNET) DatagramPacket arg0) throws IOException;
-    //24 (close)
         void close();
 }

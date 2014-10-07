@@ -258,8 +258,11 @@
     <target name="-setup-report-suspicious">
         <property name="build.target" value="report-suspicious" />
     </target>
+    <target name="-setup-report-strings">
+        <property name="build.target" value="report-strings" />
+    </target>
          <target name="report-strings"
-                 depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package"
+                 depends="clean,-setup-report-strings, -build-setup,-set-release-mode,-code-gen, -post-package"
                  description="reports all static strings found by the ValueChecker">
          <process-proj processor="sparta.checkers.report.ReportValueChecker"/>
      </target>

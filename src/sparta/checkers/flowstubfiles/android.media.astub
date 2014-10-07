@@ -56,13 +56,16 @@ class AudioRecord {
         static int getMinBufferSize(int sampleRateInHz, int channelConfig, int audioFormat);
         int getState();
         void stop() throws IllegalStateException;
+        @AddsSourceData
         int read(@Source(RECORD_AUDIO) byte[] audioData, int offsetInBytes, int sizeInBytes);
         void release();
         AudioRecord(int audioSource, int sampleRateInHz, int channelConfig, int audioFormat, int bufferSizeInBytes) throws IllegalArgumentException;
         void startRecording() throws IllegalStateException;
         
-        int read(ByteBuffer audioBuffer, int sizeInBytes);
-int read(short[] audioData, int offsetInShorts, int sizeInShorts);
+        @AddsSourceData
+        int read(@Source(RECORD_AUDIO) ByteBuffer audioBuffer, int sizeInBytes);
+        @AddsSourceData
+int read(@Source(RECORD_AUDIO) short[] audioData, int offsetInShorts, int sizeInShorts);
 void startRecording(MediaSyncEvent syncEvent) throws IllegalStateException;
 }
 

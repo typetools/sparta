@@ -630,16 +630,20 @@ class PrintWriter extends Writer {
     PrintWriter append(char arg0);
 }
 
-@PolyFlowReceiver
 class RandomAccessFile{
+        RandomAccessFile(File arg0, String arg1) throws FileNotFoundException;
+        RandomAccessFile(String arg0, String arg1) throws FileNotFoundException;
         void writeBytes(@Sink(FILESYSTEM) String arg0) throws IOException;
         void close() throws IOException;
-        RandomAccessFile(String arg0, String arg1) throws FileNotFoundException;
         void write(@Sink(FILESYSTEM) byte[] arg0) throws IOException;
         void seek(long arg0) throws IOException;
         void writeInt(@Sink(FILESYSTEM) int arg0) throws IOException;
         void writeShort(@Sink(FILESYSTEM) int arg0) throws IOException;
         void setLength(long arg0) throws IOException;
+        long getFilePointer() throws IOException;
+        void writeUTF(@Sink(FILESYSTEM) String arg0) throws IOException;
+        long length() throws IOException;
+        @Source(FILESYSTEM) String readUTF() throws IOException;
 }
 
 @PolyFlowReceiver
