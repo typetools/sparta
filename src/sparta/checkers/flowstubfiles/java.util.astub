@@ -434,7 +434,6 @@ interface Collection<E> extends Iterable<E> {
     int hashCode();
 }
 
-@PolyFlowReceiver
 class Collections {
 //Added by pbsf
     final Set EMPTY_SET;
@@ -543,7 +542,6 @@ class Date implements Serializable, Cloneable, Comparable<Date> {
     int getTimezoneOffset();
 }
 
-@PolyFlowReceiver
 interface Deque<E> extends Queue<E> {
     void addFirst(E arg0);
     void addLast(E arg0);
@@ -574,14 +572,12 @@ interface Deque<E> extends Queue<E> {
     Iterator<E> descendingIterator();
 }
 
-@PolyFlowReceiver
 interface Enumeration<E> {
     boolean hasMoreElements();
     E nextElement();
 }
 
 
-@PolyFlowReceiver
 class EnumMap<K, V> extends AbstractMap<K,V> implements Serializable, Cloneable {
     EnumMap(Class<K> arg0);
     EnumMap(EnumMap<K,? extends V> arg0);
@@ -602,7 +598,6 @@ class EnumMap<K, V> extends AbstractMap<K,V> implements Serializable, Cloneable 
     EnumMap<K,V> clone();
 }
 
-@PolyFlowReceiver
 class EnumSet<E> extends AbstractSet<E> implements Cloneable, Serializable {
     static <E> EnumSet<E> noneOf(Class<E> arg0);
     static <E> EnumSet<E> allOf(Class<E> arg0);
@@ -662,7 +657,6 @@ class GregorianCalendar extends Calendar {
     protected void computeTime();
 }
        
-@PolyFlowReceiver  
 class HashMap<K, V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
     HashMap(int arg0, float arg1);
     HashMap(int arg0);
@@ -683,7 +677,6 @@ class HashMap<K, V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Ser
     Set<Entry<K,V>> entrySet();
 }
 
-@PolyFlowReceiver
 class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Serializable {
     HashSet();
     HashSet(Collection<? extends E> arg0);
@@ -699,7 +692,6 @@ class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Serializab
     Object clone();
 }
 
-@PolyFlowReceiver
 class Hashtable<K, V> extends Dictionary<K,V> implements Map<K,V>, Cloneable, Serializable {
     Hashtable(int arg0, float arg1);
     Hashtable(int arg0);
@@ -735,9 +727,7 @@ interface Iterator<E> {
     void remove();
 }
 
-@PolyFlowReceiver  
 class LinkedHashMap<K, V> extends HashMap<K,V> implements Map<K,V> {
-//Added by pbsf
     LinkedHashMap(int arg0, float arg1);
     LinkedHashMap(int arg0);
     LinkedHashMap();
@@ -749,7 +739,6 @@ class LinkedHashMap<K, V> extends HashMap<K,V> implements Map<K,V> {
     protected boolean removeEldestEntry(Entry<K,V> arg0);
 }
 
-@PolyFlowReceiver
 class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable, Serializable {
     LinkedHashSet(int arg0, float arg1);
     LinkedHashSet(int arg0);
@@ -757,12 +746,7 @@ class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable, Serializ
     LinkedHashSet(Collection<? extends E> arg0);
 }
 
-@PolyFlowReceiver
-class AbstractSequentialList {
-Iterator<E> iterator();
-}
 
-@PolyFlowReceiver
 class LinkedList<E> extends AbstractSequentialList<E> implements List<E>, Deque<E>, Cloneable, Serializable {
     LinkedList();
     LinkedList(Collection<? extends E> arg0);
@@ -807,17 +791,14 @@ class LinkedList<E> extends AbstractSequentialList<E> implements List<E>, Deque<
     <T> T[] toArray(T[] arg0);
 }
 
-interface List<E extends @Sink({}) @Source(FlowPermission.ANY) Object> {
-    @PolyFlowReceiver
+interface List<E> {
     int size();
     boolean isEmpty();
     @PolyFlowReceiver
     boolean contains(Object arg0);
-    @PolyFlowReceiver
     Iterator<E> iterator();
     @PolyFlowReceiver
     Object[] toArray();
-    @PolyFlowReceiver
     <T> T[] toArray(T[] arg0);
     @PolyFlowReceiver
     boolean add(E arg0);
@@ -963,20 +944,14 @@ interface Map<K, V> {
     boolean containsKey(Object arg0);
     @PolyFlowReceiver
     boolean containsValue(Object arg0);
-    @PolyFlowReceiver
     V get(Object arg0);
-    @PolyFlowReceiver
     V put(K arg0, V arg1);
     @PolyFlowReceiver
     V remove(Object arg0);
-    @PolyFlowReceiver
     void putAll(Map<? extends K,? extends V> arg0);
     void clear();
-    @PolyFlowReceiver
     Set<K> keySet();
-    @PolyFlowReceiver
     Collection<V> values();
-    @PolyFlowReceiver
     Set<Entry<K,V>> entrySet();
     @PolyFlowReceiver
     boolean equals(Object arg0);

@@ -76,64 +76,43 @@ void writeToParcel(Parcel dest, int flags);
 
 }
 
-class NdefRecord {
     
-    
-static NdefRecord createApplicationRecord(String packageName);
-//Create a new Android Application Record (AAR);.
+class NdefRecord implements Parcelable {
+    static final short TNF_EMPTY;
+    static final short TNF_WELL_KNOWN;
+    static final short TNF_MIME_MEDIA;
+    static final short TNF_ABSOLUTE_URI;
+    static final short TNF_EXTERNAL_TYPE;
+    static final short TNF_UNKNOWN;
+    static final short TNF_UNCHANGED;
+    static final byte[] RTD_TEXT;
+    static final byte[] RTD_URI;
+    static final byte[] RTD_SMART_POSTER;
+    static final byte[] RTD_ALTERNATIVE_CARRIER;
+    static final byte[] RTD_HANDOVER_CARRIER;
+    static final byte[] RTD_HANDOVER_REQUEST;
+    static final byte[] RTD_HANDOVER_SELECT;
+    static final Creator<NdefRecord> CREATOR;
+    NdefRecord(@Sink(NFC) short arg0, @Sink(NFC) byte[] arg1, @Sink(NFC) byte[] arg2, @Sink(NFC) byte[] arg3);
+    NdefRecord(@Sink(NFC) byte[] arg0) throws FormatException;
+    static NdefRecord createApplicationRecord(@Sink(NFC) String arg0);
+    static NdefRecord createUri(@Sink(NFC) Uri arg0);
+    static NdefRecord createUri(@Sink(NFC) String arg0);
+    static NdefRecord createMime(@Sink(NFC) String arg0, @Sink(NFC) byte[] arg1);
+    static NdefRecord createExternal(@Sink(NFC) String arg0, @Sink(NFC) String arg1, @Sink(NFC) byte[] arg2);
+    @Source(NFC) short getTnf();
+    @Source(NFC) byte[] getType();
+    @Source(NFC) byte[] getId();
+    @Source(NFC) byte[] getPayload();
+    @Source(NFC) byte[] toByteArray();
+    @Source(NFC) String toMimeType();
+    @Source(NFC) Uri toUri();
+    int describeContents();
+    int hashCode();
+    boolean equals(Object arg0);
+    @Source(NFC) String toString();
+}    
 
-static NdefRecord createExternal(String domain, String type, byte[] data);
-//Create a new NDEF Record containing external (application-specific); data.
-
-static NdefRecord createMime(String mimeType, byte[] mimeData);
-//Create a new NDEF Record containing MIME data.
-
-static NdefRecord createUri(String uriString);
-//Create a new NDEF Record containing a URI.
-
-static NdefRecord createUri(Uri uri);
-//Create a new NDEF Record containing a URI.
-
-int describeContents();
-//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
-
-boolean equals(Object obj);
-//Returns true if the specified NDEF Record contains identical tnf, type, id and payload fields.
-
-byte[] getId();
-//Returns the variable length ID.
-
-byte[] getPayload();
-//Returns the variable length payload.
-
-short getTnf();
-//Returns the 3-bit TNF.
-
-byte[] getType();
-//Returns the variable length Type field.
-
-int hashCode();
-//Returns an integer hash code for this object.
-
-byte[] toByteArray();
-//This method was deprecated in API level 16. use toByteArray(); instead
-
-String toMimeType();
-//Map this record to a MIME type, or return null if it cannot be mapped.
-
-String toString();
-//Returns a string containing a concise, human-readable description of this object.
-
-Uri toUri();
-//Map this record to a URI, or return null if it cannot be mapped.
-
-void writeToParcel(Parcel dest, int flags);
-//Flatten this object in to a Parcel.
-
-
-
-
-}
 
 class Tag implements Parcelable {
     static final Creator< @Source(NFC) Tag> CREATOR;

@@ -1721,13 +1721,13 @@ abstract void unregisterOnSharedPreferenceChangeListener(SharedPreferences.OnSha
 class SharedPreferences$Editor {
 //CSH: I think this is the right way to annotate this.  The put* methods don't actually send the data until commit() or apply() is called, so those are the methods that should be annotated.?
 
-abstract void apply() @Sink(SHARED_PREFERENCES);
+abstract void apply();
 //Commit your preferences changes back from this Editor to the SharedPreferences object it is editing.
 
-abstract SharedPreferences.Editor clear() @Sink(SHARED_PREFERENCES);
+abstract SharedPreferences.Editor clear() ;
 //Mark in the editor to remove all values from the preferences.
 
-abstract boolean commit() @Sink(SHARED_PREFERENCES);
+abstract boolean commit();
 //Commit your preferences changes back from this Editor to the SharedPreferences object it is editing.
 
 abstract SharedPreferences.Editor putBoolean(String key, @Sink(SHARED_PREFERENCES) boolean value);
