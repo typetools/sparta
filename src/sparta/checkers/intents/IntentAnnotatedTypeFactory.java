@@ -538,8 +538,29 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                                     IExtraOutputSet, processingEnv);
                     return output;
                 } else if (AnnotationUtils.areSameIgnoringValues(a1, IEXTRA)) {
-                    // Top IEXTRA?
+                    if (a1 == null || a2 == null || !isIExtraQualifier(a2)) {
+                        return super.leastUpperBound(a1, a2);
+                    }
+                    Set<ParameterizedFlowPermission> lhsAnnotatedSources = IntentUtils
+                            .getSourcesPFP(a1);
+                    Set<ParameterizedFlowPermission> lhsAnnotatedSinks = IntentUtils
+                            .getSinksPFP(a1);
+                    Set<ParameterizedFlowPermission> rhsAnnotatedSources = IntentUtils
+                            .getSourcesPFP(a2);
+                    Set<ParameterizedFlowPermission> rhsAnnotatedSinks = IntentUtils
+                            .getSinksPFP(a2);
+
+                    AnnotationMirror lhsSinks = createAnnoFromSink(lhsAnnotatedSinks);
+                    AnnotationMirror rhsSinks = createAnnoFromSink(rhsAnnotatedSinks);
+                    AnnotationMirror lhsSources = createAnnoFromSource(lhsAnnotatedSources);
+                    AnnotationMirror rhsSources = createAnnoFromSource(rhsAnnotatedSources);
+                    return IntentUtils.createIExtraAnno("",
+                            Flow.getSources(leastUpperBound(rhsSources,
+                                    lhsSources)), Flow
+                                    .getSinks(leastUpperBound(rhsSinks,
+                                            lhsSinks)), processingEnv);
                 }
+                    
             } else if ((AnnotationUtils.areSameIgnoringValues(a1, POLY_INTENT_MAP) &&
                     AnnotationUtils.areSameIgnoringValues(a2, INTENT_MAP)) ||
                     (AnnotationUtils.areSameIgnoringValues(a2, POLY_INTENT_MAP) &&
