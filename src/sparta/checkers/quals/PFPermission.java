@@ -6,18 +6,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class ParameterizedFlowPermission implements Comparable<ParameterizedFlowPermission> {
-    public static final ParameterizedFlowPermission ANY = new ParameterizedFlowPermission(
+public class PFPermission implements Comparable<PFPermission> {
+    public static final PFPermission ANY = new PFPermission(
             FlowPermission.ANY);
 	private final FlowPermission permission;
     private final List<String> parameters; 
     
-    public ParameterizedFlowPermission(FlowPermission permission) {
+    public PFPermission(FlowPermission permission) {
         this( permission, new ArrayList<String>());     
     }
 
     
-    public ParameterizedFlowPermission(FlowPermission permission, List<String> parameters) {
+    public PFPermission(FlowPermission permission, List<String> parameters) {
         this.permission = permission;
         this.parameters = parameters; 
         if(parameters.isEmpty()) {
@@ -73,7 +73,7 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ParameterizedFlowPermission other = (ParameterizedFlowPermission) obj;
+        PFPermission other = (PFPermission) obj;
         if (parameters == null) {
             if (other.parameters != null)
                 return false;
@@ -90,7 +90,7 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
      * parameters, then by String compare of sorted parameters.
      */
     @Override
-    public int compareTo(ParameterizedFlowPermission other) {
+    public int compareTo(PFPermission other) {
         if (other == null) {
             return 1;
         }
@@ -113,8 +113,8 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
     }
 
     // TODO: Ask where this method belongs. Static method in another class?
-    static public boolean coarsePermissionExists(ParameterizedFlowPermission target, Set<ParameterizedFlowPermission> permissions) {
-        for (ParameterizedFlowPermission permission : permissions) {
+    static public boolean coarsePermissionExists(PFPermission target, Set<PFPermission> permissions) {
+        for (PFPermission permission : permissions) {
             if (permission.equals(target) ) {
                 return true;
             }

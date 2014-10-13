@@ -45,7 +45,7 @@ import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IntentMapBottom;
 import sparta.checkers.quals.IntentMapNew;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.PFPermission;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.PolyIntentMap;
@@ -69,7 +69,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     protected final ExecutableElement setIntent;
     protected final ComponentMap componentMap;
     private final HostSetTypeVisitor hostSetTypeVisitor;
-    private final ParameterizedFlowPermission EXTRA_DEFAULT;
+    private final PFPermission EXTRA_DEFAULT;
 
     public IntentAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
@@ -94,7 +94,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         BOTTOM_INTENT_MAP = AnnotationUtils.fromClass(elements, IntentMapBottom.class); // bottom
         POLY_INTENT_MAP = AnnotationUtils.fromClass(elements, PolyIntentMap.class);
 
-        EXTRA_DEFAULT = new ParameterizedFlowPermission(FlowPermission.EXTRA_DEFAULT);
+        EXTRA_DEFAULT = new PFPermission(FlowPermission.EXTRA_DEFAULT);
 
         if (this.getClass().equals(IntentAnnotatedTypeFactory.class)) {
             this.postInit();
@@ -301,9 +301,9 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             if (anno != null) {
                 List<AnnotationMirror> iExtras = IntentUtils.getIExtras(anno);
                 for (AnnotationMirror iExtra : iExtras) {
-                    Set<ParameterizedFlowPermission> sources = IntentUtils.
+                    Set<PFPermission> sources = IntentUtils.
                             getSourcesPFP(iExtra);
-                    Set<ParameterizedFlowPermission> sinks = IntentUtils.
+                    Set<PFPermission> sinks = IntentUtils.
                             getSinksPFP(iExtra);
                     if (sinks.contains(EXTRA_DEFAULT) &&
                             sources.contains(EXTRA_DEFAULT)) {
@@ -312,12 +312,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                                 Flow.getSources(NOSOURCE), Flow.getSinks(ANYSINK),
                                 processingEnv);
                     } else if (sinks.contains(EXTRA_DEFAULT)) {
-                        Set<ParameterizedFlowPermission> newSink = getFlowPolicy().
+                        Set<PFPermission> newSink = getFlowPolicy().
                                 getIntersectionAllowedSinks(sources);
                         anno = IntentUtils.getNewIMapWithExtra(anno, IntentUtils.
                                 getKeyName(iExtra), sources, newSink, processingEnv);
                     } else if (sources.contains(EXTRA_DEFAULT)) {
-                        Set<ParameterizedFlowPermission> newSource = getFlowPolicy().
+                        Set<PFPermission> newSource = getFlowPolicy().
                                 getIntersectionAllowedSources(sinks);
                         anno = IntentUtils.getNewIMapWithExtra(anno, IntentUtils.
                                 getKeyName(iExtra), newSource, sinks, processingEnv);
@@ -412,13 +412,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 if (rhs == null || lhs == null || !isIExtraQualifier(lhs)) {
                     return false;
                 }
-                Set<ParameterizedFlowPermission> lhsAnnotatedSources = IntentUtils
+                Set<PFPermission> lhsAnnotatedSources = IntentUtils
                         .getSourcesPFP(lhs);
-                Set<ParameterizedFlowPermission> lhsAnnotatedSinks = IntentUtils
+                Set<PFPermission> lhsAnnotatedSinks = IntentUtils
                         .getSinksPFP(lhs);
-                Set<ParameterizedFlowPermission> rhsAnnotatedSources = IntentUtils
+                Set<PFPermission> rhsAnnotatedSources = IntentUtils
                         .getSourcesPFP(rhs);
-                Set<ParameterizedFlowPermission> rhsAnnotatedSinks = IntentUtils
+                Set<PFPermission> rhsAnnotatedSinks = IntentUtils
                         .getSinksPFP(rhs);
                 
                 AnnotationMirror lhsSinks = createAnnoFromSink(lhsAnnotatedSinks);
@@ -541,13 +541,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     if (a1 == null || a2 == null || !isIExtraQualifier(a2)) {
                         return super.leastUpperBound(a1, a2);
                     }
-                    Set<ParameterizedFlowPermission> lhsAnnotatedSources = IntentUtils
+                    Set<PFPermission> lhsAnnotatedSources = IntentUtils
                             .getSourcesPFP(a1);
-                    Set<ParameterizedFlowPermission> lhsAnnotatedSinks = IntentUtils
+                    Set<PFPermission> lhsAnnotatedSinks = IntentUtils
                             .getSinksPFP(a1);
-                    Set<ParameterizedFlowPermission> rhsAnnotatedSources = IntentUtils
+                    Set<PFPermission> rhsAnnotatedSources = IntentUtils
                             .getSourcesPFP(a2);
-                    Set<ParameterizedFlowPermission> rhsAnnotatedSinks = IntentUtils
+                    Set<PFPermission> rhsAnnotatedSinks = IntentUtils
                             .getSinksPFP(a2);
 
                     AnnotationMirror lhsSinks = createAnnoFromSink(lhsAnnotatedSinks);
@@ -652,13 +652,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         private boolean hostKeysMapToSameType(
                 AnnotationMirror a1IExtra, String a1IExtraKey,
                 AnnotationMirror a2IExtra) {
-            Set<ParameterizedFlowPermission> a1Sources = IntentUtils.
+            Set<PFPermission> a1Sources = IntentUtils.
                     getSourcesPFP(a1IExtra);
-            Set<ParameterizedFlowPermission> a2Sources = IntentUtils.
+            Set<PFPermission> a2Sources = IntentUtils.
                     getSourcesPFP(a1IExtra);
-            Set<ParameterizedFlowPermission> a1Sinks = IntentUtils.
+            Set<PFPermission> a1Sinks = IntentUtils.
                     getSinksPFP(a1IExtra);
-            Set<ParameterizedFlowPermission> a2Sinks = IntentUtils.
+            Set<PFPermission> a2Sinks = IntentUtils.
                     getSinksPFP(a2IExtra);
             return a1Sources.equals(a2Sources) && a1Sinks.equals(a2Sinks);
         }
@@ -746,9 +746,9 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
          */
         private void hostSetType(AnnotatedTypeMirror atm,
                 AnnotationMirror iExtraAM) {
-            Set<ParameterizedFlowPermission> annotatedSources = IntentUtils
+            Set<PFPermission> annotatedSources = IntentUtils
                     .getSourcesPFP(iExtraAM);
-            Set<ParameterizedFlowPermission> annotatedSinks = IntentUtils
+            Set<PFPermission> annotatedSinks = IntentUtils
                     .getSinksPFP(iExtraAM);
             AnnotationMirror sourceAnnotation = createAnnoFromSource(annotatedSources);
             AnnotationMirror sinkAnnotation = createAnnoFromSink(annotatedSinks);

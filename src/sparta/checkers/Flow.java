@@ -14,32 +14,32 @@ import javax.lang.model.element.AnnotationMirror;
 import sparta.checkers.quals.FineSink;
 import sparta.checkers.quals.FineSource;
 import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.PFPermission;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
 public class Flow {
-    private static ParameterizedFlowPermission ANY = new ParameterizedFlowPermission(FlowPermission.ANY);
+    private static PFPermission ANY = new PFPermission(FlowPermission.ANY);
     
-    Set<ParameterizedFlowPermission> sources;
-    Set<ParameterizedFlowPermission> sinks;
+    Set<PFPermission> sources;
+    Set<PFPermission> sinks;
 
-    public Flow(Set<ParameterizedFlowPermission> sources, Set<ParameterizedFlowPermission> sinks) {      
+    public Flow(Set<PFPermission> sources, Set<PFPermission> sinks) {      
         this.sources = sources;
         this.sinks = sinks;
     }
 
-    public Flow(ParameterizedFlowPermission source, Set<ParameterizedFlowPermission> sinks) {
-        this.sources = new TreeSet<ParameterizedFlowPermission>();
+    public Flow(PFPermission source, Set<PFPermission> sinks) {
+        this.sources = new TreeSet<PFPermission>();
         if (source != null) {
             sources.add(source);
         }
         this.sinks = convertToAnySink(sinks, false);
     }
 
-    public Flow(Set<ParameterizedFlowPermission> sources, ParameterizedFlowPermission sink) {
+    public Flow(Set<PFPermission> sources, PFPermission sink) {
         this.sources = convertToAnySource(sources, false);
-        this.sinks = new TreeSet<ParameterizedFlowPermission>();
+        this.sinks = new TreeSet<PFPermission>();
         sinks.add(sink);
     }
 
@@ -49,13 +49,13 @@ public class Flow {
     }
 
     public Flow() {
-        this.sinks = new TreeSet<ParameterizedFlowPermission>();
-        this.sources = new TreeSet<ParameterizedFlowPermission>();
+        this.sinks = new TreeSet<PFPermission>();
+        this.sources = new TreeSet<PFPermission>();
     }
 
-    public Flow(ParameterizedFlowPermission source) {
-        this.sinks = new TreeSet<ParameterizedFlowPermission>();
-        this.sources = new TreeSet<ParameterizedFlowPermission>();
+    public Flow(PFPermission source) {
+        this.sinks = new TreeSet<PFPermission>();
+        this.sources = new TreeSet<PFPermission>();
         sources.add(source);
     }
 
@@ -78,7 +78,7 @@ public class Flow {
         return flowstring;
     }
 
-    public void addSink(ParameterizedFlowPermission sink) {
+    public void addSink(PFPermission sink) {
         sinks.add(sink);
     }
 
@@ -86,15 +86,15 @@ public class Flow {
         return !sinks.isEmpty();
     }
 
-    public void addSink(Set<ParameterizedFlowPermission> sinks) {
+    public void addSink(Set<PFPermission> sinks) {
         this.sinks.addAll(convertToAnySink(sinks, false));
 
     }
 
-    public void addSource(ParameterizedFlowPermission source) {
+    public void addSource(PFPermission source) {
         sources.add(source);
     }
-    public void addSource(Set<ParameterizedFlowPermission> source) {
+    public void addSource(Set<PFPermission> source) {
         this.sources.addAll(convertToAnySource(source, false));
     }
     public boolean isBottom(){
@@ -132,34 +132,34 @@ public class Flow {
         return true;
     }
 
-    public static Set<ParameterizedFlowPermission> getSinks(final AnnotatedTypeMirror type) {
+    public static Set<PFPermission> getSinks(final AnnotatedTypeMirror type) {
         for(AnnotationMirror anno : type.getEffectiveAnnotations()){
             if(AnnotationUtils.areSameByClass(anno, Sink.class)){
                 return getSinks(anno);
             }
         }
-        return new TreeSet<ParameterizedFlowPermission>();
+        return new TreeSet<PFPermission>();
     }
 
-    public static Set<ParameterizedFlowPermission> getSources(final AnnotatedTypeMirror type) {
+    public static Set<PFPermission> getSources(final AnnotatedTypeMirror type) {
         for(AnnotationMirror anno : type.getEffectiveAnnotations()){
             if(AnnotationUtils.areSameByClass(anno, Source.class)){
                 return getSources(anno);
             }
         }
-        return new TreeSet<ParameterizedFlowPermission>();
+        return new TreeSet<PFPermission>();
     }
     
-    public static Set<ParameterizedFlowPermission> getSinks(final AnnotationMirror am) {
+    public static Set<PFPermission> getSinks(final AnnotationMirror am) {
         if (am == null) {
-            return new TreeSet<ParameterizedFlowPermission>();
+            return new TreeSet<PFPermission>();
         }
 
-        Set<ParameterizedFlowPermission> sinkFlowPermissions = new TreeSet<ParameterizedFlowPermission>();
+        Set<PFPermission> sinkFlowPermissions = new TreeSet<PFPermission>();
         List<FlowPermission> sinks = AnnotationUtils.getElementValueEnumArray(am, "value",
                 FlowPermission.class, true);
         for (FlowPermission coarsePermission : sinks) {
-            sinkFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission));
+            sinkFlowPermissions.add(new PFPermission(coarsePermission));
         }
         
         List<AnnotationMirror> finesinks = AnnotationUtils.getElementValueArray(am, "finesinks",
@@ -169,23 +169,23 @@ public class Flow {
             FlowPermission coarsePermission = AnnotationUtils.getElementValueEnum(sinkAM, "value",
                     FlowPermission.class, true);
             List<String> params = AnnotationUtils.getElementValueArray(sinkAM, "params", String.class, true);
-            sinkFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission, params));
+            sinkFlowPermissions.add(new PFPermission(coarsePermission, params));
         }
 
-        Set<ParameterizedFlowPermission> retSet = convertToAnySink(sinkFlowPermissions, false);
+        Set<PFPermission> retSet = convertToAnySink(sinkFlowPermissions, false);
         return retSet;
     }
 
-    public static Set<ParameterizedFlowPermission> getSources(final AnnotationMirror am) {
+    public static Set<PFPermission> getSources(final AnnotationMirror am) {
         if (am == null) {
-            return new TreeSet<ParameterizedFlowPermission>();
+            return new TreeSet<PFPermission>();
         }
 
-        Set<ParameterizedFlowPermission> sourceFlowPermissions = new TreeSet<ParameterizedFlowPermission>();
+        Set<PFPermission> sourceFlowPermissions = new TreeSet<PFPermission>();
         List<FlowPermission> sources = AnnotationUtils.getElementValueEnumArray(am, "value",
                 FlowPermission.class, true);
         for (FlowPermission coarsePermission : sources)
-            sourceFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission));
+            sourceFlowPermissions.add(new PFPermission(coarsePermission));
         
         List<AnnotationMirror> finesources = AnnotationUtils.getElementValueArray(am, "finesources",
                 AnnotationMirror.class, true);
@@ -194,10 +194,10 @@ public class Flow {
             FlowPermission coarsePermission = AnnotationUtils.getElementValueEnum(sinkAM, "value",
                     FlowPermission.class, true);
             List<String> params = AnnotationUtils.getElementValueArray(sinkAM, "params", String.class, true);
-            sourceFlowPermissions.add(new ParameterizedFlowPermission(coarsePermission, params));         
+            sourceFlowPermissions.add(new PFPermission(coarsePermission, params));         
         }
         
-        Set<ParameterizedFlowPermission> retSet = convertToAnySource(sourceFlowPermissions, false);
+        Set<PFPermission> retSet = convertToAnySource(sourceFlowPermissions, false);
         return retSet;
     }
     
@@ -207,9 +207,9 @@ public class Flow {
      * @param inPlace
      * @return
      */
-    private static Set<ParameterizedFlowPermission> convertAnyToAllSinks(final Set<ParameterizedFlowPermission> sinks,
+    private static Set<PFPermission> convertAnyToAllSinks(final Set<PFPermission> sinks,
             boolean inPlace) {
-        final Set<ParameterizedFlowPermission> retSet = (inPlace) ? sinks : new TreeSet<ParameterizedFlowPermission>(sinks);
+        final Set<PFPermission> retSet = (inPlace) ? sinks : new TreeSet<PFPermission>(sinks);
         if (sinks.contains(ANY)) {
             retSet.addAll(getSetOfAllSinks());
             retSet.remove(ANY);
@@ -223,9 +223,9 @@ public class Flow {
      * @param inPlace
      * @return
      */
-    private static Set<ParameterizedFlowPermission> convertAnytoAllSources(final Set<ParameterizedFlowPermission> sources,
+    private static Set<PFPermission> convertAnytoAllSources(final Set<PFPermission> sources,
             boolean inPlace) {
-        final Set<ParameterizedFlowPermission> retSet = (inPlace) ? sources : new TreeSet<ParameterizedFlowPermission>(
+        final Set<PFPermission> retSet = (inPlace) ? sources : new TreeSet<PFPermission>(
                 sources);
         if (sources.contains(ANY)) {
             retSet.addAll(getSetOfAllSinks());
@@ -239,12 +239,12 @@ public class Flow {
      * TODO: This returns all sources and sinks, not just sources...fix this
      * @return
      */
-    public static Set<ParameterizedFlowPermission> getSetOfAllSources() {
+    public static Set<PFPermission> getSetOfAllSources() {
         List<FlowPermission> coarseFlowList = Arrays.asList(FlowPermission.values());
-        Set<ParameterizedFlowPermission> flowPermissionSet = new TreeSet<>();
+        Set<PFPermission> flowPermissionSet = new TreeSet<>();
         for (FlowPermission permission : coarseFlowList) {
             if (permission != FlowPermission.ANY) {
-                flowPermissionSet.add(new ParameterizedFlowPermission(permission)); 
+                flowPermissionSet.add(new PFPermission(permission)); 
             }
         }
         return flowPermissionSet;
@@ -255,12 +255,12 @@ public class Flow {
      * TODO: This returns all sources and sinks, not just sinks...fix this
      * @return
      */
-    public static Set<ParameterizedFlowPermission> getSetOfAllSinks() {
+    public static Set<PFPermission> getSetOfAllSinks() {
         List<FlowPermission> coarseFlowList = Arrays.asList(FlowPermission.values());
-        Set<ParameterizedFlowPermission> flowPermissionSet = new TreeSet<>();
+        Set<PFPermission> flowPermissionSet = new TreeSet<>();
         for (FlowPermission permission : coarseFlowList) {
             if (permission != FlowPermission.ANY) {
-                flowPermissionSet.add(new ParameterizedFlowPermission(permission)); 
+                flowPermissionSet.add(new PFPermission(permission)); 
             }
         }
         return flowPermissionSet;
@@ -273,9 +273,9 @@ public class Flow {
      * @param inPlace
      * @return
      */
-    public static Set<ParameterizedFlowPermission> convertToAnySource(final Set<ParameterizedFlowPermission> sources,
+    public static Set<PFPermission> convertToAnySource(final Set<PFPermission> sources,
             boolean inPlace) {
-        final Set<ParameterizedFlowPermission> retSet = (inPlace) ? sources : new TreeSet<ParameterizedFlowPermission>(sources);
+        final Set<PFPermission> retSet = (inPlace) ? sources : new TreeSet<PFPermission>(sources);
         if(retSet.equals(getSetOfAllSources())) {
             retSet.clear();
             retSet.add(ANY);
@@ -293,8 +293,8 @@ public class Flow {
      * @param inPlace
      * @return either {ANY} or sinks
      */
-    public static Set<ParameterizedFlowPermission> convertToAnySink(final Set<ParameterizedFlowPermission> sinks, boolean inPlace) {
-        final Set<ParameterizedFlowPermission> retSet = (inPlace) ? sinks : new TreeSet<ParameterizedFlowPermission>(sinks);
+    public static Set<PFPermission> convertToAnySink(final Set<PFPermission> sinks, boolean inPlace) {
+        final Set<PFPermission> retSet = (inPlace) ? sinks : new TreeSet<PFPermission>(sinks);
         if(sinks.equals(getSetOfAllSinks())) {
             retSet.clear();
             retSet.add(ANY);
@@ -306,13 +306,13 @@ public class Flow {
     }
 
     public static boolean isTop(AnnotatedTypeMirror atm) {
-        Set<ParameterizedFlowPermission> sources = getSources(atm);
-        Set<ParameterizedFlowPermission> sinks = getSinks(atm);
+        Set<PFPermission> sources = getSources(atm);
+        Set<PFPermission> sinks = getSinks(atm);
         return sources.contains(ANY) && sinks.isEmpty();
     }
     public static boolean isBottom(AnnotatedTypeMirror atm) {
-        Set<ParameterizedFlowPermission> sources = getSources(atm);
-        Set<ParameterizedFlowPermission> sinks = getSinks(atm);
+        Set<PFPermission> sources = getSources(atm);
+        Set<PFPermission> sinks = getSinks(atm);
         return sinks.contains(ANY) && sources.isEmpty();
     }
     /**
@@ -322,20 +322,20 @@ public class Flow {
      * @param a2 AnnotationMirror, could be {ANY}
      * @return intersection of a1 and a2
      */
-    public static Set<ParameterizedFlowPermission> intersectSources(AnnotationMirror a1, AnnotationMirror a2){
-        final Set<ParameterizedFlowPermission> a1Set = getSources(a1);
-        final Set<ParameterizedFlowPermission> a2Set = getSources(a2);
+    public static Set<PFPermission> intersectSources(AnnotationMirror a1, AnnotationMirror a2){
+        final Set<PFPermission> a1Set = getSources(a1);
+        final Set<PFPermission> a2Set = getSources(a2);
         return intersectSources(a1Set, a2Set);
 
     }
-    public static Set<ParameterizedFlowPermission> intersectSources(Set<ParameterizedFlowPermission> a1Set,
-            Set<ParameterizedFlowPermission> a2Set) {
+    public static Set<PFPermission> intersectSources(Set<PFPermission> a1Set,
+            Set<PFPermission> a2Set) {
         if(a1Set == null || a2Set == null) return new TreeSet<>();
-       Set<ParameterizedFlowPermission> retSet = new TreeSet<ParameterizedFlowPermission>();
-       Set<ParameterizedFlowPermission> a1All =  convertAnytoAllSources(a1Set, false);
-       Set<ParameterizedFlowPermission> a2All =   convertAnytoAllSources(a2Set, false);
-       for (ParameterizedFlowPermission a1permission : a1All) {
-           for (ParameterizedFlowPermission a2permission : a2All) {
+       Set<PFPermission> retSet = new TreeSet<PFPermission>();
+       Set<PFPermission> a1All =  convertAnytoAllSources(a1Set, false);
+       Set<PFPermission> a2All =   convertAnytoAllSources(a2Set, false);
+       for (PFPermission a1permission : a1All) {
+           for (PFPermission a2permission : a2All) {
                // Match permission and match all parameters such that a2 is subsumed in a1
                if (a1permission.getPermission() == a2permission.getPermission() && 
                    FlowAnnotatedTypeFactory.allParametersMatch(a1permission.getParameters(), a2permission.getParameters())) {
@@ -355,19 +355,19 @@ public class Flow {
      * @param a2 AnnotationMirror, could be {ANY}
      * @return intersection of a1 and a2
      */
-    public static Set<ParameterizedFlowPermission> intersectSinks(AnnotationMirror a1, AnnotationMirror a2){
-        final Set<ParameterizedFlowPermission> a1Set = getSinks(a1);
-        final Set<ParameterizedFlowPermission> a2Set = getSinks(a2);
+    public static Set<PFPermission> intersectSinks(AnnotationMirror a1, AnnotationMirror a2){
+        final Set<PFPermission> a1Set = getSinks(a1);
+        final Set<PFPermission> a2Set = getSinks(a2);
         return intersectSinks(a1Set, a2Set);
     }
-    public static Set<ParameterizedFlowPermission> intersectSinks(Set<ParameterizedFlowPermission> a1Set,
-            Set<ParameterizedFlowPermission> a2Set) {
+    public static Set<PFPermission> intersectSinks(Set<PFPermission> a1Set,
+            Set<PFPermission> a2Set) {
         if(a1Set == null || a2Set == null) return new TreeSet<>();
-        Set<ParameterizedFlowPermission> retSet = new TreeSet<ParameterizedFlowPermission>();
+        Set<PFPermission> retSet = new TreeSet<PFPermission>();
         a1Set = convertAnyToAllSinks(a1Set, false);
         a2Set = convertAnyToAllSinks(a2Set, false);
-        for (ParameterizedFlowPermission a1permission : a1Set) {
-            for (ParameterizedFlowPermission a2permission : a2Set) {
+        for (PFPermission a1permission : a1Set) {
+            for (PFPermission a2permission : a2Set) {
                 // Match permission and match all parameters such that a2 is subsumed in a1
                 if (a1permission.getPermission() == a2permission.getPermission() && 
                     FlowAnnotatedTypeFactory.allParametersMatch(a2permission.getParameters(), a1permission.getParameters())) {
@@ -385,10 +385,10 @@ public class Flow {
      * @param a2
      * @return
      */
-    public static Set<ParameterizedFlowPermission> unionSources(AnnotationMirror a1, AnnotationMirror a2){
+    public static Set<PFPermission> unionSources(AnnotationMirror a1, AnnotationMirror a2){
         return unionSources(getSources(a1), getSources(a2));
     }
-    public static Set<ParameterizedFlowPermission> unionSources(Set<ParameterizedFlowPermission> a1, Set<ParameterizedFlowPermission> a2){
+    public static Set<PFPermission> unionSources(Set<PFPermission> a1, Set<PFPermission> a2){
         a1.addAll(a2);
         convertToAnySource(a1, true);
         return a1;
@@ -402,7 +402,7 @@ public class Flow {
      * @param a2
      * @return
      */
-    public static Set<ParameterizedFlowPermission> unionSinks(AnnotationMirror a1, AnnotationMirror a2){
+    public static Set<PFPermission> unionSinks(AnnotationMirror a1, AnnotationMirror a2){
         return unionSinks(getSinks(a1), getSinks(a2));
     }
     /**
@@ -412,23 +412,23 @@ public class Flow {
      * @param a2
      * @return
      */
-    public static Set<ParameterizedFlowPermission> unionSinks(Set<ParameterizedFlowPermission> a1, Set<ParameterizedFlowPermission> a2){
+    public static Set<PFPermission> unionSinks(Set<PFPermission> a1, Set<PFPermission> a2){
         a1.addAll(a2);
         convertToAnySink(a1, true);
         return a1;
     }
 
-    public static Set<ParameterizedFlowPermission> convertToParameterizedFlowPermission(Set<FlowPermission> permissions) {
-        Set<ParameterizedFlowPermission> flowPermissions = new TreeSet<ParameterizedFlowPermission>();
+    public static Set<PFPermission> convertToParameterizedFlowPermission(Set<FlowPermission> permissions) {
+        Set<PFPermission> flowPermissions = new TreeSet<PFPermission>();
         for (FlowPermission p : permissions) {
-            flowPermissions.add(new ParameterizedFlowPermission(p));
+            flowPermissions.add(new PFPermission(p));
         }
         return flowPermissions;
     }
     
-    public static Set<FlowPermission> convertFromParameterizedFlowPermission(Set<ParameterizedFlowPermission> permissions) {
+    public static Set<FlowPermission> convertFromParameterizedFlowPermission(Set<PFPermission> permissions) {
         Set<FlowPermission> coarsePermissions = new TreeSet<FlowPermission>();
-        for (ParameterizedFlowPermission p : permissions) {
+        for (PFPermission p : permissions) {
             coarsePermissions.add(p.getPermission());
         }
         return coarsePermissions;        

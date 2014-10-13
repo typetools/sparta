@@ -18,14 +18,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.PFPermission;
 import static  sparta.checkers.FlowChecker.SPARTA_OUTPUT_DIR;
 
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.util.DiagnosticSource;
 
-import static sparta.checkers.quals.ParameterizedFlowPermission.ANY;
+import static sparta.checkers.quals.PFPermission.ANY;
 /**
  * Class to perform extra processing on flow information.
  * 
@@ -71,8 +71,8 @@ public class FlowAnalyzer {
     public void addAssignmentFlow(AnnotatedTypeMirror varType,
             AnnotatedTypeMirror valueType, TypeHierarchy typeHierarchy,
             TreePath currentPath) {
-        Set<ParameterizedFlowPermission> sinks = Flow.getSinks(varType);
-        Set<ParameterizedFlowPermission> sources = Flow.getSources(valueType);
+        Set<PFPermission> sinks = Flow.getSinks(varType);
+        Set<PFPermission> sources = Flow.getSources(valueType);
         if (!(sources.contains(ANY) || sinks.contains(ANY))) {
             Flow flow = new Flow(sources, sinks);
             assignmentFlows.add(flow);
@@ -154,8 +154,8 @@ public class FlowAnalyzer {
     }
 
     private void printSourcesAndSinks(PrintWriter writer) {
-        TreeSet<ParameterizedFlowPermission> sources = new TreeSet<>();
-        TreeSet<ParameterizedFlowPermission> sinks = new TreeSet<>();
+        TreeSet<PFPermission> sources = new TreeSet<>();
+        TreeSet<PFPermission> sinks = new TreeSet<>();
 
         for (Flow f : typeFlows) {
             sources.addAll(f.sources);
@@ -247,10 +247,10 @@ public class FlowAnalyzer {
     private Set<Flow> getForbiddenFlowsPairwise(Collection<Flow> flows) {
         Set<Flow> results = new HashSet<Flow>();
         for (Flow flow : flows) {
-            Set<ParameterizedFlowPermission> forbiddenSinks = new HashSet<ParameterizedFlowPermission>();
-            for (ParameterizedFlowPermission sink : flow.sinks) {
-                if (!flowPolicy.areFlowsAllowed(Pair.<Set<ParameterizedFlowPermission>, Set<ParameterizedFlowPermission>> of(
-                        flow.sources, new HashSet<ParameterizedFlowPermission>(Arrays.asList(sink))))) {
+            Set<PFPermission> forbiddenSinks = new HashSet<PFPermission>();
+            for (PFPermission sink : flow.sinks) {
+                if (!flowPolicy.areFlowsAllowed(Pair.<Set<PFPermission>, Set<PFPermission>> of(
+                        flow.sources, new HashSet<PFPermission>(Arrays.asList(sink))))) {
 
                     forbiddenSinks.add(sink);
                 }
@@ -262,9 +262,9 @@ public class FlowAnalyzer {
     }
     
     private Set<Flow> groupFlowsOnSource(Set<Flow> flows) {
-        Map<ParameterizedFlowPermission, Flow> grouped = new HashMap<ParameterizedFlowPermission, Flow>();
+        Map<PFPermission, Flow> grouped = new HashMap<PFPermission, Flow>();
         for (Flow flow : flows) {
-            for (ParameterizedFlowPermission source : flow.sources) {
+            for (PFPermission source : flow.sources) {
                 Flow sourceSinks = grouped.get(source);
                 if (sourceSinks == null) {
                     grouped.put(source, new Flow(source, flow.sinks));

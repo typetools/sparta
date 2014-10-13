@@ -21,7 +21,7 @@ import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.InferPermissionParameter;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.PFPermission;
 
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
@@ -83,9 +83,9 @@ public class ParameterizedPermissonPolymorphism {
         if (atm == null)
             return;
         if (info.inferSource || info.inferBoth) {
-            Set<ParameterizedFlowPermission> sources = Flow.getSources(atm);
+            Set<PFPermission> sources = Flow.getSources(atm);
 
-            for (ParameterizedFlowPermission pfp : sources) {
+            for (PFPermission pfp : sources) {
                 if (pfp.getPermission() == info.flowPermission) {
                     pfp.removeStar();
                     pfp.addParameters(values);
@@ -102,14 +102,14 @@ public class ParameterizedPermissonPolymorphism {
             // FILE(f) -> B
             // Then the new type is @Source(FILE(f)) @Sink({A,B})
             if (!info.inferBoth) {
-                Set<ParameterizedFlowPermission> sinks = atypeFactory
+                Set<PFPermission> sinks = atypeFactory
                         .getFlowPolicy().getIntersectionAllowedSinks(sources);
                 atm.replaceAnnotation(atypeFactory.createAnnoFromSink(sinks));
             }
         }
         if (info.inferSink || info.inferBoth) {
-            Set<ParameterizedFlowPermission> sinks = Flow.getSinks(atm);
-            for (ParameterizedFlowPermission pfp : sinks) {
+            Set<PFPermission> sinks = Flow.getSinks(atm);
+            for (PFPermission pfp : sinks) {
                 if (pfp.getPermission() == info.flowPermission) {
                     pfp.removeStar();
                     pfp.addParameters(values);
@@ -125,7 +125,7 @@ public class ParameterizedPermissonPolymorphism {
             // B->FILE(f)
             // Then the new type is @Source({A,B}) @Sink(FILE(f))
             if (!info.inferBoth) {
-                Set<ParameterizedFlowPermission> sources = atypeFactory
+                Set<PFPermission> sources = atypeFactory
                         .getFlowPolicy().getIntersectionAllowedSources(sinks);
                 atm.replaceAnnotation(atypeFactory
                         .createAnnoFromSource(sources));
@@ -177,14 +177,14 @@ public class ParameterizedPermissonPolymorphism {
     private List<String> getValuesFromPermission(InferedPermInfo info, Tree tree) {
         AnnotatedTypeMirror atm = atypeFactory.getAnnotatedType(tree);
 
-        Set<ParameterizedFlowPermission> perms;
+        Set<PFPermission> perms;
         if (info.inferSource) {
             perms = Flow.getSources(atm);
         } else {
             perms = Flow.getSinks(atm);
         }
         List<String> values = new ArrayList<String>();
-        for (ParameterizedFlowPermission perm : perms) {
+        for (PFPermission perm : perms) {
             if (perm.getPermission().equals(info.flowPermission)) {
                 values = perm.getParameters();
                 if (values.contains("*")) {

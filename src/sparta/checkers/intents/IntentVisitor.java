@@ -35,7 +35,7 @@ import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.IntentMapBottom;
 import sparta.checkers.quals.IntentMapNew;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.PFPermission;
 import sparta.checkers.quals.ReceiveIntent;
 import sparta.checkers.quals.SendIntent;
 
@@ -784,13 +784,13 @@ public class IntentVisitor extends FlowVisitor {
 
     private boolean hostIsCopyableTo(AnnotationMirror lhsIExtra,
             AnnotationMirror rhsIExtra) {
-        Set<ParameterizedFlowPermission> lhsAnnotatedSources = IntentUtils
+        Set<PFPermission> lhsAnnotatedSources = IntentUtils
                 .getSourcesPFP(lhsIExtra);
-        Set<ParameterizedFlowPermission> lhsAnnotatedSinks = IntentUtils
+        Set<PFPermission> lhsAnnotatedSinks = IntentUtils
                 .getSinksPFP(lhsIExtra);
-        Set<ParameterizedFlowPermission> rhsAnnotatedSources = IntentUtils
+        Set<PFPermission> rhsAnnotatedSources = IntentUtils
                 .getSourcesPFP(rhsIExtra);
-        Set<ParameterizedFlowPermission> rhsAnnotatedSinks = IntentUtils
+        Set<PFPermission> rhsAnnotatedSinks = IntentUtils
                 .getSinksPFP(rhsIExtra);
 
         // Creating dummy type to add annotations to it and check if isSubtype

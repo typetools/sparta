@@ -24,7 +24,7 @@ import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.Pair;
 
 import sparta.checkers.quals.AddsSourceData;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.PFPermission;
 
 /**
  * This class is used to check that the stub files have the following
@@ -163,7 +163,7 @@ public class StubChecker {
             if (type == null)
                 return false;
             
-            Set<ParameterizedFlowPermission> sources = Flow.getSources(type);
+            Set<PFPermission> sources = Flow.getSources(type);
             if (!sources.isEmpty()) {
                return true;
             }

@@ -7,7 +7,7 @@ import org.checkerframework.framework.source.Result;
 import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.PFPermission;
 import sparta.checkers.validator.BaseValidator;
 
 import com.sun.source.tree.CaseTree;
@@ -39,7 +39,7 @@ public class ConditionalValidator extends BaseValidator {
 
     private void checkConditionalPredicate(ExpressionTree tree) {
         AnnotatedTypeMirror type = atypeFactory.getAnnotatedType(tree);
-        final Set<ParameterizedFlowPermission> sources = Flow.getSources(type);
+        final Set<PFPermission> sources = Flow.getSources(type);
         if (sources.size() > 1) {
             checker.report(Result.failure("condition.flow", sources), tree);
         }

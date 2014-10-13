@@ -25,6 +25,7 @@ public class ConstCheckerTest extends Activity {
 
     void getExtraFail() {
         @StringVal({ "k2", "k3" }) String k2Ork3 = null;
+        //:: error: (forbidden.flow)
         String test1 = i1.getStringExtra(k2Ork3);
     }
 
