@@ -33,7 +33,7 @@ void setBeamPushUrisCallback(NfcAdapter.CreateBeamUrisCallback callback, @Sink(N
 void setNdefPushMessage(@Sink(NFC) NdefMessage message, @Sink(NFC) Activity activity, @Sink(NFC) Activity... activities);
 //Set a static NdefMessage to send using Android Beam (TM);.
 
-void setNdefPushMessageCallback(NfcAdapter.CreateNdefMessageCallback callback, @Sink(NFC) Activity activity, @Sink(NFC) Activity... activities);
+void setNdefPushMessageCallback(NfcAdapter.CreateNdefMessageCallback callback, Activity activity, Activity... activities);
 //Set a callback that dynamically generates NDEF messages to send using Android Beam (TM);.
 
 void setOnNdefPushCompleteCallback(NfcAdapter.OnNdefPushCompleteCallback callback, @Sink(NFC) Activity activity, @Sink(NFC) Activity... activities);
