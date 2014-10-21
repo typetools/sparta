@@ -27,6 +27,7 @@ import sparta.checkers.quals.PFPermission;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
+import static sparta.checkers.quals.PFPermission.getPFP;
 
 /*>>>
  import org.checkerframework.checker.nullness.qual.Nullable;
@@ -44,7 +45,6 @@ public class FlowPolicy {
 
     public static final String EMPTY = "{}";
     public static final String EMPTY_REGEX = "\\{\\}";
-    final String PARAMETERIZED_PERMISSION_REGEX = "(.*)[(\"](.*)[\")]";
 
 
     private final Map<PFPermission, Set<PFPermission>> allowedSourceToSinks;
@@ -399,28 +399,6 @@ public class FlowPolicy {
         return false;
     }
 
-    private PFPermission getPFP(String sinkStr) {
-        sinkStr = sinkStr.trim();
-        List<String> currentSinkParams = new ArrayList<String>();
-        if (sinkStr.matches(PARAMETERIZED_PERMISSION_REGEX)) {
-            String sinkParameterString = sinkStr.substring(
-                    sinkStr.indexOf('(') + 1, sinkStr.indexOf(')'));
-            sinkStr = sinkStr.substring(0, sinkStr.indexOf('(')).trim();
-
-            // Save sink parameters
-            String[] sinkParameterStrings = sinkParameterString.split(",");
-            for (String param : sinkParameterStrings) {
-                // Strip quotes and add to parameter list
-                param = param.substring(param.indexOf('\"') + 1);
-                param = param.substring(0, param.indexOf('\"'));
-                param = param.trim();
-                currentSinkParams.add(param);
-            }
-        }
-        PFPermission sinkPFP = new PFPermission(
-                FlowPermission.valueOf(sinkStr), currentSinkParams);
-        return sinkPFP;
-    }
 
     private void checkForTransitivity() {
         for (PFPermission source : allowedSourceToSinks.keySet()) {

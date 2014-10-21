@@ -1,5 +1,5 @@
 import sparta.checkers.quals.*;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 import java.io.*;
 import java.net.*;

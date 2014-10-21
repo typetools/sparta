@@ -4,7 +4,7 @@ import android.content.Context;
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.Source.*;
 import sparta.checkers.quals.Sink.*;
-import static  sparta.checkers.quals.FlowPermission.*;
+import static  sparta.checkers.quals.FlowPermissionString.*;
 
 
 class Use {

@@ -4,7 +4,7 @@
 import java.util.List;
 import java.util.Iterator;
 
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 

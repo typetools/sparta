@@ -3,8 +3,8 @@ package com.google.android.maps;
 
 class GeoPoint {
   
-    @Source({FlowPermission.ACCESS_COARSE_LOCATION, FlowPermission.ACCESS_FINE_LOCATION}) int getLatitudeE6();
-    @Source({FlowPermission.ACCESS_COARSE_LOCATION, FlowPermission.ACCESS_FINE_LOCATION})  int getLongitudeE6();
-    @Source({FlowPermission.ACCESS_COARSE_LOCATION, FlowPermission.ACCESS_FINE_LOCATION})  String toString();
+    @Source({ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION}) int getLatitudeE6();
+    @Source({ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})  int getLongitudeE6();
+    @Source({ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})  String toString();
 
 }

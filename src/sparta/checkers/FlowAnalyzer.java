@@ -45,7 +45,7 @@ import static sparta.checkers.quals.PFPermission.ANY;
 public class FlowAnalyzer {
 
     private static final String IMPLIED_FLOWS_FORBIDDEN_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"forbiddenFlows.txt";
-    private static final String IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"flow-policy";
+    private static final String IMPLIED_FLOWS_VERBOSE_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"flow-summary";
     private static final String ALL_FLOWS_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"forbiddenFlowLocations.txt";
     private static final String INTENT_FLOWS_FILE_DEFAULT = SPARTA_OUTPUT_DIR+"intentFlows.txt";
 
@@ -164,8 +164,8 @@ public class FlowAnalyzer {
         sources.remove(ANY);
         sinks.remove(ANY);
 
-        printFlows(writer, "# " + sources.toString(), "#Sources: ");
-        printFlows(writer, "# " + sinks.toString(), "#Sinks: ");
+        //printFlows(writer, "# " + sources.toString(), "#Sources: ");
+       // printFlows(writer, "# " + sinks.toString(), "#Sinks: ");
 
     }
     
@@ -203,7 +203,7 @@ public class FlowAnalyzer {
 
             printFlows(writer,
                     getFlowStrList(groupFlowsOnSource(typeFlowsNoEmpty)),
-                    "# Type Flows");
+                    "# Summary of flows found by the Information Flow Checker");
 
 
         } catch (FileNotFoundException e) {

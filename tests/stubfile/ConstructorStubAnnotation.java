@@ -1,7 +1,7 @@
 package mypakage;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 /*These warnings are from information-flow.astub and they may change*/
 //warning: StubParser: Skipping annotation type: android.annotation.TargetApi

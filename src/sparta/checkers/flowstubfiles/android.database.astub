@@ -321,7 +321,7 @@ class SQLiteQueryBuilder {
  @Source(DATABASE) Cursor query(@Sink(DATABASE) SQLiteDatabase db, @Sink(DATABASE) String[] projectionIn, @Sink(DATABASE) String selection, @Sink(DATABASE) String[] selectionArgs, @Sink(DATABASE) String groupBy, @Sink(DATABASE) String having, @Sink(DATABASE) String sortOrder);
             void setProjectionMap(Map<String,String> columnMap);
             
-    void appendWhere(@Sink(FlowPermission.DATABASE) CharSequence inWhere); 
+    void appendWhere(@Sink(DATABASE) CharSequence inWhere); 
     @Source(DATABASE) Cursor query( @Sink(DATABASE) SQLiteDatabase db,  @Sink(DATABASE) String  @Sink(DATABASE) [] projectionIn,  @Sink(DATABASE) String selection,  @Sink(DATABASE) String  @Sink(DATABASE) [] selectionArgs,  @Sink(DATABASE) String groupBy,  @Sink(DATABASE) String having,  @Sink(DATABASE) String sortOrder,  @Sink(DATABASE) String limit);
     void setTables( @Sink(DATABASE) String inTables)  @Sink({});
     @Source(DATABASE) SQLiteQueryBuilder();

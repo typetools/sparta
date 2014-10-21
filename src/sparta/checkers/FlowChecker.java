@@ -36,11 +36,10 @@ import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.PolySourceR;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
-import sparta.checkers.quals.FineSink;
-import sparta.checkers.quals.FineSource;
+
 import static sparta.checkers.quals.FlowPermission.getFlowPermission;
 
-@TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolySourceR.class, PolySinkR.class, PolyAll.class, FineSource.class, FineSink.class })
+@TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolySourceR.class, PolySinkR.class, PolyAll.class })
 @StubFiles("information_flow.astub")
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, FlowChecker.MSG_FILTER_OPTION,
         FlowVisitor.CHECK_CONDITIONALS_OPTION, FlowChecker.PRETTY_PRINT_OPTION })

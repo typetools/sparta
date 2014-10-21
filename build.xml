@@ -216,6 +216,11 @@ ${build.version} of the 'javac.jar' library."/>
         <delete dir="${build.reports}"/>
         <jar destfile="${sparta.jar.file}" basedir="${build}"/>
     </target>
+    <target name="jar-nostubs" depends="build"
+            description="Create jar file">
+        <delete dir="${build.reports}"/>
+        <jar destfile="${sparta.jar.file}" basedir="${build}"/>
+    </target>
 
     <target name="validate-stubfiles" depends="build" description="Show stubfile errors">
         <delete file="${build}/Test.class"/>
@@ -338,6 +343,8 @@ ${build.version} of the 'javac.jar' library."/>
     <target name="all-tests" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests, param-flow-tests, not-reviewed-tests"
       description="Run tests for all checkers"/>
 
+    <target name="all-tests-not-intents" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, param-flow-tests, not-reviewed-tests"
+      description="Run tests for all checkers"/>
     <target name="not-reviewed-tests" depends="jar,build-tests"
       description="Run tests for the Not Reviewed Library Checker">
         <antcall target="-run-tests">

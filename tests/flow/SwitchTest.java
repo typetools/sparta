@@ -1,23 +1,23 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 
 class SwitchTest {
     void foo(@Sink(INTERNET) int badInfo) {
-        @Source({FlowPermission.ACCESS_FINE_LOCATION}) int info = 1;
+        @Source({FlowPermissionString.ACCESS_FINE_LOCATION}) int info = 1;
 
 
         @Source({}) int noInfo = 1;
 
         
-        final @Source({FlowPermission.ACCESS_FINE_LOCATION}) int caseInfo = 1;
+        final @Source({FlowPermissionString.ACCESS_FINE_LOCATION}) int caseInfo = 1;
         final int caseNoInfo = 2;
 
 
-        final @Source({FlowPermission.ACCESS_FINE_LOCATION}) @Sink({}) int badCaseInfo = 3;
+        final @Source({FlowPermissionString.ACCESS_FINE_LOCATION}) @Sink({}) int badCaseInfo = 3;
 
         switch (info) {
 

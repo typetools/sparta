@@ -3,7 +3,7 @@ import org.checkerframework.dataflow.qual.Pure;
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.Source.*;
 import sparta.checkers.quals.Sink.*;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 @PolyFlow
 class Cons {

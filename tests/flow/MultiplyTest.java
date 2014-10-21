@@ -2,7 +2,7 @@
 import android.content.ContentValues;
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 import android.util.FloatMath;
 

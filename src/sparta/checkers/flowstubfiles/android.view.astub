@@ -304,7 +304,7 @@ class KeyEvent {
 
 KeyEvent(long downTime, long eventTime, @Source(USER_INPUT) int action, @Source(USER_INPUT) int code, int repeat, int metaState, int deviceId, int scancode, int flags);
 KeyEvent(@Source(USER_INPUT) int action, @Source(USER_INPUT) int code);
-@Source(FlowPermission.USER_INPUT) int getKeyCode();
+@Source(USER_INPUT) int getKeyCode();
 
 static KeyEvent changeAction(@Source(USER_INPUT)  KeyEvent event, @Source(USER_INPUT) int action);
 //Create a new key event that is the same as the given one, but whose action is replaced with the given value.
@@ -351,7 +351,7 @@ final int getFlags();
 final KeyCharacterMap getKeyCharacterMap();
 //Gets the KeyCharacterMap associated with the keyboard device.
 
-@Source(FlowPermission.USER_INPUT) int getKeyCode();
+@Source(USER_INPUT) int getKeyCode();
 //Retrieve the key code of the key event.
 
 boolean getKeyData(KeyCharacterMap.KeyData results);
@@ -801,7 +801,7 @@ final long getDownTime();
 final int getEdgeFlags();
 //Returns a bitfield indicating which edges, if any, were touched by this MotionEvent.
 
-final @Source(FlowPermission.READ_TIME) long getEventTime();
+final @Source(READ_TIME) long getEventTime();
 //Retrieve the time this event occurred, in the uptimeMillis(); time base.
 
 final int getFlags();
@@ -1083,9 +1083,9 @@ abstract void unlockCanvasAndPost(Canvas canvas);
 }
 
 interface SurfaceHolder$Callback {
-    void surfaceCreated(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0);
-    void surfaceChanged(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0, int arg1, int arg2, int arg3);
-    void surfaceDestroyed(@Sink(FlowPermission.DISPLAY) SurfaceHolder arg0);
+    void surfaceCreated(@Sink(DISPLAY) SurfaceHolder arg0);
+    void surfaceChanged(@Sink(DISPLAY) SurfaceHolder arg0, int arg1, int arg2, int arg3);
+    void surfaceDestroyed(@Sink(DISPLAY) SurfaceHolder arg0);
 }
 
 class SurfaceView {

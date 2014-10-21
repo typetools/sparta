@@ -530,7 +530,7 @@ int getSelectedItemPosition();
 //abstract void setAdapter(T adapter);
 //Sets the adapter that provides the data and the views to represent the data in this widget.
 
-void setEmptyView(@Sink(FlowPermission.DISPLAY) View emptyView);
+void setEmptyView(@Sink(DISPLAY) View emptyView);
 //Sets the view to show if the adapter is empty
 
 //void setFocusable(boolean focusable);
@@ -577,9 +577,9 @@ void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
 class AdapterView$OnItemSelectedListener{
         void onNothingSelected(AdapterView<?> arg0);
         void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3);
-		void onItemClick(@Source(FlowPermission.USER_INPUT)AdapterView<?> arg0,
-   	 	@Source(FlowPermission.USER_INPUT)View arg1, @Source(FlowPermission.USER_INPUT)int arg2,
-   		@Source(FlowPermission.USER_INPUT)long arg3);
+		void onItemClick(@Source(USER_INPUT)AdapterView<?> arg0,
+   	 	@Source(USER_INPUT)View arg1, @Source(USER_INPUT)int arg2,
+   		@Source(USER_INPUT)long arg3);
                     void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
 
 }
@@ -1463,7 +1463,7 @@ boolean removeHeaderView(View v);
 boolean requestChildRectangleOnScreen(View child, Rect rect, boolean immediate);
 //Called when a child of this group wants a particular rectangle to be positioned onto the screen.
 
-void setAdapter(@Sink(FlowPermission.DISPLAY) ListAdapter adapter);
+void setAdapter(@Sink(DISPLAY) ListAdapter adapter);
 //Sets the data behind this ListView.
 
 void setCacheColorHint(int color);

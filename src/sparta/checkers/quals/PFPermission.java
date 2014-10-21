@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class PFPermission implements Comparable<PFPermission> {
+    public static final String PARAMETERIZED_PERMISSION_REGEX = "(.*)[(](.*)[)]";
+    
     public static final PFPermission ANY = new PFPermission(
             FlowPermission.ANY);
 	private final FlowPermission permission;
@@ -134,5 +136,34 @@ public class PFPermission implements Comparable<PFPermission> {
 
     public void addParameters(List<String> params) {
         this.parameters.addAll(params);
+    }
+    
+    /**
+     * Takes a string of the form PERMISSION(param1, param2) and returns
+     * the corresponding PFPermission object.
+     * PERMISSION
+     * PERMISSION("param1") 
+     * @param pfpString
+     * @return
+     */
+    public static PFPermission getPFP(String pfpString) {
+        pfpString = pfpString.trim();
+        List<String> formattedParams = new ArrayList<String>();
+        if (pfpString.matches(PARAMETERIZED_PERMISSION_REGEX)) {
+            String parametersString = pfpString.substring(
+                    pfpString.indexOf('(') + 1, pfpString.indexOf(')'));
+            pfpString = pfpString.substring(0, pfpString.indexOf('(')).trim();
+
+            // Save sink parameters
+            String[] sinkParameterStrings = parametersString.split(",");
+            for (String param : sinkParameterStrings) {
+                // Strip quotes and add to parameter list
+                param = param.replaceAll("\"", "").trim();
+                formattedParams.add(param);
+            }
+        }
+        PFPermission sinkPFP = new PFPermission(
+                FlowPermission.valueOf(pfpString), formattedParams);
+        return sinkPFP;
     }
 }

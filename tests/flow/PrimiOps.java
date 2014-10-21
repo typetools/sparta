@@ -6,9 +6,9 @@ import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.*;
 
 class PrimiOps {
-    @Sink({}) @Source({ FlowPermission.ANY }) float top;
+    @Sink({}) @Source({ FlowPermissionString.ANY }) float top;
     @PolySource @PolySink float poly;
-    @Sink({ FlowPermission.ANY }) @Source({}) float bot;
+    @Sink({ FlowPermissionString.ANY }) @Source({}) float bot;
 
     void mod2pi() {
         top = top / top;

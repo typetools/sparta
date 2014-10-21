@@ -1,12 +1,12 @@
 import sparta.checkers.quals.*;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 class ParameterizedSourceTest {
-    @Source(value={}, finesources={@FineSource(value=RECORD_AUDIO, params={"no_param_match"})}) Object nomic;
+    @Source(RECORD_AUDIO+"(no_param_match)") Object nomic;
     @Source(ANY) Object any;
-    @Source(value={}, finesources={@FineSource(value=RECORD_AUDIO, params={"rec*"})}) Object anyRecStar;
-    @Source(value={}, finesources={@FineSource(value=RECORD_AUDIO, params={"rec1", "rec2"})}) Object missingRec;
-    @Source(value={}, finesources={@FineSource(value=RECORD_AUDIO, params={"rec1", "rec3", "rec2"})}) Object getSound() { return null; }
+    @Source(RECORD_AUDIO+"(rec*)") Object anyRecStar;
+    @Source(RECORD_AUDIO+"(rec1,rec2)") Object missingRec;
+    @Source(RECORD_AUDIO+"(rec1,rec3,rec2)") Object getSound() { return null; }
 
     void test1() {
         // The type of the local variable is inferred to include RECORD_AUDIO

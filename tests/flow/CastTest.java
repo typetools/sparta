@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;

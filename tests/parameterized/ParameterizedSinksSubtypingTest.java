@@ -1,25 +1,24 @@
 import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.FineSink;
 
 import  sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 public class ParameterizedSinksSubtypingTest {
-    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"/usr/bin"})}) String wildcardSrc1;
-    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"/usr/*"})}) String wildcardSrc2;
-    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"/dev/null/", "/usr/*"})}) String wildcardSrc3;
+    @Sink(FILESYSTEM+"(/usr/bin)") String wildcardSrc1;
+    @Sink(FILESYSTEM+"(/usr/*)") String wildcardSrc2;
+    @Sink(FILESYSTEM+"(/dev/null/,/usr/*)") String wildcardSrc3;
     
-    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"myfile.txt"})}) String singleSrc1;
-    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"myfile.txt"})}) String singleSrc2;
+    @Sink(FILESYSTEM+"(myfile.txt)") String singleSrc1;
+    @Sink(FILESYSTEM+"(myfile.txt)") String singleSrc2;
   
     
-    @Sink(value={}, finesinks={@FineSink(value=FILESYSTEM, params={"myfile2.txt", "myfile.txt"})}) String multipleSrc1;
+    @Sink(FILESYSTEM+"(myfile2.txt, myfile.txt)") String multipleSrc1;
     
     // Testing the subtyping heirarchy from the parameterized permissions documentation
     @Sink({INTERNET}) String sourceTop;
-    @Sink(value={}, finesinks={@FineSink(value=INTERNET, params={"*.google.com"})}) String googleTopSource;
-    @Sink(value={}, finesinks={@FineSink(value=INTERNET, params={"maps.google.com"})}) String googleMapsSource;
-    @Sink(value={}, finesinks={@FineSink(value=INTERNET, params={"voice.google.com"})}) String googleVoiceSource;
+    @Sink(INTERNET+"(*.google.com)") String googleTopSource;
+    @Sink(INTERNET+"(maps.google.com)") String googleMapsSource;
+    @Sink(INTERNET+"(voice.google.com)") String googleVoiceSource;
     
   
     void testSameParameters() {        

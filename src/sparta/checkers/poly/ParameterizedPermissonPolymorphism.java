@@ -233,8 +233,9 @@ public class ParameterizedPermissonPolymorphism {
             AnnotationMirror am = atypeFactory.getDeclAnnotation(element,
                     InferPermissionParameter.class);
             if (am != null) {
-                flowPermission = AnnotationUtils.getElementValueEnum(am,
-                        "value", FlowPermission.class, false);
+                String perm = AnnotationUtils.getElementValue(am,
+                        "value", String.class, false);
+                flowPermission = PFPermission.getPFP(perm).getPermission();
                 paramIndexs = AnnotationUtils.getElementValueArray(am, "param",
                         Integer.class, true);
 

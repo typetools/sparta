@@ -8,11 +8,11 @@ class PolyOverride {
         @PolySource @PolySink int compare(@PolySource @PolySink T lhs, @PolySource @PolySink T rhs);
     }
 
-    class ObjectComparator implements Comparator<@Source(FlowPermission.ACCESS_FINE_LOCATION) Object> {
+    class ObjectComparator implements Comparator<@Source(FlowPermissionString.ACCESS_FINE_LOCATION) Object> {
         // TODO: We would want the following to be a valid override:
         @SuppressWarnings("flow")
-        public @Source(FlowPermission.ACCESS_FINE_LOCATION) int compare(@Source(FlowPermission.ACCESS_FINE_LOCATION) Object left,
-                @Source(FlowPermission.ACCESS_FINE_LOCATION) Object right) {
+        public @Source(FlowPermissionString.ACCESS_FINE_LOCATION) int compare(@Source(FlowPermissionString.ACCESS_FINE_LOCATION) Object left,
+                @Source(FlowPermissionString.ACCESS_FINE_LOCATION) Object right) {
             return 0;
         }
         // However, we only substitute the type variables, we do not bind polymorphic qualifiers.

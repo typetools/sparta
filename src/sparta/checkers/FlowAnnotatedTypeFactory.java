@@ -65,8 +65,6 @@ import org.checkerframework.javacutil.Pair;
 
 import sparta.checkers.poly.ParameterizedPermissonPolymorphism;
 import sparta.checkers.poly.ReceiverPolymorphism;
-import sparta.checkers.quals.FineSink;
-import sparta.checkers.quals.FineSource;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PFPermission;
 import sparta.checkers.quals.PolyFlow;
@@ -249,47 +247,29 @@ public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeF
         return defaults;
     }
 
-    public  AnnotationMirror createAnnoFromSink(final Set<PFPermission> sinks) {
+    public AnnotationMirror createAnnoFromSink(final Set<PFPermission> sinks) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
                 Sink.class);
-        
-        List<AnnotationMirror> finesinks = new ArrayList<AnnotationMirror>();
-        
-        for (PFPermission p : sinks) {
-                final AnnotationBuilder builderFine = new AnnotationBuilder(processingEnv, FineSink.class);
-                String [] params = p.getParameters().toArray(new String[0]);
-                FlowPermission permission = p.getPermission();
-                builderFine.setValue("value",permission );
-                builderFine.setValue("params", params);
-                finesinks.add(builderFine.build());
-        }            
-        if(!finesinks.isEmpty())
-        builder.setValue("finesinks", finesinks.toArray(new AnnotationMirror[0]));
-        builder.setValue("value", new FlowPermission[0]);
-        return builder.build();
+        return createIFlowAnnotation(sinks, builder);
     }
 
-    public  AnnotationMirror createAnnoFromSource(Set<PFPermission> sources) {
+    public AnnotationMirror createAnnoFromSource(Set<PFPermission> sources) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
                 Source.class);
-              
-        List<AnnotationMirror> finesources = new ArrayList<AnnotationMirror>();
+        return createIFlowAnnotation(sources, builder);
+    }
 
-        for (PFPermission p : sources) {
-                final AnnotationBuilder builderFine = new AnnotationBuilder(processingEnv, FineSource.class);
-                String [] params = p.getParameters().toArray(new String[0]);
-                builderFine.setValue("params", params);
-                FlowPermission permission = p.getPermission();
-                builderFine.setValue("value",permission );
-                finesources.add(builderFine.build());
-        }          
-        if (!finesources.isEmpty())
-            builder.setValue("finesources",
-                    finesources.toArray(new AnnotationMirror[0]));
-        builder.setValue("value", new FlowPermission[0]);
+    private AnnotationMirror createIFlowAnnotation(
+            final Set<PFPermission> permObjects, final AnnotationBuilder builder) {
+        List<String> permStrings = new ArrayList<>();
+        for (PFPermission p : permObjects) {
+            permStrings.add(p.toString());
+        }
+        builder.setValue("value", permStrings);
         return builder.build();
     }
-    
+
+
     @Override
     protected void annotateImplicit(Tree tree, AnnotatedTypeMirror type, boolean useFlow) {
         Element element = InternalUtils.symbol(tree);

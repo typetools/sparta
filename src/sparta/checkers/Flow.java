@@ -1,7 +1,6 @@
 package sparta.checkers;
 
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
-
 import org.checkerframework.javacutil.AnnotationUtils;
 
 import java.util.Arrays;
@@ -11,8 +10,6 @@ import java.util.TreeSet;
 
 import javax.lang.model.element.AnnotationMirror;
 
-import sparta.checkers.quals.FineSink;
-import sparta.checkers.quals.FineSource;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PFPermission;
 import sparta.checkers.quals.Sink;
@@ -154,26 +151,15 @@ public class Flow {
         if (am == null) {
             return new TreeSet<PFPermission>();
         }
+        List<String> sinks = AnnotationUtils.getElementValueArray(am, "value",
+                String.class, true);
 
         Set<PFPermission> sinkFlowPermissions = new TreeSet<PFPermission>();
-        List<FlowPermission> sinks = AnnotationUtils.getElementValueEnumArray(am, "value",
-                FlowPermission.class, true);
-        for (FlowPermission coarsePermission : sinks) {
-            sinkFlowPermissions.add(new PFPermission(coarsePermission));
-        }
-        
-        List<AnnotationMirror> finesinks = AnnotationUtils.getElementValueArray(am, "finesinks",
-                AnnotationMirror.class, true);
-        
-        for (AnnotationMirror sinkAM : finesinks) {
-            FlowPermission coarsePermission = AnnotationUtils.getElementValueEnum(sinkAM, "value",
-                    FlowPermission.class, true);
-            List<String> params = AnnotationUtils.getElementValueArray(sinkAM, "params", String.class, true);
-            sinkFlowPermissions.add(new PFPermission(coarsePermission, params));
+        for (String permissionString : sinks) {
+            sinkFlowPermissions.add(PFPermission.getPFP(permissionString));
         }
 
-        Set<PFPermission> retSet = convertToAnySink(sinkFlowPermissions, false);
-        return retSet;
+        return convertToAnySink(sinkFlowPermissions, false);
     }
 
     public static Set<PFPermission> getSources(final AnnotationMirror am) {
@@ -181,24 +167,14 @@ public class Flow {
             return new TreeSet<PFPermission>();
         }
 
+        List<String> sources = AnnotationUtils.getElementValueArray(am,
+                "value", String.class, true);
         Set<PFPermission> sourceFlowPermissions = new TreeSet<PFPermission>();
-        List<FlowPermission> sources = AnnotationUtils.getElementValueEnumArray(am, "value",
-                FlowPermission.class, true);
-        for (FlowPermission coarsePermission : sources)
-            sourceFlowPermissions.add(new PFPermission(coarsePermission));
-        
-        List<AnnotationMirror> finesources = AnnotationUtils.getElementValueArray(am, "finesources",
-                AnnotationMirror.class, true);
-
-        for (AnnotationMirror sinkAM : finesources) {
-            FlowPermission coarsePermission = AnnotationUtils.getElementValueEnum(sinkAM, "value",
-                    FlowPermission.class, true);
-            List<String> params = AnnotationUtils.getElementValueArray(sinkAM, "params", String.class, true);
-            sourceFlowPermissions.add(new PFPermission(coarsePermission, params));         
+        for (String permissionString : sources) {
+            sourceFlowPermissions.add(PFPermission.getPFP(permissionString));
         }
-        
-        Set<PFPermission> retSet = convertToAnySource(sourceFlowPermissions, false);
-        return retSet;
+
+        return convertToAnySource(sourceFlowPermissions, false);
     }
     
     /**

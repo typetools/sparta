@@ -3,7 +3,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import sparta.checkers.quals.*;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 class PolyTest {
     

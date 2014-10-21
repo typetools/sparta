@@ -170,7 +170,7 @@
     </target>
 
     <target name="filter-flows">
-        <property name="filter.flow_file" value="./sparta-output/forbiddenFlowLocations.txt" />
+        <property name="filter.flow_file" value="./sparta-out/forbiddenFlowLocations.txt" />
         <property name="filter" value="" />
         <exec executable="${sparta-code_dir}/filter-flows.pl">
                     <arg line="--flow-file ${filter.flow_file}" />

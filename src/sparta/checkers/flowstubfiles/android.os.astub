@@ -1023,7 +1023,7 @@ void finalize();
 }
 
 class PowerManager{
-        @Source(FlowPermission.WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
+        @Source(WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
         boolean isScreenOn();
         void reboot(String reason);
 }

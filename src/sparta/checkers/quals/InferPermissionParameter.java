@@ -14,7 +14,7 @@ public @interface InferPermissionParameter {
     /**
      * FlowPermission for which parameters should be infer
      */
-    FlowPermission value();
+    String value();
     int[] param() default 1; //Receiver is 0.
     //multiple parameters will be appended in order listed.
     //The appends will be separated with an appropriate delineator for the permission or a space,

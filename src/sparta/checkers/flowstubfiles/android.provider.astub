@@ -155,6 +155,6 @@ class ContactsContract$PhoneLookup{
 }
 
 class MediaStore$Audio$Playlists$Members{
-        static @Source(FlowPermission.MEDIA) Uri getContentUri(String volumeName, long playlistId);
+        static @Source(MEDIA) Uri getContentUri(String volumeName, long playlistId);
 }
 

@@ -3,7 +3,7 @@ import org.checkerframework.framework.qual.FromByteCode;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.Sink;
 
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 //warning: FlowPolicy: Found transitive flow
 @FromByteCode
 //:: error: (forbidden.flow)   

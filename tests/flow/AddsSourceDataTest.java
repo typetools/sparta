@@ -2,7 +2,7 @@ import sparta.checkers.quals.AddsSourceData;
 import sparta.checkers.quals.PolyFlowReceiver;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 
 public class AddsSourceDataTest {

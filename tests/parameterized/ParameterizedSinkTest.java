@@ -1,10 +1,10 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 
 class ParameterizedSinkTest {
-    void sendData(@Source({}) @Sink(value={}, finesinks={@FineSink(value=INTERNET, params={"maps.google.com", "voice.google.com", "google.com"})}) Object p) {
+    void sendData(@Source({}) @Sink(INTERNET+"(maps.google.com, voice.google.com, google.com)") Object p) {
         // Allowed: fewer sinks
         noComm(p);
         // Forbidden: less restrictive sink params
@@ -18,7 +18,7 @@ class ParameterizedSinkTest {
         sendData(p);
     }
 
-    void two(@Source({}) @Sink(value={WRITE_SMS}, finesinks={@FineSink(value=INTERNET, params={"*.google.com", "google.com"})}) Object p) {
+    void two(@Source({}) @Sink({WRITE_SMS, INTERNET+"(*.google.com,google.com)"}) Object p) {
         // Allowed: fewer sinks, more restrictive sink params
         sendData(p);
         // Forbidden: more sinks

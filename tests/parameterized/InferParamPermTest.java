@@ -1,7 +1,6 @@
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 import sparta.checkers.quals.AddsSourceData;
-import sparta.checkers.quals.FineSink;
-import sparta.checkers.quals.FineSource;
+
 import sparta.checkers.quals.InferPermissionParameter;
 import sparta.checkers.quals.PolyFlowReceiver;
 import sparta.checkers.quals.PolySinkR;
@@ -23,7 +22,7 @@ public class InferParamPermTest {
     
     void foo() {
         try {
-            @Source({READ_SMS}) @Sink(finesinks=@FineSink(value=FILESYSTEM, params ="fromSMSFile"))
+            @Source({READ_SMS}) @Sink(FILESYSTEM+"(fromSMSFile)")
                     MyFileOutputStream fos = new MyFileOutputStream("fromSMSFile");
             fos.write(readSMSBytes);
             fos.write(readSMSObj);
@@ -32,7 +31,7 @@ public class InferParamPermTest {
             //:: error: (argument.type.incompatible)
             fos.write(readTimeObj);
 
-            @Source(finesources=@FineSource(value=FILESYSTEM, params="toSMSfile")) @Sink(WRITE_SMS)
+            @Source(FILESYSTEM+"(toSMSfile)") @Sink(WRITE_SMS)
             MyFileInputStream fis = new MyFileInputStream("toSMSfile");
             fis.read(writeSMSBytes);
             fis.read(writeSMSObj);
@@ -48,26 +47,26 @@ public class InferParamPermTest {
     }
     
     void testMyFile(){
-        @Source(finesources=@FineSource(value=FILESYSTEM, params="file1"))
-        @Sink(finesinks=@FineSink(value=FILESYSTEM, params="file1"))
+        @Source(FILESYSTEM+"(file1)")
+        @Sink(FILESYSTEM+"(file1)")
         MyFile f1 = new MyFile("file1");
         
-        @Sink(finesinks=@FineSink(value=FILESYSTEM, params="file1"))
+        @Sink(FILESYSTEM+"(file1)")
         MyFileOutputStream fos = new MyFileOutputStream(f1);
         
-        @Source(finesources=@FineSource(value=FILESYSTEM, params="file1")) 
+        @Source(FILESYSTEM+"(file1)") 
         MyFileInputStream fis = new MyFileInputStream(f1);
        
     }
     void testMyFileDir(){
-        @Source(finesources=@FineSource(value=FILESYSTEM, params="dir/file1"))
-        @Sink(finesinks=@FineSink(value=FILESYSTEM, params="dir/file1"))
+        @Source(FILESYSTEM+"(dir/file1)")
+        @Sink(FILESYSTEM+"(dir/file1)")
         MyFile dirf1 = new MyFile("file1","dir");
         
-        @Source(finesources=@FineSource(value=FILESYSTEM, params="dir/file1")) 
+        @Source(FILESYSTEM+"(dir/file1)") 
         MyFileInputStream fis2 = new MyFileInputStream(dirf1);
         
-        @Sink(finesinks=@FineSink(value=FILESYSTEM, params="dir/file1"))
+        @Sink(FILESYSTEM+"(dir/file1)")
         MyFileOutputStream fos2 = new MyFileOutputStream(dirf1);
     }
     

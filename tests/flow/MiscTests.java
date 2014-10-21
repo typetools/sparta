@@ -1,30 +1,30 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 class MiscTests {
     double clean;
 
     void test() {
 
-        @Sink({FlowPermission.INTERNET}) double lat = 1.0;
+        @Sink({FlowPermissionString.INTERNET}) double lat = 1.0;
         clean = lat;
 
-        @Sink({FlowPermission.INTERNET}) @Source({}) double lat2 = 1.0;
+        @Sink({FlowPermissionString.INTERNET}) @Source({}) double lat2 = 1.0;
         clean = lat2;
     }
 
     @SuppressWarnings("flow")
-    @Sink({FlowPermission.INTERNET}) String WEBSERVICE_URL = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
+    @Sink({FlowPermissionString.INTERNET}) String WEBSERVICE_URL = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
 
-    @Source({ FlowPermission.ACCESS_FINE_LOCATION}) String WEBSERVICE_URL2 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
+    @Source({ FlowPermissionString.ACCESS_FINE_LOCATION}) String WEBSERVICE_URL2 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
 
     @Sink(ANY) String WEBSERVICE_URL3 = "[...]lat=%f&lon=%f&format=24+hourly&numDays=%d";
-    @Source({ FlowPermission.ACCESS_FINE_LOCATION}) String result; //With FP effective Sink(INTERNET}
+    @Source({ FlowPermissionString.ACCESS_FINE_LOCATION}) String result; //With FP effective Sink(INTERNET}
 
     @Source({}) @Sink({}) String result2;
 
-    @Sink({FlowPermission.INTERNET}) String result3;
+    @Sink({FlowPermissionString.INTERNET}) String result3;
 
 
     void test_StringFormat_StringFlowPermission() {
