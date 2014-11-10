@@ -15,11 +15,11 @@ public class PolyIntentMapTest extends Activity {
         return n;
     }
 
-    @Source(FILESYSTEM) @Sink(INTERNET) String getFile() {
+    @Source("FILESYSTEM") @Sink("INTERNET") String getFile() {
         return "";
     }
 
-    @Source(ACCESS_FINE_LOCATION) @Sink(DISPLAY) String getLocation() {
+    @Source("ACCESS_FINE_LOCATION") @Sink("DISPLAY") String getLocation() {
         return "";
     }
 

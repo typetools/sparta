@@ -22,20 +22,20 @@ public class IntentMapBottomTest extends Activity {
         @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
     Intent intentMap = new Intent();
     
-    @Source(FILESYSTEM) @Sink(INTERNET) String getFile() {
+    @Source("FILESYSTEM") @Sink("INTERNET") String getFile() {
         return null;
     }
     
     //:: error: (forbidden.flow)
-    @Source(FILESYSTEM) @Sink(ANY) String getFile2() {
+    @Source("FILESYSTEM") @Sink("ANY") String getFile2() {
         return null;
     }
     
-    @Source() @Sink(ANY) String getTop() {
+    @Source() @Sink("ANY") String getTop() {
         return null;
     }
     
-    void sendToDisplay(@Sink(DISPLAY) String s) {
+    void sendToDisplay(@Sink("DISPLAY") String s) {
 
     }
     
@@ -66,7 +66,7 @@ public class IntentMapBottomTest extends Activity {
     
     
   //Sending to [type of intentMap] Receiver
-    void startActivitySuccess2(@Source(FILESYSTEM) @Sink(INTERNET) int test, String test2, Object test3, String[] test4) {
+    void startActivitySuccess2(@Source("FILESYSTEM") @Sink("INTERNET") int test, String test2, Object test3, String[] test4) {
         startActivity(intentMap);
     }
 
@@ -79,7 +79,7 @@ public class IntentMapBottomTest extends Activity {
     }
    
   //Sending to @IntentMap() Receiver - Top 
-    void startActivitySuccess3(@Source(FILESYSTEM) @Sink(INTERNET) int test, String test2, Object test3, String[] test4) {
+    void startActivitySuccess3(@Source("FILESYSTEM") @Sink("INTERNET") int test, String test2, Object test3, String[] test4) {
         startActivity(intentMap);
         startActivity(intentMapTop);
     }

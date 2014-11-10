@@ -33,19 +33,19 @@ public class ActivityTest extends Activity {
             @Extra(key = "k3", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })
     Intent i4 = new Intent();
     
-    @Source(FILESYSTEM) @Sink(INTERNET) String getFile() {
+    @Source("FILESYSTEM") @Sink("INTERNET") String getFile() {
         return null;
     }
     
-    void sendToDisplay(@Sink(DISPLAY) String s) {
+    void sendToDisplay(@Sink("DISPLAY") String s) {
 
     }
 
-    @Source(ANY) @Sink() String getTop() {
+    @Source("ANY") @Sink() String getTop() {
         return null;
     }
 
-    @Source() @Sink(ANY) String getBottom() {
+    @Source() @Sink("ANY") String getBottom() {
         return null;
     }
 
@@ -84,10 +84,10 @@ public class ActivityTest extends Activity {
     }
 
     //Parameters of the method below are used to test the component map.
-    void startActivitySuccess(@Source(FILESYSTEM) @Sink(INTERNET) int test, 
-            @Source(FILESYSTEM) @Sink(INTERNET) String test2, 
-            @Source(FILESYSTEM) @Sink(INTERNET) Object test3, 
-            @Source(FILESYSTEM) @Sink(INTERNET) String[] test4) {
+    void startActivitySuccess(@Source("FILESYSTEM") @Sink("INTERNET") int test, 
+            @Source("FILESYSTEM") @Sink("INTERNET") String test2, 
+            @Source("FILESYSTEM") @Sink("INTERNET") Object test3, 
+            @Source("FILESYSTEM") @Sink("INTERNET") String[] test4) {
         @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
         Intent senderIntent1 = new Intent();
         senderIntent1.setAction("action1");
@@ -123,7 +123,7 @@ public class ActivityTest extends Activity {
     }
     
     private OnClickListener clickListenerOK = new OnClickListener() {
-        public void onClick(@Source(ANY) @Sink({})  View v)	{
+        public void onClick(@Source("ANY") @Sink({})  View v)	{
             @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
             Intent senderIntent1 = new Intent();
             @IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
@@ -134,7 +134,7 @@ public class ActivityTest extends Activity {
     };
 
     private OnClickListener clickListenerFail = new OnClickListener() {
-        public void onClick(@Source(ANY) @Sink({}) View v)	{
+        public void onClick(@Source("ANY") @Sink({}) View v)	{
             @IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
             Intent senderIntent1 = new Intent();
             @IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })

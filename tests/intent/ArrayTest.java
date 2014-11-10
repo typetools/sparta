@@ -15,15 +15,15 @@ public class ArrayTest extends Activity {
         @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
     Intent i1 = new Intent();
     
-    @Source(FILESYSTEM) @Sink(INTERNET) String getVal() {
+    @Source("FILESYSTEM") @Sink("INTERNET") String getVal() {
         return "";
     }
     
-    @Source(FILESYSTEM) @Sink(INTERNET) String @Source(FILESYSTEM) @Sink(INTERNET) [] getValArray() {
+    @Source("FILESYSTEM") @Sink("INTERNET") String @Source("FILESYSTEM") @Sink("INTERNET") [] getValArray() {
           return null;
     }
     
-    void sendToDisplay(@Sink(DISPLAY) String s) {
+    void sendToDisplay(@Sink("DISPLAY") String s) {
 
     }
     
@@ -39,14 +39,14 @@ public class ArrayTest extends Activity {
     }
     
     void getExtraArraySuccess() {
-        @Source(FILESYSTEM) @Sink(INTERNET) String @Source(FILESYSTEM) @Sink(INTERNET) [] stringArray = i1.getStringArrayExtra("k1");
+        @Source("FILESYSTEM") @Sink("INTERNET") String @Source("FILESYSTEM") @Sink("INTERNET") [] stringArray = i1.getStringArrayExtra("k1");
     }
     
     void getExtraArrayFail() {
       //:: error: (assignment.type.incompatible)
-        @Source(FILESYSTEM) @Sink(INTERNET) String @Source(FILESYSTEM) @Sink(INTERNET) [] stringArray = i1.getStringArrayExtra("k2");
+        @Source("FILESYSTEM") @Sink("INTERNET") String @Source("FILESYSTEM") @Sink("INTERNET") [] stringArray = i1.getStringArrayExtra("k2");
       //:: error: (intent.key.notfound)
-        @Source(FILESYSTEM) @Sink(INTERNET) String @Source(FILESYSTEM) @Sink(INTERNET) [] stringArray2 = i1.getStringArrayExtra("k3");
+        @Source("FILESYSTEM") @Sink("INTERNET") String @Source("FILESYSTEM") @Sink("INTERNET") [] stringArray2 = i1.getStringArrayExtra("k3");
     }
     
 }

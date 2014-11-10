@@ -8,13 +8,13 @@ import android.app.Activity;
 
 public class DefaultingTest extends Activity {
 
-    @Source(FILESYSTEM) @Sink(INTERNET) String getFile() {
+    @Source("FILESYSTEM") @Sink("INTERNET") String getFile() {
         return null;
     }
 
-    void bottom(@Source() @Sink(ANY) String s) {}
+    void bottom(@Source() @Sink("ANY") String s) {}
 
-    void sendToDisplay(@Source(ACCESS_FINE_LOCATION) @Sink(DISPLAY) String s) {}
+    void sendToDisplay(@Source("ACCESS_FINE_LOCATION") @Sink("DISPLAY") String s) {}
 
     void defaultingTest() {
         @IntentMap({
