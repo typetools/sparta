@@ -5,9 +5,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import sparta.checkers.FlowPolicy;
 
 public class PFPermission implements Comparable<PFPermission> {
-    public static final String PARAMETERIZED_PERMISSION_REGEX = "(.*)[(](.*)[)]";
+    public static final Pattern PARAMETERIZED_PERMISSION_REGEX = Pattern.compile("([A-Z_]*)[(](.*)[)]");
     
     public static final PFPermission ANY = new PFPermission(
             FlowPermission.ANY);
@@ -138,21 +142,33 @@ public class PFPermission implements Comparable<PFPermission> {
         this.parameters.addAll(params);
     }
     
+    public static boolean isValidPFPermission(String perm){
+        Matcher matcher = PARAMETERIZED_PERMISSION_REGEX.matcher(perm);
+        if (matcher.matches()) {
+            String fPermission = matcher.group(1);
+            if(null != FlowPermission.getFlowPermission(fPermission)){
+                return true;
+            }
+        }
+        return false;
+    }
     /**
+     * Must call isValidPFPermission first.
      * Takes a string of the form PERMISSION(param1, param2) and returns
      * the corresponding PFPermission object.
      * PERMISSION
      * PERMISSION("param1") 
+     * Parameters cannot contain quotes or commas
      * @param pfpString
      * @return
      */
-    public static PFPermission getPFP(String pfpString) {
+    public static PFPermission convertStringToPFPermission(String pfpString) {
         pfpString = pfpString.trim();
         List<String> formattedParams = new ArrayList<String>();
-        if (pfpString.matches(PARAMETERIZED_PERMISSION_REGEX)) {
-            String parametersString = pfpString.substring(
-                    pfpString.indexOf('(') + 1, pfpString.indexOf(')'));
-            pfpString = pfpString.substring(0, pfpString.indexOf('(')).trim();
+        Matcher matcher = PARAMETERIZED_PERMISSION_REGEX.matcher(pfpString);
+        if (matcher.matches()) {
+            String parametersString = matcher.group(2);
+            pfpString = matcher.group(1);
 
             // Save sink parameters
             String[] sinkParameterStrings = parametersString.split(",");
@@ -162,8 +178,15 @@ public class PFPermission implements Comparable<PFPermission> {
                 formattedParams.add(param);
             }
         }
-        PFPermission sinkPFP = new PFPermission(
-                FlowPermission.valueOf(pfpString), formattedParams);
-        return sinkPFP;
+
+        FlowPermission fPermission = FlowPermission
+                .getFlowPermission(pfpString);
+        if (fPermission != null) {
+            return new PFPermission(FlowPermission.valueOf(pfpString),
+                    formattedParams);
+        } else {
+            //Shouldn't get here, because isValidPermission should be called first.
+            return null;
+        }
     }
 }

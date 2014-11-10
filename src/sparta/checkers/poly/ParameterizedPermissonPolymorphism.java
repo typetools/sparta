@@ -235,7 +235,7 @@ public class ParameterizedPermissonPolymorphism {
             if (am != null) {
                 String perm = AnnotationUtils.getElementValue(am,
                         "value", String.class, false);
-                flowPermission = PFPermission.getPFP(perm).getPermission();
+                flowPermission = PFPermission.convertStringToPFPermission(perm).getPermission();
                 paramIndexs = AnnotationUtils.getElementValueArray(am, "param",
                         Integer.class, true);
 

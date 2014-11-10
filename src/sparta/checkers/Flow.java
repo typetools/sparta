@@ -153,10 +153,9 @@ public class Flow {
         }
         List<String> sinks = AnnotationUtils.getElementValueArray(am, "value",
                 String.class, true);
-
         Set<PFPermission> sinkFlowPermissions = new TreeSet<PFPermission>();
         for (String permissionString : sinks) {
-            sinkFlowPermissions.add(PFPermission.getPFP(permissionString));
+            sinkFlowPermissions.add(PFPermission.convertStringToPFPermission(permissionString));
         }
 
         return convertToAnySink(sinkFlowPermissions, false);
@@ -171,7 +170,7 @@ public class Flow {
                 "value", String.class, true);
         Set<PFPermission> sourceFlowPermissions = new TreeSet<PFPermission>();
         for (String permissionString : sources) {
-            sourceFlowPermissions.add(PFPermission.getPFP(permissionString));
+            sourceFlowPermissions.add(PFPermission.convertStringToPFPermission(permissionString));
         }
 
         return convertToAnySource(sourceFlowPermissions, false);

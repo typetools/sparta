@@ -27,7 +27,7 @@ import sparta.checkers.quals.PFPermission;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
-import static sparta.checkers.quals.PFPermission.getPFP;
+import static sparta.checkers.quals.PFPermission.convertStringToPFPermission;
 
 /*>>>
  import org.checkerframework.checker.nullness.qual.Nullable;
@@ -337,7 +337,7 @@ public class FlowPolicy {
                                         originalLine);
                                 continue NextLine;
                             }
-                            PFPermission sourcePFP = getPFP(sourceStr);
+                            PFPermission sourcePFP = convertStringToPFPermission(sourceStr);
 
                             final String[] sinkStrs = groupmatcher
                                     .split(",(?![^(]*\\))");
@@ -353,7 +353,7 @@ public class FlowPolicy {
                                             originalLine);
                                     continue NextLine;
                                 }
-                                PFPermission sinkPFP = getPFP(sinkStr);
+                                PFPermission sinkPFP = convertStringToPFPermission(sinkStr);
                                 sinkObjects.add(sinkPFP);
                             }
                             addToMap(allSinkButAny, sourcePFP, sinkObjects);
