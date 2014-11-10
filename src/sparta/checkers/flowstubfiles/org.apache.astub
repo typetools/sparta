@@ -50,7 +50,7 @@ class HttpRequestInterceptor{
 class HttpResponse{
             void setEntity(HttpEntity arg0);
             StatusLine getStatusLine();
-            @Source(FlowPermission.INTERNET) HttpEntity getEntity();
+            @Source(INTERNET) HttpEntity getEntity();
 }
 class HttpResponseInterceptor{
             void process(HttpResponse arg0, HttpContext arg1) throws HttpException,IOException;
@@ -153,7 +153,7 @@ class HttpHead{
 }
 
 class HttpPost {
-
+@InferPermissionParameter(value=INTERNET, isA="sink")
     @Sink(INTERNET) HttpPost( String postUrl);
 }
 
@@ -189,21 +189,21 @@ void setCredentials(AuthScope arg0, Credentials arg1);
 }
 
 class CookieStore{
-        @Source(FlowPermission.INTERNET) List<Cookie> getCookies();
+        @Source(INTERNET) List<Cookie> getCookies();
 }
 
 class HttpClient {
 
     // Added by mcarthur
-    @Source(FlowPermission.INTERNET)
-    HttpResponse execute(@Sink(FlowPermission.INTERNET) HttpUriRequest request);
-                @Source(FlowPermission.INTERNET) HttpParams getParams();
+    @Source(INTERNET)
+    HttpResponse execute(@Sink(INTERNET) HttpUriRequest request);
+                @Source(INTERNET) HttpParams getParams();
 
 }
 
 package org.apache.http.cookie;
 class Cookie{
-        @Source(FlowPermission.INTERNET) String getValue();
+        @Source(INTERNET) String getValue();
 }
 
 package org.apache.http.impl;

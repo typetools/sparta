@@ -27,7 +27,7 @@ import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
 
 import sparta.checkers.quals.AddsSourceData;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.PFPermission;
 import sparta.checkers.validator.BaseValidator;
 
 /**
@@ -189,10 +189,10 @@ public class AddsSourceValidator extends BaseValidator {
     private void checkforMissingSource(final ExpressionTree argumentTree,
             final String warningKey, AnnotatedTypeMirror type,
             AnnotatedTypeMirror p) {
-        Set<ParameterizedFlowPermission> mustSources = Flow.getSources(type);
-        Set<ParameterizedFlowPermission> hasSources = Flow.getSources(p);
-        Set<ParameterizedFlowPermission> missingSources = new TreeSet<>();
-        for (ParameterizedFlowPermission must : mustSources) {
+        Set<PFPermission> mustSources = Flow.getSources(type);
+        Set<PFPermission> hasSources = Flow.getSources(p);
+        Set<PFPermission> missingSources = new TreeSet<>();
+        for (PFPermission must : mustSources) {
             if (!hasSources.contains(must)) {
                 missingSources.add(must);
             }

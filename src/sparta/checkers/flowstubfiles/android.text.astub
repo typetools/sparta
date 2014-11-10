@@ -199,9 +199,9 @@ static void writeToParcel(CharSequence cs, Parcel p, int parcelableFlags);
 }
 
 class TextWatcher {
-    void onTextChanged(@Source(FlowPermission.USER_INPUT)CharSequence arg0, @Source(FlowPermission.USER_INPUT)int arg1, @Source(FlowPermission.USER_INPUT)int arg2, @Source(FlowPermission.USER_INPUT)int arg3);
-    void afterTextChanged(@Source(FlowPermission.USER_INPUT)Editable arg0);
-    void beforeTextChanged(@Source(FlowPermission.USER_INPUT)CharSequence arg0, @Source(FlowPermission.USER_INPUT)int arg1, @Source(FlowPermission.USER_INPUT)int arg2, @Source(FlowPermission.USER_INPUT)int arg3);
+    void onTextChanged(@Source(USER_INPUT)CharSequence arg0, @Source(USER_INPUT)int arg1, @Source(USER_INPUT)int arg2, @Source(USER_INPUT)int arg3);
+    void afterTextChanged(@Source(USER_INPUT)Editable arg0);
+    void beforeTextChanged(@Source(USER_INPUT)CharSequence arg0, @Source(USER_INPUT)int arg1, @Source(USER_INPUT)int arg2, @Source(USER_INPUT)int arg3);
 }
 
 package android.text.format;

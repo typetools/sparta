@@ -26,6 +26,5 @@ public @interface Source {
      * By default we allow no sources. There is always a @Source annotation and
      * this default ensures that the annotation has no effect.
      */
-    FlowPermission[] value() default {};
-    FineSource[] finesources() default {};
+    String[] value() default {};
 }

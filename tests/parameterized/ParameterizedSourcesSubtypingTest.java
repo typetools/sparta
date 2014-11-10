@@ -1,25 +1,24 @@
 import sparta.checkers.quals.Source;
-import sparta.checkers.quals.FineSource;
 
 import  sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 public class ParameterizedSourcesSubtypingTest {
-    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"/usr/bin"})}) String wildcardSrc1;
-    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"/usr/*"})}) String wildcardSrc2;
-    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"/dev/null/", "/usr/*"})}) String wildcardSrc3;
+    @Source(FILESYSTEM+"(/usr/bin)") String wildcardSrc1;
+    @Source(FILESYSTEM+"(/usr/*)") String wildcardSrc2;
+    @Source(FILESYSTEM+"(/dev/null/, /usr/*)") String wildcardSrc3;
     
-    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"myfile.txt"})}) String singleSrc1;
-    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"myfile.txt"})}) String singleSrc2;
+    @Source(FILESYSTEM+"(myfile.txt)") String singleSrc1;
+    @Source(FILESYSTEM+"(myfile.txt)") String singleSrc2;
   
     
-    @Source(value={}, finesources={@FineSource(value=FILESYSTEM, params={"myfile2.txt", "myfile.txt"})}) String multipleSrc1;
+    @Source(FILESYSTEM+"(myfile2.txt, myfile.txt)") String multipleSrc1;
     
     // Testing the subtyping heirarchy from the parameterized permissions documentation
     @Source({INTERNET}) String sourceTop;
-    @Source(value={}, finesources={@FineSource(value=INTERNET, params={"*.google.com"})}) String googleTopSource;
-    @Source(value={}, finesources={@FineSource(value=INTERNET, params={"maps.google.com"})}) String googleMapsSource;
-    @Source(value={}, finesources={@FineSource(value=INTERNET, params={"voice.google.com"})}) String googleVoiceSource;
+    @Source(INTERNET+"(*.google.com)") String googleTopSource;
+    @Source(INTERNET+"(maps.google.com)") String googleMapsSource;
+    @Source(INTERNET+"(voice.google.com)") String googleVoiceSource;
     
     void testSameParameters() {        
         singleSrc2 = singleSrc1;

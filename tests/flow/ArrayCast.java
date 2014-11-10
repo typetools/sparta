@@ -1,4 +1,4 @@
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 import java.io.ByteArrayOutputStream;
 
@@ -28,7 +28,7 @@ void bar(){
     
     void foo() {
         
-        @Sink(INTERNET) Object @Source(FlowPermission.ACCELEROMETER) [] params = new /*@Sink(INTERNET)*/ Object[1];
+        @Sink(INTERNET) Object @Source(FlowPermissionString.ACCELEROMETER) [] params = new /*@Sink(INTERNET)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
       //strict:: warning: (cast.unsafe)
         Object @Source(INTERNET) @Sink(INTERNET) [] result = (Object[]) call("method", params);

@@ -1,15 +1,12 @@
 import sparta.checkers.quals.Source;
-import sparta.checkers.quals.FineSource;
 import sparta.checkers.quals.FlowPermission;
 
 import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.FineSink;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 class ParameterizedArithmeticsTest {
     @Source({ACCELEROMETER}) 
-    @Sink(value={}, 
-          finesinks={@FineSink(value=FILESYSTEM, params={"*"})}) 
+    @Sink(FILESYSTEM+"(*)") 
     int accel;
 
     int clean;
@@ -37,8 +34,7 @@ class ParameterizedArithmeticsTest {
 
         //Tests LUB
         @Source({ACCELEROMETER})
-        @Sink(value={}, 
-              finesinks={@FineSink(value=FILESYSTEM, params={"myfile1.txt", "myfile2.txt"})}) 
+        @Sink(FILESYSTEM+"(myfile1.txt,myfile2.txt)") 
         int x = j;
         x += 3;
 

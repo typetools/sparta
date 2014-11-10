@@ -210,8 +210,8 @@ class URLEncoder{
 }
 class HttpURLConnection {
     void setFixedLengthStreamingMode(int arg0);
-    @Source(FlowPermission.INTERNET) int getResponseCode() throws IOException;
-    void setRequestMethod(@Sink(FlowPermission.INTERNET) String arg0) throws ProtocolException;
+    @Source(INTERNET) int getResponseCode() throws IOException;
+    void setRequestMethod(@Sink(INTERNET) String arg0) throws ProtocolException;
     @Source(INTERNET) InputStream getErrorStream();
     @Source(INTERNET) String getResponseMessage() throws IOException;
     void disconnect();

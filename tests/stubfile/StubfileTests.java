@@ -7,7 +7,7 @@
 //warning: StubParser: Enclosing type of static field Test not found: fakeclass
 //warning: StubParser: Enclosing type of static field fakenestedfield not found: stubfile.ExampleApiNotExist
 //warning: StubParser: Static field MISSING_FIELD is not imported
-//warning: StubParser: Field MISSING_MEMEBER not found in type sparta.checkers.quals.FlowPermission
+//warning: StubParser: Field MISSING_MEMEBER not found in type sparta.checkers.quals.FlowPermissionString
 //warning: StubParser: Type MissingClass not found
 
 
@@ -28,7 +28,7 @@
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import stubfile.*;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 public class StubfileTests {
     @Source(READ_SMS) @Sink({}) int sms;

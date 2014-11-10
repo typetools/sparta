@@ -2,7 +2,7 @@ import sparta.checkers.quals.Source;
 import sparta.checkers.quals.FlowPermission;
 
 import sparta.checkers.quals.Sink;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 class Arithmetics {
     @Source({ ACCELEROMETER }) @Sink({ FILESYSTEM }) int accel;

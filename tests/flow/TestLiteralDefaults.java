@@ -2,7 +2,7 @@ import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
-import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.FlowPermissionString;
 import sparta.checkers.quals.FlowPermission;
 
 /**
@@ -14,10 +14,10 @@ import sparta.checkers.quals.FlowPermission;
  */
 class TestLiteralDefaults {
     
-    @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) float ntop;
+    @Sink({}) @sparta.checkers.quals.Source({FlowPermissionString.ANY}) float ntop;
     @PolySource @PolySink float npoly;
 
-    @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) float nbot;
+    @Sink({FlowPermissionString.ANY}) @sparta.checkers.quals.Source({}) float nbot;
   
     float nunqual;
 
@@ -28,10 +28,10 @@ class TestLiteralDefaults {
         nunqual = 2f;
     }
 
-    @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) Object rtop;
+    @Sink({}) @sparta.checkers.quals.Source({FlowPermissionString.ANY}) Object rtop;
     @PolySource @PolySink Object rpoly;
 
-    @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) Object rbot;
+    @Sink({FlowPermissionString.ANY}) @sparta.checkers.quals.Source({}) Object rbot;
 
     Object runqual;
 
@@ -48,10 +48,10 @@ class TestLiteralDefaults {
         runqual = new Object();
     }
 
-    @Sink({}) @sparta.checkers.quals.Source({FlowPermission.ANY}) char ctop;
+    @Sink({}) @sparta.checkers.quals.Source({FlowPermissionString.ANY}) char ctop;
     @PolySource @PolySink char cpoly;
  
-    @Sink({FlowPermission.ANY}) @sparta.checkers.quals.Source({}) char cbot;
+    @Sink({FlowPermissionString.ANY}) @sparta.checkers.quals.Source({}) char cbot;
 
     char cunqual;
 

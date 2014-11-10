@@ -1,0 +1,5 @@
+READ_SMS->FILESYSTEM("fromSMSFile")
+FILESYSTEM("toSMSfile")->WRITE_SMS
+
+FILESYSTEM("dir/file1")  ->  FILESYSTEM("dir/file1")
+FILESYSTEM("file1")  ->  FILESYSTEM("file1")

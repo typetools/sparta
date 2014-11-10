@@ -1,6 +1,6 @@
 import sparta.checkers.quals.*;
 import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 /**
  * This class is intended to test the default 
  * for return, parameter, receiver, and field types.

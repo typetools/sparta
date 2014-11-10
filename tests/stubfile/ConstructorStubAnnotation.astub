@@ -1,8 +1,6 @@
 
 import sparta.checkers.quals.*;
-
-import sparta.checkers.quals.FlowPermission;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 package mypakage;
 
 class TestStubImplicitConstructor {
@@ -22,7 +20,7 @@ class TestStubParamConstructor {
 }
 
 class TestStubExplicitConstructorType {
-    @Source(FlowPermission.INTERNET)
+    @Source(INTERNET)
     TestStubExplicitConstructorType();
      static void stubSanity(@Source(READ_SMS) String fail) { }
 }

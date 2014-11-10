@@ -2,7 +2,7 @@ import sparta.checkers.quals.Source;
 import sparta.checkers.quals.FlowPermission;
 
 import sparta.checkers.quals.Sink;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 /**
  * This is class is intended to test the Flow Policy Completion defaulting.

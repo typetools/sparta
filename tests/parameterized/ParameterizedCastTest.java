@@ -2,11 +2,11 @@ import sparta.checkers.quals.*;
 import sparta.checkers.quals.PolySink;
 import sparta.checkers.quals.PolySource;
 
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 class ParameterizedCastTest {
     @Source(ACCESS_FINE_LOCATION) double result;
-    @Source(value={}, finesources={@FineSource(value=ACCESS_FINE_LOCATION, params={"myLocation"})}) int x;
+    @Source(ACCESS_FINE_LOCATION+"(myLocation)") int x;
 
     void m() {
         result = bar(x);
@@ -18,9 +18,9 @@ class ParameterizedCastTest {
     }
 
 
-    public @Source(ACCESS_FINE_LOCATION) double foo(@Source(value={}, finesources={@FineSource(value=ACCESS_FINE_LOCATION, params={"my*"})}) int x) {
+    public @Source(ACCESS_FINE_LOCATION) double foo(@Source(ACCESS_FINE_LOCATION+"(my*)") int x) {
         //:: warning: (cast.unsafe)
-        return (@Source(value={}, finesources={@FineSource(value=ACCESS_FINE_LOCATION, params={"badParam"})}) double) x;
+        return (@Source(ACCESS_FINE_LOCATION+"(badParam)") double) x;
     }
 
     public @Source(ACCESS_FINE_LOCATION) double foo2( @Source(ACCESS_FINE_LOCATION) int x) {

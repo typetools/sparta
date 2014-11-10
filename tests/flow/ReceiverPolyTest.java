@@ -2,7 +2,7 @@ import sparta.checkers.quals.PolySinkR;
 import sparta.checkers.quals.PolySourceR;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
-import static sparta.checkers.quals.FlowPermission.*;
+import static sparta.checkers.quals.FlowPermissionString.*;
 
 
 public class ReceiverPolyTest {

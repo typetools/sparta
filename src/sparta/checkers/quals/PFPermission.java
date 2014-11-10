@@ -5,19 +5,25 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class ParameterizedFlowPermission implements Comparable<ParameterizedFlowPermission> {
-    public static final ParameterizedFlowPermission ANY = new ParameterizedFlowPermission(
+import sparta.checkers.FlowPolicy;
+
+public class PFPermission implements Comparable<PFPermission> {
+    public static final Pattern PARAMETERIZED_PERMISSION_REGEX = Pattern.compile("([A-Z_]*)[(](.*)[)]");
+    
+    public static final PFPermission ANY = new PFPermission(
             FlowPermission.ANY);
 	private final FlowPermission permission;
     private final List<String> parameters; 
     
-    public ParameterizedFlowPermission(FlowPermission permission) {
+    public PFPermission(FlowPermission permission) {
         this( permission, new ArrayList<String>());     
     }
 
     
-    public ParameterizedFlowPermission(FlowPermission permission, List<String> parameters) {
+    public PFPermission(FlowPermission permission, List<String> parameters) {
         this.permission = permission;
         this.parameters = parameters; 
         if(parameters.isEmpty()) {
@@ -73,7 +79,7 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ParameterizedFlowPermission other = (ParameterizedFlowPermission) obj;
+        PFPermission other = (PFPermission) obj;
         if (parameters == null) {
             if (other.parameters != null)
                 return false;
@@ -90,7 +96,7 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
      * parameters, then by String compare of sorted parameters.
      */
     @Override
-    public int compareTo(ParameterizedFlowPermission other) {
+    public int compareTo(PFPermission other) {
         if (other == null) {
             return 1;
         }
@@ -113,8 +119,8 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
     }
 
     // TODO: Ask where this method belongs. Static method in another class?
-    static public boolean coarsePermissionExists(ParameterizedFlowPermission target, Set<ParameterizedFlowPermission> permissions) {
-        for (ParameterizedFlowPermission permission : permissions) {
+    static public boolean coarsePermissionExists(PFPermission target, Set<PFPermission> permissions) {
+        for (PFPermission permission : permissions) {
             if (permission.equals(target) ) {
                 return true;
             }
@@ -134,5 +140,53 @@ public class ParameterizedFlowPermission implements Comparable<ParameterizedFlow
 
     public void addParameters(List<String> params) {
         this.parameters.addAll(params);
+    }
+    
+    public static boolean isValidPFPermission(String perm){
+        Matcher matcher = PARAMETERIZED_PERMISSION_REGEX.matcher(perm);
+        if (matcher.matches()) {
+            String fPermission = matcher.group(1);
+            if(null != FlowPermission.getFlowPermission(fPermission)){
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * Must call isValidPFPermission first.
+     * Takes a string of the form PERMISSION(param1, param2) and returns
+     * the corresponding PFPermission object.
+     * PERMISSION
+     * PERMISSION("param1") 
+     * Parameters cannot contain quotes or commas
+     * @param pfpString
+     * @return
+     */
+    public static PFPermission convertStringToPFPermission(String pfpString) {
+        pfpString = pfpString.trim();
+        List<String> formattedParams = new ArrayList<String>();
+        Matcher matcher = PARAMETERIZED_PERMISSION_REGEX.matcher(pfpString);
+        if (matcher.matches()) {
+            String parametersString = matcher.group(2);
+            pfpString = matcher.group(1);
+
+            // Save sink parameters
+            String[] sinkParameterStrings = parametersString.split(",");
+            for (String param : sinkParameterStrings) {
+                // Strip quotes and add to parameter list
+                param = param.replaceAll("\"", "").trim();
+                formattedParams.add(param);
+            }
+        }
+
+        FlowPermission fPermission = FlowPermission
+                .getFlowPermission(pfpString);
+        if (fPermission != null) {
+            return new PFPermission(FlowPermission.valueOf(pfpString),
+                    formattedParams);
+        } else {
+            //Shouldn't get here, because isValidPermission should be called first.
+            return null;
+        }
     }
 }

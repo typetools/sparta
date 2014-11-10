@@ -29,7 +29,7 @@ import sparta.checkers.quals.GetExtra;
 import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.IntentMapBottom;
 import sparta.checkers.quals.IntentMapNew;
-import sparta.checkers.quals.ParameterizedFlowPermission;
+import sparta.checkers.quals.PFPermission;
 import sparta.checkers.quals.PutExtra;
 import sparta.checkers.quals.ReceiveIntent;
 import sparta.checkers.quals.SendIntent;
@@ -95,13 +95,13 @@ public class IntentUtils {
      * Return the union of sources from 2 @Extra annotations
      */
 
-    public static Set<ParameterizedFlowPermission> unionSourcesIExtras(AnnotationMirror iExtra1, 
+    public static Set<PFPermission> unionSourcesIExtras(AnnotationMirror iExtra1, 
             AnnotationMirror iExtra2) {
         return  Flow.unionSources(getSourcesPFP(iExtra1), getSourcesPFP(iExtra2));
 
     }
 
-    public static Set<ParameterizedFlowPermission> getSourcesPFP(AnnotationMirror iExtra) {
+    public static Set<PFPermission> getSourcesPFP(AnnotationMirror iExtra) {
         return Flow.convertToParameterizedFlowPermission(getSources(iExtra));
     }
     
@@ -115,12 +115,12 @@ public class IntentUtils {
      * Return the union of sinks from 2 @Extra annotations
      */
 
-    public static Set<ParameterizedFlowPermission> unionSinksIExtras(AnnotationMirror iExtra1, 
+    public static Set<PFPermission> unionSinksIExtras(AnnotationMirror iExtra1, 
             AnnotationMirror iExtra2) {
         return Flow.unionSinks(getSinksPFP(iExtra1), getSinksPFP(iExtra2));
     }
 
-    public static Set<ParameterizedFlowPermission> getSinksPFP(AnnotationMirror iExtra) {
+    public static Set<PFPermission> getSinksPFP(AnnotationMirror iExtra) {
         return Flow.convertToParameterizedFlowPermission(getSinks(iExtra));
     }
     
@@ -134,8 +134,8 @@ public class IntentUtils {
      * Creates a new @Extra AnnotationMirror
      */
     public static AnnotationMirror createIExtraAnno(String key,
-            Set<ParameterizedFlowPermission> sources,
-            Set<ParameterizedFlowPermission> sinks,
+            Set<PFPermission> sources,
+            Set<PFPermission> sinks,
             ProcessingEnvironment processingEnv) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
             Extra.class);
@@ -187,8 +187,8 @@ public class IntentUtils {
      * @return
      */
     public static AnnotationMirror getNewIMapWithExtra(AnnotationMirror intentExtras,
-            String key, Set<ParameterizedFlowPermission> sources,
-            Set<ParameterizedFlowPermission> sinks,
+            String key, Set<PFPermission> sources,
+            Set<PFPermission> sinks,
             ProcessingEnvironment processingEnv) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv,
                 IntentMap.class);
