@@ -11,6 +11,7 @@ import static org.checkerframework.framework.qual.DefaultLocation.RETURNS;
 import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,8 +28,13 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.type.TypeKind;
 
+import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.common.reflection.ClassValAnnotatedTypeFactory;
+import org.checkerframework.common.reflection.DefaultReflectionResolver;
+import org.checkerframework.common.reflection.MethodValAnnotatedTypeFactory;
 import org.checkerframework.common.reflection.ReflectionResolutionAnnotatedTypeFactory;
+import org.checkerframework.common.value.ValueAnnotatedTypeFactory;
 import org.checkerframework.dataflow.analysis.TransferResult;
 import org.checkerframework.dataflow.cfg.node.Node;
 import org.checkerframework.framework.flow.CFAbstractAnalysis;
@@ -37,6 +43,7 @@ import org.checkerframework.framework.flow.CFTransfer;
 import org.checkerframework.framework.flow.CFValue;
 import org.checkerframework.framework.qual.DefaultLocation;
 import org.checkerframework.framework.qual.PolyAll;
+import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
@@ -76,11 +83,12 @@ import sparta.checkers.quals.PolySourceR;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
+import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
 
-public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeFactory{
+public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     protected final AnnotationMirror NOSOURCE, ANYSOURCE, POLYSOURCE, POLYSOURCER;
     protected final AnnotationMirror NOSINK, ANYSINK, POLYSINK,POLYSINKR;
@@ -105,6 +113,8 @@ public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeF
 	final QualifierDefaults byteCodeDefaults = new QualifierDefaults(elements, this);
 	final QualifierDefaults polyFlowDefaults = new QualifierDefaults(elements, this);
 	final QualifierDefaults polyFlowReceiverDefaults = new QualifierDefaults(elements, this);
+	
+    private List<BaseAnnotatedTypeFactory> factories;
 
     public FlowAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
@@ -135,11 +145,39 @@ public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeF
         }
 
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
+        factories = new ArrayList<>();
+        factories.add(new ValueAnnotatedTypeFactory(checker));
+
 
      // Every subclass must call postInit!
         if (this.getClass().equals(FlowAnnotatedTypeFactory.class)) {
             this.postInit();
         }
+    }
+
+    @Override
+    public void setRoot(CompilationUnitTree root) {
+        super.setRoot(root);
+        for (AnnotatedTypeFactory factory : factories) {
+            factory.setRoot(root);
+        }
+    }
+
+    @Override
+    public AnnotationMirror getAnnotationMirror(Tree tree,
+            Class<? extends Annotation> target) {
+        AnnotationMirror mirror = AnnotationUtils.fromClass(elements, target);
+        if (this.isSupportedQualifier(mirror)) {
+            AnnotatedTypeMirror atm = this.getAnnotatedType(tree);
+            return atm.getAnnotation(target);
+        }
+        for (AnnotatedTypeFactory factory : factories) {
+            if (factory != null && factory.isSupportedQualifier(mirror)) {
+                AnnotatedTypeMirror atm = factory.getAnnotatedType(tree);
+                return atm.getAnnotation(target);
+            }
+        }
+        return null;
     }
 
     @Override
@@ -271,10 +309,29 @@ public class FlowAnnotatedTypeFactory extends ReflectionResolutionAnnotatedTypeF
 
 
     @Override
-    protected void annotateImplicit(Tree tree, AnnotatedTypeMirror type, boolean useFlow) {
+    protected void annotateImplicit(Tree tree, AnnotatedTypeMirror type,
+            boolean useFlow) {
         Element element = InternalUtils.symbol(tree);
         handleDefaulting(element, type);
         super.annotateImplicit(tree, type, useFlow);
+
+        // TODO: Error prone hack -> this implementation makes assumptions about
+        // implementation details in the super class:
+        // annotateImplicit(Tree tree, AnnotatedTypeMirror type) is assumed to
+        // call
+        // annotateImplicit(Tree tree, AnnotatedTypeMirror type, boolean
+        // iUseFlow)
+        //
+        // Problem:
+        // annotateImplicit(Tree tree, AnnotatedTypeMirror type) is final
+        // annotateImplicit(Tree tree, AnnotatedTypeMirror type, boolean
+        // iUseFlow) is protected
+        if (useFlow) {
+            for (BaseAnnotatedTypeFactory factory : factories) {
+                factory.setUseFlow(useFlow);
+                factory.annotateImplicit(tree, type);
+            }
+        }
     }
 
     @Override
