@@ -13,7 +13,7 @@
       <compilerarg value="-implicit:class"/>
       <!-- optional, to issue warnings instead of errors: <compilerarg line="-Awarns -Xmaxwarns 10000"/> -->
 	<compilerarg line="-Awarns -Xmaxwarns 10000"/>
-<!-- Used to connect with the eclipse debugger	<compilerarg line="-J-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"/> -->
+<!-- Used to connect with the eclipse debugger	 <compilerarg line="-J-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"/>-->
         <!--<compilerarg value="-J-Xbootclasspath/p:${checker-framework_dir}/checker/bin/jsr308-all.jar"/>
 
       <classpath>
@@ -145,8 +145,11 @@
         <process-proj processor="sparta.checkers.FlowChecker"/>
     </target>
     
+    <target name="-setup-check-value">
+        <property name="build.target" value="check-value" />
+    </target>
     <target name="check-value"
-                depends="clean, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                depends="clean, -setup-check-value, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="run the Value Checker">
         <process-proj processor="org.checkerframework.common.value.ValueChecker"/>
     </target>
