@@ -42,12 +42,7 @@ that the program has no information flow beyond what is expressed in the
 flow policy and type annotations.
 
 
-\input{flow-flow-policy}
-
-
-
 \section{Source and Sink annotations\label{sec:flow-type-system}}
-
 
 The type qualifier \<@Source> on a variable's
 type indicates what sensitive sources might affect the variable's value.
@@ -83,6 +78,21 @@ sinks.
 %\url{http://developer.android.com/reference/android/Manifest.permission.html}),
 %and others are new ``permissions'' that provide finer-grained control over
 %the behavior of an application.
+
+\subsection{Syntax\label{sec:flow-anno-syntax}}
+The source and sink qualifiers are type annotations that can be used on any type use.  They have a single attribute, an array of Strings, that represent the permissions.  The Strings must start with the string value of a constant in the FlowPermission enum; a class with a static string constant, FlowPermissionString, can be statically imported and used for this purpose. They can be optionally parameterized as shown below:
+
+\begin{Verbatim}
+PERMISSION(param1, param1)
+\end{Verbatim}
+
+Some examples:
+
+\begin{Verbatim}
+@Source(FILESYSTEM)
+@Source(INTERNET+"(uw.edu)")
+@Sink({WRITE_SMS, WRITE_CONTACTS})
+\end{Verbatim}
 
 \subsection{Subtyping\label{sec:subtyping}}
 
@@ -121,70 +131,60 @@ the value is permitted to flow to both \<INTERNET> and \<FILESYSTEM>.  This
 is a subtype of \<@Sink(INTERNET)>, as the latter type provides fewer routes through which the information may be
 leaked.
 
-\subsubsection{Subtyping for parameterized sources and sinks\label{sec:param-subtyping}}
+\section{Polymorphism \label{sec:polyflowsources}}
 
-\begin{figure}
-\centerline{\includegraphics[width=1.0\textwidth]{figures/flowsources_parameterized}}
-\caption{Partial qualifier hierarchy for parameterized flow source type
-  qualifiers, expressed as Java annotations \<@FineSource>.}
-\label{fig:flow-hierarchy-parameterized-source}
-\end{figure}
 
-\begin{figure}
-\centerline{\includegraphics[width=1.0\textwidth]{figures/flowsinks_parameterized}}
-\caption{Partial qualifier hierarchy for parameterized flow sink type
-  qualifiers, expressed as Java annotations \<@FineSink>.}
-\label{fig:flow-hierarchy-parameterized-sink}
-\end{figure}
+Information flow type qualifiers interact seamlessly with parametric polymorphism (Java
+generics).  For example, a programmer can declare
 
-Subtyping rules for parameterized permissions extend the subtyping rules for
-non-parameterized permissions. All non-parameterized permissions will default
-to having ("*") for its parameter. The asterisk(*) will be treated as a wildcard
-for purposes of subtyping, so non-parameterized permissions will subsume all
-its parameterized counterparts. 
-
-\noindent
-@FineSource(X,{"B1", "B2", ..."BN"}) is a subtype of @Source(Y, {"A1", "A2", ..."AN"}), 
-if:
 \begin{Verbatim}
-  1. X and Y are the same permission
-  2. for each string B parameter in {"B1", "B2", ..."BN"}
-        for each string A in {"A1", "A2", ..."AN"}
-          if(A is a regex and B is a string)
-             B must match A
-          if(A is a string and B is a string)
-             B must be the same A
-          if(A is a regex and B is a regex)
-             B must be contained by A
-          if(A is a string and B is a regex)
-              //B is not a subtype of A
+    List<@Source(CONTACTS) @Sink(SMS) String> myList;
 \end{Verbatim}
-
-For example, Source(FILESYSTEM("/tmp/*")) is a supertype of FILESYSTEM("/tmp/file.txt")\newline
-
 \noindent
-@FineSink(X,{"B1", "B2", ..."BN"}) is a subtype of @FineSink(Y, {"A1", "A2", ..."AN"}), 
-if:
+Here, the elements of \<myList> are strings
+that are obtained from \<CONTACTS> and that may flow to \<SMS>.
+
+\TheFlowChecker also supports qualifier polymorphism, in
+which the type qualifiers can change independently of the underlying type.
+This allows a programmer to write a generic method that can operate on values of
+any information flow type.
+For example, if a method is declared as
+\<@PolySource int f(@PolySource int x)>, then it can be called on an \<int>
+with any flow sources, and the result has exactly the same sources as the
+input.  This can be viewed as a declaration and two uses of a type
+qualifier variable.  The implicit type qualifier variables are
+automatically instantiated by \theFlowChecker at the point of use.
+
+For brevity,
+the additional
+annotation \<@PolyFlow> can be written on a class or method declaration to indicate that
+all contained parameters and return types should be annotated as \<@PolySource
+@PolySink>.  \<@PolyFlow> does not override explicitly-written annotations as explained
+in \secref{sec:polyflow}.
+
+
+Parametric polymorphism, qualifier polymorphism, and regular Java types can
+be used together.  The type system combines the
+qualifier variables and the Java types into a complete qualified type.
+
+See section ``\ahref{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#qualifier-polymorphism}{Qualifier polymorphism}'' in the Checker Framework Manual.  
+
+\subsection{Receiver polymorphism}
+
+Receiver polymorphism restricts the return and/or parameter qualifier types of a method to be exactly 
+the qualifier type of the receiver. 
+For example, the StringBuffer append method uses this sort of polymorphism to restrict they type of strings that can be appended.  For example,
+
 \begin{Verbatim}
-  1. A and B are the same permission
-  2.  for each string A in {"A1", "A2", ..."AN"}
-        for each string B in {"B1", "B2", ..."BN"}
-          if(A is a string and B is a regex)
-             A must match B
-          if(A is a string and B is a string)
-             A must be the same B
-          if(A is a regex and B is a regex)
-             A must be contained by B
-          if(A is a regex and B is a string)
-            //B is not a subtype of A
-\end{Verbatim}
-For example, a flow of 'SMS -> INTERNET("*.google.com")' is a subtype of 
-'SMS -> INTERNET("maps.google.com")' because the supertype's value is a match to 
-the subtype's regular expression.
-
-\section{Comparison to Android permissions}
-\label{sec:permissions}
-
+StringBuffer buffer = (@Source(USER_INPUT) StringBuffer) new StringBuffer();
+@Source(READ_SMS) String smsMessage = getSMS();
+buffer.append(smsMessage);  // illegal
+buffer.append(getUserInput());  // legal
+ \end{Verbatim}
+ 
+ Parameters, returns, and receivers are annotated with \<@PolySourceR> or \<@PolySinkR> to indicate this.
+ 
+\section{Comparison to Android permissions\label{sec:permissions}}
 
 The Information Flow Checker's permissions are finer-grained than standard Android manifest permissions
 in two ways.  First, Android permits any flow
@@ -200,8 +200,7 @@ Rather, they are statically guaranteed at compile time.  Even if an app
 inherited a permission from another app with the same sharedUserId, 
 \theFlowChecker will require that permission to be listed in the flow policy.   
 
-\subsubsection{Restricting existing permissions}
-\label{sec:parameterized-permissions}
+\subsubsection{Restricting existing permissions\label{sec:parameterized-permissions}}
 
 Android's \perm{INTERNET} permission represents all reachable 
 hosts on the Internet, which is too coarse-grained to express the
@@ -236,6 +235,8 @@ We selected and refined these by examining the Android
 API and Android programs, and it is easy to add additional ones.
 
 \input{permission-table}
+
+\input{flow-flow-policy}
 
   \section{Inference and defaults}
  \label{sec:system:defaults}
@@ -356,6 +357,33 @@ inferred from the policy file as explained in
 As is standard, the \<null> literal is given the bottom type qualifier, which allows it to be assigned to any variable.
 For \theFlowChecker, the bottom type qualifier is \srcnone\  \<@Sink(ANY)>.
 
+\subsection{Declaration annotations to specify defaulting\label{sec:additionalanno}}
+
+The Information Flow Checker has additional declaration annotations that are shorthand for common 
+annotation patterns on method signatures.   They override the usual defaulting of method declarations.
+
+\subsubsection{@PolyFlow\label{sec:polyflow}}
+
+Annotation \<@PolyFlow> expresses that each contained method should be annotated as \<@PolySource> 
+\<@PolySink> for both the return types and all parameters. It should be used to express a relationship 
+between the return type and the parameter types, but not the receiver type
+
+\subsubsection{@PolyFlowReceiver\label{sec:polyflowreceiver}}
+
+Annotation \<@PolyFlowReceiver> expresses that each contained method should be annotated as \<@PolySourceR> \<@PolySinkR> for the return type, all parameter types, and the receiver type.  
+(If the method or constructor does not have a receiver, then the annotation is treated at \<@PolyFlow>.
+
+\subsubsection{Declaration annotations in stub files\label{sec:declannosstubfiles}}
+If \<@PolyFlow> or \<@PolyFlowReceiver> is written on a class or package, then the annotation applies
+ to all contained methods or classes unless those classes or methods are annotated with another 
+ declaration annotation.   
+
+This change of defaulting happens to library methods that are not written in stub files.  For example, the class
+ Integer as been annotated with  \<@PolyFlowReceiver>, but the toString method is not listed in the stub file.  
+ This method is inferred to be annotated with  \<@PolyFlowReceiver> and therefore its use will not result in a 
+ type error  involving the \<NOT\_REVIEWED> FlowPermission. 
+ 
+
 \section{Warning suppression\label{sec:waringsuppression}}
  
 Sometimes it might be necessary to suppress warnings or errors produced by
@@ -386,81 +414,7 @@ Any method, constructor, or field  not written in the stub files or found in sou
   A tool, discussed in Section \ref{flow-task-annotate-apis}, issues a warning every time a type declared in a 
   library that does not appear in a stub file is used.  This tool also outputs a list of declarations missing from
   the stub files. 
-
-
-\section{Polymorphism \label{sec:polyflowsources}}
-
-
-Information flow type qualifiers interact seamlessly with parametric polymorphism (Java
-generics).  For example, a programmer can declare
-
-\begin{Verbatim}
-    List<@Source(CONTACTS) @Sink(SMS) String> myList;
-\end{Verbatim}
-\noindent
-Here, the elements of \<myList> are strings
-that are obtained from \<CONTACTS> and that may flow to \<SMS>.
-
-\TheFlowChecker also supports qualifier polymorphism, in
-which the type qualifiers can change independently of the underlying type.
-This allows a programmer to write a generic method that can operate on values of
-any information flow type.
-For example, if a method is declared as
-\<@PolySource int f(@PolySource int x)>, then it can be called on an \<int>
-with any flow sources, and the result has exactly the same sources as the
-input.  This can be viewed as a declaration and two uses of a type
-qualifier variable.  The implicit type qualifier variables are
-automatically instantiated by \theFlowChecker at the point of use.
-
-For brevity,
-the additional
-annotation \<@PolyFlow> can be written on a class or method declaration to indicate that
-all contained parameters and return types should be annotated as \<@PolySource
-@PolySink>.  \<@PolyFlow> does not override explicitly-written annotations as explained
-in \secref{sec:polyflow}.
-
-
-Parametric polymorphism, qualifier polymorphism, and regular Java types can
-be used together.  The type system combines the
-qualifier variables and the Java types into a complete qualified type.
-
-See section ``\ahref{http://types.cs.washington.edu/checker-framework/current/checkers-manual.html#qualifier-polymorphism}{Qualifier polymorphism}'' in the Checker Framework Manual.  
-
-% These range over their respective type hierarchy and can be used to
-% express type dependencies, for example, that the receiver and
-% parameter types have to correspond.
-% The invocation of a method is used to resolve polymorphic qualifiers
-% to something concrete.
-
-\todo{these have known soundness issues and with Stuart we're working on fixing them.}
-
-
-\section{Declaration annotations to specify defaulting\label{sec:additionalanno}}
-
-The Information Flow Checker has additional declaration annotations that are shorthand for common 
-annotation patterns on method signatures.   They override the usual defaulting of method declarations.
-
-\subsection{@PolyFlow\label{sec:polyflow}}
-
-Annotation \<@PolyFlow> expresses that each contained method should be annotated as \<@PolySource> 
-\<@PolySink> for both the return types and all parameters. It should be used to express a relationship 
-between the return type and the parameter types, but not the receiver type
-
-\subsection{@PolyFlowReceiver\label{sec:polyflowreceiver}}
-
-Annotation \<@PolyFlowReceiver> expresses that each contained method should be annotated as \<@PolySource> \<@PolySink> for the return type, all parameter types, and the receiver type.
-
-\subsection{Declaration annotations in stub files\label{sec:declannosstubfiles}}
-If \<@PolyFlow> or \<@PolyFlowReceiver> is written on a class or package, then the annotation applies
- to all contained methods or classes unless those classes or methods are annotated with another 
- declaration annotation.   
-
-This change of defaulting happens to library methods that are not written in stub files.  For example, the class
- Integer as been annotated with  \<@PolyFlowReceiver>, but the toString method is not listed in the stub file.  
- This method is inferred to be annotated with  \<@PolyFlowReceiver> and therefore its use will not result in a 
- type error  involving the \<NOT\_REVIEWED> FlowPermission. 
  
-
 \section{Stricter tests\label{sec:stricter}}
 
 By default, the Information Flow Checker is unsound.  After getting the basic checks to pass, the
