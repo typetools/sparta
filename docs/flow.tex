@@ -234,125 +234,8 @@ physical activity, and to write to the logs, which a colluding app could potenti
 the additional sources and sinks.
 We selected and refined these by examining the Android
 API and Android programs, and it is easy to add additional ones.
-%\todo{Should we mention something about the source/sinks that 
-%SuSi found here or in the related works?}
-%The related work in the appropriate place.  
-%SuSi doesn't not claim to find all the categories of sensitive sources/sinks
-% or even all the methods that access resources. 
-%Our system does not add much complexity: 
-%it only adds \numIFCperms permissions to
-%Android's standard \numandroidperms, or \percentIFCperms more permissions.  
-
-
-%Some researchers feel that the Android permission model is already too complicated for
-%users to understand~\cite{FeltCHSW2011}.  But our perspective is that of a
-%full-time auditor who
-%is trained to analyze applications.  The flow policy is examined once
-%per application by that skilled engineer, not on every download by a user, so
-%the total human burden is less.  
-%  The more detailed flow
-%policy file yields more insight than simple Android permissions,
-%because the flow policy 
-%makes clear how each resource is used, not just
-%that it is used.
-
-
-
-
-
-%\subsection{FineSource and FineSink Annotations\label{sec:fine-source-and-sink}}
-%\<@FineSource> and \<@FineSink> annotations follow the same conventions as 
-%regular \<@Source> and \<@Sink> annotations. However, they are embedded within
-%the respective \<@Source> and \<@Sink> annotations that are being parameterized.
-%That is, \<@Source> and \<@Sink> annotations have optional attributes for
-%finesources and finesinks, respectively. Each FineSource and FineSink annotation
-%takes a value attribute consisting of the coarse FlowPermission to be parameterized.
-%Each finer grained annotation also has a params attribute, which is a
-%string list of parameters associated with the finer-grained permission.
-%
-%As an example, we parameterize the example declaration above
-%\begin{Verbatim}
-%    @Source(LOCATION) 
-%    @Sink(finesinks={@FineSink(value=INTERNET, params={"mydomain.org"})}) double loc;
-%\end{Verbatim}
-
-
-%Some researchers feel that the Android permission model is already too complicated for
-%users to understand~\cite{felt:2011:permissions}.  But our perspective is that of an auditor who
-%is trained to analyze an application.  The flow policy is examined once
-%per application by a skilled engineer, not on every download by a user, so
-%the total human burden is less.  The more detailed flow
-%policy file may even be more comprehensible than simple Android permissions,
-%because the flow policy makes clear how each resource is used, not just
-%that it is used.
 
 \input{permission-table}
-
-%We now discuss two permissions, \perm{LITERAL} and \perm{CONDITIONAL}, and empty  whose meaning may not be obvious.
-%
-%\subsubsection{Literals}
-%The \perm{LITERAL} source is used for programmer-written manifest
-%constants, such as \<"Hello world!">.
-%This enables \theFlowChecker to distinguish information derived
-%from the program source code from other inputs.
-%Manifest literals are used benignly for many 
-%purposes, such as configuring default settings.
-%The flow policy shows the ways they are used in the program, and they can
-%be directly examined by the analyst.
-%
-%
-%\subsubsection{Conditionals \label{sec:conditionals}}
-%\TheFlowChecker treats conditional statements as a flow sink
-%to enable detection of indirect flows that leak private information.
-%For example, without any treatment of conditionals, the following code would
-%be permitted under a flow policy containing \flow{LITERAL}{INTERNET} and \flow{USER\_INPUT}{FILESYSTEM}:
-%
-%\begin{Verbatim}
-%    @Source(USER_INPUT) @Sink(FILESYSTEM)
-%    long creditCard = getCCNumber();
-%    final long MAX_CC_NUM = 9999999999999999;
-%    for (long i = 0 ; i < MAX_CC_NUM ; i++) {
-%        if (i == creditCard)
-%            sendToInternet(i);
-%    }
-%\end{Verbatim}
-%
-%To prevent malicious developers from bypassing the type system in this manner,
-%\theFlowChecker requires the type of a
-%conditional expression to include the sink \perm{CONDITIONAL}.
-%By default, literals are allowed to flow
-%to a conditional; that is, \flow{LITERAL}{CONDITIONAL} is added to the flow policy by default.
-%
-%Data containing sensitive information is often passed through conditional statements for benign reasons.  
-%For example, an app might verify that a credit card number entered is valid by checking the number of digits.
-%
-%\begin{Verbatim}
-%    @Source(USER_INPUT) @Sink(FILESYSTEM)
-%    long creditCard = getCCNumber();
-%    final long MAX_CC_NUM = 9999999999999999;
-%
-%    if (MAX_CC_NUM < creditCard)
-%        reportTooManyDigits();
-%\end{Verbatim}
-%
-%In this case, the credit card number is not indirectly leaked, but \theFlowChecker  
-%cannot determine this and will report a false positive.
-%The auditor must examine the code nearby
-%to ensure that the conditional is not being used to indirectly leak information.
-%
-%
-%\subsubsection{Empty sink or source\label{sec:emptyflow}}
-%
-%Programmers may not use @Source(\ttcbs) or @Sink(\ttcbs).
-%Every value should either flow from a literal or from some sensitive
-%source.  Likewise, every value must flow to a sensitive sink or to a
-%conditional expression.  Any variable that does not have
-% a flow sink does not actually affect the output of the program and
-%should therefore be removed.
-%  
-%Note that this does not mean you must specify both a flow source
-%annotation and a flow sink annotation as explained in
-%\secref{sec:system:defaults}. 
 
   \section{Inference and defaults}
  \label{sec:system:defaults}
@@ -432,8 +315,6 @@ Instead, the \<@Sink> annotation is omitted, and
 our defaulting mechanism provides the correct value
 based on the application's flow policy.
 
-
-
 \subsection{Defaults for unannotated types}
 \label{sec:unannotated-types}
 
@@ -474,8 +355,6 @@ inferred from the policy file as explained in
 
 As is standard, the \<null> literal is given the bottom type qualifier, which allows it to be assigned to any variable.
 For \theFlowChecker, the bottom type qualifier is \srcnone\  \<@Sink(ANY)>.
-
-
 
 \section{Warning suppression\label{sec:waringsuppression}}
  
@@ -565,8 +444,7 @@ annotation patterns on method signatures.   They override the usual defaulting o
 
 Annotation \<@PolyFlow> expresses that each contained method should be annotated as \<@PolySource> 
 \<@PolySink> for both the return types and all parameters. It should be used to express a relationship 
-between the return type and the parameter types, but not the receiver type.
-
+between the return type and the parameter types, but not the receiver type
 
 \subsection{@PolyFlowReceiver\label{sec:polyflowreceiver}}
 
@@ -582,11 +460,6 @@ This change of defaulting happens to library methods that are not written in stu
  This method is inferred to be annotated with  \<@PolyFlowReceiver> and therefore its use will not result in a 
  type error  involving the \<NOT\_REVIEWED> FlowPermission. 
  
-
-
-
-
-
 
 \section{Stricter tests\label{sec:stricter}}
 
@@ -626,35 +499,6 @@ expressions depending on the left-hand side.
 
 \medskip
 
-%\section{Guidance on writing annotations}
-%\chapref{tutorial} is a tutorial on how to annotate an existing application. 
-%See \chapref{app-annotation} for tips about
-%writing information-flow annotations. 
-
-%\section{Miscellaneous\label{sec:miscellaneous}}
-
-%Some methods that are intended to be overridden by subclasses, such as 
-%\<Object>'s \<equals()> and \<toString()>, are given the most general
-%possible return type, \<@Source(ANY) @Sink({})>.
-%\todo{ Is this rationale correct??}
-%This permits overriding methods to give them a more specific return type, which
-%might depend on fields of the overriding class as well as on the types of
-%the arguments.  In fact, an overriding method must give a more specific
-%return type, since \<@Sink> prevents the value from being used.
-
-%Most binary operations, such as string concatenation and integer addition,
-%produce a result whose type is the least upper bound of the two operand types.
-
-
-%% Adding on to that, if you try to compute a @FlowPermission{something} int
-%%  with a int literal (0 or 100, etc) it will resolve to another
-%%  @FlowPermission{something} int. If you try the same with a
-%%  @FlowPermission{something} int with an int literal, it will result in
-%%  @FlowPermission{} int because it's not safe to add a flowsink to the int
-%%  literal. To bypass this, you must declare a local variable with
-%%  "@SuppressWarnings("flow") @FlowPermission{something} int tempZero = 0;"
-%%  and then use the local variable in the calculation.
-%%  Again document why the warning can be suppressed.
 
 
 %%% Local Variables: 
