@@ -1,7 +1,7 @@
 import static sparta.checkers.quals.FlowPermissionString.*;
 import sparta.checkers.quals.AddsSourceData;
 
-import sparta.checkers.quals.InferPermissionParameter;
+import sparta.checkers.quals.InferParameterizedPermission;
 import sparta.checkers.quals.PolyFlowReceiver;
 import sparta.checkers.quals.PolySinkR;
 import sparta.checkers.quals.PolySourceR;
@@ -71,22 +71,22 @@ public class InferParamPermTest {
     }
     
     class MyFile{
-        @InferPermissionParameter(value=FILESYSTEM, isA="both")
+        @InferParameterizedPermission(value=FILESYSTEM, isA="both")
         @SuppressWarnings("forbidden.flow")
         public  @Source(FILESYSTEM) @Sink(FILESYSTEM) MyFile(String filename){}
         
-        @InferPermissionParameter(value=FILESYSTEM, isA="Both", param={2,1}, seperator="/")
+        @InferParameterizedPermission(value=FILESYSTEM, isA="Both", param={2,1}, separator="/")
         @SuppressWarnings("forbidden.flow")
         public  @Source(FILESYSTEM) @Sink(FILESYSTEM) MyFile(String filename, String dirname){}
     }
     
     class MyFileOutputStream{
 
-        @InferPermissionParameter(value=FILESYSTEM, isA="sink")
+        @InferParameterizedPermission(value=FILESYSTEM, isA="sink")
         public @Sink(FILESYSTEM) MyFileOutputStream(String string) {}
 
 
-        @InferPermissionParameter(value=FILESYSTEM, isA="sink")
+        @InferParameterizedPermission(value=FILESYSTEM, isA="sink")
         public @Sink(FILESYSTEM) MyFileOutputStream(MyFile string) {}
 
     
@@ -99,10 +99,10 @@ public class InferParamPermTest {
 
     class MyFileInputStream{
     
-        @InferPermissionParameter(FILESYSTEM)
+        @InferParameterizedPermission(FILESYSTEM)
         public @Source(FILESYSTEM) MyFileInputStream(String string) {}
    
-        @InferPermissionParameter(FILESYSTEM)
+        @InferParameterizedPermission(FILESYSTEM)
         public @Source(FILESYSTEM) MyFileInputStream(MyFile string) {}
     
         public void read(@PolySourceR @PolySinkR MyFileInputStream this,

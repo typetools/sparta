@@ -798,11 +798,11 @@ final TypedArray obtainStyledAttributes(int resid, int[] attrs);
 final TypedArray obtainStyledAttributes(AttributeSet set, int[] attrs, int defStyleAttr, int defStyleRes);
 //Retrieve styled attribute information in this Context's theme.
 
-@InferPermissionParameter(FILESYSTEM)
+@InferParameterizedPermission(FILESYSTEM)
 abstract @Source({FILESYSTEM}) FileInputStream openFileInput( String name);
 //Open a private file associated with this Context's application package for reading.
 
-@InferPermissionParameter(value=FILESYSTEM, isA="sink")
+@InferParameterizedPermission(value=FILESYSTEM, isA="sink")
 abstract @Sink({FILESYSTEM}) FileOutputStream openFileOutput(String name, int mode);
 //Open a private file associated with this Context's application package for writing.
 
@@ -1112,7 +1112,7 @@ Object getSystemService(String name);
 //boolean isRestricted();
 //Indicates whether this Context is restricted.
 
-@InferPermissionParameter(FILESYSTEM)
+@InferParameterizedPermission(FILESYSTEM)
 @Source(FILESYSTEM) FileInputStream openFileInput(String name);
 //Open a private file associated with this Context's application package for reading.
 

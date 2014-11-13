@@ -20,7 +20,7 @@ import org.checkerframework.javacutil.TreeUtils;
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.InferPermissionParameter;
+import sparta.checkers.quals.InferParameterizedPermission;
 import sparta.checkers.quals.PFPermission;
 
 import com.sun.source.tree.ExpressionTree;
@@ -153,7 +153,7 @@ public class ParameterizedPermissonPolymorphism {
             if (values.isEmpty())
                 values = newValues;
             else
-                values = appendCartesian(values, newValues, info.seperator);
+                values = appendCartesian(values, newValues, info.separator);
         }
         return values;
     }
@@ -197,11 +197,11 @@ public class ParameterizedPermissonPolymorphism {
     }
 
     private List<String> appendCartesian(List<String> list1,
-            List<String> list2, String seperator) {
+            List<String> list2, String separator) {
         List<String> product = new ArrayList<>();
         for (String s1 : list1) {
             for (String s2 : list2) {
-                product.add(s1 + seperator + s2);
+                product.add(s1 + separator + s2);
             }
         }
         return product;
@@ -222,7 +222,7 @@ public class ParameterizedPermissonPolymorphism {
      * Retrieves and stores all information in an @InferPermissionParameter
      */
     class InferedPermInfo {
-        String seperator;
+        String separator;
         List<Integer> paramIndexs = null;
         FlowPermission flowPermission = null;
         boolean inferSource = false;
@@ -231,7 +231,7 @@ public class ParameterizedPermissonPolymorphism {
 
         public InferedPermInfo(Element element) {
             AnnotationMirror am = atypeFactory.getDeclAnnotation(element,
-                    InferPermissionParameter.class);
+                    InferParameterizedPermission.class);
             if (am != null) {
                 String perm = AnnotationUtils.getElementValue(am,
                         "value", String.class, false);
@@ -244,14 +244,14 @@ public class ParameterizedPermissonPolymorphism {
                 inferSource = isA.equalsIgnoreCase("source");
                 inferSink = isA.equalsIgnoreCase("sink");
                 inferBoth = isA.equalsIgnoreCase("both");
-                seperator = AnnotationUtils.getElementValue(am, "seperator",
+                separator = AnnotationUtils.getElementValue(am, "separator",
                         String.class, true);
             }
-            if (seperator == "")
-                seperator = getSeperator(flowPermission);
+            if (separator == "")
+                separator = getSeparator(flowPermission);
         }
 
-        private String getSeperator(FlowPermission flowPermission) {
+        private String getSeparator(FlowPermission flowPermission) {
             String sep = sepMap.get(flowPermission);
             if (sep == null)
                 sep = "";

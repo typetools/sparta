@@ -214,17 +214,17 @@ class SQLiteDatabase extends SQLiteClosable {
     boolean yieldIfContendedSafely();
     boolean yieldIfContendedSafely(long arg0);
     Map<String,String> getSyncedTables();
-@InferPermissionParameter(DATABASE)
+@InferParameterizedPermission(DATABASE)
     static @Source(DATABASE) SQLiteDatabase openDatabase(String arg0, CursorFactory arg1, int arg2);
 
-@InferPermissionParameter(DATABASE)
+@InferParameterizedPermission(DATABASE)
     static @Source(DATABASE) SQLiteDatabase openDatabase(String arg0, CursorFactory arg1, int arg2, DatabaseErrorHandler arg3);
-@InferPermissionParameter(DATABASE)
+@InferParameterizedPermission(DATABASE)
     static @Source(DATABASE) SQLiteDatabase openOrCreateDatabase(File arg0, CursorFactory arg1);
-@InferPermissionParameter(DATABASE)
+@InferParameterizedPermission(DATABASE)
     static @Source(DATABASE) SQLiteDatabase openOrCreateDatabase(String arg0, CursorFactory arg1);
 
-@InferPermissionParameter(DATABASE)
+@InferParameterizedPermission(DATABASE)
     static @Source(DATABASE) SQLiteDatabase openOrCreateDatabase(String arg0, CursorFactory arg1, DatabaseErrorHandler arg2);
     static boolean deleteDatabase(File arg0);
     static SQLiteDatabase create(CursorFactory arg0);
@@ -239,7 +239,7 @@ class SQLiteDatabase extends SQLiteClosable {
     static String findEditTable(String arg0);
     SQLiteStatement compileStatement(String arg0) throws SQLException;
 
-@InferPermissionParameter(value=DATABASE, param=2)
+@InferParameterizedPermission(value=DATABASE, param=2)
     @Source(DATABASE) Cursor query(boolean arg0, String arg1, String[] arg2, String arg3, String[] arg4, String arg5, String arg6, String arg7, String arg8);
     Cursor query(boolean arg0, String arg1, String[] arg2, String arg3, String[] arg4, String arg5, String arg6, String arg7, String arg8, CancellationSignal arg9);
     Cursor queryWithFactory(CursorFactory arg0, boolean arg1, String arg2, String[] arg3, String arg4, String[] arg5, String arg6, String arg7, String arg8, String arg9);
