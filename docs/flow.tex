@@ -383,6 +383,27 @@ This change of defaulting happens to library methods that are not written in stu
  This method is inferred to be annotated with  \<@PolyFlowReceiver> and therefore its use will not result in a 
  type error  involving the \<NOT\_REVIEWED> FlowPermission. 
  
+ \subsection{Inferring annotations with parameterized permissions\label{sec:infer-param-perms}} 
+ 
+ The declaration annotation @InferParameterizedPermission is used to indicate
+that a method's return type should use a parameterized permission, where the
+parameter of that permission is derived from the value of a method argument.
+The annotation indicates which argument(s) and/or receiver should be used,
+which permission should be parameterized,  whether that permission is a source,
+a sink or both, and what if any separator should be used to concatenate
+multiple arguments.   The value of a method argument is determined using the
+Constant Value Checker, which is documented in the Checker Framework Manual.
+ 
+ For example, \begin{Verbatim}
+ // stub file:
+@InferParameterizedPermission(value=FILESYSTEM, param=1, isA=source)
+@Source(FILESYSTEM) FileInputStream(String arg0);
+
+ // source code:
+@Source("FILESYSTEM(filename)") FileInputStream fis = new FileInputStream("filename");
+\end{Verbatim}
+
+
 
 \section{Warning suppression\label{sec:waringsuppression}}
  
