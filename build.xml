@@ -286,8 +286,8 @@ Check that the 'checkers.lib' property in 'build.properties' points to version
 ${build.version} of the 'javac.jar' library."/>
         <pathconvert pathsep=" " property="src.tests">
             <path>
-                <fileset dir="${src}">
-                    <include name="**/AndroidTests.java"/>
+                <fileset dir="${tests}">
+                    <include name="src/tests/*.java"/>
                 </fileset>
             </path>
         </pathconvert>
