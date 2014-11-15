@@ -214,7 +214,13 @@ ${build.version} of the 'javac.jar' library."/>
     <target name="jar" depends="build,validate-stubfiles"
             description="Create jar file">
         <delete dir="${build.reports}"/>
-        <jar destfile="${sparta.jar.file}" basedir="${build}"/>
+        <jar destfile="${sparta.jar.file}" basedir="${build}" excludes="tests/">
+            <manifest>
+                <attribute name="Implementation-Version" value="0.9.9"/>
+                <attribute name="Implementation-URL" value="http://types.cs.washington.edu/sparta/"/>
+            </manifest>
+        </jar>
+
     </target>
     <target name="jar-nostubs" depends="build"
             description="Create jar file">
