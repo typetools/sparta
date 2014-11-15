@@ -1,3 +1,16 @@
+Version 0.9.9 14 November 2014
+
+Information Flow Checker changes:
+  @Source and @Sink annotations now take a string argument of the following form:
+  PERMISISON(param1, param2)
+  where the part in parenthesis is optional.
+
+  Parameterized permissions can be inferred when certain methods are used.  See
+  the manual for more details.
+  
+  Receiver polymorphism is implemented using @PolySourceR @PolySinkR.  See the
+  manual for more details.
+----------------------------------------------------------------------
 Version 0.9.8 1 August 2014
 
 Intent Checker:
