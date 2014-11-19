@@ -154,8 +154,11 @@
         <process-proj processor="org.checkerframework.common.value.ValueChecker"/>
     </target>
     
+    <target name="-setup-report-not-reviewed">
+        <property name="build.target" value="report-not-reviewed" />
+    </target>
     <target name="report-not-reviewed"
-                depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                depends="clean,-setup-report-not-reviewed, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="Reports methods, fields, or constructors that have not been reviewed.">
         <process-proj  processor="sparta.checkers.NotReviewedLibraryChecker"/>
     </target>
