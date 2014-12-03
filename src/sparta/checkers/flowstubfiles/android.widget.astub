@@ -2386,14 +2386,10 @@ float getShadowRadius();
 CharSequence getText();
 //Return the text the TextView is displaying.
 
-static int getTextColor(Context context, TypedArray attrs, int def);
-//Returns the default color from the TextView_textColor attribute from the AttributeSet, if set, or the default color from the TextAppearance_textColor from the TextView_textAppearance attribute, if TextView_textColor was not set directly.
 
 final ColorStateList getTextColors();
 //Gets the text colors for the different states (normal, selected, focused); of the TextView.
 
-static ColorStateList getTextColors(Context context, TypedArray attrs);
-//Returns the TextView_textColor attribute from the Resources.StyledAttributes, if set, or the TextAppearance_textColor from the TextView_textAppearance attribute, if TextView_textColor was not set directly.
 
 Locale getTextLocale();
 //Get the default Locale of the text in this TextView.

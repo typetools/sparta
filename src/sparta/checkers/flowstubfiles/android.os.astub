@@ -935,8 +935,6 @@ final void writeValue(Object v);
 void finalize();
 //Invoked when the garbage collector has detected that this instance is no longer reachable.
 
-final static Parcel obtain(int obj);
-//    
     
     
     

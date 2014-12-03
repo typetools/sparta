@@ -2359,11 +2359,6 @@ int getTopPaddingOffset();
 
 int getWindowAttachCount();
 
-void initializeFadingEdge(TypedArray a);
-//Initializes the fading edges from a given set of styled attributes.
-
-void initializeScrollbars(TypedArray a);
-//Initializes the scrollbars from a given set of styled attributes.
 
 boolean isPaddingOffsetRequired();
 //If the View draws content inside its padding and enables fading edges, it needs to support padding offsets.
