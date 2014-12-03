@@ -3537,7 +3537,6 @@ class BaseInputConnection implements InputConnection {
     boolean performEditorAction(int arg0);
     boolean performContextMenuAction(int arg0);
     boolean performPrivateCommand(String arg0, Bundle arg1);
-    boolean requestCursorUpdates(int arg0);
     boolean setComposingText(@Sink(USER_INPUT) CharSequence arg0, int arg1);
     boolean setComposingRegion(int arg0, int arg1);
     boolean setSelection(int arg0, int arg1);
