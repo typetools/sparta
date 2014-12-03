@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * List of data flow sources that are attached to a certain piece of data.
+ * List of information flow sources that are attached to a certain piece of data.
  * FlowPermission.ANY is the top type. The empty set is the bottom type.
  */
 @Documented
