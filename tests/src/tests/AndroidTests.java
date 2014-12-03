@@ -1,7 +1,4 @@
-package sparta.checkers;
-
-
-
+package tests;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +16,8 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized.Parameters;
 
+import sparta.checkers.FlowChecker;
+import sparta.checkers.NotReviewedLibraryChecker;
 import sparta.checkers.intents.IntentChecker;
 import sparta.checkers.permission.AndroidFenumChecker;
 import sparta.checkers.permission.PermissionsChecker;

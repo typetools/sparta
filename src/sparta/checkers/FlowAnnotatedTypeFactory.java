@@ -393,23 +393,40 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         }
     }
 
-    private void addAnnotationsToComponentTypes(AnnotatedTypeMirror type, AnnotationMirror polySource, AnnotationMirror polySink) {
+    private void addAnnotationsToComponentTypes(AnnotatedTypeMirror type,
+            AnnotationMirror polySource, AnnotationMirror polySink) {
         if (type instanceof AnnotatedExecutableType) {
-            for (AnnotatedTypeMirror atm : ((AnnotatedExecutableType) type)
+            for (AnnotatedTypeMirror param : ((AnnotatedExecutableType) type)
                     .getParameterTypes()) {
-                boolean loopedOnce = false;
-                while (atm instanceof AnnotatedArrayType) {
-                    loopedOnce = true;
-                    atm = ((AnnotatedArrayType) atm)
-                            .getComponentType();
-                }
-                if (loopedOnce) {
-                    if (atm.getAnnotationInHierarchy(NOSOURCE) == null)
-                        atm.addAnnotation(polySource);
-                    if (atm.getAnnotationInHierarchy(ANYSINK) == null)
-                        atm.addAnnotation(polySink);
-                }
+                addAnnotationsToComponentType(polySource, polySink, param);
             }
+            addAnnotationsToComponentType(polySource, polySink,
+                    ((AnnotatedExecutableType) type).getReturnType());
+        }
+    }
+
+    /**
+     * Adds the passed annotations to the inner most component type if atm is an
+     * AnnotatedArrayType. (Otherwise, no effect)
+     * 
+     * @param source
+     * @param sink
+     * @param atm
+     */
+    private void addAnnotationsToComponentType(AnnotationMirror source,
+            AnnotationMirror sink, AnnotatedTypeMirror atm) {
+        if(atm == null) return;
+        // Find the innermost component type
+        AnnotatedTypeMirror innerCommponentType = null;
+        while (innerCommponentType instanceof AnnotatedArrayType) {
+            innerCommponentType = ((AnnotatedArrayType) atm).getComponentType();
+        }
+        if (innerCommponentType != null) {
+            // Added annotation on the inner most component type
+            if (atm.getAnnotationInHierarchy(NOSOURCE) == null)
+                atm.addAnnotation(source);
+            if (atm.getAnnotationInHierarchy(ANYSINK) == null)
+                atm.addAnnotation(sink);
         }
     }
 

@@ -116,3 +116,15 @@ class TestGetterSetter {
         @Source(READ_TIME) @Sink(WRITE_TIME) String test4 = gs.toString();
     }
 }
+
+class OtherTests{
+    @PolyFlow
+    public String[] identity(String[] strs) {
+        return strs;
+    }
+    @PolyFlow
+    public String[][][] identityMultiDem(String[][][] strs) {
+        return strs;
+    }
+
+}
