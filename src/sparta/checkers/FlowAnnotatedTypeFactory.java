@@ -146,7 +146,9 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
         factories = new ArrayList<>();
-        factories.add(new ValueAnnotatedTypeFactory(checker));
+        ValueAnnotatedTypeFactory vatf = new ValueAnnotatedTypeFactory(checker);
+        vatf.disableWarnings();
+        factories.add(vatf);
 
 
      // Every subclass must call postInit!
