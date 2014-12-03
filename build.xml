@@ -354,68 +354,68 @@ ${build.version} of the 'javac.jar' library."/>
     <target name="not-reviewed-tests" depends="jar,build-tests"
       description="Run tests for the Not Reviewed Library Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$NotReviewedLibraryCheckerTests"/>
+            <param name="testclass" value="tests.AndroidTests$NotReviewedLibraryCheckerTests"/>
         </antcall>
     </target>
 
     <target name="permissions-tests" depends="jar,build-tests"
       description="Run tests for the Permissions Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$AndroidPermissionsCheckerTests"/>
+            <param name="testclass" value="tests.AndroidTests$AndroidPermissionsCheckerTests"/>
         </antcall>
     </target>
 
     <target name="report-tests" depends="jar,build-tests"
       description="Run tests for the Android Report Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$AndroidReportCheckerTests"/>
+            <param name="testclass" value="tests.AndroidTests$AndroidReportCheckerTests"/>
         </antcall>
     </target>
 
     <target name="flow-tests" depends="jar,build-tests"
       description="Run tests for the Flow Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$FlowCheckerTests"/>
+            <param name="testclass" value="tests.AndroidTests$FlowCheckerTests"/>
         </antcall>
     </target>
     
     <target name="intent-tests" depends="jar,build-tests,build-intent-tests"
       description="Run tests for the Intent Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$IntentCheckerTests"/>
+            <param name="testclass" value="tests.AndroidTests$IntentCheckerTests"/>
         </antcall>
     </target>
 
     <target name="flow-policy-tests" depends="jar,build-tests"
             description="Run tests for the Flow Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$FlowPolicyTests"/>
+            <param name="testclass" value="tests.AndroidTests$FlowPolicyTests"/>
         </antcall>
     </target>
 
     <target name="fenum-tests" depends="jar,build-tests"
       description="Run tests for the Android Fenum Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$AndroidFenumCheckerTests"/>
+            <param name="testclass" value="tests.AndroidTests$AndroidFenumCheckerTests"/>
         </antcall>
     </target>
 
     <target name="stubfile-tests" depends="jar,build-tests"
       description="Run tests for the Flow Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$StubfileTests"/>
+            <param name="testclass" value="tests.AndroidTests$StubfileTests"/>
         </antcall>
     </target>
     <target name="param-flow-tests" depends="jar,build-tests"
       description="Run tests for the Flow Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$ParameterizedFlowCheckerTests"/>
+            <param name="testclass" value="tests.AndroidTests$ParameterizedFlowCheckerTests"/>
         </antcall>
     </target>
     <target name="strict-tests" depends="jar,build-tests"
       description="Run tests for the Flow Checker">
         <antcall target="-run-tests">
-            <param name="testclass" value="sparta.checkers.AndroidTests$FlowStrictTests"/>
+            <param name="testclass" value="tests.AndroidTests$FlowStrictTests"/>
         </antcall>
     </target>
     <target name="tags" depends="prep" description="Create Emacs TAGS table">
