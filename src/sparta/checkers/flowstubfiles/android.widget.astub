@@ -1960,6 +1960,7 @@ class ShareActionProvider{
 }
 
 class Scroller {
+Scroller(Context context);
 void abortAnimation();
 //Stops the animation.
 

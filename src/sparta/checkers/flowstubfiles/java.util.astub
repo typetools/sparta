@@ -1503,7 +1503,6 @@ interface BlockingQueue<E> extends Queue<E> {
     int drainTo(Collection<? super E> arg0, int arg1);
 }
 
-@PolyFlowReceiver
 class ConcurrentHashMap<K, V> extends AbstractMap<K,V> implements ConcurrentMap<K,V>, Serializable {
 //Added by pbsf
     ConcurrentHashMap(int arg0, float arg1, int arg2);
@@ -1525,7 +1524,6 @@ class ConcurrentHashMap<K, V> extends AbstractMap<K,V> implements ConcurrentMap<
     boolean replace(K arg0, V arg1, V arg2);
     V replace(K arg0, V arg1);
     void clear();
-    Set<K> keySet();
     Collection<V> values();
     Set<Entry<K,V>> entrySet();
     Enumeration<K> keys();

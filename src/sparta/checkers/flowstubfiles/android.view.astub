@@ -3517,7 +3517,38 @@ void setToIndex(int toIndex);
 }
 
 package android.view.inputmethod;
+package android.view.inputmethod;
 
+class BaseInputConnection implements InputConnection {
+    BaseInputConnection(View arg0, boolean arg1);
+    static void removeComposingSpans(Spannable arg0);
+    static void setComposingSpans(Spannable arg0);
+    static int getComposingSpanStart(Spannable arg0);
+    static int getComposingSpanEnd(Spannable arg0);
+    Editable getEditable();
+    boolean beginBatchEdit();
+    boolean endBatchEdit();
+    boolean clearMetaKeyStates(int arg0);
+    boolean commitCompletion(CompletionInfo arg0);
+    boolean commitCorrection(CorrectionInfo arg0);
+    boolean commitText(@Sink(USER_INPUT) CharSequence arg0, int arg1);
+    boolean deleteSurroundingText(int arg0, int arg1);
+    boolean finishComposingText();
+    int getCursorCapsMode(int arg0);
+    ExtractedText getExtractedText(ExtractedTextRequest arg0, int arg1);
+    @Source(USER_INPUT) CharSequence getTextBeforeCursor(int arg0, int arg1);
+    @Source(USER_INPUT) CharSequence getSelectedText(int arg0);
+    @Source(USER_INPUT) CharSequence getTextAfterCursor(int arg0, int arg1);
+    boolean performEditorAction(int arg0);
+    boolean performContextMenuAction(int arg0);
+    boolean performPrivateCommand(String arg0, Bundle arg1);
+    boolean requestCursorUpdates(int arg0);
+    boolean setComposingText(@Sink(USER_INPUT) CharSequence arg0, int arg1);
+    boolean setComposingRegion(int arg0, int arg1);
+    boolean setSelection(int arg0, int arg1);
+    boolean sendKeyEvent(KeyEvent arg0);
+    boolean reportFullscreenMode(boolean arg0);
+}
 class CompletionInfo {
     
 int describeContents();

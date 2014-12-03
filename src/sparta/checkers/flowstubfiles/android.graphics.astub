@@ -10,7 +10,9 @@ static BitmapRegionDecoder newInstance(FileDescriptor fd, boolean isShareable) t
 static BitmapRegionDecoder newInstance(InputStream is, boolean isShareable) throws IOException;
 static BitmapRegionDecoder newInstance(String pathName, boolean isShareable) throws IOException;
 }
-
+class ColorMatrixColorFilter{
+        ColorMatrixColorFilter(float[] array);
+}
 class Path {
 void addRoundRect(RectF rect, float rx, float ry, Direction dir);
 void addRoundRect(RectF rect, float[] radii, Direction dir);
@@ -1002,106 +1004,76 @@ class RadialGradient{
         RadialGradient(float x, float y, float radius, int color0, int color1, TileMode tile);
 }
 
-class Rect {
-    
-final int centerX();
-
-final int centerY();
-
-boolean contains(int x, int y);
-//Returns true if (x,y); is inside the rectangle.
-
-boolean contains(int left, int top, int right, int bottom);
-//Returns true iff the 4 specified sides of a rectangle are inside or equal to this rectangle.
-
-boolean contains(Rect r);
-//Returns true iff the specified rectangle r is inside or equal to this rectangle.
-
-int describeContents();
-//Parcelable interface methods
-
-boolean equals(Object o);
-//Compares this instance with the specified object and indicates if they are equal.
-
-final float exactCenterX();
-
-final float exactCenterY();
-
-String flattenToString();
-//Return a string representation of the rectangle in a well-defined format.
-
+class Rect implements Parcelable {
+//int bottom;
+//int left;
+//int right;
+//int top;
+Rect();
+@PolyFlow
+Rect(int arg0, int arg1, int arg2, int arg3);
+@PolyFlow
+Rect(Rect arg0);
+@PolyFlowReceiver
+boolean equals(Object arg0);
+@PolyFlowReceiver
 int hashCode();
-//Returns an integer hash code for this object.
-
-final int height();
-
-void inset(int dx, int dy);
-//Inset the rectangle by (dx,dy);.
-
-boolean intersect(Rect r);
-//If the specified rectangle intersects this rectangle, return true and set this rectangle to that intersection, otherwise return false and do not change this rectangle.
-
-boolean intersect(int left, int top, int right, int bottom);
-//If the rectangle specified by left,top,right,bottom intersects this rectangle, return true and set this rectangle to that intersection, otherwise return false and do not change this rectangle.
-
-boolean intersects(int left, int top, int right, int bottom);
-//Returns true if this rectangle intersects the specified rectangle.
-
-static boolean intersects(Rect a, Rect b);
-//Returns true iff the two specified rectangles intersect.
-
-final boolean isEmpty();
-//Returns true if the rectangle is empty (left >= right or top >= bottom);
-
-void offset(int dx, int dy);
-//Offset the rectangle by adding dx to its left and right coordinates, and adding dy to its top and bottom coordinates.
-
-void offsetTo(int newLeft, int newTop);
-//Offset the rectangle to a specific (left, top); position, keeping its width and height the same.
-
-void readFromParcel(Parcel in);
-//Set the rectangle's coordinates from the data stored in the specified parcel.
-
-void set(int left, int top, int right, int bottom);
-//Set the rectangle's coordinates to the specified values.
-
-void set(Rect src);
-//Copy the coordinates from src into this rectangle.
-
-void setEmpty();
-//Set the rectangle to (0,0,0,0);
-
-boolean setIntersect(Rect a, Rect b);
-//If rectangles a and b intersect, return true and set this rectangle to that intersection, otherwise return false and do not change this rectangle.
-
-void sort();
-//Swap top/bottom or left/right if there are flipped (i.e.
-
+@PolyFlowReceiver
+String toString()
+@PolyFlowReceiver;
 String toShortString();
-//Return a string representation of the rectangle in a compact form.
-
-String toString();
-//Returns a string containing a concise, human-readable description of this object.
-
-static Rect unflattenFromString(String str);
-//Returns a Rect from a string of the form returned by flattenToString();, or null if the string is not of that form.
-
-void union(int left, int top, int right, int bottom);
-//Update this Rect to enclose itself and the specified rectangle.
-
-void union(Rect r);
-//Update this Rect to enclose itself and the specified rectangle.
-
-void union(int x, int y);
-//Update this Rect to enclose itself and the [x,y] coordinate.
-
-final int width();
-
-void writeToParcel(Parcel out, int flags);
-//Write this rectangle to the specified parcel.
-
+@PolyFlowReceiver
+String flattenToString();
+@PolyFlow
+static Rect unflattenFromString(String arg0);
+boolean isEmpty();
+@PolyFlowReceiver
+int width();
+@PolyFlowReceiver
+int height();
+@PolyFlowReceiver
+int centerX();
+@PolyFlowReceiver
+int centerY();
+@PolyFlowReceiver
+float exactCenterX();
+@PolyFlowReceiver
+float exactCenterY();
+void setEmpty();
+@PolyFlowReceiver
+void set(int arg0, int arg1, int arg2, int arg3);
+@PolyFlowReceiver
+void set(Rect arg0);
+@PolyFlowReceiver
+void offset(int arg0, int arg1);
+@PolyFlowReceiver
+void offsetTo(int arg0, int arg1);
+@PolyFlowReceiver
+void inset(int arg0, int arg1);
+@PolyFlowReceiver
+boolean contains(int arg0, int arg1);
+@PolyFlowReceiver
+boolean contains(int arg0, int arg1, int arg2, int arg3);
+@PolyFlowReceiver
+boolean contains(Rect arg0);
+@PolyFlowReceiver
+boolean intersect(int arg0, int arg1, int arg2, int arg3);
+@PolyFlowReceiver
+boolean intersect(Rect arg0);
+@PolyFlowReceiver
+boolean setIntersect(Rect arg0, Rect arg1);
+@PolyFlowReceiver
+boolean intersects(int arg0, int arg1, int arg2, int arg3);
+static boolean intersects(Rect arg0, Rect arg1);
+@PolyFlowReceiver
+void union(int arg0, int arg1, int arg2, int arg3);
+@PolyFlowReceiver
+void union(Rect arg0);
+@PolyFlowReceiver
+void union(int arg0, int arg1);
+void sort();
+int describeContents();
 }
-
 class RectF {
 
 RectF(float left, float top, float right, float bottom);
