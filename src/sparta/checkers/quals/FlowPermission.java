@@ -221,7 +221,7 @@ public enum FlowPermission {
     // system user interface.
     INTERNAL_SYSTEM_WINDOW(T.SINK),
     // Allows applications to open network sockets.
-    INTERNET(T.SINK),
+    INTERNET(T.BOTH),
     // Allows an application to call killBackgroundProcesses(String).
     KILL_BACKGROUND_PROCESSES(T.SINK),
     // Allows an application to manage the list of accounts in the
