@@ -66,7 +66,7 @@ public enum FlowPermission {
      * way for an upcoming engagement.
      */
 
-    REFLECTION(T.SOURCE), // The caller of the invoke method should have this
+    REFLECTION(T.BOTH), // The caller of the invoke method should have this
                           // permission.
     INTENT(T.BOTH),
     BUNDLE(T.SOURCE),
