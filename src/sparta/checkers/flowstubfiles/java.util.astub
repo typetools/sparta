@@ -821,7 +821,7 @@ interface List<E> {
     boolean equals(Object arg0);
     @PolyFlowReceiver
     int hashCode();
-    @PolySource @PolySink E get(int arg0) @PolySource @PolySink;
+    E get(int arg0);
     @PolyFlowReceiver
     E set(int arg0, E arg1);
     void add(int arg0, E arg1);
