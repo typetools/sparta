@@ -225,7 +225,8 @@ class Character implements Serializable, Comparable<Character> {
     static int codePointBefore(char[] arg0, int arg1, int arg2);
     static char highSurrogate(int arg0);
     static char lowSurrogate(int arg0);
-    static int toChars(int arg0, char[] arg1, int arg2);
+@PolyFlow
+    static int toChars(int arg0, @PolySource @PolySink char[] arg1, int arg2);
     static char[] toChars(int arg0);
     static int codePointCount(CharSequence arg0, int arg1, int arg2);
     static int codePointCount(char[] arg0, int arg1, int arg2);
@@ -1310,7 +1311,7 @@ class String {
     String trim();
 @PolyFlowReceiver
     String toString();
-@PolySource @PolySink char[] toCharArray();
+@PolySourceR @PolySinkR char[] toCharArray()@PolySourceR @PolySinkR;
     static @PolySource @PolySink String format(@PolySource @PolySink String arg0, @PolySource @PolySink Object[] arg1);
     static @PolySource @PolySink String format(Locale arg0, @PolySource @PolySink String arg1,@PolySource @PolySink Object[] arg2);
 @PolyFlow
@@ -1485,7 +1486,8 @@ class System {
     static @Source(SYSTEM_PROPERTIES) String mapLibraryName(String arg0);
     static void loadLibrary(@Sink(SYSTEM_PROPERTIES) String arg0);
     static void gc();
-    
+    static @Source(SYSTEM_PROPERTIES) String getenv(String arg0);
+    static void runFinalizersOnExit(boolean arg0);    
 }
 
 class Thread implements Runnable {
@@ -1619,20 +1621,15 @@ void printStackTrace(PrintStreamOrWriter arg0);
 
 package java.lang.ref;
 
-@PolyFlowReceiver
 class ReferenceQueue<T> {
-//Added by pbsf
     ReferenceQueue();
     Reference<? extends T> poll();
     Reference<? extends T> remove(long arg0) throws IllegalArgumentException,InterruptedException;
     Reference<? extends T> remove() throws InterruptedException;
-}
 
-class Reference {
 T get();
 }
 
-@PolyFlowReceiver
 class SoftReference<T> extends Reference<T> {
 //Added by pbsf
     SoftReference(T arg0);
@@ -1641,11 +1638,10 @@ class SoftReference<T> extends Reference<T> {
 }
 
 
-@PolyFlowReceiver
 class WeakReference<T> extends Reference<T> {
-//Added by pbsf
     WeakReference(T arg0);
     WeakReference(T arg0, ReferenceQueue<? super T> arg1);
+    T get();
 }
 
 

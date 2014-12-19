@@ -1875,7 +1875,9 @@ void writeToParcel(Parcel dest, int parcelableFlags);
 }
 
 package android.content.res;
-
+class AssetFileDescriptor{
+  @Source(FILESYSTEM) FileInputStream createInputStream() throws IOException;
+}
 class AssetManager {
 //CSH: maybe Filesystem permission here...
     
@@ -2145,6 +2147,12 @@ int getInteger(int index, int defValue);
 //Retrieve the integer value for the attribute at index.
 
 int getLayoutDimension(int index, String name);
+//Special version of getDimensionPixelSize(int, int); for retrieving ViewGroup's layout_width and layout_height attributes.
+
+int getLayoutDimension(int index, int defValue);
+//Special version of getDimensionPixelSize(int, int); for retrieving ViewGroup's layout_width and layout_height attributes.
+
+
 String getNonResourceString(int index);
 //Retrieve the string value for the attribute at index, but only if that string comes from an immediate value in an XML file.
 

@@ -401,26 +401,43 @@ public class FlowPolicy {
 
 
     private void checkForTransitivity() {
-        for (PFPermission source : allowedSourceToSinks.keySet()) {
-            if(null == source) continue;
-            if (source.isSink()) {
+        Map<PFPermission, Flow> transitiveFlows = new HashMap<>();
+        for (PFPermission both : allowedSourceToSinks.keySet()) {
+            if (null == both)
+                continue;
+            if (both.isSink()) {
                 // if the source can be a sink too, then there might be a
                 // transitive flow
                 // TODO: handle what about WRITE_EXTERNAL_FILESYSTEM vs
                 // READ_EXTERNAL_FILESYSTEM
-                if (allowedSinkToSources.containsKey(source)) {
-                    Set<PFPermission> sources = getAllowedSources(source);
-                    Set<PFPermission> sinks = getAllowedSinks(source);
-                    Pair<Set<PFPermission>, Set<PFPermission>> flows = Pair
-                            .of(sources, sinks);
-                    if (!areFlowsAllowed(flows)) {
-                        warning("Found transitive flow\n"
-                                + getAllowedSources(source) + "->"
-                                + getAllowedSinks(source)
-                                + "\nPlease add them to the flow policy");
+                if (allowedSinkToSources.containsKey(both)) {
+                    Set<PFPermission> sources = getAllowedSources(both);
+                    Set<PFPermission> sinks = getAllowedSinks(both);
+                    for (PFPermission source : sources) {
+                        for (PFPermission sink : sinks) {
+                        if (!areFlowsAllowed(Pair.of(
+                                Collections.singleton(source), Collections.singleton(sink)))) {
+                            Flow transtive = transitiveFlows.get(source);
+                            if (transtive == null){
+                                transtive = new Flow(source);
+                                transitiveFlows.put(source, transtive);
+                            }
+                            transtive.addSink(sink);
+                        }
+                        }
                     }
+
                 }
             }
+        }
+        StringBuffer flowsBuffer = new StringBuffer();
+        for (Flow flow : transitiveFlows.values()) {
+            flowsBuffer.append(flow+"\n");
+        }
+        String flows = flowsBuffer.toString();
+        if(!flows.equals("")){
+            warning("Found transitive flows:\n" + flows
+                    + "Please add them to the flow policy");
         }
     }
 

@@ -744,7 +744,7 @@ void unregisterForContextMenu(View view);
 //Prevents a context menu to be shown for the given view.
 
 //Protected Methods
-void onActivityResult(int requestCode, int resultCode, Intent data);
+void onActivityResult(@Source({INTENT}) int requestCode, @Source(INTENT) int resultCode, @Sink(ANY) Intent data);
 //Called when an activity you launched exits, giving you the requestCode you started it with, the resultCode it returned, and any additional data from it.
 
 void onApplyThemeResource(Resources.Theme theme, int resid, boolean first);

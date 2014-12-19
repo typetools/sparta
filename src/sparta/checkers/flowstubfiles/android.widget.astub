@@ -440,7 +440,6 @@ class Adapter{
         boolean hasStableIds();
     int getCount();
     @PolySource @PolySink long getItemId(@PolySource @PolySink int arg0);
-    @PolyFlowReceiver
     Object getItem(int arg0);
     @PolySource @PolySink View getView(int arg0, @PolySource @PolySink View arg1, ViewGroup arg2);
 

@@ -12,6 +12,7 @@ import static sparta.checkers.quals.FlowPermissionString.*;
 //warning: StubParser: Constructor <init>(ArrayList) not found in type android.view.ViewGroup
 //warning: StubParser: Method onItemClick(AdapterView,View,int,long) not found in type android.widget.AdapterView.OnItemSelectedListener
 //warning: StubParser: Type not found: com.google.android.maps.GeoPoint
+//warning: StubParser: Method get() not found in type java.lang.ref.ReferenceQueue
 //warning: StubParser: Skipping enum type: java.util.concurrent.TimeUnit
 //warning: StubParser: Type not found: org.htmlcleaner.HtmlCleaner
 //warning: StubParser: Type not found: org.htmlcleaner.TagNode
