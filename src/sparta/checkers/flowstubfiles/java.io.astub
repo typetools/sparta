@@ -36,7 +36,7 @@ class BufferedInputStream extends FilterInputStream {
     protected int markpos;
     protected int marklimit;
     @PolySource @PolySink BufferedInputStream(@PolySource @PolySink InputStream arg0);
-    BufferedInputStream(InputStream arg0, int arg1);
+    @PolySource @PolySink BufferedInputStream(@PolySource @PolySink InputStream arg0, int arg1);
     int read() throws IOException;
     int read(byte[] arg0, int arg1, int arg2) throws IOException;
     long skip(long arg0) throws IOException;
@@ -307,7 +307,7 @@ class IOException{
             IOException(String arg0);
 }
 class FileReader{
-            FileReader(@Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File arg0) throws FileNotFoundException;
+            @Source(FILESYSTEM) FileReader(@Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File arg0) throws FileNotFoundException;
 }
 @PolyFlowReceiver
 class FilterOutputStream{

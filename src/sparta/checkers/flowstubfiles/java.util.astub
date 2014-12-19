@@ -1912,6 +1912,9 @@ class ZipOutputStream{
 }
 class ZipInputStream{
         @PolySource @PolySink ZipInputStream(@PolySource @PolySink InputStream arg0);
+        @PolySourceR @PolySinkR ZipEntry getNextEntry() @PolySourceR @PolySinkR;
+        int read(@PolySourceR @PolySinkR byte[] arg0, int arg1, int arg2) @PolySourceR @PolySinkR;
+        void close() throws IOException;
 }
 
 class ZipEntry{
