@@ -49,6 +49,7 @@ class BufferedInputStream extends FilterInputStream {
 
 @PolyFlowReceiver
 class BufferedOutputStream{
+            BufferedOutputStream(OutputStream arg0, int arg1);
             void write(byte @PolySource @PolySink[] arg0, int arg1, int arg2) throws IOException;
             void flush() throws IOException;
             BufferedOutputStream(OutputStream arg0);
@@ -639,6 +640,7 @@ class RandomAccessFile{
         RandomAccessFile(File arg0, String arg1) throws FileNotFoundException;
         RandomAccessFile(String arg0, String arg1) throws FileNotFoundException;
         void writeBytes(@Sink(FILESYSTEM) String arg0) throws IOException;
+        void write(int arg0) throws IOException;
         void close() throws IOException;
         void write(@Sink(FILESYSTEM) byte[] arg0) throws IOException;
         void seek(long arg0) throws IOException;

@@ -25,6 +25,7 @@ void setSeed(long arg0);
 }
 
 class KeyStore {
+Certificate getCertificate(String arg0) throws KeyStoreException;
 static KeyStore getInstance(String arg0, Provider arg1) throws KeyStoreException;
 static KeyStore getInstance(String arg0, String arg1) throws KeyStoreException,NoSuchProviderException;
 static KeyStore getInstance(String arg0) throws KeyStoreException;
@@ -37,3 +38,9 @@ void load(LoadStoreParameter arg0) throws IOException,NoSuchAlgorithmException,C
 class Key{
       byte[] getEncoded();
 }
+
+package java.security.cert;
+class Certificate{
+        byte[] getEncoded() throws CertificateEncodingException;
+}
+

@@ -469,6 +469,10 @@ void onStop();
 
 }
 
+class PreferenceCategory{
+        PreferenceCategory(Context context, AttributeSet attrs);
+}
+
 class PreferenceFragment {
     
 void addPreferencesFromIntent(Intent intent);
@@ -521,6 +525,7 @@ void setPreferenceScreen(@Sink(DISPLAY) PreferenceScreen preferenceScreen);
 }
 
 class PreferenceGroup{
+        int getPreferenceCount();
         @Source(SHARED_PREFERENCES) Preference getPreference(int index);
         void removeAll();
         boolean addPreference(@Sink(SHARED_PREFERENCES) Preference preference);
@@ -539,6 +544,10 @@ static void setDefaultValues(Context context, @Sink(SHARED_PREFERENCES) String s
 
 static void setDefaultValues(Context context, int resId, boolean readAgain);
 //Similar to setDefaultValues(Context, int, boolean) but allows the client to provide the filename and mode of the shared preferences file.
+}
+
+class PreferenceScreen{
+        ListAdapter getRootAdapter();
 }
 
 class TwoStatePreference{

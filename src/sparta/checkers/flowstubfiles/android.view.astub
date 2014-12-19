@@ -1,6 +1,9 @@
 package android.view;
 
 class Gravity {
+static final int LEFT;
+static final int TOP;
+static final int CENTER;
 static int getAbsoluteGravity(int gravity, int layoutDirection);
 static void apply(int gravity, int w, int h, Rect container, int xAdj, int yAdj, Rect outRect, int layoutDirection);
 static void apply(int gravity, int w, int h, Rect container, int xAdj, int yAdj, Rect outRect);
@@ -267,6 +270,10 @@ class GestureDetector$SimpleOnGestureListener{
 }
 
 class KeyEvent {
+
+        static final @Source(USER_INPUT) int KEYCODE_VOLUME_DOWN;
+        static final @Source(USER_INPUT) int KEYCODE_DPAD_CENTER;
+        static final @Source(USER_INPUT) int KEYCODE_VOLUME_UP;
 
        final @Source(USER_INPUT)   int KEYCODE_F;
        final @Source(USER_INPUT)  int KEYCODE_Y;
@@ -543,6 +550,8 @@ View onCreateView(View parent, String name, AttributeSet attrs);
 }
 
 class Menu {
+static final int NONE;
+static final int FIRST;
 
 abstract MenuItem add(@Sink(DISPLAY) CharSequence title);
 //Add a new item to the menu.
@@ -1186,6 +1195,7 @@ class ViewManager{
 }
 class View {
 
+        static final int INVISIBLE;
         static final int VISIBLE;
         static final int GONE;
         View(Context context, AttributeSet attrs, int defStyleAttr);
@@ -2622,6 +2632,9 @@ void setMarginStart(int start);
 
 }
 class ViewGroup$LayoutParams {
+static final int WRAP_CONTENT;
+int height;
+static final int FILL_PARENT;
 
 LayoutParams(int width, int height);
     
@@ -2632,8 +2645,6 @@ void resolveLayoutDirection(int layoutDirection);
 void setBaseAttributes(TypedArray a, int widthAttr, int heightAttr);
 //Extracts the layout parameters from the supplied attributes.
 
-
-
 }
 
 class ViewGroup {
@@ -2643,6 +2654,8 @@ protected void onAttachedToWindow();
 void setLayoutMode(int layoutMode);
 int getLayoutMode();
 
+
+void setPadding(int left, int top, int right, int bottom);
 
 addChildrenForAccessibility(ArrayList<View> childrenForAccessibility);
 //Adds the children of a given View for accessibility.
@@ -3133,8 +3146,8 @@ abstract void requestLayout();
 }
 
 class Window {
-    
-    
+static final int FEATURE_INDETERMINATE_PROGRESS;
+
 abstract void addContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
 //Variation on setContentView(View, android.view.ViewGroup.LayoutParams); to add an additional content view to the screen.
 
@@ -3352,9 +3365,10 @@ void setDefaultWindowFormat(int format);
 }
 
 class Window$Callback{
-   		void onWindowFocusChanged(boolean arg0);
+        boolean onSearchRequested();
+        void onWindowFocusChanged(boolean arg0);
         boolean onMenuItemSelected(int arg0, MenuItem arg1);
-            boolean dispatchKeyEvent(KeyEvent arg0);
+        boolean dispatchKeyEvent(KeyEvent arg0);
 }
 
 class WindowManager {

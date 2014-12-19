@@ -312,6 +312,7 @@ class BitSet implements Cloneable, Serializable {
 
 class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
 //Added by pbsf
+    static final int DAY_OF_MONTH;
     final  int ERA;
     final  int YEAR;
     final  int MONTH;

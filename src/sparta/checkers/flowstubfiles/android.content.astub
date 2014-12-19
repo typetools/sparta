@@ -618,8 +618,8 @@ ContentProviderOperation.Builder withYieldAllowed(boolean yieldAllowed);
 
 class Context {
 
+        static final int MODE_PRIVATE;
         static final String LAYOUT_INFLATER_SERVICE;
-
         static final int BIND_AUTO_CREATE;
         static final String ALARM_SERVICE;
         static final String WINDOW_SERVICE;
@@ -1287,16 +1287,12 @@ void onStopLoading();
 }
 
 class DialogInterface {
-
-    static final int BUTTON_POSITIVE;
-
+static final int BUTTON_NEGATIVE;
+static final int BUTTON_POSITIVE;
+static final int BUTTON1;
+static final int BUTTON2;
 abstract void cancel();
-
 abstract void dismiss();
-
-
-
-
 }
 
 class DialogInterface$OnClickListener{
@@ -1459,8 +1455,9 @@ void writeToXml(XmlSerializer serializer);
 
 class Intent implements Parcelable, Cloneable {
 //SOM, We have a special FlowPermission for INTENT
-
+        static final @Source(INTENT) String EXTRA_SUBJECT;
         static final @Source(INTENT) String EXTRA_TEXT;
+        static final @Source(INTENT) String ACTION_SEARCH;
         static final @Source(INTENT)String ACTION_SEND;
         static final @Source(INTENT)String ACTION_SET_WALLPAPER;
         static final @Source(INTENT)String EXTRA_SHORTCUT_ICON_RESOURCE;
@@ -1840,6 +1837,13 @@ class PackageInfo implements Parcelable {
 }
 
 class PackageManager{
+        Intent getLaunchIntentForPackage(@Source(PACKAGE_INFO) String arg0);
+        static final int DONT_KILL_APP;
+        int getComponentEnabledSetting(ComponentName arg0);
+        void setComponentEnabledSetting(ComponentName arg0, int arg1, int arg2);
+        static final int COMPONENT_ENABLED_STATE_DISABLED;
+        static final int COMPONENT_ENABLED_STATE_DEFAULT;
+        static final int COMPONENT_ENABLED_STATE_ENABLED;
         static final int GET_GIDS;
         static final int GET_PERMISSIONS;
         @Source(PACKAGE_INFO) String[] getPackagesForUid(int arg0);

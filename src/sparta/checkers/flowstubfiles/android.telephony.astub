@@ -27,7 +27,12 @@ PhoneStateListener();
 }
 
 class TelephonyManager{
-        final int CALL_STATE_RINGING;
+        static final @Source(INTENT) String ACTION_PHONE_STATE_CHANGED;
+        static final @Source(INTENT) String EXTRA_STATE_RINGING;
+        static final @Source(INTENT) String EXTRA_STATE_OFFHOOK;
+        static final @Source(INTENT) String EXTRA_STATE_IDLE;
+        static final @Source(INTENT) String EXTRA_STATE;
+       final int CALL_STATE_RINGING;
         final int CALL_STATE_IDLE;
         final int CALL_STATE_OFFHOOK;
       @Source(READ_PHONE_STATE) String getDeviceId();

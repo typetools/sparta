@@ -23,6 +23,10 @@ class Build$VERSION{
         static final int SDK_INT;
 }
 
+class Build$VERSION_CODES{
+        static final int HONEYCOMB;
+}
+
 class CountDownTimer {
 SinkCountDownTimer start();
 Sinkvoid cancel();
@@ -184,6 +188,8 @@ boolean onTransact(int code, Parcel data, Parcel reply, int flags);
 }
     
 class Bundle {
+
+static final Bundle EMPTY;
 
 Bundle();
 
@@ -441,10 +447,10 @@ void writeToParcel(Parcel parcel, int flags);
 }
 
 class Message {
-
         int what;
         Messenger replyTo;
         Object obj;
+        int arg2;
 
 int arg1;
 
@@ -568,7 +574,9 @@ class FileObserver{
 
 class Handler {
 
-        Handler(Looper looper, Callback callback);
+Handler(Callback callback);
+
+Handler(Looper looper, Callback callback);
 
 Handler(Looper looper);
 

@@ -5,6 +5,7 @@ class BaseColumns{
 }
 
 class Browser {
+static final @Source(INTENT) String EXTRA_APPLICATION_ID;
 static void clearHistory(ContentResolver cr);
 static void clearSearches(ContentResolver cr);
 }
@@ -29,6 +30,13 @@ static Bitmap loadContactPhoto(Context context, Uri person, int placeholderImage
 class ContactsContract$QuickContact {
 static void showQuickContact(Context context, Rect target, Uri lookupUri, int mode, String[] excludeMimes);
 static void showQuickContact(Context context, View target, Uri lookupUri, int mode, String[] excludeMimes);
+}
+
+class MediaStore{
+        static final @Source(INTENT) String INTENT_ACTION_MEDIA_SEARCH;
+        static final @Source(INTENT) String EXTRA_MEDIA_ARTIST;
+        static final @Source(INTENT) String EXTRA_MEDIA_TITLE;
+        static final @Source(INTENT) String EXTRA_MEDIA_FOCUS;
 }
 
 class MediaStore$Images$ImageColumns{

@@ -27,6 +27,7 @@ void setTransportControlFlags(int transportControlFlags);
 
 class AudioManager{
 
+static final int STREAM_MUSIC;
 final int STREAM_RING;
 final int RINGER_MODE_NORMAL;
 final int RINGER_MODE_SILENT;

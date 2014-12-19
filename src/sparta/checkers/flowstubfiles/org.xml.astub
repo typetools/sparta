@@ -1,5 +1,11 @@
 package org.xml.sax;
 class ContentHandler{
+        void startPrefixMapping(String arg0, String arg1) throws SAXException;
+        void setDocumentLocator(Locator arg0);
+        void processingInstruction(String arg0, String arg1) throws SAXException;
+        void skippedEntity(String arg0) throws SAXException;
+        void endPrefixMapping(String arg0) throws SAXException;
+        void ignorableWhitespace(char[] arg0, int arg1, int arg2) throws SAXException;
         void characters(char[] arg0, int arg1, int arg2) throws SAXException;
         void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException;
         void startDocument() throws SAXException;
@@ -13,6 +19,8 @@ class Attributes{
 }
 
 class InputSource {
+InputSource(InputStream arg0);
+InputSource(Reader arg0);
 void setEncoding(String arg0);
 void setSystemId(String arg0);
 }

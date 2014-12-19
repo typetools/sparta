@@ -89,7 +89,8 @@ abstract int getStyleAttribute();
 }
 
 class Base64 {
-    
+static final int DEFAULT;
+
 final int NO_WRAP;
 
 static byte[] decode(byte[] input, int offset, int len, int flags);
@@ -152,6 +153,11 @@ static float sqrt(float value);
 
 
 class Log {
+static final int INFO;
+static final int WARN;
+static final int DEBUG;
+static final int VERBOSE;
+static final int ERROR;
 //CSH:: I have no idea why most of these methods return an int, the documentation doesn't mention any return values
 
 static int d(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) String msg);

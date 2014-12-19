@@ -2,6 +2,10 @@ package android.net;
 
 @PolyFlowReceiver
 class Uri$Builder {
+Builder path(String path);
+Builder encodedAuthority(@PolySource @PolySink String authority) @PolySource @PolySink;
+Builder();
+Builder encodedQuery(String query);
 Builder appendPath(String newSegment);
 Builder appendQueryParameter(String key, String value);
 Builder authority(String authority);

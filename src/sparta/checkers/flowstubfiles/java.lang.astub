@@ -744,6 +744,10 @@ class Float extends Number implements Comparable<Float> {
     static int compare(float arg0, float arg1);
 }
 
+class InheritableThreadLocal{
+        InheritableThreadLocal();
+}
+
 class IllegalArgumentException{
         IllegalArgumentException();
         IllegalArgumentException(Throwable arg0);
@@ -764,6 +768,7 @@ class Integer extends Number implements Comparable<Integer> {
     final @Source({}) int MIN_VALUE;
     final @Source({}) int MAX_VALUE;
     final @Source({}) int SIZE;
+    static final Class<Integer> TYPE;
 
     static String toString(int arg0, int arg1);
     static String toHexString(int arg0);

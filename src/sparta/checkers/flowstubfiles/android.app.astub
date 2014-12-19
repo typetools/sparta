@@ -10,6 +10,9 @@ void update(ActivityOptions otherOptions);
 }
 
 class AlarmManager{
+static final int ELAPSED_REALTIME;
+static final int ELAPSED_REALTIME_WAKEUP;
+
 void cancel(PendingIntent operation);
 //Remove any alarms with a matching Intent.
 
@@ -813,6 +816,10 @@ List<RunningTaskInfo> getRunningTasks(int maxNum) throws SecurityException;
 void killBackgroundProcesses(String packageName);
 }
 
+class ActivityManager$RunningServiceInfo{
+        ComponentName service;
+}
+
 class Application {
 
 Application();    
@@ -1031,7 +1038,11 @@ AlertDialog show()  @Sink(DISPLAY);
 
 
 class DatePickerDialog{
-            DatePickerDialog(Context context, OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth);
+        DatePickerDialog(Context context, OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth);
+}
+
+class DatePickerDialog$OnDateSetListener{
+        void onDateSet(DatePicker arg0, int  arg1, int arg2, int arg3);
 }
 
 class Dialog {
@@ -2251,7 +2262,8 @@ void onStop();
 }
 
 class SearchManager {
-    
+static final String QUERY;
+
 ComponentName getGlobalSearchActivity();
 //Gets the name of the global search activity.
 

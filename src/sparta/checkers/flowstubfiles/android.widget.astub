@@ -1,6 +1,17 @@
 
 package android.widget;
 
+class TableRow{
+        TableRow(Context context);
+}
+
+class TableLayout{
+        void addView(View child);
+}
+class TableRow$LayoutParams{
+        LayoutParams();
+}
+
 class TimePicker {
 Integer getCurrentHour();
 Integer getCurrentMinute();
@@ -419,6 +430,7 @@ class AbsListView$LayoutParams{
 }
 
 class AbsSeekBar{
+        void setKeyProgressIncrement(int increment);
         protected void onSizeChanged(int w, int h, int oldw, int oldh);
         protected void onDraw(Canvas canvas);
         void setMax(int max);
@@ -446,6 +458,8 @@ class Adapter{
 }
 
 class AdapterView {
+        static final long INVALID_ROW_ID;
+
 	T getAdapter();
       long getItemIdAtPosition(int position);
             int getCount();
@@ -571,6 +585,10 @@ void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener);
 
 }
 
+class AdapterView$AdapterContextMenuInfo{
+        int position;
+}
+
 class AdapterView$OnItemSelectedListener{
         void onNothingSelected(AdapterView<?> arg0);
         void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3);
@@ -582,6 +600,8 @@ class AdapterView$OnItemSelectedListener{
 }
 
 class ArrayAdapter<T> {
+ArrayAdapter(Context context, int resource, int textViewResourceId);
+ArrayAdapter(Context context, int resource, int textViewResourceId, List<T> objects);
 ArrayAdapter(Context context, int resource, int textViewResourceId, T[] objects);
 ArrayAdapter(Context context, int textViewResourceId, List<T> objects);
 ArrayAdapter(Context context, int textViewResourceId);
@@ -1372,6 +1392,7 @@ void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
 }
 
 class LinearLayout$LayoutParams{
+        LayoutParams(int width, int height);
         LayoutParams(int width, int height, float weight);
 String debug(String output);
 //Returns a String representation of this set of layout parameters.
@@ -2887,6 +2908,12 @@ class SeekBar{
 }
 
 
+class SectionIndexer{
+        int getSectionForPosition(int arg0);
+        Object[] getSections();
+        int getPositionForSection(int arg0);
+}
+
 class SeekBar$OnSeekBarChangeListener{
         void onStopTrackingTouch(SeekBar arg0);
         void onStartTrackingTouch(SeekBar arg0);
@@ -2901,6 +2928,21 @@ class SimpleAdapter{
 
 class SimpleAdapter$ViewBinder{
         boolean setViewValue(View arg0, @Sink(DISPLAY) Object arg1, String arg2);
+}
+
+class SlidingDrawer{
+        void animateClose();
+        View getHandle();
+        void setOnDrawerCloseListener(OnDrawerCloseListener onDrawerCloseListener);
+        void setOnDrawerOpenListener(OnDrawerOpenListener onDrawerOpenListener);
+        boolean isOpened();
+}
+class SlidingDrawer$OnDrawerCloseListener{
+        void onDrawerClosed();
+}
+
+class SlidingDrawer$OnDrawerOpenListener{
+        void onDrawerOpened();
 }
 
 class Spinner {
@@ -3251,6 +3293,7 @@ void onSizeChanged(int w, int h, int oldw, int oldh);
 
 
 class Toast {
+Toast(Context context);
 
 final int LENGTH_LONG;
 final int LENGTH_SHORT;
@@ -3310,6 +3353,11 @@ void show()  @Sink(DISPLAY);
 
 class ToggleButton{
         void setChecked(boolean checked);
+}
+
+class ViewAnimator{
+        void showNext();
+        int getDisplayedChild();
 }
 
 class VideoView{
