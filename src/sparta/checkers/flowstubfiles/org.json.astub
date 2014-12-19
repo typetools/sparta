@@ -18,6 +18,9 @@ class JSONArray{
         @PolyFlowReceiver JSONObject getJSONObject(int index) throws JSONException;
         @PolyFlowReceiver String getString(int index) throws JSONException;
         JSONArray(String json) throws JSONException;
+        JSONArray(Collection copyFrom);
+        @PolyFlowReceiver
+        String toString();
 }
 
 

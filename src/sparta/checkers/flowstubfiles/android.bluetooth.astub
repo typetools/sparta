@@ -1,6 +1,17 @@
 package android.bluetooth;
 
 class BluetoothAdapter {
+
+        static final @Sink(INTENT) String ACTION_DISCOVERY_STARTED;
+        static final @Sink(INTENT)String ACTION_REQUEST_ENABLE;
+        static final @Sink(INTENT)String ACTION_STATE_CHANGED;
+        static final int STATE_ON;
+        static final @Sink(INTENT)String EXTRA_STATE;
+        static final int STATE_OFF;
+        static final int STATE_TURNING_ON;
+        static final @Sink(INTENT)String ACTION_DISCOVERY_FINISHED;
+        static final int STATE_TURNING_OFF;
+
         static BluetoothAdapter getDefaultAdapter();
         @Source(BLUETOOTH_ADMIN) boolean enable();
         @Source(BLUETOOTH_ADMIN) boolean disable();
@@ -14,6 +25,14 @@ class BluetoothAdapter {
 }
 
 class BluetoothDevice {
+
+        static final int BOND_NONE;
+        static final @Sink(INTENT) String ACTION_BOND_STATE_CHANGED;
+                static final int BOND_BONDED;
+        static final @Sink(INTENT) String ACTION_FOUND;
+            static final @Sink(INTENT) String EXTRA_DEVICE;
+        static final @Sink(INTENT) String EXTRA_BOND_STATE;
+
   @Source(BLUETOOTH) String getAddress();
     @Source(BLUETOOTH) BluetoothClass getBluetoothClass();
     @Source(BLUETOOTH) int describeContents();

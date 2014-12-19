@@ -1,0 +1,17 @@
+package android.service.wallpaper;
+class WallpaperService{
+        Engine onCreateEngine();
+        WallpaperService();
+}
+class WallpaperService$Engine{
+        void onDestroy();
+        void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height);
+        void onOffsetsChanged(float xOffset, float yOffset, float xOffsetStep, float yOffsetStep, int xPixelOffset, int yPixelOffset);
+        boolean isPreview();
+        void setTouchEventsEnabled(boolean enabled);
+        void onCreate(SurfaceHolder surfaceHolder);
+        Engine();
+        void onVisibilityChanged(boolean visible);
+        void onTouchEvent(MotionEvent event);
+}
+

@@ -19,6 +19,14 @@ class BatteryManager{
 }
 
 
+class Build$VERSION{
+        static final int SDK_INT;
+}
+
+class Build$VERSION_CODES{
+        static final int HONEYCOMB;
+}
+
 class CountDownTimer {
 SinkCountDownTimer start();
 Sinkvoid cancel();
@@ -27,6 +35,9 @@ Sinkvoid onFinish();
 
 class HandlerThread {
 Looper getLooper();
+boolean quit();
+HandlerThread(String name, int priority);
+HandlerThread(String name);
 }
 
 class AsyncTask<Params, Progress, Result> {
@@ -42,7 +53,7 @@ class AsyncTask<Params, Progress, Result> {
     boolean cancel(boolean arg0);
     Result get() throws InterruptedException,ExecutionException;
     Result get(long arg0, TimeUnit arg1) throws InterruptedException,ExecutionException,TimeoutException;
-    AsyncTask<Params,Progress,Result> execute(Params[] arg0);
+    AsyncTask<Params,Progress,Result> execute(@Source(ANY) @Sink() Params[] arg0);
     AsyncTask<Params,Progress,Result> executeOnExecutor(Executor arg0, Params[] arg1);
     static void execute(Runnable arg0);
     protected void publishProgress(@Sink(DISPLAY) Progress[] arg0);
@@ -178,6 +189,8 @@ boolean onTransact(int code, Parcel data, Parcel reply, int flags);
     
 class Bundle {
 
+static final Bundle EMPTY;
+
 Bundle();
 
   void clear();
@@ -279,7 +292,7 @@ ClassLoader getClassLoader();
  @Source(BUNDLE) long[] getLongArray(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
-<T extends  @Source(BUNDLE)  Parcelable> T getParcelable(String key);
+<T extends  @Source(BUNDLE)  Parcelable> @Source(BUNDLE)T getParcelable(String key);
 //Returns the value associated with the given key, or null if no mapping of the desired type exists for the given key or a null value is explicitly associated with the key.
 
  @Source(BUNDLE) Parcelable[] getParcelableArray(String key);
@@ -434,6 +447,10 @@ void writeToParcel(Parcel parcel, int flags);
 }
 
 class Message {
+        int what;
+        Messenger replyTo;
+        Object obj;
+        int arg2;
 
 int arg1;
 
@@ -544,12 +561,22 @@ String toString();
 
 
 class FileObserver{
+
+        void stopWatching();
+        static final int DELETE_SELF;
+        static final int MOVE_SELF;
+        static final int MODIFY;
+
             FileObserver(String path, int mask);
             void onEvent(int arg0, String arg1);
             void startWatching();
 }
 
 class Handler {
+
+Handler(Callback callback);
+
+Handler(Looper looper, Callback callback);
 
 Handler(Looper looper);
 
@@ -646,6 +673,9 @@ String toString();
 
 }
 
+class Handler$Callback{
+        boolean handleMessage(Message arg0);
+}
 
 class Messenger{
 Messenger(IBinder target);
@@ -1021,6 +1051,12 @@ void finalize();
 }
 
 class PowerManager{
+
+        static final int SCREEN_BRIGHT_WAKE_LOCK;
+        static final int FULL_WAKE_LOCK;
+        static final int SCREEN_DIM_WAKE_LOCK;
+        static final int PARTIAL_WAKE_LOCK;
+
         @Source(WAKE_LOCK) WakeLock newWakeLock(int flags, String tag);
         boolean isScreenOn();
         void reboot(String reason);
@@ -1037,6 +1073,11 @@ class PowerManager$WakeLock{
 class Process {
     
     
+        static final int THREAD_PRIORITY_LESS_FAVORABLE;
+        static final int THREAD_PRIORITY_DISPLAY;
+        static final int THREAD_PRIORITY_DEFAULT;
+        static final int THREAD_PRIORITY_BACKGROUND;
+
 final static long getElapsedCpuTime();
 //Returns elapsed milliseconds of the time this process has run.
 

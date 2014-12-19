@@ -11,8 +11,11 @@ class StartElementListener{
 class RootElement{
         ContentHandler getContentHandler();
         RootElement(String localName);
+        RootElement(String uri, String localName);
 }
 class Element{
+        void setTextElementListener(TextElementListener elementListener);
+        Element getChild(String uri, String localName);
         void setElementListener(ElementListener elementListener);
         void setEndTextElementListener(EndTextElementListener endTextElementListener);
         Element getChild(String localName);

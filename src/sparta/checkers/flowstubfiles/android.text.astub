@@ -64,6 +64,11 @@ class InputFilter{
         CharSequence filter(CharSequence arg0, int arg1, int arg2, Spanned arg3, int arg4, int arg5);
 }
 
+class InputType{
+        static final int TYPE_TEXT_VARIATION_PASSWORD;
+        static final int TYPE_CLASS_TEXT;
+}
+
 class Selection{
         static void setSelection(Spannable text, int index);
 }
@@ -214,6 +219,8 @@ static CharSequence format(CharSequence inFormat, long inTimeInMillis);
 }
 
 class DateUtils{
+        static final long SECOND_IN_MILLIS;
+        static final long HOUR_IN_MILLIS;
         static String getDayOfWeekString(int dayOfWeek, int abbrev);
 }
 

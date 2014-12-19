@@ -105,6 +105,7 @@ class JSONArray{
     //12 (length)
         int length();
 }
+@PolyFlowReceiver
 class JSONObject{
     //8 (optInt)
         int optInt(String name, int fallback);
@@ -115,7 +116,8 @@ class JSONObject{
     //72 (optString)
         String optString(String name);
     //32 (put)
-        JSONObject put(String name, Object value) throws JSONException;
+    @PolyFlowReceiver
+        JSONObject put(@PolySource @PolySink String name, @PolySource @PolySink Object value) @PolySource @PolySink throws JSONException;
     //14 (optInt)
         int optInt(String name);
     //11 (<init>)

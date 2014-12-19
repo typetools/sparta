@@ -49,6 +49,7 @@ class BufferedInputStream extends FilterInputStream {
 
 @PolyFlowReceiver
 class BufferedOutputStream{
+            BufferedOutputStream(OutputStream arg0, int arg1);
             void write(byte @PolySource @PolySink[] arg0, int arg1, int arg2) throws IOException;
             void flush() throws IOException;
             BufferedOutputStream(OutputStream arg0);
@@ -293,9 +294,10 @@ class FileInputStream extends InputStream {
 @PolyFlowReceiver
 class FilterInputStream{
             protected @PolySource FilterInputStream(InputStream arg0);
+            @PolyFlow
             long skip(long arg0) throws IOException;
-            int read (byte @PolySouce @PolySink[] arg0, int arg1, int arg2) throws IOException;
-            int read(byte @PolySource @PolySink[] arg0) throws IOException;
+            @PolySource @PolySink int read (@PolySource @PolySink byte @PolySource @PolySink[] arg0, int arg1, int arg2) throws IOException;
+            @PolySource @PolySink int read(byte @PolySource @PolySink[] arg0) throws IOException;
 
             void close() throws IOException;
             int available() throws IOException;
@@ -360,7 +362,7 @@ class InputStream implements Closeable {
     InputStream();
     int read() throws IOException;
     int read(@PolySource @PolySink byte @PolySource @PolySink [] arg0) throws IOException;
-    int read(byte[] arg0, int arg1, int arg2) throws IOException;
+    int read(@PolySource @PolySink byte @PolySource @PolySink [] arg0, int arg1, int arg2) throws IOException;
     long skip(long arg0) throws IOException;
     int available() throws IOException;
     void close() throws IOException;
@@ -638,6 +640,7 @@ class RandomAccessFile{
         RandomAccessFile(File arg0, String arg1) throws FileNotFoundException;
         RandomAccessFile(String arg0, String arg1) throws FileNotFoundException;
         void writeBytes(@Sink(FILESYSTEM) String arg0) throws IOException;
+        void write(int arg0) throws IOException;
         void close() throws IOException;
         void write(@Sink(FILESYSTEM) byte[] arg0) throws IOException;
         void seek(long arg0) throws IOException;

@@ -22,3 +22,16 @@ static int gluUnProject(float winX, float winY, float winZ, float[] model, int m
 
 
 }
+
+class GLUtils{
+        static void texImage2D(int target, int level, Bitmap bitmap, int border);
+}
+class Matrix{
+        static void setIdentityM(float[] sm, int smOffset);
+        static void multiplyMM(float[] arg0, int arg1, float[] arg2, int arg3, float[] arg4, int arg5);
+        static void frustumM(float[] m, int offset, float left, float right, float bottom, float top, float near, float far);
+        static void rotateM(float[] m, int mOffset, float a, float x, float y, float z);
+        static void scaleM(float[] m, int mOffset, float x, float y, float z);
+        static void translateM(float[] m, int mOffset, float x, float y, float z);
+}
+

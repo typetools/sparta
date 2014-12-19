@@ -302,6 +302,9 @@ final void setWritePermission(String permission);
 
 class ContentResolver {
     
+        static final String SCHEME_CONTENT;
+        static final String SCHEME_FILE;
+
 final ContentProviderClient acquireContentProviderClient(Uri uri);
 //Returns a ContentProviderClient that is associated with the ContentProvider that services the content at uri, starting the provider if necessary.
 
@@ -614,6 +617,14 @@ ContentProviderOperation.Builder withYieldAllowed(boolean yieldAllowed);
 
 
 class Context {
+
+        static final int MODE_PRIVATE;
+        static final String LAYOUT_INFLATER_SERVICE;
+        static final int BIND_AUTO_CREATE;
+        static final String ALARM_SERVICE;
+        static final String WINDOW_SERVICE;
+        static final String ACTIVITY_SERVICE;
+        static final String KEYGUARD_SERVICE;
 
         final String DEVICE_POLICY_SERVICE;
         final String NOTIFICATION_SERVICE;
@@ -1276,14 +1287,12 @@ void onStopLoading();
 }
 
 class DialogInterface {
-    
+static final int BUTTON_NEGATIVE;
+static final int BUTTON_POSITIVE;
+static final int BUTTON1;
+static final int BUTTON2;
 abstract void cancel();
-
 abstract void dismiss();
-
-
-
-
 }
 
 class DialogInterface$OnClickListener{
@@ -1307,16 +1316,16 @@ class DialogInterface$OnDismissListener{
 class IntentFilter {
 IntentFilter();
 
-IntentFilter(String action);
+IntentFilter(@Sink(INTENT) String action);
 //New IntentFilter that matches a single action with no data.
 
 final Iterator<String> actionsIterator();
 //Return an iterator over the filter's actions.
 
-final void addAction(String action);
+final void addAction(@Sink(INTENT) String action);
 //Add a new Intent action to match against.
 
-final void addCategory(String category);
+final void addCategory(@Sink(INTENT) String category);
 //Add a new Intent category to match against.
 
 final void addDataAuthority(String host, String port);
@@ -1363,7 +1372,7 @@ final int describeContents();
 
 void dump(Printer du, String prefix);
 
-final String getAction(int index);
+final @Source(INTENT) String getAction(int index);
 //Return an action in the filter.
 
 final String getCategory(int index);
@@ -1445,27 +1454,41 @@ void writeToXml(XmlSerializer serializer);
 
 
 class Intent implements Parcelable, Cloneable {
-//SOM, We have a special FlowPermission for INTENTS
-        final  int FLAG_ACTIVITY_NEW_TASK;
-        final  String ACTION_HEADSET_PLUG;
-        final  String ACTION_BATTERY_OKAY;
-        final  int FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
+//SOM, We have a special FlowPermission for INTENT
+        static final @Source(INTENT) String EXTRA_SUBJECT;
+        static final @Source(INTENT) String EXTRA_TEXT;
+        static final @Source(INTENT) String ACTION_SEARCH;
+        static final @Source(INTENT)String ACTION_SEND;
+        static final @Source(INTENT)String ACTION_SET_WALLPAPER;
+        static final @Source(INTENT)String EXTRA_SHORTCUT_ICON_RESOURCE;
+        static final @Source(INTENT)String ACTION_USER_PRESENT;
+        static final @Source(INTENT)String EXTRA_SHORTCUT_NAME;
+        static final @Source(INTENT)String ACTION_GET_CONTENT;
+        static final @Source(INTENT)String ACTION_MEDIA_MOUNTED;
+        static final @Source(INTENT)String ACTION_MEDIA_SCANNER_FINISHED;
+        static final @Source(INTENT)String ACTION_PACKAGE_ADDED;
+        static final @Source(INTENT)String ACTION_MAIN;
+        static final String CATEGORY_OPENABLE;
+        final @Source(INTENT) int FLAG_ACTIVITY_NEW_TASK;
+        final @Source(INTENT) String ACTION_HEADSET_PLUG;
+        final @Source(INTENT) String ACTION_BATTERY_OKAY;
+        final @Source(INTENT) int FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
 
-        final  String ACTION_VIEW;
-        final  int FLAG_ACTIVITY_NO_USER_ACTION;
-        final  String ACTION_BATTERY_LOW;
-        final  String ACTION_BOOT_COMPLETED;
-        final  int FLAG_FROM_BACKGROUND;
-        final  String ACTION_CALL;
-        final  String ACTION_BATTERY_CHANGED;
+        final @Source(INTENT) String ACTION_VIEW;
+        final @Source(INTENT) int FLAG_ACTIVITY_NO_USER_ACTION;
+        final @Source(INTENT) String ACTION_BATTERY_LOW;
+        final @Source(INTENT) String ACTION_BOOT_COMPLETED;
+        final @Source(INTENT) int FLAG_FROM_BACKGROUND;
+        final @Source(INTENT) String ACTION_CALL;
+        final @Source(INTENT) String ACTION_BATTERY_CHANGED;
 
 String EXTRA_PHONE_NUMBER; 
  static final @Source(INTENT) String EXTRA_SHORTCUT_INTENT;
     Intent();
     @PolyFlow
     Intent(Intent arg0);
-    Intent(@Sink(ANY)  String arg0);
-    Intent(@Sink(ANY) String arg0, @Sink(ANY)  Uri arg1);
+    Intent(@Sink(INTENT) String arg0);
+    Intent(@Sink(INTENT) String arg0, @Sink(ANY)  Uri arg1);
     Intent(Context arg0, Class<?> arg1);
     Intent(@Sink(ANY) String arg0, @Sink(ANY) Uri arg1, @Sink(ANY)  Context arg2,@Sink(ANY)  Class<?> arg3);
    @Source(INTENT) static Intent createChooser(@Sink(INTENT) Intent arg0, @Sink(INTENT) CharSequence arg1);
@@ -1588,6 +1611,10 @@ String EXTRA_PHONE_NUMBER;
         void setClipData(@Sink(INTENT) ClipData clip);
 }
 
+class Intent$ShortcutIconResource{
+        static ShortcutIconResource fromContext(Context context, int resourceId);
+}
+
 class Loader {
 
 int getId();
@@ -1689,7 +1716,7 @@ abstract @Source(SHARED_PREFERENCES) boolean contains(@Sink(SHARED_PREFERENCES) 
 abstract @Source(SHARED_PREFERENCES) SharedPreferences.Editor edit();
 //Create a new Editor for these preferences, through which you can make modifications to the data in the preferences and atomically commit those changes back to the SharedPreferences object.
 
-abstract @Source(SHARED_PREFERENCES) Map<String, ?> getAll();
+abstract @Source(SHARED_PREFERENCES) Map<@Source(SHARED_PREFERENCES) String, @Source(SHARED_PREFERENCES) ?> getAll();
 //Retrieve all values from the preferences.
 
 abstract @Source(SHARED_PREFERENCES) boolean getBoolean(@Sink(SHARED_PREFERENCES) String key, @Sink(SHARED_PREFERENCES) boolean defValue);
@@ -1730,25 +1757,25 @@ abstract SharedPreferences.Editor clear() ;
 abstract boolean commit();
 //Commit your preferences changes back from this Editor to the SharedPreferences object it is editing.
 
-abstract SharedPreferences.Editor putBoolean(String key, @Sink(SHARED_PREFERENCES) boolean value);
+abstract SharedPreferences.Editor putBoolean(@Sink(SHARED_PREFERENCES)String key, @Sink(SHARED_PREFERENCES) boolean value);
 //Set a boolean value in the preferences editor, to be written back once commit(); or apply(); are called.
 
-abstract SharedPreferences.Editor putFloat(String key, @Sink(SHARED_PREFERENCES) float value);
+abstract SharedPreferences.Editor putFloat(@Sink(SHARED_PREFERENCES)String key, @Sink(SHARED_PREFERENCES) float value);
 //Set a float value in the preferences editor, to be written back once commit(); or apply(); are called.
 
-abstract SharedPreferences.Editor putInt(String key, @Sink(SHARED_PREFERENCES) int value);
+abstract SharedPreferences.Editor putInt(@Sink(SHARED_PREFERENCES)String key, @Sink(SHARED_PREFERENCES) int value);
 //Set an int value in the preferences editor, to be written back once commit(); or apply(); are called.
 
-abstract SharedPreferences.Editor putLong(String key, long value);
+abstract SharedPreferences.Editor putLong(@Sink(SHARED_PREFERENCES)String key, @Sink(SHARED_PREFERENCES)long value);
 //Set a long value in the preferences editor, to be written back once commit(); or apply(); are called.
 
-abstract SharedPreferences.Editor putString(String key, String value);
+abstract SharedPreferences.Editor putString(@Sink(SHARED_PREFERENCES) String key, @Sink(SHARED_PREFERENCES) String value);
 //Set a String value in the preferences editor, to be written back once commit(); or apply(); are called.
 
-abstract SharedPreferences.Editor putStringSet(String key, Set<String> values);
+abstract SharedPreferences.Editor putStringSet(@Sink(SHARED_PREFERENCES)String key, Set<@Sink(SHARED_PREFERENCES)String> values);
 //Set a set of String values in the preferences editor, to be written back once commit(); is called.
 
-abstract SharedPreferences.Editor remove(String key);
+abstract SharedPreferences.Editor remove(@Sink(SHARED_PREFERENCES)String key);
 //Mark in the editor that a preference value should be removed, which will be done in the actual preferences once commit(); is called.
 
 
@@ -1756,7 +1783,7 @@ abstract SharedPreferences.Editor remove(String key);
 }
 
 class SharedPreferences$OnSharedPreferenceChangeListener {
-	void onSharedPreferenceChanged(SharedPreferences arg0, String arg1);
+	void onSharedPreferenceChanged(SharedPreferences arg0, @Source() @Sink(ANY) String arg1);
 }
 
 package android.content.pm;
@@ -1772,6 +1799,8 @@ CharSequence loadLabel(PackageManager pm);
 }
 
 class PackageItemInfo{
+        @Source(PACKAGE_INFO) String packageName;
+        @Source(PACKAGE_INFO) String name;
         CharSequence loadLabel(PackageManager pm);
         XmlResourceParser loadXmlMetaData(PackageManager pm, String name);
 }
@@ -1808,13 +1837,24 @@ class PackageInfo implements Parcelable {
 }
 
 class PackageManager{
+        Intent getLaunchIntentForPackage(@Source(PACKAGE_INFO) String arg0);
+        static final int DONT_KILL_APP;
+        int getComponentEnabledSetting(ComponentName arg0);
+        void setComponentEnabledSetting(ComponentName arg0, int arg1, int arg2);
+        static final int COMPONENT_ENABLED_STATE_DISABLED;
+        static final int COMPONENT_ENABLED_STATE_DEFAULT;
+        static final int COMPONENT_ENABLED_STATE_ENABLED;
+        static final int GET_GIDS;
         static final int GET_PERMISSIONS;
         @Source(PACKAGE_INFO) String[] getPackagesForUid(int arg0);
         List<PackageInfo> getInstalledPackages(int arg0);
         PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
+        List<@Source(PACKAGE_INFO) ResolveInfo> queryIntentActivityOptions(ComponentName arg0, Intent[] arg1, Intent arg2, int arg3);
+        @Source(PACKAGE_INFO) ResolveInfo resolveActivity(Intent arg0, int arg1);
 }
 
 class ResolveInfo {
+@Source(PACKAGE_INFO) ActivityInfo activityInfo;
 
 int describeContents();
 //Describe the kinds of special objects contained in this Parcelable's marshalled representation.
@@ -1913,6 +1953,11 @@ void writeToParcel(Parcel dest, int flags);
 
 
 
+}
+
+class Configuration{
+        static final int ORIENTATION_PORTRAIT;
+        int orientation;
 }
 
 class Resources$Theme {
@@ -2110,6 +2155,7 @@ int getLayoutDimension(int index, String name);
 
 int getLayoutDimension(int index, int defValue);
 //Special version of getDimensionPixelSize(int, int); for retrieving ViewGroup's layout_width and layout_height attributes.
+
 
 String getNonResourceString(int index);
 //Retrieve the string value for the attribute at index, but only if that string comes from an immediate value in an XML file.

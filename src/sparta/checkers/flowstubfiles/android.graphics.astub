@@ -10,7 +10,16 @@ static BitmapRegionDecoder newInstance(FileDescriptor fd, boolean isShareable) t
 static BitmapRegionDecoder newInstance(InputStream is, boolean isShareable) throws IOException;
 static BitmapRegionDecoder newInstance(String pathName, boolean isShareable) throws IOException;
 }
+
+class ColorMatrix{
+        ColorMatrix();
+        void setSaturation(float sat);
+}
+
 class ColorMatrixColorFilter{
+
+        ColorMatrixColorFilter(ColorMatrix matrix);
+
         ColorMatrixColorFilter(float[] array);
 }
 class Path {
@@ -19,10 +28,29 @@ void addRoundRect(RectF rect, float[] radii, Direction dir);
 void reset();
 }
 
+
+class LinearGradient{
+        LinearGradient(float x0, float y0, float x1, float y1, int color0, int color1, TileMode tile);
+}
+class PixelFormat{
+        static final int RGB_565;
+        static final int RGBA_8888;
+}
+
+
 class Typeface {
+static Typeface createFromAsset(AssetManager mgr, String path);
 static Typeface defaultFromStyle(int style);
 }
 class BitmapFactory$Options{
+
+        boolean inDither;
+        int outHeight;
+        int inSampleSize;
+        boolean inJustDecodeBounds;
+        Config inPreferredConfig;
+        int outWidth;
+
         Options();
 }
 
@@ -223,6 +251,8 @@ class Canvas {
 //CSH: This class draws a lot of objets on the screen, lines, and squares, and circles and whatnot.
 // In general if the square/circle/object was specified I put a Sink of DISPLAY on it, but if the method had only only points or coordinates
 // I didn't annotate them because the value of the point isn't output, per se, but it does represent a location on the screen.
+Canvas(Bitmap bitmap);
+        Canvas();
 
 boolean clipPath(Path path);
 //Intersect the current clip with the specified path.
@@ -476,6 +506,9 @@ void translate(float dx, float dy);
 }
 
 class Color{
+        static @PolySource @PolySink int HSVToColor(@PolySource @PolySink float[] hsv);
+        static void colorToHSV(@PolySource @PolySink int color, @PolySource @PolySink float[] hsv);
+
         static int rgb(int red, int green, int blue);
         static int blue(int color);
         static int red(int color);
@@ -642,7 +675,7 @@ class Movie{
 }
 
 class Paint {
-
+        static final int ANTI_ALIAS_FLAG;
 Paint(int flags);
 
 Paint();
@@ -1075,6 +1108,10 @@ void sort();
 int describeContents();
 }
 class RectF {
+ @Sink({}) @Source("ANY") float top;
+        @Sink({}) @Source("ANY")float bottom;
+       @Sink({}) @Source("ANY") float left;
+       @Sink({}) @Source("ANY") float right;
 
 RectF(float left, float top, float right, float bottom);
 
@@ -1180,6 +1217,10 @@ void writeToParcel(Parcel out, int flags);
 }
 
 
+class SweepGradient{
+        SweepGradient(float cx, float cy, int[] colors, float[] positions);
+}
+
 package android.graphics.drawable;
 
 class DrawableContainer {
@@ -1187,7 +1228,8 @@ void draw(Canvas canvas);
 }
 
 class BitmapDrawable {
-    
+BitmapDrawable(Resources res, Bitmap bitmap);
+
 void draw(Canvas canvas);
 //Draw in its bounds (set via setBounds); respecting optional effects such as alpha (set via setAlpha); and color filter (set via setColorFilter);.
 

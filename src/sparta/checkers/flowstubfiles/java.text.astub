@@ -145,7 +145,7 @@ class DecimalFormat extends NumberFormat {
 }
 
 class MessageFormat{
-        static String format(String arg0, Object[] arg1);
+        static @PolySource @PolySink String format(String arg0, @PolySource @PolySink Object @PolySource @Poly@Sink [] arg1);
 }
 
 @PolyFlowReceiver

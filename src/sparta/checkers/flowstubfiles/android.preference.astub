@@ -1,6 +1,21 @@
 package android.preference;
 
+class CheckBoxPreference{
+
+        void setChecked(boolean checked);
+
+CheckBoxPreference(Context context);
+}
+
 class DialogPreference{
+
+        protected void onPrepareDialogBuilder(Builder builder);
+        protected void onBindDialogView(View view);
+        void setDialogLayoutResource(int dialogLayoutResId);
+        DialogPreference(Context context, AttributeSet attrs);
+        void setDialogTitle(int dialogTitleResId);
+        void onClick(DialogInterface dialog, int which);
+
 void setDialogTitle(CharSequence dialogTitle);
 //Sets the title of the dialog. This will be shown on subsequent dialogs.
 
@@ -61,6 +76,11 @@ void onSetInitialValue(@Sink(SHARED_PREFERENCES) boolean restoreValue, @Sink(SHA
 }
 
 class ListPreference{
+
+        @Source(SHARED_PREFERENCES) CharSequence getSummary();
+        int findIndexOfValue(String value);
+
+        @Source(SHARED_PREFERENCES) CharSequence getEntry();
         @Source(SHARED_PREFERENCES) CharSequence @Source(SHARED_PREFERENCES) [] getEntries();
         void setValueIndex(int index);
         @Source(SHARED_PREFERENCES) CharSequence @Source(SHARED_PREFERENCES) [] getEntryValues();
@@ -256,7 +276,7 @@ int getPersistedInt(int defaultReturnValue);
 long getPersistedLong(long defaultReturnValue);
 //Attempts to get a persisted long from the SharedPreferences.
 
-String getPersistedString(String defaultReturnValue);
+@Source(SHARED_PREFERENCES) String getPersistedString(String defaultReturnValue);
 //Attempts to get a persisted String from the SharedPreferences.
 
 void notifyChanged();
@@ -336,7 +356,7 @@ void addPreferencesFromIntent(Intent intent);
 void addPreferencesFromResource(int preferencesResId);
 //This method was deprecated in API level 11. This function is not relevant for a modern fragment-based PreferenceActivity.
 
-Preference findPreference(CharSequence key);
+Preference findPreference(@Sink({DISPLAY,SHARED_PREFERENCES}) CharSequence key);
 //This method was deprecated in API level 11. This function is not relevant for a modern fragment-based PreferenceActivity.
 
 void finishPreferencePanel(Fragment caller, int resultCode, Intent resultData);
@@ -449,6 +469,10 @@ void onStop();
 
 }
 
+class PreferenceCategory{
+        PreferenceCategory(Context context, AttributeSet attrs);
+}
+
 class PreferenceFragment {
     
 void addPreferencesFromIntent(Intent intent);
@@ -501,6 +525,8 @@ void setPreferenceScreen(@Sink(DISPLAY) PreferenceScreen preferenceScreen);
 }
 
 class PreferenceGroup{
+        int getPreferenceCount();
+        @Source(SHARED_PREFERENCES) Preference getPreference(int index);
         void removeAll();
         boolean addPreference(@Sink(SHARED_PREFERENCES) Preference preference);
         boolean removePreference(@Sink(SHARED_PREFERENCES) Preference preference);
@@ -508,12 +534,20 @@ class PreferenceGroup{
 }
 
 class PreferenceManager{
+        @Source(SHARED_PREFERENCES) Preference findPreference(CharSequence key);
+        PreferenceScreen createPreferenceScreen(Context context);
+
+@Source(SHARED_PREFERENCES) SharedPreferences getSharedPreferences();
 static SharedPreferences getDefaultSharedPreferences(Context context);
 static void setDefaultValues(Context context, @Sink(SHARED_PREFERENCES) String sharedPreferencesName, int sharedPreferencesMode, @Sink(SHARED_PREFERENCES) int resId, boolean readAgain);
 //Gets a SharedPreferences instance that points to the default file that is used by the preference framework in the given context.
 
 static void setDefaultValues(Context context, int resId, boolean readAgain);
 //Similar to setDefaultValues(Context, int, boolean) but allows the client to provide the filename and mode of the shared preferences file.
+}
+
+class PreferenceScreen{
+        ListAdapter getRootAdapter();
 }
 
 class TwoStatePreference{

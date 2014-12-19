@@ -27,3 +27,14 @@ class SSLSocketFactory {
 Socket createSocket(Socket arg0, String arg1, int arg2, boolean arg3) throws IOException;
 static SocketFactory getDefault();
 }
+
+class TrustManagerFactory{
+        static TrustManagerFactory getInstance(String arg0) throws NoSuchAlgorithmException;
+        void init(KeyStore arg0) throws KeyStoreException;
+        static String getDefaultAlgorithm();
+}
+class KeyManagerFactory{
+        static KeyManagerFactory getInstance(String arg0) throws NoSuchAlgorithmException;
+        void init(KeyStore arg0, @Source(ANY) @Sink char @Source(ANY) @Sink() [] arg1) throws KeyStoreException,NoSuchAlgorithmException,UnrecoverableKeyException;
+}
+

@@ -9,6 +9,32 @@ static ActivityOptions makeThumbnailScaleUpAnimation(View source, Bitmap thumbna
 void update(ActivityOptions otherOptions);
 }
 
+class AlarmManager{
+static final int ELAPSED_REALTIME;
+static final int ELAPSED_REALTIME_WAKEUP;
+
+void cancel(PendingIntent operation);
+//Remove any alarms with a matching Intent.
+
+void set(int type, long triggerAtMillis, PendingIntent operation);
+//Schedule an alarm.
+
+void setInexactRepeating(int type, long triggerAtMillis, long intervalMillis, PendingIntent operation);
+//Schedule a repeating alarm that has inexact trigger time requirements; for example, an alarm that repeats every hour, but not necessarily at the top of every hour.
+
+void setRepeating(int type, long triggerAtMillis, long intervalMillis, PendingIntent operation);
+//Schedule a repeating alarm.
+
+void setTime(@Sink(SET_TIME) long millis);
+//Set the system wall clock time.
+
+void setTimeZone(@Sink(SET_TIME_ZONE) String timeZone);
+//Set the system default time zone.
+
+static final @Source(READ_TIME) int ELAPSED_REALTIME;
+}
+
+
 class FragmentManager$BackStackEntry {
 String getName();
 }
@@ -783,10 +809,15 @@ void onUserLeaveHint();
 //Called as part of the activity lifecycle when an activity is about to go into the background as the result of user choice.
 }
 class ActivityManager{
-                List<RunningServiceInfo> getRunningServices(int maxNum) throws SecurityException;
+int getMemoryClass();
+List<RunningServiceInfo> getRunningServices(int maxNum) throws SecurityException;
                 List<RunningAppProcessInfo> getRunningAppProcesses();
 List<RunningTaskInfo> getRunningTasks(int maxNum) throws SecurityException;
 void killBackgroundProcesses(String packageName);
+}
+
+class ActivityManager$RunningServiceInfo{
+        ComponentName service;
 }
 
 class Application {
@@ -822,30 +853,6 @@ void unregisterComponentCallbacks(ComponentCallbacks callback);
 
 }
 
-
-class AlarmManager {
-    
-void cancel(PendingIntent operation);
-//Remove any alarms with a matching Intent.
-
-void set(int type, long triggerAtMillis, PendingIntent operation);
-//Schedule an alarm.
-
-void setInexactRepeating(int type, long triggerAtMillis, long intervalMillis, PendingIntent operation);
-//Schedule a repeating alarm that has inexact trigger time requirements; for example, an alarm that repeats every hour, but not necessarily at the top of every hour.
-
-void setRepeating(int type, long triggerAtMillis, long intervalMillis, PendingIntent operation);
-//Schedule a repeating alarm.
-
-void setTime(@Sink(SET_TIME) long millis);
-//Set the system wall clock time.
-
-void setTimeZone(@Sink(SET_TIME_ZONE) String timeZone);
-//Set the system default time zone.
-
-
-
-}
 
 class AlertDialog {
 
@@ -1031,7 +1038,11 @@ AlertDialog show()  @Sink(DISPLAY);
 
 
 class DatePickerDialog{
-            DatePickerDialog(Context context, OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth);
+        DatePickerDialog(Context context, OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth);
+}
+
+class DatePickerDialog$OnDateSetListener{
+        void onDateSet(DatePicker arg0, int  arg1, int arg2, int arg3);
 }
 
 class Dialog {
@@ -1793,6 +1804,10 @@ class IntentService{
         void onStart(Intent intent, int startId);
 }
 
+class KeyguardManager{
+        boolean inKeyguardRestrictedInputMode();
+}
+
 class ListActivity {
 
 ListActivity();
@@ -1914,6 +1929,9 @@ int ledARGB;
 int ledOnMS;
 int ledOffMS;
 int flags;
+
+        static final int FLAG_NO_CLEAR;
+        static final int FLAG_ONGOING_EVENT;
 
 Notification(int icon, CharSequence tickerText, @Sink(DISPLAY) long when);
 //This constructor was deprecated in API level 11. Use Notification.Builder instead.
@@ -2244,7 +2262,8 @@ void onStop();
 }
 
 class SearchManager {
-    
+static final String QUERY;
+
 ComponentName getGlobalSearchActivity();
 //Gets the name of the global search activity.
 
@@ -2384,6 +2403,25 @@ class TimePickerDialog {
 class TimePickerDialog$OnTimeSetListener {
 @AddsSourceData({2, 3})
 	void onTimeSet(TimePicker arg0, @Source(USER_INPUT) int arg1, @Source(USER_INPUT) int arg2);
+}
+
+class WallpaperInfo{
+        String getSettingsActivity();
+        String getPackageName();
+}
+
+
+class WallpaperManager{
+        static final @Source(INTENT) String ACTION_CHANGE_LIVE_WALLPAPER;
+        WallpaperInfo getWallpaperInfo();
+        static final @Source(INTENT) String EXTRA_LIVE_WALLPAPER_COMPONENT;
+        static final @Source(INTENT) String ACTION_LIVE_WALLPAPER_CHOOSER;
+        static WallpaperManager getInstance(Context context);
+}
+
+class WallpaperInfo{
+        String getSettingsActivity();
+        String getPackageName();
 }
 
 package android.app.admin;

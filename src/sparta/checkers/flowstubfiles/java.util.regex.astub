@@ -75,7 +75,7 @@ class Matcher {
     String replaceAll (String replacement);
 
     @PolyFlowReceiver
-    String replaceFirst (String replacement);
+    @PolySource @PolySink String replaceFirst (@PolySource @PolySink String replacement);
     
     Matcher appendReplacement(StringBuffer arg0, String arg1);
     StringBuffer appendTail(StringBuffer arg0);

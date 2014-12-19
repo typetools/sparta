@@ -31,6 +31,10 @@ void ensureContent();
 void ensureHierarchy(Context context);
 void initFragmentTabHost(Context context, AttributeSet attrs);
 }
+class FragmentTransaction{
+        int commit();
+        FragmentTransaction add(Fragment arg0, String arg1);
+}
 
 class NotificationCompat{
         final int PRIORITY_MIN;
@@ -67,6 +71,16 @@ Fragment getItem(int arg0);
 
 }
 
+class ListFragment{
+        ListView getListView();
+        View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+        void setEmptyText(@Sink(DISPLAY) CharSequence text);
+        void onActivityCreated(Bundle savedInstanceState);
+        void onListItemClick(ListView l, View v, int position, long id);
+        void setListAdapter(ListAdapter adapter);
+        ListFragment();
+}
+
 class TaskStackBuilder {
 TaskStackBuilder addParentStack(Activity sourceActivity);
 //TaskStackBuilder addParentStack(Class<?> sourceActivityClass);
@@ -81,9 +95,14 @@ void startActivities(Bundle options);
 }
 
 
+class LoaderManager{
+        <D> Loader<D> restartLoader(int arg0, Bundle arg1, LoaderCallbacks<D> arg2);
+        <D> Loader<D> initLoader(int arg0, Bundle arg1, LoaderCallbacks<D> arg2);
+}
+
 class LoaderManager$LoaderCallbacks {
 Loader<D> onCreateLoader(int arg0, Bundle arg1);
-void onLoadFinished(Loader<D> arg0, D arg1);
+void onLoadFinished(Loader<D> arg0, @Sink(DISPLAY) D arg1);
 void onLoaderReset(Loader<D> arg0);
 }
 
@@ -127,6 +146,7 @@ class FragmentActivity {
 // invalidateSupportFragment
 // onReallyStop
 // viewToString
+FragmentActivity();
 
 LoaderManagerImpl getLoaderManager(String who, boolean started, boolean create);
 
@@ -261,6 +281,20 @@ void addTab(@Sink(DISPLAY) TabHost.TabSpec tabSpec, Class<?> clss, Bundle args);
 }
 
 class Fragment{
+        boolean isInLayout();
+        boolean onContextItemSelected(MenuItem item);
+        CharSequence getText(int resId);
+        void onSaveInstanceState(Bundle outState);
+        void onResume();
+        View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+        void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo);
+        void onAttach(Activity activity);
+        String getString(int resId, @Source() @Sink(ANY) Object @Source() @Sink(ANY) [] formatArgs);
+        void registerForContextMenu(View view);
+        void onCreateOptionsMenu(Menu menu, MenuInflater inflater);
+        Resources getResources();
+        void onPause();
+
         void setHasOptionsMenu(boolean hasMenu);
         void startActivity(Intent intent);
         void onCreate(Bundle savedInstanceState);
@@ -280,6 +314,9 @@ class DialogFragment {
 void dismissInternal(boolean allowStateLoss);
 Dialog onCreateDialog(@Source(BUNDLE) Bundle savedInstanceState);
 int getTheme();
+void show(FragmentManager manager, String tag);
+void onCreate(Bundle savedInstanceState);
+DialogFragment();
 }
 
 class NavUtils{
@@ -419,6 +456,7 @@ boolean takeContentChanged();
 }
 
 class AsyncTaskLoader {
+AsyncTaskLoader(Context context);
 void onCanceled(D data);
 protected D onLoadInBackground();
 D loadInBackground();

@@ -1,6 +1,11 @@
 package android.net;
 
-@PolyFlow class Uri$Builder {
+@PolyFlowReceiver
+class Uri$Builder {
+Builder path(String path);
+Builder encodedAuthority(@PolySource @PolySink String authority) @PolySource @PolySink;
+Builder();
+Builder encodedQuery(String query);
 Builder appendPath(String newSegment);
 Builder appendQueryParameter(String key, String value);
 Builder authority(String authority);
@@ -11,7 +16,7 @@ Uri build();
 
 class ConnectivityManager {
 
-final String CONNECTIVITY_ACTION;
+final @Source(INTENT) String CONNECTIVITY_ACTION;
 
 @Source(ACCESS_NETWORK_STATE) NetworkInfo getActiveNetworkInfo();
 //Returns details about the currently active data network.
@@ -187,7 +192,7 @@ static void untagSocket(Socket socket);
 class Uri {
     
     
-abstract Uri.Builder buildUpon();
+abstract @PolyFlowReceiver Uri.Builder buildUpon();
 //Constructs a new builder, copying the attributes from this Uri.
 
 int compareTo(Uri other);
@@ -207,7 +212,7 @@ static String encode(String s);
 boolean equals(Object o);
 //Compares this Uri to another object for equality.
 
-static @Source({FILESYSTEM, WRITE_EXTERNAL_STORAGE}) Uri fromFile(File file);
+static @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) Uri fromFile(File file);
 //Creates a Uri from a file.
 @PolyFlow
 static Uri fromParts(String scheme, String ssp, String fragment);

@@ -2,11 +2,22 @@ package java.nio;
 
 
 class Buffer{
-   int remaining();
-   @PolyFlowReceiver
-   Buffer flip();
-   boolean hasRemaining();
-   Buffer clear();
+    @PolyFlowReceiver
+    Buffer position(int arg0);
+    int remaining();
+    @PolyFlowReceiver
+    Buffer flip();
+    boolean hasRemaining();
+    Buffer clear();
+}
+@PolyFlowReceiver
+class ShortBuffer{
+        ShortBuffer put(short[] arg0);
+}
+
+@PolyFlowReceiver
+class FloatBuffer{
+    FloatBuffer put(float[] arg0);
 }
 
 @PolyFlowReceiver
@@ -14,7 +25,7 @@ class ByteBuffer extends Buffer implements Comparable<ByteBuffer> {
     static ByteBuffer allocateDirect(int arg0);
     static ByteBuffer allocate(int arg0);
     static ByteBuffer wrap(byte[] arg0, int arg1, int arg2);
-    static ByteBuffer wrap(byte[] arg0);
+    static @PolySource @PolySink ByteBuffer wrap(@PolySource @PolySink byte @PolySource @PolySink [] arg0);
     ByteBuffer slice();
     ByteBuffer duplicate();
     ByteBuffer asReadOnlyBuffer();
@@ -26,7 +37,7 @@ class ByteBuffer extends Buffer implements Comparable<ByteBuffer> {
     ByteBuffer get(byte[] arg0);
     ByteBuffer put(ByteBuffer arg0);
     ByteBuffer put(byte[] arg0, int arg1, int arg2);
-    ByteBuffer put(byte[] arg0);
+    @PolySource @PolySink ByteBuffer put(@PolySource @PolySink byte @PolySource @PolySink [] arg0) @PolySource @PolySink;
     boolean hasArray();
     byte[] array();
     int arrayOffset();
@@ -68,6 +79,10 @@ class ByteBuffer extends Buffer implements Comparable<ByteBuffer> {
     double getDouble(int arg0);
     ByteBuffer putDouble(int arg0, double arg1);
     DoubleBuffer asDoubleBuffer();
+}
+
+class ByteOrder{
+        static ByteOrder nativeOrder();
 }
 
 @PolyFlowReceiver
