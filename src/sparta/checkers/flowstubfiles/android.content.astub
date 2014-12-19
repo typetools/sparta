@@ -1446,18 +1446,18 @@ void writeToXml(XmlSerializer serializer);
 
 class Intent implements Parcelable, Cloneable {
 //SOM, We have a special FlowPermission for INTENTS
-        final @Source(INTENT) int FLAG_ACTIVITY_NEW_TASK;
-        final @Source(INTENT) String ACTION_HEADSET_PLUG;
-        final @Source(INTENT) String ACTION_BATTERY_OKAY;
-        final @Source(INTENT) int FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
+        final  int FLAG_ACTIVITY_NEW_TASK;
+        final  String ACTION_HEADSET_PLUG;
+        final  String ACTION_BATTERY_OKAY;
+        final  int FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
 
-        final @Source(INTENT) String ACTION_VIEW;
-        final @Source(INTENT) int FLAG_ACTIVITY_NO_USER_ACTION;
-        final @Source(INTENT) String ACTION_BATTERY_LOW;
-        final @Source(INTENT) String ACTION_BOOT_COMPLETED;
-        final @Source(INTENT) int FLAG_FROM_BACKGROUND;
-        final @Source(INTENT) String ACTION_CALL;
-        final @Source(INTENT) String ACTION_BATTERY_CHANGED;
+        final  String ACTION_VIEW;
+        final  int FLAG_ACTIVITY_NO_USER_ACTION;
+        final  String ACTION_BATTERY_LOW;
+        final  String ACTION_BOOT_COMPLETED;
+        final  int FLAG_FROM_BACKGROUND;
+        final  String ACTION_CALL;
+        final  String ACTION_BATTERY_CHANGED;
 
 String EXTRA_PHONE_NUMBER; 
  static final @Source(INTENT) String EXTRA_SHORTCUT_INTENT;
@@ -1839,7 +1839,9 @@ void writeToParcel(Parcel dest, int parcelableFlags);
 }
 
 package android.content.res;
-
+class AssetFileDescriptor{
+  @Source(FILESYSTEM) FileInputStream createInputStream() throws IOException;
+}
 class AssetManager {
 //CSH: maybe Filesystem permission here...
     

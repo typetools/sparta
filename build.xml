@@ -109,6 +109,7 @@
         <delete dir="${sparta.jar.file}"/>
         <delete dir="sparta-out"/>
         <delete dir="testOutput"/>
+        <delete dir="bin"/>
         <delete failonerror="false">
             <fileset dir="${build.tests}" includes="**/*.class"/>
         </delete>

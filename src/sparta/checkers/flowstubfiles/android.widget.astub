@@ -437,15 +437,11 @@ class AdapterView$OnItemClickListener{
         void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
 }
 class Adapter{
-        boolean hasStableIds();
+    boolean hasStableIds();
     int getCount();
-    @PolyFlowReceiver
     long getItemId(int arg0);
-    @PolyFlowReceiver
     Object getItem(int arg0);
-    @PolyFlowReceiver
     View getView(int arg0, View arg1, ViewGroup arg2);
-
 }
 
 class AdapterView {

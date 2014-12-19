@@ -341,13 +341,17 @@ class FileOutputStream extends OutputStream {
     void write(int arg0, boolean arg1) @Sink(FILESYSTEM);
 }
 
-@PolyFlowReceiver
 class FileWriter extends OutputStreamWriter {
-    FileWriter(String arg0) throws IOException;
-    FileWriter(String arg0, boolean arg1) throws IOException;
-    FileWriter(File arg0) throws IOException;
-    FileWriter(File arg0, boolean arg1) throws IOException;
-    FileWriter(FileDescriptor arg0);
+@InferParameterizedPermission(value=FILESYSTEM, isA="sink")
+    @Sink(FILESYSTEM) FileWriter(String arg0) throws IOException;
+@InferParameterizedPermission(value=FILESYSTEM, isA="sink")
+   @Sink(FILESYSTEM) FileWriter(String arg0, boolean arg1) throws IOException;
+@InferParameterizedPermission(value=FILESYSTEM, isA="sink")
+    @Sink(FILESYSTEM) FileWriter(File arg0) throws IOException;
+@InferParameterizedPermission(value=FILESYSTEM, isA="sink")
+    @Sink(FILESYSTEM) FileWriter(File arg0, boolean arg1) throws IOException;
+@InferParameterizedPermission(value=FILESYSTEM, isA="sink")
+    @Sink(FILESYSTEM) FileWriter(FileDescriptor arg0);
 }
 
 @PolyFlowReceiver
@@ -497,13 +501,13 @@ class ObjectOutputStream$PutField {
     void write(ObjectOutput arg0) throws IOException;
 }
 
-@PolyFlowReceiver
 class OutputStream implements Closeable, Flushable {
 //Added by pbsf
     OutputStream();
+@PolyFlowReceiver
     void write(int arg0) throws IOException;
-    void write(byte[] arg0) throws IOException;
-    void write(byte[] arg0, int arg1, int arg2) throws IOException;
+    void write(@PolySourceR @PolySinkR byte[] arg0) @PolySourceR @PolySinkR;
+    void write(@PolySourceR @PolySinkR byte[] arg0, int arg1, int arg2) @PolySourceR @PolySinkR;
     void flush() throws IOException;
     void close() throws IOException;
 }
