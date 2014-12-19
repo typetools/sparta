@@ -1276,7 +1276,10 @@ boolean verifyDrawable(Drawable dr);
 }
 
 class LinearLayout {
-
+        static final int SHOW_DIVIDER_BEGINNING;
+        static final int SHOW_DIVIDER_MIDDLE;
+        static final int HORIZONTAL;
+        static final int SHOW_DIVIDER_END;
 final int VERTICAL;
 
 @Sink(DISPLAY) LinearLayout(Context context);

@@ -3513,6 +3513,32 @@ void setToIndex(int toIndex);
 
 package android.view.inputmethod;
 
+class ExtractedText{
+        int selectionEnd;
+        ExtractedText();
+        int selectionStart;
+        int flags;
+        @Source(USER_INPUT) CharSequence text;
+        int partialStartOffset;
+        int startOffset;
+        int partialEndOffset;
+}
+class ExtractedTextRequest{
+        int token;
+}
+class InputMethodManager{
+        static final int SHOW_FORCED;
+}
+class EditorInfo{
+        static final int IME_ACTION_NONE;
+        static final int IME_ACTION_UNSPECIFIED;
+        int imeOptions;
+        CharSequence actionLabel;
+        int inputType;
+        final int IME_ACTION_SEND;
+        final int IME_NULL;
+}
+
 interface InputConnection {
     boolean beginBatchEdit();
     boolean endBatchEdit();
@@ -3592,10 +3618,6 @@ void writeToParcel(Parcel dest, int flags);
 
 }
 
-class EditorInfo{
-        final int IME_ACTION_SEND;
-        final int IME_NULL;
-}
 
 
 class InputConnection {

@@ -1,7 +1,13 @@
 package android.text;
 
+class AndroidCharacter{
+        static int getEastAsianWidth(char arg0);
+}
+
 class ClipboardManager{
         void setText(@Sink(WRITE_CLIPBOARD) CharSequence arg0);
+        @Source(READ_CLIPBOARD) CharSequence getText();
+
 }
 
 class Editable {
@@ -64,16 +70,30 @@ class InputFilter{
         CharSequence filter(CharSequence arg0, int arg1, int arg2, Spanned arg3, int arg4, int arg5);
 }
 
+class InputType{
+        static final int TYPE_TEXT_FLAG_AUTO_COMPLETE;
+        static final int TYPE_CLASS_TEXT;
+        static final int TYPE_NULL;
+}
+
 class Selection{
         static void setSelection(Spannable text, int index);
+        static int getSelectionStart(CharSequence text);
+        static int getSelectionEnd(CharSequence text);
 }
 
 class SpannableStringBuilder{
         SpannableStringBuilder();
 }
 
+class Spannable{
+        void setSpan(Object arg0, int arg1, int arg2, int arg3);
+        void removeSpan(Object arg0);
+}
+
 class Spanned {
-    
+  static final int SPAN_INCLUSIVE_INCLUSIVE;
+   
 abstract int getSpanEnd(Object tag);
 //Return the end of the range of text to which the specified markup object is attached, or -1 if the object is not attached.
 
