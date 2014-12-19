@@ -4,7 +4,7 @@ import sparta.checkers.quals.Source;
 import sparta.checkers.quals.Sink;
 
 import static sparta.checkers.quals.FlowPermissionString.*;
-//warning: FlowPolicy: Found transitive flows
+//warning: FlowPolicy: Found transitive flows:
 @FromByteCode
 //:: error: (forbidden.flow)   
 class TestImplicitConstructor { }
