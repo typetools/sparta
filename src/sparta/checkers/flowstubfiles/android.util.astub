@@ -121,15 +121,16 @@ static String encodeToString(byte[] input, int flags);
 class FloatMath {
     
     
+@PolyFlow
 static float ceil(float value);
 //Returns the float conversion of the most negative (i.e.
-
+@PolyFlow
 static float cos(float angle);
 //Returns the closest float approximation of the cosine of the argument.
-
+@PolyFlow
 static float exp(float value);
 //Returns the closest float approximation of the raising "e" to the power of the argument.
-
+@PolyFlow
 static float floor(float value);
 //Returns the float conversion of the most positive (i.e.
 

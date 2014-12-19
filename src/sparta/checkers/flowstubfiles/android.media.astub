@@ -100,7 +100,12 @@ class ExifInterface {
 
     ExifInterface(@Sink(FILESYSTEM) String path);
     void setAttribute(String tag, String value);
-
+    static final int ORIENTATION_ROTATE_270;
+        static final String TAG_ORIENTATION;
+        static final int ORIENTATION_ROTATE_180;
+        static final int ORIENTATION_NORMAL;
+        static final int ORIENTATION_ROTATE_90;
+      @Source(READ_EXTERNAL_STORAGE) int getAttributeInt(String tag, int defaultValue);
 }
 
 class MediaPlayer {

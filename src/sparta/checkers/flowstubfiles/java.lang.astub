@@ -87,7 +87,7 @@ class AssertionError extends Error {
 
 @PolyFlowReceiver
 class Boolean implements Serializable, Comparable<Boolean> {
-    final Boolean TRUE;
+    final @Source(ANY) @Sink() Boolean TRUE;
     final Boolean FALSE;
     final Class<Boolean> TYPE;
     Boolean(boolean arg0);
@@ -855,6 +855,9 @@ class Long extends Number implements Comparable<Long> {
 }
 
 class Math {
+
+        static final double PI;
+
 //Added by smillst
     @PolyFlow
     static double abs(double a);
@@ -1230,7 +1233,7 @@ class String {
     void getChars(int arg0, int arg1, @PolySource @PolySink char[] arg2, int arg3);
 @PolyFlowReceiver
     void getBytes(int arg0, int arg1, @PolySource @PolySink byte[] arg2, int arg3);
-    @PolySource @PolySink byte[] getBytes(@Sink(ANY) String arg0) @PolySource @PolySink ;
+    @PolySource @PolySink byte[] getBytes(String arg0) @PolySource @PolySink ;
     @PolySource @PolySink byte[] getBytes(Charset arg0) @PolySource @PolySink ;
     @PolySource @PolySink byte[] getBytes() 	@PolySource @PolySink ;
 @PolyFlowReceiver
@@ -1242,7 +1245,7 @@ class String {
 @PolyFlowReceiver
     boolean equalsIgnoreCase(String arg0);
 @PolyFlowReceiver
-    int compareTo(String arg0);
+    @PolySource @PolySink int compareTo(@PolySource @PolySink String arg0);
 @PolyFlowReceiver
     int compareToIgnoreCase(String arg0);
 @PolyFlowReceiver
@@ -1693,7 +1696,7 @@ class Constructor<T> {
     int hashCode();
     String toString();
     String toGenericString();
-    T newInstance(Object[] arg0) throws InstantiationException,IllegalAccessException,IllegalArgumentException,InvocationTargetException;
+    @Source(REFLECTION) T newInstance(@Sink(REFLECTION) Object[] arg0) throws InstantiationException,IllegalAccessException,IllegalArgumentException,InvocationTargetException;
     boolean isVarArgs();
     boolean isSynthetic();
     <T> T getAnnotation(Class<T> arg0);

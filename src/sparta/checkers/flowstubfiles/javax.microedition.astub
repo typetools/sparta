@@ -1,0 +1,108 @@
+package javax.microedition.khronos.opengles;
+class GL10{
+        static final int GL_DEPTH_TEST;
+        void glEnable(int arg0);
+        static final int GL_TEXTURE_MIN_FILTER;
+        static final int GL_PROJECTION;
+        void glGetIntegerv(int arg0, int[] arg1, int arg2);
+        static final int GL_LINE_LOOP;
+        static final int GL_PERSPECTIVE_CORRECTION_HINT;
+        static final int GL_UNSIGNED_SHORT;
+        static final int GL_DEPTH_BUFFER_BIT;
+        void glPushMatrix();
+        void glTranslatef(float arg0, float arg1, float arg2);
+        void glShadeModel(int arg0);
+        void glEnableClientState(int arg0);
+        void glBindTexture(int arg0, int arg1);
+        void glClearColor(float arg0, float arg1, float arg2, float arg3);
+        static final int GL_CULL_FACE;
+        void glTexParameterf(int arg0, int arg1, float arg2);
+        void glFrustumf(float arg0, float arg1, float arg2, float arg3, float arg4, float arg5);
+        static final int GL_MAX_TEXTURE_SIZE;
+        static final int GL_LINEAR;
+        void glDisable(int arg0);
+        static final int GL_TEXTURE_ENV_MODE;
+        static final int GL_TEXTURE_WRAP_S;
+        static final int GL_LESS;
+        static final int GL_CLAMP_TO_EDGE;
+        static final int GL_COLOR_BUFFER_BIT;
+        static final int GL_TEXTURE_2D;
+        static final int GL_ONE_MINUS_SRC_ALPHA;
+        void glClear(int arg0);
+        void glMatrixMode(int arg0);
+        static final int GL_LINE_SMOOTH_HINT;
+        void glVertexPointer(int arg0, int arg1, int arg2, Buffer arg3);
+        void glDepthMask(boolean arg0);
+        void glMultMatrixf(float[] arg0, int arg1);
+        void glDrawArrays(int arg0, int arg1, int arg2);
+        static final int GL_REPLACE;
+        void glDepthFunc(int arg0);
+        void glLoadIdentity();
+        static final int GL_FLOAT;
+        void glBlendFunc(int arg0, int arg1);
+        void glDeleteTextures(int arg0,@Source() @Sink(ANY) int[] arg1, int arg2);
+        static final int GL_MODULATE;
+        void glDisableClientState(int arg0);
+        static final int GL_DITHER;
+        void glScalef(float arg0, float arg1, float arg2);
+        static final int GL_GEQUAL;
+        static final int GL_BLEND;
+        static final int GL_VERTEX_ARRAY;
+        void glColor4f(float arg0, float arg1, float arg2, float arg3);
+        void glViewport(int arg0, int arg1, int arg2, int arg3);
+        static final int GL_TEXTURE;
+        void glPopMatrix();
+        void glActiveTexture(int arg0);
+        static final int GL_SMOOTH;
+        static final int GL_TEXTURE_WRAP_T;
+        static final int GL_NICEST;
+        static final int GL_TRIANGLES;
+        static final int GL_TEXTURE_ENV;
+        void glTexEnvf(int arg0, int arg1, float arg2);
+        static final int GL_TEXTURE_MAG_FILTER;
+        void glHint(int arg0, int arg1);
+        void glColorMask(boolean arg0, boolean arg1, boolean arg2, boolean arg3);
+        void glDrawElements(int arg0, int arg1, int arg2, Buffer arg3);
+        static final int GL_TEXTURE0;
+        static final int GL_TEXTURE_COORD_ARRAY;
+        static final int GL_LINE_SMOOTH;
+        void glTexCoordPointer(int arg0, int arg1, int arg2, Buffer arg3);
+        static final int GL_MODELVIEW;
+        void glGenTextures(int arg0, int[] arg1, int arg2);
+        static final int GL_SRC_ALPHA;
+}
+
+package javax.microedition.khronos.egl;
+
+class EGL10{
+        int eglGetError();
+        static final int EGL_ALPHA_SIZE;
+        boolean eglDestroySurface(EGLDisplay arg0, EGLSurface arg1);
+        EGLDisplay eglGetDisplay(Object arg0);
+        boolean eglChooseConfig(EGLDisplay arg0, @Sink @Source("ANY")int[] arg1, EGLConfig[] arg2, int arg3, int[] arg4);
+        boolean eglGetConfigAttrib(EGLDisplay arg0, EGLConfig arg1, int arg2, int[] arg3);
+        static final int EGL_RED_SIZE;
+        boolean eglMakeCurrent(EGLDisplay arg0, EGLSurface arg1, EGLSurface arg2, EGLContext arg3);
+        static final Object EGL_DEFAULT_DISPLAY;
+        static final int EGL_BLUE_SIZE;
+        static final int EGL_STENCIL_SIZE;
+        static final EGLSurface EGL_NO_SURFACE;
+        boolean eglTerminate(EGLDisplay arg0);
+        EGLContext eglCreateContext(EGLDisplay arg0, EGLConfig arg1, EGLContext arg2, int[] arg3);
+        static final EGLDisplay EGL_NO_DISPLAY;
+        boolean eglSwapBuffers(EGLDisplay arg0, EGLSurface arg1);
+        static final int EGL_GREEN_SIZE;
+        boolean eglDestroyContext(EGLDisplay arg0, EGLContext arg1);
+        EGLSurface eglCreateWindowSurface(EGLDisplay arg0, EGLConfig arg1, Object arg2, int[] arg3);
+        boolean eglInitialize(EGLDisplay arg0, int[] arg1);
+        static final EGLContext EGL_NO_CONTEXT;
+        static final int EGL_DEPTH_SIZE;
+        static final int EGL_NONE;
+}
+class EGL11{
+        static final int EGL_CONTEXT_LOST;
+}
+class EGLContext{
+        GL getGL();
+        static EGL getEGL();
+}

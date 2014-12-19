@@ -31,7 +31,15 @@ static void showQuickContact(Context context, Rect target, Uri lookupUri, int mo
 static void showQuickContact(Context context, View target, Uri lookupUri, int mode, String[] excludeMimes);
 }
 
+class MediaStore$Images$ImageColumns{
+        static final String DATE_TAKEN;
+        static final String BUCKET_ID;
+        static final String ORIENTATION;
+        static final String BUCKET_DISPLAY_NAME;
+}
+
 class MediaStore$Images$Media {
+static final Uri EXTERNAL_CONTENT_URI;
 static String insertImage(ContentResolver cr, @Sink(CONTENT_PROVIDER) Bitmap source, @Sink(CONTENT_PROVIDER) String title, @Sink(CONTENT_PROVIDER) String description);
 static String insertImage(ContentResolver cr, @Sink(CONTENT_PROVIDER) String imagePath, @Sink(CONTENT_PROVIDER) String name, @Sink(CONTENT_PROVIDER) String description) throws FileNotFoundException;
 }
@@ -40,6 +48,15 @@ class MediaStore$Images$Thumbnails {
 static @Source(CONTENT_PROVIDER) Bitmap getThumbnail(ContentResolver cr, long origId, int kind, Options options);
 static @Source(CONTENT_PROVIDER) Bitmap getThumbnail(ContentResolver cr, long origId, long groupId, int kind, Options options);
 static @Source(CONTENT_PROVIDER) Cursor queryMiniThumbnail(ContentResolver cr, long origId, int kind, String[] projection);
+}
+
+class MediaStore$MediaColumns{
+        static final String DATA;
+        static final String DISPLAY_NAME;
+}
+
+class OpenableColumns{
+        static final String DISPLAY_NAME;
 }
 
 class Settings$Secure{

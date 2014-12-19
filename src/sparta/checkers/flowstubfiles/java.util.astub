@@ -215,10 +215,10 @@ class Arrays {
     static void fill(short[] arg0, short arg1);
     static void fill(short[] arg0, int arg1, int arg2, short arg3);
     static void fill(char[] arg0, char arg1);
-    static void fill(char[] arg0, int arg1, int arg2, char arg3);
-    static void fill(byte[] arg0, byte arg1);
-    static void fill(byte[] arg0, int arg1, int arg2, byte arg3);
-    static void fill(boolean[] arg0, boolean arg1);
+    static void fill(@PolySource @PolySink char[] arg0, int arg1, int arg2, @PolySource @PolySink char arg3);
+    static void fill(@PolySource @PolySink byte[] arg0, @PolySource @PolySink byte arg1);
+    static void fill(@PolySource @PolySink byte[] arg0, int arg1, int arg2, @PolySource @PolySink byte arg3);
+    static void fill(@PolySource @PolySink boolean[] arg0, @PolySource @PolySink boolean arg1);
     static void fill(boolean[] arg0, int arg1, int arg2, boolean arg3);
     static void fill(double[] arg0, double arg1);
     static void fill(double[] arg0, int arg1, int arg2, double arg3);
@@ -434,6 +434,7 @@ interface Collection<E> extends Iterable<E> {
     int hashCode();
 }
 
+@PolyFlowReceiver
 class Collections {
 //Added by pbsf
     final Set EMPTY_SET;
@@ -796,7 +797,7 @@ interface List<E> {
     boolean isEmpty();
     @PolyFlowReceiver
     boolean contains(Object arg0);
-    Iterator<E> iterator();
+    Iterator<@PolySource @PolySink E> iterator() @PolySource @PolySink;
     @PolyFlowReceiver
     Object[] toArray();
     <T> T[] toArray(T[] arg0);
@@ -819,8 +820,7 @@ interface List<E> {
     boolean equals(Object arg0);
     @PolyFlowReceiver
     int hashCode();
-    @PolyFlowReceiver
-    E get(int arg0);
+    @PolySource @PolySink E get(int arg0) @PolySource @PolySink;
     @PolyFlowReceiver
     E set(int arg0, E arg1);
     void add(int arg0, E arg1);
@@ -941,7 +941,7 @@ interface Map<K, V> {
     int size();
     boolean isEmpty();
     @PolyFlowReceiver
-    boolean containsKey(Object arg0);
+    boolean containsKey(@PolySource @PolySink Object arg0) @PolySource @PolySink;
     @PolyFlowReceiver
     boolean containsValue(Object arg0);
     V get(Object arg0);
@@ -1643,6 +1643,8 @@ class AtomicBoolean{
         AtomicBoolean();
         boolean get();
         void set(boolean arg0);
+        AtomicBoolean(boolean arg0);
+        @PolySource @PolySink boolean getAndSet(@PolySource @PolySink boolean arg0);
 }
 
 @PolyFlowReceiver

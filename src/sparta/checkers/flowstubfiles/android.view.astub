@@ -226,6 +226,8 @@ static FocusFinder getInstance();
 
 class GestureDetector {
 
+        GestureDetector(Context context, OnGestureListener listener);
+
 GestureDetector(OnGestureListener listener);
 
 boolean isLongpressEnabled();
@@ -257,6 +259,8 @@ class GestureDetector$OnGestureListener{
 }
 
 class GestureDetector$SimpleOnGestureListener{
+        boolean onDoubleTap(@Source(USER_INPUT) MotionEvent e);
+
         boolean onFling(@Source(USER_INPUT) MotionEvent e1, @Source(USER_INPUT) MotionEvent e2, float velocityX, float velocityY);
         SimpleOnGestureListener();
         boolean onDown(@Source(USER_INPUT) MotionEvent e);
@@ -757,8 +761,12 @@ class MenuItem$OnMenuItemClickListener{
 }
 
 class MotionEvent {
-    //CSH: all these methods have to do with a user touching the screen, but so far we've decided that touches don't count as USER_INPUT
-    
+
+        static final @Source(USER_INPUT) int ACTION_DOWN;
+        static final @Source(USER_INPUT) int ACTION_MOVE;
+        static final @Source(USER_INPUT) int ACTION_UP;
+
+
 final void addBatch(long eventTime, PointerCoords[] pointerCoords, int metaState);
 //Add a new movement to the batch of movements in this event.
 
@@ -1039,6 +1047,8 @@ static int getContantForFocusDirection(int direction);
 class SurfaceHolder {
     
     
+        static final int SURFACE_TYPE_GPU;
+
 abstract void addCallback(SurfaceHolder.Callback callback);
 //Add a Callback interface for this holder.
 
@@ -1175,6 +1185,11 @@ class ViewManager{
             void removeView(@Sink(DISPLAY) View arg0);
 }
 class View {
+
+        static final int VISIBLE;
+        static final int GONE;
+        View(Context context, AttributeSet attrs, int defStyleAttr);
+        View(Context context);
 
 View(Context context, AttributeSet attrs);
 

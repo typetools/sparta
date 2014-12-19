@@ -81,7 +81,7 @@ class TrafficStats{
 
 package javax.crypto.spec;
 class SecretKeySpec{
-        SecretKeySpec(byte[] arg0, String arg1);
+        SecretKeySpec(@Sink(SECURE_HASH) byte[] arg0, String arg1);
 }
 
 @PolyFlowReceiver

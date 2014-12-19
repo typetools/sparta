@@ -83,7 +83,7 @@ void startActivities(Bundle options);
 
 class LoaderManager$LoaderCallbacks {
 Loader<D> onCreateLoader(int arg0, Bundle arg1);
-void onLoadFinished(Loader<D> arg0, D arg1);
+void onLoadFinished(Loader<D> arg0, @Sink(DISPLAY) D arg1);
 void onLoaderReset(Loader<D> arg0);
 }
 

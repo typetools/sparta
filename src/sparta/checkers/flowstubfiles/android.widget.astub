@@ -434,17 +434,15 @@ class AbsSpinner{
 }
 
 class AdapterView$OnItemClickListener{
-        void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
+        void onItemClick(AdapterView<?> arg0, @Source() @Sink(ANY) View arg1, @Source() @Sink(ANY) int arg2, @Source() @Sink(ANY) long arg3);
 }
 class Adapter{
         boolean hasStableIds();
     int getCount();
-    @PolyFlowReceiver
-    long getItemId(int arg0);
+    @PolySource @PolySink long getItemId(@PolySource @PolySink int arg0);
     @PolyFlowReceiver
     Object getItem(int arg0);
-    @PolyFlowReceiver
-    View getView(int arg0, View arg1, ViewGroup arg2);
+    @PolySource @PolySink View getView(int arg0, @PolySource @PolySink View arg1, ViewGroup arg2);
 
 }
 
@@ -925,7 +923,8 @@ Parcelable onSaveInstanceState();
 }
 
 class EditText {
-    
+
+EditText(Context context);
 void extendSelection(int index);
 //Convenience for extendSelection(Spannable, int);.
 
@@ -1025,7 +1024,7 @@ class Filterable{
 class FilterQueryProvider {
     
     
-abstract Cursor runQuery(CharSequence constraint);
+abstract @Source(DATABASE) Cursor runQuery(@Sink(DATABASE) CharSequence constraint);
 //Runs a query with the specified constraint.
 
     
@@ -2856,7 +2855,7 @@ void onScrollChanged(int horiz, int vert, int oldHoriz, int oldVert);
 void onSelectionChanged(int selStart, int selEnd);
 //This method is called when the selection has changed, in case any subclasses would like to know.
 
-void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter);
+void onTextChanged(@Sink(DISPLAY) CharSequence text, int start, int lengthBefore, int lengthAfter);
 //This method is called when the text is changed, in case any subclasses would like to know.
 
 void onVisibilityChanged(View changedView, int visibility);
@@ -2892,12 +2891,17 @@ class SeekBar{
 class SeekBar$OnSeekBarChangeListener{
         void onStopTrackingTouch(SeekBar arg0);
         void onStartTrackingTouch(SeekBar arg0);
-        void onProgressChanged(SeekBar arg0, int arg1, boolean arg2);
+        void onProgressChanged(SeekBar arg0, @Sink(DISPLAY) int arg1, boolean arg2);
 }
 
 class SimpleAdapter{
+        void setViewBinder(ViewBinder viewBinder);
         View getView(int position, View convertView, ViewGroup parent);
         SimpleAdapter(Context context, List<? extends Map<String,?>> data, int resource, String[] from, int[] to);
+}
+
+class SimpleAdapter$ViewBinder{
+        boolean setViewValue(View arg0, @Sink(DISPLAY) Object arg1, String arg2);
 }
 
 class Spinner {

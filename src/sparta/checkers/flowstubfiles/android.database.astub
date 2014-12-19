@@ -8,7 +8,8 @@ class DatabaseUtils {
 }
 
 class ContentObserver {
-    
+ContentObserver(Handler handler);
+
 boolean deliverSelfNotifications();
 //Returns true if this observer is interested receiving self-change notifications.
 
@@ -240,24 +241,24 @@ class SQLiteDatabase extends SQLiteClosable {
     SQLiteStatement compileStatement(String arg0) throws SQLException;
 
 @InferParameterizedPermission(value=DATABASE, param=2)
-    @Source(DATABASE) Cursor query(boolean arg0, String arg1, String[] arg2, String arg3, String[] arg4, String arg5, String arg6, String arg7, String arg8);
+    @Source(DATABASE) Cursor query(@Sink(DATABASE) boolean arg0, String arg1, String[] arg2, String arg3, String[] arg4, String arg5, String arg6, String arg7, String arg8);
     Cursor query(boolean arg0, String arg1, String[] arg2, String arg3, String[] arg4, String arg5, String arg6, String arg7, String arg8, CancellationSignal arg9);
     Cursor queryWithFactory(CursorFactory arg0, boolean arg1, String arg2, String[] arg3, String arg4, String[] arg5, String arg6, String arg7, String arg8, String arg9);
     Cursor queryWithFactory(CursorFactory arg0, boolean arg1, String arg2, String[] arg3, String arg4, String[] arg5, String arg6, String arg7, String arg8, String arg9, CancellationSignal arg10);
-    Cursor query(String arg0, String[] arg1, String arg2, String[] arg3, String arg4, String arg5, String arg6);
+    @Source(DATABASE) Cursor query(@Sink(DATABASE) String arg0, @Sink(DATABASE) String[] arg1, @Sink(DATABASE) String arg2, @Sink(DATABASE) String[] arg3, @Sink(DATABASE) String arg4, @Sink(DATABASE) String arg5, @Sink(DATABASE) String arg6);
     Cursor query(String arg0, String[] arg1, String arg2, String[] arg3, String arg4, String arg5, String arg6, String arg7);
     Cursor rawQuery(String arg0, String[] arg1);
     Cursor rawQuery(String arg0, String[] arg1, CancellationSignal arg2);
     Cursor rawQueryWithFactory(CursorFactory arg0, String arg1, String[] arg2, String arg3);
     Cursor rawQueryWithFactory(CursorFactory arg0, String arg1, String[] arg2, String arg3, CancellationSignal arg4);
-    long insert(String arg0, String arg1, ContentValues arg2);
-    long insertOrThrow(String arg0, String arg1, ContentValues arg2) throws SQLException;
-    long replace(String arg0, String arg1, ContentValues arg2);
-    long replaceOrThrow(String arg0, String arg1, ContentValues arg2) throws SQLException;
-    long insertWithOnConflict(String arg0, String arg1, ContentValues arg2, int arg3);
+    long insert(String arg0, String arg1, @Sink(DATABASE) ContentValues arg2);
+    long insertOrThrow(String arg0, String arg1, @Sink(DATABASE) ContentValues arg2) throws SQLException;
+    long replace(String arg0, String arg1, @Sink(DATABASE) ContentValues arg2);
+    long replaceOrThrow(String arg0, String arg1, @Sink(DATABASE) ContentValues arg2) throws SQLException;
+    long insertWithOnConflict(String arg0, String arg1, @Sink(DATABASE) ContentValues arg2, int arg3);
     int delete(String arg0, String arg1, String[] arg2);
-    int update(String arg0, ContentValues arg1, String arg2, String[] arg3);
-    int updateWithOnConflict(String arg0, ContentValues arg1, String arg2, String[] arg3, int arg4);
+    int update(String arg0, @Sink(DATABASE) ContentValues arg1, String arg2, String[] arg3);
+    int updateWithOnConflict(String arg0, @Sink(DATABASE) ContentValues arg1, String arg2, String[] arg3, int arg4);
     void execSQL(String arg0) throws SQLException;
     void execSQL(String arg0, Object[] arg1) throws SQLException;
     boolean isReadOnly();
@@ -295,19 +296,19 @@ synchronized void close();
 @Source(DATABASE) SQLiteDatabase getWritableDatabase();
 //Create and/or open a database that will be used for reading and writing.
 
-void onConfigure(SQLiteDatabase db);
+void onConfigure(@Source(DATABASE) SQLiteDatabase db);
 //Called when the database connection is being configured, to enable features such as write-ahead logging or foreign key support.
 
-abstract void onCreate(SQLiteDatabase db);
+abstract void onCreate(@Source(DATABASE) SQLiteDatabase db);
 //Called when the database is created for the first time.
 
 void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion);
 //Called when the database needs to be downgraded.
 
-void onOpen(SQLiteDatabase db);
+void onOpen(@Source(DATABASE) SQLiteDatabase db);
 //Called when the database has been opened.
 
-abstract void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion);
+abstract void onUpgrade(@Source(DATABASE) SQLiteDatabase db, @Sink(WRITE_LOGS) int oldVersion, @Sink(WRITE_LOGS) int newVersion);
 //Called when the database needs to be upgraded.
 
 void setWriteAheadLoggingEnabled(boolean enabled);
