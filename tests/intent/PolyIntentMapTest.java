@@ -4,16 +4,14 @@ import sparta.checkers.quals.*;
 import android.content.Intent;
 import android.app.Activity;
 import android.os.Bundle;
+import org.checkerframework.common.aliasing.qual.*;
 
 public class PolyIntentMapTest extends Activity {
 
+    // The Intent copy constructor is annotated as @PolyIntentMap:
+    // @Unique @PolyIntentMap Intent(@PolyIntentMap Intent arg0);
    public static final String k1 = "k1";
    public static final String k2 = "k2";
-
-    @PolyFlow
-    @PolyIntentMap Intent polyMethod(@PolyIntentMap Intent n) {
-        return n;
-    }
 
     @Source("FILESYSTEM") @Sink("INTERNET") String getFile() {
         return "";
@@ -32,7 +30,7 @@ public class PolyIntentMapTest extends Activity {
         @IntentMap({
             @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
             @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY })})
-        Intent i2 = polyMethod(i1);
+        Intent i2 = new Intent(i1);
         i2.putExtra(k1, getFile());
         i2.putExtra(k2, getLocation());
     }
@@ -43,10 +41,8 @@ public class PolyIntentMapTest extends Activity {
             @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY })})
         Intent i1 = new Intent();
 
-        Intent i2 = polyMethod(i1);
-        //::error: (argument.type.incompatible) ::error: (intent.key.notfound)
-        i2.putExtra("SomeInexistentKey", getFile());
-        //::error: (argument.type.incompatible)
+        Intent i2 = new Intent(i1);
+        // Type refinement allows the call below, as the declaration of i2 doesn't have k1.
         i2.putExtra(k1, getLocation());
 
         //Same keys but different types -> Assignment fail.
@@ -54,7 +50,7 @@ public class PolyIntentMapTest extends Activity {
             @Extra(key = "k1", source = {  }, sink = { INTERNET }),
             @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { })})
         //::error: (assignment.type.incompatible)
-        Intent i3 = polyMethod(i1);
+        Intent i3 = new Intent(i1);
     }
 
     void intentConstructorTest() {
@@ -71,8 +67,6 @@ public class PolyIntentMapTest extends Activity {
         i2.putExtra(k1, getFile());
         i2.putExtra(k2, getLocation());
 
-        //::error: (argument.type.incompatible) ::error: (intent.key.notfound)
-        i2.putExtra("SomeInexistentKey", getFile());
         //::error: (argument.type.incompatible)
         i2.putExtra(k1, getLocation());
 

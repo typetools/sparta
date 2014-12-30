@@ -111,7 +111,7 @@ public class ActivityTest extends Activity {
     }
     
     void unknownReceiver() {
-        Intent i = (@IntentMap() Intent) new Intent();
+        Intent i = new Intent();
         startActivity(i);
     }
     

@@ -21,30 +21,28 @@ public class AndroidSystemTest extends Activity {
     }
     
     void startActivitySuccess() {
-        Intent senderIntent = (@IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",source={ANY},
+        @IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",
                 sink={BIND_DEVICE_ADMIN}),
-                @Extra(key="android.app.extra.ADD_EXPLANATION", source={ANY},
+                @Extra(key="android.app.extra.ADD_EXPLANATION",
                     sink={BIND_DEVICE_ADMIN})
-                })
-            Intent) new Intent();
+                }) Intent senderIntent = new Intent();
         startActivity(senderIntent);
     }
     
     void startActivitySuccess2() {
-        Intent senderIntent = (@IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",source={ANY},
+        @IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",
                 sink={BIND_DEVICE_ADMIN}),
-                @Extra(key="android.app.extra.ADD_EXPLANATION", source={ANY},
+                @Extra(key="android.app.extra.ADD_EXPLANATION",
                     sink={BIND_DEVICE_ADMIN})
-                })
-            Intent) new Intent();
+                }) Intent senderIntent = new Intent();
         senderIntent.putExtra(key2, getValueOK());
         startActivity(senderIntent);
     }
     
     void startActivityFail() {
-        @IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",source={ANY},
+        @IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",
                 sink={BIND_DEVICE_ADMIN}),
-                @Extra(key="android.app.extra.ADD_EXPLANATION", source={ANY},
+                @Extra(key="android.app.extra.ADD_EXPLANATION",
                     sink={BIND_DEVICE_ADMIN})
                 })
                 Intent senderIntent = new Intent();
@@ -55,7 +53,7 @@ public class AndroidSystemTest extends Activity {
     }
     
     void startActivityFail2() {
-        @IntentMap({@Extra(key = "android.app.extra.DEVICE_ADMIN", source = {ANY}, sink = {BIND_DEVICE_ADMIN}) })
+        @IntentMap({@Extra(key = "android.app.extra.DEVICE_ADMIN", sink = {BIND_DEVICE_ADMIN}) })
         Intent senderIntent = new Intent();
         //:: error: (send.intent.missing.key)
         startActivity(senderIntent);

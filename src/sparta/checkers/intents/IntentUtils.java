@@ -26,6 +26,7 @@ import sparta.checkers.Flow;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.GetExtra;
+import sparta.checkers.quals.GetIntentFilter;
 import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.IntentMapBottom;
 import sparta.checkers.quals.IntentMapNew;
@@ -85,8 +86,25 @@ public class IntentUtils {
     public static AnnotationMirror getIExtra(AnnotatedTypeMirror atm,
             String keyName) {
         if (atm.hasAnnotation(IntentMap.class)) {
-            return getIExtra(
-                    atm.getAnnotation(IntentMap.class), keyName);
+            return getIExtra(atm.getAnnotation(IntentMap.class), keyName);
+        }
+        return null;
+    }
+
+    /**
+     * Given an ATM and a String "k", returns an @Extra in the declared type
+     * of ATM with key "k" if it exists, and null otherwise.
+     * @param atm
+     * @param keyName
+     * @return AnnotationMirror of the @Extra with that key, or null if not found.
+     */
+    public static AnnotationMirror getDeclaredTypeIExtra(AnnotatedTypeMirror
+            atm, String keyName) {
+        Set<AnnotationMirror> annos = atm.getExplicitAnnotations();
+        for (AnnotationMirror anno : annos) {
+            if (AnnotationUtils.areSameByClass(anno, IntentMap.class)) {
+                return getIExtra(anno, keyName);
+            }
         }
         return null;
     }
@@ -298,7 +316,7 @@ public class IntentUtils {
         Element ele = InternalUtils.symbol(tree);
         return atypeFactory.getDeclAnnotation(ele, ReceiveIntent.class) != null;
     }
-    
+
     /**
      * Returns true if the MethodInvocationTree corresponds to one of the methods that sets an intent filter
      * to an intent:
@@ -310,6 +328,19 @@ public class IntentUtils {
     public static boolean isSetIntentFilter(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
         Element ele = InternalUtils.symbol(tree);
         return atypeFactory.getDeclAnnotation(ele, SetIntentFilter.class) != null;
+    }
+
+    /**
+     * Returns true if the MethodInvocationTree corresponds to one of the methods that gets an intent filter
+     * of an intent:
+     * E.g.: getAction(); getType();
+     * @param tree
+     * @return
+     */
+
+    public static boolean isGetIntentFilter(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
+        Element ele = InternalUtils.symbol(tree);
+        return atypeFactory.getDeclAnnotation(ele, GetIntentFilter.class) != null;
     }
 
     public static boolean isIntentMapBottom(AnnotatedTypeMirror atm) {

@@ -1,0 +1,6 @@
+#Component map used in the tests for the intent analysis.
+tests.DataflowInferenceTest.m1() -> tests.ActivityReceiverStub
+tests.DataflowInferenceTest.m2() -> tests.ActivityReceiverStub
+tests.DataflowInferenceTest.m3() -> tests.ActivityReceiverStub
+tests.DataflowInferenceTest.m4() -> tests.ActivityReceiverStub
+tests.DataflowInferenceTest.m5() -> tests.ActivityReceiverStub

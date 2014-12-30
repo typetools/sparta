@@ -14,7 +14,7 @@ import android.view.View.OnClickListener;
 
 public class IntentMapBottomTest extends Activity {
      
-    @IntentMap()
+    @IntentMap() @Source("ANY") @Sink()
     Intent intentMapTop = new Intent();
     
     @IntentMap({
@@ -65,7 +65,7 @@ public class IntentMapBottomTest extends Activity {
     //For the tests below pay attention to the component map.
     
     
-  //Sending to [type of intentMap] Receiver
+//  Sending to [type of intentMap] Receiver
     void startActivitySuccess2(@Source("FILESYSTEM") @Sink("INTERNET") int test, String test2, Object test3, String[] test4) {
         startActivity(intentMap);
     }

@@ -12,19 +12,15 @@ public class BReceiverTest extends Activity {
     
      
     void startActivitySuccess() {
-        Intent senderIntent1 = (@IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-        Intent) new Intent();
-        Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) })
-        Intent) new Intent();
+        @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) }) Intent senderIntent1 = new Intent();
+        @IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) }) Intent senderIntent2 = new Intent();
         sendBroadcast(senderIntent1);
         sendBroadcast(senderIntent2);
     }
     
     void startActivityFail() {
-        Intent senderIntent1 = (@IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
-        Intent) new Intent();
-        Intent senderIntent2 = (@IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
-        Intent) new Intent();
+        @IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  })}) Intent senderIntent1 = new Intent();
+        @IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) }) Intent senderIntent2 = new Intent();
      //:: error: (send.intent.missing.key)
         sendBroadcast(senderIntent1);
      //:: error: (send.intent.incompatible.types)

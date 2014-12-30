@@ -13,11 +13,13 @@ import org.checkerframework.framework.flow.CFTransfer;
 import org.checkerframework.framework.flow.CFValue;
 import org.checkerframework.framework.qual.DefaultLocation;
 import org.checkerframework.framework.qual.PolyAll;
-import org.checkerframework.framework.source.Result;
-import org.checkerframework.framework.type.*;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
+import org.checkerframework.framework.type.AnnotatedTypeFactory;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
+import org.checkerframework.framework.type.ImplicitsTreeAnnotator;
+import org.checkerframework.framework.type.ListTreeAnnotator;
+import org.checkerframework.framework.type.PropagationTreeAnnotator;
+import org.checkerframework.framework.type.QualifierHierarchy;
 import org.checkerframework.framework.type.visitor.AnnotatedTypeScanner;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
@@ -28,7 +30,6 @@ import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.Pair;
 import org.checkerframework.javacutil.TreeUtils;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,6 +41,10 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.VariableElement;
 
+import org.checkerframework.common.aliasing.AliasingChecker;
+import org.checkerframework.common.aliasing.qual.Unique;
+
+
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
@@ -49,13 +54,10 @@ import sparta.checkers.quals.PFPermission;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.IntentMap;
 import sparta.checkers.quals.PolyIntentMap;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
 import sparta.checkers.quals.ReceiveIntent;
 
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
-import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
 import com.sun.source.tree.VariableTree;
 import com.sun.tools.javac.tree.JCTree;
@@ -67,6 +69,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             POLY_INTENT_MAP;
     protected final ExecutableElement getIntent;
     protected final ExecutableElement setIntent;
+    protected final AnnotatedTypeFactory aliasingATF;
     protected final ComponentMap componentMap;
     private final HostSetTypeVisitor hostSetTypeVisitor;
     private final PFPermission EXTRA_DEFAULT;
@@ -76,6 +79,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         // Must call super.initChecker before the lint option can be checked.
         final String ipArg = checker
                 .getOption(ComponentMap.COMPONENT_MAP_FILE_OPTION);
+        aliasingATF = checker.getTypeFactoryOfSubchecker(AliasingChecker.class);
         componentMap = new ComponentMap(ipArg);
         checkForRefinementCM();
         this.hostSetTypeVisitor = new HostSetTypeVisitor();
@@ -148,6 +152,9 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             changeParametersToIntentMapKeyType(tree, mfuPair);
         } else if (IntentUtils.isSetIntentFilter(tree, this)) {
             setTypeToTop(mfuPair.first.getParameterTypes());
+        } else if (IntentUtils.isGetIntentFilter(tree, this)) {
+            hostSetTypeVisitor.visit(mfuPair.first.getReturnType(),
+                    HOST_IEXTRA_BOTTOM);
         }
         return mfuPair;
 
@@ -161,10 +168,10 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
     /**
      * Changes the parameters to TOP in the host type system.
-     * 
+     *
      * For the Flow Checker: This method changes the @Source(INTENT) and
      * @Sink(INTENT) to
-     * 
+     *
      * @Source(ANY) and @Sink({})
      * @param parametersAnnotations
      */
@@ -186,6 +193,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             Pair<AnnotatedExecutableType, List<AnnotatedTypeMirror>> origResult) {
         ExpressionTree receiver = TreeUtils.getReceiverTree(tree);
         AnnotatedTypeMirror receiverType = getAnnotatedType(receiver);
+        AnnotatedTypeMirror receiverAliasingType = aliasingATF.
+                getAnnotatedType(receiver);
         if(origResult.first.getParameterTypes().size() < 2) {
             throw new RuntimeException("tree must be a putExtra");
         }
@@ -205,12 +214,18 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         } else if (IntentUtils.isIntentMap(receiverType)) {
             AnnotationMirror iExtraLUB = getLUBIExtraFromPutExtraOrGetExtra(
                     tree, receiverType);
-            if(iExtraLUB != null) {
+            if (iExtraLUB != null) {
                 //Setting the value host type to the host type of iExtraLUB.
                 hostSetTypeVisitor.visit(valueATM, iExtraLUB);
-            } else {
-                //@Extra with that key not found. Set it to bottom.
+            } else if (!receiverAliasingType.hasAnnotation(Unique.class)) {
+                // @Extra with that key not found and receiver is not @Unique.
+                // Set it to bottom.
                 hostSetTypeVisitor.visit(valueATM, HOST_IEXTRA_BOTTOM);
+            } else {
+                // @Extra with that key not found, but receiver is unique,
+                // so the value may be anything. So, the parameter is set
+                // to top so it can be refined later.
+                hostSetTypeVisitor.visit(valueATM, HOST_IEXTRA_TOP);
             }
         }
     }
@@ -759,5 +774,11 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
     public ComponentMap getComponentMap() {
         return componentMap;
+    }
+
+    // TODO: CFAnalysis must have the getTypeFactoryofSubchecker method.
+    // Called by IntentTransfer since CFAnalysis doesn't have it.
+    public AnnotatedTypeFactory getAliasingTypeFactory() {
+        return checker.getTypeFactoryOfSubchecker(AliasingChecker.class);
     }
 }

@@ -1,13 +1,17 @@
 package sparta.checkers.intents;
 
+import java.util.LinkedHashSet;
+import java.util.List;
+
+import javax.annotation.processing.SupportedOptions;
+
+import org.checkerframework.common.aliasing.AliasingChecker;
+import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.qual.StubFiles;
 import org.checkerframework.framework.qual.TypeQualifiers;
-import org.checkerframework.framework.source.SupportedLintOptions;
-
-
-import javax.annotation.processing.SupportedOptions;
+import org.checkerframework.framework.source.Result;
 
 import sparta.checkers.FlowChecker;
 import sparta.checkers.FlowPolicy;
@@ -29,21 +33,6 @@ import sparta.checkers.quals.Source;
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, ComponentMap.COMPONENT_MAP_FILE_OPTION,
         FlowChecker.MSG_FILTER_OPTION, FlowVisitor.CHECK_CONDITIONALS_OPTION })
 public class IntentChecker extends FlowChecker {
-//    @Override
-//    public void report(Result r, Object src) {
-//        List<String> messageKeys = r.getMessageKeys();
-//        if (messageKeys.contains("intent.key.notfound")
-//                || messageKeys.contains("intent.type.incompatible")
-//                || messageKeys.contains("send.intent")
-//                || messageKeys.contains("getintent.not.found")
-//                || messageKeys.contains("intent.receiver.notfound")
-//                || messageKeys.contains("intent.receiveintent.notfound")){
-//            super.report(r, src);
-//        }
-//    }
-
-    
- 
     @Override
     protected BaseTypeVisitor<?> createSourceVisitor() {
         try {
@@ -56,4 +45,11 @@ public class IntentChecker extends FlowChecker {
         }
     }
 
+    @Override
+    protected LinkedHashSet<Class<? extends BaseTypeChecker>> getImmediateSubcheckerClasses() {
+        LinkedHashSet<Class<? extends BaseTypeChecker>> subCheckers = super.
+                getImmediateSubcheckerClasses();
+        subCheckers.add(AliasingChecker.class);
+        return subCheckers;
+    }
 }
