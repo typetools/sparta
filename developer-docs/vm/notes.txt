@@ -33,5 +33,5 @@ change the SPARTA_CODE environment variable
 check sparta-subjects
 
 tar up the READ.VM with the vdi
-tar -cf sparta-vm-v0.9.7.tar sparta-vm-v0.9.7/
-bzip2 sparta-vm-v0.9.8.tar
+tar -cf sparta-vm-v1.0.0.tar sparta-vm-v1.0.0/
+bzip2 sparta-vm-v1.0.0.tar
