@@ -1,3 +1,8 @@
+Version 1.0.0 28 Dec 2014
+
+Information Flow Checker changes:
+  Add more methods to the stub files.
+----------------------------------------------------------------------
 Version 0.9.9 14 November 2014
 
 Information Flow Checker changes:
