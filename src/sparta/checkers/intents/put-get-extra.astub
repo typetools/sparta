@@ -39,6 +39,8 @@ class Intent implements Parcelable, Cloneable {
     @SetIntentFilter Intent setDataAndType( Uri arg0,  String arg1);
     @SetIntentFilter Intent addCategory( String arg0);
     @SetIntentFilter void removeCategory( String arg0);
+    @GetIntentFilter String getAction();
+    @GetIntentFilter String getType();
     @PutExtra Intent putExtra( String arg0,  boolean arg1);
     @PutExtra Intent putExtra( String arg0,  byte arg1);
     @PutExtra Intent putExtra( String arg0,  char arg1);
@@ -86,9 +88,9 @@ class Bundle implements Parcelable, Cloneable {
     @PutExtra void putBoolean(String arg0, boolean arg1);
     @PutExtra void putByte(String arg0, byte arg1);
     @PutExtra void putChar(String arg0, char arg1);
-  @PutExtra   void putShort(String arg0, short arg1);
+    @PutExtra void putShort(String arg0, short arg1);
     @PutExtra void putInt(String arg0, int arg1);
-    void putLong(String arg0, long arg1);
+    @PutExtra void putLong(String arg0, long arg1);
     @PutExtra
     void putFloat(String arg0, float arg1);
     @PutExtra

@@ -16,4 +16,12 @@ class Intent implements Parcelable, Cloneable {
     @IntentMapNew Intent(String arg0, Uri arg1);
     @IntentMapNew Intent(Context arg0, Class<?> arg1);
     @IntentMapNew Intent(String arg0, Uri arg1, Context arg2, Class<?> arg3);
+    
+    @PolyIntentMap Intent createChooser(@PolyIntentMap Intent i, CharSequence title);
+}
+
+package android.os;
+
+class Bundle {
+    @IntentMapNew Bundle();
 }
