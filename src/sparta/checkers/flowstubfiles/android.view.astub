@@ -1,5 +1,4 @@
 package android.view;
-
 class Gravity {
 static final int LEFT;
 static final int TOP;
@@ -312,7 +311,7 @@ class KeyEvent {
   final @Source(USER_INPUT) int KEYCODE_DPAD_LEFT;
   final @Source(USER_INPUT) int KEYCODE_PLUS;
   final @Source(USER_INPUT) int KEYCODE_H;
-
+KeyEvent(long downTime, long eventTime, @Source(USER_INPUT) int action, @Source(USER_INPUT) int code, int repeat, int metaState);
 KeyEvent(long downTime, long eventTime, @Source(USER_INPUT) int action, @Source(USER_INPUT) int code, int repeat, int metaState, int deviceId, int scancode, int flags);
 KeyEvent(@Source(USER_INPUT) int action, @Source(USER_INPUT) int code);
 @Source(USER_INPUT) int getKeyCode();
@@ -3540,6 +3539,20 @@ void setSource(View source);
 void setToIndex(int toIndex);
 }
 
+package android.view.animation;
+class Animation{
+        void setDuration(long durationMillis);
+        void setStartOffset(long startOffset);
+}
+class AlphaAnimation{
+        AlphaAnimation(float fromAlpha, float toAlpha);
+}
+class AnimationSet{
+        void setFillAfter(boolean fillAfter);
+        AnimationSet(boolean shareInterpolator);
+        void addAnimation(Animation a);
+}
+
 package android.view.inputmethod;
 
 class ExtractedText{
@@ -3553,7 +3566,8 @@ class ExtractedText{
         int partialEndOffset;
 }
 class ExtractedTextRequest{
-        int token;
+    ExtractedTextRequest();
+    int token;
 }
 class InputMethodManager{
         static final int SHOW_FORCED;
@@ -3607,7 +3621,7 @@ class BaseInputConnection implements InputConnection {
     boolean deleteSurroundingText(@Sink(ANY) int arg0, @Sink(ANY) int arg1);
     boolean finishComposingText();
     int getCursorCapsMode(@Sink(ANY) int arg0);
-    ExtractedText getExtractedText(@Sink(ANY) ExtractedTextRequest arg0, @Sink(ANY) int arg1);
+    @Source(USER_INPUT) ExtractedText getExtractedText(@Sink(ANY) ExtractedTextRequest arg0, @Sink(ANY) int arg1);
     @Source(USER_INPUT) CharSequence getTextBeforeCursor(@Sink(ANY) int arg0, @Sink(ANY) int arg1);
     @Source(USER_INPUT) CharSequence getSelectedText(@Sink(ANY) int arg0);
     @Source(USER_INPUT) CharSequence getTextAfterCursor(@Sink(ANY) int arg0, @Sink(ANY) int arg1);

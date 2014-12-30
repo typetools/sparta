@@ -97,6 +97,7 @@ class ListPreference{
 class Preference {
 
 Preference(Context context);
+Preference(Context context, AttributeSet attrs, int defStyleAttr);
 
 @Source(SHARED_PREFERENCES) int compareTo(@Sink(SHARED_PREFERENCES) Preference another);
 //Compares Preference objects based on order (if set);, otherwise alphabetically on the titles.

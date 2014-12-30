@@ -291,13 +291,12 @@ class FileInputStream extends InputStream {
     @Source(FILESYSTEM) FileChannel getChannel() @Source(FILESYSTEM);
     protected void finalize() @Source(FILESYSTEM) throws IOException;
 }
-@PolyFlowReceiver
 class FilterInputStream{
             protected @PolySource FilterInputStream(InputStream arg0);
             @PolyFlow
             long skip(long arg0) throws IOException;
             @PolySource @PolySink int read (@PolySource @PolySink byte @PolySource @PolySink[] arg0, int arg1, int arg2) throws IOException;
-            @PolySource @PolySink int read(byte @PolySource @PolySink[] arg0) throws IOException;
+            @PolySource @PolySink int read(@PolySource @PolySink byte @PolySource @PolySink[] arg0) throws IOException;
 
             void close() throws IOException;
             int available() throws IOException;
@@ -696,6 +695,9 @@ class Writer implements Appendable, Closeable, Flushable {
 @PolyFlowReceiver
 
 class StringReader{
+        int read() throws IOException;
+        void close();
+        void reset() throws IOException;
             StringReader(String arg0);
 }
 

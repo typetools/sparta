@@ -1,6 +1,8 @@
 package org.json;
 class JSONObject{
 
+        JSONObject(Map copyFrom);
+
 @PolyFlowReceiver
 String getString(String name) throws JSONException;
 @PolyFlowReceiver
@@ -15,6 +17,7 @@ boolean has(String name);
 }
 
 class JSONArray{
+        @PolyFlowReceiver int getInt(int index) throws JSONException;
         @PolyFlowReceiver JSONObject getJSONObject(int index) throws JSONException;
         @PolyFlowReceiver String getString(int index) throws JSONException;
         JSONArray(String json) throws JSONException;

@@ -2,6 +2,8 @@ package java.nio;
 
 
 class Buffer{
+        Buffer rewind();
+        int capacity();
     @PolyFlowReceiver
     Buffer position(int arg0);
     int remaining();
@@ -12,12 +14,26 @@ class Buffer{
 }
 @PolyFlowReceiver
 class ShortBuffer{
+        ShortBuffer slice();
+        short get();
         ShortBuffer put(short[] arg0);
 }
 
 @PolyFlowReceiver
 class FloatBuffer{
-    FloatBuffer put(float[] arg0);
+ @PolySource @PolySink FloatBuffer put(@PolySource @PolySink float @PolySource @PolySink [] arg0) @PolySource @PolySink;
+}
+@PolyFlowReceiver
+class IntBuffer{
+        static IntBuffer allocate(int arg0);
+        int[] array();
+        IntBuffer put(int arg0, int arg1);
+        IntBuffer put(int arg0);
+        int get(int arg0);
+}
+class ByteOrder{
+        static ByteOrder nativeOrder();
+        static final ByteOrder LITTLE_ENDIAN;
 }
 
 @PolyFlowReceiver
@@ -81,9 +97,6 @@ class ByteBuffer extends Buffer implements Comparable<ByteBuffer> {
     DoubleBuffer asDoubleBuffer();
 }
 
-class ByteOrder{
-        static ByteOrder nativeOrder();
-}
 
 @PolyFlowReceiver
 class CharBuffer extends Buffer implements Comparable<CharBuffer>, Appendable, CharSequence, Readable {

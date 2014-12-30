@@ -1,4 +1,3 @@
-
 package org.apache.http;
 class ConnectionReuseStrategy{
             boolean keepAlive(HttpResponse arg0, HttpContext arg1);
@@ -43,6 +42,8 @@ class HttpMessage{
             void addHeader(String arg0, String arg1);
             Header[] getHeaders(String arg0);
             Header[] getAllHeaders();
+        void setHeader(String arg0, String arg1);
+
 }
 class HttpRequestInterceptor{
             void process(HttpRequest arg0, HttpContext arg1) throws HttpException,IOException;
@@ -56,6 +57,7 @@ class HttpResponseInterceptor{
             void process(HttpResponse arg0, HttpContext arg1) throws HttpException,IOException;
 }
 class ProtocolVersion{
+        ProtocolVersion(String protocol, int major, int minor);
             boolean lessEquals(ProtocolVersion version);
 }
 class StatusLine{
@@ -68,10 +70,15 @@ class TokenIterator{
             String nextToken();
 }
 
+package org.apache.http.auth;
+class AuthenticationException{
+        AuthenticationException();
+}
+class UsernamePasswordCredentials{
+        UsernamePasswordCredentials(String userName, String password);
+}
 
 package org.apache.http.conn;
-
-
 class ClientConnectionManager{
             ClientConnectionRequest requestConnection(HttpRoute arg0, Object arg1);
             void shutdown();
@@ -83,6 +90,15 @@ class ConnectionKeepAliveStrategy{
 package org.apache.http.message;
 class BasicHeaderElementIterator{
             BasicHeaderElementIterator(HeaderIterator headerIterator);
+}
+package org.apache.http.protocol;
+class HTTP{
+        static final String TARGET_HOST;
+        static final String UTF_8;
+}
+package org.apache.http.util;
+class EntityUtils{
+        static String toString(HttpEntity entity) throws IOException,ParseException;
 }
 
 package org.apache.http.conn.params;
@@ -124,6 +140,11 @@ class HttpEntityWrapper{
             @PolyFlowReceiver
             void writeTo(OutputStream outstream) throws IOException;
 }
+
+class StringEntity{
+        StringEntity(String s) throws UnsupportedEncodingException;
+}
+
 @PolyFlowReceiver
 class AbstractHttpEntity{
             void setChunked(boolean b);
@@ -174,6 +195,11 @@ class HttpEntityEnclosingRequestBase extends HttpRequestBase implements HttpEnti
 
 package org.apache.http.client;
 
+class HttpResponseException{
+        int getStatusCode();
+        HttpResponseException(int statusCode, String s);
+}
+
 class HttpClient {
 <T> T execute(@Sink(INTERNET) HttpHost arg0, @Sink(INTERNET) HttpRequest arg1, ResponseHandler<? extends T> arg2, @Sink(INTERNET) HttpContext arg3) throws IOException,ClientProtocolException;
 <T> T execute(@Sink(INTERNET) HttpHost arg0, @Sink(INTERNET) HttpRequest arg1, ResponseHandler<? extends T> arg2) throws IOException,ClientProtocolException;
@@ -211,6 +237,11 @@ class DefaultConnectionReuseStrategy{
             boolean keepAlive(HttpResponse response, HttpContext context);
             protected TokenIterator createTokenIterator(HeaderIterator hit);
             DefaultConnectionReuseStrategy();
+}
+
+package org.apache.http.impl.auth;
+class BasicScheme{
+        static Header authenticate(Credentials credentials, String charset, boolean proxy);
 }
 
 package org.apache.http.impl.conn.tsccm;
@@ -288,6 +319,12 @@ class BasicNameValuePair{
       @PolySource @PolySink  BasicNameValuePair(@PolySource @PolySink String name, @PolySource @PolySink String value);
 }
 
+class BasicStatusLine{
+        BasicStatusLine(ProtocolVersion version, int statusCode, String reasonPhrase);
+}
+class BasicHttpResponse{
+        BasicHttpResponse(StatusLine statusline);
+}
 
 package org.apache.http.params;
 class BasicHttpParams{

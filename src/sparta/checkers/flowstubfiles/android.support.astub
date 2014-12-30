@@ -1743,6 +1743,8 @@ class SimpleCursorAdapter {
 void findColumns(String[] from);
 void setViewText(TextView v, String text);
 void setViewImage(ImageView v, String value);
+SimpleCursorAdapter(Context context, int layout, Cursor c,
+@Sink(DATABASE) String[] from, int[] to, int flags);
 }
 
 

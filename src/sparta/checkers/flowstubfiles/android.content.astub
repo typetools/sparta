@@ -1455,48 +1455,49 @@ void writeToXml(XmlSerializer serializer);
 
 class Intent implements Parcelable, Cloneable {
 //SOM, We have a special FlowPermission for INTENT
-        static final @Source(INTENT) String EXTRA_SUBJECT;
-        static final @Source(INTENT) String EXTRA_TEXT;
-        static final @Source(INTENT) String ACTION_SEARCH;
-        static final @Source(INTENT)String ACTION_SEND;
-        static final @Source(INTENT)String ACTION_SET_WALLPAPER;
-        static final @Source(INTENT)String EXTRA_SHORTCUT_ICON_RESOURCE;
-        static final @Source(INTENT)String ACTION_USER_PRESENT;
-        static final @Source(INTENT)String EXTRA_SHORTCUT_NAME;
-        static final @Source(INTENT)String ACTION_GET_CONTENT;
-        static final @Source(INTENT)String ACTION_MEDIA_MOUNTED;
-        static final @Source(INTENT)String ACTION_MEDIA_SCANNER_FINISHED;
-        static final @Source(INTENT)String ACTION_PACKAGE_ADDED;
-        static final @Source(INTENT)String ACTION_MAIN;
+        static final String EXTRA_SUBJECT;
+        static final  String EXTRA_TEXT;
+        static final  String ACTION_SEARCH;
+        static final String ACTION_SEND;
+        static final String ACTION_SENDTO;
+        static final String ACTION_SET_WALLPAPER;
+        static final String EXTRA_SHORTCUT_ICON_RESOURCE;
+        static final String ACTION_USER_PRESENT;
+        static final String EXTRA_SHORTCUT_NAME;
+        static final String ACTION_GET_CONTENT;
+        static final String ACTION_MEDIA_MOUNTED;
+        static final String ACTION_MEDIA_SCANNER_FINISHED;
+        static final String ACTION_PACKAGE_ADDED;
+        static final String ACTION_MAIN;
         static final String CATEGORY_OPENABLE;
-        final @Source(INTENT) int FLAG_ACTIVITY_NEW_TASK;
-        final @Source(INTENT) String ACTION_HEADSET_PLUG;
-        final @Source(INTENT) String ACTION_BATTERY_OKAY;
-        final @Source(INTENT) int FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
+        final  int FLAG_ACTIVITY_NEW_TASK;
+        final  String ACTION_HEADSET_PLUG;
+        final  String ACTION_BATTERY_OKAY;
+        final  int FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
 
-        final @Source(INTENT) String ACTION_VIEW;
-        final @Source(INTENT) int FLAG_ACTIVITY_NO_USER_ACTION;
-        final @Source(INTENT) String ACTION_BATTERY_LOW;
-        final @Source(INTENT) String ACTION_BOOT_COMPLETED;
-        final @Source(INTENT) int FLAG_FROM_BACKGROUND;
-        final @Source(INTENT) String ACTION_CALL;
-        final @Source(INTENT) String ACTION_BATTERY_CHANGED;
+        final  String ACTION_VIEW;
+        final  int FLAG_ACTIVITY_NO_USER_ACTION;
+        final  String ACTION_BATTERY_LOW;
+        final  String ACTION_BOOT_COMPLETED;
+        final  int FLAG_FROM_BACKGROUND;
+        final  String ACTION_CALL;
+        final  String ACTION_BATTERY_CHANGED;
 
 String EXTRA_PHONE_NUMBER; 
- static final @Source(INTENT) String EXTRA_SHORTCUT_INTENT;
+ static final  String EXTRA_SHORTCUT_INTENT;
     Intent();
     @PolyFlow
     Intent(Intent arg0);
-    Intent(@Sink(INTENT) String arg0);
-    Intent(@Sink(INTENT) String arg0, @Sink(ANY)  Uri arg1);
+    Intent(@Sink(ANY) String arg0);
+    Intent(@Sink(ANY) String arg0, @Sink(ANY)  Uri arg1);
     Intent(Context arg0, Class<?> arg1);
     Intent(@Sink(ANY) String arg0, @Sink(ANY) Uri arg1, @Sink(ANY)  Context arg2,@Sink(ANY)  Class<?> arg3);
-   @Source(INTENT) static Intent createChooser(@Sink(INTENT) Intent arg0, @Sink(INTENT) CharSequence arg1);
+    static Intent createChooser(Intent arg0, @Sink(INTENT) CharSequence arg1);
     Object clone();
    @Source(INTENT)  Intent cloneFilter();
     static Intent makeMainActivity(@Sink(INTENT) ComponentName arg0);
-    static Intent makeMainSelectorActivity(@Sink(INTENT) String arg0,@Sink(INTENT)  String arg1);
-    static Intent makeRestartActivityTask(@Sink(INTENT) ComponentName arg0);
+    static Intent makeMainSelectorActivity(String arg0, String arg1);
+    static Intent makeRestartActivityTask(ComponentName arg0);
      static Intent getIntent(@Sink(INTENT) String arg0) throws URISyntaxException;
     static Intent parseUri(@Sink(INTENT) String arg0, int arg1) throws URISyntaxException;
      static Intent getIntentOld(@Sink(INTENT) String arg0) throws URISyntaxException;
@@ -1505,11 +1506,11 @@ String EXTRA_PHONE_NUMBER;
      @Source(INTENT) String getDataString();
     @Source(INTENT) String getScheme();
     @Source(INTENT) String getType();
-    @Source(INTENT) String resolveType(@Sink(INTENT) Context arg0);
-    @Source(INTENT) String resolveType(@Sink(INTENT) ContentResolver arg0);
-    @Source(INTENT) String resolveTypeIfNeeded(@Sink(INTENT) ContentResolver arg0);
-    @Source(INTENT) boolean hasCategory(@Sink(INTENT) String arg0);
-    @Source(INTENT) Set<@Source(INTENT) String> getCategories();
+    String resolveType(Context arg0);
+     String resolveType(ContentResolver arg0);
+     String resolveTypeIfNeeded(ContentResolver arg0);
+     boolean hasCategory(String arg0);
+    Set<String> getCategories();
     Intent getSelector();
     void setExtrasClassLoader(@Sink(INTENT) ClassLoader arg0);
     @Source(INTENT) boolean hasExtra(@Sink(INTENT) String arg0);
@@ -1837,7 +1838,9 @@ class PackageInfo implements Parcelable {
 }
 
 class PackageManager{
+        static final int GET_META_DATA;
         Intent getLaunchIntentForPackage(@Source(PACKAGE_INFO) String arg0);
+        CharSequence getApplicationLabel(ApplicationInfo arg0);
         static final int DONT_KILL_APP;
         int getComponentEnabledSetting(ComponentName arg0);
         void setComponentEnabledSetting(ComponentName arg0, int arg1, int arg2);
@@ -1848,8 +1851,9 @@ class PackageManager{
         static final int GET_PERMISSIONS;
         @Source(PACKAGE_INFO) String[] getPackagesForUid(int arg0);
         List<PackageInfo> getInstalledPackages(int arg0);
-        PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
+        @Source(PACKAGE_INFO) PackageInfo getPackageInfo(String arg0, int arg1) throws NameNotFoundException;
         List<@Source(PACKAGE_INFO) ResolveInfo> queryIntentActivityOptions(ComponentName arg0, Intent[] arg1, Intent arg2, int arg3);
+        List<@Source(PACKAGE_INFO) ResolveInfo> queryIntentActivities(Intent arg0, int flags);
         @Source(PACKAGE_INFO) ResolveInfo resolveActivity(Intent arg0, int arg1);
 }
 

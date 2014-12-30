@@ -1096,8 +1096,12 @@ class Runtime {
     OutputStream getLocalizedOutputStream(OutputStream arg0);
 }
 
+class InterruptedException {
+InterruptedException();
+}
 class RuntimeException{
-            RuntimeException(String arg0);
+RuntimeException();
+RuntimeException(String arg0);
             RuntimeException(String arg0, Throwable arg1);
             RuntimeException(Throwable arg0);
 
@@ -1551,6 +1555,9 @@ class Thread implements Runnable {
     UncaughtExceptionHandler getUncaughtExceptionHandler();
     void setUncaughtExceptionHandler(UncaughtExceptionHandler arg0);
     boolean isInterrupted(boolean arg0);
+}
+class ThreadGroup{
+        ThreadGroup(String arg0);
 }
 
 @PolyFlowReceiver

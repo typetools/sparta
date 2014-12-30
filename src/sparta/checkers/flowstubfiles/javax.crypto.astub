@@ -92,6 +92,7 @@ class IvParameterSpec{
 
 @PolyFlowReceiver
 class PBEKeySpec{
+        PBEKeySpec(char[] password);
         PBEKeySpec(char[] password, byte[] salt, int iterationCount, int keyLength);
 }
 

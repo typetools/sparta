@@ -448,16 +448,23 @@ class AbsSpinner{
 class AdapterView$OnItemClickListener{
         void onItemClick(AdapterView<?> arg0, @Source() @Sink(ANY) View arg1, @Source() @Sink(ANY) int arg2, @Source() @Sink(ANY) long arg3);
 }
+class AdapterView$OnItemLongClickListener{
+        boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3);
+}
 class Adapter{
         boolean hasStableIds();
     int getCount();
     @PolySource @PolySink long getItemId(@PolySource @PolySink int arg0);
-    Object getItem(int arg0);
+    @PolySource @PolySink Object getItem(@PolySource @PolySink int arg0);
     @PolySource @PolySink View getView(int arg0, @PolySource @PolySink View arg1, ViewGroup arg2);
 
 }
 
 class AdapterView {
+
+        int getLastVisiblePosition();
+        int getFirstVisiblePosition();
+
         static final long INVALID_ROW_ID;
 
 	T getAdapter();
@@ -942,7 +949,8 @@ Parcelable onSaveInstanceState();
 }
 
 class EditText {
-
+EditText(Context context, AttributeSet attrs, int defStyle);
+EditText(Context context, AttributeSet attrs);
 EditText(Context context);
 void extendSelection(int index);
 //Convenience for extendSelection(Spannable, int);.
@@ -1126,6 +1134,11 @@ class FrameLayout$LayoutParams {
 }
 
 class GridView{
+        GridView(Context context);
+        GridView(Context context, AttributeSet attrs, int defStyleAttr);
+        GridView(Context context, AttributeSet attrs);
+        void setVerticalSpacing(int verticalSpacing);
+        void setHorizontalSpacing(int horizontalSpacing);
         void setColumnWidth(int columnWidth);
         void setAdapter(ListAdapter adapter);
 }
@@ -2205,6 +2218,7 @@ void setText(@Sink(DISPLAY) char[] text, int start, int len);
 void setText(@Sink(DISPLAY) char[] text, int start, int len);
 
 TextView(Context context);
+TextView(Context context, AttributeSet attrs, int defStyle);
 
 void addTextChangedListener(TextWatcher watcher);
 //Adds a TextWatcher to the list of those whose methods are called whenever this TextView's text changes.
@@ -3359,6 +3373,7 @@ class ToggleButton{
 }
 
 class ViewAnimator{
+        void setDisplayedChild(int whichChild);
         void showNext();
         int getDisplayedChild();
 }

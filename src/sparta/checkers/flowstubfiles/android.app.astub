@@ -747,7 +747,7 @@ void unregisterForContextMenu(View view);
 //Prevents a context menu to be shown for the given view.
 
 //Protected Methods
-void onActivityResult(@Source({INTENT}) int requestCode, @Source(INTENT) int resultCode, @Sink(ANY) Intent data);
+void onActivityResult(int requestCode, int resultCode, @Sink(ANY) Intent data);
 //Called when an activity you launched exits, giving you the requestCode you started it with, the resultCode it returned, and any additional data from it.
 
 void onApplyThemeResource(Resources.Theme theme, int resid, boolean first);
@@ -1047,6 +1047,7 @@ class DatePickerDialog$OnDateSetListener{
 
 class Dialog {
 Dialog(Context context);
+Dialog(Context context, int theme);
 
 void addContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
 //Add an additional content view to the screen.
@@ -1797,7 +1798,8 @@ abstract FragmentTransaction remove(Fragment fragment);
 }
 
 class IntentService{
-        void onCreate();
+        void onStartCommand(Intent intent, int flags, int startId);
+    void onCreate();
         IBinder onBind(Intent intent);
         IntentService(String name);
         protected void onHandleIntent(Intent arg0);
@@ -2203,7 +2205,7 @@ void writeToParcel(Parcel out, int flags);
 }
 
 class ProgressDialog {
-
+        static final int STYLE_HORIZONTAL;
 ProgressDialog(Context ctx);
 
 int getMax();
@@ -2412,10 +2414,11 @@ class WallpaperInfo{
 
 
 class WallpaperManager{
-        static final @Source(INTENT) String ACTION_CHANGE_LIVE_WALLPAPER;
+        static final String COMMAND_TAP;
+        static final String ACTION_CHANGE_LIVE_WALLPAPER;
         WallpaperInfo getWallpaperInfo();
-        static final @Source(INTENT) String EXTRA_LIVE_WALLPAPER_COMPONENT;
-        static final @Source(INTENT) String ACTION_LIVE_WALLPAPER_CHOOSER;
+        static final String EXTRA_LIVE_WALLPAPER_COMPONENT;
+        static final String ACTION_LIVE_WALLPAPER_CHOOSER;
         static WallpaperManager getInstance(Context context);
 }
 

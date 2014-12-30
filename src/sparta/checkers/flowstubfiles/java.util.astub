@@ -7,6 +7,8 @@ class Properties {
 Enumeration<?> propertyNames();
 String getProperty(String arg0, String arg1);
 String getProperty(String arg0);
+Properties();
+void load(InputStream arg0) throws IOException;
 }
 
 @PolyFlowReceiver
@@ -1880,10 +1882,17 @@ int inflate(byte[] arg0) throws DataFormatException;
 void setInput(byte[] arg0, int arg1, int arg2);
 void setInput(byte[] arg0);
 }
+class InflaterInputStream{
+        int read(@Source(FILESYSTEM) byte @Source(FILESYSTEM) [] arg0, int arg1, int arg2) throws IOException;
+        void close() throws IOException;
+        @Source(FILESYSTEM) InflaterInputStream(InputStream arg0);
+}
 
 @PolyFlowReceiver
 class DeflaterOutputStream{
         void close() throws IOException;
+        @Sink(FILESYSTEM) DeflaterOutputStream(OutputStream arg0);
+        void write(@Sink(FILESYSTEM) byte @Sink(FILESYSTEM) [] arg0, int arg1, int arg2) throws IOException;
 }
 
 @PolyFlowReceiver

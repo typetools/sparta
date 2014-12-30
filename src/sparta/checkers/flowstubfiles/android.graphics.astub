@@ -23,6 +23,7 @@ class ColorMatrixColorFilter{
         ColorMatrixColorFilter(float[] array);
 }
 class Path {
+Path();
 void addRoundRect(RectF rect, float rx, float ry, Direction dir);
 void addRoundRect(RectF rect, float[] radii, Direction dir);
 void reset();
@@ -33,6 +34,10 @@ class LinearGradient{
         LinearGradient(float x0, float y0, float x1, float y1, int color0, int color1, TileMode tile);
 }
 class PixelFormat{
+        PixelFormat();
+        static void getPixelFormatInfo(int format, PixelFormat info);
+        int bitsPerPixel;
+        int bytesPerPixel;
         static final int RGB_565;
         static final int RGBA_8888;
 }
@@ -1038,10 +1043,10 @@ class RadialGradient{
 }
 
 class Rect implements Parcelable {
-//int bottom;
-//int left;
-//int right;
-//int top;
+int bottom;
+int left;
+int right;
+int top;
 Rect();
 @PolyFlow
 Rect(int arg0, int arg1, int arg2, int arg3);
@@ -1222,7 +1227,9 @@ class SweepGradient{
 }
 
 package android.graphics.drawable;
-
+class AnimationDrawable{
+        void start();
+}
 class DrawableContainer {
 void draw(Canvas canvas);
 }

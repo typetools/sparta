@@ -239,8 +239,7 @@ void onCurrentInputMethodSubtypeChanged(InputMethodSubtype newSubtype);
 
 
 class Keyboard {
-    
-    
+Keyboard(Context context, int xmlLayoutResId);
 int getHeight();
 //Returns the total height of the keyboard
 
@@ -305,6 +304,7 @@ int squaredDistanceFrom(int x, int y);
 }
 
 class KeyboardView {
+KeyboardView(Context context, AttributeSet attrs);
 void closing();
 Keyboard getKeyboard();
 boolean handleBack();

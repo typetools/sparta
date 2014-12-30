@@ -1,5 +1,8 @@
 package javax.microedition.khronos.opengles;
 class GL10{
+        static final int GL_RGBA;
+        void glReadPixels(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, Buffer arg6);
+        static final int GL_UNSIGNED_BYTE;
         static final int GL_DEPTH_TEST;
         void glEnable(int arg0);
         static final int GL_TEXTURE_MIN_FILTER;
@@ -98,6 +101,7 @@ class EGL10{
         static final EGLContext EGL_NO_CONTEXT;
         static final int EGL_DEPTH_SIZE;
         static final int EGL_NONE;
+        EGLSurface eglCreatePbufferSurface(EGLDisplay arg0, EGLConfig arg1, @Source() @Sink(ANY) int @Source() @Sink(ANY) [] arg2);
 }
 class EGL11{
         static final int EGL_CONTEXT_LOST;

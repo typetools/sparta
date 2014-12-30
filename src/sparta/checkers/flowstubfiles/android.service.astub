@@ -5,7 +5,9 @@ class WallpaperService{
 }
 class WallpaperService$Engine{
         void onDestroy();
+        Bundle onCommand(String action, int x, int y, int z, Bundle extras, boolean resultRequested);
         void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height);
+        void onSurfaceCreated(SurfaceHolder holder);
         void onOffsetsChanged(float xOffset, float yOffset, float xOffsetStep, float yOffsetStep, int xPixelOffset, int yPixelOffset);
         boolean isPreview();
         void setTouchEventsEnabled(boolean enabled);
@@ -13,5 +15,8 @@ class WallpaperService$Engine{
         Engine();
         void onVisibilityChanged(boolean visible);
         void onTouchEvent(MotionEvent event);
+        SurfaceHolder getSurfaceHolder();
+        void onSurfaceDestroyed(SurfaceHolder holder);
+        boolean isVisible();
 }
 

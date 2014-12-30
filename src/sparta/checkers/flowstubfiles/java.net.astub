@@ -21,7 +21,8 @@ URL toURL() throws MalformedURLException;
 
 
 class ServerSocket {
-        ServerSocket(@Sink(INTERNET) int arg0,@Sink(INTERNET) int arg1,@Sink(INTERNET) InetAddress arg2);
+ServerSocket(@Sink(INTERNET) int arg0, @Sink(INTERNET) int arg1) throws IOException;
+ServerSocket(@Sink(INTERNET) int arg0,@Sink(INTERNET) int arg1,@Sink(INTERNET) InetAddress arg2);
 Socket accept() throws IOException;
 void close() throws IOException;
 }

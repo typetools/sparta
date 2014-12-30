@@ -1,4 +1,108 @@
 package android.opengl;
+class GLSurfaceView$Renderer{
+        void onSurfaceChanged(GL10 arg0, @Source() @Sink(ANY) int arg1, @Source() @Sink(ANY) int arg2);
+        void onSurfaceCreated(GL10 arg0, EGLConfig arg1);
+        void onDrawFrame(@Sink(DISPLAY) GL10 arg0);
+}
+class GLSurfaceView{
+        GLSurfaceView(Context ctx);
+        void setEGLContextClientVersion(int version);
+        void surfaceCreated(SurfaceHolder holder);
+        void setEGLConfigChooser(EGLConfigChooser configChooser);
+        int getDebugFlags();
+        void setGLWrapper(GLWrapper glWrapper);
+        void onResume();
+        void setRenderer(Renderer renderer);
+        void setRenderMode(int renderMode);
+        void setEGLConfigChooser(boolean needDepth);
+        static final int RENDERMODE_CONTINUOUSLY;
+            int getRenderMode();
+        void onPause();
+        void setEGLWindowSurfaceFactory(EGLWindowSurfaceFactory factory);
+        void queueEvent(Runnable r);
+        void surfaceDestroyed(SurfaceHolder holder);
+        void requestRender();
+        void surfaceChanged(SurfaceHolder holder, int format, int w, int h);
+        void setEGLContextFactory(EGLContextFactory factory);
+        void setEGLConfigChooser(int redSize, int greenSize, int blueSize, int alphaSize, int depthSize, int stencilSize);
+        void setDebugFlags(int debugFlags);
+}
+class GLES20{
+        static void glVertexAttribPointer(int indx, int size, int type, boolean normalized, int stride, Buffer ptr);
+        static final int GL_UNSIGNED_BYTE;
+        static void glGetShaderiv(int arg0, int arg1, int[] arg2, int arg3);
+        static void glBindFramebuffer(int arg0, int arg1);
+        static final int GL_LINK_STATUS;
+        static void glDisable(int arg0);
+        static void glUniform1i(int arg0, int arg1);
+        static String glGetShaderInfoLog(int arg0);
+        static final int GL_TEXTURE1;
+        static void glUniformMatrix4fv(int arg0, int arg1, boolean arg2, float[] arg3, int arg4);
+        static String glGetProgramInfoLog(int arg0);
+        static void glUniform2i(int arg0, int arg1, int arg2);
+        static void glUniform1f(int arg0, float arg1);
+        static final int GL_TEXTURE_MAG_FILTER;
+        static void glUniform4f(int arg0, float arg1, float arg2, float arg3, float arg4);
+        static final int GL_FRAGMENT_SHADER;
+        static int glCreateProgram();
+        static final int GL_COLOR_BUFFER_BIT;
+        static final int GL_TEXTURE2;
+        static int glGetUniformLocation(int arg0, String arg1);
+        static final int GL_COLOR_ATTACHMENT0;
+        static void glClear(int arg0);
+        static final int GL_TEXTURE_WRAP_T;
+        static void glAttachShader(int arg0, int arg1);
+        static final int GL_VERTEX_SHADER;
+        static final int GL_TRIANGLE_STRIP;
+        static final int GL_DITHER;
+        static void glDeleteProgram(int arg0);
+        static final int GL_ALIASED_LINE_WIDTH_RANGE;
+        static final int GL_COMPILE_STATUS;
+        static void glGenTextures(int arg0, int[] arg1, int arg2);
+        static void glShaderSource(int arg0, String arg1);
+        static final int GL_TRUE;
+        static void glUniform3f(int arg0, float arg1, float arg2, float arg3);
+        static final int GL_TEXTURE_2D;
+        static final int GL_LUMINANCE;
+        static void glClearColor(float arg0, float arg1, float arg2, float arg3);
+        static void glUseProgram(int arg0);
+        static final int GL_SRC_ALPHA;
+        static final int GL_TEXTURE_WRAP_S;
+        static final int GL_FRAMEBUFFER;
+        static final int GL_NEAREST;
+        static final int GL_TEXTURE0;
+        static void glDeleteShader(int arg0);
+        static void glGetProgramiv(int arg0, int arg1, int[] arg2, int arg3);
+        static void glTexParameteri(int arg0, int arg1, int arg2);
+        static final int GL_LINEAR;
+        static final int GL_ONE_MINUS_SRC_ALPHA;
+        static void glActiveTexture(int arg0);
+        static void glTexImage2D(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, Buffer arg8);
+        static final int GL_TEXTURE_MIN_FILTER;
+        static final int GL_RGBA;
+        static void glLinkProgram(int arg0);
+        static void glUniform2f(int arg0, float arg1, float arg2);
+        static final int GL_REPEAT;
+        static final int GL_CLAMP_TO_EDGE;
+        static void glBindTexture(int arg0, int arg1);
+        static void glDrawArrays(int arg0, int arg1, int arg2);
+        static void glViewport(int arg0, int arg1, int arg2, int arg3);
+        static int glGetAttribLocation(int arg0, String arg1);
+        static final int GL_BLEND;
+        static void glBlendFunc(int arg0, int arg1);
+        static void glCompileShader(int arg0);
+        static int glCreateShader(int arg0);
+        static void glEnable(int arg0);
+        static void glGenFramebuffers(int arg0, int[] arg1, int arg2);
+        static final int GL_TEXTURE3;
+        static void glEnableVertexAttribArray(int arg0);
+        static void glGetIntegerv(int arg0, int[] arg1, int arg2);
+        static int glGetError();
+        static void glFramebufferTexture2D(int arg0, int arg1, int arg2, int arg3, int arg4);
+        static final int GL_NO_ERROR;
+        static final int GL_FLOAT;
+}
+
 
 class GLU {
     
@@ -27,6 +131,7 @@ class GLUtils{
         static void texImage2D(int target, int level, Bitmap bitmap, int border);
 }
 class Matrix{
+        static void orthoM(float[] m, int mOffset, float left, float right, float bottom, float top, float near, float far);
         static void setIdentityM(float[] sm, int smOffset);
         static void multiplyMM(float[] arg0, int arg1, float[] arg2, int arg3, float[] arg4, int arg5);
         static void frustumM(float[] m, int offset, float left, float right, float bottom, float top, float near, float far);
