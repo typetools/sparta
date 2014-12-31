@@ -46,7 +46,6 @@ import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
-import com.sun.source.tree.VariableTree;
 import com.sun.source.util.TreePath;
 import com.sun.tools.javac.api.JavacScope;
 import com.sun.tools.javac.code.Symbol;
@@ -201,23 +200,22 @@ public class IntentVisitor extends FlowVisitor {
      * @Extra.
      */
     private void checkReceiveIntentDefaulting(MethodTree implementingTree) {
-        List<? extends VariableTree> params = implementingTree.getParameters();
+        AnnotatedExecutableType aet = atypeFactory.getAnnotatedType(implementingTree);
+        List<AnnotatedTypeMirror> params = aet.getParameterTypes();
         //@ReceiveIntent method 1st parameter always has type Intent.
         assert (params.size() > 0); //@ReceiveIntent method must have an Intent type param.
-        VariableTree intentVar = params.get(0);
-        Element var = InternalUtils.symbol(intentVar);
-        AnnotatedTypeMirror atm = atypeFactory.getAnnotatedType(var);
+        AnnotatedTypeMirror atm = params.get(0);
         List<AnnotationMirror> extras = IntentUtils.getIExtras(atm.
                 getAnnotation(IntentMap.class));
         for (AnnotationMirror extra : extras) {
             if (IntentUtils.getSources(extra).contains(FlowPermission.EXTRA_DEFAULT)) {
                 checker.report(Result.failure(
                         "intent.defaulting.receiveintent.source",
-                        IntentUtils.getKeyName(extra)), intentVar);
+                        IntentUtils.getKeyName(extra)), implementingTree.getParameters().get(0));
             } else if (IntentUtils.getSinks(extra).contains(FlowPermission.EXTRA_DEFAULT)) {
                 checker.report(Result.failure(
                         "intent.defaulting.receiveintent.sink",
-                        IntentUtils.getKeyName(extra)), intentVar);
+                        IntentUtils.getKeyName(extra)), implementingTree.getParameters().get(0));
             }
         }
     }

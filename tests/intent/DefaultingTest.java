@@ -63,7 +63,7 @@ public class DefaultingTest extends Activity {
     
     void testMethodParameter(){
         @IntentMap({ @Extra(key = "k1", source = ANY, sink={}),
-            @Extra(key = "k3", source = {}), sink= ANY }) Intent i = new Intent();  
+            @Extra(key = "k3", source = {}, sink= ANY )}) Intent i = new Intent();  
         methodParameter(i);
     }
     void methodParameter(@IntentMap({ @Extra(key = "k1", source = ANY),

@@ -337,15 +337,22 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         @Override
         public Void visitExecutable(AnnotatedExecutableType t, Void p) {
             if (getDeclAnnotation(t.getElement(), ReceiveIntent.class) != null) {
-                // Don't complete flow for ReceiveIntent methods.
+                // Don't complete flow in @Extra for ReceiveIntent methods.
                 // Can't call super.visitExecutable because it would complete
                 // the flows in this method, but the @Source and @Sink flow
                 // completion should still happen.
-                super.scan(t.getReturnType(), p);
-                super.scanAndReduce(t.getReceiverType(), p, null);
-                super.scanAndReduce(t.getParameterTypes(), p, null);
-                super.scanAndReduce(t.getThrownTypes(), p, null);
-                super.scanAndReduce(t.getTypeVariables(), p, null);
+                completePolicyFlows(t.getReturnType());
+                completePolicyFlows(t.getReceiverType());
+                for (AnnotatedTypeMirror anno : t.getParameterTypes()) {
+                    completePolicyFlows(anno);
+                }
+                for (AnnotatedTypeMirror anno : t.getThrownTypes()) {
+                    completePolicyFlows(anno);
+                }
+                for (AnnotatedTypeMirror anno : t.getTypeVariables()) {
+                    completePolicyFlows(anno);
+                }
+
                 return null;
             }
             completeFlowsInIExtra(t);
