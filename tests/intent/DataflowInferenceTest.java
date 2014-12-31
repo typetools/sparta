@@ -107,7 +107,6 @@ public class DataflowInferenceTest extends Activity {
     void m6() {
         Intent a = new Intent();
         a.putExtra("k", getTop());
-        //::error: (unique.leaked)
         Intent b = a;
         // a loses its refined type.
 
@@ -129,7 +128,6 @@ public class DataflowInferenceTest extends Activity {
         Bundle b = new Bundle();
         b.putString("k", getTop());
         b.putString("k", getTop());
-        //::error: (unique.leaked)
         Bundle aliased = b;
         //::error: (intent.key.notfound) ::error: (argument.type.incompatible)
         b.putString("k", getTop());
