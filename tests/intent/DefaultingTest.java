@@ -1,7 +1,6 @@
 package tests;
 
 import static sparta.checkers.quals.FlowPermission.*;
-
 import sparta.checkers.quals.*;
 import android.content.Intent;
 import android.app.Activity;
@@ -60,6 +59,15 @@ public class DefaultingTest extends Activity {
     //::error: (intent.defaulting.receiveintent.source) ::error: (intent.getintent.notfound)
     public void setIntent(@IntentMap({ @Extra(key = "k5", sink = {}) }) Intent newIntent) {
         super.setIntent(newIntent);
+    }
+    
+    void testMethodParameter(){
+        @IntentMap({ @Extra(key = "k1", source = ANY, sink={}),
+            @Extra(key = "k3", source = {}), sink= ANY }) Intent i = new Intent();  
+        methodParameter(i);
+    }
+    void methodParameter(@IntentMap({ @Extra(key = "k1", source = ANY),
+            @Extra(key = "k3", source = {}) }) Intent i) {
     }
 
 }

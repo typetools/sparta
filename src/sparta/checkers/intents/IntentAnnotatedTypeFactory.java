@@ -15,11 +15,19 @@ import org.checkerframework.framework.qual.DefaultLocation;
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedIntersectionType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiveType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedUnionType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
 import org.checkerframework.framework.type.ImplicitsTreeAnnotator;
 import org.checkerframework.framework.type.ListTreeAnnotator;
 import org.checkerframework.framework.type.PropagationTreeAnnotator;
 import org.checkerframework.framework.type.QualifierHierarchy;
+import org.checkerframework.framework.type.TypeAnnotator;
 import org.checkerframework.framework.type.visitor.AnnotatedTypeScanner;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
@@ -44,7 +52,6 @@ import javax.lang.model.element.VariableElement;
 import org.checkerframework.common.aliasing.AliasingChecker;
 import org.checkerframework.common.aliasing.qual.Unique;
 
-
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
 import sparta.checkers.quals.FlowPermission;
@@ -58,6 +65,7 @@ import sparta.checkers.quals.ReceiveIntent;
 
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
+import com.sun.source.tree.MethodTree;
 import com.sun.source.tree.Tree;
 import com.sun.source.tree.VariableTree;
 import com.sun.tools.javac.tree.JCTree;
@@ -280,6 +288,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         );
     }
 
+
     protected class IntentTreeAnnotator extends FlowPolicyTreeAnnotator {
 
         public IntentTreeAnnotator(FlowAnnotatedTypeFactory atypeFactory) {
@@ -291,57 +300,140 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             completeIExtraFlows(tree, type);
             return super.defaultAction(tree, type);
         }
-
         /**
-         * This method replaces occurrences of the permission <code>EXTRA_DEFAULT</code>
-         * in the source or sink of an @Extra according to the flow policy.
-         * E.g. @Extra(key="k", sink="INTERNET") and flow policy: FILESYSTEM -> INTERNET.
-         * The @Extra is updated to @Extra(key="k", source="FILESYSTEM", sink="INTERNET").
-         * This does not work for intent types that are parameters of a @ReceiveIntent
-         * method. For those cases, both a source and a sink must be written explicitly.
+         * This method replaces occurrences of the permission
+         * <code>EXTRA_DEFAULT</code> in the source or sink of an @Extra according
+         * to the flow policy. E.g. @Extra(key="k", sink="INTERNET") and flow
+         * policy: FILESYSTEM -> INTERNET. The @Extra is updated to @Extra(key="k",
+         * source="FILESYSTEM", sink="INTERNET"). This does not work for intent
+         * types that are parameters of a @ReceiveIntent method. For those cases,
+         * both a source and a sink must be written explicitly.
+         * 
          * @see sparta.checkers.intents.IntentVisitor#checkReceiveIntentDefaulting.
          */
         private void completeIExtraFlows(Tree tree, AnnotatedTypeMirror type) {
-            //Do not apply defaulting for parameters of @ReceiveIntent methods
+            // Do not apply defaulting for parameters of @ReceiveIntent methods
             if (tree instanceof VariableTree) {
-                Element elt = TreeUtils.elementFromDeclaration((VariableTree)tree);
+                Element elt = TreeUtils.elementFromDeclaration((VariableTree) tree);
                 Element parentElt = elt.getEnclosingElement();
                 if (getDeclAnnotation(parentElt, ReceiveIntent.class) != null) {
                     return;
                 }
             }
 
-            //Apply defaulting for other cases.
-            AnnotationMirror anno = type.getAnnotation(IntentMap.class);
-            if (anno != null) {
-                List<AnnotationMirror> iExtras = IntentUtils.getIExtras(anno);
-                for (AnnotationMirror iExtra : iExtras) {
-                    Set<PFPermission> sources = IntentUtils.
-                            getSourcesPFP(iExtra);
-                    Set<PFPermission> sinks = IntentUtils.
-                            getSinksPFP(iExtra);
-                    if (sinks.contains(EXTRA_DEFAULT) &&
-                            sources.contains(EXTRA_DEFAULT)) {
-                        anno = IntentUtils.getNewIMapWithExtra(anno,
-                                IntentUtils.getKeyName(iExtra),
-                                Flow.getSources(NOSOURCE), Flow.getSinks(ANYSINK),
-                                processingEnv);
-                    } else if (sinks.contains(EXTRA_DEFAULT)) {
-                        Set<PFPermission> newSink = getFlowPolicy().
-                                getIntersectionAllowedSinks(sources);
-                        anno = IntentUtils.getNewIMapWithExtra(anno, IntentUtils.
-                                getKeyName(iExtra), sources, newSink, processingEnv);
-                    } else if (sources.contains(EXTRA_DEFAULT)) {
-                        Set<PFPermission> newSource = getFlowPolicy().
-                                getIntersectionAllowedSources(sinks);
-                        anno = IntentUtils.getNewIMapWithExtra(anno, IntentUtils.
-                                getKeyName(iExtra), newSource, sinks, processingEnv);
-                    }
-                }
-                type.replaceAnnotation(anno);
-            }
+            completeFlowsInIExtra(type);
+        }
+    }
+    @Override
+    protected TypeAnnotator createTypeAnnotator() {
+        return new IntentTypeAnnotator(this);
+    }
+
+    protected class IntentTypeAnnotator extends FlowPolicyTypeAnnotator {
+        public IntentTypeAnnotator(FlowAnnotatedTypeFactory factory) {
+            super(factory);
         }
 
+        @Override
+        public Void visitExecutable(AnnotatedExecutableType t, Void p) {
+            if (getDeclAnnotation(t.getElement(), ReceiveIntent.class) != null) {
+                // Don't complete flow for ReceiveIntent methods.
+                // Can't call super.visitExecutable because it would complete
+                // the flows in this method, but the @Source and @Sink flow
+                // completion should still happen.
+                super.scan(t.getReturnType(), p);
+                super.scanAndReduce(t.getReceiverType(), p, null);
+                super.scanAndReduce(t.getParameterTypes(), p, null);
+                super.scanAndReduce(t.getThrownTypes(), p, null);
+                super.scanAndReduce(t.getTypeVariables(), p, null);
+                return null;
+            }
+            completeFlowsInIExtra(t);
+            return super.visitExecutable(t, p);
+        }
+
+        @Override
+        public Void visitArray(AnnotatedArrayType type, Void p) {
+            completeFlowsInIExtra(type);
+            return super.visitArray(type, p);
+        }
+        @Override
+        public Void visitDeclared(AnnotatedDeclaredType type, Void p) {
+            completeFlowsInIExtra(type);
+            return super.visitDeclared(type, p);
+        }
+       
+        @Override
+        public Void visitIntersection(AnnotatedIntersectionType type, Void p) {
+            completeFlowsInIExtra(type);
+            return super.visitIntersection(type, p);
+        }
+
+        @Override
+        public Void visitPrimitive(AnnotatedPrimitiveType type, Void p) {
+            completeFlowsInIExtra(type);
+            return super.visitPrimitive(type, p);
+        }
+        @Override
+        public Void visitTypeVariable(AnnotatedTypeVariable type, Void p) {
+            //Calling type.getEffectiveAnnotations() expands
+            //the upper bounds causing an infinite loop for types like
+            // E extends Enum<E>
+            //So visit call super, visit the extends
+            //and then complete the policy flow
+            Void r = super.visitTypeVariable(type, p);
+            completeFlowsInIExtra(type);
+            return r;
+        }
+        @Override
+        public Void visitUnion(AnnotatedUnionType type, Void p) {
+            completeFlowsInIExtra(type);
+            return super.visitUnion(type, p);
+        }
+        @Override
+        public Void visitWildcard(AnnotatedWildcardType type, Void p) {
+            //Calling type.getEffectiveAnnotations() expands
+            //the upper bounds causing an infinite loop for types like
+            // ? extends Enum<?>
+            //So visit call super, visit the extends
+            //and then complete the policy flow
+            Void r =  super.visitWildcard(type, p);
+            completeFlowsInIExtra(type);
+            return r;
+        }
+    }
+
+
+    private void completeFlowsInIExtra(AnnotatedTypeMirror type) {
+        // Apply defaulting for other cases.
+        AnnotationMirror anno = type.getAnnotation(IntentMap.class);
+        if (anno != null) {
+            List<AnnotationMirror> iExtras = IntentUtils.getIExtras(anno);
+            for (AnnotationMirror iExtra : iExtras) {
+                Set<PFPermission> sources = IntentUtils.getSourcesPFP(iExtra);
+                Set<PFPermission> sinks = IntentUtils.getSinksPFP(iExtra);
+                if (sinks.contains(EXTRA_DEFAULT)
+                        && sources.contains(EXTRA_DEFAULT)) {
+                    anno = IntentUtils.getNewIMapWithExtra(anno,
+                            IntentUtils.getKeyName(iExtra),
+                            Flow.getSources(NOSOURCE), Flow.getSinks(ANYSINK),
+                            processingEnv);
+                } else if (sinks.contains(EXTRA_DEFAULT)) {
+                    Set<PFPermission> newSink = getFlowPolicy()
+                            .getIntersectionAllowedSinks(sources);
+                    anno = IntentUtils.getNewIMapWithExtra(anno,
+                            IntentUtils.getKeyName(iExtra), sources, newSink,
+                            processingEnv);
+                } else if (sources.contains(EXTRA_DEFAULT)) {
+                    Set<PFPermission> newSource = getFlowPolicy()
+                            .getIntersectionAllowedSources(sinks);
+                    anno = IntentUtils.getNewIMapWithExtra(anno,
+                            IntentUtils.getKeyName(iExtra), newSource, sinks,
+                            processingEnv);
+                }
+            }
+            type.replaceAnnotation(anno);
+        }
     }
 
     @Override

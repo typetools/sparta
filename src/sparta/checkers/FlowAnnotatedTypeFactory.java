@@ -509,7 +509,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
      * @author smillst
      *
      */
-    class FlowPolicyTypeAnnotator extends TypeAnnotator {
+   protected class FlowPolicyTypeAnnotator extends TypeAnnotator {
 
         // FlowChecker checker;
         public FlowPolicyTypeAnnotator(FlowAnnotatedTypeFactory factory) {
