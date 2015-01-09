@@ -41,6 +41,9 @@ class Intent implements Parcelable, Cloneable {
     @SetIntentFilter void removeCategory( String arg0);
     @GetIntentFilter String getAction();
     @GetIntentFilter String getType();
+    @GetIntentFilter Uri getData();
+    @GetIntentFilter String getScheme();
+    @GetIntentFilter String getDataString();
     @PutExtra Intent putExtra( String arg0,  boolean arg1);
     @PutExtra Intent putExtra( String arg0,  byte arg1);
     @PutExtra Intent putExtra( String arg0,  char arg1);
@@ -82,7 +85,7 @@ class Intent implements Parcelable, Cloneable {
 package android.os;
 
 class Bundle implements Parcelable, Cloneable {
-    Object get(String arg0);
+    @GetExtra Object get(String arg0);
     @PutExtra
     void putAll(Bundle arg0);
     @PutExtra void putBoolean(String arg0, boolean arg1);
@@ -220,3 +223,8 @@ class Bundle implements Parcelable, Cloneable {
     IBinder getBinder(String arg0);
 }
 
+package android.support.v4;
+
+class Fragment {
+    @PutExtra void setArguments(Bundle args);
+}
