@@ -29,98 +29,109 @@ public class DataflowInferenceTest extends Activity {
     // It expects the type @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) })
 
     // Rule 1
-    void m1() {
-        @IntentMap({@Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
-            @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { }) })
-        Intent i2 = new Intent();
-        i2.putExtra("k2", getLocation());
-        i2.putExtra("k2", getBottom());
-        i2.putExtra("k2", getLocation());
-        //:: error: (argument.type.incompatible)
-        i2.putExtra("k2", getTop());
-
-        //:: error: (argument.type.incompatible)
-        i2.putExtra("k1", getTop());
-
-        i2.putExtra("k5", getBottom());
-        startActivity(i2);
-
-        Intent i3 = new Intent();
-        i3.putExtra("key", getBottom());
-        i3.putExtra("key", getTop());
-        i3.putExtra("key", getTop());
-        i3.putExtra("key", getBottom());
-    }
-
-    // Rule 2
-    void m2() {
-        Intent i1 = new Intent();
-        i1.putExtra("k5", getLocation());
-        startActivity(i1);
-
-        i1.putExtra("k1", getLocation());
-        startActivity(i1);
-
-    }
-
-    // TODO: Improved LUB needs to be implemented
-    void m3() {
-        Intent i3 = new Intent();
-        //:: error: (send.intent.missing.key)
-        startActivity(i3);
-        boolean bool = true;
-        if (bool) {
-           i3.putExtra("k5", getBottom());
-           startActivity(i3);
-        } else {
-           i3.putExtra("k5", getBottom());
-           i3.putExtra("k2", getTop());
-           startActivity(i3);
-        }
-        startActivity(i3);
-    }
-
-    // Testing "new Intent()" as a receiver of putExtra.
-    void m4() {
-        startActivity(new Intent());
-        startActivity(new Intent().putExtra("k5", getBottom()));
-        //:: error: (send.intent.incompatible.types)
-        startActivity(new Intent().putExtra("k5", getTop()));
-    }
-
-    // Testing if the return type of putExtra is also being refined.
-    void m5() {
-        Intent i1 = new Intent();
-        //:: error: (send.intent.missing.key)
-        startActivity(i1);
-
-        i1 = i1.putExtra("k5", getBottom());
-        //:: error: (send.intent.missing.key)
-        startActivity(i1);
-
-        i1 = i1.putExtra("k5", getTop());
-
-        i1 = i1.putExtra("k5", getLocation());
-    }
-
-    // Testing aliasing
-    void m6() {
-        Intent a = new Intent();
-        a.putExtra("k", getTop());
-        Intent b = a;
-        // a loses its refined type.
-
-        //::error: (intent.key.notfound) ::error: (argument.type.incompatible)
-        b.putExtra("k", getLocation());
-        //::error: (intent.key.notfound)
-        a.putExtra("k", getBottom());
-    }
+//    void m1() {
+//        @IntentMap({@Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
+//            @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { }) })
+//        Intent i2 = new Intent();
+//        i2.putExtra("k2", getLocation());
+//        i2.putExtra("k2", getBottom());
+//        i2.putExtra("k2", getLocation());
+//        //:: error: (argument.type.incompatible)
+//        i2.putExtra("k2", getTop());
+//
+//        //:: error: (argument.type.incompatible)
+//        i2.putExtra("k1", getTop());
+//
+//        i2.putExtra("k5", getBottom());
+//        startActivity(i2);
+//
+//        Intent i3 = new Intent();
+//        i3.putExtra("key", getBottom());
+//        i3.putExtra("key", getTop());
+//        i3.putExtra("key", getTop());
+//        i3.putExtra("key", getBottom());
+//    }
+//
+//    // Rule 2
+//    void m2() {
+//        Intent i1 = new Intent();
+//        i1.putExtra("k5", getLocation());
+//        startActivity(i1);
+//
+//        i1.putExtra("k1", getLocation());
+//        startActivity(i1);
+//
+//    }
+//
+//    // TODO: Improved LUB needs to be implemented
+//    void m3() {
+//        Intent i3 = new Intent();
+//        //:: error: (send.intent.missing.key)
+//        startActivity(i3);
+//        boolean bool = true;
+//        if (bool) {
+//           i3.putExtra("k5", getBottom());
+//           startActivity(i3);
+//        } else {
+//           i3.putExtra("k5", getBottom());
+//           i3.putExtra("k2", getTop());
+//           startActivity(i3);
+//        }
+//        startActivity(i3);
+//    }
+//
+//    // Testing "new Intent()" as a receiver of putExtra.
+//    void m4() {
+//        startActivity(new Intent());
+//        startActivity(new Intent().putExtra("k5", getBottom()));
+//        //:: error: (send.intent.incompatible.types)
+//        startActivity(new Intent().putExtra("k5", getTop()));
+//    }
+//
+//    // Testing if the return type of putExtra is also being refined.
+//    void m5() {
+//        Intent i1 = new Intent();
+//        //:: error: (send.intent.missing.key)
+//        startActivity(i1);
+//
+//        i1 = i1.putExtra("k5", getBottom());
+//        startActivity(i1);
+//
+//        i1 = i1.putExtra("k5", getTop());
+//
+//        i1 = i1.putExtra("k5", getLocation());
+//    }
+//
+//    // Testing aliasing
+//    void m6() {
+//        Intent a = new Intent();
+//        a.putExtra("k", getTop());
+//        a.putExtra("k2", getBottom());
+//        Intent b = a;
+//        // a loses its @Unique type; no more type refinement can be done for a or b via putExtras.
+//        //:: error: (intent.key.notfound)
+//        a.putExtra("someKey", "");
+//        //:: error: (intent.key.notfound)
+//        b.putExtra("someKey", "");
+//
+//        // Key "k" was already present with type TOP, any value can be added for the Extra with that key.
+//        b.putExtra("k", getLocation());
+//        a.putExtra("k", getBottom());
+//
+//        // Key "k2" was already present with type BOTTOM, only bottom can be added to it.
+//        //:: error: (argument.type.incompatible)
+//        b.putExtra("k2", getLocation());
+//        a.putExtra("k2", getBottom());
+//    }
 
     // There is no refinement for getExtra* methods.
 
     void m7() {
+        Intent i = new Intent();
         //:: error: (intent.key.notfound)
-        new Intent().getStringExtra("k1");
+        i.getStringExtra("k1");
+        //:: error: (intent.key.notfound)
+        i.getStringExtra("k1");
     }
 
     // Testing refinement for Bundles
@@ -129,7 +140,6 @@ public class DataflowInferenceTest extends Activity {
         b.putString("k", getTop());
         b.putString("k", getTop());
         Bundle aliased = b;
-        //::error: (intent.key.notfound) ::error: (argument.type.incompatible)
         b.putString("k", getTop());
         //::error: (intent.key.notfound) ::error: (argument.type.incompatible)
         aliased.putString("k2", getTop());
