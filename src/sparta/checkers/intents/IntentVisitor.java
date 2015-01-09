@@ -627,10 +627,7 @@ public class IntentVisitor extends FlowVisitor {
             return;
         }
         for (String key : keys) {
-            if (IntentUtils.isPutExtra(node, atypeFactory) || IntentUtils.
-                    isGetExtra(node, atypeFactory)) {
-                checkKeyIsInIntentMap(method, node, key, receiver, receiverType);
-            }
+            checkKeyIsInIntentMap(method, node, key, receiver, receiverType);
         }
     }
 
@@ -664,12 +661,13 @@ public class IntentVisitor extends FlowVisitor {
             return;
         }
 
+        boolean isGetExtra = IntentUtils.isGetExtra(node, atypeFactory);
         if (receiverType.hasAnnotation(IntentMapNew.class)) {
             // In this case, the intent is always @Unique.
             // Allow any putExtra call and forbid any getExtra call (there is
             // no refinement for getExtra calls, so the key must exist in the
             // IntentMap.)
-            if (IntentUtils.isGetExtra(node, atypeFactory)) {
+            if (isGetExtra) {
                 checker.report(Result.failure("intent.key.notfound", keyName,
                         receiver.toString()), node);
             }
@@ -681,7 +679,7 @@ public class IntentVisitor extends FlowVisitor {
         if (IntentUtils.getIExtra(receiverIntentAnnotation, keyName) == null) {
             // If key could not be found in the @IntentMap, raise a warning
             // if the type of the receiver is not @Unique.
-            if (!uniqueType.hasAnnotation(Unique.class)) {
+            if (!uniqueType.hasAnnotation(Unique.class) || isGetExtra) {
                 checker.report(Result.failure("intent.key.notfound", keyName,
                                 receiver.toString()), node);
             }

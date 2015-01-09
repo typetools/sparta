@@ -59,51 +59,13 @@ public class IntentTransfer extends CFTransfer {
     @Override
     public TransferResult<CFValue, CFStore> visitAssignment(AssignmentNode n,
             TransferInput<CFValue, CFStore> in) {
-        Node rhs = n.getExpression();
-        if (TypesUtils.isDeclaredOfName(rhs.getType(),
-                "android.content.Intent")
-                || TypesUtils.isDeclaredOfName(rhs.getType(),
-                        "android.os.Bundle")) {
-            // Handle refinement for Intent and Bundle assignments differently.
-            return visitAssignmentWithIntent(n, in, rhs);
+        if (intentATF.getAnnotatedType(n.getExpression().getTree()).
+                hasAnnotation(IntentMapNew.class)) {
+            // Do not refine assignments where @IntentMapNew is on the RHS.
+            return new RegularTransferResult<>(null, in.getRegularStore());
         } else {
             return super.visitAssignment(n, in);
         }
-    }
-
-    private TransferResult<CFValue, CFStore> visitAssignmentWithIntent(
-            AssignmentNode n, TransferInput<CFValue, CFStore> in, Node rhs) {
-            // Do not refine assignments where @IntentMapNew is on the RHS.
-            if (intentATF.getAnnotatedType(n.getExpression().getTree()).
-                    hasAnnotation(IntentMapNew.class)) {
-                return new RegularTransferResult<>(null, in.getRegularStore());
-            }
-            AnnotatedTypeMirror rhsAliasingType = aliasingATF.getAnnotatedType(rhs.
-                    getTree());
-            // @pbsf: I don't understand why a check for a method invocation or
-            // object creation must be done here, since it is already being
-            // done in the AliasingTransfer.
-            // I debugged the visitAssignment of the AliasingTransfer and verified
-            // that AliasingTransfer.visitAssignment is working and is called
-            // before this method. But aliasingATF.getAnnotatedType() is returning
-            // @Unique in some moments where it shouldn't, as if the store being cleared
-            // in the AliasingTransfer has nothing to do with the return of this method.
-            // @smillst: My guess is that the RHS loses its refined type after the assignment.
-            // So when the type of the RHS is accessed here, it has not yet lost its refinement.
-            if (rhsAliasingType.hasAnnotation(Unique.class)
-                    && (rhs instanceof MethodInvocationNode ||
-                            rhs instanceof ObjectCreationNode)) {
-                return super.visitAssignment(n, in); // Do normal refinement.
-            }
-
-            CFStore store = in.getRegularStore();
-            Receiver receiverRHS = FlowExpressions.internalReprOf(intentATF,
-                    n.getExpression());
-            Receiver receiverLHS = FlowExpressions.internalReprOf(intentATF,
-                    n.getTarget());
-            store.clearValue(receiverRHS);
-            store.clearValue(receiverLHS);
-            return new RegularTransferResult<>(null, in.getRegularStore());
     }
 
     @Override
