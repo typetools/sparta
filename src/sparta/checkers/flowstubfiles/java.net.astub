@@ -145,6 +145,7 @@ void setSoTimeout(int arg0) throws SocketException;
 void setTcpNoDelay(boolean arg0) throws SocketException;
 void shutdownInput() throws IOException;
 void shutdownOutput() throws IOException;
+@PolyFlowReceiver String toString();
 }
 
 @PolyFlowReceiver

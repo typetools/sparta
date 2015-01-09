@@ -27,11 +27,15 @@ class BluetoothAdapter {
 class BluetoothDevice {
 
         static final int BOND_NONE;
-        static final @Sink(INTENT) String ACTION_BOND_STATE_CHANGED;
-                static final int BOND_BONDED;
-        static final @Sink(INTENT) String ACTION_FOUND;
-            static final @Sink(INTENT) String EXTRA_DEVICE;
-        static final @Sink(INTENT) String EXTRA_BOND_STATE;
+        static final String ACTION_BOND_STATE_CHANGED;
+        static final int BOND_BONDED;
+        static final String ACTION_FOUND;
+        static final String EXTRA_DEVICE;
+        static final String EXTRA_BOND_STATE;
+        // static final @Sink(INTENT) String EXTRA_BOND_STATE;
+        // static final @Sink(INTENT) String ACTION_FOUND;
+        // static final @Sink(INTENT) String EXTRA_DEVICE;
+        // static final @Sink(INTENT) String ACTION_BOND_STATE_CHANGED;
 
   @Source(BLUETOOTH) String getAddress();
     @Source(BLUETOOTH) BluetoothClass getBluetoothClass();

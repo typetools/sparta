@@ -16,7 +16,7 @@ Uri build();
 
 class ConnectivityManager {
 
-final @Source(INTENT) String CONNECTIVITY_ACTION;
+final String CONNECTIVITY_ACTION;
 
 @Source(ACCESS_NETWORK_STATE) NetworkInfo getActiveNetworkInfo();
 //Returns details about the currently active data network.

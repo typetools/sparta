@@ -940,7 +940,7 @@ class ComponentName{
 
 class ContextWrapper {
   void startActivity(@Sink(INTENT) Intent intent, @Sink(BUNDLE) Bundle options);
-			ApplicationInfo getApplicationInfo();
+            ApplicationInfo getApplicationInfo();
             File getDir(String name, int mode);
             String getPackageCodePath();
             ContextWrapper(Context base);
@@ -1316,7 +1316,7 @@ class DialogInterface$OnDismissListener{
 class IntentFilter {
 IntentFilter();
 
-IntentFilter(@Sink(INTENT) String action);
+IntentFilter(@Sink(ANY) String action);
 //New IntentFilter that matches a single action with no data.
 
 final Iterator<String> actionsIterator();
@@ -1784,7 +1784,7 @@ abstract SharedPreferences.Editor remove(@Sink(SHARED_PREFERENCES)String key);
 }
 
 class SharedPreferences$OnSharedPreferenceChangeListener {
-	void onSharedPreferenceChanged(SharedPreferences arg0, @Source() @Sink(ANY) String arg1);
+    void onSharedPreferenceChanged(SharedPreferences arg0, @Source() @Sink(ANY) String arg1);
 }
 
 package android.content.pm;
