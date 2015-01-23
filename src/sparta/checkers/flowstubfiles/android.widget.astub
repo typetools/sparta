@@ -1141,6 +1141,8 @@ class GridView{
         void setHorizontalSpacing(int horizontalSpacing);
         void setColumnWidth(int columnWidth);
         void setAdapter(ListAdapter adapter);
+        ListAdapter getAdapter();
+        void setSelection(int position);
 }
 
 class ImageButton {
@@ -1996,6 +1998,7 @@ class ShareActionProvider{
 
 class Scroller {
 Scroller(Context context);
+Scroller(Context context, Interpolator interpolator);
 void abortAnimation();
 //Stops the animation.
 

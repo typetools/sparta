@@ -25,6 +25,7 @@ class Build$VERSION{
 
 class Build$VERSION_CODES{
         static final int HONEYCOMB;
+        static final int KITKAT;
 }
 
 class CountDownTimer {
@@ -38,6 +39,7 @@ Looper getLooper();
 boolean quit();
 HandlerThread(String name, int priority);
 HandlerThread(String name);
+protected void onLooperPrepared();
 }
 
 class AsyncTask<Params, Progress, Result> {
@@ -61,7 +63,9 @@ class AsyncTask<Params, Progress, Result> {
 
 
 class Environment {
-@Source({}) String DIRECTORY_PICTURES;    
+static final String MEDIA_MOUNTED;
+static final String MEDIA_MOUNTED_READ_ONLY;
+@Source({}) String DIRECTORY_PICTURES;
 static @Source({FILESYSTEM, READ_EXTERNAL_STORAGE}) File getDataDirectory();
 //Gets the Android data directory.
 
@@ -186,7 +190,10 @@ boolean onTransact(int code, Parcel data, Parcel reply, int flags);
 
 
 }
-    
+class BaseBundle {
+    @Source(BUNDLE) int getInt(String s);
+    @Source(BUNDLE) String getString(String s);
+}
 class Bundle {
 
 static final Bundle EMPTY;
@@ -1071,12 +1078,11 @@ class PowerManager$WakeLock{
 }
 
 class Process {
-    
-    
-        static final int THREAD_PRIORITY_LESS_FAVORABLE;
-        static final int THREAD_PRIORITY_DISPLAY;
-        static final int THREAD_PRIORITY_DEFAULT;
-        static final int THREAD_PRIORITY_BACKGROUND;
+static final int THREAD_PRIORITY_MORE_FAVORABLE;
+static final int THREAD_PRIORITY_LESS_FAVORABLE;
+static final int THREAD_PRIORITY_DISPLAY;
+static final int THREAD_PRIORITY_DEFAULT;
+static final int THREAD_PRIORITY_BACKGROUND;
 
 final static long getElapsedCpuTime();
 //Returns elapsed milliseconds of the time this process has run.

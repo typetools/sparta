@@ -3,6 +3,7 @@ class Gravity {
 static final int LEFT;
 static final int TOP;
 static final int CENTER;
+static final int RIGHT;
 static int getAbsoluteGravity(int gravity, int layoutDirection);
 static void apply(int gravity, int w, int h, Rect container, int xAdj, int yAdj, Rect outRect, int layoutDirection);
 static void apply(int gravity, int w, int h, Rect container, int xAdj, int yAdj, Rect outRect);
@@ -269,6 +270,11 @@ class GestureDetector$SimpleOnGestureListener{
 }
 
 class KeyEvent {
+
+        static final @Source(USER_INPUT) int KEYCODE_BACK;
+        static final @Source(USER_INPUT) int KEYCODE_SEARCH;
+        static final @Source(USER_INPUT) int KEYCODE_SPACE;
+        static final @Source(USER_INPUT) int KEYCODE_TAB;
 
         static final @Source(USER_INPUT) int KEYCODE_VOLUME_DOWN;
         static final @Source(USER_INPUT) int KEYCODE_DPAD_CENTER;
@@ -769,7 +775,7 @@ class MenuItem$OnMenuItemClickListener{
 }
 
 class MotionEvent {
-
+        static final @Source(USER_INPUT) int ACTION_CANCEL;
         static final @Source(USER_INPUT) int ACTION_DOWN;
         static final @Source(USER_INPUT) int ACTION_MOVE;
         static final @Source(USER_INPUT) int ACTION_UP;
@@ -1190,9 +1196,19 @@ void finalize();
 }
 
 class ViewManager{
-            void removeView(@Sink(DISPLAY) View arg0);
+        void removeView(@Sink(DISPLAY) View arg0);
+        void addView(View arg0, LayoutParams arg1);
+
 }
 class View {
+
+        static final int FOCUS_UP;
+        static final int FOCUS_DOWN;
+        static final int FOCUS_LEFT;
+        static final int SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+        static final int FOCUS_BACKWARD;
+        static final int FOCUS_FORWARD;
+        static final int FOCUS_RIGHT;
 
         static final int INVISIBLE;
         static final int VISIBLE;
@@ -2475,7 +2491,9 @@ class View$BaseSavedState{
         BaseSavedState(Parcel source);
 }
 class View$MeasureSpec {
-    
+static final int EXACTLY;
+static final int UNSPECIFIED;
+
 static int getMode(int measureSpec);
 //Extracts the mode from the supplied measure specification.
 
@@ -2614,6 +2632,10 @@ boolean hasPermanentMenuKey();
 }
 
 class ViewGroup$MarginLayoutParams{
+        int topMargin;
+        int leftMargin;
+        int rightMargin;
+        int bottomMargin;
         MarginLayoutParams(Context c, AttributeSet attrs);
         MarginLayoutParams(int width, int height);
         MarginLayoutParams(MarginLayoutParams source);
@@ -2634,9 +2656,9 @@ class ViewGroup$LayoutParams {
 static final int WRAP_CONTENT;
 int height;
 static final int FILL_PARENT;
-
+static final int MATCH_PARENT;
+int width;
 LayoutParams(int width, int height);
-    
 void resolveLayoutDirection(int layoutDirection);
 //Resolve layout parameters depending on the layout direction.
 
@@ -2647,6 +2669,7 @@ void setBaseAttributes(TypedArray a, int widthAttr, int heightAttr);
 }
 
 class ViewGroup {
+static final int FOCUS_BEFORE_DESCENDANTS;
 
 protected void onDetachedFromWindow();
 protected void onAttachedToWindow();
@@ -3073,9 +3096,6 @@ void setStaticTransformationsEnabled(boolean enabled);
 
 class ViewParent {
 
-boolean requestSendAccessibilityEvent(View arg0, AccessibilityEvent arg1);
-ViewParent getParent();
-void requestDisallowInterceptTouchEvent(boolean arg0);
  
 //abstract void bringChildToFront(View child);
 //Change the z order of the child so it's on top of all other children
@@ -3098,7 +3118,7 @@ void requestDisallowInterceptTouchEvent(boolean arg0);
 //abstract boolean getChildVisibleRect(View child, Rect r, Point offset);
 //Compute the visible part of a rectangular region defined in terms of a child view's coordinates.
 
-//abstract ViewParent getParent();
+abstract ViewParent getParent();
 //Returns the parent if it exists, or null.
 
 //abstract ViewParent getParentForAccessibility();
@@ -3116,13 +3136,13 @@ void requestDisallowInterceptTouchEvent(boolean arg0);
 //abstract void recomputeViewAttributes(View child);
 //Tell view hierarchy that the global view attributes need to be re-evaluated.
 
-//abstract void requestChildFocus(View child, View focused);
+abstract void requestChildFocus(View child, View focused);
 //Called when a child of this parent wants focus
 
-//abstract boolean requestChildRectangleOnScreen(View child, Rect rectangle, boolean immediate);
+abstract boolean requestChildRectangleOnScreen(View child, Rect rectangle, boolean immediate);
 //Called when a child of this group wants a particular rectangle to be positioned onto the screen.
 
-//abstract void requestDisallowInterceptTouchEvent(boolean disallowIntercept);
+abstract void requestDisallowInterceptTouchEvent(boolean disallowIntercept);
 //Called when a child does not want this parent and its ancestors to intercept touch events with onInterceptTouchEvent(MotionEvent);.
 
 //abstract void requestFitSystemWindows();
@@ -3131,7 +3151,7 @@ void requestDisallowInterceptTouchEvent(boolean arg0);
 abstract void requestLayout();
 //Called when something has changed which has invalidated the layout of a child of this view parent.
 
-//abstract boolean requestSendAccessibilityEvent(View child, AccessibilityEvent event);
+abstract boolean requestSendAccessibilityEvent(View child, AccessibilityEvent event);
 //Called by a child to request from its parent to send an AccessibilityEvent.
 
 //abstract void requestTransparentRegion(View child);
@@ -3145,6 +3165,9 @@ abstract void requestLayout();
 }
 
 class Window {
+
+static final int FEATURE_LEFT_ICON;
+static final int FEATURE_NO_TITLE;
 static final int FEATURE_INDETERMINATE_PROGRESS;
 
 abstract void addContentView(@Sink(DISPLAY) View view, ViewGroup.LayoutParams params);
@@ -3388,6 +3411,16 @@ class WindowManager$LayoutParams {
         IBinder token;
         final int TYPE_APPLICATION_ATTACHED_DIALOG;
         int type;
+        static final int FLAG_FULLSCREEN;
+        static final int FLAG_FORCE_NOT_FULLSCREEN;
+        static final int FLAG_KEEP_SCREEN_ON;
+        static final int FLAG_NOT_TOUCHABLE;
+        int gravity;
+        static final int FLAG_NOT_FOCUSABLE;
+        static final int TYPE_APPLICATION;
+        int x;
+        int y;
+        LayoutParams(int w, int h, int _type, int _flags, int _format);
 }
 
 package android.view.accessibility;
@@ -3551,6 +3584,14 @@ class AnimationSet{
         void setFillAfter(boolean fillAfter);
         AnimationSet(boolean shareInterpolator);
         void addAnimation(Animation a);
+}
+
+class AnimationUtils{
+        static long currentAnimationTimeMillis();
+}
+
+class DecelerateInterpolator{
+        DecelerateInterpolator(float factor);
 }
 
 package android.view.inputmethod;

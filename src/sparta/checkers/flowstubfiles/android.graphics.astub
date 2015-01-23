@@ -40,6 +40,7 @@ class PixelFormat{
         int bytesPerPixel;
         static final int RGB_565;
         static final int RGBA_8888;
+        static final int TRANSLUCENT;
 }
 
 
@@ -48,15 +49,17 @@ static Typeface createFromAsset(AssetManager mgr, String path);
 static Typeface defaultFromStyle(int style);
 }
 class BitmapFactory$Options{
-
-        boolean inDither;
-        int outHeight;
-        int inSampleSize;
-        boolean inJustDecodeBounds;
-        Config inPreferredConfig;
-        int outWidth;
-
-        Options();
+  @Source(ANY) @Sink() boolean inScaled;
+  @Source(ANY) @Sink() int inTargetDensity;
+  @Source(ANY) @Sink() int inDensity;
+  @Source(ANY) @Sink() int inScreenDensity;
+  @Source(ANY) @Sink() boolean inDither;
+ @Source(ANY) @Sink() int outHeight;
+@Source(ANY) @Sink() int inSampleSize;
+  @Source(ANY) @Sink() boolean inJustDecodeBounds;
+  @Source(ANY) @Sink() Config inPreferredConfig;
+  @Source(ANY) @Sink() int outWidth;
+Options();
 }
 
 class Bitmap {
@@ -1079,7 +1082,7 @@ float exactCenterX();
 float exactCenterY();
 void setEmpty();
 @PolyFlowReceiver
-void set(int arg0, int arg1, int arg2, int arg3);
+void set(@Source(ANY) int arg0, @Source(ANY) int arg1, @Source(ANY) int arg2, @Source(ANY) int arg3);
 @PolyFlowReceiver
 void set(Rect arg0);
 @PolyFlowReceiver
@@ -1230,6 +1233,11 @@ package android.graphics.drawable;
 class AnimationDrawable{
         void start();
 }
+
+class ColorDrawable{
+        ColorDrawable(int color);
+}
+
 class DrawableContainer {
 void draw(Canvas canvas);
 }

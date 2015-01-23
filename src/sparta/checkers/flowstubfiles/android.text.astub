@@ -82,8 +82,11 @@ class Selection{
         static int getSelectionEnd(CharSequence text);
 }
 
+@PolyFlowReceiver
 class SpannableStringBuilder{
         SpannableStringBuilder();
+        SpannableStringBuilder append(CharSequence text);
+
 }
 
 class Spannable{
@@ -328,4 +331,11 @@ char[] getReplacement();
 
 class TransformationMethod{
         CharSequence getTransformation(CharSequence arg0, View arg1);
+}
+
+package android.text.util;
+class Linkify{
+        static boolean addLinks(TextView text, int mask);
+        static final int WEB_URLS;
+        static final int EMAIL_ADDRESSES;
 }

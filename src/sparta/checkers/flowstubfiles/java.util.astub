@@ -1927,8 +1927,16 @@ class ZipInputStream{
 }
 
 class ZipEntry{
-            ZipEntry(String arg0);
-            boolean isDirectory();
+ZipEntry(String arg0);
+boolean isDirectory();
 String getName();
+long getSize();
 }
 
+class ZipFile{
+        void close() throws IOException;
+        ZipEntry getEntry(String arg0);
+        ZipFile(String arg0) throws IOException;
+        InputStream getInputStream(ZipEntry arg0) throws IOException;
+        Enumeration<? extends ZipEntry> entries();
+}

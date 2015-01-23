@@ -1,5 +1,11 @@
 package java.net;
 
+class Authenticator{
+        static void setDefault(Authenticator arg0);
+        Authenticator();
+        protected PasswordAuthentication getPasswordAuthentication();
+}
+
 class ContentHandler{
         ContentHandler();
         Object getContent(URLConnection arg0) throws IOException;
@@ -11,6 +17,8 @@ static String encode(String arg0);
 
 class URI {
 int getPort();
+URI(String arg0, String arg1, String arg2, int arg3, String arg4, String arg5, String arg6) throws URISyntaxException;
+String toString();
 static String normalize(String arg0);
 static URI create(String arg0);
 static URI normalize(URI arg0);
@@ -83,6 +91,10 @@ class InetAddress implements Serializable {
     static InetAddress getLoopbackAddress();
     static InetAddress getByAddress(byte[] arg0) throws UnknownHostException;
     static InetAddress getLocalHost() throws UnknownHostException;
+}
+
+class PasswordAuthentication{
+        PasswordAuthentication(String arg0, char[] arg1);
 }
 
 class URL implements Serializable {
