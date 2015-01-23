@@ -190,10 +190,7 @@ boolean onTransact(int code, Parcel data, Parcel reply, int flags);
 
 
 }
-class BaseBundle {
-    @Source(BUNDLE) int getInt(String s);
-    @Source(BUNDLE) String getString(String s);
-}
+
 class Bundle {
 
 static final Bundle EMPTY;
