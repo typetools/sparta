@@ -51,9 +51,9 @@ public class FlowShow extends FlowChecker {
                     && !(tree.getKind() == Tree.Kind.NULL_LITERAL)) {
                 AnnotatedTypeMirror type = this.atypeFactory.getAnnotatedType(tree);
                 if (type.getKind() == TypeKind.WILDCARD) {
-                    type = ((AnnotatedWildcardType) type).getEffectiveExtendsBound();
+                    type = ((AnnotatedWildcardType) type).getExtendsBound();
                 } else if (type.getKind() == TypeKind.TYPEVAR) {
-                    type = ((AnnotatedTypeVariable) type).getEffectiveUpperBound();
+                    type = ((AnnotatedTypeVariable) type).getUpperBound();
                 }
 
                 boolean show = false;

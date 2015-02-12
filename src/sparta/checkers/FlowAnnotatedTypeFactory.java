@@ -3,13 +3,21 @@ package sparta.checkers;
 import static org.checkerframework.framework.qual.DefaultLocation.EXCEPTION_PARAMETER;
 import static org.checkerframework.framework.qual.DefaultLocation.FIELD;
 import static org.checkerframework.framework.qual.DefaultLocation.LOCAL_VARIABLE;
+import static org.checkerframework.framework.qual.DefaultLocation.LOWER_BOUNDS;
 import static org.checkerframework.framework.qual.DefaultLocation.OTHERWISE;
 import static org.checkerframework.framework.qual.DefaultLocation.PARAMETERS;
 import static org.checkerframework.framework.qual.DefaultLocation.RECEIVERS;
 import static org.checkerframework.framework.qual.DefaultLocation.RESOURCE_VARIABLE;
 import static org.checkerframework.framework.qual.DefaultLocation.RETURNS;
 import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
-import static org.checkerframework.framework.qual.DefaultLocation.LOWER_BOUNDS;
+
+import org.checkerframework.dataflow.analysis.TransferResult;
+import org.checkerframework.dataflow.cfg.node.Node;
+
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.ElementUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.Pair;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
@@ -31,20 +39,15 @@ import javax.lang.model.type.TypeKind;
 
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
-import org.checkerframework.common.reflection.ClassValAnnotatedTypeFactory;
-import org.checkerframework.common.reflection.DefaultReflectionResolver;
-import org.checkerframework.common.reflection.MethodValAnnotatedTypeFactory;
-import org.checkerframework.common.reflection.ReflectionResolutionAnnotatedTypeFactory;
 import org.checkerframework.common.value.ValueAnnotatedTypeFactory;
-import org.checkerframework.dataflow.analysis.TransferResult;
-import org.checkerframework.dataflow.cfg.node.Node;
 import org.checkerframework.framework.flow.CFAbstractAnalysis;
 import org.checkerframework.framework.flow.CFStore;
 import org.checkerframework.framework.flow.CFTransfer;
 import org.checkerframework.framework.flow.CFValue;
 import org.checkerframework.framework.qual.DefaultLocation;
 import org.checkerframework.framework.qual.PolyAll;
-import org.checkerframework.framework.type.*;
+import org.checkerframework.framework.type.AnnotatedTypeFactory;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
@@ -53,17 +56,21 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiv
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedUnionType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
-import org.checkerframework.framework.type.visitor.AbstractAtmComboVisitor;
-import org.checkerframework.framework.type.visitor.VisitHistory;
+import org.checkerframework.framework.type.DefaultRawnessComparer;
+import org.checkerframework.framework.type.DefaultTypeHierarchy;
+import org.checkerframework.framework.type.QualifierHierarchy;
+import org.checkerframework.framework.type.StructuralEqualityComparer;
+import org.checkerframework.framework.type.TypeHierarchy;
+import org.checkerframework.framework.type.treeannotator.ImplicitsTreeAnnotator;
+import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
+import org.checkerframework.framework.type.treeannotator.PropagationTreeAnnotator;
+import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
+import org.checkerframework.framework.type.typeannotator.TypeAnnotator;
 import org.checkerframework.framework.util.AnnotationBuilder;
-import org.checkerframework.framework.util.defaults.QualifierDefaults;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import org.checkerframework.framework.util.QualifierPolymorphism;
-import org.checkerframework.javacutil.AnnotationUtils;
-import org.checkerframework.javacutil.ElementUtils;
-import org.checkerframework.javacutil.InternalUtils;
-import org.checkerframework.javacutil.Pair;
+import org.checkerframework.framework.util.defaults.QualifierDefaults;
 
 import sparta.checkers.poly.ParameterizedPermissonPolymorphism;
 import sparta.checkers.poly.ReceiverPolymorphism;
@@ -702,8 +709,9 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     class NormalizingStructuralEqualityComparer extends StructuralEqualityComparer {
 
-        NormalizingStructuralEqualityComparer(AbstractAtmComboVisitor<Boolean, VisitHistory> fallback) {
-            super(fallback);
+        public NormalizingStructuralEqualityComparer(
+                DefaultRawnessComparer rawnessComparer) {
+            super(rawnessComparer);
         }
 
         @Override
