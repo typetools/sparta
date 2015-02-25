@@ -9,24 +9,17 @@ import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.qual.StubFiles;
 import org.checkerframework.framework.qual.TypeQualifiers;
-import org.checkerframework.framework.source.SupportedLintOptions;
-import org.checkerframework.framework.stub.StubGenerator;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.processing.SupportedOptions;
-import javax.lang.model.element.Element;
 import javax.tools.Diagnostic;
 
 import sparta.checkers.quals.FlowPermission;
@@ -83,21 +76,22 @@ public class FlowChecker extends BaseTypeChecker {
             }
         }
     }
+
     @Override
-public void typeProcessingOver() {
+    public void typeProcessingOver() {
         File outputDir = new File(SPARTA_OUTPUT_DIR);
-        if(!outputDir.exists()){
+        if (!outputDir.exists()) {
             outputDir.mkdir();
         }
         if (outputDir.exists() && outputDir.isDirectory()) {
-            FlowAnnotatedTypeFactory factory = ((FlowVisitor) visitor).getTypeFactory();
+            FlowAnnotatedTypeFactory factory = ((FlowVisitor) visitor)
+                    .getTypeFactory();
             factory.flowAnalizer.printAllFlows();
             factory.flowAnalizer.printForbiddenFlows();
             factory.flowAnalizer.printAllFlowsWithSourceLocation();
             factory.flowAnalizer.printIntentFlowsByComponent();
         }
     }
-
 
     @Override
     public void message(Diagnostic.Kind kind, Object source, /*@CompilerMessageKey*/
