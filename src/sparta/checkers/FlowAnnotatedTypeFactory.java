@@ -110,8 +110,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 	final QualifierDefaults polyFlowDefaults = new QualifierDefaults(elements, this);
 	final QualifierDefaults polyFlowReceiverDefaults = new QualifierDefaults(elements, this);
 	
-    private List<BaseAnnotatedTypeFactory> factories;
-
     public FlowAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
 
@@ -141,41 +139,11 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         }
 
         flowAnalizer = new FlowAnalyzer(getFlowPolicy());
-        factories = new ArrayList<>();
-        ValueAnnotatedTypeFactory vatf = new ValueAnnotatedTypeFactory(checker);
-        vatf.disableWarnings();
-        factories.add(vatf);
-
 
      // Every subclass must call postInit!
         if (this.getClass().equals(FlowAnnotatedTypeFactory.class)) {
             this.postInit();
         }
-    }
-
-    @Override
-    public void setRoot(CompilationUnitTree root) {
-        super.setRoot(root);
-        for (AnnotatedTypeFactory factory : factories) {
-            factory.setRoot(root);
-        }
-    }
-
-    @Override
-    public AnnotationMirror getAnnotationMirror(Tree tree,
-            Class<? extends Annotation> target) {
-        AnnotationMirror mirror = AnnotationUtils.fromClass(elements, target);
-        if (this.isSupportedQualifier(mirror)) {
-            AnnotatedTypeMirror atm = this.getAnnotatedType(tree);
-            return atm.getAnnotation(target);
-        }
-        for (AnnotatedTypeFactory factory : factories) {
-            if (factory != null && factory.isSupportedQualifier(mirror)) {
-                AnnotatedTypeMirror atm = factory.getAnnotatedType(tree);
-                return atm.getAnnotation(target);
-            }
-        }
-        return null;
     }
 
     @Override
@@ -312,24 +280,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         Element element = InternalUtils.symbol(tree);
         handleDefaulting(element, type);
         super.annotateImplicit(tree, type, useFlow);
-
-        // TODO: Error prone hack -> this implementation makes assumptions about
-        // implementation details in the super class:
-        // annotateImplicit(Tree tree, AnnotatedTypeMirror type) is assumed to
-        // call
-        // annotateImplicit(Tree tree, AnnotatedTypeMirror type, boolean
-        // iUseFlow)
-        //
-        // Problem:
-        // annotateImplicit(Tree tree, AnnotatedTypeMirror type) is final
-        // annotateImplicit(Tree tree, AnnotatedTypeMirror type, boolean
-        // iUseFlow) is protected
-        if (useFlow) {
-            for (BaseAnnotatedTypeFactory factory : factories) {
-                factory.setUseFlow(useFlow);
-                factory.annotateImplicit(tree, type);
-            }
-        }
     }
 
     @Override
