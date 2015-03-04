@@ -3,12 +3,21 @@ package sparta.checkers;
 import static org.checkerframework.framework.qual.DefaultLocation.EXCEPTION_PARAMETER;
 import static org.checkerframework.framework.qual.DefaultLocation.FIELD;
 import static org.checkerframework.framework.qual.DefaultLocation.LOCAL_VARIABLE;
+import static org.checkerframework.framework.qual.DefaultLocation.LOWER_BOUNDS;
 import static org.checkerframework.framework.qual.DefaultLocation.OTHERWISE;
 import static org.checkerframework.framework.qual.DefaultLocation.PARAMETERS;
 import static org.checkerframework.framework.qual.DefaultLocation.RECEIVERS;
 import static org.checkerframework.framework.qual.DefaultLocation.RESOURCE_VARIABLE;
 import static org.checkerframework.framework.qual.DefaultLocation.RETURNS;
 import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
+
+import org.checkerframework.dataflow.analysis.TransferResult;
+import org.checkerframework.dataflow.cfg.node.Node;
+
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.ElementUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.Pair;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
@@ -31,8 +40,6 @@ import javax.lang.model.type.TypeKind;
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.value.ValueAnnotatedTypeFactory;
-import org.checkerframework.dataflow.analysis.TransferResult;
-import org.checkerframework.dataflow.cfg.node.Node;
 import org.checkerframework.framework.flow.CFAbstractAnalysis;
 import org.checkerframework.framework.flow.CFStore;
 import org.checkerframework.framework.flow.CFTransfer;
@@ -49,22 +56,21 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiv
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedUnionType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
-import org.checkerframework.framework.type.ImplicitsTreeAnnotator;
-import org.checkerframework.framework.type.ListTreeAnnotator;
-import org.checkerframework.framework.type.PropagationTreeAnnotator;
+import org.checkerframework.framework.type.DefaultRawnessComparer;
+import org.checkerframework.framework.type.DefaultTypeHierarchy;
 import org.checkerframework.framework.type.QualifierHierarchy;
-import org.checkerframework.framework.type.TreeAnnotator;
-import org.checkerframework.framework.type.TypeAnnotator;
+import org.checkerframework.framework.type.StructuralEqualityComparer;
 import org.checkerframework.framework.type.TypeHierarchy;
+import org.checkerframework.framework.type.treeannotator.ImplicitsTreeAnnotator;
+import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
+import org.checkerframework.framework.type.treeannotator.PropagationTreeAnnotator;
+import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
+import org.checkerframework.framework.type.typeannotator.TypeAnnotator;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
-import org.checkerframework.framework.util.QualifierDefaults;
 import org.checkerframework.framework.util.QualifierPolymorphism;
-import org.checkerframework.javacutil.AnnotationUtils;
-import org.checkerframework.javacutil.ElementUtils;
-import org.checkerframework.javacutil.InternalUtils;
-import org.checkerframework.javacutil.Pair;
+import org.checkerframework.framework.util.defaults.QualifierDefaults;
 
 import sparta.checkers.poly.ParameterizedPermissonPolymorphism;
 import sparta.checkers.poly.ReceiverPolymorphism;
@@ -247,6 +253,11 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         // Default is {} -> ANY for everything else
         defaults.addAbsoluteDefault(ANYSINK, OTHERWISE);
         defaults.addAbsoluteDefault(NOSOURCE, OTHERWISE);
+        
+        //Default for lower bounds is bottom
+        defaults.addAbsoluteDefault(NOSOURCE, LOWER_BOUNDS);
+        defaults.addAbsoluteDefault(ANYSINK, LOWER_BOUNDS);
+
 
         return defaults;
     }
@@ -640,24 +651,38 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
      */
     @Override
     protected TypeHierarchy createTypeHierarchy() {
-        return new FlowTypeHierarchy(checker, getQualifierHierarchy());
+        return new FlowTypeHierarchy(checker, getQualifierHierarchy(),
+                                     checker.hasOption("ignoreRawTypeArguments"),
+                                     checker.hasOption("invariantArrays"));
     }
 
-    protected class FlowTypeHierarchy extends TypeHierarchy {
 
-        public FlowTypeHierarchy(BaseTypeChecker checker,
-                QualifierHierarchy qualifierHierarchy) {
-            super(checker, qualifierHierarchy);
+    class NormalizingStructuralEqualityComparer extends StructuralEqualityComparer {
+
+        public NormalizingStructuralEqualityComparer(
+                DefaultRawnessComparer rawnessComparer) {
+            super(rawnessComparer);
         }
 
         @Override
-        protected boolean isSubtypeAsTypeArgument(AnnotatedTypeMirror atm1,
-                AnnotatedTypeMirror atm2) {
-            normalizePermissions(atm1);
-            normalizePermissions(atm2);
-            return super.isSubtypeAsTypeArgument(atm1, atm2);
+        protected boolean arePrimeAnnosEqual(AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype) {
+            normalizePermissions(subtype);
+            normalizePermissions(supertype);
+            return super.arePrimeAnnosEqual(subtype, supertype);
+        }
+    }
+
+    protected class FlowTypeHierarchy extends DefaultTypeHierarchy {
+
+        public FlowTypeHierarchy(BaseTypeChecker checker,
+                QualifierHierarchy qualifierHierarchy, boolean ignoreRawTypes, boolean invariantArrays) {
+            super(checker, qualifierHierarchy, ignoreRawTypes, invariantArrays);
         }
 
+        @Override
+        public StructuralEqualityComparer createEqualityComparer() {
+            return new NormalizingStructuralEqualityComparer(rawnessComparer);
+        }
     }
 
     /**
