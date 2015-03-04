@@ -21,15 +21,12 @@ public class ConstCheckerTest extends Activity {
         @Extra(key = "k4", source = {  }, sink = { INTERNET }),
         @Extra(key = Intent.EXTRA_PHONE_NUMBER, source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
     Intent i1 = new Intent();
-    
-
+    boolean flag = false;
     void getExtraFail() {
-        @StringVal({ "k2", "k3" }) String k2Ork3 = null;
+        @StringVal({ "k2", "k3" })
+        String k2Ork3 = flag ? "k2" : "k3";
+
         //:: error: (forbidden.flow)
         String test1 = i1.getStringExtra(k2Ork3);
     }
-
-
-    
-   
 }

@@ -6,6 +6,7 @@ import static org.checkerframework.framework.qual.DefaultLocation.RESOURCE_VARIA
 import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.common.value.ValueChecker;
 import org.checkerframework.common.value.qual.StringVal;
 import org.checkerframework.framework.flow.CFAbstractAnalysis;
 import org.checkerframework.framework.flow.CFStore;
@@ -812,7 +813,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     public  List<String> getKeysFromPutExtraOrGetExtraCall(MethodInvocationTree tree) {
         List<String> keys = new ArrayList<>();
         //If consant prop. is turned on, get the stringval anno
-        AnnotationMirror stringValAnno = getAnnotationMirror(tree
+        AnnotationMirror stringValAnno = getValueATF().getAnnotationMirror(tree
                 .getArguments().get(0), StringVal.class);
         if (stringValAnno != null) {
             keys = AnnotationUtils.getElementValueArray(stringValAnno, "value",
@@ -879,5 +880,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     // Called by IntentTransfer since CFAnalysis doesn't have it.
     public AnnotatedTypeFactory getAliasingTypeFactory() {
         return checker.getTypeFactoryOfSubchecker(AliasingChecker.class);
+    }
+    public AnnotatedTypeFactory getValueATF() {
+        return checker.getTypeFactoryOfSubchecker(ValueChecker.class);
     }
 }

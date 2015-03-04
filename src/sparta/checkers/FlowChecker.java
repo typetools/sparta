@@ -6,6 +6,7 @@ import org.checkerframework.checker.compilermsgs.qual.CompilerMessageKey;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
+import org.checkerframework.common.value.ValueChecker;
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.qual.StubFiles;
 import org.checkerframework.framework.qual.TypeQualifiers;
@@ -14,6 +15,7 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -29,7 +31,6 @@ import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.PolySourceR;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
-
 import static sparta.checkers.quals.FlowPermission.getFlowPermission;
 
 @TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolySourceR.class, PolySinkR.class, PolyAll.class })
@@ -52,6 +53,12 @@ public class FlowChecker extends BaseTypeChecker {
     @Override
     protected BaseTypeVisitor<?> createSourceVisitor() {
         return new FlowVisitor(this);
+    }
+    @Override
+    protected LinkedHashSet<Class<? extends BaseTypeChecker>> getImmediateSubcheckerClasses() {
+        LinkedHashSet<Class<? extends BaseTypeChecker>> flowSubcheckers = super.getImmediateSubcheckerClasses();
+        flowSubcheckers.add(ValueChecker.class);
+        return flowSubcheckers;
     }
 
     @Override

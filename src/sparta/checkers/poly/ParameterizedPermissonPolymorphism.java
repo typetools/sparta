@@ -11,6 +11,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 
+import org.checkerframework.common.value.ValueChecker;
 import org.checkerframework.common.value.qual.StringVal;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
@@ -207,9 +208,10 @@ public class ParameterizedPermissonPolymorphism {
         return product;
     }
 
-    private List<String> getStringValues(Tree receiver) {
+    private List<String> getStringValues(Tree tree) {
         List<String> values = new ArrayList<>();
-        AnnotationMirror treeAM = atypeFactory.getAnnotationMirror(receiver,
+        AnnotationMirror treeAM = atypeFactory.getTypeFactoryOfSubchecker(
+                ValueChecker.class).getAnnotationMirror(tree,
                 StringVal.class);
         if (treeAM != null) {
             values = AnnotationUtils.getElementValueArray(treeAM, "value",

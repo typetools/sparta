@@ -8,6 +8,7 @@ import javax.annotation.processing.SupportedOptions;
 import org.checkerframework.common.aliasing.AliasingChecker;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
+import org.checkerframework.common.value.ValueChecker;
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.qual.StubFiles;
 import org.checkerframework.framework.qual.TypeQualifiers;
@@ -49,6 +50,7 @@ public class IntentChecker extends FlowChecker {
     protected LinkedHashSet<Class<? extends BaseTypeChecker>> getImmediateSubcheckerClasses() {
         LinkedHashSet<Class<? extends BaseTypeChecker>> subCheckers = super.
                 getImmediateSubcheckerClasses();
+        subCheckers.add(ValueChecker.class);
         subCheckers.add(AliasingChecker.class);
         return subCheckers;
     }
