@@ -284,10 +284,6 @@ public class FlowAnalyzer {
         writer.println("");
     }
 
-    private void printFlows(PrintWriter writer, String flows, String header) {
-        printFlows(writer, Collections.singletonList(flows), header);
-    }
-
     private List<String> getFlowStrList(Collection<Flow> flows) {
         List<String> result = new ArrayList<String>();
         for (Flow flow : flows) {

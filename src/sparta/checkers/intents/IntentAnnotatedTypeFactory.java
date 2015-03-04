@@ -50,11 +50,13 @@ import org.checkerframework.framework.type.treeannotator.PropagationTreeAnnotato
 import org.checkerframework.framework.type.typeannotator.TypeAnnotator;
 import org.checkerframework.framework.type.visitor.AnnotatedTypeScanner;
 import org.checkerframework.framework.util.AnnotationBuilder;
+import org.checkerframework.framework.util.AnnotationFormatter;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import org.checkerframework.framework.util.defaults.QualifierDefaults;
 
 import sparta.checkers.Flow;
 import sparta.checkers.FlowAnnotatedTypeFactory;
+import sparta.checkers.FlowChecker;
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.FlowPermission;
 import sparta.checkers.quals.IntentMap;
@@ -111,6 +113,14 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         if (this.getClass().equals(IntentAnnotatedTypeFactory.class)) {
             this.postInit();
         }
+    }
+
+    @Override
+    protected AnnotationFormatter createAnnotationFormatter() {
+        if (checker.hasOption(FlowChecker.PRETTY_PRINT_OPTION)) {
+            return new IntentAnnotationFormatter();
+        }
+        return super.createAnnotationFormatter();
     }
 
     /**
