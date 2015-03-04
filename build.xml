@@ -347,10 +347,10 @@ ${build.version} of the 'javac.jar' library."/>
     </target>
 
     <!-- Make sure to add all individual tests as dependency. -->
-    <target name="all-tests" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests, param-flow-tests, not-reviewed-tests"
+    <target name="all-tests" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests, param-flow-tests, not-reviewed-tests, reflection-tests"
       description="Run tests for all checkers"/>
 
-    <target name="all-tests-not-intents" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, param-flow-tests, not-reviewed-tests"
+    <target name="all-tests-not-intents" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, param-flow-tests, not-reviewed-tests,  reflection-tests"
       description="Run tests for all checkers"/>
     <target name="not-reviewed-tests" depends="jar,build-tests"
       description="Run tests for the Not Reviewed Library Checker">
@@ -377,6 +377,13 @@ ${build.version} of the 'javac.jar' library."/>
       description="Run tests for the Flow Checker">
         <antcall target="-run-tests">
             <param name="testclass" value="tests.AndroidTests$FlowCheckerTests"/>
+        </antcall>
+    </target>
+    
+        <target name="reflection-tests" depends="jar,build-tests"
+      description="Run tests for the Flow Checker with reflection resolution enabled">
+        <antcall target="-run-tests">
+            <param name="testclass" value="tests.AndroidTests$ReflectionFlowCheckerTests"/>
         </antcall>
     </target>
     

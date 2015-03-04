@@ -151,6 +151,16 @@ public class AndroidTests {
             return testFiles("parameterized");
         }
     }
+    public static class ReflectionFlowCheckerTests extends FlowCheckerTests{
+        public ReflectionFlowCheckerTests(File testFile){
+            super(testFile, "-Anomsgtext", "-AresolveReflection");
+        }
+        @Parameters
+        public static Collection<Object[]> data() {
+            return testFiles("reflection");
+        }
+
+    }
     
     public static class FlowCheckerTests extends ParameterizedCheckerTest {
         public FlowCheckerTests(File testFile) {
@@ -159,7 +169,7 @@ public class AndroidTests {
             // super(testFile, FlowChecker.class, "sparta.checkers");
         }
 
-        private FlowCheckerTests(File testFile, String... checkerOptions) {
+        protected FlowCheckerTests(File testFile, String... checkerOptions) {
             super(testFile, FlowChecker.class, "sparta.checkers", checkerOptions);
         }
 
