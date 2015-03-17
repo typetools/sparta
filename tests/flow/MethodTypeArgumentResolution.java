@@ -1,14 +1,10 @@
 import sparta.checkers.quals.*;
-import sparta.checkers.quals.FlowPermission;
+import static sparta.checkers.quals.FlowPermissionString.*;
 import java.util.*;
 
-// TODO: I couldn't reproduce this issue in the PolyAll Checker.
-//@skip-test
 class MethodTypeArgumentResolution {
-    void foo(List<@Source(FlowPermissionString.ACCESS_FINE_LOCATION) Object> l, Comparator<@Source(FlowPermissionString.ACCESS_FINE_LOCATION) Object> c) {
-        // Unexpected incompatible type error, because method type argument is not inferred correctly.
+    void foo(List<@Source(ACCESS_FINE_LOCATION) Object> l, Comparator<@Source(ACCESS_FINE_LOCATION) Object> c) {
         Collections.sort(l, c);
-        // This call is/should be equivalent.
-        Collections.<@Source(FlowPermissionString.ACCESS_FINE_LOCATION) Object>sort(l, c);
+        Collections.<@Source(ACCESS_FINE_LOCATION) Object>sort(l, c);
     }
 }

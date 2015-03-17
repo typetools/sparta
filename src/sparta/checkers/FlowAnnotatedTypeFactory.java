@@ -249,6 +249,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         DefaultLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS };
         defaults.addAbsoluteDefaults(ANYSOURCE, topLocations);
         defaults.addAbsoluteDefaults(NOSINK, topLocations);
+        
 
         // Default for receivers is top
         DefaultLocation[] conditionalSinkLocs = { RECEIVERS, PARAMETERS,
@@ -677,9 +678,11 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
         @Override
         protected boolean arePrimeAnnosEqual(AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype) {
-            normalizePermissions(subtype);
-            normalizePermissions(supertype);
-            return super.arePrimeAnnosEqual(subtype, supertype);
+            Flow subtypeFlow = new Flow(Flow.getSources(subtype.getAnnotation(Source.class)), 
+                    Flow.getSinks(subtype.getAnnotation(Sink.class)));
+            Flow supertypeFlow = new Flow(Flow.getSources(supertype.getAnnotation(Source.class)), 
+                    Flow.getSinks(supertype.getAnnotation(Sink.class)));
+            return subtypeFlow.equals(supertypeFlow);
         }
     }
 
@@ -696,26 +699,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         }
     }
 
-    /**
-     * This method replaces non-parameterized Source and Sink AnnotationMirrors
-     * in <code>atm</code> by parameterized permissions of the same type.
-     * @param atm
-     */
-    private void normalizePermissions(AnnotatedTypeMirror atm) {
-        if (atm.hasAnnotation(Source.class)) {
-            AnnotationMirror sourceAnno = atm.getAnnotation(Source.class);
-            Set<PFPermission> sources = Flow.getSources(sourceAnno);
-            AnnotationMirror fineSource = createAnnoFromSource(sources);
-            atm.replaceAnnotation(fineSource);
-        }
-
-        if (atm.hasAnnotation(Sink.class)) {
-            AnnotationMirror sinkAnno = atm.getAnnotation(Sink.class);
-            Set<PFPermission> sinks = Flow.getSinks(sinkAnno);
-            AnnotationMirror fineSink = createAnnoFromSink(sinks);
-            atm.replaceAnnotation(fineSink);
-        }
-    }
 
     protected class FlowQualifierHierarchy extends MultiGraphQualifierHierarchy {
 
@@ -776,29 +759,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                 return null; // dead code
             }
         }
-
-        @Override
-        public boolean isSubtype(Collection<? extends AnnotationMirror> rhs,
-                Collection<? extends AnnotationMirror> lhs) {
-            if (rhs.isEmpty() ^ lhs.isEmpty()) {
-                // TODO: more general fix
-                // This happens when casting:
-                /**
-                 * class TypeAsKeyHashMap<T> { 
-                 *    public <S extends T> S get(T type) 
-                 *    { return (S) type; } 
-                 * }
-                 */
-
-                // super will give this error
-                // error: MultiGraphQualifierHierarchy: empty annotations in
-                // lhs: or rhs:
-
-                return false;
-            }
-            return super.isSubtype(rhs, lhs);
-        }
-
 
         @Override
         public boolean isSubtype(AnnotationMirror subtype, AnnotationMirror supertype){
