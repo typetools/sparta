@@ -1,5 +1,66 @@
 package android.media;
 
+class AudioTrack {
+    static final int ERROR;
+    static final int ERROR_BAD_VALUE;
+    static final int ERROR_INVALID_OPERATION;
+    static final int MODE_STATIC;
+    static final int MODE_STREAM;
+    static final int PLAYSTATE_PAUSED;
+    static final int PLAYSTATE_PLAYING;
+    static final int PLAYSTATE_STOPPED;
+    static final int STATE_INITIALIZED;
+    static final int STATE_NO_STATIC_DATA;
+    static final int STATE_UNINITIALIZED;
+    static final int SUCCESS;
+    static final int WRITE_BLOCKING;
+    static final int WRITE_NON_BLOCKING;
+    AudioTrack(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5) throws IllegalArgumentException;
+    AudioTrack(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6) throws IllegalArgumentException;
+    AudioTrack(AudioAttributes arg0, AudioFormat arg1, int arg2, int arg3, int arg4) throws IllegalArgumentException;
+    void release();
+    protected void finalize();
+    static float getMinVolume();
+    static float getMaxVolume();
+    int getSampleRate();
+    int getPlaybackRate();
+    int getAudioFormat();
+    int getStreamType();
+    int getChannelConfiguration();
+    int getChannelCount();
+    int getState();
+    int getPlayState();
+    protected int getNativeFrameCount();
+    int getNotificationMarkerPosition();
+    int getPositionNotificationPeriod();
+    int getPlaybackHeadPosition();
+    static int getNativeOutputSampleRate(int arg0);
+    static int getMinBufferSize(int arg0, int arg1, int arg2);
+    int getAudioSessionId();
+    boolean getTimestamp(AudioTimestamp arg0);
+    void setPlaybackPositionUpdateListener(OnPlaybackPositionUpdateListener arg0);
+    void setPlaybackPositionUpdateListener(OnPlaybackPositionUpdateListener arg0, Handler arg1);
+    int setStereoVolume(float arg0, float arg1);
+    int setVolume(float arg0);
+    int setPlaybackRate(int arg0);
+    int setNotificationMarkerPosition(int arg0);
+    int setPositionNotificationPeriod(int arg0);
+    int setPlaybackHeadPosition(int arg0);
+    int setLoopPoints(int arg0, int arg1, int arg2);
+    protected void setState(int arg0);
+    void play() throws IllegalStateException;
+    void stop() throws IllegalStateException;
+    void pause() throws IllegalStateException;
+    void flush();
+    int write(@Sink(SPEAKER) byte[] arg0, int arg1, int arg2);
+    int write(@Sink(SPEAKER)  short[] arg0, int arg1, int arg2);
+    int write(@Sink(SPEAKER)  float[] arg0, int arg1, int arg2, int arg3);
+    int write(@Sink(SPEAKER) ByteBuffer arg0, int arg1, int arg2);
+    int reloadStaticData();
+    int attachAuxEffect(int arg0);
+    int setAuxEffectSendLevel(float arg0);
+}
+
 class FaceDetector {
 @PolyFlow int findFaces(Bitmap bitmap, Face[] faces);
 }

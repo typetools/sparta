@@ -12,6 +12,7 @@ class ContentHandler{
 }
 
 class URLEncoder {
+@PolyFlow
 static String encode(String arg0);
 }
 

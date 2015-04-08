@@ -166,16 +166,16 @@ void invokeZoomPicker();
 boolean isPrivateBrowsingEnabled();
 //Gets whether private browsing is enabled in this WebView.
 
-void loadData(@Source(INTERNET) String data, @Source(INTERNET) String mimeType, @Source(INTERNET) String encoding);
+void loadData(@Sink(INTERNET) String data, @Sink(INTERNET) String mimeType, @Sink(INTERNET) String encoding);
 //Loads the given data into this WebView using a 'data' scheme URL.
 
-void loadDataWithBaseURL(@Source(INTERNET) String baseUrl, @Source(INTERNET) String data, @Source(INTERNET) String mimeType, @Source(INTERNET) String encoding, @Source(INTERNET) String historyUrl);
+void loadDataWithBaseURL(@Sink(INTERNET) String baseUrl, @Sink(INTERNET) String data, @Sink(INTERNET) String mimeType, @Sink(INTERNET) String encoding, @Sink(INTERNET) String historyUrl);
 //Loads the given data into this WebView, using baseUrl as the base URL for the content.
 
-void loadUrl(@Source(INTERNET) String url);
+void loadUrl(@Sink(INTERNET) String url);
 //Loads the given URL.
 
-void loadUrl(@Source(INTERNET) String url, @Source(INTERNET) Map<String, String> additionalHttpHeaders);
+void loadUrl(@Sink(INTERNET) String url, @Sink(INTERNET) Map<String, String> additionalHttpHeaders);
 //Loads the given URL with the specified additional HTTP headers.
 
 void onChildViewAdded(View parent, View child);

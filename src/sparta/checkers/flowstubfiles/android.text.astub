@@ -187,10 +187,11 @@ static boolean isGraphic(CharSequence str);
 
 static boolean isGraphic(char c);
 //Returns whether this character is a printable character.
-
+@PolyFlow
 static String join(CharSequence delimiter, Iterable tokens);
 //Returns a string containing the tokens joined by delimiters.
 
+@PolyFlow
 static String join(CharSequence delimiter, Object[] tokens);
 //Returns a string containing the tokens joined by delimiters.
 
