@@ -13,7 +13,6 @@ import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
 
 import org.checkerframework.dataflow.analysis.TransferResult;
 import org.checkerframework.dataflow.cfg.node.Node;
-
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.InternalUtils;
@@ -64,6 +63,9 @@ import org.checkerframework.framework.type.treeannotator.ImplicitsTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.PropagationTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
+import org.checkerframework.framework.type.typeannotator.ImplicitsTypeAnnotator;
+import org.checkerframework.framework.type.typeannotator.ListTypeAnnotator;
+import org.checkerframework.framework.type.typeannotator.PropagationTypeAnnotator;
 import org.checkerframework.framework.type.typeannotator.TypeAnnotator;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.AnnotationFormatter;
@@ -88,6 +90,7 @@ import sparta.checkers.quals.Source;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
+import com.sun.source.tree.TypeCastTree;
 
 public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
@@ -432,7 +435,12 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         
         return implicits;
     }
-
+/**
+ * Corrects default annotation on new class trees and flow completes type casts.
+ * All other types are flow completed by FlowPolicyTypeAnnotator
+ * @author smillst
+ *
+ */
     protected class FlowPolicyTreeAnnotator extends TreeAnnotator {
 
         public FlowPolicyTreeAnnotator(FlowAnnotatedTypeFactory atypeFactory) {
@@ -440,17 +448,10 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         }
 
         @Override
-        public Void defaultAction(Tree tree, AnnotatedTypeMirror type) {
-            completePolicyFlows(type);
-            return super.defaultAction(tree, type);
-        }
-        @Override
         public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror p) {
             //This is a horrible hack around the bad implementation of constructor results
             //(CF treats annotations on constructor results in stub files as if it were a 
             //default and therefore ignores it.) 
-            //This hack makes it impossible to write any annotation in the following location:
-            //new @A SomeClass();
             AnnotatedTypeMirror defaulted = atypeFactory.constructorFromUse(node).first.getReturnType();
             Set<AnnotationMirror> defaultedSet = defaulted.getAnnotations();
             //The default of OTHERWISE locations such as constructor results
@@ -464,11 +465,21 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             p.replaceAnnotations(defaultedSet);
             return null;
         }
+        @Override
+        public Void visitTypeCast(TypeCastTree node, AnnotatedTypeMirror p) {
+            // Fill in the missing source or sink before the propagation tree annotator
+            // copies the missing annotation from the expressions.
+            completePolicyFlows(p);
+            return super.visitTypeCast(node, p);
+        }
    }
 
     @Override
     protected TypeAnnotator createTypeAnnotator() {
-        return new FlowPolicyTypeAnnotator(this);
+        return new ListTypeAnnotator(
+               super.createTypeAnnotator(),
+                new FlowPolicyTypeAnnotator(this)
+        );
     }
 
     /**
@@ -544,53 +555,39 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
             completePolicyFlows(type);
             return r;
         }
-
     }
 
+public static long time = 0;
 
     protected void completePolicyFlows(final AnnotatedTypeMirror type) {
+//        System.out.println(type.toString());
         Set<PFPermission> sources = null;
         Set<PFPermission> sinks = null;
-        if ((type instanceof AnnotatedTypeVariable)) {
-            if (shouldNotComplete(type.getAnnotations())) {
-                return;
+        if (shouldNotComplete(type.getAnnotations())) {
+            return;
+        }
+        for (AnnotationMirror anno : type.getAnnotations()) {
+            if (AnnotationUtils.areSameByClass(anno, Source.class)) {
+                sources = Flow.getSources(anno);
+                break;
+            } else if (AnnotationUtils.areSameByClass(anno, Sink.class)) {
+                sinks = Flow.getSinks(anno);
+                break;
             }
-            for (AnnotationMirror anno : type.getAnnotations()) {
-                if (AnnotationUtils.areSameByClass(anno, Source.class)) {
-                    sources = Flow.getSources(anno);
-                    break;
-                } else if (AnnotationUtils.areSameByClass(anno, Sink.class)) {
-                    sinks = Flow.getSinks(anno);
-                    break;
-                }
-            }
-        } else {
-            if (shouldNotComplete(type.getEffectiveAnnotations())) {
-                return;
-            }
-            for (AnnotationMirror anno : type.getEffectiveAnnotations()) {
-                if (AnnotationUtils.areSameByClass(anno, Source.class)) {
-                    sources = Flow.getSources(anno);
-                    break;
-                } else if (AnnotationUtils.areSameByClass(anno, Sink.class)) {
-                    sinks = Flow.getSinks(anno);
-                    break;
-                }
-            }
-
         }
 
         AnnotationMirror newAnno;
         if (sources != null) {
-            Set<PFPermission> newSink = getFlowPolicy().getIntersectionAllowedSinks(sources);
-            newAnno =  createAnnoFromSink(newSink);
+            Set<PFPermission> newSink = getFlowPolicy()
+                    .getIntersectionAllowedSinks(sources);
+            newAnno = createAnnoFromSink(newSink);
             type.replaceAnnotation(newAnno);
         } else if (sinks != null) {
-            Set<PFPermission> newSource = getFlowPolicy().getIntersectionAllowedSources(sinks);
-            newAnno=  createAnnoFromSource(newSource);
+            Set<PFPermission> newSource = getFlowPolicy()
+                    .getIntersectionAllowedSources(sinks);
+            newAnno = createAnnoFromSource(newSource);
             type.replaceAnnotation(newAnno);
         }
-
     }
 
     /**
