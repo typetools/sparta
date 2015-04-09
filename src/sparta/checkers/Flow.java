@@ -215,14 +215,17 @@ public class Flow {
      * @return
      */
     public static Set<PFPermission> getSetOfAllSources() {
+        return setOfAllSources;
+    }
+    static Set<PFPermission> setOfAllSources = new TreeSet<>();
+
+    {
         List<FlowPermission> coarseFlowList = Arrays.asList(FlowPermission.values());
-        Set<PFPermission> flowPermissionSet = new TreeSet<>();
         for (FlowPermission permission : coarseFlowList) {
             if (permission != FlowPermission.ANY) {
-                flowPermissionSet.add(new PFPermission(permission)); 
+                setOfAllSources.add(new PFPermission(permission)); 
             }
         }
-        return flowPermissionSet;
     }
 
     /**
@@ -231,14 +234,18 @@ public class Flow {
      * @return
      */
     public static Set<PFPermission> getSetOfAllSinks() {
-        List<FlowPermission> coarseFlowList = Arrays.asList(FlowPermission.values());
-        Set<PFPermission> flowPermissionSet = new TreeSet<>();
+        return setOfAllSinks;
+    }
+
+    static Set<PFPermission> setOfAllSinks = new TreeSet<>();
+    {
+        List<FlowPermission> coarseFlowList = Arrays.asList(FlowPermission
+                .values());
         for (FlowPermission permission : coarseFlowList) {
             if (permission != FlowPermission.ANY) {
-                flowPermissionSet.add(new PFPermission(permission)); 
+                setOfAllSinks.add(new PFPermission(permission));
             }
         }
-        return flowPermissionSet;
     }
 
     /**
