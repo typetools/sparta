@@ -16,6 +16,12 @@ import static sparta.checkers.quals.FlowPermissionString.*;
 //warning: StubParser: Skipping enum type: java.util.concurrent.TimeUnit
 //warning: StubParser: Type not found: org.htmlcleaner.HtmlCleaner
 //warning: StubParser: Type not found: org.htmlcleaner.TagNode
+//warning: StubParser: Field WRITE_BLOCKING not found in type android.media.AudioTrack
+//warning: StubParser: Field WRITE_NON_BLOCKING not found in type android.media.AudioTrack
+//warning: StubParser: Constructor <init>(AudioAttributes,AudioFormat,int,int,int) not found in type android.media.AudioTrack
+//warning: StubParser: Method setVolume(float) not found in type android.media.AudioTrack
+//warning: StubParser: Method write(float[],int,int,int) not found in type android.media.AudioTrack
+//warning: StubParser: Method write(ByteBuffer,int,int) not found in type android.media.AudioTrack
 
 class TestStubImplicitConstructor { 
     
