@@ -519,7 +519,7 @@ public class FlowPolicy {
             if (values == null) {
                 values = new TreeSet<PFPermission>();
             }
-            return Collections.unmodifiableSet(values);
+            return values;
         }
     }
 

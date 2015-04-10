@@ -215,18 +215,17 @@ public class Flow {
      * @return
      */
     public static Set<PFPermission> getSetOfAllSources() {
+        if(setOfAllSources.isEmpty()){
+            List<FlowPermission> coarseFlowList = Arrays.asList(FlowPermission.values());
+            for (FlowPermission permission : coarseFlowList) {
+                if (permission != FlowPermission.ANY) {
+                    setOfAllSources.add(new PFPermission(permission)); 
+                }
+            } 
+        }
         return setOfAllSources;
     }
     static Set<PFPermission> setOfAllSources = new TreeSet<>();
-
-    {
-        List<FlowPermission> coarseFlowList = Arrays.asList(FlowPermission.values());
-        for (FlowPermission permission : coarseFlowList) {
-            if (permission != FlowPermission.ANY) {
-                setOfAllSources.add(new PFPermission(permission)); 
-            }
-        }
-    }
 
     /**
      * All possible sinks, excluding ANY
@@ -234,19 +233,20 @@ public class Flow {
      * @return
      */
     public static Set<PFPermission> getSetOfAllSinks() {
+        if (setOfAllSinks.isEmpty()) {
+            List<FlowPermission> coarseFlowList = Arrays.asList(FlowPermission
+                    .values());
+            for (FlowPermission permission : coarseFlowList) {
+                if (permission != FlowPermission.ANY) {
+                    setOfAllSinks.add(new PFPermission(permission));
+                }
+            }
+        }
         return setOfAllSinks;
     }
 
     static Set<PFPermission> setOfAllSinks = new TreeSet<>();
-    {
-        List<FlowPermission> coarseFlowList = Arrays.asList(FlowPermission
-                .values());
-        for (FlowPermission permission : coarseFlowList) {
-            if (permission != FlowPermission.ANY) {
-                setOfAllSinks.add(new PFPermission(permission));
-            }
-        }
-    }
+
 
     /**
      * If sources contains all possible sources, then return ANY.

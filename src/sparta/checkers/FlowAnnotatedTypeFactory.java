@@ -560,7 +560,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 public static long time = 0;
 
     protected void completePolicyFlows(final AnnotatedTypeMirror type) {
-//        System.out.println(type.toString());
         Set<PFPermission> sources = null;
         Set<PFPermission> sinks = null;
         if (shouldNotComplete(type.getAnnotations())) {
