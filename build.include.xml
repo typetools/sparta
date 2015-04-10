@@ -139,6 +139,11 @@
         <process-proj processor="sparta.checkers.intents.IntentChecker"/>
     </target>
 
+    <target name="check-nullness"
+                depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
+                description="check for check-flow.">
+        <process-proj processor="NullnessChecker"/>
+    </target>
     <target name="check-flow"
                 depends="clean,-setup-check-flow, -build-setup,-set-release-mode,-code-gen, -post-package" 
                 description="check for check-flow.">
