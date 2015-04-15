@@ -181,7 +181,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     @Override
     protected AnnotatedTypeFormatter createAnnotatedTypeFormatter() {
-        return new DefaultAnnotatedTypeFormatter(createAnnotationFormatter(), checker.hasOption("printAllQualifiers"));
+        return new DefaultAnnotatedTypeFormatter(createAnnotationFormatter(),
+                checker.hasOption("printVerboseGenerics"), checker.hasOption("printAllQualifiers"));
     }
     @Override
     protected AnnotationFormatter createAnnotationFormatter() {
