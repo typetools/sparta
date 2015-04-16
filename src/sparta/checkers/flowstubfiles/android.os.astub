@@ -55,7 +55,7 @@ class AsyncTask<Params, Progress, Result> {
     boolean cancel(boolean arg0);
     Result get() throws InterruptedException,ExecutionException;
     Result get(long arg0, TimeUnit arg1) throws InterruptedException,ExecutionException,TimeoutException;
-    AsyncTask<Params,Progress,Result> execute(@Source(ANY) @Sink() Params[] arg0);
+    AsyncTask<Params,Progress,Result> execute( Params[] arg0);
     AsyncTask<Params,Progress,Result> executeOnExecutor(Executor arg0, Params[] arg1);
     static void execute(Runnable arg0);
     protected void publishProgress(@Sink(DISPLAY) Progress[] arg0);
