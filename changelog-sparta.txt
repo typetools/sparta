@@ -1,7 +1,10 @@
 Version 1.0.1 24 April 2015
 
 Information Flow Checker changes:
-  IFC is now 50% faster
+  If you supply the -DcfOpts="-AresolveReflection=" option to the check-flow an target,
+  IFC will attempt to resolve reflection. This reduces the number of
+  false positive warnings caused by reflection.
+
 ----------------------------------------------------------------------
 Version 1.0.0 28 Dec 2014
 
