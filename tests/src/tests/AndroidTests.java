@@ -1,17 +1,19 @@
 package tests;
 import java.io.File;
+import java.lang.Override;
+import java.lang.String;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
-
-import org.checkerframework.framework.test.ParameterizedCheckerTest;
-import org.checkerframework.framework.test.TestInput;
-import org.checkerframework.framework.test.TestRun;
+import org.checkerframework.framework.test.CheckerFrameworkTest;
+import org.checkerframework.framework.test.CompilationResult;
+import org.checkerframework.framework.test.TestConfiguration;
+import org.checkerframework.framework.test.TestUtilities;
+import org.checkerframework.framework.test.TypecheckExecutor;
+import org.checkerframework.framework.test.TypecheckResult;
+import org.checkerframework.framework.test.diagnostics.TestDiagnostic;
+import org.checkerframework.framework.test.diagnostics.TestDiagnosticUtils;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized.Parameters;
@@ -22,6 +24,8 @@ import sparta.checkers.intents.IntentChecker;
 import sparta.checkers.permission.AndroidFenumChecker;
 import sparta.checkers.permission.PermissionsChecker;
 import sparta.checkers.report.ReportAPIChecker;
+
+import static org.checkerframework.framework.test.TestConfigurationBuilder.buildDefaultConfiguration;
 
 /**
  * JUnit tests for the SPARTA Checkers.
@@ -43,7 +47,7 @@ public class AndroidTests {
         }
     }
 
-    public static class AndroidFenumCheckerTests extends ParameterizedCheckerTest {
+    public static class AndroidFenumCheckerTests extends CheckerFrameworkTest {
         public AndroidFenumCheckerTests(File testFile) {
             super(testFile, AndroidFenumChecker.class, "sparta.checkers", "-Anomsgtext", "-AprintErrorStack");
 //            super(testFile, AndroidFenumChecker.class, "sparta.checkers", "-Astubs=apiusage.astub");
@@ -51,35 +55,35 @@ public class AndroidTests {
         }
 
         @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("fenums");
+        public static String[] getTestDirs() {
+            return new String[]{"fenums"};
         }
     }
 
-    public static class AndroidPermissionsCheckerTests extends ParameterizedCheckerTest {
+    public static class AndroidPermissionsCheckerTests extends CheckerFrameworkTest {
         public AndroidPermissionsCheckerTests(File testFile) {
             super(testFile, PermissionsChecker.class, "sparta.checkers", "-Anomsgtext");
         }
 
         @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("permissions");
+        public static String[] getTestDirs() {
+            return new String[]{"permissions"};
         }
     }
 
-    public static class AndroidReportCheckerTests extends ParameterizedCheckerTest {
+    public static class AndroidReportCheckerTests extends CheckerFrameworkTest {
         public AndroidReportCheckerTests(File testFile) {
             super(testFile, ReportAPIChecker.class, "sparta.checkers", "-Anomsgtext",
                     "-Astubs=apiusage.astub:suspicious.astub");
         }
 
         @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("report");
+        public static String[] getTestDirs() {
+            return new String[]{"report"};
         }
     }
 
-    public static class IntentCheckerTests extends ParameterizedCheckerTest {
+    public static class IntentCheckerTests extends CheckerFrameworkTest {
         public IntentCheckerTests(File testFile) {
             super(testFile, IntentChecker.class, "sparta.checkers", "-Anomsgtext");
             // Uncomment the line below to see the full errors in the JUnit tests
@@ -90,13 +94,14 @@ public class AndroidTests {
             super(testFile, IntentChecker.class, "sparta.checkers", checkerOptions);
         }
 
+
         @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("intent");
+        public static String[] getTestDirs() {
+            return new String[]{"intent"};
         }
 
         @Override
-        protected void test(final File testFile) {
+        public List<String> customizeOptions(List<String> previousOptions) {
             final File flowPolicyFile = getFlowPolicy(testFile);
             final File componentMapFile = getComponentMap(testFile);
             final List<String> optionsWithPf = new ArrayList<>(checkerOptions);
@@ -116,8 +121,7 @@ public class AndroidTests {
                 optionsWithPf.add("-AprintErrorStack");
             }
 
-            // System.out.println("OPTIONS:\n" + join(optionsWithPf, " "));
-            test(checkerName, optionsWithPf, testFile);
+            return optionsWithPf;
         }
 
         protected File getFile(final File javaFile, final String extension) {
@@ -147,22 +151,22 @@ public class AndroidTests {
         }
 
         @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("parameterized");
+        public static String[] getTestDirs() {
+            return new String[]{"parameterized"};
         }
     }
-    public static class ReflectionFlowCheckerTests extends FlowCheckerTests{
+    public static class ReflectionFlowCheckerTests extends FlowCheckerTests {
         public ReflectionFlowCheckerTests(File testFile){
             super(testFile, "-Anomsgtext", "-AresolveReflection");
         }
-        @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("reflection");
-        }
 
+        @Parameters
+        public static String[] getTestDirs() {
+            return new String[]{"reflection"};
+        }
     }
     
-    public static class FlowCheckerTests extends ParameterizedCheckerTest {
+    public static class FlowCheckerTests extends CheckerFrameworkTest {
         public FlowCheckerTests(File testFile) {
             super(testFile, FlowChecker.class, "sparta.checkers", "-Anomsgtext");
             // Uncomment the line below to see the full errors in the JUnit tests
@@ -174,12 +178,12 @@ public class AndroidTests {
         }
 
         @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("flow");
+        public static String[] getTestDirs() {
+            return new String[]{"flow"};
         }
 
         @Override
-        protected void test(final File testFile) {
+        public List<String> customizeOptions(List<String> previousOptions) {
             final File flowPolicyFile = getFlowPolicy(testFile);
             final List<String> optionsWithPf = new ArrayList<>(checkerOptions);
 
@@ -192,8 +196,7 @@ public class AndroidTests {
                 optionsWithPf.add("-AprintErrorStack");
             }
 
-            // System.out.println("OPTIONS:\n" + join(optionsWithPf, " "));
-            test(checkerName, optionsWithPf, testFile);
+            return optionsWithPf;
         }
 
         protected File getFile(final File javaFile, final String extension) {
@@ -222,8 +225,8 @@ public class AndroidTests {
              }
 
         @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("strict");
+        public static String[] getTestDirs() {
+            return new String[]{"strict"};
         }
     }
 
@@ -233,12 +236,12 @@ public class AndroidTests {
         }
 
         @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("stubfile");
+        public static String[] getTestDirs() {
+            return new String[]{"stubfile"};
         }
 
         @Override
-        protected void test(final File testFile) {
+        public List<String> customizeOptions(List<String> previousOptions) {
             final File flowPolicyFile = getFlowPolicy(testFile);
             final File stubFile = getStubfile(testFile);
             final List<String> optionsWithPf = new ArrayList<>(checkerOptions);
@@ -263,8 +266,7 @@ public class AndroidTests {
                 optionsWithPf.add("-AprintErrorStack");
             }
 
-            // System.out.println("OPTIONS:\n" + join(optionsWithPf, " "));
-            test(checkerName, optionsWithPf, testFile);
+            return optionsWithPf;
         }
 
         protected File getStubfile(final File javaFile) {
@@ -282,13 +284,14 @@ public class AndroidTests {
             super(testFile);
 
         }
+
         @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("policyfile");
+        public static String[] getTestDirs() {
+            return new String[]{"policyfile"};
         }
     }
 
-    public static class NotReviewedLibraryCheckerTests extends ParameterizedCheckerTest {
+    public static class NotReviewedLibraryCheckerTests extends CheckerFrameworkTest {
         final static String dirname="testOutput";
         final static String filename="testmissing.astub";
         final static String stubname=dirname+File.separator+filename;
@@ -306,34 +309,34 @@ public class AndroidTests {
         }
 
         @Parameters
-        public static Collection<Object[]> data() {
-            return testFiles("not-reviewed");
+        public static String[] getTestDirs() {
+            return new String[]{"not-reviewed"};
         }
 
         @Override
-        protected void test(final File testFile) {
+        public void run() {
             //Test it once, with expected errors
-            test(checkerName, checkerOptions, testFile);
-            List<String> checkOptionsPlusStub = new ArrayList<String>(checkerOptions);
-            checkOptionsPlusStub.add("-Astubs="+stubname);
+            super.run();
+
             //Test it again with the generated stub file,
             //and expect no errors/warnings, but "Note: All methods reviewed"
-            testExpected(checkerName, checkOptionsPlusStub, testFile,"Note: All methods reviewed.");
+            boolean shouldEmitDebugInfo = TestUtilities.getShouldEmitDebugInfo();
+
+            List<String> optionsPlusStub = new ArrayList<String>(checkerOptions);
+            optionsPlusStub.add("-Astubs=" + stubname);
+            TestConfiguration config = buildDefaultConfiguration(checkerDir, testFile, checkerName, optionsPlusStub,
+                                                                 shouldEmitDebugInfo);
+
+            TypecheckExecutor executor = new TypecheckExecutor() {
+                @Override
+                protected List<TestDiagnostic> readDiagnostics(TestConfiguration config, CompilationResult compilationResult) {
+                    return Arrays.asList(TestDiagnosticUtils.fromJavaxToolsDiagnostic("Note: All methods reviewed.", true));
+                }
+            };
+
+            TypecheckResult testResult = executor.runTest(config);
+            TestUtilities.assertResultsAreValid(testResult);
         }
-
-         void testExpected(String checkerName, List<String> checkerOptions, File testFile, String expected ){
-            final JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-            StandardJavaFileManager fileManager
-                    = compiler.getStandardFileManager(null, null, null);
-            Iterable<? extends JavaFileObject> tests
-                    = fileManager.getJavaFileObjects(testFile);
-
-            TestRun run = TestInput.compileAndCheck(null, tests, checkerName, checkerOptions);
-            List<String> expectedErrors = new ArrayList<String>();
-            expectedErrors.add(expected);
-            checkTestResult(run, expectedErrors, expectedErrors.isEmpty(), testFile.toString(), checkerOptions);
-        }
-
     }
 
 
