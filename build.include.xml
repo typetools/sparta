@@ -372,16 +372,16 @@
         </fileset>
         <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
 
-        <exec executable="${env.CHECKER_INFERENCE}/scripts/inference.py" failonerror="true">
-            <arg line="--extra-classpath='${cmdClasspath}:${cmdLibs}:src/:gen/:.'" />
-            <arg line="--solver sparta.checkers.SpartaSourceSolver" />
+        <exec executable="${env.CHECKER_INFERENCE}/scripts/inference" failonerror="true">
+            <!--<arg line="- -solver sparta.checkers.SpartaSourceSolver" />-->
             <!--<arg line="- -solver checkers.inference.solver.DebugSolver" />-->
-            <arg line="--checker sparta.checkers.SpartaSourceChecker" />
-            <arg line="--log-level=ALL" />
-            <arg line="--prog-args='--proconly=false --hackmode'" />
-            <arg line="--mode roundtrip" />
-            <arg line="--in-place" />
+            <arg line="--typesystem sparta-source" />
+            <arg line="--logLevel=ALL" />
+            <arg line="--hacks" />
+            <arg line="-m ROUNDTRIP" />
+            <arg line="--inPlace" />
             <arg line="${debug}" />
+            <arg line="-- -cp '${cmdClasspath}:${cmdLibs}:src/:gen/:.'" />
             <arg line="${cmdSourceJava} ${cmdGenJava}" />
         </exec>
     </target>
@@ -410,15 +410,14 @@
         </fileset>
         <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
 
-        <exec executable="${env.CHECKER_INFERENCE}/scripts/inference.py" failonerror="true">
-            <arg line="--extra-classpath='${cmdClasspath}:${cmdLibs}:src/:gen/:.'" />
-            <arg line="--solver sparta.checkers.SpartaSinkSolver" />
-            <arg line="--checker sparta.checkers.SpartaSinkChecker" />
-            <arg line="--log-level=ALL" />
-            <arg line="--prog-args='--proconly=false --hackmode'" />
-            <arg line="--mode roundtrip" />
-            <arg line="--in-place" />
+        <exec executable="${env.CHECKER_INFERENCE}/scripts/inference" failonerror="true">
+            <arg line="--typesystem sparta-sink" />
+            <arg line="--logLevel=ALL" />
+            <arg line="--hacks" />
+            <arg line="-m ROUNDTRIP" />
+            <arg line="--inPlace" />
             <arg line="${debug}" />
+            <arg line="-- -cp '${cmdClasspath}:${cmdLibs}:src/:gen/:.'" />
             <arg line="${cmdSourceJava} ${cmdGenJava}" />
         </exec>
     </target>
