@@ -375,7 +375,7 @@
         <exec executable="${env.CHECKER_INFERENCE}/scripts/inference" failonerror="true">
             <!--<arg line="- -solver sparta.checkers.SpartaSourceSolver" />-->
             <!--<arg line="- -solver checkers.inference.solver.DebugSolver" />-->
-            <arg line="--typesystem sparta-source" />
+            <arg line="--typesystem sparta-source-SAT" />
             <arg line="--logLevel=ALL" />
             <arg line="--hacks" />
             <arg line="-m ROUNDTRIP" />
@@ -411,7 +411,7 @@
         <pathconvert property="cmdGenJava" refid="myGenJava" pathsep="' '" />
 
         <exec executable="${env.CHECKER_INFERENCE}/scripts/inference" failonerror="true">
-            <arg line="--typesystem sparta-sink" />
+            <arg line="--typesystem sparta-sink-SAT" />
             <arg line="--logLevel=ALL" />
             <arg line="--hacks" />
             <arg line="-m ROUNDTRIP" />
