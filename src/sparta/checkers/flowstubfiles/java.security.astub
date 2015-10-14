@@ -22,6 +22,7 @@ static SecureRandom getInstance(String arg0, String arg1) throws NoSuchAlgorithm
 static SecureRandom getInstance(String arg0) throws NoSuchAlgorithmException;
 void setSeed(byte[] arg0);
 void setSeed(long arg0);
+int getNextInt(@Source("RANDOM") int agr);
 }
 
 class KeyStore {
