@@ -1,33 +1,34 @@
-syntax: glob
+# git
+.gitignore
+.git
 
 # Emacs and other temporary files
 *~
 .#*
-*.swp
+\#*#
 TAGS
 tags
+*.swp
 *.orig
 .DS_Store
+# Eclipse files
+.metadata
+.classpath
+.project
+.externalToolBuilders
+.settings
+dot_files
+
 
 missingAPI.astub
 
 sparta.jar
-
+sparta-out/
 bin/jarlist.cache
 bin/
 build/
 tests/build/
 
-syntax: regexp
-^tests/build$
-\.class$
-
-syntax: regexp
-^lib/google-gson-2\.2\.2$
-syntax: regexp
-^lib/google-gson-2\.2\.2-release\.zip$
-
-syntax: glob
 docs/manual.aux
 docs/manual.blg
 docs/manual.bbl
