@@ -1,1 +1,0 @@
--The ant targets do not work if their is a space anywhere in your project path.
