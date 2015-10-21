@@ -1,3 +1,9 @@
+Version 1.0.2 
+
+Version control repository:
+  The SPARTA source code is available in GitHub:
+  https://github.com/typetools/sparta/
+
 Version 1.0.1 24 April 2015
 
 Information Flow Checker changes:
