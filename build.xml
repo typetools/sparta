@@ -361,6 +361,9 @@ ${build.version} of the 'javac.jar' library."/>
     <target name="all-tests" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, intent-tests, param-flow-tests, not-reviewed-tests, reflection-tests"
       description="Run tests for all checkers"/>
 
+    <target name="all-tests-nostubs" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, strict-tests, intent-tests, param-flow-tests, not-reviewed-tests, reflection-tests"
+      description="Run tests for all checkers -- execpt for the stub file tests"/>
+
     <target name="all-tests-not-intents" depends="jar,build-tests,build-intent-tests,permissions-tests,report-tests,flow-tests,flow-policy-tests,fenum-tests, stubfile-tests, strict-tests, param-flow-tests, not-reviewed-tests,  reflection-tests"
       description="Run tests for all checkers"/>
     <target name="not-reviewed-tests" depends="jar,build-tests"
