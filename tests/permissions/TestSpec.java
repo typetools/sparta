@@ -4,6 +4,10 @@ import android.location.LocationManager;
 import sparta.checkers.permission.qual.*;
 
 // Tests permissions contained in permission.astub
+
+//android.accessibilityservice.AccessibilityService.clearWallpaper 
+//was deprecated in Android 23
+@SuppressWarnings("deprecation")
 class TestSpec {
     @RequiredPermissions(android.Manifest.permission.SET_WALLPAPER)
     Object local() { return null; }
