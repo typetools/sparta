@@ -4,16 +4,16 @@ Making a release
 ================
 export RELEASE=`pwd`
 cd $RELEASE
-hg clone https://dada.cs.washington.edu/hgweb/sparta-code sparta-toolset-v1.0.1-source
+git clone git@github.com:typetools/sparta.git sparta-toolset-v1.0.1-source
 cd sparta-toolset-v1.0.1-source
 
 //Update the version number of SPARTA and CF:
 vi build.properties docs/manual.tex website/release/index.html website/index.html
 vi changelog-sparta.txt
 
-hg commit -m "Updated to v1.0.1"
-hg tag sparta-1.0.1
-hg push
+git commit -a -m "Updated to v1.0.1"
+git tag sparta-1.0.1
+git push
 
 ant jar 
 cd docs; make ;cd ..
