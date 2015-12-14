@@ -2,7 +2,9 @@ language: java
 
 install: true
 
-script: travis_wait 120 ./.travis-build.sh
+## Temporarily disabled, until we add logic to install Android SDK
+script: true
+# script: travis_wait 120 ./.travis-build.sh
 
 sudo: false
 
