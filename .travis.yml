@@ -1,0 +1,18 @@
+language: java
+
+install: true
+
+## Temporarily disabled, until we add logic to install Android SDK
+script: true
+# script: travis_wait 120 ./.travis-build.sh
+
+sudo: false
+
+jdk:
+  - oraclejdk8
+#  - oraclejdk7
+  - openjdk7
+
+notifications:
+  email:
+    - sparta@cs.washington.edu
