@@ -20,7 +20,6 @@ import org.checkerframework.javacutil.Pair;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -63,9 +62,7 @@ import org.checkerframework.framework.type.treeannotator.ImplicitsTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.PropagationTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
-import org.checkerframework.framework.type.typeannotator.ImplicitsTypeAnnotator;
 import org.checkerframework.framework.type.typeannotator.ListTypeAnnotator;
-import org.checkerframework.framework.type.typeannotator.PropagationTypeAnnotator;
 import org.checkerframework.framework.type.typeannotator.TypeAnnotator;
 import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.AnnotationFormatter;
@@ -220,30 +217,31 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
      */
     private void initQualifierDefaults() {
         // Final fields from byte code are {} -> ANY
-        byteCodeFieldDefault.addAbsoluteDefault(NOSOURCE, OTHERWISE);
-        byteCodeFieldDefault.addAbsoluteDefault(ANYSINK, OTHERWISE);
+        byteCodeFieldDefault.addCheckedCodeDefault(NOSOURCE, OTHERWISE);
+        byteCodeFieldDefault.addCheckedCodeDefault(ANYSINK, OTHERWISE);
 
         // All locations besides non-final fields in byte code are
         // conservatively ANY -> ANY
-        byteCodeDefaults.addAbsoluteDefault(ANYSOURCE,
-                DefaultLocation.OTHERWISE);
-        byteCodeDefaults.addAbsoluteDefault(ANYSINK, DefaultLocation.OTHERWISE);
+        byteCodeDefaults.addCheckedCodeDefault(ANYSOURCE,
+                                                      DefaultLocation.OTHERWISE);
+        byteCodeDefaults.addCheckedCodeDefault(ANYSINK,
+                                                      DefaultLocation.OTHERWISE);
 
         // Use poly flow sources and sinks for return types and
         // parameter types (This is excluding receivers).
         DefaultLocation[] polyFlowLoc = { DefaultLocation.RETURNS,
                 DefaultLocation.PARAMETERS };
-        polyFlowDefaults.addAbsoluteDefaults(POLYSOURCE, polyFlowLoc);
-        polyFlowDefaults.addAbsoluteDefaults(POLYSINK, polyFlowLoc);
+        polyFlowDefaults.addCheckedCodeDefaults(POLYSOURCE, polyFlowLoc);
+        polyFlowDefaults.addCheckedCodeDefaults(POLYSINK, polyFlowLoc);
 
         // Use poly flow sources and sinks for return types and
         // parameter types and receivers).
         DefaultLocation[] polyFlowReceiverLoc = { DefaultLocation.RETURNS,
                 DefaultLocation.PARAMETERS, DefaultLocation.RECEIVERS };
-        polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSOURCER,
-                polyFlowReceiverLoc);
-        polyFlowReceiverDefaults.addAbsoluteDefaults(POLYSINKR,
-                polyFlowReceiverLoc);
+        polyFlowReceiverDefaults.addCheckedCodeDefaults(POLYSOURCER,
+                                                               polyFlowReceiverLoc);
+        polyFlowReceiverDefaults.addCheckedCodeDefaults(POLYSINKR,
+                                                               polyFlowReceiverLoc);
     }
 
     @Override
@@ -251,28 +249,28 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         QualifierDefaults defaults =  super.createQualifierDefaults();
         //CLIMB-to-the-top defaults
         DefaultLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS };
-        defaults.addAbsoluteDefaults(ANYSOURCE, topLocations);
-        defaults.addAbsoluteDefaults(NOSINK, topLocations);
+        defaults.addCheckedCodeDefaults(ANYSOURCE, topLocations);
+        defaults.addCheckedCodeDefaults(NOSINK, topLocations);
         
 
         // Default for receivers is top
         DefaultLocation[] conditionalSinkLocs = { RECEIVERS, PARAMETERS,
                 EXCEPTION_PARAMETER };
-        defaults.addAbsoluteDefaults(ANYSOURCE, conditionalSinkLocs);
-        defaults.addAbsoluteDefaults(NOSINK, conditionalSinkLocs);
+        defaults.addCheckedCodeDefaults(ANYSOURCE, conditionalSinkLocs);
+        defaults.addCheckedCodeDefaults(NOSINK, conditionalSinkLocs);
 
         // Default for returns and fields is {}->ANY (bottom)
         DefaultLocation[] bottomLocs = { RETURNS, FIELD };
-        defaults.addAbsoluteDefaults(NOSOURCE, bottomLocs);
-        defaults.addAbsoluteDefaults(ANYSINK, bottomLocs);
+        defaults.addCheckedCodeDefaults(NOSOURCE, bottomLocs);
+        defaults.addCheckedCodeDefaults(ANYSINK, bottomLocs);
 
         // Default is {} -> ANY for everything else
-        defaults.addAbsoluteDefault(ANYSINK, OTHERWISE);
-        defaults.addAbsoluteDefault(NOSOURCE, OTHERWISE);
+        defaults.addCheckedCodeDefault(ANYSINK, OTHERWISE);
+        defaults.addCheckedCodeDefault(NOSOURCE, OTHERWISE);
         
         //Default for lower bounds is bottom
-        defaults.addAbsoluteDefault(NOSOURCE, LOWER_BOUNDS);
-        defaults.addAbsoluteDefault(ANYSINK, LOWER_BOUNDS);
+        defaults.addCheckedCodeDefault(NOSOURCE, LOWER_BOUNDS);
+        defaults.addCheckedCodeDefault(ANYSINK, LOWER_BOUNDS);
 
 
         return defaults;

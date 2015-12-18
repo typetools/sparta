@@ -419,13 +419,13 @@ public class DependentPermissionsAnnotatedTypeFactory extends BaseAnnotatedTypeF
 
         //  typeAnnotator.addTypeName(java.lang.Void.class, checker.BOTTOM);
 
-        defaults.addAbsoluteDefault(
-                AnnotationUtils.fromClass(elements, DependentPermissionsTop.class),
-                DefaultLocation.LOCAL_VARIABLE);
+        defaults.addCheckedCodeDefault(AnnotationUtils.fromClass(elements,
+                                                                        DependentPermissionsTop.class),
+                                              DefaultLocation.LOCAL_VARIABLE);
 
-        defaults.addAbsoluteDefault(
-                AnnotationUtils.fromClass(elements, DependentPermissionsUnqualified.class),
-                DefaultLocation.OTHERWISE);
+        defaults.addCheckedCodeDefault(AnnotationUtils.fromClass(elements,
+                                                                        DependentPermissionsUnqualified.class),
+                                              DefaultLocation.OTHERWISE);
 
         // flow.setDebug(System.err);
     }

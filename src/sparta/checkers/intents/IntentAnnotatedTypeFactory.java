@@ -273,8 +273,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         QualifierDefaults defaults = super.createQualifierDefaults();
         DefaultLocation[] topLocations = {LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS};
         
-        defaults.addAbsoluteDefaults(TOP_INTENT_MAP, topLocations);
-        defaults.addAbsoluteDefault(TOP_INTENT_MAP, OTHERWISE);
+        defaults.addCheckedCodeDefaults(TOP_INTENT_MAP, topLocations);
+        defaults.addCheckedCodeDefault(TOP_INTENT_MAP, OTHERWISE);
 
         return defaults;
     }
