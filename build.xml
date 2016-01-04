@@ -179,6 +179,7 @@ ${build.version} of the 'javac.jar' library."/>
     <!-- since we are manually forming the path, we need to make it cross platform -->
     <path id="libs.external.deps">
       <pathelement location="${junit.jar}"/>
+      <pathelement location="${hamcrest.lib}"/>
       <pathelement location="${gson.jar}"/>
       <pathelement location="${latestAndroid.jar}"/>
     </path>
@@ -301,7 +302,7 @@ ${build.version} of the 'javac.jar' library."/>
         <java fork="true"
               failonerror="true"
               jar="${checkers.lib}">
-            <arg line="-cp ${build}:${junit.jar}:${gson.jar}" />
+            <arg line="-cp ${build}:${junit.jar}:${hamcrest.lib}:${gson.jar}" />
             <arg value="-g"/>
             <!-- Make sure we only have Java 7 source code and generate Java 7 bytecode. -->
             <arg value="-source"/>
@@ -343,6 +344,7 @@ ${build.version} of the 'javac.jar' library."/>
             <classpath>
                 <pathelement path="${checkers.lib}"/>
                 <pathelement path="${junit.jar}"/>
+                <pathelement path="${hamcrest.lib}"/>
                 <pathelement path="${gson.jar}"/>
                 <pathelement path="${build.tests}"/>
                 <pathelement path="${build}"/>
