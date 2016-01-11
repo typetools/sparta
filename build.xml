@@ -251,6 +251,7 @@ ${build.version} of the 'javac.jar' library."/>
             <!-- Arbitrary file to compile. -->
             <arg line="${tests}/Test.java" />
         </java>
+        <delete file="${build}/Test.class"/>
     </target>
     
     <target name="build-intent-tests" depends="build" description="Compiles intent 
