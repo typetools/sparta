@@ -191,7 +191,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
      * @Sink(INTENT) to
      *
      * @Source(ANY) and @Sink({})
-     * @param parametersAnnotations
+     * @param parametersATMs
      */
 
     private void setTypeToTop(List<AnnotatedTypeMirror> parametersATMs) {
@@ -203,8 +203,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     /**
      * Changes the parameters to the type of the key in the @IntentMap.
      * Keys that cannot be resolved are set to Bottom.
-     * 
-     * @param parametersAnnotations
+     *
      */
 
     private void changeParametersToIntentMapKeyType(MethodInvocationTree tree,
@@ -269,14 +268,12 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     }
 
     @Override
-    protected QualifierDefaults createQualifierDefaults() {
-        QualifierDefaults defaults = super.createQualifierDefaults();
+    protected void addCheckedCodeDefaults(QualifierDefaults defaults) {
+        super.addCheckedCodeDefaults(defaults);
         DefaultLocation[] topLocations = {LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS};
         
         defaults.addCheckedCodeDefaults(TOP_INTENT_MAP, topLocations);
         defaults.addCheckedCodeDefault(TOP_INTENT_MAP, OTHERWISE);
-
-        return defaults;
     }
 
     @Override

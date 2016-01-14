@@ -245,8 +245,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     }
 
     @Override
-    protected QualifierDefaults createQualifierDefaults() {
-        QualifierDefaults defaults =  super.createQualifierDefaults();
+    protected void addCheckedCodeDefaults(QualifierDefaults defaults) {
         //CLIMB-to-the-top defaults
         DefaultLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS };
         defaults.addCheckedCodeDefaults(ANYSOURCE, topLocations);
@@ -271,9 +270,6 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         //Default for lower bounds is bottom
         defaults.addCheckedCodeDefault(NOSOURCE, LOWER_BOUNDS);
         defaults.addCheckedCodeDefault(ANYSINK, LOWER_BOUNDS);
-
-
-        return defaults;
     }
 
     public AnnotationMirror createAnnoFromSink(final Set<PFPermission> sinks) {
