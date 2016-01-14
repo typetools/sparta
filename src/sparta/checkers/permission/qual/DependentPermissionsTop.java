@@ -14,6 +14,5 @@ import org.checkerframework.framework.qual.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({}) // empty target prevents programmers from writing this in a program
-@TypeQualifier
 @SubtypeOf( { } )
 public @interface DependentPermissionsTop {}

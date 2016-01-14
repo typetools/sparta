@@ -13,11 +13,17 @@ import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.GraphQualifierHierarchy;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 
+import org.checkerframework.framework.util.defaults.QualifierDefaults;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.Pair;
 
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 
@@ -223,17 +229,19 @@ public class DependentPermissionsAnnotatedTypeFactory extends BaseAnnotatedTypeF
         DP = AnnotationUtils.fromClass(elements, DependentPermissions.class);
 
         this.postInit();
+    }
 
-        // Reuse the framework Bottom annotation and make it the default for the
-        // null literal.
+    @Override
+    protected Set<Class<? extends Annotation>> createSupportedTypeQualifiers() {
+        return Collections.unmodifiableSet(
+            new HashSet<Class<? extends Annotation>>(
+                Arrays.asList(DependentPermissions.class, DependentPermissionsUnqualified.class, DependentPermissionsTop.class, Bottom.class)));
+    }
 
-        //  typeAnnotator.addTypeName(java.lang.Void.class, checker.BOTTOM);
-
+    @Override
+    protected void addCheckedCodeDefaults(QualifierDefaults defaults) {
         defaults.addCheckedCodeDefault(AnnotationUtils.fromClass(elements, DependentPermissionsTop.class), DefaultLocation.LOCAL_VARIABLE);
-
         defaults.addCheckedCodeDefault(AnnotationUtils.fromClass(elements, DependentPermissionsUnqualified.class), DefaultLocation.OTHERWISE);
-
-        // flow.setDebug(System.err);
     }
 
     @Override

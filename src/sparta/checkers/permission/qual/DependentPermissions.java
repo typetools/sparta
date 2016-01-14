@@ -22,7 +22,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE_USE, ElementType.TYPE_PARAMETER, ElementType.CONSTRUCTOR,
         ElementType.METHOD })
-@TypeQualifier
 @SubtypeOf(DependentPermissionsTop.class)
 public @interface DependentPermissions {
     String value();

@@ -19,8 +19,6 @@ import sparta.checkers.permission.qual.DependentPermissionsUnqualified;
  *
  */
 
-@TypeQualifiers({ DependentPermissions.class, DependentPermissionsTop.class,
-    DependentPermissionsUnqualified.class, Bottom.class })
 @StubFiles("permission.astub")
 public class DependentPermissionsChecker extends BaseTypeChecker {
 

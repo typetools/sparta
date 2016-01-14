@@ -3,13 +3,19 @@ package sparta.checkers.permission;
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
+import org.checkerframework.framework.qual.Unqualified;
 import org.checkerframework.framework.source.Result;
 
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.TreeUtils;
 
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.ExecutableElement;
@@ -27,7 +33,7 @@ import com.sun.source.tree.MethodTree;
  * TODO: should we propagate required permissions from (anonymous) inner classes
  * to the outside?
  */
-public class RequiredPermissionsVisitor extends BaseTypeVisitor<BaseAnnotatedTypeFactory> {
+public class RequiredPermissionsVisitor extends BaseTypeVisitor<RequiredPermissionsAnnotatedTypeFactory> {
 
     public RequiredPermissionsVisitor(BaseTypeChecker checker) {
         super(checker);
@@ -38,6 +44,11 @@ public class RequiredPermissionsVisitor extends BaseTypeVisitor<BaseAnnotatedTyp
         ExecutableElement methodElt = visitMethodRequiredPermissions(node);
         visitMethodMayRequirePermissions(node, methodElt);
         return super.visitMethodInvocation(node, p);
+    }
+
+    @Override
+    protected RequiredPermissionsAnnotatedTypeFactory createTypeFactory() {
+        return new RequiredPermissionsAnnotatedTypeFactory(checker);
     }
 
     private void visitMethodMayRequirePermissions(MethodInvocationTree node,
@@ -117,5 +128,16 @@ public class RequiredPermissionsVisitor extends BaseTypeVisitor<BaseAnnotatedTyp
     public Void visitMethod(MethodTree node, Void p) {
         // Ensure that all constants in @RequiredPermissions are in Manifest
         return super.visitMethod(node, p);
+    }
+}
+class RequiredPermissionsAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
+    public RequiredPermissionsAnnotatedTypeFactory(BaseTypeChecker checker) {
+        super(checker, false);
+        this.postInit();
+    }
+
+    @Override
+    protected Set<Class<? extends Annotation>> createSupportedTypeQualifiers() {
+        return Collections.unmodifiableSet(new HashSet<Class<? extends Annotation>>(Arrays.asList(Unqualified.class)));
     }
 }
