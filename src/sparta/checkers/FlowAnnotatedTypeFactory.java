@@ -19,9 +19,12 @@ import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.Pair;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -149,6 +152,14 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         if (this.getClass().equals(FlowAnnotatedTypeFactory.class)) {
             this.postInit();
         }
+    }
+
+    @Override
+    protected Set<Class<? extends Annotation>> createSupportedTypeQualifiers() {
+        return Collections.unmodifiableSet(new HashSet<Class<? extends Annotation>>(Arrays.asList(Source.class, Sink.class,
+                                                                                                 PolySource.class, PolySink.class,
+                                                                                                 PolySourceR.class, PolySinkR.class,
+                                                                                                 PolyAll.class)));
     }
 
     @Override

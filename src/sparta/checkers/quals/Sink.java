@@ -18,7 +18,6 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE_PARAMETER, ElementType.TYPE_USE,
 /* The following only added to make Eclipse work. */
 ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE })
-@TypeQualifier
 @SubtypeOf({})
 public @interface Sink {
 

@@ -11,8 +11,11 @@ import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.Pair;
 import org.checkerframework.javacutil.TreeUtils;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -64,7 +67,11 @@ import sparta.checkers.quals.IntentMapBottom;
 import sparta.checkers.quals.IntentMapNew;
 import sparta.checkers.quals.PFPermission;
 import sparta.checkers.quals.PolyIntentMap;
+import sparta.checkers.quals.PolySink;
+import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.ReceiveIntent;
+import sparta.checkers.quals.Sink;
+import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.ExpressionTree;
 import com.sun.source.tree.MethodInvocationTree;
@@ -113,6 +120,14 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         if (this.getClass().equals(IntentAnnotatedTypeFactory.class)) {
             this.postInit();
         }
+    }
+
+    @Override
+    protected Set<Class<? extends Annotation>> createSupportedTypeQualifiers() {
+        return Collections.unmodifiableSet(
+             new HashSet<Class<? extends Annotation>>(Arrays.asList(Source.class, Sink.class, PolySource.class, PolySink.class,
+                                                                    PolyAll.class, IntentMap.class, Extra.class, IntentMapBottom.class,
+                                                                    IntentMapNew.class, PolyIntentMap.class)));
     }
 
     @Override

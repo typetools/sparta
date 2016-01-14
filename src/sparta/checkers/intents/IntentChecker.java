@@ -27,9 +27,6 @@ import sparta.checkers.quals.PolySource;
 import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
-@TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class, PolyAll.class,
-        IntentMap.class, Extra.class, IntentMapBottom.class, IntentMapNew.class,
-        PolyIntentMap.class})
 @StubFiles({"information_flow.astub","receive-send-intent.astub","intent-map.astub","put-get-extra.astub"})
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, ComponentMap.COMPONENT_MAP_FILE_OPTION,
         FlowChecker.MSG_FILTER_OPTION, FlowVisitor.CHECK_CONDITIONALS_OPTION })
