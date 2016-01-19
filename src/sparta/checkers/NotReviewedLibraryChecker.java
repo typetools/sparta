@@ -5,8 +5,13 @@ import static sparta.checkers.FlowChecker.SPARTA_OUTPUT_DIR;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -188,10 +193,15 @@ public class NotReviewedLibraryChecker extends BaseTypeChecker {
 }
 
 class NotReviewedLibraryVisitor extends
-        BaseTypeVisitor<BaseAnnotatedTypeFactory> {
+        BaseTypeVisitor<NotReviewedLibraryAnnotatedTypeFactory> {
 
     public NotReviewedLibraryVisitor(BaseTypeChecker checker) {
         super(checker);
+    }
+
+    @Override
+    protected NotReviewedLibraryAnnotatedTypeFactory createTypeFactory() {
+        return new NotReviewedLibraryAnnotatedTypeFactory(checker);
     }
 
     @Override
@@ -237,5 +247,17 @@ class NotReviewedLibraryVisitor extends
             ((NotReviewedLibraryChecker) checker).notAnnotated(byteCodeEle);
         }
     }
+}
 
+class NotReviewedLibraryAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
+    public NotReviewedLibraryAnnotatedTypeFactory(BaseTypeChecker checker) {
+        super(checker);
+        postInit();
+    }
+
+    @Override
+    protected Set<Class<? extends Annotation>> createSupportedTypeQualifiers() {
+        return Collections.unmodifiableSet(
+            new HashSet<Class<? extends Annotation>>(Arrays.asList(Unqualified.class)));
+    }
 }
