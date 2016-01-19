@@ -8,7 +8,6 @@ package sparta.checkers.permission.qual;
  */
 
 import org.checkerframework.framework.qual.SubtypeOf;
-import org.checkerframework.framework.qual.TypeQualifier;
 
 
 import java.lang.annotation.Documented;

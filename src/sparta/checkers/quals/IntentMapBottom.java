@@ -7,7 +7,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.checkerframework.framework.qual.SubtypeOf;
-import org.checkerframework.framework.qual.TypeQualifier;
 
 /**
  * Annotation @IntentMapBottom is used to represent the bottom type of @IntentMap,
@@ -18,7 +17,6 @@ import org.checkerframework.framework.qual.TypeQualifier;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({})
-@TypeQualifier
 @SubtypeOf({IntentMap.class})
 public @interface IntentMapBottom {
 }

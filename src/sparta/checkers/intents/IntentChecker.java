@@ -11,7 +11,6 @@ import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.common.value.ValueChecker;
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.qual.StubFiles;
-import org.checkerframework.framework.qual.TypeQualifiers;
 import org.checkerframework.framework.source.Result;
 
 import sparta.checkers.FlowChecker;

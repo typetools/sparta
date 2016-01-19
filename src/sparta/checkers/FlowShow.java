@@ -3,7 +3,6 @@ package sparta.checkers;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.framework.qual.StubFiles;
-import org.checkerframework.framework.qual.TypeQualifiers;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVariable;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
@@ -24,7 +23,6 @@ import sparta.checkers.quals.Source;
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.Tree;
 
-@TypeQualifiers({ Source.class, Sink.class, PolySource.class, PolySink.class })
 @StubFiles("flow.astub")
 public class FlowShow extends FlowChecker {
 

@@ -7,7 +7,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.checkerframework.framework.qual.SubtypeOf;
-import org.checkerframework.framework.qual.TypeQualifier;
 
 /**
  * Annotation @IntentMapNew is used as the return type of a "new Intent()"
@@ -31,6 +30,5 @@ import org.checkerframework.framework.qual.TypeQualifier;
 @Target({ElementType.TYPE_USE})
 
 @SubtypeOf({})
-@TypeQualifier
 public @interface IntentMapNew {
 }

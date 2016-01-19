@@ -2,8 +2,6 @@ package sparta.checkers.permission;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.framework.qual.StubFiles;
-import org.checkerframework.framework.qual.TypeQualifiers;
-import org.checkerframework.framework.qual.Unqualified;
 
 
 @StubFiles("permission.astub")

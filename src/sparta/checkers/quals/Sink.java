@@ -1,7 +1,6 @@
 package sparta.checkers.quals;
 
 import org.checkerframework.framework.qual.SubtypeOf;
-import org.checkerframework.framework.qual.TypeQualifier;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

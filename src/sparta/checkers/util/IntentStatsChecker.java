@@ -13,7 +13,6 @@ import org.checkerframework.checker.linear.qual.Unusable;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.framework.qual.StubFiles;
-import org.checkerframework.framework.qual.TypeQualifiers;
 
 import sparta.checkers.FlowChecker;
 import sparta.checkers.FlowPolicy;
@@ -41,7 +40,6 @@ import sparta.checkers.intents.ComponentMap;
  *
  */
 
-@TypeQualifiers({Normal.class, Linear.class, Unusable.class})
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, ComponentMap.COMPONENT_MAP_FILE_OPTION,
     FlowChecker.MSG_FILTER_OPTION, FlowVisitor.CHECK_CONDITIONALS_OPTION })
 @StubFiles({"receive-send-intent.astub", "put-get-extra.astub", "intent-map.astub"})

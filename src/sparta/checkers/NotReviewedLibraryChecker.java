@@ -18,7 +18,6 @@ import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.framework.qual.StubFiles;
-import org.checkerframework.framework.qual.TypeQualifiers;
 import org.checkerframework.framework.qual.Unqualified;
 import org.checkerframework.framework.source.Result;
 import org.checkerframework.framework.source.SupportedOptions;
@@ -60,7 +59,6 @@ import com.sun.source.tree.Tree;
 @SupportedOptions({ NotReviewedLibraryChecker.OUTPUT_DIR_OPTION,
         NotReviewedLibraryChecker.OUTPUT_FILE_OPTION,
         NotReviewedLibraryChecker.PRINT_FREQUENCY_OPTION })
-@TypeQualifiers({ Unqualified.class })
 public class NotReviewedLibraryChecker extends BaseTypeChecker {
     public static final String OUTPUT_DIR_OPTION = "outputdir";
     public static final String OUTPUT_FILE_OPTION = "outputfile";
