@@ -1,6 +1,18 @@
 package sparta.checkers;
 
-import static sparta.checkers.FlowChecker.SPARTA_OUTPUT_DIR;
+import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.common.basetype.BaseTypeVisitor;
+import org.checkerframework.framework.qual.StubFiles;
+import org.checkerframework.framework.qual.Unqualified;
+import org.checkerframework.framework.source.Result;
+import org.checkerframework.framework.source.SupportedOptions;
+import org.checkerframework.framework.stub.StubGenerator;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
+import org.checkerframework.framework.util.AnnotatedTypes;
+import org.checkerframework.javacutil.ElementUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.TreeUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,25 +31,13 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic.Kind;
 
-import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
-import org.checkerframework.common.basetype.BaseTypeChecker;
-import org.checkerframework.common.basetype.BaseTypeVisitor;
-import org.checkerframework.framework.qual.StubFiles;
-import org.checkerframework.framework.qual.Unqualified;
-import org.checkerframework.framework.source.Result;
-import org.checkerframework.framework.source.SupportedOptions;
-import org.checkerframework.framework.stub.StubGenerator;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
-import org.checkerframework.framework.util.AnnotatedTypes;
-import org.checkerframework.javacutil.ElementUtils;
-import org.checkerframework.javacutil.InternalUtils;
-import org.checkerframework.javacutil.TreeUtils;
-
 import com.sun.source.tree.MemberSelectTree;
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.MethodTree;
 import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
+
+import static sparta.checkers.FlowChecker.SPARTA_OUTPUT_DIR;
 
 /**
  * This checker outputs a warning every location a method, constructor, or field
