@@ -1,10 +1,11 @@
 package sparta.checkers.intents;
 
-import static org.checkerframework.framework.qual.DefaultLocation.LOCAL_VARIABLE;
-import static org.checkerframework.framework.qual.DefaultLocation.OTHERWISE;
-import static org.checkerframework.framework.qual.DefaultLocation.RESOURCE_VARIABLE;
-import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
+import static org.checkerframework.framework.qual.TypeUseLocation.LOCAL_VARIABLE;
+import static org.checkerframework.framework.qual.TypeUseLocation.OTHERWISE;
+import static org.checkerframework.framework.qual.TypeUseLocation.RESOURCE_VARIABLE;
+import static org.checkerframework.framework.qual.TypeUseLocation.UPPER_BOUNDS;
 
+import org.checkerframework.framework.qual.TypeUseLocation;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.InternalUtils;
@@ -34,7 +35,6 @@ import org.checkerframework.framework.flow.CFAbstractAnalysis;
 import org.checkerframework.framework.flow.CFStore;
 import org.checkerframework.framework.flow.CFTransfer;
 import org.checkerframework.framework.flow.CFValue;
-import org.checkerframework.framework.qual.DefaultLocation;
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
@@ -285,7 +285,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     @Override
     protected void addCheckedCodeDefaults(QualifierDefaults defaults) {
         super.addCheckedCodeDefaults(defaults);
-        DefaultLocation[] topLocations = {LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS};
+        TypeUseLocation[] topLocations = {LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS};
         
         defaults.addCheckedCodeDefaults(TOP_INTENT_MAP, topLocations);
         defaults.addCheckedCodeDefault(TOP_INTENT_MAP, OTHERWISE);

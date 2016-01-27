@@ -1,18 +1,19 @@
 
 package sparta.checkers;
-import static org.checkerframework.framework.qual.DefaultLocation.EXCEPTION_PARAMETER;
-import static org.checkerframework.framework.qual.DefaultLocation.FIELD;
-import static org.checkerframework.framework.qual.DefaultLocation.LOCAL_VARIABLE;
-import static org.checkerframework.framework.qual.DefaultLocation.LOWER_BOUNDS;
-import static org.checkerframework.framework.qual.DefaultLocation.OTHERWISE;
-import static org.checkerframework.framework.qual.DefaultLocation.PARAMETERS;
-import static org.checkerframework.framework.qual.DefaultLocation.RECEIVERS;
-import static org.checkerframework.framework.qual.DefaultLocation.RESOURCE_VARIABLE;
-import static org.checkerframework.framework.qual.DefaultLocation.RETURNS;
-import static org.checkerframework.framework.qual.DefaultLocation.UPPER_BOUNDS;
+import static org.checkerframework.framework.qual.TypeUseLocation.EXCEPTION_PARAMETER;
+import static org.checkerframework.framework.qual.TypeUseLocation.FIELD;
+import static org.checkerframework.framework.qual.TypeUseLocation.LOCAL_VARIABLE;
+import static org.checkerframework.framework.qual.TypeUseLocation.LOWER_BOUNDS;
+import static org.checkerframework.framework.qual.TypeUseLocation.OTHERWISE;
+import static org.checkerframework.framework.qual.TypeUseLocation.PARAMETERS;
+import static org.checkerframework.framework.qual.TypeUseLocation.RECEIVERS;
+import static org.checkerframework.framework.qual.TypeUseLocation.RESOURCE_VARIABLE;
+import static org.checkerframework.framework.qual.TypeUseLocation.RETURNS;
+import static org.checkerframework.framework.qual.TypeUseLocation.UPPER_BOUNDS;
 
 import org.checkerframework.dataflow.analysis.TransferResult;
 import org.checkerframework.dataflow.cfg.node.Node;
+import org.checkerframework.framework.qual.TypeUseLocation;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.InternalUtils;
@@ -43,7 +44,6 @@ import org.checkerframework.framework.flow.CFAbstractAnalysis;
 import org.checkerframework.framework.flow.CFStore;
 import org.checkerframework.framework.flow.CFTransfer;
 import org.checkerframework.framework.flow.CFValue;
-import org.checkerframework.framework.qual.DefaultLocation;
 import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayType;
@@ -234,21 +234,21 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         // All locations besides non-final fields in byte code are
         // conservatively ANY -> ANY
         byteCodeDefaults.addCheckedCodeDefault(ANYSOURCE,
-                                                      DefaultLocation.OTHERWISE);
+                                                      TypeUseLocation.OTHERWISE);
         byteCodeDefaults.addCheckedCodeDefault(ANYSINK,
-                                                      DefaultLocation.OTHERWISE);
+                                                      TypeUseLocation.OTHERWISE);
 
         // Use poly flow sources and sinks for return types and
         // parameter types (This is excluding receivers).
-        DefaultLocation[] polyFlowLoc = { DefaultLocation.RETURNS,
-                DefaultLocation.PARAMETERS };
+        TypeUseLocation[] polyFlowLoc = { TypeUseLocation.RETURNS,
+                TypeUseLocation.PARAMETERS };
         polyFlowDefaults.addCheckedCodeDefaults(POLYSOURCE, polyFlowLoc);
         polyFlowDefaults.addCheckedCodeDefaults(POLYSINK, polyFlowLoc);
 
         // Use poly flow sources and sinks for return types and
         // parameter types and receivers).
-        DefaultLocation[] polyFlowReceiverLoc = { DefaultLocation.RETURNS,
-                DefaultLocation.PARAMETERS, DefaultLocation.RECEIVERS };
+        TypeUseLocation[] polyFlowReceiverLoc = { TypeUseLocation.RETURNS,
+                TypeUseLocation.PARAMETERS, TypeUseLocation.RECEIVERS };
         polyFlowReceiverDefaults.addCheckedCodeDefaults(POLYSOURCER,
                                                                polyFlowReceiverLoc);
         polyFlowReceiverDefaults.addCheckedCodeDefaults(POLYSINKR,
@@ -258,19 +258,19 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     @Override
     protected void addCheckedCodeDefaults(QualifierDefaults defaults) {
         //CLIMB-to-the-top defaults
-        DefaultLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS };
+        TypeUseLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS };
         defaults.addCheckedCodeDefaults(ANYSOURCE, topLocations);
         defaults.addCheckedCodeDefaults(NOSINK, topLocations);
         
 
         // Default for receivers is top
-        DefaultLocation[] conditionalSinkLocs = { RECEIVERS, PARAMETERS,
+        TypeUseLocation[] conditionalSinkLocs = { RECEIVERS, PARAMETERS,
                 EXCEPTION_PARAMETER };
         defaults.addCheckedCodeDefaults(ANYSOURCE, conditionalSinkLocs);
         defaults.addCheckedCodeDefaults(NOSINK, conditionalSinkLocs);
 
         // Default for returns and fields is {}->ANY (bottom)
-        DefaultLocation[] bottomLocs = { RETURNS, FIELD };
+        TypeUseLocation[] bottomLocs = { RETURNS, FIELD };
         defaults.addCheckedCodeDefaults(NOSOURCE, bottomLocs);
         defaults.addCheckedCodeDefaults(ANYSINK, bottomLocs);
 
