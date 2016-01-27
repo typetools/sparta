@@ -3,13 +3,13 @@ package sparta.checkers;
 import static org.checkerframework.framework.qual.TypeUseLocation.EXCEPTION_PARAMETER;
 import static org.checkerframework.framework.qual.TypeUseLocation.FIELD;
 import static org.checkerframework.framework.qual.TypeUseLocation.LOCAL_VARIABLE;
-import static org.checkerframework.framework.qual.TypeUseLocation.LOWER_BOUNDS;
+import static org.checkerframework.framework.qual.TypeUseLocation.LOWER_BOUND;
 import static org.checkerframework.framework.qual.TypeUseLocation.OTHERWISE;
-import static org.checkerframework.framework.qual.TypeUseLocation.PARAMETERS;
-import static org.checkerframework.framework.qual.TypeUseLocation.RECEIVERS;
+import static org.checkerframework.framework.qual.TypeUseLocation.PARAMETER;
+import static org.checkerframework.framework.qual.TypeUseLocation.RECEIVER;
 import static org.checkerframework.framework.qual.TypeUseLocation.RESOURCE_VARIABLE;
-import static org.checkerframework.framework.qual.TypeUseLocation.RETURNS;
-import static org.checkerframework.framework.qual.TypeUseLocation.UPPER_BOUNDS;
+import static org.checkerframework.framework.qual.TypeUseLocation.RETURN;
+import static org.checkerframework.framework.qual.TypeUseLocation.UPPER_BOUND;
 
 import org.checkerframework.dataflow.analysis.TransferResult;
 import org.checkerframework.dataflow.cfg.node.Node;
@@ -240,15 +240,15 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
         // Use poly flow sources and sinks for return types and
         // parameter types (This is excluding receivers).
-        TypeUseLocation[] polyFlowLoc = { TypeUseLocation.RETURNS,
-                TypeUseLocation.PARAMETERS };
+        TypeUseLocation[] polyFlowLoc = { TypeUseLocation.RETURN,
+                TypeUseLocation.PARAMETER };
         polyFlowDefaults.addCheckedCodeDefaults(POLYSOURCE, polyFlowLoc);
         polyFlowDefaults.addCheckedCodeDefaults(POLYSINK, polyFlowLoc);
 
         // Use poly flow sources and sinks for return types and
         // parameter types and receivers).
-        TypeUseLocation[] polyFlowReceiverLoc = { TypeUseLocation.RETURNS,
-                TypeUseLocation.PARAMETERS, TypeUseLocation.RECEIVERS };
+        TypeUseLocation[] polyFlowReceiverLoc = { TypeUseLocation.RETURN,
+                TypeUseLocation.PARAMETER, TypeUseLocation.RECEIVER };
         polyFlowReceiverDefaults.addCheckedCodeDefaults(POLYSOURCER,
                                                                polyFlowReceiverLoc);
         polyFlowReceiverDefaults.addCheckedCodeDefaults(POLYSINKR,
@@ -258,19 +258,19 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     @Override
     protected void addCheckedCodeDefaults(QualifierDefaults defaults) {
         //CLIMB-to-the-top defaults
-        TypeUseLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS };
+        TypeUseLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUND };
         defaults.addCheckedCodeDefaults(ANYSOURCE, topLocations);
         defaults.addCheckedCodeDefaults(NOSINK, topLocations);
         
 
         // Default for receivers is top
-        TypeUseLocation[] conditionalSinkLocs = { RECEIVERS, PARAMETERS,
+        TypeUseLocation[] conditionalSinkLocs = { RECEIVER, PARAMETER,
                 EXCEPTION_PARAMETER };
         defaults.addCheckedCodeDefaults(ANYSOURCE, conditionalSinkLocs);
         defaults.addCheckedCodeDefaults(NOSINK, conditionalSinkLocs);
 
         // Default for returns and fields is {}->ANY (bottom)
-        TypeUseLocation[] bottomLocs = { RETURNS, FIELD };
+        TypeUseLocation[] bottomLocs = { RETURN, FIELD };
         defaults.addCheckedCodeDefaults(NOSOURCE, bottomLocs);
         defaults.addCheckedCodeDefaults(ANYSINK, bottomLocs);
 
@@ -279,8 +279,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         defaults.addCheckedCodeDefault(NOSOURCE, OTHERWISE);
         
         //Default for lower bounds is bottom
-        defaults.addCheckedCodeDefault(NOSOURCE, LOWER_BOUNDS);
-        defaults.addCheckedCodeDefault(ANYSINK, LOWER_BOUNDS);
+        defaults.addCheckedCodeDefault(NOSOURCE, LOWER_BOUND);
+        defaults.addCheckedCodeDefault(ANYSINK, LOWER_BOUND);
     }
 
     public AnnotationMirror createAnnoFromSink(final Set<PFPermission> sinks) {

@@ -3,7 +3,7 @@ package sparta.checkers.intents;
 import static org.checkerframework.framework.qual.TypeUseLocation.LOCAL_VARIABLE;
 import static org.checkerframework.framework.qual.TypeUseLocation.OTHERWISE;
 import static org.checkerframework.framework.qual.TypeUseLocation.RESOURCE_VARIABLE;
-import static org.checkerframework.framework.qual.TypeUseLocation.UPPER_BOUNDS;
+import static org.checkerframework.framework.qual.TypeUseLocation.UPPER_BOUND;
 
 import org.checkerframework.framework.qual.TypeUseLocation;
 import org.checkerframework.javacutil.AnnotationUtils;
@@ -285,7 +285,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     @Override
     protected void addCheckedCodeDefaults(QualifierDefaults defaults) {
         super.addCheckedCodeDefaults(defaults);
-        TypeUseLocation[] topLocations = {LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUNDS};
+        TypeUseLocation[] topLocations = {LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUND };
         
         defaults.addCheckedCodeDefaults(TOP_INTENT_MAP, topLocations);
         defaults.addCheckedCodeDefault(TOP_INTENT_MAP, OTHERWISE);
