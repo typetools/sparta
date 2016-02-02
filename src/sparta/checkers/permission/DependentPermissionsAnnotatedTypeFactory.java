@@ -3,7 +3,7 @@ package sparta.checkers.permission;
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.framework.qual.Bottom;
-import org.checkerframework.framework.qual.DefaultLocation;
+import org.checkerframework.framework.qual.TypeUseLocation;
 import org.checkerframework.framework.type.*;
 import org.checkerframework.framework.type.treeannotator.ImplicitsTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
@@ -240,8 +240,8 @@ public class DependentPermissionsAnnotatedTypeFactory extends BaseAnnotatedTypeF
 
     @Override
     protected void addCheckedCodeDefaults(QualifierDefaults defaults) {
-        defaults.addCheckedCodeDefault(AnnotationUtils.fromClass(elements, DependentPermissionsTop.class), DefaultLocation.LOCAL_VARIABLE);
-        defaults.addCheckedCodeDefault(AnnotationUtils.fromClass(elements, DependentPermissionsUnqualified.class), DefaultLocation.OTHERWISE);
+        defaults.addCheckedCodeDefault(AnnotationUtils.fromClass(elements, DependentPermissionsTop.class), TypeUseLocation.LOCAL_VARIABLE);
+        defaults.addCheckedCodeDefault(AnnotationUtils.fromClass(elements, DependentPermissionsUnqualified.class), TypeUseLocation.OTHERWISE);
     }
 
     @Override
