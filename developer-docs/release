@@ -4,21 +4,22 @@ Making a release
 ================
 export RELEASE=`pwd`
 cd $RELEASE
-git clone git@github.com:typetools/sparta.git sparta-toolset-v1.0.1-source
-cd sparta-toolset-v1.0.1-source
+git clone git@github.com:typetools/sparta.git sparta-toolset-v1.0.2-source
+cd sparta-toolset-v1.0.2-source
 
 //Update the version number of SPARTA and CF:
 vi build.properties docs/manual.tex website/release/index.html website/index.html
 vi changelog-sparta.txt
 
-git commit -a -m "Updated to v1.0.1"
-git tag sparta-1.0.1
+git commit -a -m "Updated to v1.0.2"
+git tag sparta-1.0.2
 git push
+git push origin sparta-1.0.2
 
 ant jar 
 cd docs; make ;cd ..
 
-cp sparta.jar ../sparta-1.0.1.jar
+cp sparta.jar ../sparta-1.0.2.jar
 cp docs/manual.html ../
 cp docs/manual.pdf ../
 cp docs/manual*.png ../
@@ -26,45 +27,45 @@ cp website/release/index.html ../
 cp website/index.html ../main.html
 cp build.include.xml ../
 
-ant -buildfile release-cleanup.xml clean -DspartaDir=.
 
 cd ../
-tar -czf sparta-toolset-1.0.1-source.tgz sparta-toolset-v1.0.1-source/
+wget https://github.com/typetools/sparta/archive/sparta-1.0.2.tar.gz 
+cp sparta-1.0.2.tar.gz sparta-toolset-1.0.2-source.tgz
 
-rm -r sparta-toolset-v1.0.1-source/
-mkdir sparta-toolset-v1.0.1/
+rm -r sparta-toolset-v1.0.2-source/
+mkdir sparta-toolset-v1.0.2/
 
-cp sparta-1.0.1.jar sparta-toolset-v1.0.1/
-cp build.include.xml sparta-toolset-v1.0.1/
-cp manual.html sparta-toolset-v1.0.1/
-cp manual.pdf sparta-toolset-v1.0.1/
-cp *.png sparta-toolset-v1.0.1/
-tar -czf sparta-toolset-1.0.1.tgz sparta-toolset-v1.0.1/
-rm -r sparta-toolset-v1.0.1/
+cp sparta-1.0.2.jar sparta-toolset-v1.0.2/
+cp build.include.xml sparta-toolset-v1.0.2/
+cp manual.html sparta-toolset-v1.0.2/
+cp manual.pdf sparta-toolset-v1.0.2/
+cp *.png sparta-toolset-v1.0.2/
+tar -czf sparta-toolset-1.0.2.tgz sparta-toolset-v1.0.2/
+rm -r sparta-toolset-v1.0.2/
 
 //Prepare sparta-sample-apps
 cd $RELEASE
-hg clone https://dada.cs.washington.edu/hgweb/sparta-sample-apps sparta-sample-apps-v1.0.1
+hg clone https://dada.cs.washington.edu/hgweb/sparta-sample-apps sparta-sample-apps-v1.0.2
 
-cd sparta-sample-apps-v1.0.1
+cd sparta-sample-apps-v1.0.2
 ant -buildfile release-cleanup.xml clean -DsubjectsDir=.
 rm release-cleanup.xml
 cd ../
-tar -czf sparta-sample-apps-1.0.1.tgz sparta-sample-apps-v1.0.1
-rm -r sparta-sample-apps-v1.0.1/
-tar -czf release-v1.0.1.tgz *
+tar -czf sparta-sample-apps-1.0.2.tgz sparta-sample-apps-v1.0.2
+rm -r sparta-sample-apps-v1.0.2/
+tar -czf release-v1.0.2.tgz *
 
 #Copy to server
 ssh buffalo
-mkdir /cse/www2/types/sparta/release/versions/v1.0.1
+mkdir /cse/www2/types/sparta/release/versions/v1.0.2
 
 #local machine
-scp release* buffalo:/cse/www2/types/sparta/release/versions/v1.0.1
+scp release* buffalo:/cse/www2/types/sparta/release/versions/v1.0.2
 
 #buffalo
-cd /cse/www2/types/sparta/release/versions/v1.0.1
-tar -xzf release-v1.0.1.tgz
-rm release-v1.0.1.tgz
+cd /cse/www2/types/sparta/release/versions/v1.0.2
+tar -xzf release-v1.0.2.tgz
+rm release-v1.0.2.tgz
 mv index.html ../../
 mv main.html ../../../index.html
 chmod 775 .
@@ -74,36 +75,36 @@ cd ../../../
 rm -r current
 mkdir current
 cd current/
-ln -s ../release/versions/v1.0.1/sparta-toolset-1.0.1.tgz sparta-toolset.tgz
-ln -s ../release/versions/v1.0.1/sparta-sample-apps-1.0.1.tgz sparta-sample-apps.tgz
-ln -s ../release/versions/v1.0.1/manual.pdf sparta-manual.pdf
-ln -s ../release/versions/v1.0.1/manual.html sparta-manual.html
-ln -s ../release/versions/v1.0.1/manual001.png .
-ln -s ../release/versions/v1.0.1/manual002.png .
-ln -s ../release/versions/v1.0.1/manual003.png .
-ln -s ../release/versions/v1.0.1/manual004.png .
-ln -s ../release/versions/v1.0.1/sparta-vm-v1.0.1.tar.bz2 sparta-vm.tar.bz2
+ln -s ../release/versions/v1.0.2/sparta-toolset-1.0.2.tgz sparta-toolset.tgz
+ln -s ../release/versions/v1.0.2/sparta-sample-apps-1.0.2.tgz sparta-sample-apps.tgz
+ln -s ../release/versions/v1.0.2/manual.pdf sparta-manual.pdf
+ln -s ../release/versions/v1.0.2/manual.html sparta-manual.html
+ln -s ../release/versions/v1.0.2/manual001.png .
+ln -s ../release/versions/v1.0.2/manual002.png .
+ln -s ../release/versions/v1.0.2/manual003.png .
+ln -s ../release/versions/v1.0.2/manual004.png .
+ln -s ../release/versions/v1.0.2/sparta-vm-v1.0.2.tar.bz2 sparta-vm.tar.bz2
 
 #Local: check links
-export pl=/Users/smillst/src/plume-lib/
-export PERLLIB=/Users/smillst/perl5/lib/perl5/
-export PERL5LIB=/Users/smillst/perl5/lib/perl5/
+export pl=/Users/smillst/jsr308/plume-lib/
+export PERLLIB=/opt/local/lib/perl5/site_perl/5.22/
+export PERL5LIB=/opt/local/lib/perl5/site_perl/5.22/
 $pl/bin/checklink -q -r `grep -v '^#' $pl/bin/checklink-args.txt` http://types.cs.washington.edu/sparta/
 
 #Check against released CF:
 export CF_RELEASE=$HOME/cf-release/
 mkdir $CF_RELEASE
 cd $CF_RELEASE
-wget http://types.cs.washington.edu/checker-framework/current/checker-framework.zip
+wget http://types.cs.washington.edu/checker-framework/current/checker-framework-1.9.11.zip
 wget http://types.cs.washington.edu/sparta/current/sparta-toolset.tgz
 wget http://types.cs.washington.edu/sparta/current/sparta-sample-apps.tgz
 tar -xzf sparta-sample-apps.tgz
 tar -xzf sparta-toolset.tgz
 tar -xzf checker-framework.zip
 
-export CHECKERFRAMEWORK=$CF_RELEASE/checker-framework-1.9.0/
-export SPARTA_CODE=$CF_RELEASE/sparta-toolset-v1.0.1/
-cd sparta-sample-apps-v1.0.1/Pedometer/
+export CHECKERFRAMEWORK=$CF_RELEASE/checker-framework-1.9.11/
+export SPARTA_CODE=$CF_RELEASE/sparta-toolset-v1.0.2/
+cd sparta-sample-apps-v1.0.2/Pedometer/
 ant all-tests
 
 
@@ -115,7 +116,7 @@ ant all-tests
    http://types.cs.washington.edu/sparta/release/
  * Send mail to sparta-users@cs.washington.edu announcing the release.
 
-Subject: Release 1.0.1 of the SPARTA Toolset
+Subject: Release 1.0.2 of the SPARTA Toolset
 
 Body:
 We have released a new version of the SPARTA Toolset.
