@@ -59,7 +59,7 @@ public class FlowPolicy {
     /**
      *
      * @param flowPolicyFile
-     * @param processingEnv2 
+     * @param processingEnv
      */
     public FlowPolicy(final File flowPolicyFile, ProcessingEnvironment processingEnv) {
         this.processingEnv = processingEnv;
@@ -202,30 +202,53 @@ public class FlowPolicy {
             final Set<PFPermission> sources) {
         if(sources.isEmpty()) return Collections.singleton(ANY);
 
-        // Start with all sinks and remove those that are not allowed
-        Set<PFPermission> sinks = Flow.getSetOfAllSinks();
+        Set<PFPermission> sinks = null;
 
         for (PFPermission source : sources) {
             final Set<PFPermission> curSinks = getAllowedSinks(source);
-            sinks = Flow.intersectSinks(sinks, curSinks);
+            if(sinks == null){
+                sinks = curSinks;
+            } else {
+                sinks = Flow.intersectSinks(sinks, curSinks);
+            }
         }
-        sinks.addAll(getSinkFromSource(ANY, false));
+        Set<PFPermission> sinksFromAny = getSinkFromSource(ANY, false);
+        if (sinks == null) {
+            sinks = sinksFromAny;
+        } else {
+            sinks.addAll(sinksFromAny);
+        }
         return sinks;
     }
 
     public Set<PFPermission> getIntersectionAllowedSources(
             final/* Collection?? */Collection<PFPermission> sinks) {
         if(sinks.isEmpty()) return Collections.singleton(ANY);
-        Set<PFPermission> sources = Flow.getSetOfAllSources();
-
+        Set<PFPermission> sources = null;
         for (PFPermission sink : sinks) {
             final Set<PFPermission> curSources = getAllowedSources(sink);
-            sources = Flow.intersectSources(sources, curSources);
+            if(sources == null){
+                sources = curSources;
+            } else {
+                sources = Flow.intersectSources(sources, curSources);
+            }
         }
-        sources.addAll(getSourceFromSink(ANY, false));
+        Set<PFPermission> sourcesFromAny = getSourceFromSink(ANY, false);
+        if(sources == null){
+            sources = sourcesFromAny;
+        } else {
+            sources.addAll(sourcesFromAny);
+        }
         return sources;
     }
 
+    /**
+     *
+     * @param sink PFPermission that the returned sources are allowed to flow to
+     * @return Set of PFPermissions that are allowed to flow to the given sink,
+     *    excluding sources that can flow to ANY, but are not list as flowing
+     *    to this sink.
+     */
     private Set<PFPermission> getAllowedSources(
             PFPermission sink) {
         TreeSet<PFPermission> sources = new TreeSet<PFPermission>();
