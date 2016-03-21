@@ -1,6 +1,19 @@
 package sparta.checkers.intents;
 
 
+import org.checkerframework.common.aliasing.qual.Unique;
+import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.framework.source.Result;
+import org.checkerframework.framework.type.AnnotatedTypeFactory;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
+import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
+import org.checkerframework.framework.util.AnnotatedTypes;
+import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.TreeUtils;
+import org.checkerframework.javacutil.TypesUtils;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -16,30 +29,6 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-
-import org.checkerframework.common.aliasing.qual.Unique;
-import org.checkerframework.common.basetype.BaseTypeChecker;
-import org.checkerframework.framework.source.Result;
-import org.checkerframework.framework.type.AnnotatedTypeFactory;
-import org.checkerframework.framework.type.AnnotatedTypeMirror;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
-import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
-import org.checkerframework.framework.util.AnnotatedTypes;
-import org.checkerframework.javacutil.AnnotationUtils;
-import org.checkerframework.javacutil.InternalUtils;
-import org.checkerframework.javacutil.TreeUtils;
-import org.checkerframework.javacutil.TypesUtils;
-
-import sparta.checkers.FlowVisitor;
-import sparta.checkers.intents.componentmap.ProcessEpicOutput;
-import sparta.checkers.quals.Extra;
-import sparta.checkers.quals.FlowPermission;
-import sparta.checkers.quals.IntentMap;
-import sparta.checkers.quals.IntentMapBottom;
-import sparta.checkers.quals.IntentMapNew;
-import sparta.checkers.quals.PFPermission;
-import sparta.checkers.quals.ReceiveIntent;
-import sparta.checkers.quals.SendIntent;
 
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.ClassTree;
@@ -64,6 +53,17 @@ import com.sun.tools.javac.util.Context;
 import com.sun.tools.javac.util.Name;
 import com.sun.tools.javac.util.Names;
 import com.sun.tools.javac.util.Pair;
+
+import sparta.checkers.FlowVisitor;
+import sparta.checkers.intents.componentmap.ProcessEpicOutput;
+import sparta.checkers.quals.Extra;
+import sparta.checkers.quals.FlowPermission;
+import sparta.checkers.quals.IntentMap;
+import sparta.checkers.quals.IntentMapBottom;
+import sparta.checkers.quals.IntentMapNew;
+import sparta.checkers.quals.PFPermission;
+import sparta.checkers.quals.ReceiveIntent;
+import sparta.checkers.quals.SendIntent;
 
 public class IntentVisitor extends FlowVisitor {
 
@@ -275,8 +275,8 @@ public class IntentVisitor extends FlowVisitor {
             // rcv = ((AnnotatedExecutableType)atypeFactory.getAnnotatedType(atypeFactory.getEnclosingMethod(node))).getReceiverType();
             return;
         }
-        if (isTypeOf(method, android.content.Intent.class)
-                || isTypeOf(method, android.os.Bundle.class)) {
+        if (IntentUtils.isPutExtra(node, atypeFactory) || IntentUtils
+                .isGetExtra(node, atypeFactory)){
             checkIntentExtraMethods(method, node);
             return;
         } else if (IntentUtils.isSendIntent(node, atypeFactory)) {
@@ -337,7 +337,7 @@ public class IntentVisitor extends FlowVisitor {
         for (AnnotatedTypeMirror atm : method.getParameterTypes()) {
             paramIndex++;
             if (TypesUtils.isDeclaredOfName(atm.getUnderlyingType(),
-                    android.content.Intent.class.getCanonicalName())) {
+                    "android.content.Intent")) {
                 break;
             }
         }
@@ -373,7 +373,7 @@ public class IntentVisitor extends FlowVisitor {
             for (AnnotatedTypeMirror atm : receiveIntentMethod
                     .getParameterTypes()) {
                 if (TypesUtils.isDeclaredOfName(atm.getUnderlyingType(),
-                        android.content.Intent.class.getCanonicalName())) {
+                        "android.content.Intent")) {
                     receiveIntentAnno = atm;
                     break;
                 }
@@ -605,14 +605,9 @@ public class IntentVisitor extends FlowVisitor {
      */
     private void checkIntentExtraMethods(AnnotatedExecutableType method,
             MethodInvocationTree node) {
-        if (!(IntentUtils.isPutExtra(node, atypeFactory) || IntentUtils
-                .isGetExtra(node, atypeFactory))) {
-            return;
-        }
 
-        ExpressionTree receiver = TreeUtils.getReceiverTree(node);
         AnnotatedTypeMirror receiverType = atypeFactory
-                .getAnnotatedType(receiver);
+                .getReceiverType(node);
         if (IntentUtils.isIntentMapBottom(receiverType)) {
             checker.report(Result.failure("intent.not.initialized"), node);
             return;
@@ -627,7 +622,7 @@ public class IntentVisitor extends FlowVisitor {
             return;
         }
         for (String key : keys) {
-            checkKeyIsInIntentMap(method, node, key, receiver, receiverType);
+            checkKeyIsInIntentMap(method, node, key, TreeUtils.getReceiverTree(node), receiverType);
         }
     }
 
@@ -668,14 +663,15 @@ public class IntentVisitor extends FlowVisitor {
             // no refinement for getExtra calls, so the key must exist in the
             // IntentMap.)
             if (isGetExtra) {
+                String receiverString = receiver != null ? receiver.toString() : "this";
                 checker.report(Result.failure("intent.key.notfound", keyName,
-                        receiver.toString()), node);
+                                              receiverString), node);
             }
             return;
         }
         AnnotationMirror receiverIntentAnnotation = receiverType
                 .getAnnotation(IntentMap.class);
-        AnnotatedTypeMirror uniqueType = aliasingATF.getAnnotatedType(receiver);
+        AnnotatedTypeMirror uniqueType = aliasingATF.getReceiverType(node);
         if (IntentUtils.getIExtra(receiverIntentAnnotation, keyName) == null) {
             // If key could not be found in the @IntentMap, raise a warning
             // if the type of the receiver is not @Unique.
