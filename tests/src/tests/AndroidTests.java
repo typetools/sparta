@@ -1,11 +1,4 @@
 package tests;
-import java.io.File;
-import java.lang.Override;
-import java.lang.String;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.checkerframework.framework.test.CheckerFrameworkTest;
 import org.checkerframework.framework.test.CompilationResult;
 import org.checkerframework.framework.test.TestConfiguration;
@@ -14,18 +7,23 @@ import org.checkerframework.framework.test.TypecheckExecutor;
 import org.checkerframework.framework.test.TypecheckResult;
 import org.checkerframework.framework.test.diagnostics.TestDiagnostic;
 import org.checkerframework.framework.test.diagnostics.TestDiagnosticUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized.Parameters;
 
+import static org.checkerframework.framework.test.TestConfigurationBuilder.buildDefaultConfiguration;
 import sparta.checkers.FlowChecker;
 import sparta.checkers.NotReviewedLibraryChecker;
 import sparta.checkers.intents.IntentChecker;
 import sparta.checkers.permission.AndroidFenumChecker;
 import sparta.checkers.permission.PermissionsChecker;
 import sparta.checkers.report.ReportAPIChecker;
-
-import static org.checkerframework.framework.test.TestConfigurationBuilder.buildDefaultConfiguration;
 
 /**
  * JUnit tests for the SPARTA Checkers.
@@ -324,7 +322,7 @@ public class AndroidTests {
 
             List<String> optionsPlusStub = new ArrayList<String>(checkerOptions);
             optionsPlusStub.add("-Astubs=" + stubname);
-            TestConfiguration config = buildDefaultConfiguration(checkerDir, testFile, checkerName, optionsPlusStub,
+            TestConfiguration config = buildDefaultConfiguration(testDir, testFile, checkerName, optionsPlusStub,
                                                                  shouldEmitDebugInfo);
 
             TypecheckExecutor executor = new TypecheckExecutor() {
