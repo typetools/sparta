@@ -340,20 +340,16 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
         while (iter != null) {
             if (this.getDeclAnnotation(iter, PolyFlow.class) != null) {
-                if (element.getKind() == ElementKind.METHOD) {
-                    ExecutableElement method = (ExecutableElement) element;
-                    if (method.getReturnType().getKind() == TypeKind.VOID) {
-                        return;
-                    }
+                if (shouldUsePolyFlow(element)) {
+                    polyFlowDefaults.annotate(element, type);
+                    addAnnotationsToComponentTypes(type, POLYSOURCE, POLYSINK);
                 }
-                polyFlowDefaults.annotate(element, type);
-                addAnnotationsToComponentTypes(type, POLYSOURCE, POLYSINK);
                 return;
             } else if (this.getDeclAnnotation(iter, PolyFlowReceiver.class) != null) {
                 if (ElementUtils.hasReceiver(element)) {
                     polyFlowReceiverDefaults.annotate(element, type);
                     addAnnotationsToComponentTypes(type, POLYSOURCER, POLYSINKR);
-                } else {
+                } else if (shouldUsePolyFlow(element)){
                     polyFlowDefaults.annotate(element, type);
                     addAnnotationsToComponentTypes(type, POLYSOURCE, POLYSINK);
                 }
@@ -367,6 +363,18 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                 iter = iter.getEnclosingElement();
             }
         }
+    }
+
+    private boolean shouldUsePolyFlow(Element element) {
+        if (element.getKind() == ElementKind.METHOD) {
+            ExecutableElement method = (ExecutableElement) element;
+            if (method.getReturnType().getKind() == TypeKind.VOID) {
+                return false;
+            } else if(method.getParameters().isEmpty()){
+                return false;
+            }
+        }
+        return true;
     }
 
     private void addAnnotationsToComponentTypes(AnnotatedTypeMirror type,
