@@ -12,11 +12,11 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedArrayTyp
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedPrimitiveType;
 
-import sparta.checkers.validator.BaseFlowVisitor;
-
 import com.sun.source.tree.AnnotatedTypeTree;
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.Tree;
+
+import sparta.checkers.validator.BaseFlowVisitor;
 
 public class FlowVisitor extends BaseFlowVisitor {
 

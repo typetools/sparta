@@ -6,9 +6,9 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
 
-import sparta.checkers.permission.qual.DependentPermissions;
-
 import com.sun.source.tree.Tree;
+
+import sparta.checkers.permission.qual.DependentPermissions;
 
 public class DependentPermissionsVisitor extends
         BaseTypeVisitor<DependentPermissionsAnnotatedTypeFactory> {
