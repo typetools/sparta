@@ -666,7 +666,7 @@ public static long time = 0;
     @Override
     protected TypeHierarchy createTypeHierarchy() {
         return new FlowTypeHierarchy(checker, getQualifierHierarchy(),
-                                     checker.hasOption("ignoreRawTypeArguments"),
+                                     checker.getOption("ignoreRawTypeArguments","true").equals("true"),
                                      checker.hasOption("invariantArrays"));
     }
 

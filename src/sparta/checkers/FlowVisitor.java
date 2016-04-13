@@ -75,11 +75,9 @@ public class FlowVisitor extends BaseFlowVisitor {
 
     @Override
     protected void commonAssignmentCheck(AnnotatedTypeMirror varType,
-            AnnotatedTypeMirror valueType, Tree valueTree, /*@CompilerMessageKey*/String errorKey,
-            boolean isLocalVariableAssignement) {
+            AnnotatedTypeMirror valueType, Tree valueTree, /*@CompilerMessageKey*/String errorKey) {
 
-        super.commonAssignmentCheck(varType, valueType, valueTree, errorKey,
-                isLocalVariableAssignement);
+        super.commonAssignmentCheck(varType, valueType, valueTree, errorKey);
         atypeFactory.getFlowAnalizer().addAssignmentFlow(varType, valueType,
                 atypeFactory.getTypeHierarchy(), getCurrentPath());
     }

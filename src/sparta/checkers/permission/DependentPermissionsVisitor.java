@@ -20,14 +20,12 @@ public class DependentPermissionsVisitor extends
     // DependentPermissions class
     @Override
     protected void commonAssignmentCheck(AnnotatedTypeMirror varType,
-            AnnotatedTypeMirror valueType, Tree valueTree, String errorKey,
-            boolean isLocalVariableAssignement) {
+            AnnotatedTypeMirror valueType, Tree valueTree, String errorKey) {
         if (valueType.getAnnotation(DependentPermissions.class) == null
                 && varType.getAnnotation(DependentPermissions.class) == null) {
             return;
         } else {
-            super.commonAssignmentCheck(varType, valueType, valueTree, errorKey,
-                    isLocalVariableAssignement);
+            super.commonAssignmentCheck(varType, valueType, valueTree, errorKey);
         }
     }
 
