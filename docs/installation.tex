@@ -1,17 +1,5 @@
 \htmlhr
 \chapter{Installation and app setup\label{installation}}
-This chapter describes how to install the SPARTA tools
-(Section~\ref{sec:install}) and how to prepare an Android app to run the
-SPARTA tools. (Section~\ref{sec:antsetup}).
-
-\paragraph{Checker Framework}
-\begin{itemize}
-\item If you are using the released version of SPARTA, follow the installation instructions in the manual: 
-\url{http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#installation}
-\item If you are using the development version of SPARTA,  follow Section 25.3 from the Checker Framework manual (Building from source.)
-\item  For both versions, as described in the installation instructions, set the \<CHECKERFRAMEWORK>
-  environment variable to \<.../checker-framework/>
-\end{itemize}
 
 \section {Requirements\label{sec:requirements}}
 \paragraph{Java 7}
@@ -20,17 +8,12 @@ SPARTA tools. (Section~\ref{sec:antsetup}).
  \item \<JAVA\_HOME> should be set to \<.../jdk1.7.0>.
 \end{itemize}
 
-\paragraph{Ant}
-\begin{itemize}
- \item Ant version 1.8.2 or later
-\end{itemize}
-
 \paragraph{Android SDK}
 \begin{itemize}
  \item Android API version 15 or later
 \end{itemize}
 \begin{enumerate}
- \item Install the Android SDK to some directory. 
+ \item Install the Android SDK to some directory.
  \item Set \<ANDROID\_HOME> to the directory where you installed the
    Android SDK.
  \item Download the \<android-15> target by running \<\$ANDROID\_HOME/tools/android>
@@ -40,10 +23,169 @@ SPARTA tools. (Section~\ref{sec:antsetup}).
 %\<Help $\rightarrow$ Install New Software>
 %and install the Android ADT Plugin (\url{https://dl-ssl.google.com/android/eclipse}).
 
+\section{Install SPARTA}
+
+\begin{enumerate}
+\item Download the SPARTA toolset: \url{https://github.com/typetools/sparta/releases/download/sparta-1.0.2/sparta-toolset-1.0.2.tgz}
+
+\item Unpack the archive
+
+\item Set \<SPARTA\_CODE> to the directory where you unpacked the toolset.
+\end{enumerate}
+
+See Section~\ref{install-source} for instructions on how to install SPARTA from source.
+
+The SPARTA toolset can be used with apps that build using Ant (Section~\ref{install-ant})
+or using the Android plugin for Gradle (Section~\ref{install-gradle}).
+
+\subsection{Using SPARTA with the Android plugin for Gradle\label{install-gradle}}
+\begin{enumerate}
+\item Use the Maven Central repository:
+
+\begin{Verbatim}
+repositories {
+  ... existing repositories...
+  mavenCentral()
+}
+\end{Verbatim}
+
+\item Add dependency configurations for the annotated JDK, \<checker.jar>, and the Type Annotations compiler:
+
+\begin{small}
+\begin{Verbatim}
+configurations {
+    ... existing configurations ...
+    checkerFrameworkJavac {
+        description = 'a customization of the Open JDK javac compiler with additional support for type annotations'
+    }
+    checkerFramework {
+       description = 'The Checker Framework: custom pluggable types for Java'
+    }
+    sparta {
+       description =  `Static Program Analysis for Reliable Trusted Apps`
+    }
+}
+\end{Verbatim}
+\end{small}
+
+\item Declare the Checker Framework and SPARTA dependencies:
+
+\begin{small}
+\begin{Verbatim}
+dependencies {
+    ... existing dependencies...
+    ext.checkerFrameworkVersion = '1.9.11'
+    checkerFrameworkJavac "org.checkerframework:compiler:${checkerFrameworkVersion}"
+    checkerFramework "org.checkerframework:checker:${checkerFrameworkVersion}"
+    compile "org.checkerframework:checker-qual:${checkerFrameworkVersion}"
+
+    sparta fileTree(dir: "$System.env.SPARTA_CODE", include: ['*.jar'])
+    if (typecheck) {
+        compile fileTree(dir: "$System.env.SPARTA_CODE", include: ['*.jar'])
+    }
+
+}
+\end{Verbatim}
+\end{small}
+
+\item Direct all tasks of type \<JavaCompile> to use the desired checkers, when the \<typecheck> project property is set:
+
+\begin{small}
+\begin{Verbatim}
+def typecheck = project.properties['typecheck'] ?: false
+allprojects {
+if (typecheck) {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile).all { JavaCompile compile ->
+        compile.options.compilerArgs = [
+                '-processor', 'sparta.checkers.FlowChecker',
+                '-processorpath', "${configurations.sparta.asPath}:${configurations.checkerFramework.asPath}",
+
+        ]
+            compile.options.compilerArgs += ['-source', '7', '-target', '7']
+            options.bootClasspath = "${configurations.checkerFrameworkJavac.asPath}:" + System.getProperty("sun.boot.class.path") + ":" + options.bootClasspath
+
+            options.fork = true
+            options.forkOptions.jvmArgs += ["-Xbootclasspath/p:${configurations.checkerFrameworkJavac.asPath}"]
+        }
+    }
+}
+}
+
+\end{Verbatim}
+\end{small}
+
+\item Run the checkers
+
+\begin{Verbatim}
+gradle compileReleaseJavaWithJavac -Ptypecheck=true
+\end{Verbatim}
+
+\end{enumerate}
 
 
 
-\section{Install SPARTA\label{sec:install}}
+\subsection{Using SPARTA with Ant\label{install-ant}}
+
+\begin{enumerate}
+
+\item Install the Checker Framework by following the installation instructions in the manual:
+\url{http://types.cs.washington.edu/checker-framework/current/checker-framework-manual.html#installation}
+
+\item
+Update the app configuration by running the following command in the main directory of the
+app.
+\begin{Verbatim}
+$ANDROID_HOME/tools/android update project --path .
+\end{Verbatim}
+
+\item
+Copy the file \<sparta.jar> generated in Section~\ref{sec:install} to the
+directory \<libs/> in the main directory of the app. If that folder doesn't
+exist it must be created.
+
+\item Build the app
+
+\begin{Verbatim}
+ant release
+\end{Verbatim}
+If the app does not build with the above command, then the SPARTA tool set will
+not be able to analyze the app.  Below are two common compilation issues and
+solutions.
+\begin{itemize}
+\item
+Most Android apps will rely on an auto-generated \<R.java> file
+in the \</gen> directory of the project. This will only be generated
+if there are no errors in the project. There may be errors in the
+resources (\<.../res> directory) that could cause \<R.java> to not be
+generated.
+
+\item
+Additionally, if the app depends on an external \<.jar> file, it will compile
+in Eclipse but not with Ant. All dependent \<.jar> files must be in the
+\<libs/> directory.
+\end{itemize}
+
+\item
+Add the SPARTA build targets to the end of the \<build.xml>
+ file, just above \verb|</project>|.
+
+
+\begin{Verbatim}
+    <property name="checker-framework" value="${env.CHECKERFRAMEWORK}"/>
+    <property name="sparta-code" value="${env.SPARTA_CODE}"/>
+
+    <dirname property="checker-framework_dir" file="${checker-framework}/checker-framework" />
+    <dirname property="sparta-code_dir" file="${sparta-code}/sparta-code" />
+
+    <import file="${sparta-code_dir}/build.include.xml" />
+    <property name="flowPolicy" value="flow-policy"/>
+    <property name="componentMap" value="component-map"/>
+\end{Verbatim}
+
+\end{enumerate}
+
+\section{Installing SPARTA from source\label{install-source}}
 
 \begin{enumerate}
 
@@ -55,13 +197,13 @@ SPARTA tools. (Section~\ref{sec:antsetup}).
 \item
   To obtain from the version control repository, run
 \begin{Verbatim}
-git clone git@github.com:typetools/sparta.git  
+git clone git@github.com:typetools/sparta.git
 \end{Verbatim}
-\item 
+\item
 
 The source code is also available as a part of the release:
   download the SPARTA release from
-  \url{http://types.cs.washington.edu/sparta/release/}.  
+  \url{http://types.cs.washington.edu/sparta/release/}.
 
   Then, unpack the archive.
 \end{itemize}
@@ -90,88 +232,12 @@ You should see ``\<BUILD SUCCESSFUL>'' at the end.
 
 \end{enumerate}
 
-
-\section{Android App Setup\label{sec:antsetup}}
-
-This section explains how to set up an Android application for analysis with the SPARTA tools.
-\begin{enumerate}
-
-\item
-Ensure the following environment variables are set. 
-
-\begin{itemize}
-\item
-\<CHECKERFRAMEWORK> is the
-\<.../checker-framework/> directory
-
-\item
-\<SPARTA\_CODE> is the \<.../sparta-code> directory
-
-\item
-\<ANDROID\_HOME> is the \<.../android-sdk> directory
-
-\end{itemize}
-\item
-Update the app configuration by running the following command in the main directory of the
-app.
-\begin{Verbatim}
-$ANDROID_HOME/tools/android update project --path .
-\end{Verbatim}
-
-\item
-Copy the file \<sparta.jar> generated in Section~\ref{sec:install} to the
-directory \<libs/> in the main directory of the app. If that folder doesn't
-exist it must be created.
-
-\item Build the app
-
-\begin{Verbatim}
-ant release
-\end{Verbatim}
-If the app does not build with the above command, then the SPARTA tool set will 
-not be able to analyze the app.  Below are two common compilation issues and
-solutions.
-\begin{itemize}
-\item
-Most Android apps will rely on an auto-generated \<R.java> file
-in the \</gen> directory of the project. This will only be generated
-if there are no errors in the project. There may be errors in the
-resources (\<.../res> directory) that could cause \<R.java> to not be
-generated.
-
-\item
-Additionally, if the app depends on an external \<.jar> file, it will compile
-in Eclipse but not with Ant. All dependent \<.jar> files must be in the
-\<libs/> directory.
-\end{itemize}
-
-
-
-\item
-Add the SPARTA build targets to the end of the \<build.xml>
- file, just above \verb|</project>|.
-
-
-\begin{Verbatim}
-    <property name="checker-framework" value="${env.CHECKERFRAMEWORK}"/>
-    <property name="sparta-code" value="${env.SPARTA_CODE}"/>
-
-    <dirname property="checker-framework_dir" file="${checker-framework}/checker-framework" />
-    <dirname property="sparta-code_dir" file="${sparta-code}/sparta-code" />
-
-    <import file="${sparta-code_dir}/build.include.xml" />
-    <property name="flowPolicy" value="flow-policy"/>
-    <property name="componentMap" value="component-map"/>
-\end{Verbatim}
-
-\end{enumerate}
-
-\subsubsection{Using Eclipse to analyze apps}
-To use Eclipse to look at and build the code, perform these 
+\section{Using Eclipse to analyze apps}
+To use Eclipse to look at and build the code, perform these
 steps:
 \begin{itemize}
 \item
-Import the projects the app.      \<Import $\rightarrow$ Existing Android Code 
+Import the projects the app.      \<Import $\rightarrow$ Existing Android Code
 Into Workspace>
 
     \item
@@ -186,23 +252,21 @@ Into Workspace>
 
     \item
     Add sparta.jar to the apps build path
-    
-    \item Right click on the build.xml file and select   \<Run as $\rightarrow$ 
-    External Tools Configurations...>. In the \<Main> tab add \<check-flow> to the 
-    Arguments box.  In the \<Environment> tab, add the \<CHECKERFRAMEWORK> and 
-    \<SPARTA\_CODE> variables.  
-    
+
+    \item Right click on the build.xml file and select   \<Run as $\rightarrow$
+    External Tools Configurations...>. In the \<Main> tab add \<check-flow> to the
+    Arguments box.  In the \<Environment> tab, add the \<CHECKERFRAMEWORK> and
+    \<SPARTA\_CODE> variables.
+
   \end{itemize}
 
 
 
-
-
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "manual"
 %%% TeX-command-default: "PDF"
-%%% End: 
+%%% End:
 
 %  LocalWords:  hg SDK ADT Plugin MercurialEclipse gson json sparta jsr308
 %  LocalWords:  Dandroid langtools javaparser app TODO xml env dirname dir
