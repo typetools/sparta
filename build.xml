@@ -300,6 +300,7 @@ ${build.version} of the 'javac.jar' library."/>
                 </fileset>
             </path>
         </pathconvert>
+        <echo message="-cp ${build}:${junit.jar}:${hamcrest.lib}:${gson.jar}"/>
         <java fork="true"
               failonerror="true"
               jar="${checkers.lib}">
