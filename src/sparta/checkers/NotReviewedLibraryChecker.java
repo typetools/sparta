@@ -124,8 +124,8 @@ public class NotReviewedLibraryChecker extends BaseTypeChecker {
                         StubGenerator stubGen = new StubGenerator(out);
                         if (printFrequency)
                             out.println("    //" + map.get(element));
-                        stubGen.skeletonFromMethod(element);
-                        stubGen.skeletonFromField(element);
+                        stubGen.stubFromMethod(element);
+                        stubGen.stubFromField(element);
                         methodCount++;
                     }
                     out.println("}");
