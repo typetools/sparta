@@ -20,6 +20,7 @@ class PolicyTest {
     private @Source({ANY}) Object anySource = new @Source({ANY}) Object();
     private @Source({READ_EXTERNAL_STORAGE, FILESYSTEM, ACCESS_FINE_LOCATION})
     @Sink({WRITE_LOGS})
+    //:: error: (forbidden.flow)
     Object esFsLocSource = null;
     private @Sink({WRITE_LOGS}) Object logcatSink = null;
     //:: error: (forbidden.flow)
