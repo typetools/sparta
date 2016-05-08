@@ -16,3 +16,6 @@ jdk:
 notifications:
   email:
     - sparta@cs.washington.edu
+
+git:
+  depth: 3
