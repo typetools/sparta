@@ -305,17 +305,17 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
 
     @Override
-    protected void annotateImplicit(Tree tree, AnnotatedTypeMirror type,
+    protected void addComputedTypeAnnotations(Tree tree, AnnotatedTypeMirror type,
             boolean useFlow) {
         Element element = InternalUtils.symbol(tree);
         handleDefaulting(element, type);
-        super.annotateImplicit(tree, type, useFlow);
+        super.addComputedTypeAnnotations(tree, type, useFlow);
     }
 
     @Override
-    public void annotateImplicit(Element element, AnnotatedTypeMirror type) {
+    public void addComputedTypeAnnotations(Element element, AnnotatedTypeMirror type) {
         handleDefaulting(element, type);
-        super.annotateImplicit(element, type);
+        super.addComputedTypeAnnotations(element, type);
     }
 
     protected void handleDefaulting(final Element element, final AnnotatedTypeMirror type) {
