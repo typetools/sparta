@@ -3,6 +3,10 @@ package sparta.checkers.permission;
 import org.checkerframework.checker.fenum.FenumAnnotatedTypeFactory;
 import org.checkerframework.checker.fenum.FenumChecker;
 import org.checkerframework.checker.fenum.FenumVisitor;
+import org.checkerframework.checker.fenum.qual.Fenum;
+import org.checkerframework.checker.fenum.qual.FenumBottom;
+import org.checkerframework.checker.fenum.qual.FenumTop;
+import org.checkerframework.checker.fenum.qual.FenumUnqualified;
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
@@ -44,7 +48,12 @@ class AndroidFenumAnnotatedTypeFactory extends FenumAnnotatedTypeFactory {
 
     @Override
     protected Set<Class<? extends Annotation>> createSupportedTypeQualifiers() {
-        Set<Class<? extends Annotation>> set = new HashSet<>(super.createSupportedTypeQualifiers());
+
+        Set<Class<? extends Annotation>> set = new HashSet<>();
+        // Load top, bottom, unqualified, and fake enum
+        set.add(FenumTop.class);
+        set.add(FenumUnqualified.class);
+        set.add(FenumBottom.class);
         set.add(Permission.class);
         return Collections.unmodifiableSet(set);
     }
