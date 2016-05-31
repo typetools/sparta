@@ -6,6 +6,7 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
 
+import com.sun.source.tree.NewClassTree;
 import com.sun.source.tree.Tree;
 
 import sparta.checkers.permission.qual.DependentPermissions;
@@ -31,7 +32,7 @@ public class DependentPermissionsVisitor extends
 
     @Override
     protected boolean checkConstructorInvocation(AnnotatedDeclaredType dt,
-            AnnotatedExecutableType constructor, Tree src) {
+            AnnotatedExecutableType constructor, NewClassTree src) {
         // Ignore the default annotation on the constructor
         return true;
     }
