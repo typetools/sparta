@@ -178,6 +178,7 @@ ${build.version} of the 'javac.jar' library."/>
 
     <!-- since we are manually forming the path, we need to make it cross platform -->
     <path id="libs.external.deps">
+      <pathelement location="${checkers.lib}"/>
       <pathelement location="${junit.jar}"/>
       <pathelement location="${hamcrest.lib}"/>
       <pathelement location="${gson.jar}"/>
@@ -300,11 +301,11 @@ ${build.version} of the 'javac.jar' library."/>
                 </fileset>
             </path>
         </pathconvert>
-        <echo message="-cp ${build}:${junit.jar}:${hamcrest.lib}:${gson.jar}"/>
+        <echo message="-cp ${build}:${checkers.lib}:${junit.jar}:${hamcrest.lib}:${gson.jar}"/>
         <java fork="true"
               failonerror="true"
               jar="${checkers.lib}">
-            <arg line="-cp ${build}:${junit.jar}:${hamcrest.lib}:${gson.jar}" />
+            <arg line="-cp ${build}:${checker.lib}:${junit.jar}:${hamcrest.lib}:${gson.jar}" />
             <arg value="-g"/>
             <!-- Make sure we only have Java 7 source code and generate Java 7 bytecode. -->
             <arg value="-source"/>
