@@ -305,7 +305,7 @@ ${build.version} of the 'javac.jar' library."/>
         <java fork="true"
               failonerror="true"
               jar="${checkers.lib}">
-            <arg line="-cp ${build}:${checker.lib}:${junit.jar}:${hamcrest.lib}:${gson.jar}" />
+            <arg line="-cp ${build}:${checkers.lib}:${junit.jar}:${hamcrest.lib}:${gson.jar}" />
             <arg value="-g"/>
             <!-- Make sure we only have Java 7 source code and generate Java 7 bytecode. -->
             <arg value="-source"/>
