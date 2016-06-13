@@ -13,9 +13,7 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE_PARAMETER, ElementType.TYPE_USE,
-/* The following only added to make Eclipse work. */
-ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD, ElementType.LOCAL_VARIABLE })
+@Target({ ElementType.TYPE_PARAMETER, ElementType.TYPE_USE })
 @SubtypeOf({})
 public @interface IntentMap {
     Extra[] value() default {};
