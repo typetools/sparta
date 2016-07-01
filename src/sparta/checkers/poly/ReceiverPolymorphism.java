@@ -84,7 +84,9 @@ public class ReceiverPolymorphism extends QualifierPolymorphism {
      */
     @Override
     public void annotate(NewClassTree newClassTree, AnnotatedExecutableType annotatedExecType) {
-        return;
+        if (polyQuals.isEmpty())
+            return;
+        completer.visit(annotatedExecType);
     }
 
 }
