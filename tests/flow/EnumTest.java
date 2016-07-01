@@ -5,7 +5,7 @@ import sparta.checkers.quals.Sink;
 import static sparta.checkers.quals.FlowPermissionString.*;
 
 public class EnumTest{
-	
+
 	public @Source({}) @Sink(ANY) enum EnumAnnoBottom{
 		CONST;
 	}

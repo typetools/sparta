@@ -29,6 +29,7 @@ import org.checkerframework.framework.type.visitor.AnnotatedTypeScanner;
 import org.checkerframework.framework.type.visitor.SimpleAnnotatedTypeVisitor;
 import org.checkerframework.framework.util.AnnotatedTypes;
 import org.checkerframework.javacutil.AnnotationUtils;
+import org.checkerframework.javacutil.TypesUtils;
 
 import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.NewClassTree;
@@ -36,7 +37,7 @@ import com.sun.source.tree.NewClassTree;
 /**
  * Abstract class that can be extend for different kinds of polymorphism. Ported
  * from org.checkerframework.framework.util.QualifierPolymorphism
- * 
+ *
  */
 public abstract class QualifierPolymorphism {
 
@@ -95,7 +96,7 @@ public abstract class QualifierPolymorphism {
      * Returns a mapping from an annotation to be used in the event that the
      * polymorphic qualifier cannot be resolved to the polymorphic qualifier.
      * The two annotations should be in the same hierarchy
-     * 
+     *
      * @param elements
      * @return map of polyqualifier to default qualifier
      */
@@ -244,7 +245,12 @@ public abstract class QualifierPolymorphism {
         @Override
         public Map<AnnotationMirror, Set<? extends AnnotationMirror>> visitDeclared(
                 AnnotatedDeclaredType type, AnnotatedTypeMirror actualType) {
-
+            if (actualType.getKind() == TypeKind.INTERSECTION) {
+                // We don't support poly annotations on intersection types
+                // See Issue 744
+                // https://github.com/typetools/checker-framework/issues/744
+                return Collections.emptyMap();
+            }
             if (actualType.getKind() == TypeKind.TYPEVAR) {
                 if (visited.contains(actualType.getUnderlyingType()))
                     return Collections.emptyMap();
@@ -267,8 +273,15 @@ public abstract class QualifierPolymorphism {
                 if (wctype.getUnderlyingType().getExtendsBound() != null) {
                     result = visit(type, wctype.getExtendsBound());
                 } else if (wctype.getUnderlyingType().getSuperBound() != null) {
-                    // TODO: is the logic different for super bounds?
-                    result = visit(type, wctype.getSuperBound());
+                    if (TypesUtils.isErasedSubtype(types, type.getUnderlyingType(),
+                            wctype.getSuperBound().getUnderlyingType())) {
+                        result = visit(type, wctype.getSuperBound());
+                    } else {
+                        AnnotatedTypeMirror superBoundAsSuper =
+                                AnnotatedTypes
+                                        .asSuper(types, atypeFactory, wctype.getSuperBound(), type);
+                        result = visit(type, superBoundAsSuper);
+                    }
                 } else {
                     result = Collections.emptyMap();
                 }
@@ -281,12 +294,7 @@ public abstract class QualifierPolymorphism {
             }
 
             assert actualType.getKind() == type.getKind();
-            type = (AnnotatedDeclaredType) AnnotatedTypes.asSuper(types,
-                    atypeFactory, type, actualType);
-            // TODO: type is null if type is an intersection type
-            // assert type != null;
-            if (type == null)
-                return Collections.emptyMap();
+            type = (AnnotatedDeclaredType) AnnotatedTypes.asSuper(atypeFactory, type, actualType);
 
             AnnotatedDeclaredType dcType = (AnnotatedDeclaredType) actualType;
 
@@ -370,10 +378,15 @@ public abstract class QualifierPolymorphism {
         @Override
         public Map<AnnotationMirror, Set<? extends AnnotationMirror>> visitArray(
                 AnnotatedArrayType type, AnnotatedTypeMirror actualType) {
+            if (actualType.getKind() == TypeKind.INTERSECTION) {
+                // We don't support poly annotations on intersection types
+                // See Issue 744
+                // https://github.com/typetools/checker-framework/issues/744
+                return Collections.emptyMap();
+            }
 
             if (actualType.getKind() == TypeKind.DECLARED)
-                return visit(AnnotatedTypes.asSuper(types, atypeFactory, type,
-                        actualType), actualType);
+                return visit(AnnotatedTypes.asSuper(atypeFactory, type, actualType), actualType);
             if (actualType.getKind() == TypeKind.TYPEVAR) {
                 if (visited.contains(actualType.getUnderlyingType()))
                     return Collections.emptyMap();
@@ -432,7 +445,7 @@ public abstract class QualifierPolymorphism {
                 // give up
                 return Collections.emptyMap();
 
-            AnnotatedTypeMirror typeSuper = findType(type, actualType);
+            AnnotatedTypeMirror typeSuper = AnnotatedTypes.asSuper(atypeFactory, type, actualType);
             if (typeSuper.getKind() != TypeKind.TYPEVAR)
                 return visit(typeSuper, actualType);
 
@@ -453,7 +466,7 @@ public abstract class QualifierPolymorphism {
         @Override
         public Map<AnnotationMirror, Set<? extends AnnotationMirror>> visitWildcard(
                 AnnotatedWildcardType type, AnnotatedTypeMirror actualType) {
-            AnnotatedTypeMirror typeSuper = findType(type, actualType);
+            AnnotatedTypeMirror typeSuper = AnnotatedTypes.asSuper(atypeFactory, type, actualType);
             if (typeSuper.getKind() != TypeKind.WILDCARD) {
                 return visit(typeSuper, actualType);
             }
@@ -466,10 +479,11 @@ public abstract class QualifierPolymorphism {
             assert typeSuper.getKind() == actualType.getKind() ||
             // TODO: actualType might be the capture of a wildcard;
             // better/different check?
-                    actualType.getKind() == TypeKind.TYPEVAR : "PolyCollector: mismatched type kinds: "
-                    + actualType
-                    + " ("
-                    + actualType.getKind()
+                    actualType.getKind() == TypeKind.TYPEVAR : "PolyCollector: mismatched type "
+                    + "kinds: " +
+                    actualType
+                    + " (" +
+                    actualType.getKind()
                     + ") and "
                     + typeSuper + " (" + typeSuper.getKind() + ")";
             AnnotatedWildcardType wcType = (AnnotatedWildcardType) typeSuper;
@@ -490,15 +504,6 @@ public abstract class QualifierPolymorphism {
 
             visited.remove(type.getUnderlyingType());
             return result;
-        }
-
-        private AnnotatedTypeMirror findType(AnnotatedTypeMirror type,
-                AnnotatedTypeMirror actualType) {
-            AnnotatedTypeMirror result = AnnotatedTypes.asSuper(types,
-                    atypeFactory, type, actualType);
-            // result shouldn't be null, will test this hypothesis later
-            // assert result != null;
-            return (result != null ? result : type);
         }
     }
 

@@ -118,11 +118,13 @@ public class StandardQualifierPolymorphism extends QualifierPolymorphism {
         Map<AnnotationMirror, Set<? extends AnnotationMirror>> matchingMapping = collector
                 .visit(arguments, requiredArgs);
 
-        if (type.getReceiverType() != null) {
-            matchingMapping = collector.reduce(
-                    matchingMapping,
-                    collector.visit(atypeFactory.getReceiverType(tree),
-                            type.getReceiverType()));
+        // for super() and this() method calls, getReceiverType(tree) does not return the correct
+        // type. So, just skip those.  This is consistent with skipping receivers of constructors
+        // below.
+        if (type.getReceiverType() != null && !TreeUtils.isSuperCall(tree)
+                && !TreeUtils.isThisCall(tree)) {
+            matchingMapping = collector.reduce(matchingMapping,
+                    collector.visit(atypeFactory.getReceiverType(tree), type.getReceiverType()));
         }
 
         if (matchingMapping != null && !matchingMapping.isEmpty()) {

@@ -84,23 +84,7 @@ public class ReceiverPolymorphism extends QualifierPolymorphism {
      */
     @Override
     public void annotate(NewClassTree newClassTree, AnnotatedExecutableType annotatedExecType) {
-        if (polyQuals.isEmpty())
-            return;
-
-        Map<AnnotationMirror, Set<? extends AnnotationMirror>> matchingMapping = null;
-
-        if (annotatedExecType.getReceiverType() != null) {
-            // getReceiverType returns null for new class trees even if
-            // their is a receiver, so this has not effect.
-            matchingMapping = collector.visit(
-                    atypeFactory.getReceiverType(newClassTree), annotatedExecType.getReceiverType());
-        }
-
-        if (matchingMapping != null && !matchingMapping.isEmpty()) {
-            replacer.visit(annotatedExecType, matchingMapping);
-        } else {
-            completer.visit(annotatedExecType);
-        }
+        return;
     }
 
 }
