@@ -1,5 +1,5 @@
 package tests;
-import org.checkerframework.framework.test.CheckerFrameworkTest;
+import org.checkerframework.framework.test.CheckerTestPerFile;
 import org.checkerframework.framework.test.CompilationResult;
 import org.checkerframework.framework.test.TestConfiguration;
 import org.checkerframework.framework.test.TestUtilities;
@@ -45,7 +45,7 @@ public class AndroidTests {
         }
     }
 
-    public static class AndroidFenumCheckerTests extends CheckerFrameworkTest {
+    public static class AndroidFenumCheckerTests extends CheckerTestPerFile {
         public AndroidFenumCheckerTests(File testFile) {
             super(testFile, AndroidFenumChecker.class, "sparta.checkers", "-Anomsgtext", "-AprintErrorStack");
 //            super(testFile, AndroidFenumChecker.class, "sparta.checkers", "-Astubs=apiusage.astub");
@@ -58,7 +58,7 @@ public class AndroidTests {
         }
     }
 
-    public static class AndroidPermissionsCheckerTests extends CheckerFrameworkTest {
+    public static class AndroidPermissionsCheckerTests extends CheckerTestPerFile {
         public AndroidPermissionsCheckerTests(File testFile) {
             super(testFile, PermissionsChecker.class, "sparta.checkers", "-Anomsgtext");
         }
@@ -69,7 +69,7 @@ public class AndroidTests {
         }
     }
 
-    public static class AndroidReportCheckerTests extends CheckerFrameworkTest {
+    public static class AndroidReportCheckerTests extends CheckerTestPerFile {
         public AndroidReportCheckerTests(File testFile) {
             super(testFile, ReportAPIChecker.class, "sparta.checkers", "-Anomsgtext",
                     "-Astubs=apiusage.astub:suspicious.astub");
@@ -81,7 +81,7 @@ public class AndroidTests {
         }
     }
 
-    public static class IntentCheckerTests extends CheckerFrameworkTest {
+    public static class IntentCheckerTests extends CheckerTestPerFile {
         public IntentCheckerTests(File testFile) {
             super(testFile, IntentChecker.class, "sparta.checkers", "-Anomsgtext");
             // Uncomment the line below to see the full errors in the JUnit tests
@@ -164,7 +164,7 @@ public class AndroidTests {
         }
     }
     
-    public static class FlowCheckerTests extends CheckerFrameworkTest {
+    public static class FlowCheckerTests extends CheckerTestPerFile {
         public FlowCheckerTests(File testFile) {
             super(testFile, FlowChecker.class, "sparta.checkers", "-Anomsgtext");
             // Uncomment the line below to see the full errors in the JUnit tests
@@ -289,7 +289,7 @@ public class AndroidTests {
         }
     }
 
-    public static class NotReviewedLibraryCheckerTests extends CheckerFrameworkTest {
+    public static class NotReviewedLibraryCheckerTests extends CheckerTestPerFile {
         final static String dirname="testOutput";
         final static String filename="testmissing.astub";
         final static String stubname=dirname+File.separator+filename;
