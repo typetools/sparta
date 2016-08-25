@@ -474,6 +474,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
         protected IntentQualifierHierarchy(MultiGraphFactory f) {
             super(f);
+            polyQualifiers.put(INTENT_MAP, POLY_INTENT_MAP);
         }
 
         @Override
