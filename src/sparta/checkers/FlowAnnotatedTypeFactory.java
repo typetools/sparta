@@ -712,6 +712,9 @@ public static long time = 0;
 
         protected FlowQualifierHierarchy(MultiGraphFactory f) {
             super(f);
+            polyQualifiers.clear();
+            polyQualifiers.put(NOSINK, POLYSINK);
+            polyQualifiers.put(ANYSOURCE, POLYSOURCE);
         }
 
         @Override
