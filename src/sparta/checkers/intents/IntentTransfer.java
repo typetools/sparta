@@ -119,8 +119,7 @@ public class IntentTransfer extends CFTransfer {
                     // When the method return type is void, for example, in Bundle.putString,
                     // newResultValue == null, and we want to avoid a nullpointer below.
                     newResultValue = analysis.createSingleAnnotationValue(
-                            iMap, newResultValue.getType()
-                            .getUnderlyingType());
+                            iMap, newResultValue.getUnderlyingType());
                 }
 
                 return new RegularTransferResult<>(newResultValue, store);
