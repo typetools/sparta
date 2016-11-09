@@ -13,9 +13,5 @@ jdk:
 #  - oraclejdk7
   - openjdk7
 
-notifications:
-  email:
-    - sparta@cs.washington.edu
-
 git:
   depth: 9
