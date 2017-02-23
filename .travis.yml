@@ -6,7 +6,7 @@ services:
   - docker
 
 before_script:
-- docker pull mdernst/ubuntu-for-cf-jdk7
+- docker pull mdernst/ubuntu-for-cf-jdk8
 
 # Using travis_wait here seems to cause the job to terminate after 1 minute
 # with no error (!).
@@ -19,7 +19,7 @@ script:
 - echo "TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH}"
 - echo "TRAVIS_REPO_SLUG=${TRAVIS_REPO_SLUG}"
 - >-
-  docker run mdernst/ubuntu-for-cf-jdk7 /bin/bash -c "true &&
+  docker run mdernst/ubuntu-for-cf-jdk8 /bin/bash -c "true &&
      export JAVA_HOME=\`which javac|xargs readlink -f|xargs dirname|xargs dirname\` &&
      if [ $TRAVIS_EVENT_TYPE = pull_request ] ; then
        git clone --quiet --depth 9 $REMOTE_ORIGIN_URL sparta

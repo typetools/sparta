@@ -7,24 +7,30 @@ set -e
 cd $ROOT
 export JAVA_HOME=`which javac|xargs readlink -f|xargs dirname|xargs dirname`
 export CHECKERFRAMEWORK=$ROOT/checker-framework/
-mkdir $ROOT/android-sdk
-export ANDROID_HOME=$ROOT/android-sdk
+export ANDROID_HOME=$ROOT/android-sdk-linux
+mkdir $ANDROID_HOME
+
+apt-get update
+apt-get -f install
+apt-get install wget
+
 
 ## Get the Android SDK
-apt-get update
-touch tmp | add-apt-repository ppa:ubuntu-desktop/ubuntu-make
-apt-get update
-echo "Y" | apt-get install ubuntu-make
-umake android android-sdk --accept-license $ANDROID_HOME
-export PATH=$ANDROID_HOME/tools/:$PATH
+# download android sdk
+cd $ANDROID_HOME
+wget -q https://dl.google.com/android/repository/tools_r25.2.3-linux.zip
+unzip tools_r25.2.3-linux.zip
+export PATH=$ANDROID_HOME/tools/bin:$PATH
 
-## Get the latests Android tools and API 25
-echo "y" | android update sdk -u -t "tool, platform-tool, android-25"
+## Get the latests Android tools and API 24
+#echo y\ry\ry | sdkmanager "tool;platform-tool;android-25"
+echo y | tools/bin/sdkmanager "build-tools;25.0.2"
+echo y | tools/bin/sdkmanager "platforms;android-25"
 
 ## Build Checker Framework
 (cd $ROOT && git clone --depth 1 https://github.com/typetools/checker-framework.git)
 # This also builds annotation-tools and jsr308-langtools
-(cd checker-framework/ && ./.travis-build-without-test.sh)
+(cd $CHECKERFRAMEWORK && ./.travis-build-without-test.sh)
 
-cd sparta
+cd $ROOT/sparta
 ant all-tests-nostubs
