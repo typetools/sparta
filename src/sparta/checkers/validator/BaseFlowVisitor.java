@@ -49,9 +49,9 @@ public class BaseFlowVisitor extends BaseTypeVisitor<FlowAnnotatedTypeFactory> {
     }
 
     @Override
-    public Void visitClass(ClassTree node, Void p) {
+    public void processClassTree(ClassTree node) {
         validator.visitClass(node);
-        return super.visitClass(node, p);
+        super.processClassTree(node);
     }
 
     @Override
