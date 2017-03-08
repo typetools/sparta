@@ -220,7 +220,7 @@ ${build.version} of the 'javac.jar' library."/>
         <jar destfile="${sparta.jar.file}" basedir="${build}" excludes="tests/">
             <manifest>
                 <attribute name="Implementation-Version" value="0.9.9"/>
-                <attribute name="Implementation-URL" value="http://types.cs.washington.edu/sparta/"/>
+                <attribute name="Implementation-URL" value="https://types.cs.washington.edu/sparta/"/>
             </manifest>
         </jar>
 

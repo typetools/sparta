@@ -89,15 +89,15 @@ ln -s ../release/versions/v1.0.2/sparta-vm-v1.0.2.tar.bz2 sparta-vm.tar.bz2
 export pl=/Users/smillst/jsr308/plume-lib/
 export PERLLIB=/opt/local/lib/perl5/site_perl/5.22/
 export PERL5LIB=/opt/local/lib/perl5/site_perl/5.22/
-$pl/bin/checklink -q -r `grep -v '^#' $pl/bin/checklink-args.txt` http://types.cs.washington.edu/sparta/
+$pl/bin/checklink -q -r `grep -v '^#' $pl/bin/checklink-args.txt` https://types.cs.washington.edu/sparta/
 
 #Check against released CF:
 export CF_RELEASE=$HOME/cf-release/
 mkdir $CF_RELEASE
 cd $CF_RELEASE
 wget http://types.cs.washington.edu/checker-framework/current/checker-framework-1.9.11.zip
-wget http://types.cs.washington.edu/sparta/current/sparta-toolset.tgz
-wget http://types.cs.washington.edu/sparta/current/sparta-sample-apps.tgz
+wget https://types.cs.washington.edu/sparta/current/sparta-toolset.tgz
+wget https://types.cs.washington.edu/sparta/current/sparta-sample-apps.tgz
 tar -xzf sparta-sample-apps.tgz
 tar -xzf sparta-toolset.tgz
 tar -xzf checker-framework.zip
@@ -112,8 +112,8 @@ ant all-tests
 
  # cp website/release/index.html /cse/www2/types/sparta/release/
  * Check to make sure everything looks reasonable, the links, work, etc:
-   http://types.cs.washington.edu/sparta/
-   http://types.cs.washington.edu/sparta/release/
+   https://types.cs.washington.edu/sparta/
+   https://types.cs.washington.edu/sparta/release/
  * Send mail to sparta-users@cs.washington.edu announcing the release.
 
 Subject: Release 1.0.2 of the SPARTA Toolset
