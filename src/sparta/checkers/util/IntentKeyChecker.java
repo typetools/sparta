@@ -133,15 +133,4 @@ public class IntentKeyChecker extends ValueChecker {
            writeNoComma(",");
 
     }
-    
-   
-    @Override
-    public void message(Diagnostic.Kind kind, Object source, /**/
-            String msgKey, Object... args) {
-        //Don't output any checker error messages.
-//       if(msgKey.equals("intent.key.error"))
-//       {
-//           super.message(kind, source, msgKey, args);
-//       }
-    }
 }
