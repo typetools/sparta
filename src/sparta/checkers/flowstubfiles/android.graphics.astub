@@ -64,7 +64,7 @@ Options();
 
 class Bitmap {
 
-boolean compress(Bitmap.CompressFormat format, int quality, @PolySource @PolySink OutputStream stream) @PolySource @PolySink;
+boolean compress(@PolySource @PolySink Bitmap this, Bitmap.CompressFormat format, int quality, @PolySource @PolySink OutputStream stream);
 //Write a compressed version of the bitmap to the specified outputstream.
 
 Bitmap copy(Bitmap.Config config, boolean isMutable);

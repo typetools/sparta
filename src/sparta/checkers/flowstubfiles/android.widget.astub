@@ -498,7 +498,7 @@ class AdapterView {
 //int getFirstVisiblePosition();
 //Returns the position within the adapter's data set for the first item displayed on screen.
 
-@PolySource @PolySink Object getItemAtPosition(@Sink({}) int position) @PolySource @PolySink;
+@PolySource @PolySink Object getItemAtPosition(@PolySource @PolySink AdapterView this, @Sink({}) int position);
 //Gets the data associated with the specified position in the list.
 
 //long getItemIdAtPosition(int position);
@@ -1617,7 +1617,7 @@ void setPrevNextListeners(View.OnClickListener next, View.OnClickListener prev);
 void show(int timeout);
 //Show the controller on screen.
 
-void show() @Sink(DISPLAY);
+void show(@Sink(DISPLAY) MediaController this);
 //Show the controller on screen.
 
 
@@ -1747,7 +1747,7 @@ void setOnDismissListener(PopupMenu.OnDismissListener listener);
 void setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener listener);
 //Set a listener that will be notified when the user selects an item from the menu.
 
-void show() @Sink(DISPLAY);
+void show(@Sink(DISPLAY) PopupMenu this);
 //Show the menu popup anchored to the view specified during construction.
 
 

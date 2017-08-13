@@ -117,7 +117,7 @@ class JSONObject{
         String optString(String name);
     //32 (put)
     @PolyFlowReceiver
-        JSONObject put(@PolySource @PolySink String name, @PolySource @PolySink Object value) @PolySource @PolySink throws JSONException;
+        JSONObject put(@PolySource @PolySink JSONObject this, @PolySource @PolySink String name, @PolySource @PolySink Object value) throws JSONException;
     //14 (optInt)
         int optInt(String name);
     //11 (<init>)

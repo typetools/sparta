@@ -523,8 +523,8 @@ class ContentValues implements Parcelable {
     Boolean getAsBoolean(String arg0);
 @PolyFlowReceiver
     @PolySourceR @PolySinkR byte[] getAsByteArray(String arg0);
-    Set<Entry<@PolySourceR @PolySinkR String,@PolySourceR @PolySinkR Object>> valueSet() @PolySourceR @PolySinkR;
-    Set<@PolySourceR @PolySinkR String> keySet()@PolySourceR @PolySinkR;
+    Set<Entry<@PolySourceR @PolySinkR String,@PolySourceR @PolySinkR Object>> valueSet(@PolySourceR @PolySinkR ContentValues this);
+    Set<@PolySourceR @PolySinkR String> keySet(@PolySourceR @PolySinkR ContentValues this);
     int describeContents();
 @AddsSourceData
 @PolyFlowReceiver
@@ -1704,7 +1704,7 @@ class ServiceConnection {
 
 class UriMatcher {
         UriMatcher(int code);
-    void addURI(@PolySource @PolySink String authority, @PolySource @PolySink String path, @PolySource @PolySink int code) @PolySource @PolySink;
+    void addURI(@PolySource @PolySink UriMatcher this, @PolySource @PolySink String authority, @PolySource @PolySink String path, @PolySource @PolySink int code);
     @PolyFlow int match(Uri uri);
 }
 

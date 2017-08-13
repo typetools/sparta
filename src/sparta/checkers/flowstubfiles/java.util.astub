@@ -800,7 +800,7 @@ interface List<E> {
     boolean isEmpty();
     @PolyFlowReceiver
     boolean contains(Object arg0);
-    Iterator<@PolySource @PolySink E> iterator() @PolySource @PolySink;
+    Iterator<@PolySource @PolySink E> iterator(@PolySource @PolySink List<E> this);
     @PolyFlowReceiver
     Object[] toArray();
     <T> T[] toArray(T[] arg0);
@@ -944,7 +944,7 @@ interface Map<K, V> {
     int size();
     boolean isEmpty();
     @PolyFlowReceiver
-    boolean containsKey(@PolySource @PolySink Object arg0) @PolySource @PolySink;
+    boolean containsKey(@PolySource @PolySink Map<K, V> this, @PolySource @PolySink Object arg0);
     @PolyFlowReceiver
     boolean containsValue(Object arg0);
     V get(Object arg0);
@@ -1921,8 +1921,8 @@ class ZipOutputStream{
 }
 class ZipInputStream{
         @PolySource @PolySink ZipInputStream(@PolySource @PolySink InputStream arg0);
-        @PolySourceR @PolySinkR ZipEntry getNextEntry() @PolySourceR @PolySinkR;
-        int read(@PolySourceR @PolySinkR byte[] arg0, int arg1, int arg2) @PolySourceR @PolySinkR;
+        @PolySourceR @PolySinkR ZipEntry getNextEntry(@PolySourceR @PolySinkR ZipInputStream this);
+        int read(@PolySourceR @PolySinkR ZipInputStream this, @PolySourceR @PolySinkR byte[] arg0, int arg1, int arg2);
         void close() throws IOException;
 }
 

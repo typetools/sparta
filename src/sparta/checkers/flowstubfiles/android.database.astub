@@ -51,9 +51,9 @@ interface Cursor {
     int getColumnIndexOrThrow(String arg0) throws IllegalArgumentException;
 @PolyFlowReceiver
     String getColumnName(int arg0);
-    @PolySourceR @PolySinkR String[] getColumnNames() @PolySourceR @PolySinkR;
+    @PolySourceR @PolySinkR String[] getColumnNames(@PolySourceR @PolySinkR Cursor this);
     int getColumnCount();
-    @PolySourceR @PolySinkR byte[] getBlob(int arg0) @PolySourceR @PolySinkR;
+    @PolySourceR @PolySinkR byte[] getBlob(@PolySourceR @PolySinkR Cursor this, int arg0);
 @PolyFlowReceiver
     String getString(int arg0);
 @AddsSourceData(2)

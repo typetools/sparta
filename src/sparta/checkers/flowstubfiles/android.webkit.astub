@@ -250,7 +250,7 @@ boolean performLongClick();
 void postUrl(@Sink(INTERNET) String url, @Sink(INTERNET) byte[] postData);
 //Loads the URL with postData using "POST" method into this WebView.
 
-void reload() @Source(INTERNET);
+void reload(@Source(INTERNET) WebView this);
 //Reloads the current URL.
 
 void removeJavascriptInterface(String name);

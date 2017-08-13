@@ -191,7 +191,7 @@ abstract void setTitle(int resId);
 abstract void setTitle(@Sink(DISPLAY) CharSequence title);
 //Set the action bar's title.
 
-abstract void show() @Sink(DISPLAY);
+abstract void show(@Sink(DISPLAY) ActionBar this);
 //Show the ActionBar if it is not currently showing.
 
 
@@ -1354,10 +1354,10 @@ void setShowsDialog(boolean showsDialog);
 void setStyle(int style, int theme);
 //Call to customize the basic appearance and behavior of the fragment's dialog.
 
-int show(FragmentTransaction transaction, String tag) @Sink(DISPLAY);
+int show(@Sink(DISPLAY) DialogFragment this, FragmentTransaction transaction, String tag);
 //Display the dialog, adding the fragment using an existing transaction and then committing the transaction.
 
-void show(FragmentManager manager, String tag) @Sink(DISPLAY);
+void show(@Sink(DISPLAY) DialogFragment this, FragmentManager manager, String tag);
 //Display the dialog, adding the fragment to the given FragmentManager.
 
 

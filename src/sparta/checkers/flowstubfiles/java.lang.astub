@@ -1243,9 +1243,9 @@ class String {
     void getChars(int arg0, int arg1, @PolySource @PolySink char[] arg2, int arg3);
 @PolyFlowReceiver
     void getBytes(int arg0, int arg1, @PolySource @PolySink byte[] arg2, int arg3);
-    @PolySource @PolySink byte[] getBytes(String arg0) @PolySource @PolySink ;
-    @PolySource @PolySink byte[] getBytes(Charset arg0) @PolySource @PolySink ;
-    @PolySource @PolySink byte[] getBytes() 	@PolySource @PolySink ;
+    @PolySource @PolySink byte[] getBytes(@PolySource @PolySink String this, String arg0);
+    @PolySource @PolySink byte[] getBytes(@PolySource @PolySink String this, Charset arg0);
+    @PolySource @PolySink byte[] getBytes(@PolySource @PolySink String this);
 @PolyFlowReceiver
     boolean equals(Object arg0);
 @PolyFlowReceiver
@@ -1306,8 +1306,8 @@ class String {
     String replaceAll(String arg0, String arg1);
 @PolyFlowReceiver
     String replace(CharSequence arg0, CharSequence arg1);
-    @PolySource @PolySink String[] split(@PolySource @PolySink String arg0, int arg1) @PolySource @PolySink ;
-@PolySource @PolySink String[] split(@PolySource @PolySink String arg0) @PolySource @PolySink ;
+    @PolySource @PolySink String[] split(@PolySource @PolySink String this, @PolySource @PolySink String arg0, int arg1);
+@PolySource @PolySink String[] split(@PolySource @PolySink String this, @PolySource @PolySink String arg0);
 @PolyFlowReceiver
     String toLowerCase(Locale arg0);
 @PolyFlowReceiver
@@ -1346,7 +1346,7 @@ class String {
     static int indexOf(@PolySource @PolySink char[] arg0, int arg1, int arg2, @PolySource @PolySink char[] arg3, int arg4, int arg5, int arg6);
     static int lastIndexOf(@PolySource @PolySink char[] arg0, int arg1, int arg2, @PolySource @PolySink char[] arg3, int arg4, int arg5, int arg6);
 
-     void getChars(@PolySource @PolySink char[] arg0, int arg1) @PolySource @PolySink;
+     void getChars(@PolySource @PolySink String this, @PolySource @PolySink char[] arg0, int arg1);
 }
 
 
@@ -1409,7 +1409,7 @@ class StringBuffer implements Serializable, CharSequence {
     StringBuffer    deleteCharAt(int index);
     // TODO: Need polyflow on receiver and params with no return type.
     void    ensureCapacity(int minimumCapacity);
-    void    getChars(int srcBegin, int srcEnd, @PolySourceR @PolySinkR char[] dst, int dstBegin) @PolySourceR @PolySinkR;
+    void    getChars(@PolySourceR @PolySinkR StringBuffer this, int srcBegin, int srcEnd, @PolySourceR @PolySinkR char[] dst, int dstBegin);
     @PolyFlowReceiver
     int indexOf(String str);
     @PolyFlowReceiver

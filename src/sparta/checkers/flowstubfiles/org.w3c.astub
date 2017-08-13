@@ -1,7 +1,7 @@
 package org.w3c.dom;
 
 class NodeList {
-    @PolySource @PolySink Node item(@Sink({}) int index) @PolySource @PolySink;
+    @PolySource @PolySink Node item(@PolySource @PolySink NodeList this, @Sink({}) int index);
     @PolyFlowReceiver
     int getLength();
 

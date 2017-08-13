@@ -109,7 +109,7 @@ void setStartDelay(long startDelay);
 void setValues(PropertyValuesHolder... values);
 //Sets the values, per property, being animated between.
 
-void start() @Sink(DISPLAY);
+void start(@Sink(DISPLAY) ValueAnimator this);
 //Starts this animation.
 
 String toString();
