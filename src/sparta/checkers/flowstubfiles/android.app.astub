@@ -1031,7 +1031,7 @@ AlertDialog.Builder setTitle(int titleId);
 AlertDialog.Builder setView(@Sink(DISPLAY) View view);
 //Set a custom view to be the contents of the Dialog.
 
-AlertDialog show()  @Sink(DISPLAY);
+AlertDialog show(@Sink(DISPLAY) AlertDialog.Builder this);
 //Creates a AlertDialog with the arguments supplied to this builder and show();'s the dialog.
 
 }
@@ -1272,7 +1272,7 @@ void setTitle(@Sink(DISPLAY) CharSequence title);
 final void setVolumeControlStream(int streamType);
 //By default, this will use the owner Activity's suggested stream type.
 
-void show()  @Sink(DISPLAY);
+void show(@Sink(DISPLAY) Dialog this);
 //Start the dialog and display it on screen.
 
 void takeKeyEvents(boolean get);

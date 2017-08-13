@@ -324,7 +324,7 @@ class SQLiteQueryBuilder {
             
     void appendWhere(@Sink(DATABASE) CharSequence inWhere); 
     @Source(DATABASE) Cursor query( @Sink(DATABASE) SQLiteDatabase db,  @Sink(DATABASE) String  @Sink(DATABASE) [] projectionIn,  @Sink(DATABASE) String selection,  @Sink(DATABASE) String  @Sink(DATABASE) [] selectionArgs,  @Sink(DATABASE) String groupBy,  @Sink(DATABASE) String having,  @Sink(DATABASE) String sortOrder,  @Sink(DATABASE) String limit);
-    void setTables( @Sink(DATABASE) String inTables)  @Sink({});
+    void setTables(@Sink({}) SQLiteQueryBuilder this, @Sink(DATABASE) String inTables);
     @Source(DATABASE) SQLiteQueryBuilder();
 
 void appendWhereEscapeString(@Sink(DATABASE) String inWhere);
