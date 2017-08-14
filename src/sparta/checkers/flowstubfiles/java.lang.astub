@@ -1320,7 +1320,7 @@ class String {
     String trim();
 @PolyFlowReceiver
     String toString();
-@PolySourceR @PolySinkR char[] toCharArray()@PolySourceR @PolySinkR;
+@PolySourceR @PolySinkR char[] toCharArray(@PolySourceR @PolySinkR String this);
     static @PolySource @PolySink String format(@PolySource @PolySink String arg0, @PolySource @PolySink Object[] arg1);
     static @PolySource @PolySink String format(Locale arg0, @PolySource @PolySink String arg1,@PolySource @PolySink Object[] arg2);
 @PolyFlow

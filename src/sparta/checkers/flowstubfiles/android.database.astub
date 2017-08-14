@@ -57,7 +57,7 @@ interface Cursor {
 @PolyFlowReceiver
     String getString(int arg0);
 @AddsSourceData(2)
-    void copyStringToBuffer(int arg0, @PolySourceR @PolySinkR CharArrayBuffer arg1)@PolySourceR @PolySinkR;
+    void copyStringToBuffer(@PolySourceR @PolySinkR Cursor this, int arg0, @PolySourceR @PolySinkR CharArrayBuffer arg1);
 @PolyFlowReceiver
     short getShort(int arg0);
 @PolyFlowReceiver

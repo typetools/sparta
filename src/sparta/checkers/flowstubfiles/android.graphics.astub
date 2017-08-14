@@ -1060,8 +1060,7 @@ boolean equals(Object arg0);
 @PolyFlowReceiver
 int hashCode();
 @PolyFlowReceiver
-String toString()
-@PolyFlowReceiver;
+String toString(@PolyFlowReceiver Rect this);
 String toShortString();
 @PolyFlowReceiver
 String flattenToString();
