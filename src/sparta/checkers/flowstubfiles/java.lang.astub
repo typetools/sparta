@@ -744,7 +744,7 @@ class Float extends Number implements Comparable<Float> {
     static int compare(float arg0, float arg1);
 }
 
-class InheritableThreadLocal{
+class InheritableThreadLocal<T> {
         InheritableThreadLocal();
 }
 
