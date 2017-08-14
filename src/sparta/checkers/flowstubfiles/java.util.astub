@@ -52,7 +52,7 @@ class AbstractList<E> extends AbstractCollection<E> implements List<E> {
     protected void removeRange(int arg0, int arg1);
 }
 @PolyFlowReceiver
-class AbstractMap{
+class AbstractMap<K,V>{
             V remove(Object arg0);
             V put(K arg0, V arg1);
             protected AbstractMap();
@@ -64,7 +64,7 @@ class AbstractMap{
              String toString();
 }
 
-class AbstractSet{
+class AbstractSet<E>{
             protected AbstractSet();
 }
  
@@ -358,8 +358,6 @@ class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
     final  int ALL_STYLES;
     final  int SHORT;
     final  int LONG;
-    protected int[] fields;
-    protected boolean[] isSet;
     protected long time;
     protected boolean isTimeSet;
     protected boolean areFieldsSet;
@@ -440,9 +438,6 @@ interface Collection<E> extends Iterable<E> {
 @PolyFlowReceiver
 class Collections {
 //Added by pbsf
-    final Set EMPTY_SET;
-    final List EMPTY_LIST;
-    final Map EMPTY_MAP;
     static <T> void sort(List<T> arg0);
     static <T> void sort(List<T> arg0, Comparator<? super T> arg1);
     static <T> int binarySearch(List<? extends Comparable<? super T>> arg0, T arg1);
@@ -660,7 +655,7 @@ class GregorianCalendar extends Calendar {
     protected void computeFields();
     protected void computeTime();
 }
-       
+
 class HashMap<K, V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
     HashMap(int arg0, float arg1);
     HashMap(int arg0);
@@ -814,7 +809,7 @@ interface List<E> {
     boolean addAll(Collection<? extends E> arg0);
     @PolyFlowReceiver
     boolean addAll(int arg0, Collection<? extends E> arg1);
-    @PolyFlowReceiver    
+    @PolyFlowReceiver
     boolean removeAll(Collection<?> arg0);
     @PolyFlowReceiver
     boolean retainAll(Collection<?> arg0);
@@ -1295,7 +1290,7 @@ class TimeZone implements Serializable, Cloneable {
 }
 
 @PolyFlowReceiver
-class TreeSet {
+class TreeSet<E> {
 TreeSet();
 boolean add(E arg0);
 boolean remove(Object arg0);
@@ -1303,7 +1298,7 @@ int size();
 Iterator<E> iterator();
 }
 
-class WeakHashMap {
+class WeakHashMap<K,V> {
 V get(Object arg0);
 V put(K arg0, V arg1);
 }
@@ -1427,7 +1422,7 @@ static ExecutorService newFixedThreadPool(int arg0, ThreadFactory arg1);
 static ExecutorService newFixedThreadPool(int arg0);
 }
 
-class CopyOnWriteArrayList {
+class CopyOnWriteArrayList<E> {
 boolean add(E arg0);
 boolean remove(Object arg0);
 E remove(int arg0);
@@ -1442,7 +1437,7 @@ class ThreadPoolExecutor{
         void execute(Runnable arg0);
         void setCorePoolSize(int arg0);
 }
-class FutureTask{
+class FutureTask<V> {
         protected void done();
         boolean isCancelled();
         V get() throws InterruptedException,ExecutionException;
@@ -1450,7 +1445,7 @@ class FutureTask{
         FutureTask(Callable<V> arg0);
         boolean cancel(boolean arg0);
 }
-class Callable{
+class Callable<V>{
         V call() throws Exception;
 }
 class ThreadFactory{
@@ -1636,7 +1631,8 @@ interface ScheduledExecutorService extends ExecutorService {
     ScheduledFuture<?> scheduleWithFixedDelay(Runnable arg0, long arg1, long arg2, TimeUnit arg3);
 }
 
-class TimeUnit{
+enum TimeUnit {
+    DAYS, HOURS, MICROSECONDS, MILLISECONDS, MINUTES, NANOSECONDS, SECONDS;
         long toMillis(long arg0);
 }
 
