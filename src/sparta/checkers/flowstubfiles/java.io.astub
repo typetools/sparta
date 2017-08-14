@@ -30,11 +30,6 @@ int read(byte[] arg0, int arg1, int arg2) throws IOException;
 @PolyFlowReceiver
 class BufferedInputStream extends FilterInputStream {
 //Added by pbsf
-    protected byte[] buf;
-    protected int count;
-    protected int pos;
-    protected int markpos;
-    protected int marklimit;
     @PolySource @PolySink BufferedInputStream(@PolySource @PolySink InputStream arg0);
     @PolySource @PolySink BufferedInputStream(@PolySource @PolySink InputStream arg0, int arg1);
     int read() throws IOException;
@@ -88,10 +83,7 @@ class BufferedWriter extends Writer {
 @PolyFlowReceiver
 class ByteArrayInputStream extends InputStream {
 //Added by pbsf
-    protected byte[] buf;
-    protected int pos;
-    protected int mark;
-    protected int count;
+
     ByteArrayInputStream(byte[] arg0);
     ByteArrayInputStream(byte[] arg0, int arg1, int arg2);
     int read();
@@ -110,8 +102,6 @@ class ByteArrayOutputStream extends OutputStream {
      ByteArrayOutputStream();
     @PolySource @PolySink byte @PolySource @PolySink [] toByteArray(@PolySource @PolySink ByteArrayOutputStream this);
     void close(@Source(ANY) @Sink({}) ByteArrayOutputStream this);
-    protected byte[] buf;
-    protected int count;
     ByteArrayOutputStream(int arg0);
     void write(int arg0);
     void write(byte[] arg0, int arg1, int arg2);
