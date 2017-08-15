@@ -85,13 +85,6 @@ class NdefRecord implements Parcelable {
     static final short TNF_EXTERNAL_TYPE;
     static final short TNF_UNKNOWN;
     static final short TNF_UNCHANGED;
-    static final byte[] RTD_TEXT;
-    static final byte[] RTD_URI;
-    static final byte[] RTD_SMART_POSTER;
-    static final byte[] RTD_ALTERNATIVE_CARRIER;
-    static final byte[] RTD_HANDOVER_CARRIER;
-    static final byte[] RTD_HANDOVER_REQUEST;
-    static final byte[] RTD_HANDOVER_SELECT;
     static final Creator<NdefRecord> CREATOR;
     NdefRecord(@Sink(NFC) short arg0, @Sink(NFC) byte[] arg1, @Sink(NFC) byte[] arg2, @Sink(NFC) byte[] arg3);
     NdefRecord(@Sink(NFC) byte[] arg0) throws FormatException;
