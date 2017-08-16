@@ -154,7 +154,7 @@ MatrixCursor.RowBuilder newRow();
 
 }
 
-class Observable{
+class Observable<T> {
             void unregisterObserver(T observer);
             void registerObserver(T observer);
 }

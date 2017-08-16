@@ -1,6 +1,6 @@
 package android.content;
 
-class AsyncTaskLoader {
+class AsyncTaskLoader<D> {
     
     
 void cancelLoadInBackground();
@@ -1615,7 +1615,7 @@ class Intent$ShortcutIconResource{
         static ShortcutIconResource fromContext(Context context, int resourceId);
 }
 
-class Loader {
+class Loader<D> {
 
 int getId();
     

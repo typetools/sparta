@@ -61,7 +61,7 @@ class SimpleCursorAdapter{
     //9 (<init>)
         SimpleCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags);
 }
-class AdapterView{
+class AdapterView<T> {
     //8 (setFocusable)
         void setFocusable(boolean focusable);
 }
