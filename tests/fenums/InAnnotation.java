@@ -6,6 +6,6 @@ class InAnnotation {
     @RequiredPermissions("Hi!")
     void bad1() {}
 
-    @RequiredPermissions(permission.NFC)
+    @RequiredPermissions(NFC)
     void good1() {}
 }
