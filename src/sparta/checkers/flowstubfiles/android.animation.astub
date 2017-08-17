@@ -116,6 +116,7 @@ class ValueAnimator {
     String toString();
     //Returns a string containing a concise, human-readable description of this object.
 }
+
 class TimeInterpolator{
     float getInterpolation(float arg0);
 }

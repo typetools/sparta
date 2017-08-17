@@ -1,4 +1,5 @@
 package android.accounts;
+
 class AccountManager {
     static AccountManager get(Context arg0);
     @Source(AUTHENTICATE_ACCOUNTS) String getPassword(Account arg0);
@@ -46,7 +47,7 @@ class Account implements Parcelable {
 }
 
 class OnAccountsUpdateListener{
-        void onAccountsUpdated(@Source({}) Account @Source({}) [] arg0);
+    void onAccountsUpdated(@Source({}) Account @Source({}) [] arg0);
 }
 
 
