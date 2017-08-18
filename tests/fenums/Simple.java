@@ -1,3 +1,4 @@
+// @skip-test
 import sparta.checkers.permission.qual.Permission;
 import static android.Manifest.permission.NFC;
 
