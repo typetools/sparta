@@ -3,7 +3,7 @@ import sparta.checkers.permission.qual.*;
 package android;
 
 class Manifest {
-    class Permission {
+    static class permission {
         @Permission String ACCESS_CHECKIN_PROPERTIES;
         @Permission String ACCESS_COARSE_LOCATION;
         @Permission String ACCESS_FINE_LOCATION;
