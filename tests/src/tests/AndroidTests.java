@@ -186,8 +186,6 @@ public class AndroidTests {
             final File flowPolicyFile = getFlowPolicy(testFile);
             final List<String> optionsWithPf = new ArrayList<>(checkerOptions);
 
-            optionsWithPf.add("-AstubDebug");
-
             if (flowPolicyFile.exists()) {
                 optionsWithPf.add("-AflowPolicy=" + flowPolicyFile.getAbsolutePath());
                 optionsWithPf.add("-AprintErrorStack");
