@@ -3,7 +3,7 @@ package android.net;
 @PolyFlowReceiver
 class Uri$Builder {
 Builder path(String path);
-Builder encodedAuthority(@PolySource @PolySink String authority) @PolySource @PolySink;
+Builder encodedAuthority(@PolySource @PolySink Builder this, @PolySource @PolySink String authority);
 Builder();
 Builder encodedQuery(String query);
 Builder appendPath(String newSegment);
@@ -381,7 +381,7 @@ class SipAudioCall {
     void setSpeakerMode(@Sink(MODIFY_AUDIO_SETTINGS) boolean arg0);
     void sendDtmf(@Sink({USE_SIP, INTERNET}) int arg0);
     void sendDtmf(@Sink({USE_SIP, INTERNET}) int arg0, @Sink({USE_SIP, INTERNET}) Message arg1);
-    void startAudio() @Source({RECORD_AUDIO, ACCESS_WIFI_STATE, WAKE_LOCK, USE_SIP, INTERNET});
+    void startAudio(@Source({RECORD_AUDIO, ACCESS_WIFI_STATE, WAKE_LOCK, USE_SIP, INTERNET}) SipAudioCall this);
 }
 class SipAudioCall$Listener {
     Listener();

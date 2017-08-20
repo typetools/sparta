@@ -21,7 +21,7 @@ class ShortBuffer{
 
 @PolyFlowReceiver
 class FloatBuffer{
- @PolySource @PolySink FloatBuffer put(@PolySource @PolySink float @PolySource @PolySink [] arg0) @PolySource @PolySink;
+ @PolySource @PolySink FloatBuffer put(@PolySource @PolySink FloatBuffer this, @PolySource @PolySink float @PolySource @PolySink [] arg0);
 }
 @PolyFlowReceiver
 class IntBuffer{
@@ -53,7 +53,7 @@ class ByteBuffer extends Buffer implements Comparable<ByteBuffer> {
     ByteBuffer get(byte[] arg0);
     ByteBuffer put(ByteBuffer arg0);
     ByteBuffer put(byte[] arg0, int arg1, int arg2);
-    @PolySource @PolySink ByteBuffer put(@PolySource @PolySink byte @PolySource @PolySink [] arg0) @PolySource @PolySink;
+    @PolySource @PolySink ByteBuffer put(@PolySource @PolySink ByteBuffer this, @PolySource @PolySink byte @PolySource @PolySink [] arg0);
     boolean hasArray();
     byte[] array();
     int arrayOffset();

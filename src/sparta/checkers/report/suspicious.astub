@@ -22,7 +22,7 @@ void delete();
 // Suspicious use of java.lang API
 //
 package java.lang;
-class Class {
+class Class<T> {
     @ReportCall
     public static Class<?> forName(String className) {}
 

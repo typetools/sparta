@@ -81,9 +81,9 @@ class Activity {
     boolean startNextMatchingActivity(Intent arg0);
       
    @SendIntent("setIntent,1")
-    void startActivityFromChild(Activity arg0, Intent arg1, int arg2)
+    void startActivityFromChild(Activity arg0, Intent arg1, int arg2);
       
-   @SendIntent("setIntent,1");
+   @SendIntent("setIntent,1")
     void startActivityFromFragment(Fragment arg0, Intent arg1, int arg2);
     
     @SendIntent("setIntent,1")

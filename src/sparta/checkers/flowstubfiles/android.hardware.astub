@@ -420,9 +420,9 @@ String toString();
 
 }
 
-class SensorEvent{
-        @Source({}) Sensor sensor;
-        final @Source(SENSOR) float[] values;
+class SensorEvent {
+    @Source({}) Sensor sensor;
+    final @Source(SENSOR) float[] values;
 }
 
 class SensorEventListener {

@@ -426,7 +426,7 @@ class IntentCompat {
 }
 
 
-class Loader {
+class Loader<D> {
 void deliverResult(D data);
 protected void onReset();
 boolean isAbandoned();

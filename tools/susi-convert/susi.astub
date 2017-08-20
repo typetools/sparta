@@ -5053,7 +5053,7 @@ class ActivityChooserView$ActivityChooserViewAdapter{
    @Source(SUSI_NO_CATEGORY)  int getHistorySize();
    @Source(SUSI_NO_CATEGORY)  int getViewTypeCount();
 }
-class AdapterView{
+class AdapterView<T>{
    @Source(SUSI_NO_CATEGORY)  int getSelectedItemPosition();
    @Source(SUSI_NO_CATEGORY)  long getItemIdAtPosition(  @Sink(SUSI_NO_CATEGORY) int arg0);
    @Source(SUSI_NO_CATEGORY)  java.lang.Object getItemAtPosition(  @Sink(SUSI_NO_CATEGORY) int arg0);
@@ -25327,7 +25327,7 @@ class Slog{
     int e(  @Sink(SUSI_LOG) java.lang.String arg0, @Sink(SUSI_LOG) java.lang.String arg1);
     int d(  @Sink(SUSI_LOG) java.lang.String arg0, @Sink(SUSI_LOG) java.lang.String arg1);
 }
-class SparseArray{
+class SparseArray<E> {
     void append(  @Sink(SUSI_NO_CATEGORY) int arg0, @Sink(SUSI_NO_CATEGORY) java.lang.Object arg1);
     void setValueAt(  @Sink(SUSI_NO_CATEGORY) int arg0, @Sink(SUSI_NO_CATEGORY) java.lang.Object arg1);
    @Source(SUSI_NO_CATEGORY)  java.lang.Object get(  @Sink(SUSI_NO_CATEGORY) int arg0, @Sink(SUSI_NO_CATEGORY) java.lang.Object arg1);

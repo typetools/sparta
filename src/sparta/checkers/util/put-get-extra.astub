@@ -31,7 +31,7 @@ class Intent implements Parcelable, Cloneable {
    @GetExtra    CharSequence  [] getCharSequenceArrayExtra( String arg0);
    @GetExtra   Bundle getBundleExtra( String arg0);
 
-   @PolyIntentMap Bundle getExtras() @PolyIntentMap;
+   @PolyIntentMap Bundle getExtras(@PolyIntentMap Intent this);
 
     @SetIntentFilter Intent setAction( String arg0);
     @SetIntentFilter Intent setData( Uri arg0);
