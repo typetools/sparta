@@ -1814,6 +1814,7 @@ class PackageInfo implements Parcelable {
     @Source(PACKAGE_INFO) ApplicationInfo applicationInfo;
     @Source(PACKAGE_INFO) long firstInstallTime;
     @Source(PACKAGE_INFO) long lastUpdateTime;
+    @Source(PACKAGE_INFO) int[] gids;
     @Source(PACKAGE_INFO) ActivityInfo[] activities;
     @Source(PACKAGE_INFO) ActivityInfo[] receivers;
     @Source(PACKAGE_INFO) ServiceInfo[] services;
@@ -1821,6 +1822,7 @@ class PackageInfo implements Parcelable {
     @Source(PACKAGE_INFO) InstrumentationInfo[] instrumentation;
     @Source(PACKAGE_INFO) PermissionInfo[] permissions;
     @Source(PACKAGE_INFO) String[] requestedPermissions;
+    @Source(PACKAGE_INFO) int[] requestedPermissionsFlags;
     static final int REQUESTED_PERMISSION_REQUIRED;
     static final int REQUESTED_PERMISSION_GRANTED;
     @Source(PACKAGE_INFO) Signature[] signatures;

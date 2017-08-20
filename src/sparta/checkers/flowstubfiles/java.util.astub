@@ -358,6 +358,8 @@ class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
     final  int ALL_STYLES;
     final  int SHORT;
     final  int LONG;
+    protected int[] fields;
+    protected boolean[] isSet;
     protected long time;
     protected boolean isTimeSet;
     protected boolean areFieldsSet;
@@ -438,6 +440,9 @@ interface Collection<E> extends Iterable<E> {
 @PolyFlowReceiver
 class Collections {
 //Added by pbsf
+    final Set EMPTY_SET;
+    final List EMPTY_LIST;
+    final Map EMPTY_MAP;
     static <T> void sort(List<T> arg0);
     static <T> void sort(List<T> arg0, Comparator<? super T> arg1);
     static <T> int binarySearch(List<? extends Comparable<? super T>> arg0, T arg1);
