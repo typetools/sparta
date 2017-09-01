@@ -1,11 +1,11 @@
 import sparta.checkers.permission.qual.RequiredPermissions;
-import static android.Manifest.permission.NFC;
+import android.Manifest.permission;
 
 class InAnnotation {
     //:: error: (annotation.type.incompatible)
     @RequiredPermissions("Hi!")
     void bad1() {}
 
-    @RequiredPermissions(NFC)
+    @RequiredPermissions(permission.NFC)
     void good1() {}
 }

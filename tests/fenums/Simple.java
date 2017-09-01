@@ -1,18 +1,18 @@
 import sparta.checkers.permission.qual.Permission;
-import static android.Manifest.permission.NFC;
+import android.Manifest.permission;
 
 
 class Simple {
     void foo(String s, Object o) {
         //:: error: (assignment.type.incompatible)
-        s = NFC;
+        s = permission.NFC;
         s = "ha!";
         //:: error: (assignment.type.incompatible)
         @Permission String ps = s;
-        ps = NFC;
+        ps = permission.NFC;
 
         o = null;
         //:: error: (assignment.type.incompatible)
-        o = NFC;
+        o = permission.NFC;
     }
 }
