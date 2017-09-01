@@ -28,7 +28,7 @@ echo y | tools/bin/sdkmanager "build-tools;25.0.2"
 echo y | tools/bin/sdkmanager "platforms;android-25"
 
 ## Build Checker Framework
-(cd $ROOT && git clone --depth 1 -b issue1456 https://github.com/Bohdankm22/checker-framework.git)
+(cd $ROOT && git clone --depth 1 -b issue1456 https://github.com/smillst/checker-framework.git)
 # This also builds annotation-tools and jsr308-langtools
 (cd $CHECKERFRAMEWORK && ./.travis-build-without-test.sh downloadjdk)
 
