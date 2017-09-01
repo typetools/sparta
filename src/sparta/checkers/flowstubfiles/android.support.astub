@@ -244,8 +244,8 @@ void onStop();
 }
 
 class FragmentTabHost {
-    
-    
+
+
 //CSH: in spreadsheet, not found in API:
 //doTabChanged
 //ensureContent
@@ -382,7 +382,7 @@ Fragment findFragmentById(int arg0);
 
 package android.support.v4.os;
 
-class ParcelableCompatCreatorCallbacks {
+class ParcelableCompatCreatorCallbacks<T> {
 T createFromParcel(@Sink(PARCEL) Parcel arg0, ClassLoader arg1);
 T[] newArray(int arg0);
 }
@@ -455,7 +455,7 @@ boolean takeContentChanged();
 
 }
 
-class AsyncTaskLoader {
+class AsyncTaskLoader<D> {
 AsyncTaskLoader(Context context);
 void onCanceled(D data);
 protected D onLoadInBackground();
@@ -478,7 +478,7 @@ package android.support.v4.util;
 
 
 
-class ArrayMap {
+class ArrayMap<K,V> {
 MapCollections<K,V> getCollection();
 }
 
@@ -487,7 +487,7 @@ FileInputStream openRead() throws FileNotFoundException;
 static boolean sync(FileOutputStream stream);
 }
 
-class SimpleArrayMap {
+class SimpleArrayMap<K,V> {
 boolean isEmpty();
 int indexOf(Object key, int hash);
 int indexOf(Object key, int hash);
@@ -517,14 +517,14 @@ class LogWriter {
 void flushBuilder();
 }
 
-class LruCache {
+class LruCache <K,V> {
 protected void entryRemoved(boolean evicted, K key, V oldValue, V newValue);
 void trimToSize(int maxSize);
 protected int sizeOf(K key, V value);
 protected V create(K key);
 }
 
-class LongSparseArray {
+class LongSparseArray<E> {
 //CSH: found in spreadsheet, not in API
 //binarySearch
 //gc
@@ -588,7 +588,7 @@ long keyAt(int index);
 
 }
 
-class SparseArrayCompat {
+class SparseArrayCompat<E> {
 // CSH: specified in spreadsheet but not found in class or parents
 // binarySearch
 // gc
@@ -645,7 +645,7 @@ package android.support.v4.view;
 
 
 
-class AccessibilityDelegateCompatIcs$AccessibilityDelegateBridge {         
+class AccessibilityDelegateCompatIcs$AccessibilityDelegateBridge {
 boolean dispatchPopulateAccessibilityEvent(View arg0, AccessibilityEvent arg1);
 boolean onRequestSendAccessibilityEvent(ViewGroup arg0, View arg1, AccessibilityEvent arg2);
 void onInitializeAccessibilityEvent(View arg0, AccessibilityEvent arg1);
@@ -655,7 +655,7 @@ void sendAccessibilityEvent(View arg0, int arg1);
 void sendAccessibilityEventUnchecked(View arg0, AccessibilityEvent arg1);
 }
 
-class AccessibilityDelegateCompatJellyBean$AccessibilityDelegateBridgeJellyBean {          
+class AccessibilityDelegateCompatJellyBean$AccessibilityDelegateBridgeJellyBean {
 boolean dispatchPopulateAccessibilityEvent(View arg0, AccessibilityEvent arg1);
 boolean onRequestSendAccessibilityEvent(ViewGroup arg0, View arg1, AccessibilityEvent arg2);
 boolean performAccessibilityAction(View arg0, int arg1, Bundle arg2);
@@ -675,7 +675,7 @@ View onCreateActionView(MenuItem forItem);
 }
 
 class ActionProvider$SubUiVisibilityListener {
-void onSubUiVisibilityChanged(boolean arg0); 
+void onSubUiVisibilityChanged(boolean arg0);
 }
 
 class ActionProvider$VisibilityListener {
@@ -770,7 +770,7 @@ class AccessibilityDelegateCompat {
 //getBridge
 
 //CSH: It's unclear whether these push anything to the screen, AccessibilityEvent probably holds that answer.
-   
+
 //boolean dispatchKeyEventAccessibilityEvent(View host, AccessibilityEvent event);
 //Dispatches an AccessibilityEvent to the host View first and then to its children for adding their text content to the event.
 
@@ -1016,7 +1016,7 @@ class ViewPager {
 
 //void onPageSelected(int arg0);
 //void onPageScrollStateChanged(int arg0);
- 
+
 void addFocusables(ArrayList<View> views, int direction, int focusableMode);
 //We only want the current page that is being shown to be focusable.
 
@@ -1170,14 +1170,14 @@ void setFromIndex(int fromIndex);
 static AccessibilityRecordCompat obtain(AccessibilityRecordCompat record);
 static AccessibilityRecordCompat obtain();
 }
-class AccessibilityEventCompat{          
+class AccessibilityEventCompat{
 static AccessibilityRecordCompat asRecord(AccessibilityEvent event);
 }
 
 class AccessibilityManagerCompat {
 static boolean isTouchExplorationEnabled(AccessibilityManager manager);
-}          
- 
+}
+
 class AccessibilityManagerCompat$AccessibilityStateChangeListenerCompat {
 void onAccessibilityStateChanged(boolean arg0);
 }
@@ -1193,7 +1193,7 @@ AccessibilityNodeInfoCompat findFocus(int focus);
 class AccessibilityNodeInfoCompat {
 // CSH: Present in spreadsheet but not in class or parents:
 // wrapNonNullInstance
-    
+
 void addAction(int action);
 //Adds an action that can be performed on the node.
 
@@ -1511,7 +1511,7 @@ boolean isCheckable();
 String getViewIdResourceName();
 
 int getMovementGranularities();
-    
+
 }
 
 package android.support.v4.widget;
