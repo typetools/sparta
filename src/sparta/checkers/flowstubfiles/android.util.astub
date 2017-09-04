@@ -210,7 +210,7 @@ static int println(int priority, @Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS)
 static int w(@Sink(WRITE_LOGS) String tag, @Sink(WRITE_LOGS) Throwable tr);
 
 }
-class SparseArray{
+class SparseArray<E> {
             SparseArray();
             int size();
             int keyAt(int index);
@@ -273,7 +273,7 @@ class DisplayMetrics{
         int widthPixels;
 }
 
-class SparseArray{
+class SparseArray<E> {
             void clear();
 }
 

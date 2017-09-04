@@ -2,431 +2,421 @@
 package android.location;
 
 class Criteria {
-void setAccuracy(int accuracy);
-void setAltitudeRequired(boolean altitudeRequired);
-void setBearingRequired(boolean bearingRequired);
-void setCostAllowed(boolean costAllowed);
-void setPowerRequirement(int level);
-        void setHorizontalAccuracy(int accuracy);
-        void setSpeedRequired(boolean speedRequired);
-        static final int ACCURACY_HIGH;
+    void setAccuracy(int accuracy);
+    void setAltitudeRequired(boolean altitudeRequired);
+    void setBearingRequired(boolean bearingRequired);
+    void setCostAllowed(boolean costAllowed);
+    void setPowerRequirement(int level);
+    void setHorizontalAccuracy(int accuracy);
+    void setSpeedRequired(boolean speedRequired);
+    static final int ACCURACY_HIGH;
 }
 
 class Address {
     
-void clearLatitude();
-//Removes any latitude associated with this address.
+    void clearLatitude();
+    //Removes any latitude associated with this address.
 
-void clearLongitude();
-//Removes any longitude associated with this address.
+    void clearLongitude();
+    //Removes any longitude associated with this address.
 
-int describeContents();
-//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+    int describeContents();
+    //Describe the kinds of special objects contained in this Parcelable's marshalled representation.
 
-String getAddressLine(int index);
-//Returns a line of the address numbered by the given index (starting at 0);, or null if no such line is present.
+    String getAddressLine(int index);
+    //Returns a line of the address numbered by the given index (starting at 0);, or null if no such line is present.
 
-String getAdminArea();
-//Returns the administrative area name of the address, for example, "CA", or null if it is unknown
+    String getAdminArea();
+    //Returns the administrative area name of the address, for example, "CA", or null if it is unknown
 
-String getCountryCode();
-//Returns the country code of the address, for example "US", or null if it is unknown.
+    String getCountryCode();
+    //Returns the country code of the address, for example "US", or null if it is unknown.
 
-String getCountryName();
-//Returns the localized country name of the address, for example "Iceland", or null if it is unknown.
+    String getCountryName();
+    //Returns the localized country name of the address, for example "Iceland", or null if it is unknown.
 
-Bundle getExtras();
-//Returns additional provider-specific information about the address as a Bundle.
+    Bundle getExtras();
+    //Returns additional provider-specific information about the address as a Bundle.
 
-String getFeatureName();
-//Returns the feature name of the address, for example, "Golden Gate Bridge", or null if it is unknown
+    String getFeatureName();
+    //Returns the feature name of the address, for example, "Golden Gate Bridge", or null if it is unknown
 
-double getLatitude();
-//Returns the latitude of the address if known.
+    double getLatitude();
+    //Returns the latitude of the address if known.
 
-Locale getLocale();
-//Returns the Locale associated with this address.
+    Locale getLocale();
+    //Returns the Locale associated with this address.
 
-String getLocality();
-//Returns the locality of the address, for example "Mountain View", or null if it is unknown.
+    String getLocality();
+    //Returns the locality of the address, for example "Mountain View", or null if it is unknown.
 
-double getLongitude();
-//Returns the longitude of the address if known.
+    double getLongitude();
+    //Returns the longitude of the address if known.
 
-int getMaxAddressLineIndex();
-//Returns the largest index currently in use to specify an address line.
+    int getMaxAddressLineIndex();
+    //Returns the largest index currently in use to specify an address line.
 
-String getPhone();
-//Returns the phone number of the address if known, or null if it is unknown.
+    String getPhone();
+    //Returns the phone number of the address if known, or null if it is unknown.
 
-String getPostalCode();
-//Returns the postal code of the address, for example "94110", or null if it is unknown.
+    String getPostalCode();
+    //Returns the postal code of the address, for example "94110", or null if it is unknown.
 
-String getPremises();
-//Returns the premises of the address, or null if it is unknown.
+    String getPremises();
+    //Returns the premises of the address, or null if it is unknown.
 
-String getSubAdminArea();
-//Returns the sub-administrative area name of the address, for example, "Santa Clara County", or null if it is unknown
+    String getSubAdminArea();
+    //Returns the sub-administrative area name of the address, for example, "Santa Clara County", or null if it is unknown
 
-String getSubLocality();
-//Returns the sub-locality of the address, or null if it is unknown.
+    String getSubLocality();
+    //Returns the sub-locality of the address, or null if it is unknown.
 
-String getSubThoroughfare();
-//Returns the sub-thoroughfare name of the address, which may be null.
+    String getSubThoroughfare();
+    //Returns the sub-thoroughfare name of the address, which may be null.
 
-String getThoroughfare();
-//Returns the thoroughfare name of the address, for example, "1600 Ampitheater Parkway", which may be null
+    String getThoroughfare();
+    //Returns the thoroughfare name of the address, for example, "1600 Ampitheater Parkway", which may be null
 
-String getUrl();
-//Returns the public URL for the address if known, or null if it is unknown.
+    String getUrl();
+    //Returns the public URL for the address if known, or null if it is unknown.
 
-boolean hasLatitude();
-//Returns true if a latitude has been assigned to this Address, false otherwise.
+    boolean hasLatitude();
+    //Returns true if a latitude has been assigned to this Address, false otherwise.
 
-boolean hasLongitude();
-//Returns true if a longitude has been assigned to this Address, false otherwise.
+    boolean hasLongitude();
+    //Returns true if a longitude has been assigned to this Address, false otherwise.
 
-void setAddressLine(int index, String line);
-//Sets the line of the address numbered by index (starting at 0); to the given String, which may be null.
+    void setAddressLine(int index, String line);
+    //Sets the line of the address numbered by index (starting at 0); to the given String, which may be null.
 
-void setAdminArea(String adminArea);
-//Sets the administrative area name of the address to the given String, which may be null
+    void setAdminArea(String adminArea);
+    //Sets the administrative area name of the address to the given String, which may be null
 
-void setCountryCode(String countryCode);
-//Sets the country code of the address to the given String, which may be null.
+    void setCountryCode(String countryCode);
+    //Sets the country code of the address to the given String, which may be null.
 
-void setCountryName(String countryName);
-//Sets the country name of the address to the given String, which may be null.
+    void setCountryName(String countryName);
+    //Sets the country name of the address to the given String, which may be null.
 
-void setExtras(Bundle extras);
-//Sets the extra information associated with this fix to the given Bundle.
+    void setExtras(Bundle extras);
+    //Sets the extra information associated with this fix to the given Bundle.
 
-void setFeatureName(String featureName);
-//Sets the feature name of the address to the given String, which may be null
+    void setFeatureName(String featureName);
+    //Sets the feature name of the address to the given String, which may be null
 
-void setLatitude(double latitude);
-//Sets the latitude associated with this address.
+    void setLatitude(double latitude);
+    //Sets the latitude associated with this address.
 
-void setLocality(String locality);
-//Sets the locality of the address to the given String, which may be null.
+    void setLocality(String locality);
+    //Sets the locality of the address to the given String, which may be null.
 
-void setLongitude(double longitude);
-//Sets the longitude associated with this address.
+    void setLongitude(double longitude);
+    //Sets the longitude associated with this address.
 
-void setPhone(String phone);
-//Sets the phone number associated with this address.
+    void setPhone(String phone);
+    //Sets the phone number associated with this address.
 
-void setPostalCode(String postalCode);
-//Sets the postal code of the address to the given String, which may be null.
+    void setPostalCode(String postalCode);
+    //Sets the postal code of the address to the given String, which may be null.
 
-void setPremises(String premises);
-//Sets the premises of the address to the given String, which may be null.
+    void setPremises(String premises);
+    //Sets the premises of the address to the given String, which may be null.
 
-void setSubAdminArea(String subAdminArea);
-//Sets the sub-administrative area name of the address to the given String, which may be null
+    void setSubAdminArea(String subAdminArea);
+    //Sets the sub-administrative area name of the address to the given String, which may be null
 
-void setSubLocality(String sublocality);
-//Sets the sub-locality of the address to the given String, which may be null.
+    void setSubLocality(String sublocality);
+    //Sets the sub-locality of the address to the given String, which may be null.
 
-void setSubThoroughfare(String subthoroughfare);
-//Sets the sub-thoroughfare name of the address, which may be null.
+    void setSubThoroughfare(String subthoroughfare);
+    //Sets the sub-thoroughfare name of the address, which may be null.
 
-void setThoroughfare(String thoroughfare);
-//Sets the thoroughfare name of the address, which may be null.
+    void setThoroughfare(String thoroughfare);
+    //Sets the thoroughfare name of the address, which may be null.
 
-void setUrl(String Url);
-//Sets the public URL associated with this address.
+    void setUrl(String Url);
+    //Sets the public URL associated with this address.
 
-String toString();
-//Returns a string containing a concise, human-readable description of this object.
+    String toString();
+    //Returns a string containing a concise, human-readable description of this object.
 
-void writeToParcel(Parcel parcel, int flags);
-//Flatten this object in to a Parcel.
-
-
+    void writeToParcel(Parcel parcel, int flags);
+    //Flatten this object in to a Parcel.
 }
-class Criteria{
-        Criteria();
+
+class Criteria {
+    Criteria();
 }
+
 class Geocoder {
-Geocoder(Context context);
-List<Address> getFromLocation(double latitude, double longitude, int maxResults);
-//Returns an array of Addresses that are known to describe the area immediately surrounding the given latitude and longitude.
+    Geocoder(Context context);
+    Geocoder(Context context, Locale locale);
 
-List<Address> getFromLocationName(String locationName, int maxResults, double lowerLeftLatitude, double lowerLeftLongitude, double upperRightLatitude, double upperRightLongitude);
-//Returns an array of Addresses that are known to describe the named location, which may be a place name such as "Dalvik, Iceland", an address such as "1600 Amphitheatre Parkway, Mountain View, CA", an airport code such as "SFO", etc..
+    List<Address> getFromLocation(double latitude, double longitude, int maxResults);
+    //Returns an array of Addresses that are known to describe the area immediately surrounding the given latitude and longitude.
 
-List<Address> getFromLocationName(String locationName, int maxResults);
-//Returns an array of Addresses that are known to describe the named location, which may be a place name such as "Dalvik, Iceland", an address such as "1600 Amphitheatre Parkway, Mountain View, CA", an airport code such as "SFO", etc..
+    List<Address> getFromLocationName(String locationName, int maxResults, double lowerLeftLatitude, double lowerLeftLongitude, double upperRightLatitude, double upperRightLongitude);
+    //Returns an array of Addresses that are known to describe the named location, which may be a place name such as "Dalvik, Iceland", an address such as "1600 Amphitheatre Parkway, Mountain View, CA", an airport code such as "SFO", etc..
 
-static boolean isPresent();
-//Returns true if the Geocoder methods getFromLocation and getFromLocationName are implemented.
+    List<Address> getFromLocationName(String locationName, int maxResults);
+    //Returns an array of Addresses that are known to describe the named location, which may be a place name such as "Dalvik, Iceland", an address such as "1600 Amphitheatre Parkway, Mountain View, CA", an airport code such as "SFO", etc..
 
-Geocoder(Context context, Locale locale);
-
+    static boolean isPresent();
+    //Returns true if the Geocoder methods getFromLocation and getFromLocationName are implemented.
 }
 
 class Location {
     
-float bearingTo(Location dest);
-//Returns the approximate initial bearing in degrees East of true North when traveling along the shortest path between this location and the given location.
+    float bearingTo(Location dest);
+    //Returns the approximate initial bearing in degrees East of true North when traveling along the shortest path between this location and the given location.
 
-static double convert(String coordinate);
-//Converts a String in one of the formats described by FORMAT_DEGREES, FORMAT_MINUTES, or FORMAT_SECONDS into a double.
+    static double convert(String coordinate);
+    //Converts a String in one of the formats described by FORMAT_DEGREES, FORMAT_MINUTES, or FORMAT_SECONDS into a double.
 
-static String convert(double coordinate, int outputType);
-//Converts a coordinate to a String representation.
+    static String convert(double coordinate, int outputType);
+    //Converts a coordinate to a String representation.
 
-int describeContents();
-//Describe the kinds of special objects contained in this Parcelable's marshalled representation.
+    int describeContents();
+    //Describe the kinds of special objects contained in this Parcelable's marshalled representation.
 
-static void distanceBetween(double startLatitude, double startLongitude, double endLatitude, double endLongitude, float[] results);
-//Computes the approximate distance in meters between two locations, and optionally the initial and final bearings of the shortest path between them.
+    static void distanceBetween(double startLatitude, double startLongitude, double endLatitude, double endLongitude, float[] results);
+    //Computes the approximate distance in meters between two locations, and optionally the initial and final bearings of the shortest path between them.
 
-float distanceTo(Location dest);
-//Returns the approximate distance in meters between this location and the given location.
+    float distanceTo(Location dest);
+    //Returns the approximate distance in meters between this location and the given location.
 
-void dump( Printer pw, String prefix);
+    void dump( Printer pw, String prefix);
 
-float getAccuracy();
-//Get the estimated accuracy of this location, in meters.
+    float getAccuracy();
+    //Get the estimated accuracy of this location, in meters.
 
-double getAltitude();
-//Get the altitude if available, in meters above sea level.
+    double getAltitude();
+    //Get the altitude if available, in meters above sea level.
 
-float getBearing();
-//Get the bearing, in degrees.
+    float getBearing();
+    //Get the bearing, in degrees.
 
-long getElapsedRealtimeNanos();
-//Return the time of this fix, in elapsed real-time since system boot.
+    long getElapsedRealtimeNanos();
+    //Return the time of this fix, in elapsed real-time since system boot.
 
-Bundle getExtras();
-//Returns additional provider-specific information about the location fix as a Bundle.
+    Bundle getExtras();
+    //Returns additional provider-specific information about the location fix as a Bundle.
 
-@Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) double getLatitude();
-//Get the latitude, in degrees.
+    @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) double getLatitude();
+    //Get the latitude, in degrees.
 
- @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) double getLongitude();
-//Get the longitude, in degrees.
+     @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) double getLongitude();
+    //Get the longitude, in degrees.
 
-String getProvider();
-//Returns the name of the provider that generated this fix.
+    String getProvider();
+    //Returns the name of the provider that generated this fix.
 
-float getSpeed();
-//Get the speed if it is available, in meters/second over ground.
+    float getSpeed();
+    //Get the speed if it is available, in meters/second over ground.
 
-long getTime();
-//Return the UTC time of this fix, in milliseconds since January 1, 1970.
+    long getTime();
+    //Return the UTC time of this fix, in milliseconds since January 1, 1970.
 
-boolean hasAccuracy();
-//True if this location has an accuracy.
+    boolean hasAccuracy();
+    //True if this location has an accuracy.
 
-boolean hasAltitude();
-//True if this location has an altitude.
+    boolean hasAltitude();
+    //True if this location has an altitude.
 
-boolean hasBearing();
-//True if this location has a bearing.
+    boolean hasBearing();
+    //True if this location has a bearing.
 
-boolean hasSpeed();
-//True if this location has a speed.
+    boolean hasSpeed();
+    //True if this location has a speed.
 
-void removeAccuracy();
-//Remove the accuracy from this location.
+    void removeAccuracy();
+    //Remove the accuracy from this location.
 
-void removeAltitude();
-//Remove the altitude from this location.
+    void removeAltitude();
+    //Remove the altitude from this location.
 
-void removeBearing();
-//Remove the bearing from this location.
+    void removeBearing();
+    //Remove the bearing from this location.
 
-void removeSpeed();
-//Remove the speed from this location.
+    void removeSpeed();
+    //Remove the speed from this location.
 
-void reset();
-//Clears the contents of the location.
+    void reset();
+    //Clears the contents of the location.
 
-void set(Location l);
-//Sets the contents of the location to the values from the given location.
+    void set(Location l);
+    //Sets the contents of the location to the values from the given location.
 
-void setAccuracy(float accuracy);
-//Set the estimated accuracy of this location, meters.
+    void setAccuracy(float accuracy);
+    //Set the estimated accuracy of this location, meters.
 
-void setAltitude(double altitude);
-//Set the altitude, in meters above sea level.
+    void setAltitude(double altitude);
+    //Set the altitude, in meters above sea level.
 
-void setBearing(float bearing);
-//Set the bearing, in degrees.
+    void setBearing(float bearing);
+    //Set the bearing, in degrees.
 
-void setElapsedRealtimeNanos(long time);
-//Set the time of this fix, in elapsed real-time since system boot.
+    void setElapsedRealtimeNanos(long time);
+    //Set the time of this fix, in elapsed real-time since system boot.
 
-void setExtras(Bundle extras);
-//Sets the extra information associated with this fix to the given Bundle.
+    void setExtras(Bundle extras);
+    //Sets the extra information associated with this fix to the given Bundle.
 
-void setLatitude(double latitude);
-//Set the latitude, in degrees.
+    void setLatitude(double latitude);
+    //Set the latitude, in degrees.
 
-void setLongitude(double longitude);
-//Set the longitude, in degrees.
+    void setLongitude(double longitude);
+    //Set the longitude, in degrees.
 
-void setProvider(String provider);
-//Sets the name of the provider that generated this fix.
+    void setProvider(String provider);
+    //Sets the name of the provider that generated this fix.
 
-void setSpeed(float speed);
-//Set the speed, in meters/second over ground.
+    void setSpeed(float speed);
+    //Set the speed, in meters/second over ground.
 
-void setTime(long time);
-//Set the UTC time of this fix, in milliseconds since January 1, 1970.
+    void setTime(long time);
+    //Set the UTC time of this fix, in milliseconds since January 1, 1970.
 
-String toString();
-//Returns a string containing a concise, human-readable description of this object.
+    String toString();
+    //Returns a string containing a concise, human-readable description of this object.
 
-void writeToParcel(Parcel parcel, int flags);
-//Flatten this object in to a Parcel.
-
-    
+    void writeToParcel(Parcel parcel, int flags);
+    //Flatten this object in to a Parcel.
 }
 
 class LocationListener {
     
- @AddsSourceData   
-abstract void onLocationChanged(@Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Location location);
-//Called when the location has changed.
+    @AddsSourceData
+    abstract void onLocationChanged(@Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Location location);
+    //Called when the location has changed.
 
-abstract void onProviderDisabled(String provider);
-//Called when the provider is disabled by the user.
+    abstract void onProviderDisabled(String provider);
+    //Called when the provider is disabled by the user.
 
-abstract void onProviderEnabled(String provider);
-//Called when the provider is enabled by the user.
+    abstract void onProviderEnabled(String provider);
+    //Called when the provider is enabled by the user.
 
-abstract void onStatusChanged(String provider, int status, Bundle extras);
-//Called when the provider status changes.
-
-
-
+    abstract void onStatusChanged(String provider, int status, Bundle extras);
+    //Called when the provider status changes.
 }
 
 class LocationManager {
     
-final String GPS_PROVIDER;
-final String NETWORK_PROVIDER;
+    final String GPS_PROVIDER;
+    final String NETWORK_PROVIDER;
 
-boolean addGpsStatusListener(GpsStatus.Listener listener);
-//Adds a GPS status listener.
+    boolean addGpsStatusListener(GpsStatus.Listener listener);
+    //Adds a GPS status listener.
 
-boolean addNmeaListener(GpsStatus.NmeaListener listener);
-//Adds an NMEA listener.
+    boolean addNmeaListener(GpsStatus.NmeaListener listener);
+    //Adds an NMEA listener.
 
-void addProximityAlert(double latitude, double longitude, float radius, long expiration, PendingIntent intent);
-//Set a proximity alert for the location given by the position (latitude, longitude); and the given radius.
+    void addProximityAlert(double latitude, double longitude, float radius, long expiration, PendingIntent intent);
+    //Set a proximity alert for the location given by the position (latitude, longitude); and the given radius.
 
-void addTestProvider(String name, boolean requiresNetwork, boolean requiresSatellite, boolean requiresCell, boolean hasMonetaryCost, boolean supportsAltitude, boolean supportsSpeed, boolean supportsBearing, int powerRequirement, int accuracy);
-//Creates a mock location provider and adds it to the set of active providers.
+    void addTestProvider(String name, boolean requiresNetwork, boolean requiresSatellite, boolean requiresCell, boolean hasMonetaryCost, boolean supportsAltitude, boolean supportsSpeed, boolean supportsBearing, int powerRequirement, int accuracy);
+    //Creates a mock location provider and adds it to the set of active providers.
 
-void clearTestProviderEnabled(String provider);
-//Removes any mock enabled value associated with the given provider.
+    void clearTestProviderEnabled(String provider);
+    //Removes any mock enabled value associated with the given provider.
 
-void clearTestProviderLocation(String provider) ;
-//Removes any mock location associated with the given provider.
+    void clearTestProviderLocation(String provider) ;
+    //Removes any mock location associated with the given provider.
 
-void clearTestProviderStatus(String provider) ;
-//Removes any mock status values associated with the given provider.
+    void clearTestProviderStatus(String provider) ;
+    //Removes any mock status values associated with the given provider.
 
-List<String> getAllProviders();
-//Returns a list of the names of all known location providers.
+    List<String> getAllProviders();
+    //Returns a list of the names of all known location providers.
 
-String getBestProvider(Criteria criteria, boolean enabledOnly);
-//Returns the name of the provider that best meets the given criteria.
+    String getBestProvider(Criteria criteria, boolean enabledOnly);
+    //Returns the name of the provider that best meets the given criteria.
 
-GpsStatus getGpsStatus(GpsStatus status);
-//Retrieves information about the current status of the GPS engine.
+    GpsStatus getGpsStatus(GpsStatus status);
+    //Retrieves information about the current status of the GPS engine.
 
-@Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Location getLastKnownLocation(String provider);
-//Returns a Location indicating the data from the last known location fix obtained from the given provider.
+    @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Location getLastKnownLocation(String provider);
+    //Returns a Location indicating the data from the last known location fix obtained from the given provider.
 
-@Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) LocationProvider getProvider(String name);
-//Returns the information associated with the location provider of the given name, or null if no provider exists by that name.
+    @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) LocationProvider getProvider(String name);
+    //Returns the information associated with the location provider of the given name, or null if no provider exists by that name.
 
-List<String> getProviders(boolean enabledOnly);
-//Returns a list of the names of location providers.
+    List<String> getProviders(boolean enabledOnly);
+    //Returns a list of the names of location providers.
 
-List<String> getProviders(Criteria criteria, boolean enabledOnly);
-//Returns a list of the names of LocationProviders that satisfy the given criteria, or null if none do.
+    List<String> getProviders(Criteria criteria, boolean enabledOnly);
+    //Returns a list of the names of LocationProviders that satisfy the given criteria, or null if none do.
 
-@Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) boolean isProviderEnabled(String provider);
-//Returns the current enabled/disabled status of the given provider.
+    @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) boolean isProviderEnabled(String provider);
+    //Returns the current enabled/disabled status of the given provider.
 
-void removeGpsStatusListener(GpsStatus.Listener listener);
-//Removes a GPS status listener.
+    void removeGpsStatusListener(GpsStatus.Listener listener);
+    //Removes a GPS status listener.
 
-void removeNmeaListener(GpsStatus.NmeaListener listener);
-//Removes an NMEA listener.
+    void removeNmeaListener(GpsStatus.NmeaListener listener);
+    //Removes an NMEA listener.
 
-void removeProximityAlert(PendingIntent intent) ;
-//Removes the proximity alert with the given PendingIntent.
+    void removeProximityAlert(PendingIntent intent) ;
+    //Removes the proximity alert with the given PendingIntent.
 
-void removeTestProvider(String provider) ;
-//Removes the mock location provider with the given name.
+    void removeTestProvider(String provider) ;
+    //Removes the mock location provider with the given name.
 
-void removeUpdates(PendingIntent intent);
-//Removes all location updates for the specified pending intent.
+    void removeUpdates(PendingIntent intent);
+    //Removes all location updates for the specified pending intent.
 
-void removeUpdates(LocationListener listener);
-//Removes all location updates for the specified LocationListener.
+    void removeUpdates(LocationListener listener);
+    //Removes all location updates for the specified LocationListener.
 
-@AddsSourceData(4)
-void requestLocationUpdates(long minTime, float minDistance, Criteria criteria, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) PendingIntent intent);
-//Register for location updates using a Criteria and pending intent.
-@AddsSourceData(5)
-void requestLocationUpdates(long minTime, float minDistance, Criteria criteria, LocationListener listener, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper) ;
-//Register for location updates using a Criteria, and a callback on the specified looper thread.
+    @AddsSourceData(4)
+    void requestLocationUpdates(long minTime, float minDistance, Criteria criteria, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) PendingIntent intent);
+    //Register for location updates using a Criteria and pending intent.
+    @AddsSourceData(5)
+    void requestLocationUpdates(long minTime, float minDistance, Criteria criteria, LocationListener listener, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper) ;
+    //Register for location updates using a Criteria, and a callback on the specified looper thread.
 
-void requestLocationUpdates(String provider, long minTime, float minDistance, LocationListener listener) ;
-//Register for location updates using the named provider, and a pending intent.
+    void requestLocationUpdates(String provider, long minTime, float minDistance, LocationListener listener) ;
+    //Register for location updates using the named provider, and a pending intent.
 
-@AddsSourceData(5)
-void requestLocationUpdates(String provider, long minTime, float minDistance, LocationListener listener,  @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper) ;
-//Register for location updates using the named provider, and a callback on the specified looper thread.
+    @AddsSourceData(5)
+    void requestLocationUpdates(String provider, long minTime, float minDistance, LocationListener listener,  @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper) ;
+    //Register for location updates using the named provider, and a callback on the specified looper thread.
 
-@AddsSourceData(4)
-void requestLocationUpdates(String provider, long minTime, float minDistance, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) PendingIntent intent);
-//Register for location updates using the named provider, and a pending intent.
+    @AddsSourceData(4)
+    void requestLocationUpdates(String provider, long minTime, float minDistance, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) PendingIntent intent);
+    //Register for location updates using the named provider, and a pending intent.
 
-@AddsSourceData(3)
-void requestSingleUpdate(String provider, LocationListener listener, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper);
-//Register for a single location update using the named provider and a callback.
+    @AddsSourceData(3)
+    void requestSingleUpdate(String provider, LocationListener listener, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper);
+    //Register for a single location update using the named provider and a callback.
 
-@AddsSourceData(3)
-void requestSingleUpdate(Criteria criteria, LocationListener listener, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper);
-//Register for a single location update using a Criteria and a callback.
+    @AddsSourceData(3)
+    void requestSingleUpdate(Criteria criteria, LocationListener listener, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) Looper looper);
+    //Register for a single location update using a Criteria and a callback.
 
-@AddsSourceData(2)
-void requestSingleUpdate(String provider, PendingIntent intent);
-//Register for a single location update using a named provider and pending intent.
+    @AddsSourceData(2)
+    void requestSingleUpdate(String provider, PendingIntent intent);
+    //Register for a single location update using a named provider and pending intent.
 
-@AddsSourceData(2)
-void requestSingleUpdate(Criteria criteria, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) PendingIntent intent);
-//Register for a single location update using a Criteria and pending intent.
+    @AddsSourceData(2)
+    void requestSingleUpdate(Criteria criteria, @Source({ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}) PendingIntent intent);
+    //Register for a single location update using a Criteria and pending intent.
 
-boolean sendExtraCommand(String provider, String command, Bundle extras);
-//Sends additional commands to a location provider.
+    boolean sendExtraCommand(String provider, String command, Bundle extras);
+    //Sends additional commands to a location provider.
 
-void setTestProviderEnabled(String provider, boolean enabled);
-//Sets a mock enabled value for the given provider.
+    void setTestProviderEnabled(String provider, boolean enabled);
+    //Sets a mock enabled value for the given provider.
 
-void setTestProviderLocation(String provider, Location loc);
-//Sets a mock location for the given provider.
+    void setTestProviderLocation(String provider, Location loc);
+    //Sets a mock location for the given provider.
 
-void setTestProviderStatus(String provider, int status, Bundle extras, long updateTime);
-//Sets mock status values for the given provider.
-
-
-
+    void setTestProviderStatus(String provider, int status, Bundle extras, long updateTime);
+    //Sets mock status values for the given provider.
 }
 
 class LocationProvider{
-        final int OUT_OF_SERVICE;
-        final int AVAILABLE;
-        final int TEMPORARILY_UNAVAILABLE;
+    final int OUT_OF_SERVICE;
+    final int AVAILABLE;
+    final int TEMPORARILY_UNAVAILABLE;
 }
-

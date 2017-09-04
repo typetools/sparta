@@ -40,14 +40,14 @@ class Matcher {
     @PolyFlowReceiver
     String group();
     
-    @PolySource @PolySink String group(@Sink({}) int group) @PolySource @PolySink;
+    @PolySource @PolySink String group(@PolySource @PolySink Matcher this, @Sink({}) int group);
     
-    @PolySource @PolySink String group(@Sink({}) String name) @PolySource @PolySink;
+    @PolySource @PolySink String group(@PolySource @PolySink Matcher this, @Sink({}) String name);
 
     @PolyFlowReceiver
     boolean find();
 
-    @PolySource @PolySink boolean find(@Sink({}) int start) @PolySource @PolySink;
+    @PolySource @PolySink boolean find(@PolySource @PolySink Matcher this, @Sink({}) int start);
 
     @PolyFlowReceiver
     boolean matches();
@@ -55,12 +55,12 @@ class Matcher {
     @PolyFlowReceiver
     int start();
 
-    @PolySource @PolySink int start(@Sink({}) int group) @PolySource @PolySink;
+    @PolySource @PolySink int start(@PolySource @PolySink Matcher this, @Sink({}) int group);
 
     @PolyFlowReceiver
     int end();
 
-    @PolySource @PolySink int end(@Sink({}) int group) @PolySource @PolySink;
+    @PolySource @PolySink int end(@PolySource @PolySink Matcher this, @Sink({}) int group);
 
     // Don't think this needs one.
     int groupCount();

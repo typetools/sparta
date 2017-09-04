@@ -1,4 +1,5 @@
 package android.accessibilityservice;
+
 class AccessibilityService{
         void onAccessibilityEvent(AccessibilityEvent arg0);
         AccessibilityService();

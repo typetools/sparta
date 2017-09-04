@@ -108,8 +108,8 @@ class ByteArrayInputStream extends InputStream {
 class ByteArrayOutputStream extends OutputStream {
 //Added by SOM
      ByteArrayOutputStream();
-    @PolySource @PolySink byte @PolySource @PolySink [] toByteArray() @PolySource @PolySink;
-    void close() @Source(ANY) @Sink({});
+    @PolySource @PolySink byte @PolySource @PolySink [] toByteArray(@PolySource @PolySink ByteArrayOutputStream this);
+    void close(@Source(ANY) @Sink({}) ByteArrayOutputStream this);
     protected byte[] buf;
     protected int count;
     ByteArrayOutputStream(int arg0);
@@ -287,9 +287,9 @@ class FileInputStream extends InputStream {
     long skip(long arg0) throws IOException;
     int available() throws IOException;
     void close() throws IOException;
-    @Source(FILESYSTEM) FileDescriptor getFD() @Source(FILESYSTEM) throws IOException;
-    @Source(FILESYSTEM) FileChannel getChannel() @Source(FILESYSTEM);
-    protected void finalize() @Source(FILESYSTEM) throws IOException;
+    @Source(FILESYSTEM) FileDescriptor getFD(@Source(FILESYSTEM) FileInputStream this) throws IOException;
+    @Source(FILESYSTEM) FileChannel getChannel(@Source(FILESYSTEM) FileInputStream this);
+    protected void finalize(@Source(FILESYSTEM) FileInputStream this) throws IOException;
 }
 class FilterInputStream{
             protected @PolySource FilterInputStream(InputStream arg0);
@@ -337,10 +337,10 @@ class FileOutputStream extends OutputStream {
 @PolyFlowReceiver
     void write( @PolySource @PolySink byte [] arg0, int arg1, int arg2);
     void close();
-    @Sink(FILESYSTEM) FileDescriptor getFD() @Sink(FILESYSTEM);
-    @Sink(FILESYSTEM) FileChannel getChannel() @Sink(FILESYSTEM);
-    protected void finalize() @Sink(FILESYSTEM);
-    void write(int arg0, boolean arg1) @Sink(FILESYSTEM);
+    @Sink(FILESYSTEM) FileDescriptor getFD(@Sink(FILESYSTEM) FileOutputStream this);
+    @Sink(FILESYSTEM) FileChannel getChannel(@Sink(FILESYSTEM) FileOutputStream this);
+    protected void finalize(@Sink(FILESYSTEM) FileOutputStream this);
+    void write(@Sink(FILESYSTEM) FileOutputStream this, int arg0, boolean arg1);
 }
 
 class FileWriter extends OutputStreamWriter {
@@ -508,8 +508,8 @@ class OutputStream implements Closeable, Flushable {
     OutputStream();
 @PolyFlowReceiver
     void write(int arg0) throws IOException;
-    void write(@PolySourceR @PolySinkR byte[] arg0) @PolySourceR @PolySinkR;
-    void write(@PolySourceR @PolySinkR byte[] arg0, int arg1, int arg2) @PolySourceR @PolySinkR;
+    void write(@PolySourceR @PolySinkR OutputStream this, @PolySourceR @PolySinkR byte[] arg0);
+    void write(@PolySourceR @PolySinkR OutputStream this, @PolySourceR @PolySinkR byte[] arg0, int arg1, int arg2);
     void flush() throws IOException;
     void close() throws IOException;
 }
@@ -681,7 +681,7 @@ class Writer implements Appendable, Closeable, Flushable {
     void write(@PolySourceR @PolySinkR char[] arg0) throws IOException;
 @PolyFlowReceiver
     void write(@PolySourceR @PolySinkR char[] arg0, int arg1, int arg2) throws IOException;
-    void write(@PolySourceR @PolySinkR String arg0) @PolySourceR @PolySinkR;
+    void write(@PolySourceR @PolySinkR Writer this, @PolySourceR @PolySinkR String arg0);
 @PolyFlowReceiver
     void write(String arg0, int arg1, int arg2) throws IOException;
 @PolyFlowReceiver

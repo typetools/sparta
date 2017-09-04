@@ -1,6 +1,6 @@
 package android.content;
 
-class AsyncTaskLoader {
+class AsyncTaskLoader<D> {
     
     
 void cancelLoadInBackground();
@@ -523,8 +523,8 @@ class ContentValues implements Parcelable {
     Boolean getAsBoolean(String arg0);
 @PolyFlowReceiver
     @PolySourceR @PolySinkR byte[] getAsByteArray(String arg0);
-    Set<Entry<@PolySourceR @PolySinkR String,@PolySourceR @PolySinkR Object>> valueSet() @PolySourceR @PolySinkR;
-    Set<@PolySourceR @PolySinkR String> keySet()@PolySourceR @PolySinkR;
+    Set<Entry<@PolySourceR @PolySinkR String,@PolySourceR @PolySinkR Object>> valueSet(@PolySourceR @PolySinkR ContentValues this);
+    Set<@PolySourceR @PolySinkR String> keySet(@PolySourceR @PolySinkR ContentValues this);
     int describeContents();
 @AddsSourceData
 @PolyFlowReceiver
@@ -1474,7 +1474,6 @@ class Intent implements Parcelable, Cloneable {
         final  String ACTION_HEADSET_PLUG;
         final  String ACTION_BATTERY_OKAY;
         final  int FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS;
-
         final  String ACTION_VIEW;
         final  int FLAG_ACTIVITY_NO_USER_ACTION;
         final  String ACTION_BATTERY_LOW;
@@ -1616,7 +1615,7 @@ class Intent$ShortcutIconResource{
         static ShortcutIconResource fromContext(Context context, int resourceId);
 }
 
-class Loader {
+class Loader<D> {
 
 int getId();
     
@@ -1704,7 +1703,7 @@ class ServiceConnection {
 
 class UriMatcher {
         UriMatcher(int code);
-    void addURI(@PolySource @PolySink String authority, @PolySource @PolySink String path, @PolySource @PolySink int code) @PolySource @PolySink;
+    void addURI(@PolySource @PolySink UriMatcher this, @PolySource @PolySink String authority, @PolySource @PolySink String path, @PolySource @PolySink int code);
     @PolyFlow int match(Uri uri);
 }
 
