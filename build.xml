@@ -21,7 +21,7 @@
             </and>
         </condition>
     </fail>
-    
+
     <!-- Use the environment variable, if nothing was set yet. -->
     <property name="android.home" value="${env.ANDROID_HOME}"/>
 
@@ -29,9 +29,9 @@
     <path id="android.latest.platform">
       <last>
             <sort>
-          <!-- 
-           This doesn't handle the sort like one would expect. android-8 would be a higher version than android-19. 
-           Thus we restrict it to a range we know is lexicographically correct.  
+          <!--
+           This doesn't handle the sort like one would expect. android-8 would be a higher version than android-19.
+           Thus we restrict it to a range we know is lexicographically correct.
           -->
                 <dirset dir="${android.home}/platforms" includes="android-??" />
             </sort>
@@ -50,7 +50,7 @@
       <pathelement location="${toString:android.latest.platform}/android.jar"/>
       <pathelement location="${android.home}/extras/android/support/v7/appcompat/libs/android-support-v4.jar"/>
     </path>
-    
+
     <pathconvert property="latestAndroid.jar" refid="libs.android"/>
 
     <property name="src" value="src"/>
@@ -59,7 +59,7 @@
     <property name="flow.astub.intents" value="src/sparta/checkers/intents"/>
 
     <property name="annotated.intent.receivers" value="annotated-intent-receivers"/>
-    
+
     <property name="tests" value="tests"/>
     <property name="stub.jar" value="tests/stubfile/stub.jar"/>
 
@@ -79,8 +79,8 @@
     <target name="merge-stubfiles" description= "Merge stubfiles in src/sparta/checkers/flowstubfiles/ into information_flow.astub">
         <concat destfile="${flow.astub}">
              <fileset dir="${flow.stubfiles}" includes="*.astub"/>
-        </concat> 
-        
+        </concat>
+
         <copy file="${flow.astub}" todir="${flow.astub.intents}"/>
     </target>
 
@@ -238,7 +238,7 @@ ${build.version} of the 'javac.jar' library."/>
     <pathelement location="${build}"/>
     <pathelement location="${latestAndroid.jar}"/>
       </path>
-      
+
       <pathconvert property="libs.stubfiletests.deps" refid="libs.stubfiletests"/>
 
         <java fork="true"
@@ -248,14 +248,15 @@ ${build.version} of the 'javac.jar' library."/>
             <arg value="-g"/>
             <arg line="-d ${build}"/>
             <arg line="-AstubWarnIfNotFound"/>
-            <arg line="-processor sparta.checkers.FlowChecker" /> 
+            <arg line="-AprintErrorStack"/>
+            <arg line="-processor sparta.checkers.FlowChecker" />
             <!-- Arbitrary file to compile. -->
             <arg line="${tests}/Test.java" />
         </java>
         <delete file="${build}/Test.class"/>
     </target>
-    
-    <target name="build-intent-tests" depends="build" description="Compiles intent 
+
+    <target name="build-intent-tests" depends="build" description="Compiles intent
         receivers Java classes with the IntentChecker.">
         <delete dir="${build}/tests"/>
 
@@ -263,7 +264,7 @@ ${build.version} of the 'javac.jar' library."/>
             <pathelement location="${build}"/>
             <pathelement location="${latestAndroid.jar}"/>
         </path>
-        
+
         <pathconvert pathsep=" " property="intent.java.classes.spaceseparated">
             <path>
                 <fileset dir="${tests}">
@@ -271,8 +272,8 @@ ${build.version} of the 'javac.jar' library."/>
                 </fileset>
             </path>
         </pathconvert>
-      
-      <pathconvert property="libs.stubfiletests.deps" refid="libs.stubfiletests"/>  
+
+      <pathconvert property="libs.stubfiletests.deps" refid="libs.stubfiletests"/>
 
         <java fork="true"
             jar="${checkers.lib}"
@@ -280,10 +281,10 @@ ${build.version} of the 'javac.jar' library."/>
             <arg line="-cp ${libs.stubfiletests.deps}" />
             <arg value="-g"/>
             <arg line="-d ${build}"/>
-            <arg line="-processor sparta.checkers.intents.IntentChecker" /> 
+            <arg line="-processor sparta.checkers.intents.IntentChecker" />
             <arg line="${intent.java.classes.spaceseparated}"/>
         </java>
-    
+
     </target>
 
     <target name="build-tests" depends="prep" description="Compile tests">
@@ -398,14 +399,14 @@ ${build.version} of the 'javac.jar' library."/>
             <param name="testclass" value="tests.AndroidTests$FlowCheckerTests"/>
         </antcall>
     </target>
-    
+
         <target name="reflection-tests" depends="jar,build-tests"
       description="Run tests for the Flow Checker with reflection resolution enabled">
         <antcall target="-run-tests">
             <param name="testclass" value="tests.AndroidTests$ReflectionFlowCheckerTests"/>
         </antcall>
     </target>
-    
+
     <target name="intent-tests" depends="jar,build-tests,build-intent-tests"
       description="Run tests for the Intent Checker">
         <antcall target="-run-tests">
