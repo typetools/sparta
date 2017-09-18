@@ -215,7 +215,7 @@ class File implements Serializable, Comparable<File> {
      final String separator;
     final char pathSeparatorChar;
     final String pathSeparator;
-    
+
     File( @Sink(FILESYSTEM) String path);
     File( @Sink(FILESYSTEM) String arg0, @Sink(FILESYSTEM) String arg1);
     File( File dir, @Sink(FILESYSTEM) String path);
@@ -271,7 +271,7 @@ class File implements Serializable, Comparable<File> {
     int hashCode();
     @Source(FILESYSTEM) String toString();
     Path toPath();
-	
+
 }
 class FileDescriptor{
             void sync() throws SyncFailedException;
@@ -425,22 +425,22 @@ class ObjectInputStream extends InputStream implements ObjectInput, ObjectStream
     int skipBytes(int arg0) throws IOException;
     String readLine() throws IOException;
     String readUTF() throws IOException;
-}
 
-@PolyFlowReceiver
-class ObjectInputStream$GetField {
-    GetField();
-    ObjectStreamClass getObjectStreamClass();
-    boolean defaulted(String arg0) throws IOException;
-    boolean get(String arg0, boolean arg1) throws IOException;
-    byte get(String arg0, byte arg1) throws IOException;
-    char get(String arg0, char arg1) throws IOException;
-    short get(String arg0, short arg1) throws IOException;
-    int get(String arg0, int arg1) throws IOException;
-    long get(String arg0, long arg1) throws IOException;
-    float get(String arg0, float arg1) throws IOException;
-    double get(String arg0, double arg1) throws IOException;
-    Object get(String arg0, Object arg1) throws IOException;
+    @PolyFlowReceiver
+    class GetField {
+        GetField();
+        ObjectStreamClass getObjectStreamClass();
+        boolean defaulted(String arg0) throws IOException;
+        boolean get(String arg0, boolean arg1) throws IOException;
+        byte get(String arg0, byte arg1) throws IOException;
+        char get(String arg0, char arg1) throws IOException;
+        short get(String arg0, short arg1) throws IOException;
+        int get(String arg0, int arg1) throws IOException;
+        long get(String arg0, long arg1) throws IOException;
+        float get(String arg0, float arg1) throws IOException;
+        double get(String arg0, double arg1) throws IOException;
+        Object get(String arg0, Object arg1) throws IOException;
+    }
 }
 
 @PolyFlowReceiver
@@ -486,21 +486,21 @@ class ObjectOutputStream extends OutputStream implements ObjectOutput, ObjectStr
     void writeBytes(String arg0) throws IOException;
     void writeChars(String arg0) throws IOException;
     void writeUTF(String arg0) throws IOException;
-}
 
-@PolyFlowReceiver
-class ObjectOutputStream$PutField {
-    PutField();
-    void put(String arg0, boolean arg1);
-    void put(String arg0, byte arg1);
-    void put(String arg0, char arg1);
-    void put(String arg0, short arg1);
-    void put(String arg0, int arg1);
-    void put(String arg0, long arg1);
-    void put(String arg0, float arg1);
-    void put(String arg0, double arg1);
-    void put(String arg0, Object arg1);
-    void write(ObjectOutput arg0) throws IOException;
+    @PolyFlowReceiver
+    class PutField {
+        PutField();
+        void put(String arg0, boolean arg1);
+        void put(String arg0, byte arg1);
+        void put(String arg0, char arg1);
+        void put(String arg0, short arg1);
+        void put(String arg0, int arg1);
+        void put(String arg0, long arg1);
+        void put(String arg0, float arg1);
+        void put(String arg0, double arg1);
+        void put(String arg0, Object arg1);
+        void write(ObjectOutput arg0) throws IOException;
+    }
 }
 
 class OutputStream implements Closeable, Flushable {
