@@ -523,7 +523,9 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
             //Don't call super because it skips the receiver type for some reason
             scan(t.getReturnType(), elem);
-            scanAndReduce(t.getReceiverType(), elem, null);
+            if(t.getReceiverType() != null) {
+                scanAndReduce(t.getReceiverType(), elem, null);
+            }
             scanAndReduce(t.getParameterTypes(), elem, null);
             scanAndReduce(t.getThrownTypes(), elem, null);
             scanAndReduce(t.getTypeVariables(), elem, null);
