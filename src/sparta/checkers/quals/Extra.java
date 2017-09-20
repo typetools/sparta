@@ -9,9 +9,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /*
- * An @Extra annotation contains a key K and a type T (Source and Sink). 
- * This means that the key K maps to a value of type T. 
- * In the case of the information flow system, the type T represents data 
+ * An @Extra annotation contains a key K and a type T (Source and Sink).
+ * This means that the key K maps to a value of type T.
+ * In the case of the information flow system, the type T represents data
  * and constrains its possible flows.
  */
 @Documented

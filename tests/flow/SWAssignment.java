@@ -17,26 +17,26 @@ class SupressWarningsAssignment {
     void declNoSW(){
         @SuppressWarnings("flow")
         @Source(CAMERA) @Sink({ DISPLAY, FILESYSTEM}) ByteArrayOutputStream bytes = getBAOS();
-        
-       /* Because @Source(LITERAL) is not a subtype of @Source(CAMERA), assigning getBAOS 
+
+       /* Because @Source(LITERAL) is not a subtype of @Source(CAMERA), assigning getBAOS
           to bytes produces an assignment warning. (The waring is supressed.)
           @Sink( DISPLAY,WRITE_LOGS, FILESYSTEM) is a subtype of
-          @Sink({ DISPLAY, FILESYSTEM}), so the sink of bytes is refined to 
+          @Sink({ DISPLAY, FILESYSTEM}), so the sink of bytes is refined to
           @Sink( DISPLAY,WRITE_LOGS, FILESYSTEM). The full type of bytes is
-          @Source(CAMERA) @Sink({ DISPLAY,WRITE_LOGS, FILESYSTEM}), but 
-          this is not valid type because CAMERA->WRITE_LOGS is a forbidden flow. 
+          @Source(CAMERA) @Sink({ DISPLAY,WRITE_LOGS, FILESYSTEM}), but
+          this is not valid type because CAMERA->WRITE_LOGS is a forbidden flow.
            So the following line produces a forbidden flow warning: */
-        
+
         //:: error: (forbidden.flow)
         int i = bytes.size(); //CAMERA->WRITE_LOGS
 
-     
+
         /*Casting does not have this problem:*/
         @SuppressWarnings("flow")
         ByteArrayOutputStream bytesCast = (@Source(CAMERA) @Sink({ DISPLAY, FILESYSTEM})  ByteArrayOutputStream) getBAOS();
 
         int icast = bytesCast.size();
-        
+
         /*Casting does not have this problem:*/
         @SuppressWarnings("flow")
         ByteArrayOutputStream bytesCast2 = (@Source(CAMERA)  ByteArrayOutputStream) getBAOS();

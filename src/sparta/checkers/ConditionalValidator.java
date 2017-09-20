@@ -22,7 +22,7 @@ import com.sun.source.tree.WhileLoopTree;
 /**
  * A Validator that prints a warning any time a sensitive source is used in a
  * conditional
- * 
+ *
  * @author smillst
  *
  */

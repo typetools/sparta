@@ -8,7 +8,7 @@ import android.content.Intent;
 /**
  * Class used to test the intent analysis.
  * Class that simulates a Receiver Activity
- * on the Intent analysis. Used in the Intent-checker tests from sparta-code.  
+ * on the Intent analysis. Used in the Intent-checker tests from sparta-code.
  * @author pbsf
  *
  */
@@ -20,7 +20,7 @@ public class IntentMapBottom2ReceiverStub extends Activity {
     Intent getIntent() {
         return super.getIntent();
     }
-    
+
     @Override
     @ReceiveIntent("startActivity,1")
     public void setIntent(@IntentMap({
@@ -29,5 +29,5 @@ public class IntentMapBottom2ReceiverStub extends Activity {
         Intent newIntent) {
         super.setIntent(newIntent);
     }
-    
+
 }

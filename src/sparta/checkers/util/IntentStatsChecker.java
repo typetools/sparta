@@ -20,22 +20,22 @@ import sparta.checkers.FlowVisitor;
 import sparta.checkers.intents.ComponentMap;
 
 /**
- * 
- * Class to output statistic about intent assignments and putExtras called in 
+ *
+ * Class to output statistic about intent assignments and putExtras called in
  * an app.
- * It outputs the number of assignments involving intents, the number of 
- * those assignments which creates an alias, the number of putExtras found in the 
+ * It outputs the number of assignments involving intents, the number of
+ * those assignments which creates an alias, the number of putExtras found in the
  * app, and the number of consecutive putExtra calls where the receiver intent is sent without
  * any other method calls in between (other than putExtra).
- * 
+ *
  * The output is named intent-stats-summary.csv.
- * Format: app directory, # intent assignments, # intent assignments creating alises, 
+ * Format: app directory, # intent assignments, # intent assignments creating alises,
  * # putExtra calls, # putExtra calls without sideEffect free calls after it.
- * Example: 
+ * Example:
 /Users/pbsf/src/projects/MyProject/MyProject,2,1,2,1
- * 
+ *
  * Call "ant check-intentstats" to use it.
- * 
+ *
  * @author pbsf
  *
  */
@@ -76,7 +76,7 @@ public class IntentStatsChecker extends BaseTypeChecker {
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         }
-       
+
         super.typeProcessingOver();
     }
 
@@ -85,10 +85,10 @@ public class IntentStatsChecker extends BaseTypeChecker {
             writer.write(s.toString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
-        }        
+        }
     }
     private void writenewline() {
-        writeNoComma("\n");       
+        writeNoComma("\n");
     }
     private void write(Object s){
            writeNoComma(s);

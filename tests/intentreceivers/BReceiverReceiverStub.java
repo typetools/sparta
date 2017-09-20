@@ -11,13 +11,13 @@ import android.content.Context;
 /**
  * Class used to test the intent analysis.
  * Class that simulates a Receiver of a BroadcastReceiver
- * on the Intent analysis. Used in the Intent-checker tests from sparta-code.  
+ * on the Intent analysis. Used in the Intent-checker tests from sparta-code.
  * @author pbsf
  *
  */
 public class BReceiverReceiverStub extends BroadcastReceiver {
-    
-    
+
+
     @Override
     @ReceiveIntent("sendBroadcast,1")
     public  void onReceive(Context context, @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent intent) {

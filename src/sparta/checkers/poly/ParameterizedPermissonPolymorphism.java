@@ -44,7 +44,7 @@ public class ParameterizedPermissonPolymorphism {
 
     /**
      * Infers the parameter for the return type permission.
-     * 
+     *
      * @param tree
      * @param type
      */
@@ -55,7 +55,7 @@ public class ParameterizedPermissonPolymorphism {
 
     /**
      * Infers the parameter for the result type permission.
-     * 
+     *
      * @param tree
      * @param type
      */
@@ -170,7 +170,7 @@ public class ParameterizedPermissonPolymorphism {
     /**
      * If the tree's source or sink annotation has the correct flow permission
      * with a parameter, return those parameters
-     * 
+     *
      * @param info
      * @param tree
      * @return
@@ -263,7 +263,7 @@ public class ParameterizedPermissonPolymorphism {
         /**
          * Returns true if element pass to construct this object did not have an @InferPermissionParameter
          * annotation Otherwise, returns false
-         * 
+         *
          * @return
          */
         public boolean hasInferedPermInfo() {

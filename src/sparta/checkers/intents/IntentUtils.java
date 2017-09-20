@@ -53,13 +53,13 @@ public class IntentUtils {
             new String[]{qualsPackage + "SendIntent", qualsPackage +
                     "IntentMapNew", qualsPackage + "PutExtra", qualsPackage +
                     "GetExtra", qualsPackage + "SetIntentFilter"});
-    
+
     /**
      * Method that receives an @IntentMap and a <code> key </code>
-     * and return the @Extra with that key and <code>null</code> if it 
+     * and return the @Extra with that key and <code>null</code> if it
      * does not contain the key.
      */
-    public static AnnotationMirror getIExtra(AnnotationMirror intentExtras, 
+    public static AnnotationMirror getIExtra(AnnotationMirror intentExtras,
             String key) {
         List<AnnotationMirror> iExtrasList = getIExtras(intentExtras);
         for(AnnotationMirror iExtra : iExtrasList) {
@@ -69,7 +69,7 @@ public class IntentUtils {
         }
         return null;
     }
-    
+
     public static List<AnnotationMirror> getIExtras(AnnotationMirror intentExtra) {
         return AnnotationUtils
             .getElementValueArray(intentExtra, "value", AnnotationMirror.class, true);
@@ -113,7 +113,7 @@ public class IntentUtils {
      * Return the union of sources from 2 @Extra annotations
      */
 
-    public static Set<PFPermission> unionSourcesIExtras(AnnotationMirror iExtra1, 
+    public static Set<PFPermission> unionSourcesIExtras(AnnotationMirror iExtra1,
             AnnotationMirror iExtra2) {
         return  Flow.unionSources(getSourcesPFP(iExtra1), getSourcesPFP(iExtra2));
 
@@ -122,7 +122,7 @@ public class IntentUtils {
     public static Set<PFPermission> getSourcesPFP(AnnotationMirror iExtra) {
         return Flow.convertToParameterizedFlowPermission(getSources(iExtra));
     }
-    
+
     public static Set<FlowPermission> getSources(AnnotationMirror iExtra) {
         return new TreeSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(
@@ -133,7 +133,7 @@ public class IntentUtils {
      * Return the union of sinks from 2 @Extra annotations
      */
 
-    public static Set<PFPermission> unionSinksIExtras(AnnotationMirror iExtra1, 
+    public static Set<PFPermission> unionSinksIExtras(AnnotationMirror iExtra1,
             AnnotationMirror iExtra2) {
         return Flow.unionSinks(getSinksPFP(iExtra1), getSinksPFP(iExtra2));
     }
@@ -141,7 +141,7 @@ public class IntentUtils {
     public static Set<PFPermission> getSinksPFP(AnnotationMirror iExtra) {
         return Flow.convertToParameterizedFlowPermission(getSinks(iExtra));
     }
-    
+
     public static Set<FlowPermission> getSinks(AnnotationMirror iExtra) {
         return new TreeSet<FlowPermission>(
             AnnotationUtils.getElementValueEnumArray(
@@ -221,14 +221,14 @@ public class IntentUtils {
 
     /**
      * Returns a new @IntentMap containing all @Extra from <code>intentExtras</code>
-     * and all <code>IExtras</code>. 
+     * and all <code>IExtras</code>.
      * @param intentExtras
      * @param iExtras
      * @param processingEnv
      * @return
      */
 
-    public static AnnotationMirror addIExtrasToIntentExtras(AnnotationMirror intentExtras, 
+    public static AnnotationMirror addIExtrasToIntentExtras(AnnotationMirror intentExtras,
             List<AnnotationMirror> iExtras, ProcessingEnvironment processingEnv) {
         AnnotationMirror result = intentExtras;
         for (AnnotationMirror iExtra : iExtras) {
@@ -284,10 +284,10 @@ public class IntentUtils {
                     && exec.getParameters().size() == 0)
                 getIntentMethod = exec;
         }
-        
-        return getIntentMethod; 
+
+        return getIntentMethod;
     }
-    
+
     /**
      * Returns the ExecutableElement of the setIntent(intent) method declaration
      * for the class passed as parameter.
@@ -301,17 +301,17 @@ public class IntentUtils {
                     && exec.getParameters().size() == 1)
                 setIntentMethod = exec;
         }
-        
-        return setIntentMethod; 
+
+        return setIntentMethod;
     }
-    
+
     /**
      * Returns true if the MethodInvocationTree corresponds to one of the <code>receiveIntent()</code> calls:
      * E.g.: onBind(); onReceive(); getIntent();
      * @param tree
      * @return
      */
-    
+
     public static boolean isReceiveIntent(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
         Element ele = InternalUtils.symbol(tree);
         return atypeFactory.getDeclAnnotation(ele, ReceiveIntent.class) != null;
@@ -359,7 +359,7 @@ public class IntentUtils {
     public static String retrieveSendIntentPath(TreePath treePath) {
         String senderString = "";
         //senderString = package.class
-        ClassTree classTree = TreeUtils.enclosingClass(treePath);  
+        ClassTree classTree = TreeUtils.enclosingClass(treePath);
         ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
         senderString = ele.flatname.toString();
 
@@ -391,16 +391,16 @@ public class IntentUtils {
             senderString = senderString.substring(0,senderString.length()-1);
         }
         senderString += ')';
-        
+
         //Component map does not have entries with Generics parameters
         //due to epicc's limitations. Need to remove <?> from parameters.
         senderString = senderString.replaceAll("<([^;]*)>", "");
-        
+
         return senderString;
       }
-    
-    public  AnnotationMirror createAnnoFromValues(ProcessingEnvironment processingEnv, 
-        Class<? extends Annotation> anno, 
+
+    public  AnnotationMirror createAnnoFromValues(ProcessingEnvironment processingEnv,
+        Class<? extends Annotation> anno,
         List<CharSequence> elementsNames, List<Enum<?>> values) {
         final AnnotationBuilder builder = new AnnotationBuilder(processingEnv, anno);
         if(elementsNames.size() != values.size()) {
@@ -412,7 +412,7 @@ public class IntentUtils {
         }
         return builder.build();
     }
-    
+
     public static String getKeyName(AnnotationMirror iExtra) {
         return AnnotationUtils.getElementValue(iExtra, "key",
             String.class, true);

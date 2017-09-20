@@ -13,7 +13,7 @@ class ListTest {
 
 
 class List<T extends @Sink({}) @Source(ANY) Object> {
-    
+
     T getF( @Source(ANY) List<T> this, int index) { return null; }
     void addF(T p) {}
 }
@@ -22,10 +22,10 @@ class Generics {
 
     List<Object> lo = new List<Object>();
     List<@Source(FlowPermissionString.INTERNET) Object> netok = new List<@Source(FlowPermissionString.INTERNET) Object>();
-    
-   
+
+
     @Source(ANY) @Sink({}) List<@Source(FlowPermissionString.INTERNET) Object> netok2 = foo();
- 
+
     //:: error: (assignment.type.incompatible)
     List<@Source(INTERNET) Object> neterr = new List<Object>();
     void use(@Source(ANY) Object o, @Source(INTERNET) Object neto) {
@@ -44,7 +44,7 @@ class Generics {
 
 class UpperObject<T extends Object>{
 	public void testWildCard(java.util.List<? extends Number> list) {
-	}   
+	}
 	void callWildCard(java.util.List<Integer> list){
 		testWildCard(list);
 	}
@@ -63,12 +63,12 @@ class TestUpperObject{
         UpperObject<@Source(ANY) @Sink({}) Object> lit3;
         //:: error: (type.argument.type.incompatible)
         GenObject<Object> gen;
-        
+
         GenObject<@Source(ANY) @Sink({}) Object> gen2;
         GenObjectLit<String> o;
     }
 }
-    
+
 
 class TypeAsKeyHashMap<T> {
 
@@ -103,14 +103,14 @@ class TypeAsKeyHashMap<T> {
 //		return mCollection.containsKey(type);
 //	}
 //}
-     
-     
-     
+
+
+
 
       class AppList<T extends Comparable<T>> {
-      
+
       }
-    
+
 
 
 

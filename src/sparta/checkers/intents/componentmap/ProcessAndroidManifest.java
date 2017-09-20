@@ -74,11 +74,11 @@ class SAXHandler extends DefaultHandler {
             Attributes attributes) throws SAXException {
 
         switch (qName) {
-        
+
         case "manifest":
             pckg = attributes.getValue("package");
             break;
-            
+
         case "activity-alias":
             comp = new Component();
             comp.name = attributes.getValue("android:targetActivity");
@@ -86,7 +86,7 @@ class SAXHandler extends DefaultHandler {
                 comp.name = pckg + comp.name;
             }
             break;
-        
+
         case "activity":
             comp = new Component();
             comp.name = attributes.getValue("android:name");
@@ -146,7 +146,7 @@ class SAXHandler extends DefaultHandler {
             }
             intentFilter.addData(data);
             break;
-            
+
         default:
             break;
         }
@@ -192,7 +192,7 @@ class Component {
     @Override
     public String toString() {
         String output = name;
-        
+
         for (IntentFilter filter : intentFilters) {
             output += "(" + filter + ",";
         }

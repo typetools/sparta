@@ -23,29 +23,29 @@ import static sparta.checkers.quals.FlowPermissionString.*;
 //warning: StubParser: Method write(float[],int,int,int) not found in type android.media.AudioTrack
 //warning: StubParser: Method write(ByteBuffer,int,int) not found in type android.media.AudioTrack
 
-class TestStubImplicitConstructor { 
-    
+class TestStubImplicitConstructor {
+
     static void stubSanity(String fail) { }
 }
 
 class TestStubNoParamConstructor {
     TestStubNoParamConstructor() { }
-    
+
     static void stubSanity(String fail) { }
 }
 
 class TestStubParamConstructor {
-    
+
 
     TestStubParamConstructor(String name) { }
-    
+
     static void stubSanity(String fail) { }
 }
 
 class TestStubExplicitConstructorType {
 
     TestStubExplicitConstructorType()  { }
-    
+
     static void stubSanity(String fail) { }
 }
 
@@ -53,7 +53,7 @@ class TestStubExplicitConstructorType {
 class ConstructorStubAnnotation {
     @Source(READ_LOGS) String s;
     void testConstructor() {
-        
+
         // Make sure that the stub files are actually working (pointing to the right class, etc).
         //:: error: (argument.type.incompatible)
         TestStubImplicitConstructor.stubSanity(s);
@@ -63,7 +63,7 @@ class ConstructorStubAnnotation {
         TestStubParamConstructor.stubSanity(s);
         //:: error: (argument.type.incompatible)
         TestStubExplicitConstructorType.stubSanity(s);
-        
+
         @Source({}) @Sink({}) TestStubImplicitConstructor imp = new TestStubImplicitConstructor();
         @Source({}) @Sink({}) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
 

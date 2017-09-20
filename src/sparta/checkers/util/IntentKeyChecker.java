@@ -14,19 +14,19 @@ import org.checkerframework.common.value.ValueChecker;
 import org.checkerframework.framework.qual.StubFiles;
 
 /**
- * 
+ *
  * Class to output statistic about keys used in putExtra of getExtra class
- * 
+ *
  *  intentkey-summary.csv
  *  user directory, get or put extra, number of calls, number of unknown keys,
- *    number of keys that resolve to one value, number of keys that resolve to more than on value 
- * Example: 
+ *    number of keys that resolve to one value, number of keys that resolve to more than on value
+ * Example:
 /Users/smillst/src/engagements/3/a/Reveal/Reveal,getExtra,5,0,0,5
 /Users/smillst/src/engagements/3/a/Reveal/Reveal,putExtra,7,0,0,7
- * 
+ *
  * intentkey.txt
  * Includes list of types in get and put extra class and a list of all used keys.
- * 
+ *
  * @author smillst
  *
  */
@@ -49,7 +49,7 @@ public class IntentKeyChecker extends ValueChecker {
     int getExtraOneKey = 0;
     // number of keys that eppic's SA could resolve
     int getExtraKeyEpicc=0;
-    
+
     // For keys used in putExtra Calls:
     // number of keys whose string value is unknown:
     int putExtraUnknownKey = 0;
@@ -64,7 +64,7 @@ public class IntentKeyChecker extends ValueChecker {
     Map<String, Integer>  putExtraTypes = new HashMap<>();
     Map<String, Integer> getExtraTypes = new HashMap<String, Integer>();
 
-    
+
     @Override
     protected BaseTypeVisitor<?> createSourceVisitor() {
         return new IntentKeyVisitor(this);
@@ -104,7 +104,7 @@ public class IntentKeyChecker extends ValueChecker {
             for(Entry<String, Integer>e :putExtraTypes.entrySet()){
                 write(e.getKey()+" "+e.getValue());
             }
-            
+
             write("\n**************List of found keys*******************");
             for(Entry<String, Integer>e :keys.entrySet()){
                 write(e.getKey()+" "+e.getValue());
@@ -113,7 +113,7 @@ public class IntentKeyChecker extends ValueChecker {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-       
+
         super.typeProcessingOver();
     }
 
@@ -123,10 +123,10 @@ public class IntentKeyChecker extends ValueChecker {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }        
+        }
     }
     private void writenewline() {
-        writeNoComma("\n");       
+        writeNoComma("\n");
     }
     private void write(Object s){
            writeNoComma(s);

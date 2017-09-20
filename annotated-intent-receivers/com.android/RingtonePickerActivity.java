@@ -8,7 +8,7 @@ import android.content.Intent;
 
 
 public class RingtonePickerActivity extends Activity {
-    
+
 	@Override
         public @IntentMap() Intent getIntent() {
             return super.getIntent();

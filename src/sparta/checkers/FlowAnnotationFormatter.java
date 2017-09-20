@@ -13,7 +13,7 @@ import sparta.checkers.quals.Sink;
 import sparta.checkers.quals.Source;
 
 /**
- * Formats <code> @Source(PERM) @Sink(PERM) </code> as <code> @Flow(PERM->PERM) </code> 
+ * Formats <code> @Source(PERM) @Sink(PERM) </code> as <code> @Flow(PERM->PERM) </code>
  * @author smillst
  *
  */

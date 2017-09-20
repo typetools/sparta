@@ -19,7 +19,7 @@ public class ConstCheckerTest extends Activity {
         @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }),
         @Extra(key = "k3", source = { FILESYSTEM }, sink = { DISPLAY }),
         @Extra(key = "k4", source = {  }, sink = { INTERNET }),
-        @Extra(key = Intent.EXTRA_PHONE_NUMBER, source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
+        @Extra(key = Intent.EXTRA_PHONE_NUMBER, source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })
     Intent i1 = new Intent();
     boolean flag = false;
     void getExtraFail() {

@@ -95,10 +95,10 @@ public class IntentVisitor extends FlowVisitor {
     /**
      * 1. Check that methods overriding sendIntent or receiveIntent have the
      * correct
-     * 
+     *
      * @ReceiveIntent or @SendIntent annotation 2. For receiveIntent methods,
      *                bypass the usual overriding rules.
-     * 
+     *
      */
     @Override
     protected boolean checkOverride(MethodTree overriderTree,
@@ -115,7 +115,7 @@ public class IntentVisitor extends FlowVisitor {
         if (intentATF.getIntent.equals(overridden.getElement())) {
             //It is OK to override the getIntent() method.
             //When the setIntent() method is overridden, the visitor will check
-            //if the return type of getIntent() is a supertype of the setIntent 
+            //if the return type of getIntent() is a supertype of the setIntent
             //parameter type.
             return true;
         } else if (null != receiveAnnoOverriden) {
@@ -157,12 +157,12 @@ public class IntentVisitor extends FlowVisitor {
     }
 
     private boolean checkReceiveIntentOverride(MethodTree implementingTree,
-            AnnotatedExecutableType overridden, 
+            AnnotatedExecutableType overridden,
             AnnotatedExecutableType implementingMethod,
             AnnotationMirror overridenAnno) {
         checkReceiveIntentDefaulting(implementingTree);
 
-        if (intentATF.setIntent.equals(overridden.getElement())) { 
+        if (intentATF.setIntent.equals(overridden.getElement())) {
             checkSetIntentOverride(implementingTree,
                     implementingMethod, overridenAnno);
         }
@@ -233,16 +233,16 @@ public class IntentVisitor extends FlowVisitor {
     private void checkSetIntentOverride(MethodTree implementingTree,
             AnnotatedExecutableType implementingMethod,
             AnnotationMirror overriddenAnno) {
-        ClassTree classTree = TreeUtils.enclosingClass(getCurrentPath());  
+        ClassTree classTree = TreeUtils.enclosingClass(getCurrentPath());
         ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
         ExecutableElement getIntentMethod = IntentUtils.getMethodGetIntent(
                 checker,ele.flatname.toString());
-        
+
         if (getIntentMethod == null) {
             checker.report(Result.failure("intent.getintent.notfound"), implementingTree);
             return;
         }
-        
+
         AnnotationMirror getIntentReturnIntentMap = atypeFactory
                 .getAnnotatedType(getIntentMethod).getReturnType()
                 .getAnnotationInHierarchy(intentATF.TOP_INTENT_MAP);
@@ -250,7 +250,7 @@ public class IntentVisitor extends FlowVisitor {
                 .getParameterTypes().get(0)
                 .getAnnotationInHierarchy(intentATF.TOP_INTENT_MAP);
 
-        
+
         if (!atypeFactory.getQualifierHierarchy()
                 .isSubtype(setIntentParameterIntentMap, getIntentReturnIntentMap)) {
             checker.report(
@@ -283,7 +283,7 @@ public class IntentVisitor extends FlowVisitor {
             String receiverName = getReceiverNameFromSendIntendAnnotation(node);
             checkSendIntent(method, node, receiverName);
             return;
-        } else if (IntentUtils.isReceiveIntent(node, atypeFactory)) { 
+        } else if (IntentUtils.isReceiveIntent(node, atypeFactory)) {
             checker.report(Result.failure("intent.invoking.receiveintent"),node);
             return;
         }
@@ -367,7 +367,7 @@ public class IntentVisitor extends FlowVisitor {
                     .getReceiverType(receiveIntentTree.snd);
             AnnotatedExecutableType receiveIntentMethod = AnnotatedTypes
                     .asMemberOf(types, atypeFactory, receiverType, methodElt);
-            
+
             //Find the intent parameter, and get the @IntenMap annotation
             AnnotatedTypeMirror receiveIntentAnno = null;
             for (AnnotatedTypeMirror atm : receiveIntentMethod
@@ -388,7 +388,7 @@ public class IntentVisitor extends FlowVisitor {
             AnnotationMirror lhsIntentExtras = receiveIntentAnno
                     .getAnnotationInHierarchy(intentATF.TOP_INTENT_MAP);
 
-            //Read javadoc of isCopyableTo method 
+            //Read javadoc of isCopyableTo method
             Pair<Copyable, String> result = isCopyableTo(rhsIntentExtras,
                     lhsIntentExtras);
 
@@ -399,20 +399,20 @@ public class IntentVisitor extends FlowVisitor {
 
             switch(result.fst) {
             case MISSING_KEY:
-                //if missing key String == null, the sender has type IntentMapBottom 
+                //if missing key String == null, the sender has type IntentMapBottom
                 checker.report(Result.failure("send.intent.missing.key",
                         intentObject.toString(), receiveIntentMethodString,
-                        result.snd, intentObject.toString(), 
-                        receiveIntentMethodString, intentObject.toString(), 
-                        rhsIntentExtras.toString(), receiveIntentMethodString, 
+                        result.snd, intentObject.toString(),
+                        receiveIntentMethodString, intentObject.toString(),
+                        rhsIntentExtras.toString(), receiveIntentMethodString,
                         lhsIntentExtras.toString()), node);
-                break;  
+                break;
             case INCOMPATIBLE_TYPES:
                 checker.report(Result.failure("send.intent.incompatible.types",
                         intentObject.toString(), receiveIntentMethodString,
-                        result.snd, intentObject.toString(), 
-                        receiveIntentMethodString, intentObject.toString(), 
-                        rhsIntentExtras.toString(), receiveIntentMethodString, 
+                        result.snd, intentObject.toString(),
+                        receiveIntentMethodString, intentObject.toString(),
+                        rhsIntentExtras.toString(), receiveIntentMethodString,
                         lhsIntentExtras.toString()), node);
                 break;
             case IS_COPYABLE:
@@ -425,7 +425,7 @@ public class IntentVisitor extends FlowVisitor {
     /**
      * Get MethodSymbol based on class name, method name, and parameter length.
      * Note: This code was reused from the Reflection analysis.
-     * 
+     *
      * @param className
      *            is the name of the receiver component
      * @param methodName
@@ -482,7 +482,7 @@ public class IntentVisitor extends FlowVisitor {
 
     /**
      * Read the component map file and returns the receivers from a sender
-     * 
+     *
      * @param sender
      *            sender name
      * @param tree
@@ -514,7 +514,7 @@ public class IntentVisitor extends FlowVisitor {
      * methods from all possible receivers from a certain sendIntent() call.
      * getIntent() method for Activities, and callback methods for Services and
      * BroadcastReceivers.
-     * 
+     *
      * @param tree
      *            the Tree of the sendIntent() call
      * @return A list of getIntent() methods
@@ -522,7 +522,7 @@ public class IntentVisitor extends FlowVisitor {
     private List<Pair<String,MethodInvocationTree>> getReceiversMethods(
             MethodInvocationTree tree, String method, Set<String> receiversStrList) {
 
-        List<Pair<String,MethodInvocationTree>> receiversList = 
+        List<Pair<String,MethodInvocationTree>> receiversList =
                 new ArrayList<Pair<String,MethodInvocationTree>>();
 
         // Resolve the Symbol for the current method
@@ -552,7 +552,7 @@ public class IntentVisitor extends FlowVisitor {
     /**
      * Created a spoofed method invocation tree from a string method name TODO:
      * this code is duplicated from the reflection checker
-     * 
+     *
      * @param tree
      * @param classname
      *            Name of the receiver of the spoofed method call
@@ -597,7 +597,7 @@ public class IntentVisitor extends FlowVisitor {
      * This method is called every time we are visiting a method from the Intent
      * class. If the method being visited is a putExtra or getExtra call, we
      * type check it.
-     * 
+     *
      * @param method
      *            Annotations on the method
      * @param node
@@ -627,13 +627,13 @@ public class IntentVisitor extends FlowVisitor {
     }
 
     /**
-     * Method used to verify if in <code>intent.getExtra(key)</code> and 
+     * Method used to verify if in <code>intent.getExtra(key)</code> and
      * <code>intent.putExtra(key,val)</code> method calls, <code>key</code> can
      * be found in the @IntentMap from <code>intent</code>.
-     * 
+     *
      * The modification of the return type of a getExtra(...)
      * method call is made in the IntentAnnotatedTypeFactory.methodFromUse().
-     * 
+     *
      * @param method
      *            Actual getExtra or putExtra method
      * @param node
@@ -806,21 +806,21 @@ public class IntentVisitor extends FlowVisitor {
      *  1 = is not copyable because LHS has more keys.
      *  2 = is not copyable because types are incompatible.
      */
-    
+
     private enum Copyable {
         IS_COPYABLE (0),
         MISSING_KEY (1),
         INCOMPATIBLE_TYPES (2);
-        
-        Copyable(int isCopyable) { 
+
+        Copyable(int isCopyable) {
         }
-        
+
     }
-    
+
     /**
      * temporary auxiliar method used to type-check the isCopyableTo rule for
      * information flow analysis on intents.
-     * 
+     *
      * @param lhsIExtra
      * @param rhsIExtra
      * @return
@@ -859,7 +859,7 @@ public class IntentVisitor extends FlowVisitor {
         rhsAnnotatedType.addAnnotation(rhsSourceAnnotation);
         rhsAnnotatedType.addAnnotation(rhsSinkAnnotation);
 
-        // This is necessary to guarantee that the number of annotations is 3 
+        // This is necessary to guarantee that the number of annotations is 3
         // (@Souce, @Sink, @IntentMap/@IntentMapBottom) when
         //performing isSubtype operation.
         lhsAnnotatedType

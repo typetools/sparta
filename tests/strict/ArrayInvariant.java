@@ -17,7 +17,7 @@ class ArrayInvariant {
 
        @Source(CAMERA) @Sink({FILESYSTEM, INTERNET}) byte @Source(CAMERA) @Sink({FILESYSTEM, INTERNET})[] a = null;
        @Source(CAMERA) @Sink({INTERNET, FILESYSTEM}) byte @Source(CAMERA) @Sink({FILESYSTEM, INTERNET})[] b = a;
-       
+
        @Source(CAMERA) @Sink({INTERNET, FILESYSTEM}) byte @Source(CAMERA) @Sink({FILESYSTEM, INTERNET})[] aCorrect = null;
        @Source(CAMERA) @Sink({INTERNET, FILESYSTEM}) byte @Source(CAMERA) @Sink({FILESYSTEM, INTERNET})[] bCorrect = aCorrect;
     }

@@ -35,7 +35,7 @@ public class IntentChecker extends FlowChecker {
         try {
             return new IntentVisitor(this);
         } catch (Exception e) {
-            //The SourceVisitor cuts off the stack trace, 
+            //The SourceVisitor cuts off the stack trace,
             //so print it here and the throw again.
             e.printStackTrace();
             throw e;

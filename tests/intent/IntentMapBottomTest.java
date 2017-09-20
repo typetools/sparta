@@ -13,32 +13,32 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class IntentMapBottomTest extends Activity {
-     
+
     @IntentMap() @Source("ANY") @Sink()
     Intent intentMapTop = new Intent();
-    
+
     @IntentMap({
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
-        @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
+        @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })
     Intent intentMap = new Intent();
-    
+
     @Source("FILESYSTEM") @Sink("INTERNET") String getFile() {
         return null;
     }
-    
+
     //:: error: (forbidden.flow)
     @Source("FILESYSTEM") @Sink("ANY") String getFile2() {
         return null;
     }
-    
+
     @Source() @Sink("ANY") String getTop() {
         return null;
     }
-    
+
     void sendToDisplay(@Sink("DISPLAY") String s) {
 
     }
-    
+
     //IntentMapBottom.putExtra() and IntentMapBottom.getExtra() should always fail.
     void extrasFail() {
         Intent intentMapBottom1 = null;
@@ -61,10 +61,10 @@ public class IntentMapBottomTest extends Activity {
     //intentMapBottom1 and intentMapBottom2 = Bottom.
     //intentMapTop = Top
     //Bottom <: intentMap <: Top
-    
+
     //For the tests below pay attention to the component map.
-    
-    
+
+
 //  Sending to [type of intentMap] Receiver
     void startActivitySuccess2(@Source("FILESYSTEM") @Sink("INTERNET") int test, String test2, Object test3, String[] test4) {
         startActivity(intentMap);
@@ -77,11 +77,11 @@ public class IntentMapBottomTest extends Activity {
         //:: error: (intent.not.initialized)
         startActivity(bottom);
     }
-   
-  //Sending to @IntentMap() Receiver - Top 
+
+  //Sending to @IntentMap() Receiver - Top
     void startActivitySuccess3(@Source("FILESYSTEM") @Sink("INTERNET") int test, String test2, Object test3, String[] test4) {
         startActivity(intentMap);
         startActivity(intentMapTop);
     }
-    
+
 }

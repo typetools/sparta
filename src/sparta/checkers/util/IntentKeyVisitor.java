@@ -51,7 +51,7 @@ public class IntentKeyVisitor extends ValueVisitor {
             whatkind(node);
             countGetExtra(node);
             return;
-        } else if (hasDeclAnnotation(node, PutExtra.class)) {      
+        } else if (hasDeclAnnotation(node, PutExtra.class)) {
            putOrIncrementMap(method.getParameterTypes().get(0).getUnderlyingType().toString(), ikChecker.putExtraTypes);
             countPutExtra(node);
             return;
@@ -65,7 +65,7 @@ public class IntentKeyVisitor extends ValueVisitor {
             count = map.get(s);
         }
         count++;
-        map.put(s, count);        
+        map.put(s, count);
     }
 
     private void whatkind(MethodInvocationTree node) {

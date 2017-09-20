@@ -56,12 +56,12 @@ public class ExampleApi {
 		String[] value();
 	}
 	public final String STATIC_FIELD = "Value";
-	 public static  class ExampleStaticApi {        
+	 public static  class ExampleStaticApi {
 	        public static void polyFlow(){}
 	        public static String polyFlow1(){return " ";}
 	        public static void polyFlow2(String s){}
 	        public static String polyFlow3(String s){return "";}
-	        
+
 	        public static void polyFlowR(){}
 	        public static  String polyFlowR1(){return "";}
 	        public static void polyFlowR2(String s){}
@@ -71,17 +71,17 @@ public class ExampleApi {
 	        public static String reviewed1(){return "";}
 	        public static void reviewed2(String s){}
 	        public static String reviewed3(String s){return "";}
-	        
+
 	        public static void reviewedSomeAnnos(){}
 	        public static String reviewedSomeAnnos1(){return "";}
 	        public static void reviewedSomeAnnos2(String s){}
 	        public static String reviewedSomeAnnos3(String s){return "";}
-	        
+
 	        public static void notReviewed(){}
 	        public static String notReviewed1(){return "";}
 	        public static void notReviewed2(String s){}
 	        public static String notReviewed3(String s){return "";}
-	        
+
 	        public final static String STATIC_FIELD = "Value";
 	  }
 }

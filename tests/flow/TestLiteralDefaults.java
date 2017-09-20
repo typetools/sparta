@@ -13,12 +13,12 @@ import sparta.checkers.quals.FlowPermission;
  * bottom type?
  */
 class TestLiteralDefaults {
-    
+
     @Sink({}) @sparta.checkers.quals.Source({FlowPermissionString.ANY}) float ntop;
     @PolySource @PolySink float npoly;
 
     @Sink({FlowPermissionString.ANY}) @sparta.checkers.quals.Source({}) float nbot;
-  
+
     float nunqual;
 
     void testNumeric() {
@@ -41,7 +41,7 @@ class TestLiteralDefaults {
         rbot = "c";
         runqual = "d";
         rtop = new Object();
- 
+
         rpoly = new Object();
 
         rbot = new Object();
@@ -50,7 +50,7 @@ class TestLiteralDefaults {
 
     @Sink({}) @sparta.checkers.quals.Source({FlowPermissionString.ANY}) char ctop;
     @PolySource @PolySink char cpoly;
- 
+
     @Sink({FlowPermissionString.ANY}) @sparta.checkers.quals.Source({}) char cbot;
 
     char cunqual;

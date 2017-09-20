@@ -103,13 +103,13 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     // FlowVisitor uses these to hold flow state
     protected final FlowAnalyzer flowAnalizer;
-    
+
     private final PFPermission ANY;
-    
+
     protected ReceiverPolymorphism polyReceiver;
     private ParameterizedPermissonPolymorphism polyParameterPerm;
 
-    
+
     //Qualifier defaults for byte code and poly flow defaulting
 	final QualifierDefaults byteCodeFieldDefault = new QualifierDefaults(elements, this);
 	final QualifierDefaults byteCodeDefaults = new QualifierDefaults(elements, this);
@@ -120,7 +120,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         super(checker);
 
         ANY = new PFPermission(FlowPermission.ANY);
-        
+
         NOSOURCE = createAnnoFromSource(Collections.<PFPermission> emptySet());
         NOSINK = createAnnoFromSink(Collections.<PFPermission> emptySet());
 
@@ -132,7 +132,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
         ANYSOURCE = createAnnoFromSource(ANY);
         ANYSINK = createAnnoFromSink( ANY);
-        
+
         SOURCE = AnnotationUtils.fromClass(elements, Source.class);
         SINK = AnnotationUtils.fromClass(elements, Sink.class);
 
@@ -170,7 +170,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         //Uncomment this line to check stub files
         //see StubChecker for more details.
         //StubChecker.checkStubs(indexDeclAnnos, indexTypes, checker, this, processingEnv);
-        
+
         polyReceiver = new ReceiverPolymorphism(processingEnv, this);
         polyParameterPerm = new ParameterizedPermissonPolymorphism(processingEnv, this);
     }
@@ -221,7 +221,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     /**
      * Initializes qualifier defaults for
-     * 
+     *
      * @PolyFlow, @PolyFlowReceiver, and @FromByteCode
      */
     private void initQualifierDefaults() {
@@ -259,7 +259,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         TypeUseLocation[] topLocations = { LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUND };
         defaults.addCheckedCodeDefaults(ANYSOURCE, topLocations);
         defaults.addCheckedCodeDefaults(NOSINK, topLocations);
-        
+
 
         // Default for receivers is top
         TypeUseLocation[] conditionalSinkLocs = { RECEIVER, PARAMETER,
@@ -275,7 +275,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         // Default is {} -> ANY for everything else
         defaults.addCheckedCodeDefault(ANYSINK, OTHERWISE);
         defaults.addCheckedCodeDefault(NOSOURCE, OTHERWISE);
-        
+
         //Default for lower bounds is bottom
         defaults.addCheckedCodeDefault(NOSOURCE, LOWER_BOUND);
         defaults.addCheckedCodeDefault(ANYSINK, LOWER_BOUND);
@@ -322,17 +322,17 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         if (element == null)
             return;
         handlePolyFlow(element, type);
-        
+
         if (isFromByteCode(element)
                 && element.getKind() == ElementKind.FIELD
                 && ElementUtils.isEffectivelyFinal(element)) {
             byteCodeFieldDefault.annotate(element, type);
             return;
         }
-            
+
         if (isFromByteCode(element)){
             byteCodeDefaults.annotate(element, type);
-        } 
+        }
     }
 
     private void handlePolyFlow(Element element, AnnotatedTypeMirror type) {
@@ -392,7 +392,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
     /**
      * Adds the passed annotations to the inner most component type if atm is an
      * AnnotatedArrayType. (Otherwise, no effect)
-     * 
+     *
      * @param source
      * @param sink
      * @param atm
@@ -425,7 +425,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 
     protected final ImplicitsTreeAnnotator getFlowCheckerImplicits() {
         ImplicitsTreeAnnotator implicits = new ImplicitsTreeAnnotator(this);
-        
+
         //All literals are bottom
         implicits.addTreeKind(Tree.Kind.INT_LITERAL, NOSOURCE);
         implicits.addTreeKind(Tree.Kind.LONG_LITERAL, NOSOURCE);
@@ -444,7 +444,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         implicits.addTreeKind(Tree.Kind.CHAR_LITERAL, ANYSINK);
         implicits.addTreeKind(Tree.Kind.STRING_LITERAL, ANYSINK);
         implicits.addTreeKind(Tree.Kind.NULL_LITERAL, ANYSINK);
-        
+
         return implicits;
     }
 /**
@@ -462,8 +462,8 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         @Override
         public Void visitNewClass(NewClassTree node, AnnotatedTypeMirror p) {
             //This is a horrible hack around the bad implementation of constructor results
-            //(CF treats annotations on constructor results in stub files as if it were a 
-            //default and therefore ignores it.) 
+            //(CF treats annotations on constructor results in stub files as if it were a
+            //default and therefore ignores it.)
             AnnotatedTypeMirror defaulted = atypeFactory.constructorFromUse(node).first.getReturnType();
             Set<AnnotationMirror> defaultedSet = defaulted.getAnnotations();
             //The default of OTHERWISE locations such as constructor results
@@ -473,7 +473,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
                 defaulted.replaceAnnotation(ANYSINK);
                 defaultedSet = defaulted.getAnnotations();
             }
-            
+
             p.replaceAnnotations(defaultedSet);
             return null;
         }
@@ -666,7 +666,7 @@ public static long time = 0;
     /**
      * TODO: The code below involving the FlowTypeHierarchy should be changed
      * once there is a hook to specify equality between qualifiers.
-     * 
+     *
      * @Source(PERM) = @FineSource(PERM,{}) and @Sink(PERM) = @FineSink(PERM,{})
      *               when the refined version has no parameters and both have
      *               the same permission.
@@ -688,9 +688,9 @@ public static long time = 0;
 
         @Override
         protected boolean arePrimeAnnosEqual(AnnotatedTypeMirror subtype, AnnotatedTypeMirror supertype) {
-            Flow subtypeFlow = new Flow(Flow.getSources(subtype.getAnnotation(Source.class)), 
+            Flow subtypeFlow = new Flow(Flow.getSources(subtype.getAnnotation(Source.class)),
                     Flow.getSinks(subtype.getAnnotation(Sink.class)));
-            Flow supertypeFlow = new Flow(Flow.getSources(supertype.getAnnotation(Source.class)), 
+            Flow supertypeFlow = new Flow(Flow.getSources(supertype.getAnnotation(Source.class)),
                     Flow.getSinks(supertype.getAnnotation(Sink.class)));
             return subtypeFlow.equals(supertypeFlow);
         }
@@ -806,7 +806,7 @@ public static long time = 0;
                 return false;
             }
         }
-        
+
         private boolean isSuperSet(Set<PFPermission> superset, Set<PFPermission> subset) {
             if (superset.containsAll(subset) || superset.contains(ANY)) {
                 return true;
@@ -819,7 +819,7 @@ public static long time = 0;
             return true;
         }
 
-        
+
         @Override
         protected void addPolyRelations(QualifierHierarchy qualHierarchy,
                 Map<AnnotationMirror, Set<AnnotationMirror>> fullMap,
@@ -966,7 +966,7 @@ public static long time = 0;
     public FlowAnalyzer getFlowAnalizer() {
         return flowAnalizer;
     }
-    
+
     public static boolean isMatchInSet(PFPermission flowToMatch, Set<PFPermission> flows) {
         for (PFPermission flow : flows) {
             if (flowToMatch.getPermission() == flow.getPermission()) {
@@ -977,7 +977,7 @@ public static long time = 0;
         }
         return false;
     }
-    
+
     public static boolean allParametersMatch(List<String> childParams, List<String> parentParams) {
         for (String currChildParam : childParams) {
             if (!singleParametersMatch(currChildParam, parentParams)) {
@@ -986,7 +986,7 @@ public static long time = 0;
         }
         return true;
     }
-    
+
     public static boolean singleParametersMatch(String param, List<String> parameters) {
         for (String currParam : parameters) {
             if (wildcardMatch(param, currParam)) {

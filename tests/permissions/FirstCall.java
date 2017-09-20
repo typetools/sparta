@@ -6,13 +6,13 @@ import sparta.checkers.permission.qual.*;
 class FirstCall {
     @RequiredPermissions(permission.NFC)
     void doNFC() {}
-    
+
     @DependentPermissions(permission.BLUETOOTH)
     String constant;
 
     @MayRequiredPermissions(value=permission.SEND_SMS,notes="Send SMS is required only if a certain condition is met.")
     void mayReqSMS() {}
-    
+
     void badUse1() {
         //:: error: (unsatisfied.permissions)
         doNFC();
@@ -33,30 +33,30 @@ class FirstCall {
     void goodUse2() {
         doNFC();
     }
-    
+
     @RequiredPermissions(permission.SEND_SMS)
     void badUse3() {
     	//:: error: (may.required.permissions)
     	mayReqSMS();
     }
-    
+
     void mightOKUse() {
     	//:: error: (may.required.permissions)
     	mayReqSMS();
     }
-    
+
     @MayRequiredPermissions(permission.SEND_SMS)
     void mightOKUse2() {
     	mayReqSMS();    	
     }
-    
+
     public String s="k";
     void dependentPermissionTest() {
     	//:: error: (dependent.permissions)
     	s = constant;
     	
     }
-    
-     
-    
+
+
+
 }

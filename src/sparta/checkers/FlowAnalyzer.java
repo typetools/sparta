@@ -28,17 +28,17 @@ import com.sun.tools.javac.util.DiagnosticSource;
 import static sparta.checkers.quals.PFPermission.ANY;
 /**
  * Class to perform extra processing on flow information.
- * 
+ *
  * Currently prints out a flow-policy of forbidden flows and a more verbose
  * breakdown.
- * 
+ *
  * Flows are categorized as either type flows or assignment flows. Type flows
  * are the flows corresponding to a single type (which has a source and sink).
- * 
+ *
  * Assignment flows are generated from assignment statements (or method calls) by
  * taking the source of the value argument and the sinks of the variable
  * argument.
- * 
+ *
  * @author mcarthur
  */
 
@@ -67,7 +67,7 @@ public class FlowAnalyzer {
         typeFlows = new HashSet<Flow>();
         allFlows = new HashSet<Pair<TreePath, Flow>>();
     }
-    
+
     public void addAssignmentFlow(AnnotatedTypeMirror varType,
             AnnotatedTypeMirror valueType, TypeHierarchy typeHierarchy,
             TreePath currentPath) {
@@ -87,7 +87,7 @@ public class FlowAnalyzer {
         typeFlows.add(flow);
         allFlows.add(Pair.of(currentPath, flow));
     }
-    
+
 
     public void printIntentFlowsByComponent() {
     	PrintWriter writer = null;
@@ -107,7 +107,7 @@ public class FlowAnalyzer {
                 if(componentFlows.containsKey(componentName)) {
                 	if(!componentFlows.get(componentName).contains(flow.toString())) {
                 		componentFlows.put(componentName, componentFlows.get(componentName) + "\n" + flow.toString());
-                	} 
+                	}
                 } else {
                 	componentFlows.put(componentName, flow.toString());
                 }
@@ -116,7 +116,7 @@ public class FlowAnalyzer {
             	writer.println("Component: " + key);
             	writer.println(componentFlows.get(key));
             }
-            
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -168,7 +168,7 @@ public class FlowAnalyzer {
        // printFlows(writer, "# " + sinks.toString(), "#Sinks: ");
 
     }
-    
+
     public void printAllFlows() {
         PrintWriter writer = null;
         try {
@@ -189,7 +189,7 @@ public class FlowAnalyzer {
                 }
             }
 
-            
+
             for (Flow f : assignmentFlows) {
                 Flow copy = new Flow();
                 copy.addSource(f.sources);
@@ -239,7 +239,7 @@ public class FlowAnalyzer {
     /**
      * Assumes there is only one source per Flow. Finds all sinks for that
      * source that are forbidden.
-     * 
+     *
      * @param flows
      *            to check
      * @return Forbidden flows
@@ -260,7 +260,7 @@ public class FlowAnalyzer {
         }
         return results;
     }
-    
+
     private Set<Flow> groupFlowsOnSource(Set<Flow> flows) {
         Map<PFPermission, Flow> grouped = new HashMap<PFPermission, Flow>();
         for (Flow flow : flows) {

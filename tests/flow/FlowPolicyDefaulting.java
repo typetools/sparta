@@ -10,10 +10,10 @@ class FlowPoilcyDefaulting {
 
     List<Object> lo = new ArrayList<Object>();
     List<@Source(FlowPermissionString.INTERNET) Object> netok = new ArrayList<@Source(FlowPermissionString.INTERNET) Object>();
-    
-   
+
+
     @Source(ANY) @Sink({}) List<@Source(FlowPermissionString.INTERNET) Object> netok2 = foo();
- 
+
     //:: error: (assignment.type.incompatible)
     List<@Source(INTERNET) Object> neterr = new ArrayList<Object>();
     void use(@Source(ANY) Object o, @Source(INTERNET) Object neto) {
@@ -32,13 +32,13 @@ class FlowPoilcyDefaulting {
         sendToInternet(s);
         String s1 = (@Source(INTERNET) String) "hello";
         sendToInternet(s1);
-        
+
         UpperObject<@Source(INTERNET)  Object> uo = new UpperObject<>();
         sendToInternet(uo.getT());
 
         //:: error: (method.invocation.invalid)
         rt.internetReciever();
-        
+
 
         RecieverTest uo2 = (@Source(INTERNET) RecieverTest) new RecieverTest();
         uo2.internetReciever();
@@ -48,29 +48,29 @@ class FlowPoilcyDefaulting {
 
 }
 class RecieverTest{
-    
+
     void internetReciever(@Source(INTERNET) RecieverTest this){}
 }
 
 class UpperObject<@Source(INTERNET) T>{
 
     T t;
-    public void testWildCard(java.util.List<@Source(INTERNET) ?> list) {}   
+    public void testWildCard(java.util.List<@Source(INTERNET) ?> list) {}
     void callWildCard(java.util.List<@Source(INTERNET) Integer> list)
     {
-        testWildCard(list);    
+        testWildCard(list);
     }
     T getT()
     {
         return t;
     }
-        
-    
+
+
 }
 
 
 
-    
+
 
 
 
