@@ -57,8 +57,6 @@ public class ReceiverPolyTest {
             @Source({}) @Sink(WRITE_SMS) ReceiverPolyTest sinkWriteSms){
         ////:: error: (argument.type.incompatible)
         sinkWriteSms.new Inner(sourceReadSms);
-        //The following error should not occur.
-        //:: error: (assignment.type.incompatible)
         @Source({}) @Sink(WRITE_SMS) ReceiverPolyTest.Inner r = sinkWriteSms.new Inner();
 
         sinkWriteSms.new Inner(sinkSmsCal);
