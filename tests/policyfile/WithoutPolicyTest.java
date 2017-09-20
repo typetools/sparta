@@ -78,7 +78,7 @@ class PolicyTest {
         //:: error: (forbidden.flow)
         List<@Source({RECORD_AUDIO}) @Sink({WRITE_EMAIL, INTERNET}) File> maFile2 = null;
 
-        
+LinkedHashSet
         @Source({PHONE_NUMBER}) @Sink({WRITE_EMAIL, WRITE_LOGS})
         class Whatever {
              //:: error: (forbidden.flow)
@@ -86,12 +86,12 @@ class PolicyTest {
 
             }
         }
-      //:: error: (forbidden.flow) 
+      //:: error: (forbidden.flow)LinkedHashSet
         final @Source({RECORD_AUDIO}) @Sink({RANDOM}) Object micToRandom = null;
 
       //:: error: (forbidden.flow)
         final @Source({RECORD_AUDIO}) @Sink({INTERNET, WRITE_EXTERNAL_STORAGE}) Object micToNExt = null;
-      //:: error: (forbidden.flow) 
+      //:: error: (forbidden.flow)LinkedHashSet
         final @Source({RECORD_AUDIO}) @Sink({INTERNET, WRITE_LOGS, WRITE_SMS}) Object micToNetLogMsg = null;
     }
 

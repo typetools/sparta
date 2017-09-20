@@ -21,7 +21,7 @@ import sparta.checkers.validator.BaseFlowVisitor;
 public class FlowVisitor extends BaseFlowVisitor {
 
     public static final String CHECK_CONDITIONALS_OPTION = "checkconditionals";
-    
+
     private boolean checkConditional = Boolean.valueOf(checker.getOption(CHECK_CONDITIONALS_OPTION, "false"));
 
     public FlowVisitor(BaseTypeChecker checker) {
@@ -34,7 +34,7 @@ public class FlowVisitor extends BaseFlowVisitor {
         }
     }
     @Override
-    public Void visitAnnotatedType(AnnotatedTypeTree node, Void p) {  
+    public Void visitAnnotatedType(AnnotatedTypeTree node, Void p) {
         return null;
     }
 
@@ -42,7 +42,7 @@ public class FlowVisitor extends BaseFlowVisitor {
     protected FlowAnnotatedTypeFactory createTypeFactory() {
         return new FlowAnnotatedTypeFactory(checker);
     }
-    
+
     @Override
     public boolean isValidUse(AnnotatedDeclaredType declarationType,
             AnnotatedTypeMirror.AnnotatedDeclaredType useType, Tree tree) {
@@ -60,7 +60,7 @@ public class FlowVisitor extends BaseFlowVisitor {
         return areFlowsValid(type, tree);
     }
 
-   
+
 
     /**
      * For some reason, the FlowPermission[] passed to @Source or @Sink is
@@ -86,7 +86,7 @@ public class FlowVisitor extends BaseFlowVisitor {
     private boolean areFlowsValid(final AnnotatedTypeMirror atm, Tree tree) {
         atypeFactory.getFlowAnalizer().addTypeFlow(atm,
                 atypeFactory.getTypeHierarchy(), getCurrentPath());
-      
+
         final FlowPolicy flowPolicy = atypeFactory.getFlowPolicy();
         if (flowPolicy != null) {
            return flowPolicy.areFlowsAllowed(atm);

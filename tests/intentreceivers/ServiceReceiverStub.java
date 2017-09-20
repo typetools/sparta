@@ -10,7 +10,7 @@ import android.os.IBinder;
 /**
  * Class used to test the intent analysis.
  * Class that simulates a Receiver Service
- * on the Intent analysis. Used in the Intent-checker tests from sparta-code.  
+ * on the Intent analysis. Used in the Intent-checker tests from sparta-code.LinkedHashSet
  * @author pbsf
  *
  */

@@ -80,7 +80,7 @@ public class RequiredPermissionsVisitor extends BaseTypeVisitor<RequiredPermissi
                 }
                 if (!missing.isEmpty()) {
                     checker.report(
-                            Result.failure("may.required.permissions", missing, 
+                            Result.failure("may.required.permissions", missing,
                                     AnnotationUtils.getElementValue(mayReqP, "notes", String.class,
                                             false)), node);
                 }

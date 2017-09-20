@@ -8,7 +8,7 @@ import android.content.Intent;
 /**
  * Class used to test the intent analysis.
  * Class that simulates a Receiver Activity
- * on the Intent analysis. Used in the Intent-checker tests from sparta-code.  
+ * on the Intent analysis. Used in the Intent-checker tests from sparta-code.LinkedHashSet
  * @author pbsf
  *
  */
@@ -17,11 +17,11 @@ public class IntentMapBottom3ReceiverStub extends Activity {
     public  @IntentMap() Intent getIntent() {
         return super.getIntent();
     }
-    
+LinkedHashSet
     @Override
     @ReceiveIntent("startActivity,1")
     public void setIntent(@IntentMap() Intent newIntent) {
         super.setIntent(newIntent);
     }
-    
+LinkedHashSet
 }

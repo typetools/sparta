@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * Declaration annotation that specifies the formal parameters whose value
  * should be used to parameterized the given permission.
- * 
+ *
  * @author smillst
  *
  */

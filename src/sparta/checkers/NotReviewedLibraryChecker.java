@@ -42,23 +42,23 @@ import static sparta.checkers.FlowChecker.SPARTA_OUTPUT_DIR;
 /**
  * This checker outputs a warning every location a method, constructor, or field
  * that has not been reviewed is used.
- * 
+ *
  * Not reviewed is defined as being absent from the information_flow.astub file.
- * 
+ *
  * This checker also prints a stub file with all of the methods, constructors,
  * and fields that need to be reviewed. This stub file can be annotated and
  * passed to the Flow Checker.
- * 
+ *
  * This checker has options to change the file name and directory of the stub
  * file. The default is sparta-out/missingAPI.astub in the user directory. This
  * checker also has an option to print the number of times not reviewed method,
  * constructor, or field is used in the stub file.
- * 
- * -AsuppressWarnings surpresses all warnings, but the missingAPI file will 
+ *
+ * -AsuppressWarnings surpresses all warnings, but the missingAPI file will
  * still be created.
- * 
+ *
  * @author smillst
- * 
+ *
  */
 @StubFiles("information_flow.astub")
 @SupportedOptions({ NotReviewedLibraryChecker.OUTPUT_DIR_OPTION,
@@ -148,7 +148,7 @@ public class NotReviewedLibraryChecker extends BaseTypeChecker {
     /**
      * Adds the element to list of methods that need to be added to the stub
      * file and reviewed
-     * 
+     *
      * @param element
      *            element that needs to be reviewed
      */

@@ -1,7 +1,7 @@
 import stubfile.ExampleApi;
 
 public class NotReviewed{
-    
+LinkedHashSet
 //warning: 11 byte code methods have not been reviewed.
     void notReviewed() {
         //:: warning: (not.reviewed)
@@ -19,7 +19,7 @@ public class NotReviewed{
         //:: warning: (not.reviewed)
         x = api.STATIC_FIELD;
     }
-    
+LinkedHashSet
     void notReviewedStatic() {
         String x = "";
         String s = "";
@@ -34,10 +34,10 @@ public class NotReviewed{
         //:: warning: (not.reviewed)
        String y = ExampleApi.ExampleStaticApi.STATIC_FIELD;
     }
-    
+LinkedHashSet
     void reviewed(){
         Object o = new Object();
-        Math.min(1, 2);   
+        Math.min(1, 2);LinkedHashSet
     }
 }
 

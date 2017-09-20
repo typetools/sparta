@@ -29,11 +29,11 @@ import sparta.checkers.quals.PFPermission;
 /**
  * This class is used to check that the stub files have the following
  * properties:
- * 
+ *
  * 1. @AddsSourceData are well formed. Namely that all methods with @Source
  * annotations on parameters or receivers have an @AddsSourceData annotation
  * with the correct parameter index listed.
- * 
+ *
  * To turn on, see comment in FlowAnnotatedTypeFactory.postInit().
  */
 public class StubChecker {
@@ -151,8 +151,8 @@ public class StubChecker {
 
     /**
      * Creates a list of parameter indexes that have @Source annotations
-     * anywhere in its type. 
-     * 
+     * anywhere in its type.
+     *
      * Call visitExecutable(...) to start then getParams to get list of parameters.
      */
     class SourceScanner extends AnnotatedTypeScanner<Boolean, Void> {
@@ -162,12 +162,12 @@ public class StubChecker {
         protected Boolean scan(AnnotatedTypeMirror type, Void p) {
             if (type == null)
                 return false;
-            
+
             Set<PFPermission> sources = Flow.getSources(type);
             if (!sources.isEmpty()) {
                return true;
             }
-            
+
             Boolean b = type.accept(this, p);
             return (b == null) ? false : b;
         }
@@ -203,13 +203,13 @@ public class StubChecker {
 
             return params.isEmpty();
         }
-        
+
         @Override
         public Boolean visitTypeVariable(AnnotatedTypeVariable type, Void p) {
             //do nothing, currently this is causing infinite recursion
             return false;
         }
-        
+
         @Override
         public Boolean visitWildcard(AnnotatedWildcardType type, Void p) {
             //do nothing, currently this is causing infinite recursion

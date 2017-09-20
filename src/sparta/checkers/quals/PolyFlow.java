@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * as @PolySource @PolySink for both the return types and all parameters. It
  * should be used to express a relationship between the parameters and the
  * return types.
- * 
+ *
  * @see @PolyFlowReceiver
  */
 @Documented

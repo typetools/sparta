@@ -15,7 +15,7 @@ import sparta.checkers.quals.FlowPermission;
  * Class for parsing SuSi output files and generating stub files.
  * usage: javac GenerateStubFilesFromSuSi inputfile [moreinputfiles] > susi.astub
  * (sparta.jar needs to be on the class path)
- * 
+ *
  * Input files can be found in https://github.com/secure-software-engineering/SuSi
  * SourceSinkLists/Android\ 4.2/SourcesSinks/
  * @author smillst

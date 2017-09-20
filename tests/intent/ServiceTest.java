@@ -9,14 +9,14 @@ import android.content.ContextWrapper;
 import android.provider.CalendarContract;
 
 public class ServiceTest extends Activity {
-    
+LinkedHashSet
     void startActivitySuccess() {
         @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) }) Intent senderIntent1 = new Intent();
         @IntentMap({@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {DISPLAY}) }) Intent senderIntent2 = new Intent();
         startService(senderIntent1);
         startService(senderIntent2);
     }
-    
+LinkedHashSet
     void startActivityFail() {
         @IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) }) Intent senderIntent1 = new Intent();
         @IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) }) Intent senderIntent2 = new Intent();
@@ -25,5 +25,5 @@ public class ServiceTest extends Activity {
      //:: error: (send.intent.incompatible.types)
         startService(senderIntent2);
     }
-    
+LinkedHashSet
 }
