@@ -14,7 +14,7 @@ import java.io.File;
 
 @Source({PHONE_NUMBER}) @Sink({INTERNET})
 class PolicyTest {
-LinkedHashSet
+    
     private @Source({ANY}) Object anySource = new @Source({ANY}) Object();
     private @Source({READ_EXTERNAL_STORAGE, FILESYSTEM, ACCESS_FINE_LOCATION})
     @Sink({WRITE_LOGS})
@@ -77,7 +77,7 @@ LinkedHashSet
         // //:: error: (forbidden.flow)
         List<@Source({RECORD_AUDIO}) @Sink({WRITE_EMAIL, INTERNET}) File> maFile2 = null;
 
-LinkedHashSet
+        
         @Source({PHONE_NUMBER}) @Sink({WRITE_EMAIL, WRITE_LOGS})
         class Whatever {
              public Whatever(@Source({PHONE_NUMBER}) @Sink({INTERNET}) PolicyTest PolicyTest.this) {
@@ -92,7 +92,7 @@ LinkedHashSet
 
       ////:: error: (forbidden.flow)
         final @Source({RECORD_AUDIO}) @Sink({INTERNET, WRITE_EXTERNAL_STORAGE}) Object micToNExt = null;
-      ////:: error: (forbidden.flow)LinkedHashSet
+      ////:: error: (forbidden.flow) 
         final @Source({RECORD_AUDIO}) @Sink({INTERNET, WRITE_LOGS, WRITE_SMS}) Object micToNetLogMsg = null;
     }
 

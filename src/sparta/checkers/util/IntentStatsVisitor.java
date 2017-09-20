@@ -82,7 +82,7 @@ public class IntentStatsVisitor extends
                     AnnotatedTypeMirror atm = atypeFactory.getAnnotatedType(rhs);
                     if (isTypeOf(expType, android.content.Intent.class)
                             || (rhs instanceof MethodInvocationTree)
-                            || (rhs instanceof NewClassTree &&
+                            || (rhs instanceof NewClassTree && 
                                     atm.getAnnotation(IntentMapNew.class) != null)) {
                         // Assumes that anything other than the intent
                         // constructor makes aliases.

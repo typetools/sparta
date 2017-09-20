@@ -54,7 +54,7 @@ class MiscTests {
         Double lat = (@Source({READ_CALENDAR}) Double) Double.valueOf(1.0);
         Double lon = (@Source({READ_CALENDAR})Double) Double.valueOf(2.0);
         Integer days = (@Source({READ_CALENDAR})Integer) Integer.valueOf(3);
-LinkedHashSet
+        
         //::error: (assignment.type.incompatible)
         result = String.format(WEBSERVICE_URL3, lat, lon, days);
     }

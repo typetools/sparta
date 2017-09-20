@@ -8,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/*
+/* 
  * An @IntentMap annotation contains a set of @Extra annotations.
  */
 @Documented
@@ -17,5 +17,5 @@ import java.lang.annotation.Target;
 @SubtypeOf({})
 public @interface IntentMap {
     Extra[] value() default {};
-
+    
 }

@@ -60,10 +60,10 @@ public class DefaultingTest extends Activity {
     public void setIntent(@IntentMap({ @Extra(key = "k5", sink = {}) }) Intent newIntent) {
         super.setIntent(newIntent);
     }
-LinkedHashSet
+    
     void testMethodParameter(){
         @IntentMap({ @Extra(key = "k1", source = ANY, sink={}),
-            @Extra(key = "k3", source = {}, sink= ANY )}) Intent i = new Intent();LinkedHashSet
+            @Extra(key = "k3", source = {}, sink= ANY )}) Intent i = new Intent();  
         methodParameter(i);
     }
     void methodParameter(@IntentMap({ @Extra(key = "k1", source = ANY),

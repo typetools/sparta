@@ -105,7 +105,7 @@ class FlowData extends Data {
  * This tool converts the diagnostic messages of the
  * {@link ReportAPIChecker} into first JSON representation. The Java source
  * files to compile are given as only command-line arguments.
- *
+ * 
  * @author wmdietl
  */
 public abstract class JsonJavac {
@@ -157,7 +157,7 @@ public abstract class JsonJavac {
     /**
      * Go through the provided diagnostics, parse the message, and create the a
      * list of Data objects.
-     *
+     * 
      * @param diagnostics
      */
     protected List<Data> filter(List<Diagnostic<? extends JavaFileObject>> diagnostics) {

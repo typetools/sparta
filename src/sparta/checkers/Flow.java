@@ -17,11 +17,11 @@ import sparta.checkers.quals.Source;
 
 public class Flow {
     private static PFPermission ANY = new PFPermission(FlowPermission.ANY);
-
+    
     Set<PFPermission> sources;
     Set<PFPermission> sinks;
 
-    public Flow(Set<PFPermission> sources, Set<PFPermission> sinks) {
+    public Flow(Set<PFPermission> sources, Set<PFPermission> sinks) {      
         this.sources = sources;
         this.sinks = sinks;
     }
@@ -97,7 +97,7 @@ public class Flow {
     public boolean isBottom(){
         return sinks.contains(ANY) && sources.isEmpty();
     }
-
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -146,7 +146,7 @@ public class Flow {
         }
         return new TreeSet<PFPermission>();
     }
-
+    
     public static Set<PFPermission> getSinks(final AnnotationMirror am) {
         if (am == null) {
             return new TreeSet<PFPermission>();
@@ -175,7 +175,7 @@ public class Flow {
 
         return convertToAnySource(sourceFlowPermissions, false);
     }
-
+    
     /**
      * Replace ANY with the list of all possible sinks
      * @param sinks
@@ -219,9 +219,9 @@ public class Flow {
             List<FlowPermission> coarseFlowList = Arrays.asList(FlowPermission.values());
             for (FlowPermission permission : coarseFlowList) {
                 if (permission != FlowPermission.ANY) {
-                    setOfAllSources.add(new PFPermission(permission));
+                    setOfAllSources.add(new PFPermission(permission)); 
                 }
-            }
+            } 
         }
         return setOfAllSources;
     }
@@ -319,7 +319,7 @@ public class Flow {
        for (PFPermission a1permission : a1All) {
            for (PFPermission a2permission : a2All) {
                // Match permission and match all parameters such that a2 is subsumed in a1
-               if (a1permission.getPermission() == a2permission.getPermission() &&
+               if (a1permission.getPermission() == a2permission.getPermission() && 
                    FlowAnnotatedTypeFactory.allParametersMatch(a1permission.getParameters(), a2permission.getParameters())) {
                    retSet.add(a2permission);
                }
@@ -327,8 +327,8 @@ public class Flow {
        }
         return  convertToAnySource(retSet, false);
     }
-
-
+    
+    
 
     /**
      * Return the set of sinks that both annotations have.
@@ -351,7 +351,7 @@ public class Flow {
         for (PFPermission a1permission : a1Set) {
             for (PFPermission a2permission : a2Set) {
                 // Match permission and match all parameters such that a2 is subsumed in a1
-                if (a1permission.getPermission() == a2permission.getPermission() &&
+                if (a1permission.getPermission() == a2permission.getPermission() && 
                     FlowAnnotatedTypeFactory.allParametersMatch(a2permission.getParameters(), a1permission.getParameters())) {
                     retSet.add(a2permission);
                 }
@@ -359,7 +359,7 @@ public class Flow {
         }
         return convertToAnySink(retSet, false);
     }
-
+    
     /**
      * Returns the union of a1 and a2.
      * If the union is {ANY, ...} then just {ANY} is returned
@@ -376,7 +376,7 @@ public class Flow {
         return a1;
     }
 
-
+    
     /**
      * Returns the union of a1 and a2.
      * If the union is {ANY, ...} then just {ANY} is returned
@@ -407,12 +407,12 @@ public class Flow {
         }
         return flowPermissions;
     }
-
+    
     public static Set<FlowPermission> convertFromParameterizedFlowPermission(Set<PFPermission> permissions) {
         Set<FlowPermission> coarsePermissions = new TreeSet<FlowPermission>();
         for (PFPermission p : permissions) {
             coarsePermissions.add(p.getPermission());
         }
-        return coarsePermissions;
+        return coarsePermissions;        
     }
 }

@@ -5,8 +5,8 @@ import sparta.checkers.quals.Sink;
 import static sparta.checkers.quals.FlowPermissionString.*;
 
 class ParameterizedArithmeticsTest {
-    @Source({ACCELEROMETER})LinkedHashSet
-    @Sink(FILESYSTEM+"(*)")LinkedHashSet
+    @Source({ACCELEROMETER}) 
+    @Sink(FILESYSTEM+"(*)") 
     int accel;
 
     int clean;
@@ -16,7 +16,7 @@ class ParameterizedArithmeticsTest {
     }
 
     void m() {
-LinkedHashSet
+        
         int i = 5;
         if(i > 0) {
         }
@@ -29,12 +29,12 @@ LinkedHashSet
         }
 
         clean = i;
-LinkedHashSet
+        
         int j = accel + 2;
 
         //Tests LUB
         @Source({ACCELEROMETER})
-        @Sink(FILESYSTEM+"(myfile1.txt,myfile2.txt)")LinkedHashSet
+        @Sink(FILESYSTEM+"(myfile1.txt,myfile2.txt)") 
         int x = j;
         x += 3;
 

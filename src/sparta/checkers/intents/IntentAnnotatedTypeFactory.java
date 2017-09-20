@@ -142,9 +142,9 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
      * This method is used to immediately stop the analysis and ask the user to
      * refine the component map, when necessary.
      */
-
+    
     private void checkForRefinementCM() {
-        if (componentMap != null && componentMap.linesToUpdate != null &&
+        if (componentMap != null && componentMap.linesToUpdate != null && 
                 !componentMap.linesToUpdate.isEmpty()) {
             String updateMsg = "Please update the following lines in the " +
                 "component map:" + "\n";
@@ -163,7 +163,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
 
     /**
      * This method changes @Source(INTENT) and @Sink(INTENT) to
-     *
+     * 
      * @Source(ANY), @Sink({}) and changes the @Source and @Sink from the return
      *               type of getExtra calls. This is necessary because the stub
      *               files will maintain @Source(INTENT) and
@@ -286,7 +286,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     protected void addCheckedCodeDefaults(QualifierDefaults defaults) {
         super.addCheckedCodeDefaults(defaults);
         TypeUseLocation[] topLocations = {LOCAL_VARIABLE, RESOURCE_VARIABLE, UPPER_BOUND };
-
+        
         defaults.addCheckedCodeDefaults(TOP_INTENT_MAP, topLocations);
         defaults.addCheckedCodeDefault(TOP_INTENT_MAP, OTHERWISE);
     }
@@ -330,7 +330,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
          * source="FILESYSTEM", sink="INTERNET"). This does not work for intent
          * types that are parameters of a @ReceiveIntent method. For those cases,
          * both a source and a sink must be written explicitly.
-         *
+         * 
          * @see sparta.checkers.intents.IntentVisitor#checkReceiveIntentDefaulting.
          */
         private void completeIExtraFlows(Tree tree, AnnotatedTypeMirror type) {
@@ -391,7 +391,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             completeFlowsInIExtra(type);
             return super.visitDeclared(type, p);
         }
-
+       
         @Override
         public Void visitIntersection(AnnotatedIntersectionType type, Void p) {
             completeFlowsInIExtra(type);
@@ -557,13 +557,13 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                         .getSourcesPFP(rhs);
                 Set<PFPermission> rhsAnnotatedSinks = IntentUtils
                         .getSinksPFP(rhs);
-
+                
                 AnnotationMirror lhsSinks = createAnnoFromSink(lhsAnnotatedSinks);
                 AnnotationMirror rhsSinks = createAnnoFromSink(rhsAnnotatedSinks);
                 AnnotationMirror lhsSources = createAnnoFromSource(lhsAnnotatedSources);
                 AnnotationMirror rhsSources = createAnnoFromSource(rhsAnnotatedSources);
-                return isSubtype(rhsSources, lhsSources) && isSubtype(rhsSinks, lhsSinks);
-
+                return isSubtype(rhsSources, lhsSources) && isSubtype(rhsSinks, lhsSinks);                
+                
             } else if (isIntentMapQualifier(rhs)) {
                 if (rhs == null || lhs == null || !isIntentMapQualifier(lhs)) {
                     return false;
@@ -586,7 +586,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                     }
                 }
                 return true;
-            }
+            } 
             return super.isSubtype(rhs, lhs);
         }
 
@@ -610,7 +610,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         /**
          * temporary auxiliary method used to check whether the types of the
          * keys are the same. rule for information flow analysis on intents.
-         *
+         * 
          * @param rhs
          * @param lhsIExtra
          * @param leftKey
@@ -697,7 +697,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                                     .getSinks(leastUpperBound(rhsSinks,
                                             lhsSinks)), processingEnv);
                 }
-
+                    
             } else if ((AnnotationUtils.areSameIgnoringValues(a1, POLY_INTENT_MAP) &&
                     AnnotationUtils.areSameIgnoringValues(a2, INTENT_MAP)) ||
                     (AnnotationUtils.areSameIgnoringValues(a2, POLY_INTENT_MAP) &&
@@ -721,7 +721,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
             if (AnnotationUtils.areSame(a1, a2))
                 return a1;
 
-            if (AnnotationUtils.areSameIgnoringValues(a1, BOTTOM_INTENT_MAP)
+            if (AnnotationUtils.areSameIgnoringValues(a1, BOTTOM_INTENT_MAP) 
                     || AnnotationUtils.areSameIgnoringValues(a2, BOTTOM_INTENT_MAP)) {
                 return BOTTOM_INTENT_MAP;
             }
@@ -806,7 +806,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
      * Changes the return type of a
      * <code>Intent.getExtra(key)</code> call depending on the @IntentMap type
      * of Intent and <code>key</code>.
-     *
+     * 
      * @param tree
      *            The method tree
      * @param origResult
@@ -827,7 +827,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
     }
 
 /**
- *
+ * 
  * @param tree MethodInvocationTree of putExtra or getExtra
  * @return a list of strings containing the key or possible keys in this call.  T
  * The empty list means that the keys could not be resolved at compile time.

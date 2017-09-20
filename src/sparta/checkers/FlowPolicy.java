@@ -51,10 +51,10 @@ public class FlowPolicy {
     private final Map<PFPermission, Set<PFPermission>> allowedSinkToSources;
 
     private final/*@Nullable*/Set<PFPermission> sinksFromAnySource;
-
+    
     private final PFPermission ANY;
     private ProcessingEnvironment processingEnv;
-
+    
 
     /**
      *
@@ -176,7 +176,7 @@ public class FlowPolicy {
      * If # appears in the line remove all text from # to the end of the string
      * trim the string (this is important in order to recognize empty lines)
      * else return the original line
-     *
+     * 
      * @param input
      *            Line that may contain a comment
      * @return Line that does not contain a comment
@@ -287,29 +287,29 @@ public class FlowPolicy {
      * Read the given file return a one to many Map of FlowPermission -> Sink
      * where each entry indicates what sinks a source is given blanket access to
      * reach
-     *
-     *
+     * 
+     * 
      * Format: A flow policy file is read line by line where each line has the
      * following format FlowPermissionName -> FlowPermissionName,
      * FlowPermissionName, FlowPermissionName
-     *
+     * 
      * FlowPermissionName = One of the names of the enums in FlowPermission
      * FlowPermissionName<x> = One of the names of the enums in FlowPermission
-     *
+     * 
      * A source can appear twice, the output Sink for that given source will
      * contain the union of the two entries.
-     *
+     * 
      * E.g. MICROPHONE -> NETWORK, TEXT_MESSAGE MICROPHONE -> FILESYSTEM
      * TEXT_MESSAGE -> NETWORK
-     *
+     * 
      * In this case there would be the following entry in the Map
      * Key(MICROPHONE) => Entries(NETWORK, TEXT_MESSAGE, FILESYSTEM)
      * Key(TEXT_MESSAGE) => Entries(NETWORK)
-     *
+     * 
      * Comments are permitted and start with a # Blank lines are ignored (as is
      * white space between symbols) A runtime error will be thrown if ANY line
      * is malformed (All errors will be reported via standard out before hand)
-     *
+     * 
      * @param policyFile
      *            A file formatted as above
      * @return

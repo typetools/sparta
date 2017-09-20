@@ -31,7 +31,7 @@ import com.sun.source.tree.WhileLoopTree;
 /**
  * Base implementation of Validator. Each method is a no op. This way subclasses
  * only have to implement relevent validator methods.
- *
+ * 
  * @author smillst
  *
  */

@@ -11,7 +11,7 @@ void bar(){
 
     @Source(CAMERA) ByteArrayOutputStream bytes = getBAOS();
     @Source(CAMERA) byte /*@Source(CAMERA)*/ [] bas = bytes.toByteArray();
-
+    
     //Make sure the current work around for the constructor bug is working:
     @SuppressWarnings("flow")
     ByteArrayOutputStream bytes2 = (/*@Source(CAMERA)@Sink({ DISPLAY})*/ ByteArrayOutputStream) new ByteArrayOutputStream();
@@ -20,19 +20,19 @@ void bar(){
 
 }
 
-@Source(CAMERA) ByteArrayOutputStream getBAOS(){
+@Source(CAMERA) ByteArrayOutputStream getBAOS(){    
     @SuppressWarnings("flow")
     @Source(CAMERA) ByteArrayOutputStream baos = ( @Source(CAMERA) ByteArrayOutputStream)  new ByteArrayOutputStream();
     return baos;
 }
-
+    
     void foo() {
-
+        
         @Sink(INTERNET) Object @Source(FlowPermissionString.ACCELEROMETER) [] params = new /*@Sink(INTERNET)*/ Object[1];
         // Error only occurs when -Alint=cast:strict is used.
       //strict:: warning: (cast.unsafe)
         Object @Source(INTERNET) @Sink(INTERNET) [] result = (Object[]) call("method", params);
-
+        
 
         // The annotations are on the array type, not on the array component type.
         //:: error: (argument.type.incompatible)

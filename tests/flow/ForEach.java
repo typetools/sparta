@@ -9,16 +9,16 @@ import static sparta.checkers.quals.FlowPermissionString.*;
 //warning: FlowPolicy: Found transitive flows:
  public class ForEach {
      public void test() {
-         for (Object obj : new ArrayList<Object>()) {LinkedHashSet
+         for (Object obj : new ArrayList<Object>()) {               
           }
         }
-LinkedHashSet
+     
      public void testSMS() {
-         for (Object obj : new ArrayList<@Source(READ_SMS) @Sink(INTERNET) Object>()) {LinkedHashSet
+         for (Object obj : new ArrayList<@Source(READ_SMS) @Sink(INTERNET) Object>()) {   
              sendToInternet(obj);
           }
-LinkedHashSet
-         for (Object obj : new ArrayList<@Source(INTERNET) @Sink({}) Object>()) {LinkedHashSet
+         
+         for (Object obj : new ArrayList<@Source(INTERNET) @Sink({}) Object>()) {   
              //:: error: (argument.type.incompatible)
              sendToInternet(obj);
           }
@@ -38,24 +38,24 @@ LinkedHashSet
              //:: error: (assignment.type.incompatible)
              @Source(READ_SMS) @Sink(INTERNET) Object wrong = obj;
              //:: error: (assignment.type.incompatible)
-             @Source({}) @Sink(ANY) Object bot = obj;LinkedHashSet
+             @Source({}) @Sink(ANY) Object bot = obj;         
          }
-LinkedHashSet
+         
          for(@Source(READ_SMS) @Sink(INTERNET) Object obj : internetArray){}
          //:: error: (enhancedfor.type.incompatible)
          for(@Source({}) @Sink(INTERNET) Object obj : internetArray){}
          //:: error: (enhancedfor.type.incompatible)
          for(@Source(ANY) @Sink({WRITE_CONTACTS}) Object obj : internetArray){}
-LinkedHashSet
+         
          //:: error: (enhancedfor.type.incompatible)
          for(@Source(READ_SMS) @Sink(INTERNET) Object obj : noSinkArray){}
          //:: error: (enhancedfor.type.incompatible)
          for(@Source(ANY) @Sink(WRITE_CONTACTS) Object obj : noSinkArray){}
          for(@Source(READ_SMS) @Sink({}) Object obj : noSinkArray){
          }
-LinkedHashSet
+         
      }
-LinkedHashSet
+     
      void sendToInternet(@Source(READ_SMS) @Sink(INTERNET) Object obj){}
    }
 

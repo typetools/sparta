@@ -44,7 +44,7 @@ public class StubfileTests {
     void constructorTest() {
         ExampleApi api = new ExampleApi();
         ExampleApi api1 = new ExampleApi("hello");
-LinkedHashSet
+        
         //:: error: (argument.type.incompatible) :: error: (forbidden.flow)
         ExampleApi api2 = new ExampleApi(sms);
     }
@@ -99,7 +99,7 @@ LinkedHashSet
     String s2 = "";
     @Source({}) @Sink({}) ExampleApi api = new ExampleApi();
     void notReviewed() {
-        String x = "";LinkedHashSet
+        String x = "";    
 
         //::error: (method.invocation.invalid)
         api.notReviewed();
@@ -108,7 +108,7 @@ LinkedHashSet
 
         //:: error: (argument.type.incompatible) ::error: (method.invocation.invalid)
         api.notReviewed2(s2);
-        //::error: (argument.type.incompatible) ::error: (forbidden.flow)LinkedHashSet
+        //::error: (argument.type.incompatible) ::error: (forbidden.flow) 
         x = api.notReviewed3(s2);
     }
 

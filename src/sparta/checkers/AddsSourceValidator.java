@@ -35,7 +35,7 @@ import sparta.checkers.validator.BaseValidator;
  * that argument does not have the required sources as specified by the methods @AddsSourceData
  * Annotation. Also verifies that methods with are @AddsSourceData have
  * parameters they list and/or receivers.
- *
+ * 
  * @author smillst
  *
  */
@@ -58,7 +58,7 @@ public class AddsSourceValidator extends BaseValidator {
     /**
      * If methodElem has @AddsSourceData annotation, this method checks whether
      * it is well formed. Issues a warning if true is passed.
-     *
+     * 
      * @param node
      * @param methElem
      * @param shouldWarn
@@ -154,7 +154,7 @@ public class AddsSourceValidator extends BaseValidator {
      * The argument must have at least all the sources of the formal parameter.
      * (If the argument has more than the formal parameter, then it is a super
      * type, and an argument type incompatible warning will be issued.)
-     *
+     * 
      * @param formalParam
      * @param argumentTree
      * @param warning
@@ -183,7 +183,7 @@ public class AddsSourceValidator extends BaseValidator {
             checkforMissingSource(argumentTree, warningKey, formalParam,
                     argument);
         }
-
+            
     }
 
     private void checkforMissingSource(final ExpressionTree argumentTree,

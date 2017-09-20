@@ -18,11 +18,11 @@ public class IntentFilter {
     public void setAction(List<String> action) {
         this.action = action;
     }
-
+    
     public boolean hasAction(String action) {
         return this.action.contains(action);
     }
-
+    
     public void addAction(String action) {
         this.action.add(action);
     }
@@ -42,7 +42,7 @@ public class IntentFilter {
     public void addData(String data) {
         this.data.add(data);
     }
-
+    
     public void setHasURI(boolean b) {
         hasURI = b;
     }
@@ -74,7 +74,7 @@ public class IntentFilter {
             URIContent = URIContent.substring(0, URIContent.length() - 1);
             URIContent = URIContent.replace(",", "/");
         }
-
+        
         output = "(" + output + ")";
         if(hasURI) {
             output += " :URI:" + URIContent;

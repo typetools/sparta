@@ -5,7 +5,7 @@ import sparta.checkers.permission.qual.*;
 
 // Tests permissions contained in permission.astub
 
-//android.accessibilityservice.AccessibilityService.clearWallpaperLinkedHashSet
+//android.accessibilityservice.AccessibilityService.clearWallpaper 
 //was deprecated in Android 23
 @SuppressWarnings("deprecation")
 class TestSpec {

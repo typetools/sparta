@@ -30,9 +30,9 @@ import com.sun.source.tree.WhileLoopTree;
 
 /**
  * Interface for validating trees
- *
+ * 
  * See {@link BaseValidator}
- *
+ * 
  * @author smillst
  *
  */

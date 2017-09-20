@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 /**
  * List of Android permissions that may be required in some cases to use a
  * method.
- *
- *
+ * 
+ * 
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

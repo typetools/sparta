@@ -13,7 +13,7 @@ class ListTest {
 
 
 class List<T extends @Sink({}) @Source(ANY) Object> {
-LinkedHashSet
+    
     T getF( @Source(ANY) List<T> this, int index) { return null; }
     void addF(T p) {}
 }
@@ -22,10 +22,10 @@ class Generics {
 
     List<Object> lo = new List<Object>();
     List<@Source(FlowPermissionString.INTERNET) Object> netok = new List<@Source(FlowPermissionString.INTERNET) Object>();
-LinkedHashSet
-LinkedHashSet
+    
+   
     @Source(ANY) @Sink({}) List<@Source(FlowPermissionString.INTERNET) Object> netok2 = foo();
-LinkedHashSet
+ 
     //:: error: (assignment.type.incompatible)
     List<@Source(INTERNET) Object> neterr = new List<Object>();
     void use(@Source(ANY) Object o, @Source(INTERNET) Object neto) {
@@ -44,7 +44,7 @@ LinkedHashSet
 
 class UpperObject<T extends Object>{
 	public void testWildCard(java.util.List<? extends Number> list) {
-	}LinkedHashSet
+	}   
 	void callWildCard(java.util.List<Integer> list){
 		testWildCard(list);
 	}
@@ -63,12 +63,12 @@ class TestUpperObject{
         UpperObject<@Source(ANY) @Sink({}) Object> lit3;
         //:: error: (type.argument.type.incompatible)
         GenObject<Object> gen;
-LinkedHashSet
+        
         GenObject<@Source(ANY) @Sink({}) Object> gen2;
         GenObjectLit<String> o;
     }
 }
-LinkedHashSet
+    
 
 class TypeAsKeyHashMap<T> {
 
@@ -103,14 +103,14 @@ class TypeAsKeyHashMap<T> {
 //		return mCollection.containsKey(type);
 //	}
 //}
-LinkedHashSet
-LinkedHashSet
-LinkedHashSet
+     
+     
+     
 
       class AppList<T extends Comparable<T>> {
-LinkedHashSet
+      
       }
-LinkedHashSet
+    
 
 
 

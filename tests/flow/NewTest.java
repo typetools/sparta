@@ -31,7 +31,7 @@ import java.net.*;
 //   	@Sink({ FILESYSTEM})  String fs;
 //
 //    void foo() {
-//LinkedHashSet
+// 
 //        TestClass2 local= new TestClass2(fs);
 //        fs_field = local;
 //        // Mismatch between explicitly given type and result of poly-resolution.

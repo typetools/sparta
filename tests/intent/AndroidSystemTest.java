@@ -15,11 +15,11 @@ public class AndroidSystemTest extends Activity {
     @Source({}) @Sink("BIND_DEVICE_ADMIN") String getValueOK() {
         return null;
     }
-LinkedHashSet
+    
     @Source({}) @Sink({}) String getValueNotOK() {
         return null;
     }
-LinkedHashSet
+    
     void startActivitySuccess() {
         @IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",
                 sink={BIND_DEVICE_ADMIN}),
@@ -28,7 +28,7 @@ LinkedHashSet
                 }) Intent senderIntent = new Intent();
         startActivity(senderIntent);
     }
-LinkedHashSet
+    
     void startActivitySuccess2() {
         @IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",
                 sink={BIND_DEVICE_ADMIN}),
@@ -38,7 +38,7 @@ LinkedHashSet
         senderIntent.putExtra(key2, getValueOK());
         startActivity(senderIntent);
     }
-LinkedHashSet
+    
     void startActivityFail() {
         @IntentMap(value={@Extra(key="android.app.extra.DEVICE_ADMIN",
                 sink={BIND_DEVICE_ADMIN}),
@@ -51,13 +51,13 @@ LinkedHashSet
         senderIntent.putExtra(key1, getValueNotOK());
         startActivity(senderIntent);
     }
-LinkedHashSet
+    
     void startActivityFail2() {
         @IntentMap({@Extra(key = "android.app.extra.DEVICE_ADMIN", sink = {BIND_DEVICE_ADMIN}) })
         Intent senderIntent = new Intent();
         //:: error: (send.intent.missing.key)
         startActivity(senderIntent);
     }
-LinkedHashSet
-LinkedHashSet
+    
+    
 }

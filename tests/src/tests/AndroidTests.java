@@ -164,7 +164,7 @@ public class AndroidTests {
             return new String[]{"reflection"};
         }
     }
-LinkedHashSet
+    
     public static class FlowCheckerTests extends CheckerFrameworkPerFileTest {
         public FlowCheckerTests(File testFile) {
             super(testFile, FlowChecker.class, "sparta.checkers", "-Anomsgtext");
@@ -297,7 +297,7 @@ LinkedHashSet
         final static String dirOpt = "-A"+NotReviewedLibraryChecker.OUTPUT_DIR_OPTION+"="+dirname;
         final static String fileOpt = "-A"+NotReviewedLibraryChecker.OUTPUT_FILE_OPTION+"="+filename;
         final static String freqOpt = "-A"+NotReviewedLibraryChecker.PRINT_FREQUENCY_OPTION;
-LinkedHashSet
+        
         public NotReviewedLibraryCheckerTests(File testFile) {
 
             super(testFile, NotReviewedLibraryChecker.class, "sparta.checkers", "-Anomsgtext", dirOpt,fileOpt, freqOpt);

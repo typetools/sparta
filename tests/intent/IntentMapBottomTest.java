@@ -13,32 +13,32 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class IntentMapBottomTest extends Activity {
-LinkedHashSet
+     
     @IntentMap() @Source("ANY") @Sink()
     Intent intentMapTop = new Intent();
-LinkedHashSet
+    
     @IntentMap({
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
-        @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })LinkedHashSet
+        @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
     Intent intentMap = new Intent();
-LinkedHashSet
+    
     @Source("FILESYSTEM") @Sink("INTERNET") String getFile() {
         return null;
     }
-LinkedHashSet
+    
     //:: error: (forbidden.flow)
     @Source("FILESYSTEM") @Sink("ANY") String getFile2() {
         return null;
     }
-LinkedHashSet
+    
     @Source() @Sink("ANY") String getTop() {
         return null;
     }
-LinkedHashSet
+    
     void sendToDisplay(@Sink("DISPLAY") String s) {
 
     }
-LinkedHashSet
+    
     //IntentMapBottom.putExtra() and IntentMapBottom.getExtra() should always fail.
     void extrasFail() {
         Intent intentMapBottom1 = null;
@@ -61,10 +61,10 @@ LinkedHashSet
     //intentMapBottom1 and intentMapBottom2 = Bottom.
     //intentMapTop = Top
     //Bottom <: intentMap <: Top
-LinkedHashSet
+    
     //For the tests below pay attention to the component map.
-LinkedHashSet
-LinkedHashSet
+    
+    
 //  Sending to [type of intentMap] Receiver
     void startActivitySuccess2(@Source("FILESYSTEM") @Sink("INTERNET") int test, String test2, Object test3, String[] test4) {
         startActivity(intentMap);
@@ -77,11 +77,11 @@ LinkedHashSet
         //:: error: (intent.not.initialized)
         startActivity(bottom);
     }
-LinkedHashSet
-  //Sending to @IntentMap() Receiver - TopLinkedHashSet
+   
+  //Sending to @IntentMap() Receiver - Top 
     void startActivitySuccess3(@Source("FILESYSTEM") @Sink("INTERNET") int test, String test2, Object test3, String[] test4) {
         startActivity(intentMap);
         startActivity(intentMapTop);
     }
-LinkedHashSet
+    
 }

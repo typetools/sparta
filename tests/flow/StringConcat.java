@@ -14,8 +14,8 @@ class Use {
        @Source({FILESYSTEM,READ_EXTERNAL_STORAGE}) File file = ctx.getDir("log", 0);
        String fileString = file.toString();
        String s = fileString.toString();
-       String filename = fileString +  "test.jpg";LinkedHashSet
-LinkedHashSet
+       String filename = fileString +  "test.jpg";   
+                                   
     }
 
 }

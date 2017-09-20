@@ -12,38 +12,38 @@ import sparta.checkers.FlowPolicy;
 
 public class PFPermission implements Comparable<PFPermission> {
     public static final Pattern PARAMETERIZED_PERMISSION_REGEX = Pattern.compile("([A-Z_]*)[(](.*)[)]");
-
+    
     public static final PFPermission ANY = new PFPermission(
             FlowPermission.ANY);
 	private final FlowPermission permission;
-    private final List<String> parameters;
-
+    private final List<String> parameters; 
+    
     public PFPermission(FlowPermission permission) {
-        this( permission, new ArrayList<String>());
+        this( permission, new ArrayList<String>());     
     }
 
-
+    
     public PFPermission(FlowPermission permission, List<String> parameters) {
         this.permission = permission;
-        this.parameters = parameters;
+        this.parameters = parameters; 
         if(parameters.isEmpty()) {
             this.parameters.add("*");
         }
         Collections.sort(this.parameters);
     }
-
+    
     public FlowPermission getPermission() {
         return this.permission;
     }
-
+    
     public List<String> getParameters() {
         return Collections.unmodifiableList(parameters);
     }
-
-
+    
+    
     @Override
     public String toString() {
-        // Easy case, not parameterized
+        // Easy case, not parameterized 
         if (getParameters() == null || getParameters().size() == 0) {
             return getPermission().toString();
         }
@@ -54,7 +54,7 @@ public class PFPermission implements Comparable<PFPermission> {
         }
         parameterizedToString += "(";
         for (String param : getParameters()) {
-            parameterizedToString += "\""+param + "\",";
+            parameterizedToString += "\""+param + "\","; 
         }
         // Return the built string, removing the final comma, and closing it with the parenthesis
         return parameterizedToString.substring(0, parameterizedToString.length() - 1) + ")";
@@ -91,7 +91,7 @@ public class PFPermission implements Comparable<PFPermission> {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc} 
      * null first, then by FlowPermission, then by size of
      * parameters, then by String compare of sorted parameters.
      */
@@ -127,7 +127,7 @@ public class PFPermission implements Comparable<PFPermission> {
         }
         return false;
     }
-
+    
     public boolean isSink() {
         return getPermission().isSink();
     }
@@ -141,7 +141,7 @@ public class PFPermission implements Comparable<PFPermission> {
     public void addParameters(List<String> params) {
         this.parameters.addAll(params);
     }
-
+    
     public static boolean isValidPFPermission(String perm){
         Matcher matcher = PARAMETERIZED_PERMISSION_REGEX.matcher(perm);
         if (matcher.matches()) {
@@ -157,7 +157,7 @@ public class PFPermission implements Comparable<PFPermission> {
      * Takes a string of the form PERMISSION(param1, param2) and returns
      * the corresponding PFPermission object.
      * PERMISSION
-     * PERMISSION("param1")
+     * PERMISSION("param1") 
      * Parameters cannot contain quotes or commas
      * @param pfpString
      * @return

@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * A declaration annotation to mark that all the parameters, the return the
  * receiver as polymorphic. This is shorthand for specifying @PolySource @PolySink
  * on all parameters, returns and receivers
- *
+ * 
  * @see PolyFlow
  */
 @Documented

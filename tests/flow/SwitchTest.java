@@ -12,7 +12,7 @@ class SwitchTest {
 
         @Source({}) int noInfo = 1;
 
-LinkedHashSet
+        
         final @Source({FlowPermissionString.ACCESS_FINE_LOCATION}) int caseInfo = 1;
         final int caseNoInfo = 2;
 

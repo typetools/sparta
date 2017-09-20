@@ -23,14 +23,14 @@ public class ReflectionTest {
     void returnParameterTest(@MethodVal(className=CN, methodName="returnParameter", params=1) Method m) throws Exception{
         @Source(READ_SMS) @Sink(INTERNET) Object o = m.invoke(this,o1);
     }
-LinkedHashSet
+    
     void parameter( @Source(READ_SMS) @Sink(INTERNET) Object o1) {
     }
-LinkedHashSet
+    
     void parameterTest(@MethodVal(className=CN, methodName="parameter", params=1) Method m) throws Exception{
         @Source({}) @Sink(ANY) Object o = m.invoke(this,o1);
     }
-LinkedHashSet
+    
    static @Source(READ_SMS) @Sink(INTERNET) Object returnParameterStatic(
             @Source(READ_SMS) @Sink(INTERNET) Object o1) {
         return null;

@@ -17,12 +17,12 @@ import java.util.regex.Pattern;
 public class ComponentMap {
 
     public static final String COMPONENT_MAP_FILE_OPTION = "componentMap";
-
+    
     private static final String EMPTY = "{}";
     private static final String EMPTY_REGEX = "\\{\\}";
     public static final String updateLine = "Update line: ";
     public List<String> linesToUpdate;
-
+    
     private final Map<String, Set<String>> componentMap;
 
     public ComponentMap(final String filename) {
@@ -36,7 +36,7 @@ public class ComponentMap {
             componentMap = new HashMap<String, Set<String>>();
         }
     }
-
+   
     public static String stripComment(final String input) {
         int commentIndex = input.indexOf('#');
 
@@ -57,7 +57,7 @@ public class ComponentMap {
 
     private void readComponentMapFile(final File mapFile) {
 
-        final Pattern linePattern = Pattern.compile("^\\s*((?:\\S+|" +
+        final Pattern linePattern = Pattern.compile("^\\s*((?:\\S+|" + 
             EMPTY_REGEX + "))\\s*->\\s*((?:\\S+)(?:\\s*,\\s*\\S+)*)\\s*$");
 
         final List<String> errors = new ArrayList<String>();
@@ -68,29 +68,29 @@ public class ComponentMap {
             int lineNum = 1;
             bufferedReader = new BufferedReader(new FileReader(mapFile));
             String originalLine = bufferedReader.readLine();
-
+            
             while (originalLine != null) {
                 originalLine = originalLine.trim();
                 // Remove anything from # on in the line
                 final String line = stripComment(originalLine);
-
+                
                 if (line.startsWith(updateLine)) {
-                    linesToUpdate.add(formatComponentMapError(mapFile,
+                    linesToUpdate.add(formatComponentMapError(mapFile, 
                         lineNum, "", originalLine));
                 } else {
-
+                
                     if (!line.isEmpty() && !isWhiteSpaceLine(line)) {
                         final Matcher matcher = linePattern.matcher(line);
-
+    
                         Set<String> receivers = new HashSet<String>();
                         if (matcher.matches()) {
                             final String senderStr = matcher.group(1).trim();
                             final String[] receiversStrs = matcher.group(2).split(",");
                             if (senderStr.equals(EMPTY)) {
-                                errors.add(formatComponentMapError(mapFile,
+                                errors.add(formatComponentMapError(mapFile, 
                                     lineNum, "Sender missing.", originalLine));
                                 receivers = null;
-
+    
                             } else {
                                 try {
                                     for(String s : receiversStrs) {
@@ -110,7 +110,7 @@ public class ComponentMap {
                                     receivers = null;
                                 }
                             }
-
+    
                         } else {
                             errors.add(formatComponentMapError(
                                     mapFile,
@@ -118,7 +118,7 @@ public class ComponentMap {
                                     "Syntax error, Lines are of the form: Sender -> Receiver1, Receiver2, ..., ReceiverN ",
                                     originalLine));
                         }
-
+                        
                     }
                 }
 
@@ -136,7 +136,7 @@ public class ComponentMap {
             } catch (IOException ignoredCloseExc) {
             }
         }
-
+        
 
         if (!errors.isEmpty()) {
             System.out.println("\nErrors parsing map file:");
@@ -149,7 +149,7 @@ public class ComponentMap {
             throw new RuntimeException("Errors parsing map file: "
                     + mapFile.getAbsolutePath());
         }
-
+        
     }
 
     private static final Pattern WHITE_SPACE_PATTERN = Pattern.compile("^\\s*$");
@@ -162,7 +162,7 @@ public class ComponentMap {
             final String message, final String line) {
         return file.getAbsolutePath() + ":" + lineNum + ": " + message + "\n" + line;
     }
-
+    
     public Map<String, Set<String>> getIntentMap() {
         return componentMap;
     }

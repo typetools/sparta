@@ -17,15 +17,15 @@ import com.sun.source.tree.MethodInvocationTree;
 import com.sun.source.tree.NewClassTree;
 
 /**
- * Replaces types in a method signature annotated with @PolySourceR and/or @PolySinkR
+ * Replaces types in a method signature annotated with @PolySourceR and/or @PolySinkR 
  *  with the type of the receiver expression that invoked
  * the method.
- *
+ * 
  * Standard Qualifier Polymorphism replaces the types with the least upper
  * bounds of the receiver expression and/or arguments used in the method call
  * that correspond to declared receiver and/or formal parameters that have a
  * polymorphic annotation.
- *
+ * 
  */
 public class ReceiverPolymorphism extends QualifierPolymorphism {
 
@@ -48,7 +48,7 @@ public class ReceiverPolymorphism extends QualifierPolymorphism {
     /**
      * Replaces types in annotatedExecType annotated with @PolySourceR and/or @PolySinkR
      * with the type of the receiver expression of methodInvocTree
-     *
+     * 
      * @param methodInvocTree MethodInvocationTree of the method call
      * @param annotatedExecType AnnotatedExecutableType of method declaration.
      */

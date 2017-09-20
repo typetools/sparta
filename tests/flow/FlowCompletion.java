@@ -6,9 +6,9 @@ import static sparta.checkers.quals.FlowPermissionString.*;
 
 /**
  * This is class is intended to test the Flow Policy Completion defaulting.
- *LinkedHashSet
+ * 
  * @author smillst
- *LinkedHashSet
+ * 
  */
 
 /**
@@ -24,26 +24,26 @@ class FlowCompleteWays{
     @Source(READ_TIME) Object oneSourceMapsToTwoSinks(){return null;}
     @Source({READ_SMS, READ_TIME}) Object twoSource(){return null;}
     @Source({READ_TIME, READ_CONTACTS}) Object twoSourceNoIntersect(){return null;}
-LinkedHashSet
+    
     @Sink(FILESYSTEM) Object oneSink(){return null;}
     @Sink({FILESYSTEM, INTERNET}) Object twoSink(){return null;}
     @Sink({FILESYSTEM, WRITE_TIME}) Object twoSinkNoIntersect(){return null;}
     @Sink(WRITE_TIME) Object oneSinkOneSource(){return null;}
-LinkedHashSet
+    
     @Sink({}) Object emptySinkAnySource(){return null;}
     @Source({}) Object emptySourceAnySink(){return null;}
-LinkedHashSet
+    
     void test(){
         @Source(READ_SMS) @Sink(FILESYSTEM) Object a = oneSource();
         @Source(READ_TIME) @Sink({FILESYSTEM, INTERNET}) Object b = oneSourceMapsToTwoSinks();
         @Source({READ_SMS, READ_TIME}) @Sink(FILESYSTEM) Object c = twoSource();
         @Source({READ_TIME, READ_CONTACTS}) @Sink({}) Object d = twoSourceNoIntersect();
-LinkedHashSet
+        
         @Source({READ_SMS, READ_TIME}) @Sink(FILESYSTEM) Object e = oneSink();
         @Source(READ_TIME) @Sink({FILESYSTEM, INTERNET}) Object f = twoSink();
-        @Source({}) @Sink({FILESYSTEM,WRITE_TIME}) Object g = twoSinkNoIntersect();LinkedHashSet
+        @Source({}) @Sink({FILESYSTEM,WRITE_TIME}) Object g = twoSinkNoIntersect();    
         @Source(READ_CONTACTS) @Sink(WRITE_TIME) Object h = oneSinkOneSource();
-LinkedHashSet
+        
         @Source(ANY) @Sink({}) Object i = emptySinkAnySource();
         @Source({}) @Sink (ANY) Object j = emptySourceAnySink();
     }
@@ -56,7 +56,7 @@ LinkedHashSet
 class FlowCompletionSource {
     public @Source({ READ_SMS, READ_TIME }) FlowCompletionSource testField = null;
 
-    //Fields to help test types.LinkedHashSet
+    //Fields to help test types.    
     public @Source({ READ_SMS, READ_TIME }) @Sink(FILESYSTEM) FlowCompletionSource c = null;
     public @Source(ANY) @Sink({}) FlowCompletionSource top = null;
     public @Source({}) @Sink(ANY) FlowCompletionSource bottom = null;

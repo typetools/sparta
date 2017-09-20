@@ -38,10 +38,10 @@ class Conditions {
        if(s == 1){
            //if we didn't turn of condtional refinements (FATF.createFlowTransferFunction(...)
            //Then s would be LITERAL->FILE
-         // and the following code would not issue a warning,
+         // and the following code would not issue a warning, 
            //but SMS data is written to a file
            //:: error: (argument.type.incompatible)
-           writeToFile(s);
+           writeToFile(s); 
        }else{
          //s is SMS -> {}
            //:: error: (argument.type.incompatible)
@@ -49,7 +49,7 @@ class Conditions {
        }
     }
     void writeToFile(@Sink(FILESYSTEM) int s){
-
+        
     }
     private @Source({}) @Sink({}) float mLastValues @Source({}) @Sink({}) [] = new float[3*2];
     void ternary(){

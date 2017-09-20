@@ -52,7 +52,7 @@ public class ReportValueChecker extends ValueChecker {
         });
         CATEGORIES.add(new Category("Message", MESSAGE_REGEX, "found.message"));
         CATEGORIES.add(new Category("No Category", ".*", "found.nocategory"));
-    }
+    }    
 
     private FileOutputStream writer;
 
@@ -62,7 +62,7 @@ public class ReportValueChecker extends ValueChecker {
     }
 
     @Override
-    public void typeProcessingOver() {
+    public void typeProcessingOver() {   
         File outputDir = new File(SPARTA_OUTPUT_DIR);
         if (!outputDir.exists()) {
             outputDir.mkdir();

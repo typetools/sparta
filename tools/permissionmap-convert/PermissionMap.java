@@ -26,13 +26,13 @@ public static void main(String[] args) {
        packages = readPermMap(args[0]);
        removePrivateAPIs(args[1],packages);
        printPerm(packages);
-
+    
 
 } catch (FileNotFoundException e) {
     // TODO Auto-generated catch block
     e.printStackTrace();
-}
-
+} 
+   
 }
 
 
@@ -60,13 +60,13 @@ private static void removePrivateAPIs(String filename,
 	    match = match.replaceAll("\\(", " ");
 	    match = match.replaceAll("\\)", " ");
 
-
+	    
 	    String[] args = match.split(",");
 	    String cleanargs = "(";
 	    for(String arg:args){
 		String[] classN = arg.split("\\.");
 		if(classN.length>0)
-		cleanargs += classN[classN.length-1].trim()+",";
+		cleanargs += classN[classN.length-1].trim()+","; 
 		else
 		    cleanargs += arg=",";
 	    }
@@ -78,7 +78,7 @@ private static void removePrivateAPIs(String filename,
 	    }
 	}
     }
-
+    
 }
 
 
@@ -97,7 +97,7 @@ private static String getPrivateMethod(String line) {
     if(mat.matches()){
 	 return mat.group(1);
     }
-    return null;
+    return null;  
 }
 
 
@@ -108,7 +108,7 @@ private static String getPrivatePackage(String line) {
     if(mat.matches()){
 	 return mat.group(1);
     }
-    return null;
+    return null;    
 }
 
 
@@ -144,7 +144,7 @@ public static
   java.util.Collections.sort(list);
   return list;
 }
-private static void printPerm(Map<String, List<Method>> packages) {
+private static void printPerm(Map<String, List<Method>> packages) {  
     System.out.println("import sparta.checkers.permission.qual.*;");
     List<String> classes = asSortedList(packages.keySet());
     String cpackage = "XXXXX";
@@ -159,14 +159,14 @@ private static void printPerm(Map<String, List<Method>> packages) {
 	printClasses(packages.get(classs));
 	System.out.println("}");
     }
-
+    
 }
 private static void printClasses(List<Method> methods) {
     for(Method m: methods){
 	System.out.println(m.toString());
 	
     }
-
+    
 }
 private static Method getMethod(String packageN, String method,
 	Map<String, List<Method>> packages) {
@@ -219,7 +219,7 @@ class Method{
 	String classname;
 	public Method(String method, String classname){
 	    this.method = method;
-
+	  
 	    String[] s = classname.split("\\.");
 	    this.classname = s[s.length-1];
 	}
@@ -259,7 +259,7 @@ class Method{
 	@Override
 	public String toString() {
 	    String stubmethod = convertMethod(method);
-
+	    
 	    String print = perms.toString().replace('[', '{');
 	    print = print.replace(']', '}');
 	    print =  "@RequiredPermissions(" + print + ") " + stubmethod+";";

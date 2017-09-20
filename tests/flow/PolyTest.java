@@ -6,7 +6,7 @@ import sparta.checkers.quals.*;
 import static sparta.checkers.quals.FlowPermissionString.*;
 
 class PolyTest {
-LinkedHashSet
+    
 //ContentValues.put(..) were not annotated correctly before.	
 //	void polyPut() {
 //		ContentValues values = new ContentValues();
@@ -63,7 +63,7 @@ LinkedHashSet
 		@Source({ACCESS_FINE_LOCATION}) @Sink({}) String c = PolyTest.merge("abc", a, b);
 	}
 	       void test_allPrimitive_FirstQualifiers2(@Source({ACCESS_FINE_LOCATION}) Double a) {
-	LinkedHashSet
+	                
 	                Double b = 2.0;
 	                @Source({ACCESS_FINE_LOCATION}) @Sink({}) String c = PolyTest.merge2("abc", a, b);
 	        }

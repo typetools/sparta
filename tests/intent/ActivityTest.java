@@ -13,30 +13,30 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class ActivityTest extends Activity {
-LinkedHashSet
+    
     @IntentMap({
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
-        @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })LinkedHashSet
+        @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) }) 
     Intent i1 = new Intent();
-LinkedHashSet
+    
     @IntentMap({
         @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
         @Extra(key = "k3", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })
     Intent i2 = new Intent();
-LinkedHashSet
+    
     @IntentMap({ @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }) })
     Intent i3 = new Intent();
-LinkedHashSet
+    
     @IntentMap({
             @Extra(key = "k1", source = { FILESYSTEM }, sink = { INTERNET }),
             @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }),
             @Extra(key = "k3", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY }) })
     Intent i4 = new Intent();
-LinkedHashSet
+    
     @Source("FILESYSTEM") @Sink("INTERNET") String getFile() {
         return null;
     }
-LinkedHashSet
+    
     void sendToDisplay(@Sink("DISPLAY") String s) {
 
     }
@@ -57,7 +57,7 @@ LinkedHashSet
         //:: error: (argument.type.incompatible)
         i1.putExtra("k2", getFile());
     }
-LinkedHashSet
+    
     void getExtraSuccess() {
         String s = i1.getStringExtra("k2");
         sendToDisplay(s);
@@ -84,9 +84,9 @@ LinkedHashSet
     }
 
     //Parameters of the method below are used to test the component map.
-    void startActivitySuccess(@Source("FILESYSTEM") @Sink("INTERNET") int test,LinkedHashSet
-            @Source("FILESYSTEM") @Sink("INTERNET") String test2,LinkedHashSet
-            @Source("FILESYSTEM") @Sink("INTERNET") Object test3,LinkedHashSet
+    void startActivitySuccess(@Source("FILESYSTEM") @Sink("INTERNET") int test, 
+            @Source("FILESYSTEM") @Sink("INTERNET") String test2, 
+            @Source("FILESYSTEM") @Sink("INTERNET") Object test3, 
             @Source("FILESYSTEM") @Sink("INTERNET") String[] test4) {
         @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
         Intent senderIntent1 = new Intent();
@@ -98,7 +98,7 @@ LinkedHashSet
         startActivity(senderIntent1);
         startActivity(senderIntent2);
     }
-LinkedHashSet
+    
     void startActivityFail() {
         @IntentMap({@Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
         Intent senderIntent1 = new Intent();
@@ -109,19 +109,19 @@ LinkedHashSet
      //:: error: (send.intent.incompatible.types)
         startActivity(senderIntent2);
     }
-LinkedHashSet
+    
     void unknownReceiver() {
         Intent i = new Intent();
         startActivity(i);
     }
-LinkedHashSet
+    
     //Not in the component map
     void receiverNotFound() {
         Intent i = new Intent();
       //:: error: (intent.receiver.notfound)
         startActivity(i);
     }
-LinkedHashSet
+    
     private OnClickListener clickListenerOK = new OnClickListener() {
         public void onClick(@Source("ANY") @Sink({})  View v)	{
             @IntentMap(value={@Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {  }) })
@@ -145,5 +145,5 @@ LinkedHashSet
             startActivity(senderIntent2);
             }
     };
-LinkedHashSet
+    
 }

@@ -133,7 +133,7 @@ class TypeRefinementTest {
     }
     void testG2(@IntentMap(@Extra(key = "k1", source = ANY)) Intent i) {
     }
-LinkedHashSet
+   
     // H: Aliasing in conditional
     void methodH() {
         Intent a = new Intent();

@@ -7,9 +7,9 @@ public class Poly {
     @PolyFlow
     Object testSink(Object in) { return in; }
 
-    void callSink(@Sink(FlowPermissionString.WRITE_EMAIL) Object s) {LinkedHashSet
-	@Sink(FlowPermissionString.WRITE_EMAIL)  Object l =LinkedHashSet
-		testSink(s);LinkedHashSet
+    void callSink(@Sink(FlowPermissionString.WRITE_EMAIL) Object s) { 
+	@Sink(FlowPermissionString.WRITE_EMAIL)  Object l = 
+		testSink(s); 
     }
 
     @PolySink @Source(FlowPermissionString.CAMERA) Object
@@ -18,7 +18,7 @@ public class Poly {
     void callComb(@Sink(FlowPermissionString.WRITE_EMAIL) Object s) {
         @Sink(FlowPermissionString.WRITE_EMAIL) @Source(FlowPermissionString.CAMERA) Object l = testComb(s);
         //:: error: (assignment.type.incompatible)
-        @Sink(FlowPermissionString.INTERNET) @Source(FlowPermissionString.CAMERA) Object l2 = testComb(s);LinkedHashSet
+        @Sink(FlowPermissionString.INTERNET) @Source(FlowPermissionString.CAMERA) Object l2 = testComb(s); 
     }
 
     @Source(FlowPermissionString.ACCESS_FINE_LOCATION) float y;
