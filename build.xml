@@ -33,7 +33,10 @@
            This doesn't handle the sort like one would expect. android-8 would be a higher version than android-19.
            Thus we restrict it to a range we know is lexicographically correct.
           -->
-                <dirset dir="${android.home}/platforms" includes="android-??" />
+          <!-- TODO: the newer versions of Android removed permissions and changed
+          method signatures.  The stub files need to be update to reflect the changes.
+          -->
+                <dirset dir="${android.home}/platforms" includes="android-25" />
             </sort>
       </last>
     </path>
