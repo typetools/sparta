@@ -18,30 +18,28 @@ class AccountAuthenticatorActivity{
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void sendStickyOrderedBroadcast(android.content.Intent arg0, android.content.BroadcastReceiver arg1, android.os.Handler arg2, int arg3, java.lang.String arg4, android.os.Bundle arg5);
 }
 class AccountManager{
-@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  void setUserData(android.accounts.Account arg0, java.lang.String arg1, java.lang.String arg2);
-@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  void setPassword(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  java.lang.String getPassword(android.accounts.Account arg0);
-@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  boolean addAccountExplicitly(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2);
-@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  java.lang.String peekAuthToken(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  java.lang.String getUserData(android.accounts.Account arg0, java.lang.String arg1);
-@RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  void setAuthToken(android.accounts.Account arg0, java.lang.String arg1, java.lang.String arg2);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture editProperties(java.lang.String arg0, android.app.Activity arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture confirmCredentials(android.accounts.Account arg0, android.os.Bundle arg1, android.app.Activity arg2, android.accounts.AccountManagerCallback arg3, android.os.Handler arg4);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, boolean arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, boolean arg2, android.accounts.AccountManagerCallback arg3, android.os.Handler arg4);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthTokenByFeatures(java.lang.String arg0, java.lang.String arg1, java.lang.String[] arg2, android.app.Activity arg3, android.os.Bundle arg4, android.os.Bundle arg5, android.accounts.AccountManagerCallback arg6, android.os.Handler arg7);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture addAccount(java.lang.String arg0, java.lang.String arg1, java.lang.String[] arg2, android.os.Bundle arg3, android.app.Activity arg4, android.accounts.AccountManagerCallback arg5, android.os.Handler arg6);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture getAccountsByTypeAndFeatures(java.lang.String arg0, java.lang.String[] arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
+// @RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  void setUserData(android.accounts.Account arg0, java.lang.String arg1, java.lang.String arg2);
+// @RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  void setPassword(android.accounts.Account arg0, java.lang.String arg1);
+// @RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  java.lang.String getPassword(android.accounts.Account arg0);
+// @RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  boolean addAccountExplicitly(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2);
+// @RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  java.lang.String peekAuthToken(android.accounts.Account arg0, java.lang.String arg1);
+// @RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  java.lang.String getUserData(android.accounts.Account arg0, java.lang.String arg1);
+// @RequiredPermissions({android.Manifest.permission.AUTHENTICATE_ACCOUNTS})  void setAuthToken(android.accounts.Account arg0, java.lang.String arg1, java.lang.String arg2);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture editProperties(java.lang.String arg0, android.app.Activity arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture confirmCredentials(android.accounts.Account arg0, android.os.Bundle arg1, android.app.Activity arg2, android.accounts.AccountManagerCallback arg3, android.os.Handler arg4);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, boolean arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, boolean arg2, android.accounts.AccountManagerCallback arg3, android.os.Handler arg4);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthTokenByFeatures(java.lang.String arg0, java.lang.String arg1, java.lang.String[] arg2, android.app.Activity arg3, android.os.Bundle arg4, android.os.Bundle arg5, android.accounts.AccountManagerCallback arg6, android.os.Handler arg7);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture addAccount(java.lang.String arg0, java.lang.String arg1, java.lang.String[] arg2, android.os.Bundle arg3, android.app.Activity arg4, android.accounts.AccountManagerCallback arg5, android.os.Handler arg6);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture getAccountsByTypeAndFeatures(java.lang.String arg0, java.lang.String[] arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
 @RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  void addOnAccountsUpdatedListener(android.accounts.OnAccountsUpdateListener arg0, android.os.Handler arg1, boolean arg2);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture removeAccount(android.accounts.Account arg0, android.accounts.AccountManagerCallback arg1, android.os.Handler arg2);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, android.app.Activity arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture removeAccount(android.accounts.Account arg0, android.accounts.AccountManagerCallback arg1, android.os.Handler arg2);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture getAuthToken(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, android.app.Activity arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
 @RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.Account[] getAccountsByType(java.lang.String arg0);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture updateCredentials(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, android.app.Activity arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture updateCredentials(android.accounts.Account arg0, java.lang.String arg1, android.os.Bundle arg2, android.app.Activity arg3, android.accounts.AccountManagerCallback arg4, android.os.Handler arg5);
 @RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.Account[] getAccounts();
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.MANAGE_ACCOUNTS})  android.accounts.AccountManagerFuture hasFeatures(android.accounts.Account arg0, java.lang.String[] arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
-@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  java.lang.String blockingGetAuthToken(android.accounts.Account arg0, java.lang.String arg1, boolean arg2);
-@MayRequiredPermissions(value={android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS}, notes="")  void invalidateAuthToken(java.lang.String arg0, java.lang.String arg1);
-@RequiredPermissions({android.Manifest.permission.MANAGE_ACCOUNTS})  void clearPassword(android.accounts.Account arg0);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  android.accounts.AccountManagerFuture hasFeatures(android.accounts.Account arg0, java.lang.String[] arg1, android.accounts.AccountManagerCallback arg2, android.os.Handler arg3);
+@RequiredPermissions({android.Manifest.permission.GET_ACCOUNTS})  java.lang.String blockingGetAuthToken(android.accounts.Account arg0, java.lang.String arg1, boolean arg2);
 }
 package android.app;
 class Activity{
@@ -109,7 +107,7 @@ class IntentService{
 @RequiredPermissions({android.Manifest.permission.BROADCAST_STICKY})  void removeStickyBroadcast(android.content.Intent arg0);
 }
 class KeyguardManager{
-@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.DISABLE_KEYGUARD, android.Manifest.permission.GET_ACCOUNTS, android.Manifest.permission.USE_CREDENTIALS, android.Manifest.permission.MANAGE_ACCOUNTS})  void exitKeyguardSecurely(OnKeyguardExitResult arg0);
+@RequiredPermissions({android.Manifest.permission.MODIFY_AUDIO_SETTINGS, android.Manifest.permission.DISABLE_KEYGUARD, android.Manifest.permission.GET_ACCOUNTS})  void exitKeyguardSecurely(OnKeyguardExitResult arg0);
 }
 class KeyguardManager$KeyguardLock{
 @RequiredPermissions({android.Manifest.permission.DISABLE_KEYGUARD})  void reenableKeyguard();
@@ -268,7 +266,7 @@ class BluetoothDevice{
 @DependentPermissions("android.Manifest.permission.BLUETOOTH") static final String ACTION_ACL_DISCONNECT_REQUESTED;
 
 @DependentPermissions("android.Manifest.permission.BLUETOOTH") static final String ACTION_NAME_CHANGED;
-@DependentPermissions("android.Manifest.permission.BLUETOOTH") static final String ACTION_CLASS_CHANGED; 
+@DependentPermissions("android.Manifest.permission.BLUETOOTH") static final String ACTION_CLASS_CHANGED;
 @DependentPermissions("android.Manifest.permission.BLUETOOTH") static final String ACTION_ACL_DISCONNECTED;
 }
 
@@ -393,14 +391,14 @@ class KeyboardView{
 }
 package android.location;
 class LocationManager{
-@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void clearTestProviderLocation(java.lang.String arg0);
-@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void clearTestProviderEnabled(java.lang.String arg0);
-@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void addTestProvider(java.lang.String arg0, boolean arg1, boolean arg2, boolean arg3, boolean arg4, boolean arg5, boolean arg6, boolean arg7, int arg8, int arg9);
-@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void setTestProviderLocation(java.lang.String arg0, android.location.Location arg1);
-@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void removeTestProvider(java.lang.String arg0);
-@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void setTestProviderEnabled(java.lang.String arg0, boolean arg1);
-@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void clearTestProviderStatus(java.lang.String arg0);
-@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void setTestProviderStatus(java.lang.String arg0, int arg1, android.os.Bundle arg2, long arg3);
+//@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void clearTestProviderLocation(java.lang.String arg0);
+//@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void clearTestProviderEnabled(java.lang.String arg0);
+//@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void addTestProvider(java.lang.String arg0, boolean arg1, boolean arg2, boolean arg3, boolean arg4, boolean arg5, boolean arg6, boolean arg7, int arg8, int arg9);
+//@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void setTestProviderLocation(java.lang.String arg0, android.location.Location arg1);
+//@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void removeTestProvider(java.lang.String arg0);
+//@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void setTestProviderEnabled(java.lang.String arg0, boolean arg1);
+//@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void clearTestProviderStatus(java.lang.String arg0);
+//@RequiredPermissions({android.Manifest.permission.ACCESS_MOCK_LOCATION})  void setTestProviderStatus(java.lang.String arg0, int arg1, android.os.Bundle arg2, long arg3);
 @RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestLocationUpdates(long arg0, float arg1, android.location.Criteria arg2, android.location.LocationListener arg3, android.os.Looper arg4);
 @MayRequiredPermissions(value={android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, notes="This method will only return the providers your permissions give you access to (FINE for GPS; either FINE or COARSE for network).")  java.util.List getProviders(android.location.Criteria arg0, boolean arg1);
 @RequiredPermissions({android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION})  void requestSingleUpdate(android.location.Criteria arg0, android.app.PendingIntent arg1);
@@ -715,51 +713,51 @@ class CallLog$Calls{
 @RequiredPermissions({"com.android.voicemail.permission.ADD_VOICEMAIL", android.Manifest.permission.READ_CONTACTS})  java.lang.String getLastOutgoingCall(android.content.Context arg0);
 }
 class Contacts$ContactMethods{
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void addPostalLocation(android.content.Context arg0, long arg1, double arg2, double arg3);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  void addPostalLocation(android.content.Context arg0, long arg1, double arg2, double arg3);
 }
 class Contacts$People{
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void markAsContacted(android.content.ContentResolver arg0, long arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.database.Cursor queryGroups(android.content.ContentResolver arg0, long arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri createPersonInMyContactsGroup(android.content.ContentResolver arg0, android.content.ContentValues arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri addToGroup(android.content.ContentResolver arg0, long arg1, java.lang.String arg2);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri addToMyContactsGroup(android.content.ContentResolver arg0, long arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri addToGroup(android.content.ContentResolver arg0, long arg1, long arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  void markAsContacted(android.content.ContentResolver arg0, long arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS})  android.database.Cursor queryGroups(android.content.ContentResolver arg0, long arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  android.net.Uri createPersonInMyContactsGroup(android.content.ContentResolver arg0, android.content.ContentValues arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  android.net.Uri addToGroup(android.content.ContentResolver arg0, long arg1, java.lang.String arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  android.net.Uri addToMyContactsGroup(android.content.ContentResolver arg0, long arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  android.net.Uri addToGroup(android.content.ContentResolver arg0, long arg1, long arg2);
 }
 class Contacts$Settings{
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void setSetting(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  java.lang.String getSetting(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  void setSetting(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS})  java.lang.String getSetting(android.content.ContentResolver arg0, java.lang.String arg1, java.lang.String arg2);
 }
 class ContactsContract{
 @DependentPermissions("android.Manifest.permission.WRITE_CONTACTS,android.Manifest.permission.GLOBAL_SEARCH,android.Manifest.permission.READ_CONTACTS") static final Uri AUTHORITY_URI;
 }
 class ContactsContract$Contacts{
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void markAsContacted(android.content.ContentResolver arg0, long arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getLookupUri(long arg0, java.lang.String arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  android.net.Uri getLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  void markAsContacted(android.content.ContentResolver arg0, long arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  android.net.Uri getLookupUri(long arg0, java.lang.String arg1);
 @DependentPermissions("android.Manifest.permission.GLOBAL_SEARCH,android.Manifest.permission.WRITE_CONTACTS") static final Uri CONTENT_URI;
 
 }
 class ContactsContract$Data{
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getContactLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  android.net.Uri getContactLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
 }
 class ContactsContract$Directory{
 @DependentPermissions("android.Manifest.permission.WRITE_CONTACTS") static final Uri CONTENT_URI;
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void notifyDirectoryChange(android.content.ContentResolver arg0);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  void notifyDirectoryChange(android.content.ContentResolver arg0);
 }
 class ContactsContract$ProfileSyncState{
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  byte[] get(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.content.ContentProviderOperation newSetOperation(android.accounts.Account arg0, byte[] arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.util.Pair getWithUri(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void set(android.content.ContentProviderClient arg0, android.accounts.Account arg1, byte[] arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS})  byte[] get(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  android.content.ContentProviderOperation newSetOperation(android.accounts.Account arg0, byte[] arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS})  android.util.Pair getWithUri(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  void set(android.content.ContentProviderClient arg0, android.accounts.Account arg1, byte[] arg2);
 }
 class ContactsContract$RawContacts{
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.net.Uri getContactLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  android.net.Uri getContactLookupUri(android.content.ContentResolver arg0, android.net.Uri arg1);
 }
 class ContactsContract$SyncState{
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  void set(android.content.ContentProviderClient arg0, android.accounts.Account arg1, byte[] arg2);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.util.Pair getWithUri(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS, android.Manifest.permission.READ_SOCIAL_STREAM})  android.content.ContentProviderOperation newSetOperation(android.accounts.Account arg0, byte[] arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  byte[] get(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  void set(android.content.ContentProviderClient arg0, android.accounts.Account arg1, byte[] arg2);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS})  android.util.Pair getWithUri(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.WRITE_SOCIAL_STREAM, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SYNC_SETTINGS})  android.content.ContentProviderOperation newSetOperation(android.accounts.Account arg0, byte[] arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS})  byte[] get(android.content.ContentProviderClient arg0, android.accounts.Account arg1);
 }
 
 class Downloads {
@@ -1050,9 +1048,9 @@ class WebViewFragment{
 }
 package android.widget;
 class QuickContactBadge{
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  void assignContactFromPhone(java.lang.String arg0, boolean arg1);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  void onClick(android.view.View arg0);
-@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.READ_SOCIAL_STREAM})  void assignContactFromEmail(java.lang.String arg0, boolean arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS})  void assignContactFromPhone(java.lang.String arg0, boolean arg1);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS})  void onClick(android.view.View arg0);
+@RequiredPermissions({android.Manifest.permission.WRITE_CONTACTS, android.Manifest.permission.READ_CONTACTS})  void assignContactFromEmail(java.lang.String arg0, boolean arg1);
 }
 class RemoteViewsService{
 @RequiredPermissions({android.Manifest.permission.SET_WALLPAPER})  void setWallpaper(android.graphics.Bitmap arg0);
