@@ -104,7 +104,7 @@ public class IntentVisitor extends FlowVisitor {
     protected boolean checkOverride(MethodTree overriderTree,
             AnnotatedDeclaredType enclosingType,
             AnnotatedExecutableType overridden,
-            AnnotatedDeclaredType overriddenType, Void p) {
+            AnnotatedDeclaredType overriddenType) {
         AnnotatedExecutableType implementingMethod = atypeFactory
                 .getAnnotatedType(overriderTree);
         AnnotationMirror receiveAnnoOverriden = atypeFactory.getDeclAnnotation(
@@ -127,13 +127,13 @@ public class IntentVisitor extends FlowVisitor {
             boolean sendIntentCheck = checkSendIntentOverride(overriderTree,
                     implementingMethod, sendAnnoOverridden);
             boolean standardCheck = super.checkOverride(overriderTree,
-                    enclosingType, overridden, overriddenType, p);
+                    enclosingType, overridden, overriddenType);
             return sendIntentCheck && standardCheck;
         } else {
             // This method isn't a send or receive method
             // so check overriding as usual
             return super.checkOverride(overriderTree, enclosingType,
-                    overridden, overriddenType, p);
+                    overridden, overriddenType);
         }
     }
 
