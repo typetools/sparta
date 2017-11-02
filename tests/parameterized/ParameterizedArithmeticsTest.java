@@ -40,7 +40,7 @@ class ParameterizedArithmeticsTest {
 
         saveAccelData(accel);
 
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         clean = x;
     }
 }

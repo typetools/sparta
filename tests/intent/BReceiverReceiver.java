@@ -25,7 +25,7 @@ public class BReceiverReceiver extends BroadcastReceiver {
 
     void methodNotAllowed() {
         @IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) }) Intent intent = new Intent();
-      //:: error: (intent.invoking.receiveintent)
+      // :: error: (intent.invoking.receiveintent)
         onReceive(null, intent);
     }
 

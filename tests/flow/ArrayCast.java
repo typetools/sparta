@@ -35,7 +35,7 @@ void bar(){
 
 
         // The annotations are on the array type, not on the array component type.
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         callStart(result);
         callFinished(result);
 

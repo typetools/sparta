@@ -36,10 +36,10 @@ public class DataflowInferenceTest extends Activity {
         i2.putExtra("k2", getLocation());
         i2.putExtra("k2", getBottom());
         i2.putExtra("k2", getLocation());
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         i2.putExtra("k2", getTop());
 
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         i2.putExtra("k1", getTop());
 
         i2.putExtra("k5", getBottom());
@@ -66,7 +66,7 @@ public class DataflowInferenceTest extends Activity {
     // TODO: Improved LUB needs to be implemented
     void m3() {
         Intent i3 = new Intent();
-        //:: error: (send.intent.missing.key)
+        // :: error: (send.intent.missing.key)
         startActivity(i3);
         boolean bool = true;
         if (bool) {
@@ -84,14 +84,14 @@ public class DataflowInferenceTest extends Activity {
     void m4() {
         startActivity(new Intent());
         startActivity(new Intent().putExtra("k5", getBottom()));
-        //:: error: (send.intent.incompatible.types)
+        // :: error: (send.intent.incompatible.types)
         startActivity(new Intent().putExtra("k5", getTop()));
     }
 
     // Testing if the return type of putExtra is also being refined.
     void m5() {
         Intent i1 = new Intent();
-        //:: error: (send.intent.missing.key)
+        // :: error: (send.intent.missing.key)
         startActivity(i1);
 
         i1 = i1.putExtra("k5", getBottom());
@@ -109,9 +109,9 @@ public class DataflowInferenceTest extends Activity {
         a.putExtra("k2", getBottom());
         Intent b = a;
         // a loses its @Unique type; no more type refinement can be done for a or b via putExtras.
-        //:: error: (intent.key.notfound)
+        // :: error: (intent.key.notfound)
         a.putExtra("someKey", "");
-        //:: error: (intent.key.notfound)
+        // :: error: (intent.key.notfound)
         b.putExtra("someKey", "");
 
         // Key "k" was already present with type TOP, any value can be added for the Extra with that key.
@@ -119,7 +119,7 @@ public class DataflowInferenceTest extends Activity {
         a.putExtra("k", getBottom());
 
         // Key "k2" was already present with type BOTTOM, only bottom can be added to it.
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         b.putExtra("k2", getLocation());
         a.putExtra("k2", getBottom());
     }
@@ -128,9 +128,9 @@ public class DataflowInferenceTest extends Activity {
 
     void m7() {
         Intent i = new Intent();
-        //:: error: (intent.key.notfound)
+        // :: error: (intent.key.notfound)
         i.getStringExtra("k1");
-        //:: error: (intent.key.notfound)
+        // :: error: (intent.key.notfound)
         i.getStringExtra("k1");
     }
 
@@ -141,7 +141,7 @@ public class DataflowInferenceTest extends Activity {
         b.putString("k", getTop());
         Bundle aliased = b;
         b.putString("k", getTop());
-        //::error: (intent.key.notfound) ::error: (argument.type.incompatible)
+        // ::error: (intent.key.notfound) ::error: (argument.type.incompatible)
         aliased.putString("k2", getTop());
     }
 }

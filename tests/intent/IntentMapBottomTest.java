@@ -26,7 +26,7 @@ public class IntentMapBottomTest extends Activity {
         return null;
     }
 
-    //:: error: (forbidden.flow)
+    // :: error: (forbidden.flow)
     @Source("FILESYSTEM") @Sink("ANY") String getFile2() {
         return null;
     }
@@ -43,9 +43,9 @@ public class IntentMapBottomTest extends Activity {
     void extrasFail() {
         Intent intentMapBottom1 = null;
         Intent intentMapBottom2 = null;
-        //:: error: (argument.type.incompatible) :: error: (intent.not.initialized)
+        // :: error: (argument.type.incompatible) :: error: (intent.not.initialized)
         intentMapBottom1.putExtra("RandomKey1", getFile());
-        //:: error: (intent.not.initialized)
+        // :: error: (intent.not.initialized)
         intentMapBottom1.getStringExtra("RandomKey1");
     }
 
@@ -71,10 +71,10 @@ public class IntentMapBottomTest extends Activity {
     }
 
     void startActivityFail2() {
-        //:: error: (send.intent.missing.key)
+        // :: error: (send.intent.missing.key)
         startActivity(intentMapTop);
         Intent bottom = null;
-        //:: error: (intent.not.initialized)
+        // :: error: (intent.not.initialized)
         startActivity(bottom);
     }
 

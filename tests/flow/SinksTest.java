@@ -12,7 +12,7 @@ class SinkTest {
 
     void noComm(@Source({}) @Sink({}) Object p) {
         // Forbidden: more sinks
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         sendData(p);
     }
 
@@ -20,7 +20,7 @@ class SinkTest {
         // Allowed: fewer sinks
         sendData(p);
         // Forbidden: more sinks
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         any(p);
     }
 

@@ -8,7 +8,7 @@ class ArrayInvariant {
 
     void test() {
         // General invariance test
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         @Source(CAMERA) @Sink(INTERNET) byte @Source(CAMERA) @Sink(INTERNET) [] invariant = notCompleted;
 
        // This line used to issue an error but was fixed when transitioning to better type variables

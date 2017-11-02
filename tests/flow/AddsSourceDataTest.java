@@ -38,14 +38,14 @@ public class AddsSourceDataTest {
     @Source({READ_SMS}) @Sink({}) Object smsObject = null;
 
     void testObjects(){
-        //:: error: (missing.source.argument)
+        // :: error: (missing.source.argument)
         addsSource(emptyObject);
-        //:: error: (missing.source.argument)
+        // :: error: (missing.source.argument)
         addsSourceSecondParam(emptyObject, emptyObject);
 
-        //:: error: (missing.source.argument) :: error: (argument.type.incompatible)
+        // :: error: (missing.source.argument) :: error: (argument.type.incompatible)
         addsSource(timeObject);
-        //:: error: (missing.source.argument) :: error: (argument.type.incompatible)
+        // :: error: (missing.source.argument) :: error: (argument.type.incompatible)
         addsSourceSecondParam(emptyObject, timeObject);
 
         addsSource(smsObject);
@@ -57,14 +57,14 @@ public class AddsSourceDataTest {
     @Source({READ_SMS}) @Sink({}) byte @Source({}) @Sink({})[] smsByteArray = null;
 
     void testByteArray(){
-        //:: error: (missing.source.argument)
+        // :: error: (missing.source.argument)
         addsSourceArray(emptyByteArray);
-        //:: error: (missing.source.argument)
+        // :: error: (missing.source.argument)
         addsSourceArraySecondParam(emptyByteArray, emptyByteArray);
 
-        //:: error: (missing.source.argument) :: error: (argument.type.incompatible)
+        // :: error: (missing.source.argument) :: error: (argument.type.incompatible)
         addsSourceArray(timeByteArray);
-        //:: error: (missing.source.argument) :: error: (argument.type.incompatible)
+        // :: error: (missing.source.argument) :: error: (argument.type.incompatible)
         addsSourceArraySecondParam(emptyByteArray, timeByteArray);
 
         addsSourceArray(smsByteArray);
@@ -76,9 +76,9 @@ public class AddsSourceDataTest {
     @Source({READ_SMS}) @Sink({}) AddsSourceDataTest smsASDT = null;
 
     void testReceiver(){
-        //:: error: (missing.source.receiver)
+        // :: error: (missing.source.receiver)
         emptyASDT.addsSourceReceiver();
-        //:: error: (method.invocation.invalid) :: error: (missing.source.receiver)
+        // :: error: (method.invocation.invalid) :: error: (missing.source.receiver)
         timeASDT.addsSourceReceiver();
         smsASDT.addsSourceReceiver();
     }
@@ -93,15 +93,15 @@ public class AddsSourceDataTest {
 
     }
     void testConstructors(){
-        //:: error: (missing.source.argument)
+        // :: error: (missing.source.argument)
         new AddsSourceDataTest(emptyByteArray);
-        //:: error: (missing.source.argument) :: error: (argument.type.incompatible)
+        // :: error: (missing.source.argument) :: error: (argument.type.incompatible)
         new AddsSourceDataTest(timeByteArray);
         new AddsSourceDataTest(smsByteArray);
 
-        //:: error: (missing.source.argument)
+        // :: error: (missing.source.argument)
         new AddsSourceDataTest(emptyObject);
-        //:: error: (missing.source.argument) :: error: (argument.type.incompatible)
+        // :: error: (missing.source.argument) :: error: (argument.type.incompatible)
         new AddsSourceDataTest(timeObject);
         new AddsSourceDataTest(smsObject);
     }
@@ -112,21 +112,21 @@ public class AddsSourceDataTest {
 
     void testPoly(){
         smsASDT.poly(smsObject);
-        //:: error: (missing.source.argument)
+        // :: error: (missing.source.argument)
         smsASDT.poly(emptyObject);
-        //:: error: (missing.source.argument) :: error: (argument.type.incompatible)
+        // :: error: (missing.source.argument) :: error: (argument.type.incompatible)
         smsASDT.poly(timeObject);
     }
 
     //******Test malformed @AddsSourceData annotations*********
     @AddsSourceData(2)
-    //:: warning: (addssource.index.outofbounds)
+    // :: warning: (addssource.index.outofbounds)
     void m1(){}
     @AddsSourceData(0)
-    //:: warning: (addssource.no.receiver)
+    // :: warning: (addssource.no.receiver)
     public AddsSourceDataTest(){}
     @AddsSourceData(3)
-    //:: warning: (addssource.index.outofbounds)
+    // :: warning: (addssource.index.outofbounds)
     public AddsSourceDataTest(String s1, String s2){}
 
     void testMalformed(){

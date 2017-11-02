@@ -26,11 +26,11 @@ public class ReceiverPolyTest {
     void useMethod(@Source(READ_SMS) @Sink({}) String sourceReadSms,
             @Source({}) @Sink({WRITE_SMS, WRITE_CALENDAR}) String sinkSmsCal,
             @Source({}) @Sink(WRITE_SMS) ReceiverPolyTest sinkWriteSms) {
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         sinkWriteSms.voidMethod(sourceReadSms);
 
         @Source({}) @Sink(WRITE_SMS) String r =
-       //:: error: (argument.type.incompatible)
+       // :: error: (argument.type.incompatible)
         sinkWriteSms.returnTypeMethod(sourceReadSms);
 
         sinkWriteSms.voidMethod(sinkSmsCal);
@@ -43,7 +43,7 @@ public class ReceiverPolyTest {
         //In other words, check that the LUB of the receiver
         //and parameter(s) is not returned.
         @Source({}) @Sink({WRITE_SMS,WRITE_CALENDAR}) String r3 =
-                //:: error: (assignment.type.incompatible)
+                // :: error: (assignment.type.incompatible)
                 sinkWriteSms.returnTypeMethod(sinkSmsCal);
     }
     class Inner{
@@ -55,7 +55,7 @@ public class ReceiverPolyTest {
     void useInnerClass(@Source(READ_SMS) @Sink({}) String sourceReadSms,
             @Source({}) @Sink({WRITE_SMS, WRITE_CALENDAR}) String sinkSmsCal,
             @Source({}) @Sink(WRITE_SMS) ReceiverPolyTest sinkWriteSms){
-        ////:: error: (argument.type.incompatible)
+        //// :: error: (argument.type.incompatible)
         sinkWriteSms.new Inner(sourceReadSms);
         @Source({}) @Sink(WRITE_SMS) ReceiverPolyTest.Inner r = sinkWriteSms.new Inner();
 
@@ -69,7 +69,7 @@ public class ReceiverPolyTest {
         //In other words, check that the LUB of the receiver
         //and parameter(s) is not returned.
         @Source({}) @Sink({WRITE_SMS,WRITE_CALENDAR}) ReceiverPolyTest.Inner r3 =
-                ////:: error: (assignment.type.incompatible)
+                //// :: error: (assignment.type.incompatible)
                 sinkWriteSms.new Inner(sinkSmsCal);
     }
 

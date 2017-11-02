@@ -44,11 +44,11 @@ class TypeRefinementTest {
     void methodB() {
         Intent a = new Intent();
         Intent b = a;
-        //::error: (argument.type.incompatible) ::error: (intent.key.notfound)
+        // ::error: (argument.type.incompatible) ::error: (intent.key.notfound)
         a.putExtra("k", value);
         // a: @IntentMap({}) @MaybeAliased
         // warning: k is not in the @IntentMap of a.
-        //::error: (argument.type.incompatible)
+        // ::error: (argument.type.incompatible)
         testB(a);
     }
     void testB(@IntentMap(@Extra(key="k", source={})) Intent i) {
@@ -61,7 +61,7 @@ class TypeRefinementTest {
 
         @IntentMap(@Extra(key = "k", source = INTERNET))
         Intent b = a;
-        //::error: (argument.type.incompatible) ::error: (intent.key.notfound)
+        // ::error: (argument.type.incompatible) ::error: (intent.key.notfound)
         a.putExtra("k2", value);
         // warning: "k2" is not in the @IntentMap of a.
 
@@ -112,7 +112,7 @@ class TypeRefinementTest {
         } else {
             a.putExtra("k2", top);
         }
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         testG(a);
         // a : @IntentMap({}) @Unique
     }
@@ -144,7 +144,7 @@ class TypeRefinementTest {
             b = a;
         }
         // a: @IntentMap({}) @MaybeAliased
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         testH(a);
     }
     void testH(@IntentMap(@Extra(key = "k", source = ANY)) Intent i) {

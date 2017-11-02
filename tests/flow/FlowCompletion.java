@@ -67,37 +67,37 @@ class FlowCompletionSource {
 
     void testConstructor() {
         @Source({ READ_SMS, READ_TIME }) @Sink(FILESYSTEM) FlowCompletionSource c = new FlowCompletionSource();
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         bottom(new FlowCompletionSource());
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         internetSink(new FlowCompletionSource());
     }
 
     void testThis(@Source({READ_SMS, READ_TIME}) FlowCompletionSource this){
         writeToFile(this);
-      //:: error: (argument.type.incompatible)
+      // :: error: (argument.type.incompatible)
         bottom(this);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         internetSink(this);
     }
     void testReceiverCall() {
         c.testThis();
-        //:: error: (method.invocation.invalid)
+        // :: error: (method.invocation.invalid)
         top.testThis();
         bottom.testThis();
     }
 
     void testParam(@Source({ READ_SMS, READ_TIME }) Object o) {
         writeToFile(o);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         bottom(o);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         internetSink(o);
     }
 
     void testParmCall() {
         testParam(c);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         testParam(top);
         testParam(bottom);
     }
@@ -108,7 +108,7 @@ class FlowCompletionSource {
             if (i == 0) {
                 return c;
             } else if (i == 1) {
-                //:: error: (return.type.incompatible)
+                // :: error: (return.type.incompatible)
                 return top;
             }
         }
@@ -118,38 +118,38 @@ class FlowCompletionSource {
     void testReturnCall(){
         c = testReturn();
         top = testReturn();
-      //:: error: (assignment.type.incompatible)
+      // :: error: (assignment.type.incompatible)
         bottom = testReturn();
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         internetSink(testReturn());
     }
 
     void testCast(){
         writeToFile((/*@Source({READ_SMS, READ_TIME})*/ FlowCompletionSource) bottom);
-      //:: error: (argument.type.incompatible)
+      // :: error: (argument.type.incompatible)
         bottom((/*@Source({READ_SMS, READ_TIME})*/ FlowCompletionSource) bottom);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         internetSink((/*@Source({READ_SMS, READ_TIME})*/ FlowCompletionSource) bottom);
 
         writeToFile((/*@Source({READ_SMS, READ_TIME})*/ String) "hello");
-      //:: error: (argument.type.incompatible)
+      // :: error: (argument.type.incompatible)
         bottom((/*@Source({READ_SMS, READ_TIME})*/ String) "hello");
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         internetSink((/*@Source({READ_SMS, READ_TIME})*/ String) "hello");
     }
 
     void testField() {
         c = testField;
         top = testField;
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         bottom = testField;
     }
 
     void testFieldAssignment() {
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         internetSink(testField);
         testField = c;
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         testField = top;
         testField = bottom;
     }

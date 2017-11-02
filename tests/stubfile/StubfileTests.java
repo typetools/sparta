@@ -45,7 +45,7 @@ public class StubfileTests {
         ExampleApi api = new ExampleApi();
         ExampleApi api1 = new ExampleApi("hello");
 
-        //:: error: (argument.type.incompatible) :: error: (forbidden.flow)
+        // :: error: (argument.type.incompatible) :: error: (forbidden.flow)
         ExampleApi api2 = new ExampleApi(sms);
     }
 
@@ -92,7 +92,7 @@ public class StubfileTests {
         api.reviewedSomeAnnos();
         x = api.reviewedSomeAnnos1();
         api.reviewedSomeAnnos2(s);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         x = api.reviewedSomeAnnos3(s);
     }
     @Source({ READ_CONTACTS }) @Sink({})
@@ -101,14 +101,14 @@ public class StubfileTests {
     void notReviewed() {
         String x = "";
 
-        //::error: (method.invocation.invalid)
+        // ::error: (method.invocation.invalid)
         api.notReviewed();
-        //::error: (forbidden.flow)
+        // ::error: (forbidden.flow)
         x = api.notReviewed1();
 
-        //:: error: (argument.type.incompatible) ::error: (method.invocation.invalid)
+        // :: error: (argument.type.incompatible) ::error: (method.invocation.invalid)
         api.notReviewed2(s2);
-        //::error: (argument.type.incompatible) ::error: (forbidden.flow)
+        // ::error: (argument.type.incompatible) ::error: (forbidden.flow)
         x = api.notReviewed3(s2);
     }
 

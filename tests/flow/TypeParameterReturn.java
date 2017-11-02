@@ -22,21 +22,21 @@ public class TypeParameterReturn {
     }
     void wildCardLiteralBad () {
         Object c = bad()
-                //:: error: (forbidden.flow)
+                // :: error: (forbidden.flow)
                 .myMethod();
     }
 
     <F> void typeParameter(MyClass<F> myClass) {
 
         F  c = myClass.myMethod();
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         sendToInternet(c);
     }
 
     void object(MyClass<  @Source({}) @Sink({}) Object> myClass) {
 
         Object  c = myClass.myMethod();
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         sendToInternet(c);
     }
 

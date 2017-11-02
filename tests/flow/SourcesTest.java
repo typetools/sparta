@@ -10,7 +10,7 @@ class SourceTest {
     void test1() {
         // The type of the local variable is inferred to include RECORD_AUDIO
         Object o = getSound();
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         nomic = o;
         any = o;
     }

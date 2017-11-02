@@ -6,14 +6,14 @@ class SourceAndSink {
     @Source(RECORD_AUDIO) @Sink({}) Object getPrivateSound() { return null; }
     @Source(RECORD_AUDIO) @Sink(ANY) Object getPublicSound() { return null; }
 
-    //:: error: (forbidden.flow)
+    // :: error: (forbidden.flow)
     void sendAnyData(@Source(ANY) @Sink(INTERNET) Object p) {}
     void sendData(@Source({}) @Sink(INTERNET) Object p) {}
 
     void test1() {
 
         Object x = getPrivateSound();
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         sendData(x);
     }
 
@@ -23,12 +23,12 @@ class SourceAndSink {
         // legal
         sendAnyData(x);
         //sendData expect @Source(LITERAL)
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         sendData(x);
     }
 
     void test3() {
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         @Sink(INTERNET) Object x = getPrivateSound();
     }
 }
@@ -37,13 +37,13 @@ class SourceAndSinkOld {
     @Source(RECORD_AUDIO) @Sink({}) Object getPrivateSound() { return null; }
     @Source(RECORD_AUDIO) @Sink(ANY) Object getPublicSound() { return null; }
 
-    //:: error: (forbidden.flow)
+    // :: error: (forbidden.flow)
     void sendAnyData(@Source(ANY) @Sink(INTERNET) Object p) {}
     void sendData(@Source({}) @Sink(INTERNET) Object p) {}
 
     void test1() {
         Object x = getPrivateSound();
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         sendData(x);
     }
 
@@ -52,12 +52,12 @@ class SourceAndSinkOld {
         Object x = getPublicSound();
         // legal
         sendAnyData(x);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         sendData(x);
     }
 
     void test3() {
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         @Sink(INTERNET) Object x = getPrivateSound();
     }
 }

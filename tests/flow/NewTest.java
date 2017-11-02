@@ -14,7 +14,7 @@ import java.net.*;
 //    void method1() {
 //        sink = new TestClass1(param);
 //        sink = new @Sink({INTERNET}) TestClass1(param);
-//        //:: error: (assignment.type.incompatible)
+//        // :: error: (assignment.type.incompatible)
 //        sink = new @Sink(FILESYSTEM) TestClass1(param);
 //    }
 //
@@ -35,19 +35,19 @@ import java.net.*;
 //        TestClass2 local= new TestClass2(fs);
 //        fs_field = local;
 //        // Mismatch between explicitly given type and result of poly-resolution.
-//        //:: error: (constructor.invocation.invalid)
+//        // :: error: (constructor.invocation.invalid)
 //        local = new @Source(CAMERA) TestClass2(fs);
 //
 //        // Specific sink is a subtype of empty sinks.
 //        unqual_field = new @Sink({BIND_ACCESSIBILITY_SERVICE, FILESYSTEM, INTERNET}) @Source(LITERAL) TestClass2(fs);
-//        //:: error: (assignment.type.incompatible)
+//        // :: error: (assignment.type.incompatible)
 //        unqual_field = new @Source(CAMERA) TestClass2(fs);
 //
 //        fs_field = new @Sink({FILESYSTEM,CONDITIONAL}) TestClass2(fs);
 //
 //        fs_field = new @Source({CAMERA}) TestClass2(fs); //Allowed via Flow-policy
 //
-//        //:: error: (assignment.type.incompatible)
+//        // :: error: (assignment.type.incompatible)
 //        fs_field = new @Source(INTERNET) TestClass2(fs);
 //
 //    }

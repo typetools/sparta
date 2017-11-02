@@ -19,7 +19,7 @@ class ParameterizedCastTest {
 
 
     public @Source(ACCESS_FINE_LOCATION) double foo(@Source(ACCESS_FINE_LOCATION+"(my*)") int x) {
-        //:: warning: (cast.unsafe)
+        // :: warning: (cast.unsafe)
         return (@Source(ACCESS_FINE_LOCATION+"(badParam)") double) x;
     }
 
@@ -28,12 +28,12 @@ class ParameterizedCastTest {
     }
 
     public @Source(ACCESS_FINE_LOCATION) double fromAny(@Source(ANY) int x) {
-        //:: warning: (cast.unsafe)
+        // :: warning: (cast.unsafe)
         return (@Source(ACCESS_FINE_LOCATION) double) x;
     }
 
     public @Source(ACCESS_FINE_LOCATION) double anyToLoc(@Source(ANY) int x) {
-        //:: warning: (cast.unsafe)
+        // :: warning: (cast.unsafe)
         return (@Source(ACCESS_FINE_LOCATION) double) x;
     }
 

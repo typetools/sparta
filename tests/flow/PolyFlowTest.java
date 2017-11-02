@@ -43,11 +43,11 @@ class Use {
     }
 
     void polyFlowMethodFail(@Source({}) @Sink(ANY) Cons bottom) {
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         @Source({}) @Sink(ANY) String a = bottom.defaultReceiver(this.emptyInet);
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         @Source({}) @Sink(ANY) String b = bottom.defaultReceiver(this.readSMSInet);
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         @Source({}) @Sink(ANY) String d = bottom.defaultReceiver(this.top);
     }
     void polyFlowReceiver(@Source({}) @Sink(INTERNET) Cons emptyInet,
@@ -107,12 +107,12 @@ class TestGetterSetter {
         @Source(READ_SMS) @Sink(INTERNET) GetterSetter gs = new GetterSetter(readsms);
         @Source(READ_SMS) @Sink(INTERNET) String test1 = gs.getField();
         gs.setField(readsms);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         gs.setField(time);
         @Source(READ_SMS) @Sink(INTERNET) String test2 = gs.toString();
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         @Source(READ_TIME) @Sink(WRITE_TIME) String test3 = gs.getField();
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         @Source(READ_TIME) @Sink(WRITE_TIME) String test4 = gs.toString();
     }
 }

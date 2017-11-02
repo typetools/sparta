@@ -55,22 +55,22 @@ class ConstructorStubAnnotation {
     void testConstructor() {
 
         // Make sure that the stub files are actually working (pointing to the right class, etc).
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         TestStubImplicitConstructor.stubSanity(s);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         TestStubNoParamConstructor.stubSanity(s);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         TestStubParamConstructor.stubSanity(s);
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         TestStubExplicitConstructorType.stubSanity(s);
 
         @Source({}) @Sink({}) TestStubImplicitConstructor imp = new TestStubImplicitConstructor();
         @Source({}) @Sink({}) TestStubNoParamConstructor noParam = new TestStubNoParamConstructor();
 
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         @Source({}) @Sink({}) TestStubParamConstructor param = new TestStubParamConstructor(s);
 
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         @Source({}) @Sink({}) TestStubExplicitConstructorType explicit = new TestStubExplicitConstructorType();
 
         @Source(INTERNET) TestStubExplicitConstructorType explicit2 = new TestStubExplicitConstructorType();

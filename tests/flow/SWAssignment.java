@@ -27,7 +27,7 @@ class SupressWarningsAssignment {
           this is not valid type because CAMERA->WRITE_LOGS is a forbidden flow.
            So the following line produces a forbidden flow warning: */
 
-        //:: error: (forbidden.flow)
+        // :: error: (forbidden.flow)
         int i = bytes.size(); //CAMERA->WRITE_LOGS
 
 

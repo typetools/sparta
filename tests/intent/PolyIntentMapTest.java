@@ -49,7 +49,7 @@ public class PolyIntentMapTest extends Activity {
         @IntentMap({
             @Extra(key = "k1", source = {  }, sink = { INTERNET }),
             @Extra(key = "k2", source = { ACCESS_FINE_LOCATION }, sink = { })})
-        //::error: (assignment.type.incompatible)
+        // ::error: (assignment.type.incompatible)
         Intent i3 = new Intent(i1);
     }
 
@@ -67,13 +67,13 @@ public class PolyIntentMapTest extends Activity {
         i2.putExtra(k1, getFile());
         i2.putExtra(k2, getLocation());
 
-        //::error: (argument.type.incompatible)
+        // ::error: (argument.type.incompatible)
         i2.putExtra(k1, getLocation());
 
         @IntentMap({
             @Extra(key = "k2", source = { FILESYSTEM }, sink = { INTERNET }),
             @Extra(key = "k4", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY })})
-        //::error: (assignment.type.incompatible)
+        // ::error: (assignment.type.incompatible)
         Intent i3 = new Intent(i1);
     }
 
@@ -90,15 +90,15 @@ public class PolyIntentMapTest extends Activity {
         b.putString(k1, getFile());
         b.putString(k2, getLocation());
 
-        //::error: (argument.type.incompatible) ::error: (intent.key.notfound)
+        // ::error: (argument.type.incompatible) ::error: (intent.key.notfound)
         b.putString("SomeInexistentKey", getFile());
-        //::error: (argument.type.incompatible)
+        // ::error: (argument.type.incompatible)
         b.putString(k1, getLocation());
 
         @IntentMap({
             @Extra(key = "k2", source = { FILESYSTEM }, sink = { INTERNET }),
             @Extra(key = "k4", source = { ACCESS_FINE_LOCATION }, sink = { DISPLAY })})
-        //::error: (assignment.type.incompatible)
+        // ::error: (assignment.type.incompatible)
         Bundle b2 = i1.getExtras();
     }
 

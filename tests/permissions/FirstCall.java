@@ -14,13 +14,13 @@ class FirstCall {
     void mayReqSMS() {}
 
     void badUse1() {
-        //:: error: (unsatisfied.permissions)
+        // :: error: (unsatisfied.permissions)
         doNFC();
     }
 
     @RequiredPermissions(permission.SEND_SMS)
     void badUse2() {
-        //:: error: (unsatisfied.permissions)
+        // :: error: (unsatisfied.permissions)
         doNFC();
     }
 
@@ -36,12 +36,12 @@ class FirstCall {
 
     @RequiredPermissions(permission.SEND_SMS)
     void badUse3() {
-    	//:: error: (may.required.permissions)
+    	// :: error: (may.required.permissions)
     	mayReqSMS();
     }
 
     void mightOKUse() {
-    	//:: error: (may.required.permissions)
+    	// :: error: (may.required.permissions)
     	mayReqSMS();
     }
 
@@ -52,7 +52,7 @@ class FirstCall {
 
     public String s="k";
     void dependentPermissionTest() {
-    	//:: error: (dependent.permissions)
+    	// :: error: (dependent.permissions)
     	s = constant;
     	
     }

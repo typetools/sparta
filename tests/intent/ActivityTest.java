@@ -54,7 +54,7 @@ public class ActivityTest extends Activity {
     }
 
     void putExtraFail() {
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         i1.putExtra("k2", getFile());
     }
 
@@ -66,9 +66,9 @@ public class ActivityTest extends Activity {
     void getExtraFail() {
         i1.putExtra("k1", getFile());
         String s1 = i1.getStringExtra("k1");
-        //:: error: (intent.key.notfound)
+        // :: error: (intent.key.notfound)
         String s4 = i1.getStringExtra("k4");
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         sendToDisplay(s1);
     }
 
@@ -77,9 +77,9 @@ public class ActivityTest extends Activity {
     }
 
     void intentAssignmentFail() {
-     //:: error: (assignment.type.incompatible)
+     // :: error: (assignment.type.incompatible)
         i2 = i1;
-     //:: error: (assignment.type.incompatible)
+     // :: error: (assignment.type.incompatible)
         i4 = i1;
     }
 
@@ -104,9 +104,9 @@ public class ActivityTest extends Activity {
         Intent senderIntent1 = new Intent();
         @IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
         Intent senderIntent2 = new Intent();
-     //:: error: (send.intent.missing.key)
+     // :: error: (send.intent.missing.key)
         startActivity(senderIntent1);
-     //:: error: (send.intent.incompatible.types)
+     // :: error: (send.intent.incompatible.types)
         startActivity(senderIntent2);
     }
 
@@ -118,7 +118,7 @@ public class ActivityTest extends Activity {
     //Not in the component map
     void receiverNotFound() {
         Intent i = new Intent();
-      //:: error: (intent.receiver.notfound)
+      // :: error: (intent.receiver.notfound)
         startActivity(i);
     }
 
@@ -139,9 +139,9 @@ public class ActivityTest extends Activity {
             Intent senderIntent1 = new Intent();
             @IntentMap({@Extra(key = "k5", source = { ANY }, sink = { }) })
             Intent senderIntent2 = new Intent();
-            //:: error: (send.intent.missing.key)
+            // :: error: (send.intent.missing.key)
             startActivity(senderIntent1);
-            //:: error: (send.intent.incompatible.types)
+            // :: error: (send.intent.incompatible.types)
             startActivity(senderIntent2);
             }
     };

@@ -32,9 +32,9 @@ public class ArrayTest extends Activity {
     }
 
     void putExtraArrayFail() {
-      //:: error: (argument.type.incompatible)
+      // :: error: (argument.type.incompatible)
         i1.putExtra("k2", getValArray());
-        //:: error: (argument.type.incompatible) :: error: (intent.key.notfound)
+        // :: error: (argument.type.incompatible) :: error: (intent.key.notfound)
         i1.putExtra("k3", getValArray());
     }
 
@@ -43,9 +43,9 @@ public class ArrayTest extends Activity {
     }
 
     void getExtraArrayFail() {
-      //:: error: (assignment.type.incompatible)
+      // :: error: (assignment.type.incompatible)
         @Source("FILESYSTEM") @Sink("INTERNET") String @Source("FILESYSTEM") @Sink("INTERNET") [] stringArray = i1.getStringArrayExtra("k2");
-      //:: error: (intent.key.notfound)
+      // :: error: (intent.key.notfound)
         @Source("FILESYSTEM") @Sink("INTERNET") String @Source("FILESYSTEM") @Sink("INTERNET") [] stringArray2 = i1.getStringArrayExtra("k3");
     }
 

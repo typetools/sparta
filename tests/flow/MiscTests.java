@@ -39,7 +39,7 @@ class MiscTests {
         Double lon = 2.0;
         Integer days = 3;
 
-        //::error: (assignment.type.incompatible)
+        // ::error: (assignment.type.incompatible)
         result2 = String.format(WEBSERVICE_URL2, lat, lon, days);
     }
 
@@ -55,7 +55,7 @@ class MiscTests {
         Double lon = (@Source({READ_CALENDAR})Double) Double.valueOf(2.0);
         Integer days = (@Source({READ_CALENDAR})Integer) Integer.valueOf(3);
 
-        //::error: (assignment.type.incompatible)
+        // ::error: (assignment.type.incompatible)
         result = String.format(WEBSERVICE_URL3, lat, lon, days);
     }
 }

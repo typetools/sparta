@@ -14,7 +14,7 @@ class FlowPoilcyDefaulting {
 
     @Source(ANY) @Sink({}) List<@Source(FlowPermissionString.INTERNET) Object> netok2 = foo();
 
-    //:: error: (assignment.type.incompatible)
+    // :: error: (assignment.type.incompatible)
     List<@Source(INTERNET) Object> neterr = new ArrayList<Object>();
     void use(@Source(ANY) Object o, @Source(INTERNET) Object neto) {
 
@@ -36,7 +36,7 @@ class FlowPoilcyDefaulting {
         UpperObject<@Source(INTERNET)  Object> uo = new UpperObject<>();
         sendToInternet(uo.getT());
 
-        //:: error: (method.invocation.invalid)
+        // :: error: (method.invocation.invalid)
         rt.internetReciever();
 
 

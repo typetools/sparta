@@ -22,7 +22,7 @@ public class ReceiverIntentTest extends Activity {
 
     @Override
     @ReceiveIntent("startActivity,1")
-    //:: error: (intent.getintent.notfound)
+    // :: error: (intent.getintent.notfound)
     public void setIntent(@IntentMap({ @Extra(key = "k5", source = { ACCESS_FINE_LOCATION }, sink = {}) })
         Intent newIntent) {
         super.setIntent(newIntent);

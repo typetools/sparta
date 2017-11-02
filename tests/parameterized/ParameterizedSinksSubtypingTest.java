@@ -30,7 +30,7 @@ public class ParameterizedSinksSubtypingTest {
     }
 
     void testMultipleParametersFail() {
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         multipleSrc1 = singleSrc1;
     }
 
@@ -41,10 +41,10 @@ public class ParameterizedSinksSubtypingTest {
     }
 
     void testWildcardParametersFail() {
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         wildcardSrc2 = wildcardSrc1;
 
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         wildcardSrc3 = wildcardSrc2;
     }
 
@@ -62,10 +62,10 @@ public class ParameterizedSinksSubtypingTest {
     }
 
     void testGoogleReverseFailure() {
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         googleTopSource = googleVoiceSource;
 
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         googleTopSource = googleMapsSource;
     }
 }

@@ -50,13 +50,13 @@ public class DefaultingTest extends Activity {
         @IntentMap({
             @Extra(key = "k1", source = {ANY}, sink = {}),
             @Extra(key = "k2", source = {ANY}, sink = {})})
-        //::error: (assignment.type.incompatible)
+        // ::error: (assignment.type.incompatible)
         Intent i3 = i;
 
     }
 
     @Override
-    //::error: (intent.defaulting.receiveintent.source) ::error: (intent.getintent.notfound)
+    // ::error: (intent.defaulting.receiveintent.source) ::error: (intent.getintent.notfound)
     public void setIntent(@IntentMap({ @Extra(key = "k5", sink = {}) }) Intent newIntent) {
         super.setIntent(newIntent);
     }

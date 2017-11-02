@@ -26,9 +26,9 @@ public class InferParamPermTest {
                     MyFileOutputStream fos = new MyFileOutputStream("fromSMSFile");
             fos.write(readSMSBytes);
             fos.write(readSMSObj);
-            //:: error: (argument.type.incompatible)
+            // :: error: (argument.type.incompatible)
             fos.write(readTimeBytes);
-            //:: error: (argument.type.incompatible)
+            // :: error: (argument.type.incompatible)
             fos.write(readTimeObj);
 
             @Source(FILESYSTEM+"(toSMSfile)") @Sink(WRITE_SMS)
@@ -36,7 +36,7 @@ public class InferParamPermTest {
             fis.read(writeSMSBytes);
             fis.read(writeSMSObj);
 
-            //:: error: (argument.type.incompatible)
+            // :: error: (argument.type.incompatible)
             fis.read(writeTimeBytes);
             //TODO:THis one should have an "AddSource" error
             fis.read(writeSMSObj);

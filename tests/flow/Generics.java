@@ -26,7 +26,7 @@ class Generics {
 
     @Source(ANY) @Sink({}) List<@Source(FlowPermissionString.INTERNET) Object> netok2 = foo();
 
-    //:: error: (assignment.type.incompatible)
+    // :: error: (assignment.type.incompatible)
     List<@Source(INTERNET) Object> neterr = new List<Object>();
     void use(@Source(ANY) Object o, @Source(INTERNET) Object neto) {
 
@@ -61,7 +61,7 @@ class TestUpperObject{
         UpperObject<@Source({}) @Sink({}) Object> lit2;
 
         UpperObject<@Source(ANY) @Sink({}) Object> lit3;
-        //:: error: (type.argument.type.incompatible)
+        // :: error: (type.argument.type.incompatible)
         GenObject<Object> gen;
 
         GenObject<@Source(ANY) @Sink({}) Object> gen2;
@@ -73,7 +73,7 @@ class TestUpperObject{
 class TypeAsKeyHashMap<T> {
 
 	public <S extends T> S get(T type) {
-		//:: warning: [unchecked] unchecked cast
+		// :: warning: [unchecked] unchecked cast
 		return (S) type;
 	}
 }

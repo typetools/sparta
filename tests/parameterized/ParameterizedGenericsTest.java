@@ -21,7 +21,7 @@ class ParameterizedGenericsTest {
         for (int i = 0; i < strings.size(); i++) {
             // good
             wildcard_string = strings.get(i);
-            //:: error: (assignment.type.incompatible)
+            // :: error: (assignment.type.incompatible)
             bad_literal = strings.get(i);
         }
     }

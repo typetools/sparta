@@ -29,7 +29,7 @@ public class ParameterizedSourcesSubtypingTest {
     }
 
     void testMultipleParametersFail() {
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         singleSrc1 = multipleSrc1;
     }
 
@@ -40,10 +40,10 @@ public class ParameterizedSourcesSubtypingTest {
     }
 
     void testWildcardParametersFail() {
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         wildcardSrc1 = wildcardSrc2;
 
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         wildcardSrc2 = wildcardSrc3;
     }
 
@@ -60,10 +60,10 @@ public class ParameterizedSourcesSubtypingTest {
     }
 
     void testGoogleReverseFailure() {
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         googleVoiceSource = googleTopSource;
 
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         googleMapsSource = googleTopSource;
     }
 }

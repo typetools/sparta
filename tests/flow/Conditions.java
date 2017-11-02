@@ -13,22 +13,22 @@ class Conditions {
     }
 
     void bad(@Sink(FlowPermissionString.MANAGE_ACCOUNTS) int p) {
-        //TODO: test condition mode//:: error: (condition.flow)
+        //TODO: test condition mode// :: error: (condition.flow)
         if (p > 9) {
             // boom.
         }
 
-        //TODO: test condition mode//:: error: (condition.flow)
+        //TODO: test condition mode// :: error: (condition.flow)
         while ((p % 5) > 2) {}
 
         // Flow propagates source from p to b.
         boolean b = p < 9;
-        //TODO: test condition mode//:: error: (condition.flow)
+        //TODO: test condition mode// :: error: (condition.flow)
         int answer = b ? 42 : 33;
     }
 
     void bad(@Sink(FlowPermissionString.MANAGE_ACCOUNTS) boolean p) {
-        //TODO: test condition mode//:: error: (condition.flow)
+        //TODO: test condition mode// :: error: (condition.flow)
         if(p) {
             // bad.
         }
@@ -40,11 +40,11 @@ class Conditions {
            //Then s would be LITERAL->FILE
          // and the following code would not issue a warning,
            //but SMS data is written to a file
-           //:: error: (argument.type.incompatible)
+           // :: error: (argument.type.incompatible)
            writeToFile(s);
        }else{
          //s is SMS -> {}
-           //:: error: (argument.type.incompatible)
+           // :: error: (argument.type.incompatible)
            writeToFile(s);  //Warning
        }
     }
@@ -58,7 +58,7 @@ class Conditions {
         float direction = (v > mLastValues[k] ? 1 : (v < mLastValues[k    ] ? -1 : 0));
         if(direction == 0){
             //TODO:This is a bug
-            //TODO: test condition mode//:: error: (condition.flow)
+            //TODO: test condition mode// :: error: (condition.flow)
             int extType = (direction > 0 ? 0 : 1);
         }
     }

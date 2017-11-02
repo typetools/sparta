@@ -26,7 +26,7 @@ public class ConstCheckerTest extends Activity {
         @StringVal({ "k2", "k3" })
         String k2Ork3 = flag ? "k2" : "k3";
 
-        //:: error: (forbidden.flow)
+        // :: error: (forbidden.flow)
         String test1 = i1.getStringExtra(k2Ork3);
     }
 }

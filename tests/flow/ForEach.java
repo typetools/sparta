@@ -19,7 +19,7 @@ import static sparta.checkers.quals.FlowPermissionString.*;
           }
 
          for (Object obj : new ArrayList<@Source(INTERNET) @Sink({}) Object>()) {
-             //:: error: (argument.type.incompatible)
+             // :: error: (argument.type.incompatible)
              sendToInternet(obj);
           }
      }
@@ -28,28 +28,28 @@ import static sparta.checkers.quals.FlowPermissionString.*;
      public void testArrays(){
          for(Object obj : internetArray){
              @Source(READ_SMS) @Sink(INTERNET) Object correct = obj;
-             //:: error: (assignment.type.incompatible)
+             // :: error: (assignment.type.incompatible)
              @Source({}) @Sink(INTERNET) Object wrong = obj;
-             //:: error: (assignment.type.incompatible)
+             // :: error: (assignment.type.incompatible)
              @Source({}) @Sink(ANY) Object bot = obj;
          }
          for(Object obj : noSinkArray){
              @Source(READ_SMS) @Sink({}) Object correct = obj;
-             //:: error: (assignment.type.incompatible)
+             // :: error: (assignment.type.incompatible)
              @Source(READ_SMS) @Sink(INTERNET) Object wrong = obj;
-             //:: error: (assignment.type.incompatible)
+             // :: error: (assignment.type.incompatible)
              @Source({}) @Sink(ANY) Object bot = obj;
          }
 
          for(@Source(READ_SMS) @Sink(INTERNET) Object obj : internetArray){}
-         //:: error: (enhancedfor.type.incompatible)
+         // :: error: (enhancedfor.type.incompatible)
          for(@Source({}) @Sink(INTERNET) Object obj : internetArray){}
-         //:: error: (enhancedfor.type.incompatible)
+         // :: error: (enhancedfor.type.incompatible)
          for(@Source(ANY) @Sink({WRITE_CONTACTS}) Object obj : internetArray){}
 
-         //:: error: (enhancedfor.type.incompatible)
+         // :: error: (enhancedfor.type.incompatible)
          for(@Source(READ_SMS) @Sink(INTERNET) Object obj : noSinkArray){}
-         //:: error: (enhancedfor.type.incompatible)
+         // :: error: (enhancedfor.type.incompatible)
          for(@Source(ANY) @Sink(WRITE_CONTACTS) Object obj : noSinkArray){}
          for(@Source(READ_SMS) @Sink({}) Object obj : noSinkArray){
          }

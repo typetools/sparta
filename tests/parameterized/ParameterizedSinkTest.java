@@ -8,13 +8,13 @@ class ParameterizedSinkTest {
         // Allowed: fewer sinks
         noComm(p);
         // Forbidden: less restrictive sink params
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         two(p);
     }
 
     void noComm(@Source({}) @Sink({}) Object p) {
         // Forbidden: more sinks
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         sendData(p);
     }
 
@@ -22,7 +22,7 @@ class ParameterizedSinkTest {
         // Allowed: fewer sinks, more restrictive sink params
         sendData(p);
         // Forbidden: more sinks
-        //:: error: (argument.type.incompatible)
+        // :: error: (argument.type.incompatible)
         any(p);
     }
 

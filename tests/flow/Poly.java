@@ -17,7 +17,7 @@ public class Poly {
 
     void callComb(@Sink(FlowPermissionString.WRITE_EMAIL) Object s) {
         @Sink(FlowPermissionString.WRITE_EMAIL) @Source(FlowPermissionString.CAMERA) Object l = testComb(s);
-        //:: error: (assignment.type.incompatible)
+        // :: error: (assignment.type.incompatible)
         @Sink(FlowPermissionString.INTERNET) @Source(FlowPermissionString.CAMERA) Object l2 = testComb(s);
     }
 

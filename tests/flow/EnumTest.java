@@ -19,7 +19,7 @@ public class EnumTest{
 	void writeToSMS(@Sink(WRITE_SMS) Object o){	}
 	void foo(){
 		writeToSMS(EnumAnnoBottom.CONST);
-		//:: error: (argument.type.incompatible)
+		// :: error: (argument.type.incompatible)
 		writeToSMS(EnumAnnoEmpty.CONST);
 		writeToSMS(EnumNoAnno.CONST);
 	}

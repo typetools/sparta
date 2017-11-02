@@ -1,9 +1,9 @@
 class Simple {
     void m() {
         try {
-            //:: error: (methodcall)
+            // :: error: (methodcall)
             Class.forName("bad.Class");
-            //:: error: (methodcall)
+            // :: error: (methodcall)
             this.getClass().forName("Ha");
         } catch (Exception e) {}
     }
