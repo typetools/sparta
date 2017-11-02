@@ -1,36 +1,36 @@
 
 /*These warnings should happen*/
-//warning: StubParser: Field INET_FIELD not found in type stubfile.ExampleApi
-//warning: StubParser: Imported package not found: fakepackage
-//warning: StubParser: Imported type not found: fakepackage.Test
-//warning: StubParser: Imported type not found: fakeclass
-//warning: StubParser: Enclosing type of static field Test not found: fakeclass
-//warning: StubParser: Enclosing type of static field fakenestedfield not found: stubfile.ExampleApiNotExist
-//warning: StubParser: Static field MISSING_FIELD is not imported
-//warning: StubParser: Field MISSING_MEMEBER not found in type sparta.checkers.quals.FlowPermissionString
-//warning: StubParser: Type MissingClass not found
+// warning: StubParser: Field INET_FIELD not found in type stubfile.ExampleApi
+// warning: StubParser: Imported package not found: fakepackage
+// warning: StubParser: Imported type not found: fakepackage.Test
+// warning: StubParser: Imported type not found: fakeclass
+// warning: StubParser: Enclosing type of static field Test not found: fakeclass
+// warning: StubParser: Enclosing type of static field fakenestedfield not found: stubfile.ExampleApiNotExist
+// warning: StubParser: Static field MISSING_FIELD is not imported
+// warning: StubParser: Field MISSING_MEMEBER not found in type sparta.checkers.quals.FlowPermissionString
+// warning: StubParser: Type MissingClass not found
 
 
 
 /*These warnings are from information-flow.astub and they may change*/
-//warning: StubParser: Skipping annotation type: android.annotation.TargetApi
-//warning: StubParser: Skipping enum type: android.net.NetworkInfo.State
-//warning: StubParser: Method idealByteArraySize(int) not found in type android.support.v4.util.LongSparseArray
-//warning: StubParser: Method idealLongArraySize(int) not found in type android.support.v4.util.LongSparseArray
-//warning: StubParser: Type not found: android.support.v4.print.PrintHelperKitKat
-//warning: StubParser: Constructor <init>(ArrayList) not found in type android.view.ViewGroup
-//warning: StubParser: Method onItemClick(AdapterView,View,int,long) not found in type android.widget.AdapterView.OnItemSelectedListener
-//warning: StubParser: Type not found: com.google.android.maps.GeoPoint
-//warning: StubParser: Method get() not found in type java.lang.ref.ReferenceQueue
-//warning: StubParser: Skipping enum type: java.util.concurrent.TimeUnit
-//warning: StubParser: Type not found: org.htmlcleaner.HtmlCleaner
-//warning: StubParser: Type not found: org.htmlcleaner.TagNode
-//warning: StubParser: Field WRITE_BLOCKING not found in type android.media.AudioTrack
-//warning: StubParser: Field WRITE_NON_BLOCKING not found in type android.media.AudioTrack
-//warning: StubParser: Constructor <init>(AudioAttributes,AudioFormat,int,int,int) not found in type android.media.AudioTrack
-//warning: StubParser: Method setVolume(float) not found in type android.media.AudioTrack
-//warning: StubParser: Method write(float[],int,int,int) not found in type android.media.AudioTrack
-//warning: StubParser: Method write(ByteBuffer,int,int) not found in type android.media.AudioTrack
+// warning: StubParser: Skipping annotation type: android.annotation.TargetApi
+// warning: StubParser: Skipping enum type: android.net.NetworkInfo.State
+// warning: StubParser: Method idealByteArraySize(int) not found in type android.support.v4.util.LongSparseArray
+// warning: StubParser: Method idealLongArraySize(int) not found in type android.support.v4.util.LongSparseArray
+// warning: StubParser: Type not found: android.support.v4.print.PrintHelperKitKat
+// warning: StubParser: Constructor <init>(ArrayList) not found in type android.view.ViewGroup
+// warning: StubParser: Method onItemClick(AdapterView,View,int,long) not found in type android.widget.AdapterView.OnItemSelectedListener
+// warning: StubParser: Type not found: com.google.android.maps.GeoPoint
+// warning: StubParser: Method get() not found in type java.lang.ref.ReferenceQueue
+// warning: StubParser: Skipping enum type: java.util.concurrent.TimeUnit
+// warning: StubParser: Type not found: org.htmlcleaner.HtmlCleaner
+// warning: StubParser: Type not found: org.htmlcleaner.TagNode
+// warning: StubParser: Field WRITE_BLOCKING not found in type android.media.AudioTrack
+// warning: StubParser: Field WRITE_NON_BLOCKING not found in type android.media.AudioTrack
+// warning: StubParser: Constructor <init>(AudioAttributes,AudioFormat,int,int,int) not found in type android.media.AudioTrack
+// warning: StubParser: Method setVolume(float) not found in type android.media.AudioTrack
+// warning: StubParser: Method write(float[],int,int,int) not found in type android.media.AudioTrack
+// warning: StubParser: Method write(ByteBuffer,int,int) not found in type android.media.AudioTrack
 
 
 

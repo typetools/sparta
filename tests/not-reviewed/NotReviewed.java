@@ -2,7 +2,7 @@ import stubfile.ExampleApi;
 
 public class NotReviewed{
 
-//warning: 11 byte code methods have not been reviewed.
+// warning: 11 byte code methods have not been reviewed.
     void notReviewed() {
         // :: warning: (not.reviewed)
         ExampleApi api = new ExampleApi();
