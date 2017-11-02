@@ -47,7 +47,7 @@ class TypeRefinementTest {
         // ::error: (argument.type.incompatible) ::error: (intent.key.notfound)
         a.putExtra("k", value);
         // a: @IntentMap({}) @MaybeAliased
-        // warning: k is not in the @IntentMap of a.
+        // Warning: k is not in the @IntentMap of a.
         // ::error: (argument.type.incompatible)
         testB(a);
     }
@@ -63,7 +63,7 @@ class TypeRefinementTest {
         Intent b = a;
         // ::error: (argument.type.incompatible) ::error: (intent.key.notfound)
         a.putExtra("k2", value);
-        // warning: "k2" is not in the @IntentMap of a.
+        // Warning: "k2" is not in the @IntentMap of a.
 
     }
 
