@@ -9,11 +9,11 @@ import org.checkerframework.framework.type.treeannotator.ImplicitsTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.PropagationTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
-import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.GraphQualifierHierarchy;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 
 import org.checkerframework.framework.util.defaults.QualifierDefaults;
+import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.Pair;
 
@@ -225,8 +225,8 @@ public class DependentPermissionsAnnotatedTypeFactory extends BaseAnnotatedTypeF
     public DependentPermissionsAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
 
-        BOTTOM = AnnotationUtils.fromClass(elements, Bottom.class);
-        DP = AnnotationUtils.fromClass(elements, DependentPermissions.class);
+        BOTTOM = AnnotationBuilder.fromClass(elements, Bottom.class);
+        DP = AnnotationBuilder.fromClass(elements, DependentPermissions.class);
 
         this.postInit();
     }
@@ -240,8 +240,8 @@ public class DependentPermissionsAnnotatedTypeFactory extends BaseAnnotatedTypeF
 
     @Override
     protected void addCheckedCodeDefaults(QualifierDefaults defaults) {
-        defaults.addCheckedCodeDefault(AnnotationUtils.fromClass(elements, DependentPermissionsTop.class), TypeUseLocation.LOCAL_VARIABLE);
-        defaults.addCheckedCodeDefault(AnnotationUtils.fromClass(elements, DependentPermissionsUnqualified.class), TypeUseLocation.OTHERWISE);
+        defaults.addCheckedCodeDefault(AnnotationBuilder.fromClass(elements, DependentPermissionsTop.class), TypeUseLocation.LOCAL_VARIABLE);
+        defaults.addCheckedCodeDefault(AnnotationBuilder.fromClass(elements, DependentPermissionsUnqualified.class), TypeUseLocation.OTHERWISE);
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
 import org.checkerframework.framework.util.AnnotatedTypes;
+import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ErrorReporter;
 import org.checkerframework.javacutil.TreeUtils;
@@ -73,8 +74,7 @@ public class StandardQualifierPolymorphism extends QualifierPolymorphism {
                         }
                         ttreetop = tops.iterator().next();
                     } else {
-                        AnnotationMirror ttree = AnnotationUtils.fromName(
-                                elements, plval);
+                        AnnotationMirror ttree = AnnotationBuilder.fromName(elements, plval);
                         ttreetop = qualhierarchy.getTopAnnotation(ttree);
                     }
                     if (polys.containsKey(ttreetop)) {

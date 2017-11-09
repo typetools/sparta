@@ -28,6 +28,7 @@ import org.checkerframework.framework.type.QualifierHierarchy;
 import org.checkerframework.framework.type.visitor.AnnotatedTypeScanner;
 import org.checkerframework.framework.type.visitor.SimpleAnnotatedTypeVisitor;
 import org.checkerframework.framework.util.AnnotatedTypes;
+import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.TypesUtils;
 
@@ -80,7 +81,7 @@ public abstract class QualifierPolymorphism {
         this.types = env.getTypeUtils();
 
         Elements elements = env.getElementUtils();
-        POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
+        POLYALL = AnnotationBuilder.fromClass(elements, PolyAll.class);
         this.qualhierarchy = factory.getQualifierHierarchy();
 
         Map<AnnotationMirror, AnnotationMirror> polys = getPolyQualifiers(elements);
@@ -278,8 +279,7 @@ public abstract class QualifierPolymorphism {
                         result = visit(type, wctype.getSuperBound());
                     } else {
                         AnnotatedTypeMirror superBoundAsSuper =
-                                AnnotatedTypes
-                                        .asSuper(types, atypeFactory, wctype.getSuperBound(), type);
+                                AnnotatedTypes.asSuper(atypeFactory, wctype.getSuperBound(), type);
                         result = visit(type, superBoundAsSuper);
                     }
                 } else {

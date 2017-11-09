@@ -6,6 +6,7 @@ import static org.checkerframework.framework.qual.TypeUseLocation.RESOURCE_VARIA
 import static org.checkerframework.framework.qual.TypeUseLocation.UPPER_BOUND;
 
 import org.checkerframework.framework.qual.TypeUseLocation;
+import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.InternalUtils;
@@ -52,7 +53,6 @@ import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.PropagationTreeAnnotator;
 import org.checkerframework.framework.type.typeannotator.TypeAnnotator;
 import org.checkerframework.framework.type.visitor.AnnotatedTypeScanner;
-import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.AnnotationFormatter;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import org.checkerframework.framework.util.defaults.QualifierDefaults;
@@ -103,8 +103,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
         getIntent = TreeUtils.getMethod("android.app.Activity", "getIntent", 0, processingEnv);
         setIntent = TreeUtils.getMethod("android.app.Activity", "setIntent", 1, processingEnv);
 
-        INTENT_MAP = AnnotationUtils.fromClass(elements, IntentMap.class);
-        IEXTRA = AnnotationUtils.fromClass(elements, Extra.class);
+        INTENT_MAP = AnnotationBuilder.fromClass(elements, IntentMap.class);
+        IEXTRA = AnnotationBuilder.fromClass(elements, Extra.class);
         HOST_IEXTRA_BOTTOM = IntentUtils.createIExtraAnno("",
                 Flow.getSources(NOSOURCE), Flow.getSinks(ANYSINK),
                 getProcessingEnv());
@@ -112,8 +112,8 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 Flow.getSources(ANYSOURCE), Flow.getSinks(NOSINK),
                 getProcessingEnv());
         TOP_INTENT_MAP = createTopIntentMap(); // top
-        BOTTOM_INTENT_MAP = AnnotationUtils.fromClass(elements, IntentMapBottom.class); // bottom
-        POLY_INTENT_MAP = AnnotationUtils.fromClass(elements, PolyIntentMap.class);
+        BOTTOM_INTENT_MAP = AnnotationBuilder.fromClass(elements, IntentMapBottom.class); // bottom
+        POLY_INTENT_MAP = AnnotationBuilder.fromClass(elements, PolyIntentMap.class);
 
         EXTRA_DEFAULT = new PFPermission(FlowPermission.EXTRA_DEFAULT);
 

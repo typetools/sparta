@@ -32,12 +32,12 @@ import org.checkerframework.framework.type.treeannotator.PropagationTreeAnnotato
 import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
 import org.checkerframework.framework.type.typeannotator.ListTypeAnnotator;
 import org.checkerframework.framework.type.typeannotator.TypeAnnotator;
-import org.checkerframework.framework.util.AnnotationBuilder;
 import org.checkerframework.framework.util.AnnotationFormatter;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy;
 import org.checkerframework.framework.util.MultiGraphQualifierHierarchy.MultiGraphFactory;
 import org.checkerframework.framework.util.QualifierPolymorphism;
 import org.checkerframework.framework.util.defaults.QualifierDefaults;
+import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ElementUtils;
 import org.checkerframework.javacutil.InternalUtils;
@@ -124,17 +124,17 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
         NOSOURCE = createAnnoFromSource(Collections.<PFPermission> emptySet());
         NOSINK = createAnnoFromSink(Collections.<PFPermission> emptySet());
 
-        POLYSOURCE = AnnotationUtils.fromClass(elements, PolySource.class);
-        POLYSINK = AnnotationUtils.fromClass(elements, PolySink.class);
-        POLYSOURCER = AnnotationUtils.fromClass(elements, PolySourceR.class);
-        POLYSINKR = AnnotationUtils.fromClass(elements, PolySinkR.class);
-        POLYALL = AnnotationUtils.fromClass(elements, PolyAll.class);
+        POLYSOURCE = AnnotationBuilder.fromClass(elements, PolySource.class);
+        POLYSINK = AnnotationBuilder.fromClass(elements, PolySink.class);
+        POLYSOURCER = AnnotationBuilder.fromClass(elements, PolySourceR.class);
+        POLYSINKR = AnnotationBuilder.fromClass(elements, PolySinkR.class);
+        POLYALL = AnnotationBuilder.fromClass(elements, PolyAll.class);
 
         ANYSOURCE = createAnnoFromSource(ANY);
         ANYSINK = createAnnoFromSink( ANY);
 
-        SOURCE = AnnotationUtils.fromClass(elements, Source.class);
-        SINK = AnnotationUtils.fromClass(elements, Sink.class);
+        SOURCE = AnnotationBuilder.fromClass(elements, Source.class);
+        SINK = AnnotationBuilder.fromClass(elements, Sink.class);
 
         // Must call super.initChecker before the lint option can be checked.
         final String pfArg = checker.getOption(FlowPolicy.POLICY_FILE_OPTION);
