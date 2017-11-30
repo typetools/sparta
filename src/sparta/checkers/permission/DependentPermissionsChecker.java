@@ -1,13 +1,8 @@
 package sparta.checkers.permission;
 
 import org.checkerframework.common.basetype.BaseTypeChecker;
-import org.checkerframework.framework.qual.Bottom;
 import org.checkerframework.framework.qual.StubFiles;
 import org.checkerframework.framework.source.Result;
-
-import sparta.checkers.permission.qual.DependentPermissions;
-import sparta.checkers.permission.qual.DependentPermissionsTop;
-import sparta.checkers.permission.qual.DependentPermissionsUnqualified;
 
 /**
  * Checker for dependentpermissions, based on the fenum checker

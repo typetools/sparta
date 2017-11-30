@@ -64,7 +64,7 @@ public class IntentStatsVisitor extends
 
     public boolean hasDeclAnnotation(MethodInvocationTree tree,
             Class<? extends Annotation> anno) {
-        Element ele = InternalUtils.symbol(tree);
+        Element ele = TreeUtils.elementFromTree(tree);
         return atypeFactory.getDeclAnnotation(ele, anno) != null;
     }
 
@@ -72,7 +72,7 @@ public class IntentStatsVisitor extends
     protected void commonAssignmentCheck(Tree lhs, ExpressionTree rhs,
             String arg2) {
         if (rhs != null && lhs != null) {
-            TypeMirror typeLHS = InternalUtils.typeOf(lhs);
+            TypeMirror typeLHS = TreeUtils.typeOf(lhs);
             if (isTypeOf(typeLHS, android.content.Intent.class)) {
                 // lhs has type Intent.
                 peseChecker.numIntentAssignments++;

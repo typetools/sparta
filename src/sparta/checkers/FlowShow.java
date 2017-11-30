@@ -15,10 +15,6 @@ import java.util.Set;
 import javax.lang.model.type.TypeKind;
 
 import sparta.checkers.quals.PFPermission;
-import sparta.checkers.quals.PolySink;
-import sparta.checkers.quals.PolySource;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
 
 import com.sun.source.tree.AnnotationTree;
 import com.sun.source.tree.Tree;

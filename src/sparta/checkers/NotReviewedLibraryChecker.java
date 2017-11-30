@@ -11,7 +11,6 @@ import org.checkerframework.framework.stub.StubGenerator;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclaredType;
 import org.checkerframework.framework.util.AnnotatedTypes;
 import org.checkerframework.javacutil.ElementUtils;
-import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.TreeUtils;
 
 import java.io.File;
@@ -230,9 +229,9 @@ class NotReviewedLibraryVisitor extends
 
     @Override
     public Void visitMemberSelect(MemberSelectTree node, Void p) {
-        Element e = InternalUtils.symbol(node);
+        Element e = TreeUtils.elementFromTree(node);
         if (e.getKind() == ElementKind.FIELD) {
-            warnNotReviewed(node, InternalUtils.symbol(node), "not.reviewed");
+            warnNotReviewed(node, TreeUtils.elementFromTree(node), "not.reviewed");
         }
         return super.visitMemberSelect(node, p);
     }
