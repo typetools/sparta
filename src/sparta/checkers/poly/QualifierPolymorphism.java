@@ -274,8 +274,8 @@ public abstract class QualifierPolymorphism {
                 if (wctype.getUnderlyingType().getExtendsBound() != null) {
                     result = visit(type, wctype.getExtendsBound());
                 } else if (wctype.getUnderlyingType().getSuperBound() != null) {
-                    if (TypesUtils.isErasedSubtype(types, type.getUnderlyingType(),
-                            wctype.getSuperBound().getUnderlyingType())) {
+                    if (TypesUtils.isErasedSubtype(type.getUnderlyingType(),
+                            wctype.getSuperBound().getUnderlyingType(), types)) {
                         result = visit(type, wctype.getSuperBound());
                     } else {
                         AnnotatedTypeMirror superBoundAsSuper =

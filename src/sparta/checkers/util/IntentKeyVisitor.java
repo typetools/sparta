@@ -1,6 +1,5 @@
 package sparta.checkers.util;
 
-
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ import org.checkerframework.framework.source.Result;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ElementUtils;
-import org.checkerframework.javacutil.InternalUtils;
+import org.checkerframework.javacutil.TreeUtils;
 
 import sparta.checkers.quals.Extra;
 import sparta.checkers.quals.GetExtra;
@@ -115,7 +114,7 @@ public class IntentKeyVisitor extends ValueVisitor {
     }
 
     public boolean hasDeclAnnotation(MethodInvocationTree tree, Class<? extends Annotation> anno) {
-        Element ele = InternalUtils.symbol(tree);
+        Element ele = TreeUtils.elementFromTree(tree);
         return atypeFactory.getDeclAnnotation(ele, anno) != null;
     }
 
@@ -146,7 +145,7 @@ public class IntentKeyVisitor extends ValueVisitor {
                 String k = t.toString();
                 keys.add(k.substring(1, k.length()-1));
             } else {
-                Element elt = InternalUtils.symbol(t);
+                Element elt = TreeUtils.elementFromTree(t);
                 if (ElementUtils.isCompileTimeConstant(elt)) {
                     keys.add(((VariableElement) elt).getConstantValue()
                             .toString());

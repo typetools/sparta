@@ -1,6 +1,5 @@
 package sparta.checkers.intents;
 
-
 import org.checkerframework.common.aliasing.qual.Unique;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.framework.source.Result;
@@ -10,7 +9,6 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedDeclared
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedExecutableType;
 import org.checkerframework.framework.util.AnnotatedTypes;
 import org.checkerframework.javacutil.AnnotationUtils;
-import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.TreeUtils;
 import org.checkerframework.javacutil.TypesUtils;
 
@@ -234,7 +232,7 @@ public class IntentVisitor extends FlowVisitor {
             AnnotatedExecutableType implementingMethod,
             AnnotationMirror overriddenAnno) {
         ClassTree classTree = TreeUtils.enclosingClass(getCurrentPath());
-        ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
+        ClassSymbol ele = (ClassSymbol) TreeUtils.elementFromDeclaration(classTree);
         ExecutableElement getIntentMethod = IntentUtils.getMethodGetIntent(
                 checker,ele.flatname.toString());
 
@@ -302,7 +300,7 @@ public class IntentVisitor extends FlowVisitor {
     private String getReceiverNameFromSendIntendAnnotation(
             MethodInvocationTree node) {
         AnnotationMirror sendAnno = atypeFactory.getDeclAnnotation(
-                InternalUtils.symbol(node), SendIntent.class);
+                TreeUtils.elementFromTree(node), SendIntent.class);
         String receiverName = AnnotationUtils.getElementValue(sendAnno,
                 "value", String.class, true);
         if ("".equals(receiverName)) {

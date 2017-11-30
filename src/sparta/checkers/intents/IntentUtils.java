@@ -19,7 +19,6 @@ import org.checkerframework.framework.type.AnnotatedTypeFactory;
 import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
-import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.TreeUtils;
 
 import sparta.checkers.Flow;
@@ -244,7 +243,7 @@ public class IntentUtils {
      */
 
     public static boolean isGetExtra(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
-        Element ele = InternalUtils.symbol(tree);
+        Element ele = TreeUtils.elementFromTree(tree);
         return atypeFactory.getDeclAnnotation(ele, GetExtra.class) != null;
     }
 
@@ -255,7 +254,7 @@ public class IntentUtils {
      */
 
     public static boolean isPutExtra(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
-        Element ele = InternalUtils.symbol(tree);
+        Element ele = TreeUtils.elementFromTree(tree);
         return atypeFactory.getDeclAnnotation(ele, PutExtra.class) != null;
     }
 
@@ -267,7 +266,7 @@ public class IntentUtils {
      */
 
     public static boolean isSendIntent(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
-        Element ele = InternalUtils.symbol(tree);
+        Element ele = TreeUtils.elementFromTree(tree);
         return atypeFactory.getDeclAnnotation(ele, SendIntent.class) != null;
     }
 
@@ -313,7 +312,7 @@ public class IntentUtils {
      */
 
     public static boolean isReceiveIntent(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
-        Element ele = InternalUtils.symbol(tree);
+        Element ele = TreeUtils.elementFromTree(tree);
         return atypeFactory.getDeclAnnotation(ele, ReceiveIntent.class) != null;
     }
 
@@ -326,7 +325,7 @@ public class IntentUtils {
      */
 
     public static boolean isSetIntentFilter(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
-        Element ele = InternalUtils.symbol(tree);
+        Element ele = TreeUtils.elementFromTree(tree);
         return atypeFactory.getDeclAnnotation(ele, SetIntentFilter.class) != null;
     }
 
@@ -339,7 +338,7 @@ public class IntentUtils {
      */
 
     public static boolean isGetIntentFilter(MethodInvocationTree tree, AnnotatedTypeFactory atypeFactory) {
-        Element ele = InternalUtils.symbol(tree);
+        Element ele = TreeUtils.elementFromTree(tree);
         return atypeFactory.getDeclAnnotation(ele, GetIntentFilter.class) != null;
     }
 
@@ -360,7 +359,7 @@ public class IntentUtils {
         String senderString = "";
         //senderString = package.class
         ClassTree classTree = TreeUtils.enclosingClass(treePath);
-        ClassSymbol ele = (ClassSymbol) InternalUtils.symbol(classTree);
+        ClassSymbol ele = (ClassSymbol) TreeUtils.elementFromDeclaration(classTree);
         senderString = ele.flatname.toString();
 
         //senderString += .method(
@@ -371,7 +370,7 @@ public class IntentUtils {
         //Removing annotation types from parameters
         List<? extends VariableTree> args = methodTree.getParameters();
         for(VariableTree arg : args) {
-            Type type = (Type) InternalUtils.typeOf(arg.getType());
+            Type type = (Type) TreeUtils.typeOf(arg.getType());
             String typeStringFormat = "";
             //TODO: Remove loop below when unannotatedType gets implemented for
             //com.sun.tools.javac.code.Type.ArrayType.

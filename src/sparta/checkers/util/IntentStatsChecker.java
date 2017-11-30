@@ -5,11 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.annotation.processing.SupportedOptions;
-import javax.tools.Diagnostic;
 
-import org.checkerframework.checker.linear.qual.Linear;
-import org.checkerframework.checker.linear.qual.Normal;
-import org.checkerframework.checker.linear.qual.Unusable;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.framework.qual.StubFiles;

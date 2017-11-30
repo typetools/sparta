@@ -1,24 +1,15 @@
 package tests;
+
 import org.checkerframework.framework.test.CheckerFrameworkPerFileTest;
-import org.checkerframework.framework.test.CheckerFrameworkPerFileTest;
-import org.checkerframework.framework.test.CompilationResult;
-import org.checkerframework.framework.test.TestConfiguration;
-import org.checkerframework.framework.test.TestUtilities;
-import org.checkerframework.framework.test.TypecheckExecutor;
-import org.checkerframework.framework.test.TypecheckResult;
-import org.checkerframework.framework.test.diagnostics.TestDiagnostic;
-import org.checkerframework.framework.test.diagnostics.TestDiagnosticUtils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized.Parameters;
 
-import static org.checkerframework.framework.test.TestConfigurationBuilder.buildDefaultConfiguration;
 import sparta.checkers.FlowChecker;
 import sparta.checkers.NotReviewedLibraryChecker;
 import sparta.checkers.intents.IntentChecker;

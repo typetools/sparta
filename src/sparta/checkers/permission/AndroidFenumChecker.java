@@ -3,17 +3,13 @@ package sparta.checkers.permission;
 import org.checkerframework.checker.fenum.FenumAnnotatedTypeFactory;
 import org.checkerframework.checker.fenum.FenumChecker;
 import org.checkerframework.checker.fenum.FenumVisitor;
-import org.checkerframework.checker.fenum.qual.Fenum;
 import org.checkerframework.checker.fenum.qual.FenumBottom;
 import org.checkerframework.checker.fenum.qual.FenumTop;
 import org.checkerframework.checker.fenum.qual.FenumUnqualified;
-import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
-import org.checkerframework.framework.qual.PolyAll;
 
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

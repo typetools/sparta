@@ -7,7 +7,6 @@ import org.checkerframework.checker.compilermsgs.qual.CompilerMessageKey;
 import org.checkerframework.common.basetype.BaseTypeChecker;
 import org.checkerframework.common.basetype.BaseTypeVisitor;
 import org.checkerframework.common.value.ValueChecker;
-import org.checkerframework.framework.qual.PolyAll;
 import org.checkerframework.framework.qual.StubFiles;
 
 import java.io.File;
@@ -16,13 +15,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.annotation.processing.SupportedOptions;
-
-import sparta.checkers.quals.PolySink;
-import sparta.checkers.quals.PolySinkR;
-import sparta.checkers.quals.PolySource;
-import sparta.checkers.quals.PolySourceR;
-import sparta.checkers.quals.Sink;
-import sparta.checkers.quals.Source;
 
 @StubFiles("information_flow.astub")
 @SupportedOptions({ FlowPolicy.POLICY_FILE_OPTION, FlowChecker.MSG_FILTER_OPTION,

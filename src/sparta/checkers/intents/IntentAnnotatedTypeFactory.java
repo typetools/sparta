@@ -9,7 +9,6 @@ import org.checkerframework.framework.qual.TypeUseLocation;
 import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
 import org.checkerframework.javacutil.ElementUtils;
-import org.checkerframework.javacutil.InternalUtils;
 import org.checkerframework.javacutil.Pair;
 import org.checkerframework.javacutil.TreeUtils;
 
@@ -850,7 +849,7 @@ public class IntentAnnotatedTypeFactory extends FlowAnnotatedTypeFactory {
                 String k = t.toString();
                 keys.add(k.substring(1, k.length()-1));
             } else {
-                Element elt = InternalUtils.symbol(t);
+                Element elt = TreeUtils.elementFromTree(t);
                 if (ElementUtils.isCompileTimeConstant(elt)) {
                     keys.add(((VariableElement) elt).getConstantValue()
                             .toString());
