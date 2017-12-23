@@ -96,9 +96,9 @@ public class FlowVisitor extends BaseFlowVisitor {
 
     @Override
     protected BaseTypeValidator createTypeValidator() {
-        return new BaseTypeValidator(checker, this, atypeFactory){
+        return new BaseTypeValidator(checker, this, atypeFactory) {
             @Override
-            protected void reportError(final AnnotatedTypeMirror type, final Tree p) {
+            protected void reportInvalidType(final AnnotatedTypeMirror type, final Tree p) {
                 StringBuffer buf = new StringBuffer();
                 for (Flow flow : ((FlowAnnotatedTypeFactory)atypeFactory).getFlowPolicy().forbiddenFlows(type)) {
                     buf.append(flow.toString() + "\n");
