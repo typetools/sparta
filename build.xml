@@ -347,6 +347,7 @@ ${build.version} of the 'javac.jar' library."/>
             <jvmarg line="${debugger.str}"/>
             <sysproperty key="JDK_JAR" value="${basedir}/dist/${jdkName}"/>
             <sysproperty key="emit.test.debug" value="${should.emit.debug.str}"/>
+            <sysproperty key="JDK_JAR" value="${basedir}/dist/${jdkName}"/>
 
             <classpath>
                 <pathelement path="${checkers.lib}"/>
