@@ -345,7 +345,7 @@ ${build.version} of the 'javac.jar' library."/>
             <jvmarg line="-Xbootclasspath/p:${checkers}/checker/dist/javac.jar"/>
             <jvmarg line="-ea"/>
             <jvmarg line="${debugger.str}"/>
-            <sysproperty key="JDK_JAR" value="${checkers}/dist/jdk8.jar"/>
+            <sysproperty key="JDK_JAR" value="${checkers}checker/dist/jdk8.jar"/>
             <sysproperty key="emit.test.debug" value="${should.emit.debug.str}"/>
 
             <classpath>
