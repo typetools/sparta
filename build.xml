@@ -303,6 +303,10 @@ ${build.version} of the 'javac.jar' library."/>
                 <fileset dir="${tests}">
                     <include name="src/tests/*.java"/>
                 </fileset>
+                <fileset dir="${checkers}/framework/src">
+                    <include name="org/checkerframework/framework/test/*.java"/>
+                    <include name="org/checkerframework/framework/test/**/*.java"/>
+                </fileset>
             </path>
         </pathconvert>
         <echo message="-cp ${build}:${checkers.lib}:${junit.jar}:${hamcrest.lib}:${gson.jar}"/>
@@ -313,9 +317,9 @@ ${build.version} of the 'javac.jar' library."/>
             <arg value="-g"/>
             <!-- Make sure we only have Java 7 source code and generate Java 7 bytecode. -->
             <arg value="-source"/>
-            <arg value="7"/>
+            <arg value="8"/>
             <arg value="-target"/>
-            <arg value="7"/>
+            <arg value="8"/>
             <!-- To not get a warning about bootstrap classpath -->
             <arg value="-Xlint:-options"/>
             <arg line="-sourcepath ${tests}"/>
