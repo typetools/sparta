@@ -303,7 +303,7 @@ ${build.version} of the 'javac.jar' library."/>
                 <fileset dir="${tests}">
                     <include name="src/tests/*.java"/>
                 </fileset>
-                <fileset dir="${checkers}/framework/src">
+                <fileset dir="${checkers}/util/src/main/java">
                     <include name="org/checkerframework/framework/test/*.java"/>
                     <include name="org/checkerframework/framework/test/**/*.java"/>
                 </fileset>
