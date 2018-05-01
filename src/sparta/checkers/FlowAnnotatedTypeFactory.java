@@ -21,10 +21,10 @@ import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedTypeVari
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedUnionType;
 import org.checkerframework.framework.type.AnnotatedTypeMirror.AnnotatedWildcardType;
 import org.checkerframework.framework.type.DefaultAnnotatedTypeFormatter;
-import org.checkerframework.framework.type.DefaultRawnessComparer;
 import org.checkerframework.framework.type.DefaultTypeHierarchy;
 import org.checkerframework.framework.type.QualifierHierarchy;
 import org.checkerframework.framework.type.StructuralEqualityComparer;
+import org.checkerframework.framework.type.SubtypeVisitHistory;
 import org.checkerframework.framework.type.TypeHierarchy;
 import org.checkerframework.framework.type.treeannotator.ImplicitsTreeAnnotator;
 import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
@@ -115,7 +115,7 @@ public class FlowAnnotatedTypeFactory extends BaseAnnotatedTypeFactory{
 	final QualifierDefaults byteCodeDefaults = new QualifierDefaults(elements, this);
 	final QualifierDefaults polyFlowDefaults = new QualifierDefaults(elements, this);
 	final QualifierDefaults polyFlowReceiverDefaults = new QualifierDefaults(elements, this);
-	
+
     public FlowAnnotatedTypeFactory(BaseTypeChecker checker) {
         super(checker);
 
@@ -681,8 +681,8 @@ public static long time = 0;
     class NormalizingStructuralEqualityComparer extends StructuralEqualityComparer {
 
         public NormalizingStructuralEqualityComparer(
-                DefaultRawnessComparer rawnessComparer) {
-            super(rawnessComparer);
+                SubtypeVisitHistory typeargVisitHistory) {
+            super(typeargVisitHistory);
         }
 
         @Override
@@ -704,7 +704,7 @@ public static long time = 0;
 
         @Override
         public StructuralEqualityComparer createEqualityComparer() {
-            return new NormalizingStructuralEqualityComparer(rawnessComparer);
+            return new NormalizingStructuralEqualityComparer(typeargVisitHistory);
         }
     }
 
